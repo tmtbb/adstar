@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
@@ -14,6 +15,7 @@ import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.TabEntity;
 import com.yundian.star.ui.main.fragment.TestFragment;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.daynightmodeutils.ChangeModeController;
 
 import java.util.ArrayList;
@@ -48,13 +50,13 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView() {
         initTab();
+        checkIsLogin();
     }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         //切换daynight模式要立即变色的页面
         ChangeModeController.getInstance().init(this,R.attr.class);
+        setTheme();//设置可变色主题
         super.onCreate(savedInstanceState);
         //初始化frament
         initFragment(savedInstanceState);
@@ -183,4 +185,14 @@ public class MainActivity extends BaseActivity {
         super.onDestroy();
         ChangeModeController.onDestory();
     }
+
+    private void checkIsLogin() {
+        int firstlogin = SharePrefUtil.getInstance().getFirstlogin();
+        String userSig = SharePrefUtil.getInstance().getUserSig();
+        if (firstlogin <= 0 || TextUtils.isEmpty(userSig)) { // 第一次登录, 需要走登录流程
+            startActivity(new Intent(this,LoginActivity.class));
+            overridePendingTransition(R.anim.activity_open_down_in,0);
+        }
+    }
+
 }

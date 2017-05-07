@@ -16,7 +16,7 @@ import android.view.Window;
 import com.yundian.star.R;
 import com.yundian.star.base.baseapp.AppManager;
 import com.yundian.star.utils.TUtil;
-import com.yundian.star.utils.ToastUitl;
+import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.utils.daynightmodeutils.ChangeModeController;
 import com.yundian.star.widget.LoadingDialog;
 import com.yundian.star.widget.StatusBarCompat;
@@ -82,8 +82,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
      * 设置layout前配置
      */
     private void doBeforeSetcontentView() {
-        //设置昼夜主题
-        initTheme();
         // 把actvity放到application栈中管理
         AppManager.getAppManager().addActivity(this);
         // 无标题
@@ -93,6 +91,10 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         // 默认着色状态栏
         SetStatusBarColor();
 
+    }
+    protected void setTheme(){
+        //设置昼夜主题
+        initTheme();
     }
 
     /*********************子类实现*****************************/
@@ -203,28 +205,28 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
      * 短暂显示Toast提示(来自String)
      **/
     public void showShortToast(String text) {
-        ToastUitl.showShort(text);
+        ToastUtils.showShort(text);
     }
 
     /**
      * 短暂显示Toast提示(id)
      **/
     public void showShortToast(int resId) {
-        ToastUitl.showShort(resId);
+        ToastUtils.showShort(resId);
     }
 
     /**
      * 长时间显示Toast提示(来自res)
      **/
     public void showLongToast(int resId) {
-        ToastUitl.showLong(resId);
+        ToastUtils.showLong(resId);
     }
 
     /**
      * 长时间显示Toast提示(来自String)
      **/
     public void showLongToast(String text) {
-        ToastUitl.showLong(text);
+        ToastUtils.showLong(text);
     }
 
     /**
@@ -234,18 +236,18 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
      * @param res
      */
     public void showToastWithImg(String text, int res) {
-        ToastUitl.showToastWithImg(text, res);
+        ToastUtils.showToastWithImg(text, res);
     }
 
     /**
      * 网络访问错误提醒
      */
     public void showNetErrorTip() {
-        ToastUitl.showToastWithImg(getText(R.string.net_error).toString(), R.drawable.ic_wifi_off);
+        ToastUtils.showToastWithImg(getText(R.string.net_error).toString(), R.drawable.ic_wifi_off);
     }
 
     public void showNetErrorTip(String error) {
-        ToastUitl.showToastWithImg(error, R.drawable.ic_wifi_off);
+        ToastUtils.showToastWithImg(error, R.drawable.ic_wifi_off);
     }
 
     @Override

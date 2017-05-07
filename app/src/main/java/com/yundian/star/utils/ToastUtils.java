@@ -16,7 +16,7 @@ import com.yundian.star.base.baseapp.BaseApplication;
 /**
  * Toast统一管理类
  */
-public class ToastUitl {
+public class ToastUtils {
 
 
     private static Toast toast;
