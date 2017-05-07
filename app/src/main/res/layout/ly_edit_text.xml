@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="41dp"
+    android:layout_marginLeft="13dp"
+    android:layout_marginRight="13dp">
+
+    <Button
+        android:id="@+id/rightText"
+        android:layout_width="141dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="@dimen/dp_5"
+        android:background="@drawable/login_selector"
+        android:text="发送验证码"
+        android:textColor="@color/white"
+        android:textSize="@dimen/fontSize_16sp" />
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginRight="@dimen/dp_11"
+        android:layout_toLeftOf="@id/rightText"
+        android:background="@drawable/bg_edittext"
+        android:paddingLeft="@dimen/dp_7">
+
+
+        <ImageView
+            android:id="@+id/editIcon"
+            android:layout_width="14dp"
+            android:layout_height="21dp"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:src="@drawable/icon_phone"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/leftText"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_toRightOf="@id/editIcon"
+            android:text="密码"
+            android:textColor="@color/alpha_50_black"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/lineView"
+            android:layout_width="1dp"
+            android:layout_height="23dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_5"
+            android:layout_toRightOf="@id/leftText"
+            android:background="@color/color_cccccc"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/editEye"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingRight="@dimen/dp_10"
+            android:src="@drawable/icon_password_2" />
+
+
+        <com.yundian.star.widget.ClearEditText
+            android:id="@+id/editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:layout_toLeftOf="@id/editEye"
+            android:layout_toRightOf="@id/lineView"
+            android:background="@null"
+            android:hint="请输入用户名"
+            android:paddingRight="@dimen/dp_5"
+            android:singleLine="true"
+            android:textColor="@color/role_right_gray"
+            android:textColorHint="@color/tv_talk_content"
+            android:textCursorDrawable="@drawable/edit_cursor"
+            android:textSize="@dimen/fontSize_14sp" />
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -1,18 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.yundian.star.MainActivity">
-
-    <TextView
-        android:layout_width="wrap_content"
+    android:background="@color/main_color"
+    tools:context="com.yundian.star.ui.main.activity.MainActivity">
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/tab_bottom_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="5dp"
+        android:layout_alignParentBottom="true"
+        android:background="?attr/dayNightBackground"
+        app:dayNightBackgroundAttr="dayNightBackground"
+        tl:tl_indicator_height="0dp"
+        tl:tl_iconHeight="20dp"
+        tl:tl_iconWidth="20dp"
+        tl:tl_indicator_color="@color/gray"
+        tl:tl_textSelectColor="@color/main_color"
+        tl:tl_textUnselectColor="@color/light_gray"
+        tl:tl_textsize="11sp"
+        tl:tl_underline_height="0dp" />
+    <FrameLayout
+        android:id="@+id/fl_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/tab_bottom_layout"
+        ></FrameLayout>
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
