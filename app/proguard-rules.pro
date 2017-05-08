@@ -23,3 +23,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+#LRecyclerview_library
+-dontwarn com.github.jdsjlzx.**
+-keep class com.github.jdsjlzx.**{*;}
