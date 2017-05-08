@@ -4,8 +4,42 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:background="@color/white_alpha_30"
+    android:background="@drawable/shape_loading_dialog"
     >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_marginRight="@dimen/dp_16"
+        >
+        <TextView
+            android:id="@+id/title_welcome_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_welcome_1"
+            android:textSize="@dimen/dp_20"
+            android:textStyle="bold"
+            android:textColor="@color/wheel_divider_line_color"
+            />
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/title_welcome_2"
+            android:textColor="@color/wheel_divider_line_color"
+            android:textSize="@dimen/dp_12"
+            android:layout_alignBaseline="@+id/title_welcome_1"
+            android:layout_alignBottom="@+id/title_welcome_1"
+            android:layout_toRightOf="@+id/title_welcome_1"
+            android:layout_toEndOf="@+id/title_welcome_1" />
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_home_normal"
+            />
+    </RelativeLayout>
     <com.yundian.star.widget.WPEditText
         android:id="@+id/userNameEditText"
         android:layout_width="match_parent"
@@ -27,51 +61,73 @@
         app:edit_show_eye="false"
         app:edit_show_icon="false"
         app:edit_show_right_text="false" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/no_register"
+            android:textSize="@dimen/dp_12"
+            android:textColor="@color/wheel_divider_line_color"
+            />
+        <TextView
+            android:id="@+id/registerText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="@dimen/dp_6"
+            android:text="@string/register"
+            android:textColor="@color/main_blue"
+            android:textSize="@dimen/dp_12" />
+    </LinearLayout>
 
 
+    <View
+        android:layout_marginTop="@dimen/dp_4"
+        android:layout_marginBottom="@dimen/dp_4"
+        android:layout_marginRight="@dimen/dp_16"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:background="@color/alpha_20_white" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/other_login"
+        android:layout_marginLeft="@dimen/dp_16"
+        android:textSize="@dimen/dp_15"
+        android:textColor="@color/wheel_divider_line_color"
+        />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginLeft="@dimen/dp_16"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wei_xin_login"
+            android:textColor="@color/wheel_divider_line_color"
+            android:gravity="bottom"
+            android:drawableLeft="@drawable/ic_home_normal"
+            android:drawablePadding="@dimen/dp_4"
+            />
+    </LinearLayout>
     <Button
         android:id="@+id/loginButton"
         style="@style/ButtonStyle"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="@dimen/dp_30"
-        android:text="登录" />
-
-    <Button
-        android:id="@+id/wxLoginButton"
-        style="@style/ButtonStyle"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="@dimen/dp_30"
-        android:background="@drawable/login_shape_selected"
-        android:text="微信登录"
-        android:visibility="gone" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp_13"
-        android:layout_marginRight="@dimen/dp_13"
-        android:layout_marginTop="@dimen/dp_16">
-
-        <TextView
-            android:id="@+id/registerText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:text="快速注册"
-            android:textColor="@color/color_666666"
-            android:textSize="@dimen/dp_12" />
-
-        <TextView
-            android:id="@+id/findPwd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="忘记密码？"
-            android:textColor="@color/color_666666"
-            android:textSize="@dimen/dp_12"
-            android:visibility="invisible" />
-    </RelativeLayout>
+        android:text="登录"
+        android:layout_marginBottom="@dimen/dp_16"
+        />
 
 </LinearLayout>
