@@ -1,6 +1,8 @@
 package com.yundian.star.networkapi.socketapi;
 
+import com.yundian.star.app.AppApplication;
 import com.yundian.star.app.SocketAPIConstant;
+import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.UserAPI;
@@ -13,6 +15,17 @@ import java.util.HashMap;
  */
 
 public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
+    @Override
+    public void login(String phone, String password,OnAPIListener<LoginReturnInfo> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("phone", phone);
+        map.put("pwd", password);
+        map.put("deviceId", AppApplication.getAndroidId());
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Login,
+                SocketAPIConstant.ReqeutType.User, map);
+        requestEntity(socketDataPacket,LoginReturnInfo.class,listener);
+    }
+
     @Override
     public void register(String phone, String password, long memberId, String agentId, String recommend, OnAPIListener<RegisterReturnBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();

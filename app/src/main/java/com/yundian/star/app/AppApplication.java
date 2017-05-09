@@ -7,6 +7,8 @@ import com.yundian.star.networkapi.NetworkAPIConfig;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.MD5Util;
+import com.yundian.star.utils.Utils;
 
 /**
  * APPLICATION
@@ -50,5 +52,8 @@ public class AppApplication extends BaseApplication {
         networkAPIConfig.setSocketServerIp(Host.getSocketServerIp());
         networkAPIConfig.setSocketServerPort(Host.getSocketServerPort());
         NetworkAPIFactoryImpl.initConfig(networkAPIConfig);
+    }
+    public static String getAndroidId() {
+        return MD5Util.MD5(Utils.getUniquePsuedoID());
     }
 }

@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="@dimen/dp_5"
-        android:background="@drawable/login_selector"
+        android:background="@drawable/butten_message_selected"
         android:text="@string/get_note_code"
         android:textColor="@color/color_fafafa"
         android:textSize="@dimen/fontSize_14sp" />

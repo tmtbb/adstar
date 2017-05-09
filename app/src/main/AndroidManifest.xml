@@ -28,6 +28,9 @@
         <activity android:name=".ui.main.activity.LoginActivity"
             android:theme="@style/TransparentActivityDialog">
         </activity>
+        <activity android:name=".ui.main.activity.RegisterUserActivity"
+            android:theme="@style/TransparentActivityDialog"
+            ></activity>
     </application>
 
 </manifest>
