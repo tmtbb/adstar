@@ -13,4 +13,9 @@
     <string name="title_welcome_2">你与明星零距离</string>
     <string name="news_info_title">资讯</string>
     <string name="sample_heard_layout">头布局</string>
+    <string name="get_note_code">获取验证码</string>
+    <string name="put_account_number">请输入账号</string>
+    <string name="put_password_number">请输入密码</string>
+    <string name="retrieve_password_1">忘记密码？</string>
+    <string name="retrieve_password_2">点击找回</string>
 </resources>

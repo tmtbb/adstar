@@ -43,4 +43,6 @@ dependencies {
     //日志
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:recyclerview-v7:25+'
+    compile 'com.alibaba:fastjson:1.2.31'
+    compile 'io.netty:netty-all:5.0.0.Alpha2'
 }

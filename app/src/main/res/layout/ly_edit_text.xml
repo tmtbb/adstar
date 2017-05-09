@@ -2,9 +2,9 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="41dp"
-    android:layout_marginLeft="13dp"
-    android:layout_marginRight="13dp">
+    android:layout_height="44dp"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp">
 
     <Button
         android:id="@+id/rightText"
@@ -13,13 +13,13 @@
         android:layout_alignParentRight="true"
         android:layout_marginLeft="@dimen/dp_5"
         android:background="@drawable/login_selector"
-        android:text="发送验证码"
-        android:textColor="@color/white"
-        android:textSize="@dimen/fontSize_16sp" />
+        android:text="@string/get_note_code"
+        android:textColor="@color/color_fafafa"
+        android:textSize="@dimen/fontSize_14sp" />
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="44dp"
         android:layout_toLeftOf="@id/rightText"
         android:background="@drawable/bg_edittext"
         android:paddingLeft="@dimen/dp_7">
@@ -80,8 +80,8 @@
             android:hint="请输入用户名"
             android:paddingRight="@dimen/dp_5"
             android:singleLine="true"
-            android:textColor="@color/role_right_gray"
-            android:textColorHint="@color/tv_talk_content"
+            android:textColor="@color/colorPrimary"
+            android:textColorHint="@color/font_999999"
             android:textCursorDrawable="@drawable/edit_cursor"
             android:textSize="@dimen/fontSize_14sp" />
 

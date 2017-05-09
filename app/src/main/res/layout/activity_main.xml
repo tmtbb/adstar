@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tl="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,8 +12,7 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:layout_alignParentBottom="true"
-        android:background="?attr/dayNightBackground"
-        app:dayNightBackgroundAttr="dayNightBackground"
+        android:background="@color/default_red_light"
         tl:tl_indicator_height="0dp"
         tl:tl_iconHeight="20dp"
         tl:tl_iconWidth="20dp"

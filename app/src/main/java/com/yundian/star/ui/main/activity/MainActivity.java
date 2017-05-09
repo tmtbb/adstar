@@ -17,7 +17,6 @@ import com.yundian.star.ui.main.fragment.NewsInfoFragment;
 import com.yundian.star.ui.main.fragment.TestFragment;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
-import com.yundian.star.utils.daynightmodeutils.ChangeModeController;
 
 import java.util.ArrayList;
 
@@ -55,9 +54,6 @@ public class MainActivity extends BaseActivity {
     }
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        //切换daynight模式要立即变色的页面
-        ChangeModeController.getInstance().init(this,R.attr.class);
-        setTheme();//设置可变色主题
         super.onCreate(savedInstanceState);
         //初始化frament
         initFragment(savedInstanceState);
@@ -181,12 +177,6 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ChangeModeController.onDestory();
-    }
-
     private void checkIsLogin() {
         int firstlogin = SharePrefUtil.getInstance().getFirstlogin();
         String userSig = SharePrefUtil.getInstance().getUserSig();

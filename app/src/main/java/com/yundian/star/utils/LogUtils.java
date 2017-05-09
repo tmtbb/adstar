@@ -81,4 +81,34 @@ public class LogUtils {
             Logger.xml(message);
         }
     }
+
+    /**
+     * 打印出错堆栈信息
+     */
+    public static void showException(Exception e) {
+        if (e == null) {
+            return;
+        }
+        if (DEBUG_ENABLE)
+            e.printStackTrace();
+    }
+
+    public static void showException(Throwable e) {
+        if (e == null) {
+            return;
+        }
+        if (DEBUG_ENABLE)
+            e.printStackTrace();
+    }
+    /**
+     * 打印出错堆栈信息
+     */
+    public static void showException(OutOfMemoryError e) {
+        if (e == null) {
+            return;
+        }
+
+        if (DEBUG_ENABLE)
+            e.printStackTrace();
+    }
 }

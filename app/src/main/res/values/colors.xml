@@ -94,7 +94,7 @@
     <color name="default_assist_color">#E48723</color> //辅助色
     <color name="default_main_color">#268DCF</color> //主色调
     <color name="default_main_color_light">#2795D9</color> //主色调亮色
-    <color name="font_333">#333333</color>
+    <color name="font_333333">#333333</color>
     <color name="font_444">#444444</color>
     <color name="font_e2e2e2">#e2e2e2</color>
     <color name="color_cccccc">#cccccc</color>
@@ -104,7 +104,7 @@
     <color name="color_666666">#666666</color>
     <color name="font_ccc">#cccccc</color>
     <color name="font_666">#666666</color>
-    <color name="font_999">#999</color>
+    <color name="font_999999">#999999</color>
     <color name="color_eee">#eee</color>
     <color name="color_fe0000">#fe0000</color>
     <color name="color_009944">#009944</color>
@@ -122,4 +122,13 @@
     <color name="color_login">#F6F7FB</color>
     <color name="color_d5efff">#D5EFFF</color>
     <color name="color_c2cfd7">#C2CFD7</color>
+    <color name="color_fafafa">#FAFAFA</color>
+    <color name="color_BCE0DA">#BCE0DA</color>
+    <color name="color_b0b0b0">#b0b0b0</color>
+    <color name="color_bce0d0">#bce0d0</color>
+    <color name="color_f4f4f4">#f4f4f4</color>
+    <color name="color_B90A0A">#B90A0A</color>
+    <color name="color_D2D2D2">#D2D2D2</color>
+    <color name="color_8C0808">#8C0808</color>
+    <color name="color_800505">#800505</color>
 </resources>
