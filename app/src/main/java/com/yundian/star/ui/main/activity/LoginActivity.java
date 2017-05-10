@@ -36,6 +36,8 @@ public class LoginActivity extends BaseActivity{
     Button loginButton ;
     @Bind(R.id.registerText)
     TextView registerText;
+    @Bind(R.id.tv_retrieve_password)
+    TextView tv_retrieve_password;
     private CheckHelper checkHelper = new CheckHelper();
     private long exitNow;
 
@@ -72,33 +74,33 @@ public class LoginActivity extends BaseActivity{
 
                 @Override
                 public void onSuccess(LoginReturnInfo loginReturnInfo) {
-                    LogUtils.logd("登录成功"+loginReturnInfo.getUserinfo().getPhone());
-                    SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnInfo.getUserinfo());
-                    LoginActivity.this.finish();
-                    LoginActivity.this.overridePendingTransition(0,R.anim.activity_off_top_out);
+                    if(loginReturnInfo==null||loginReturnInfo.getUserinfo()==null){
+                        return;
+                    }else {
+                        LogUtils.logd("登录成功"+loginReturnInfo);
+                        SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnInfo.getUserinfo());
+                        LoginActivity.this.finish();
+                        LoginActivity.this.overridePendingTransition(0,R.anim.activity_off_top_out);
+                    }
+
                 }
             });
         } else {
             showLongToast(exception.getErrorMsg());
         }
 
-//        NetworkAPIFactoryImpl.getUserAPI().register(userNameEditText.getEditTextString(), passwordEditText.getEditTextString(), -1, "-1", "-1", new OnAPIListener<RegisterReturnBeen>() {
-//            @Override
-//            public void onError(Throwable ex) {
-//                LogUtils.logd("注册请求网络失败"+ex.toString());
-//            }
-//
-//            @Override
-//            public void onSuccess(RegisterReturnBeen registerReturnBeen) {
-//                LogUtils.logd("注册请求网络成功" + registerReturnBeen.toString());
-//            }
-//        });
+
     }
     @OnClick(R.id.registerText)
     public void doingReregister() {
-        finish();
         startActivity(RegisterUserActivity.class);
+        finish();
         overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
+    }
+    @OnClick(R.id.tv_retrieve_password)
+    public void retrievePassword(){
+        finish();
+        startActivity(ResetUserPwdActivity.class);
     }
 
     @Override

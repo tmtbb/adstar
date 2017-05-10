@@ -7,6 +7,7 @@ import com.yundian.star.been.RegisterReturnBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.UserAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
+import com.yundian.star.utils.LogUtils;
 
 import java.util.HashMap;
 
@@ -39,6 +40,18 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
                 SocketAPIConstant.ReqeutType.User, map);
         requestEntity(socketDataPacket, RegisterReturnBeen.class, listener);
     }
+
+    @Override
+    public void resetPasswd(String phone, String pwd, OnAPIListener<Object> listener) {
+        LogUtils.logd("修改用户密码-----------");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("phone", phone);
+        map.put("pwd", pwd);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.ResetPasswd,
+                SocketAPIConstant.ReqeutType.User, map);
+        requestJsonObject(socketDataPacket,listener);
+    }
+
 //    @Override
 //    public void login(String phone, String password, String deviceId, OnAPIListener<LoginReturnEntity> listener) {
 //        LogUtil.d("开始登录");
@@ -96,20 +109,7 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
 //        requestEntity(socketDataPacket, VerifyCodeReturnEntry.class, listener);
 //    }
 //
-//    @Override
-//    public void resetDealPwd(String phone, String pwd, String vCode, int type, OnAPIListener<Object> listener) {
-//        LogUtil.d("修改用户密码-----------");
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-//        map.put("phone", phone);
-//        map.put("pwd", pwd);
-//        map.put("type", type);  //0：登录密码 1：交易密码，提现密码
-//        map.put("timestamp", LoginVerifyCodeEntry.timestamp);
-//        map.put("vToken", LoginVerifyCodeEntry.vToken);
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.DealPwd,
-//                SocketAPIConstant.ReqeutType.User, map);
-//        requestEntity(socketDataPacket, VerifyCodeReturnEntry.class, listener);
-//    }
+
 //
 //    @Override
 //    public void test(int testID, OnAPIListener<Object> listener) {

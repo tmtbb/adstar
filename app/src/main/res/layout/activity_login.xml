@@ -155,6 +155,7 @@
             android:textSize="@dimen/fontSize_14sp" />
 
         <TextView
+            android:id="@+id/tv_retrieve_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/retrieve_password_2"

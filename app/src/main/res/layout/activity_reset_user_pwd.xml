@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.yundian.star.widget.NormalTitleBar
+    android:id="@+id/nt_title"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_45"></com.yundian.star.widget.NormalTitleBar>
+    <com.yundian.star.widget.WPEditText
+        android:id="@+id/phoneEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_44"
+        app:edit_hint="请输入您的手机号码"
+        app:edit_show_eye="false"
+        app:edit_show_icon="false"
+        app:edit_show_right_text="false" />
+
+    <com.yundian.star.widget.WPEditText
+        android:id="@+id/msgEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_30"
+        app:edit_hint="请输入验证码"
+        app:edit_show_eye="false"
+        app:edit_show_icon="false"
+        app:edit_show_right_text="true" />
+
+    <com.yundian.star.widget.WPEditText
+        android:id="@+id/pwdEditText1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_19"
+        app:edit_hint="@string/butten_reset_psd"
+        app:edit_pwd="true"
+        app:edit_show_eye="true"
+        app:edit_show_icon="false"
+        app:edit_show_right_text="false" />
+
+    <com.yundian.star.widget.WPEditText
+        android:id="@+id/pwdEditText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_19"
+        app:edit_hint="@string/again_reset_psd"
+        app:edit_pwd="true"
+        app:edit_show_eye="true"
+        app:edit_show_icon="false"
+        app:edit_show_right_text="false" />
+
+    <Button
+        android:id="@+id/okButton"
+        style="@style/ButtonStyle"
+        android:background="@drawable/butten_find_psw_selected"
+        android:textColor="@color/color_f8f8f8"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="@dimen/dp_30"
+        android:text="@string/butten_reset_psd" />
+
+</LinearLayout>

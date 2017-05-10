@@ -25,4 +25,6 @@
     <string name="retrieve_password_2">点击找回</string>
     <string name="butten_register">注册</string>
     <string name="butten_loging">登录</string>
+    <string name="butten_reset_psd">重置密码</string>
+    <string name="again_reset_psd">重新输入重置密码</string>
 </resources>

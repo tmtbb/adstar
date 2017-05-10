@@ -4,13 +4,21 @@ import android.graphics.Point;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.been.RegisterReturnBeen;
 import com.yundian.star.helper.CheckHelper;
+import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
+import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.ToastUtils;
+import com.yundian.star.widget.CheckException;
 import com.yundian.star.widget.WPEditText;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/5/9.
@@ -24,8 +32,15 @@ public class RegisterUserActivity extends BaseActivity {
     @Bind(R.id.passwordEditText)
     WPEditText passwordEditText ;
     @Bind(R.id.registerButton)
-    Button registerButton ;
+    Button registerButton;
+    @Bind(R.id.tv_retrieve_password)
+    TextView tv_retrieve_password;
+    @Bind(R.id.registerText)
+    TextView registerText;
     private CheckHelper checkHelper = new CheckHelper();
+    private String phone;
+    private String pwd;
+    private String vCode;
 
     @Override
     public int getLayoutId() {
@@ -45,42 +60,38 @@ public class RegisterUserActivity extends BaseActivity {
         p.width = (int)(size.x*0.9);
         getWindow().setAttributes(p); // 设置生效
         userNameEditText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-        checkHelper.checkButtonState(registerButton, userNameEditText, msgEditText, passwordEditText);
+        //checkHelper.checkButtonState(registerButton, userNameEditText, msgEditText, passwordEditText);
+        checkHelper.checkButtonState(registerButton, userNameEditText, passwordEditText);
         checkHelper.checkVerificationCode(msgEditText.getRightText(), passwordEditText);
-        //initListener();
-    }
-
-    /*private void initListener() {
-        msgEditText.getRightText().setOnClickListener(new View.OnClickListener() {
+        /*msgEditText.getRightText().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!SocketAPINettyBootstrap.getInstance().isOpen()) {
-                    ToastUtils.show(context, "网络连接失败,请检查网络");
+                    ToastUtils.showShort("网络连接失败,请检查网络");
                     return;
                 }
                 int verifyType = 0;// 0-注册 1-登录 2-更新服务
-                VerifyCodeUtils.getCode(msgEditText, verifyType, context, view, phoneEditText);
+                VerifyCodeUtils.getCode(msgEditText, verifyType, mContext, view, userNameEditText);
             }
-        });
+        });*/
+    }
 
-        nextButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String loader = "正在注册...";
+    @OnClick(R.id.registerButton)
+    public void registerButton() {
+                /*String loader = "正在注册...";
                 if (isBind) {
                     loader = "正在绑定...";
                 }
-                showLoader(loader);
+                showLoader(loader);*/
                 CheckException exception = new CheckException();
-                phone = phoneEditText.getEditTextString();
-                pwd = pwdEditText.getEditTextString();
+                phone = userNameEditText.getEditTextString();
+                pwd = passwordEditText.getEditTextString();
                 vCode = msgEditText.getEditTextString();
 
                 if (checkHelper.checkMobile(phone, exception) && checkHelper.checkPassword(pwd, exception)
-                        && checkHelper.checkVerifyCode(vCode, exception)) {
-                    Utils.closeSoftKeyboard(v);
-
-                    newPwd = SHA256Util.shaEncrypt(SHA256Util.shaEncrypt(pwd + "t1@s#df!") + phone);
+                        /*&& checkHelper.checkVerifyCode(vCode, exception)*/) {
+                    register();
+                   /* newPwd = SHA256Util.shaEncrypt(SHA256Util.shaEncrypt(pwd + "t1@s#df!") + phone);
                     memberUnitText = 0;
                     if (!TextUtils.isEmpty(memberUnit.getEditTextString())) {
                         memberUnitText = Long.parseLong(memberUnit.getEditTextString());
@@ -91,12 +102,55 @@ public class RegisterUserActivity extends BaseActivity {
                         bindUserInfo();
                     } else {
                         register();
-                    }
+                    }*/
                 } else {
-                    closeLoader();
-                    showToast(exception.getErrorMsg());
+                    //closeLoader();
+                    ToastUtils.showShort(exception.getErrorMsg());
+                }
+    }
+
+    @OnClick(R.id.tv_retrieve_password)
+    public void retrievePassword(){
+        finish();
+        startActivity(ResetUserPwdActivity.class);
+    }
+
+    @OnClick(R.id.registerText)
+    public void doingLoging() {
+        startActivity(LoginActivity.class);
+        finish();
+        overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
+    }
+
+    private void register() {
+                NetworkAPIFactoryImpl.getUserAPI().register(userNameEditText.getEditTextString(), passwordEditText.getEditTextString(), -1, "-1", "-1", new OnAPIListener<RegisterReturnBeen>() {
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.logd("注册请求网络失败"+ex.toString());
+            }
+
+            @Override
+            public void onSuccess(RegisterReturnBeen registerReturnBeen) {
+                LogUtils.logd("注册请求网络成功" + registerReturnBeen.toString());
+                finish();
+                if (registerReturnBeen.getResult() == -301) {
+                    ToastUtils.showShort("用户已经注册,请直接登录");
+                    startActivity(LoginActivity.class);
+                    finish();
+                    overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
+                } else if (registerReturnBeen.getResult() == 1) {
+                    ToastUtils.showShort("注册成功");
+//                            loginGetUserInfo(newPwd);  //登录请求数据
+                    finish();
+                    overridePendingTransition(0,R.anim.activity_off_top_out);
                 }
             }
         });
-    }*/
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(0,R.anim.activity_off_top_out);
+    }
 }

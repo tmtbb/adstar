@@ -8,10 +8,10 @@
 
     <Button
         android:id="@+id/rightText"
-        android:layout_width="141dp"
+        android:layout_width="80dp"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:layout_marginLeft="@dimen/dp_5"
+        android:layout_marginLeft="@dimen/dp_10"
         android:background="@drawable/butten_message_selected"
         android:text="@string/get_note_code"
         android:textColor="@color/color_fafafa"
@@ -73,7 +73,6 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:layout_marginLeft="@dimen/dp_8"
             android:layout_toLeftOf="@id/editEye"
             android:layout_toRightOf="@id/lineView"
             android:background="@null"

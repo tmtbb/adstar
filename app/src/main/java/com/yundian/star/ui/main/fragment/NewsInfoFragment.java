@@ -1,9 +1,12 @@
 package com.yundian.star.ui.main.fragment;
 
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
@@ -15,6 +18,8 @@ import com.yundian.star.ui.main.adapter.NewsInforAdapter;
 import com.yundian.star.ui.main.contract.NewInfoContract;
 import com.yundian.star.ui.main.model.NewsInforModel;
 import com.yundian.star.ui.main.presenter.NewsInfoPresenter;
+import com.yundian.star.utils.AdViewpagerUtil;
+import com.yundian.star.utils.LogUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import java.util.ArrayList;
@@ -25,22 +30,29 @@ import butterknife.Bind;
  * Created by Administrator on 2017/5/8.
  */
 
-public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter,NewsInforModel> implements NewInfoContract.View{
+public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforModel> implements NewInfoContract.View {
     @Bind(R.id.nt_title)
-    NormalTitleBar nt_title ;
+    NormalTitleBar nt_title;
     @Bind(R.id.lrv)
-    LRecyclerView lrv ;
-//    @Bind(R.id.loadingTip)
+    LRecyclerView lrv;
+    //    @Bind(R.id.loadingTip)
 //    LoadingTip loadingTip ;
     private ArrayList<NewsInforModel> arrayList;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private NewsInforAdapter newsInfoAdapter;
-    /**已经获取到多少条数据了*/
+    /**
+     * 已经获取到多少条数据了
+     */
     private static int mCurrentCounter = 0;
-    /**服务器端一共多少条数据*/
+    /**
+     * 服务器端一共多少条数据
+     */
     private static final int TOTAL_COUNTER = 34;
-    /**每一页展示多少条数据*/
+    /**
+     * 每一页展示多少条数据
+     */
     private static final int REQUEST_COUNT = 10;
+    private AdViewpagerUtil adViewpagerUtil;
 
     @Override
     protected int getLayoutResource() {
@@ -49,7 +61,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter,NewsInforMo
 
     @Override
     public void initPresenter() {
-        mPresenter.setVM(this,mModel);
+        mPresenter.setVM(this, mModel);
     }
 
     @Override
@@ -71,6 +83,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter,NewsInforMo
             }
         });
     }
+
     @Override
     public void showLoading(String title) {
 
@@ -95,15 +108,24 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter,NewsInforMo
         lrv.setAdapter(lRecyclerViewAdapter);
         DividerDecoration divider = new DividerDecoration.Builder(getContext())
                 .setHeight(R.dimen.dp_1)
-                .setPadding(R.dimen.dp_4)
-                .setColorResource(R.color.white)
+                .setColorResource(R.color.color_cccccc)
                 .build();
         //mRecyclerView.setHasFixedSize(true);
         lrv.addItemDecoration(divider);
         lrv.setLayoutManager(new LinearLayoutManager(getContext()));
         lrv.setPullRefreshEnabled(false);
         //add a HeaderView
-        final View header = LayoutInflater.from(getContext()).inflate(R.layout.sample_header,(ViewGroup)getActivity().findViewById(android.R.id.content), false);
+        final View header = LayoutInflater.from(getContext()).inflate(R.layout.adv_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
+        RelativeLayout rl_adroot = (RelativeLayout) header.findViewById(R.id.rl_adroot);
+        ViewPager viewpager = (ViewPager) header.findViewById(R.id.viewpager);
+        LinearLayout ly_dots = (LinearLayout) header.findViewById(R.id.ly_dots);
+        String adList[] = {"http://img02.tooopen.com/downs/images/2010/9/16/sy_2010091620583620405.jpg", "http://pic15.nipic.com/20110731/8022110_162804602317_2.jpg"};
+        adViewpagerUtil = new AdViewpagerUtil(getActivity(), viewpager, ly_dots, adList);
+        adViewpagerUtil.setOnAdItemClickListener(new AdViewpagerUtil.OnAdItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position, String url) {
+            }
+        });
         lRecyclerViewAdapter.addHeaderView(header);
     }
 
@@ -112,4 +134,32 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter,NewsInforMo
         newsInfoAdapter.addAll(list);
         mCurrentCounter += list.size();
     }
+
+    //生命周期控制
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (adViewpagerUtil != null) {
+            adViewpagerUtil.stopLoopViewPager();
+            LogUtils.logd("广告停止");
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adViewpagerUtil != null) {
+            adViewpagerUtil.startLoopViewPager();
+            LogUtils.logd("广告开始");
+        }
+    }
+
+   /* @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (adViewpagerUtil != null) {
+            adViewpagerUtil.destroyAdViewPager();
+        }
+    }*/
+
 }
