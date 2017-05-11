@@ -15,6 +15,7 @@ public interface SocketAPIConstant {
         byte History = 6;
         byte Bank = 8;
         byte Pay = 7;
+        byte Wangyi = 9;
     }
 
     interface OperateCode {
@@ -49,5 +50,6 @@ public interface SocketAPIConstant {
         Short UnionPay = 7039;
         Short WXBind = 3015;
         Short ResetPasswd = 3019;
+        Short WangYi = 9005;
     }
 }

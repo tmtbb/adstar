@@ -18,7 +18,7 @@ public class NewsInforAdapter extends ListBaseAdapter<NewsInforModel> {
     }
     @Override
     public int getLayoutId() {
-        return R.layout.recycler_news_list;
+        return R.layout.adapter_news_list;
     }
 
     @Override

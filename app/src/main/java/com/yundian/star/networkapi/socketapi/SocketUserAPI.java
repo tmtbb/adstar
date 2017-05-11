@@ -4,12 +4,15 @@ import com.yundian.star.app.AppApplication;
 import com.yundian.star.app.SocketAPIConstant;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnBeen;
+import com.yundian.star.been.RegisterReturnWangYiBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.UserAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.utils.LogUtils;
 
 import java.util.HashMap;
+
+import static android.R.attr.password;
 
 /**
  * Created by yaowang on 2017/2/20.
@@ -25,6 +28,16 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Login,
                 SocketAPIConstant.ReqeutType.User, map);
         requestEntity(socketDataPacket,LoginReturnInfo.class,listener);
+    }
+
+    @Override
+    public void registerWangYi(String name_value, String accid_value, OnAPIListener<RegisterReturnWangYiBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("name_value", name_value);
+        map.put("accid_value", accid_value);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.WangYi,
+                SocketAPIConstant.ReqeutType.Wangyi, map);
+        requestEntity(socketDataPacket, RegisterReturnWangYiBeen.class, listener);
     }
 
     @Override

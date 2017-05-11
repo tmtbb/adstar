@@ -131,8 +131,19 @@ public class RegisterUserActivity extends BaseActivity {
 
             @Override
             public void onSuccess(RegisterReturnBeen registerReturnBeen) {
+                /*//网易云注册
+                NetworkAPIFactoryImpl.getUserAPI().registerWangYi(userNameEditText.getEditTextString(), passwordEditText.getEditTextString(), new OnAPIListener<RegisterReturnWangYiBeen>() {
+                    @Override
+                    public void onError(Throwable ex) {
+                        LogUtils.logd("网易云注册失败"+ex.toString());
+                    }
+
+                    @Override
+                    public void onSuccess(RegisterReturnWangYiBeen registerReturnWangYiBeen) {
+                        LogUtils.logd("网易云注册成功"+registerReturnWangYiBeen.getResult_value()+"网易云token"+registerReturnWangYiBeen.getToken_value());
+                    }
+                });*/
                 LogUtils.logd("注册请求网络成功" + registerReturnBeen.toString());
-                finish();
                 if (registerReturnBeen.getResult() == -301) {
                     ToastUtils.showShort("用户已经注册,请直接登录");
                     startActivity(LoginActivity.class);

@@ -3,6 +3,7 @@ package com.yundian.star.networkapi;
 
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnBeen;
+import com.yundian.star.been.RegisterReturnWangYiBeen;
 import com.yundian.star.listener.OnAPIListener;
 
 /**
@@ -12,6 +13,7 @@ import com.yundian.star.listener.OnAPIListener;
 
 public interface UserAPI {
     void login(String phone, String password , OnAPIListener<LoginReturnInfo> listener);
+    void registerWangYi(String name, String password , OnAPIListener<RegisterReturnWangYiBeen> listener);
 //
 //    void wxLogin(String openId, OnAPIListener<LoginReturnEntity> listener);
 //

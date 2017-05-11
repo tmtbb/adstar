@@ -13,6 +13,7 @@ import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.TabEntity;
+import com.yundian.star.ui.im.fragment.DifferAnswerFragment;
 import com.yundian.star.ui.main.fragment.NewsInfoFragment;
 import com.yundian.star.ui.main.fragment.TestFragment;
 import com.yundian.star.utils.LogUtils;
@@ -35,7 +36,7 @@ public class MainActivity extends BaseActivity {
     private NewsInfoFragment newsInfoFragment;
     private TestFragment testFragment2;
     private TestFragment testFragment3;
-    private TestFragment testFragment4;
+    private DifferAnswerFragment differAnswerFragment;
     private TestFragment testFragment5;
 
     @Override
@@ -66,19 +67,19 @@ public class MainActivity extends BaseActivity {
             newsInfoFragment = (NewsInfoFragment) getSupportFragmentManager().findFragmentByTag("NewsInfoFragment");
             testFragment2 = (TestFragment) getSupportFragmentManager().findFragmentByTag("TestFragment2");
             testFragment3 = (TestFragment) getSupportFragmentManager().findFragmentByTag("TestFragment3");
-            testFragment4 = (TestFragment) getSupportFragmentManager().findFragmentByTag("TestFragment4");
+            differAnswerFragment = (DifferAnswerFragment) getSupportFragmentManager().findFragmentByTag("DifferAnswerFragment");
             testFragment5 = (TestFragment) getSupportFragmentManager().findFragmentByTag("TestFragment5");
             currentTabPosition = savedInstanceState.getInt(AppConstant.HOME_CURRENT_TAB_POSITION);
         } else {
             newsInfoFragment = new NewsInfoFragment();
             testFragment2 = new TestFragment();
             testFragment3 = new TestFragment();
-            testFragment4 = new TestFragment();
+            differAnswerFragment = new DifferAnswerFragment();
             testFragment5 = new TestFragment();
-            transaction.add(R.id.fl_main, newsInfoFragment, "newsInfoFragment");
+            transaction.add(R.id.fl_main, newsInfoFragment, "NewsInfoFragment");
             transaction.add(R.id.fl_main, testFragment2, "TestFragment2");
             transaction.add(R.id.fl_main, testFragment3, "TestFragment3");
-            transaction.add(R.id.fl_main, testFragment4, "TestFragment4");
+            transaction.add(R.id.fl_main, differAnswerFragment, "DifferAnswerFragment");
             transaction.add(R.id.fl_main, testFragment5, "TestFragment5");
         }
         transaction.commit();
@@ -117,7 +118,7 @@ public class MainActivity extends BaseActivity {
             case 0:
                 transaction.hide(testFragment2);
                 transaction.hide(testFragment3);
-                transaction.hide(testFragment4);
+                transaction.hide(differAnswerFragment);
                 transaction.hide(testFragment5);
                 transaction.show(newsInfoFragment);
                 transaction.commitAllowingStateLoss();
@@ -125,7 +126,7 @@ public class MainActivity extends BaseActivity {
             case 1:
                 transaction.hide(newsInfoFragment);
                 transaction.hide(testFragment3);
-                transaction.hide(testFragment4);
+                transaction.hide(differAnswerFragment);
                 transaction.hide(testFragment5);
                 transaction.show(testFragment2);
                 transaction.commitAllowingStateLoss();
@@ -133,7 +134,7 @@ public class MainActivity extends BaseActivity {
             case 2:
                 transaction.hide(testFragment2);
                 transaction.hide(newsInfoFragment);
-                transaction.hide(testFragment4);
+                transaction.hide(differAnswerFragment);
                 transaction.hide(testFragment5);
                 transaction.show(testFragment3);
                 transaction.commitAllowingStateLoss();
@@ -143,14 +144,14 @@ public class MainActivity extends BaseActivity {
                 transaction.hide(testFragment3);
                 transaction.hide(newsInfoFragment);
                 transaction.hide(testFragment5);
-                transaction.show(testFragment4);
+                transaction.show(differAnswerFragment);
                 transaction.commitAllowingStateLoss();
                 break;
             case 4:
                 transaction.hide(testFragment2);
                 transaction.hide(testFragment3);
                 transaction.hide(newsInfoFragment);
-                transaction.hide(testFragment4);
+                transaction.hide(differAnswerFragment);
                 transaction.show(testFragment5);
                 transaction.commitAllowingStateLoss();
                 break;
