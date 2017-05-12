@@ -1,7 +1,10 @@
 package com.yundian.star.ui.main.fragment;
 
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +23,6 @@ import com.yundian.star.ui.main.model.NewsInforModel;
 import com.yundian.star.ui.main.presenter.NewsInfoPresenter;
 import com.yundian.star.utils.AdViewpagerUtil;
 import com.yundian.star.utils.LogUtils;
-import com.yundian.star.widget.NormalTitleBar;
 
 import java.util.ArrayList;
 
@@ -31,8 +33,6 @@ import butterknife.Bind;
  */
 
 public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforModel> implements NewInfoContract.View {
-    @Bind(R.id.nt_title)
-    NormalTitleBar nt_title;
     @Bind(R.id.lrv)
     LRecyclerView lrv;
     //    @Bind(R.id.loadingTip)
@@ -40,6 +40,22 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     private ArrayList<NewsInforModel> arrayList;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private NewsInforAdapter newsInfoAdapter;
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what){
+                case -1 :
+                    stopProgressDialog();
+                    newsInfoAdapter.clear();
+                    lRecyclerViewAdapter.notifyDataSetChanged();
+                    mCurrentCounter = 0;
+                    mPresenter.getMoreData();
+                    lrv.refreshComplete(REQUEST_COUNT);
+                    break;
+            }
+        }
+    };
     /**
      * 已经获取到多少条数据了
      */
@@ -66,20 +82,18 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
     @Override
     protected void initView() {
-        nt_title.setTvLeftVisiable(false);
-        nt_title.setTitleText(getString(R.string.news_info_title));
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                if (mCurrentCounter < TOTAL_COUNTER) {
+               // if (mCurrentCounter < TOTAL_COUNTER) {
                     // loading more
                     int currentSize = lRecyclerViewAdapter.getItemCount();
                     mPresenter.getMoreData();
                     lrv.refreshComplete(REQUEST_COUNT);
-                } else {
+               // } else {
                     //the end
-                    lrv.setNoMore(true);
-                }
+                    //lrv.setNoMore(true);
+               // }
             }
         });
     }
@@ -127,6 +141,35 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
             }
         });
         lRecyclerViewAdapter.addHeaderView(header);
+        lrv.setLScrollListener(new LRecyclerView.LScrollListener() {
+            @Override
+            public void onScrollUp() {
+
+            }
+
+            @Override
+            public void onScrollDown() {
+
+            }
+
+            @Override
+            public void onScrolled(int distanceX, int distanceY) {
+
+            }
+
+            @Override
+            public void onScrollStateChanged(int state) {
+                RecyclerView.LayoutManager layoutManager = lrv.getLayoutManager();
+                if (layoutManager instanceof LinearLayoutManager) {
+                    LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
+                    //获取最后一个可见view的位置
+                    int lastItemPosition = linearManager.findLastVisibleItemPosition();
+                    //获取第一个可见view的位置
+                    int firstItemPosition = linearManager.findFirstVisibleItemPosition();
+                    LogUtils.loge(state+ "...." + firstItemPosition+"...."+lastItemPosition );
+                }
+            }
+        });
     }
 
     @Override
@@ -154,12 +197,36 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         }
     }
 
-   /* @Override
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (hidden==false){
+            startProgressDialog("刷新中");
+            new Thread() {
+
+                @Override
+                public void run() {
+                    super.run();
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    mHandler.sendEmptyMessage(-1);
+                }
+            }.start();
+            LogUtils.loge("刷新");
+        }
+    }
+
+
+    /* @Override
     public void onDestroy() {
         super.onDestroy();
         if (adViewpagerUtil != null) {
             adViewpagerUtil.destroyAdViewPager();
         }
     }*/
+
 
 }
