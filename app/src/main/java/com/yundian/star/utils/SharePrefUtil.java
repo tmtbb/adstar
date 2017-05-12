@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.yundian.star.app.AppApplication;
-import com.yundian.star.been.AdstarUser;
+import com.yundian.star.been.UserinfoBean;
 
 /**
  * Created by ysl .
@@ -30,9 +30,9 @@ public class SharePrefUtil {
     }
     private static String UserInfo = "AdstarUser";
     private static String UserLoginInfo = "UserLoginInfo";
-    public void saveLoginUserInfo(AdstarUser user) {
+    public void saveLoginUserInfo(UserinfoBean user) {
         sp = context.getSharedPreferences(UserInfo, Context.MODE_PRIVATE);
-        sp.edit().putString("phoneNum", user.getPhoneNum()).apply();
+        sp.edit().putString("phoneNum", user.getPhone()).apply();
 
     }
 
@@ -41,14 +41,12 @@ public class SharePrefUtil {
         return sp.getString("role", "0");
     }
 
-    public AdstarUser getLoginUserInfo() {
+    public UserinfoBean getLoginUserInfo() {
         sp = context.getSharedPreferences(UserInfo, Context.MODE_PRIVATE);
-        long loginTime = sp.getLong("loginTime", 0L);
         String phoneNum = sp.getString("phoneNum", "");
-        String userId = sp.getString("userId", "-1");
-        AdstarUser adstarUser = new AdstarUser();
-        adstarUser.setPhoneNum(phoneNum);
-        return adstarUser;
+        UserinfoBean userinfoBean = new UserinfoBean();
+        userinfoBean.setPhone(phoneNum);
+        return userinfoBean;
     }
     /**
      * 清空UserInfo
