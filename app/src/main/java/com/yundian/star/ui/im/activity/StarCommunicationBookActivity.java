@@ -95,7 +95,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SessionHelper.startP2PSession(StarCommunicationBookActivity.this, "15306559323");
+                SessionHelper.startP2PSession(StarCommunicationBookActivity.this, "17682310986");
             }
         });
 
