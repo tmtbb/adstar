@@ -21,7 +21,6 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.yundian.star.R;
 import com.yundian.star.ui.wangyi.config.preference.Preferences;
-import com.yundian.star.ui.wangyi.login.LoginActivity;
 import com.yundian.star.ui.wangyi.login.LogoutHelper;
 import com.yundian.star.ui.wangyi.main.activity.MultiportActivity;
 import com.yundian.star.ui.wangyi.main.model.MainTab;
@@ -170,8 +169,6 @@ public class SessionListFragment extends MainTabFragment {
     private void onLogout() {
         // 清理缓存&注销监听&清除状态
         LogoutHelper.logout();
-
-        LoginActivity.start(getActivity(), true);
         getActivity().finish();
     }
 

@@ -273,7 +273,6 @@ public class SettingsActivity extends UI implements SettingsAdapter.SwitchChange
      */
     private void logout() {
         removeLoginState();
-        MainActivity.logout(SettingsActivity.this, false);
 
         finish();
         NIMClient.getService(AuthService.class).logout();

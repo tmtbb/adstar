@@ -29,6 +29,7 @@ import com.yundian.star.been.TabEntity;
 import com.yundian.star.ui.im.fragment.DifferAnswerFragment;
 import com.yundian.star.ui.main.fragment.NewsInfoFragment;
 import com.yundian.star.ui.main.fragment.TestFragment;
+import com.yundian.star.ui.wangyi.chatroom.helper.ChatRoomHelper;
 import com.yundian.star.ui.wangyi.config.preference.UserPreferences;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
@@ -146,6 +147,8 @@ public class MainActivity extends BaseActivity {
         } else {
             syncPushNoDisturb(UserPreferences.getStatusConfig());
         }
+        // 聊天室初始化
+        ChatRoomHelper.init();
     }
     /**
      * 切换

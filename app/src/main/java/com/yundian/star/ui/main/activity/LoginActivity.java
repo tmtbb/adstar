@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.cache.DataCacheManager;
 import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -128,6 +129,8 @@ public class LoginActivity extends BaseActivity{
                 saveLoginInfo(param.getAccount(), param.getToken());
                 // 初始化消息提醒配置
                 initNotificationConfig();
+                // 构建缓存
+                DataCacheManager.buildDataCacheAsync();
                 SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnInfos.getUserinfo());
                 LoginActivity.this.finish();
                 LoginActivity.this.overridePendingTransition(0,R.anim.activity_off_top_out);

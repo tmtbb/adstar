@@ -10,8 +10,8 @@ import android.support.v4.app.NotificationCompat;
 import com.netease.nim.uikit.cache.NimUserInfoCache;
 import com.netease.nim.uikit.session.activity.P2PMessageActivity;
 import com.yundian.star.R;
+import com.yundian.star.ui.main.activity.MainActivity;
 import com.yundian.star.ui.wangyi.avchat.activity.AVChatActivity;
-import com.yundian.star.ui.wangyi.main.activity.WelcomeActivity;
 import com.yundian.star.ui.wangyi.main.model.Extras;
 
 /**
@@ -59,7 +59,7 @@ public class AVChatNotification {
 
     private void buildMissCallNotification() {
         if (missCallNotification == null) {
-            Intent notifyIntent = new Intent(context, WelcomeActivity.class);
+            Intent notifyIntent = new Intent(context, MainActivity.class);
             Intent data = new Intent(context, P2PMessageActivity.class);
             data.putExtra(Extras.EXTRA_ACCOUNT, account);
             data.putExtra(Extras.EXTRA_FROM, Extras.EXTRA_FROM_NOTIFICATION);
