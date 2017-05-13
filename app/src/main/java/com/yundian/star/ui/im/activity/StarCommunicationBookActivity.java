@@ -48,8 +48,8 @@ public class StarCommunicationBookActivity extends BaseActivity {
     public void initView() {
         nt_title.setTvLeftVisiable(true);
         nt_title.setTitleText(getString(R.string.famous_address_book));
-        initData();
-        initDatas(arrayList);
+        //initData();
+        //initDatas(arrayList);
     }
 
     private void initData() {
@@ -57,7 +57,6 @@ public class StarCommunicationBookActivity extends BaseActivity {
         NewsInforModel infor= null ;
         for (int i = 0; i < 20; i++) {
             infor = new NewsInforModel();
-            infor.setUsername("测试"+i);
             arrayList.add(infor);
         }
     }
@@ -112,7 +111,6 @@ public class StarCommunicationBookActivity extends BaseActivity {
             }
 
             NewsInforModel item = new NewsInforModel();
-            item.setUsername("刷新数据" + i);
             newList.add(item);
         }
 

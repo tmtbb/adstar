@@ -5,46 +5,166 @@ import android.os.Parcelable;
 
 import com.yundian.star.ui.main.contract.NewInfoContract;
 
+import java.util.ArrayList;
+
 /**
  * Created by Null on 2017/5/6.
  */
 
 public class NewsInforModel implements NewInfoContract.Model, Parcelable {
-    private int id ;
-    private String phoneNum;
-    private String username;
-    private String token;
 
-    public int getId() {
-        return id;
+
+    /**
+     * list : [{"id":1,"link_url":"http://ent.163.com/17/0511/12/CK5F822A00038FO9.html","remarks":"bb","showpic_url":"http://tupian.enterdesk.com/2012/0514/zyz/03/08.jpg","starcode":"4","starname":"柳岩","subject_name":"网友偶遇刘强东章泽天 女方露甜美笑容男方玩手机","times":"2017-05-11 00:00:00"},{"id":2,"link_url":"http://ent.163.com/17/0511/11/CK5DCBVH00038FO9.html","remarks":"gg","showpic_url":"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3649215922,3500749069&fm=23&gp=0.jpg","starcode":"2","starname":"刘诗诗","subject_name":"70岁老夫妻邮轮上拍婚纱照 拿到相册后气得想烧掉","times":"2017-05-10 00:00:00"},{"id":3,"link_url":"http://ent.163.com/17/0511/12/CK5FT8I900038FO9.html","remarks":"tt","showpic_url":"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3649215922,3500749069&fm=23&gp=0.jpg","starcode":"3","starname":"测试","subject_name":"外交大家钱其琛:美国人站起说不谈了 他纹丝不动","times":"2017-05-09 00:00:00"},{"id":4,"link_url":"http://ent.163.com/17/0511/09/CK564HVP00038FO9.html","remarks":"bb","showpic_url":"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3649215922,3500749069&fm=23&gp=0.jpg","starcode":"5","starname":"测试","subject_name":"网友偶遇刘强东章泽天 女方露甜美笑容男方玩手机","times":"2017-05-08 00:00:00"},{"id":5,"link_url":"http://ent.163.com/17/0511/10/CK59A57G00037VVV.html","remarks":"bb","showpic_url":"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3649215922,3500749069&fm=23&gp=0.jpg","starcode":"6","starname":"测试","subject_name":"网友偶遇刘强东章泽天 女方露甜美笑容男方玩手机","times":"2017-05-07 00:00:00"},{"id":6,"link_url":"http://ent.163.com/17/0510/14/CK33PQ5B00038FO9.html","remarks":"bb","showpic_url":"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3912474721,1656056392&fm=23&gp=0.jpg","starcode":"7","starname":"测试","subject_name":"网友偶遇刘强东章泽天 女方露甜美笑容男方玩手机","times":"2017-05-06 00:00:00"},{"id":7,"link_url":"http://ent.163.com/17/0510/14/CK33PQ5B00038FO9.html","remarks":"bb","showpic_url":"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3912474721,1656056392&fm=23&gp=0.jpg","starcode":"8","starname":"测试","subject_name":"网友偶遇刘强东章泽天 女方露甜美笑容男方玩手机","times":"2017-05-11 00:00:00"},{"id":8,"link_url":"http://ent.163.com/17/0510/14/CK33PQ5B00038FO9.html","remarks":"bb","showpic_url":"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3912474721,1656056392&fm=23&gp=0.jpg","starcode":"9","starname":"测试","subject_name":"70岁老夫妻邮轮上拍婚纱照 拿到相册后气得想烧掉","times":"2017-05-11 00:00:00"},{"id":9,"link_url":"http://ent.163.com/17/0510/14/CK33PQ5B00038FO9.html","remarks":"bb","showpic_url":"http://tupian.enterdesk.com/2012/0514/zyz/03/08.jpg","starcode":"10","starname":"da","subject_name":"70岁老夫妻邮轮上拍婚纱照 拿到相册后气得想烧掉","times":"2017-05-11 00:00:00"},{"id":10,"link_url":"http://ent.163.com/17/0510/14/CK33PQ5B00038FO9.html","remarks":"bb","showpic_url":"https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=3912474721,1656056392&fm=23&gp=0.jpg","starcode":"11","starname":"as","subject_name":"网友偶遇刘强东章泽天 女方露甜美笑容男方玩手机","times":"2017-05-12 00:00:00"}]
+     * result : 1
+     */
+
+    private int result;
+    private ArrayList<ListBean> list;
+
+    public int getResult() {
+        return result;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setResult(int result) {
+        this.result = result;
     }
 
-    public String getPhoneNum() {
-        return phoneNum;
+    public ArrayList<ListBean> getList() {
+        return list;
     }
 
-    public void setPhoneNum(String phoneNum) {
-        this.phoneNum = phoneNum;
+    public void setList(ArrayList<ListBean> list) {
+        this.list = list;
     }
 
-    public String getUsername() {
-        return username;
-    }
+    public static class ListBean implements Parcelable {
+        /**
+         * id : 1
+         * link_url : http://ent.163.com/17/0511/12/CK5F822A00038FO9.html
+         * remarks : bb
+         * showpic_url : http://tupian.enterdesk.com/2012/0514/zyz/03/08.jpg
+         * starcode : 4
+         * starname : 柳岩
+         * subject_name : 网友偶遇刘强东章泽天 女方露甜美笑容男方玩手机
+         * times : 2017-05-11 00:00:00
+         */
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+        private int id;
+        private String link_url;
+        private String remarks;
+        private String showpic_url;
+        private String starcode;
+        private String starname;
+        private String subject_name;
+        private String times;
 
-    public String getToken() {
-        return token;
-    }
+        public int getId() {
+            return id;
+        }
 
-    public void setToken(String token) {
-        this.token = token;
+        public void setId(int id) {
+            this.id = id;
+        }
+
+        public String getLink_url() {
+            return link_url;
+        }
+
+        public void setLink_url(String link_url) {
+            this.link_url = link_url;
+        }
+
+        public String getRemarks() {
+            return remarks;
+        }
+
+        public void setRemarks(String remarks) {
+            this.remarks = remarks;
+        }
+
+        public String getShowpic_url() {
+            return showpic_url;
+        }
+
+        public void setShowpic_url(String showpic_url) {
+            this.showpic_url = showpic_url;
+        }
+
+        public String getStarcode() {
+            return starcode;
+        }
+
+        public void setStarcode(String starcode) {
+            this.starcode = starcode;
+        }
+
+        public String getStarname() {
+            return starname;
+        }
+
+        public void setStarname(String starname) {
+            this.starname = starname;
+        }
+
+        public String getSubject_name() {
+            return subject_name;
+        }
+
+        public void setSubject_name(String subject_name) {
+            this.subject_name = subject_name;
+        }
+
+        public String getTimes() {
+            return times;
+        }
+
+        public void setTimes(String times) {
+            this.times = times;
+        }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.id);
+            dest.writeString(this.link_url);
+            dest.writeString(this.remarks);
+            dest.writeString(this.showpic_url);
+            dest.writeString(this.starcode);
+            dest.writeString(this.starname);
+            dest.writeString(this.subject_name);
+            dest.writeString(this.times);
+        }
+
+        public ListBean() {
+        }
+
+        protected ListBean(Parcel in) {
+            this.id = in.readInt();
+            this.link_url = in.readString();
+            this.remarks = in.readString();
+            this.showpic_url = in.readString();
+            this.starcode = in.readString();
+            this.starname = in.readString();
+            this.subject_name = in.readString();
+            this.times = in.readString();
+        }
+
+        public static final Creator<ListBean> CREATOR = new Creator<ListBean>() {
+            @Override
+            public ListBean createFromParcel(Parcel source) {
+                return new ListBean(source);
+            }
+
+            @Override
+            public ListBean[] newArray(int size) {
+                return new ListBean[size];
+            }
+        };
     }
 
     @Override
@@ -54,23 +174,20 @@ public class NewsInforModel implements NewInfoContract.Model, Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.id);
-        dest.writeString(this.phoneNum);
-        dest.writeString(this.username);
-        dest.writeString(this.token);
+        dest.writeInt(this.result);
+        dest.writeList(this.list);
     }
 
     public NewsInforModel() {
     }
 
     protected NewsInforModel(Parcel in) {
-        this.id = in.readInt();
-        this.phoneNum = in.readString();
-        this.username = in.readString();
-        this.token = in.readString();
+        this.result = in.readInt();
+        this.list = new ArrayList<ListBean>();
+        in.readList(this.list, ListBean.class.getClassLoader());
     }
 
-    public static final Creator<NewsInforModel> CREATOR = new Creator<NewsInforModel>() {
+    public static final Parcelable.Creator<NewsInforModel> CREATOR = new Parcelable.Creator<NewsInforModel>() {
         @Override
         public NewsInforModel createFromParcel(Parcel source) {
             return new NewsInforModel(source);

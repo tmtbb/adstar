@@ -2,6 +2,7 @@ package com.yundian.star.networkapi.socketapi;
 
 
 import com.yundian.star.networkapi.DealAPI;
+import com.yundian.star.networkapi.InformationAPI;
 import com.yundian.star.networkapi.NetworkAPIConfig;
 import com.yundian.star.networkapi.NetworkAPIFactory;
 import com.yundian.star.networkapi.UserAPI;
@@ -43,6 +44,11 @@ public class SocketAPIFactoryImpl implements NetworkAPIFactory {
     @Override
     public DealAPI getDealAPI() {
         return new SocketDealAPI();
+    }
+
+    @Override
+    public InformationAPI getInformationAPI() {
+        return new SocketInformationAPI();
     }
 
 }

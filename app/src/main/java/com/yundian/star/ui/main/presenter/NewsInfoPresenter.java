@@ -1,40 +1,41 @@
 package com.yundian.star.ui.main.presenter;
 
+import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.contract.NewInfoContract;
 import com.yundian.star.ui.main.model.NewsInforModel;
-
-import java.util.ArrayList;
+import com.yundian.star.utils.LogUtils;
 
 /**
  * Created by Null on 2017/5/6.
  */
 
 public class NewsInfoPresenter extends NewInfoContract.Presenter {
-
-    private ArrayList<NewsInforModel> arrayList;
-
     @Override
     public void onStart() {
         super.onStart();
-        arrayList = new ArrayList<>();
-        NewsInforModel infor= null ;
-        for (int i = 0; i < 20; i++) {
-            infor = new NewsInforModel();
-            infor.setUsername("测试"+i);
-            arrayList.add(infor);
-        }
-        mView.initDatas(arrayList);
     }
 
     @Override
-    public void getMoreData() {
-        ArrayList<NewsInforModel> arrayListmore = new ArrayList<>();
-    //模拟组装10个数据
-        for (int i = 0; i < 10; i++) {
-            NewsInforModel item = new NewsInforModel();
-            item.setUsername("加载更多数据"+i);
-            arrayListmore.add(item);
-        }
-        mView.addItems(arrayListmore);
+    public void getData(final boolean isMoreData,String name, String code,int startnum,int endnum,int all) {
+        mView.showLoading("刷新中");
+        NetworkAPIFactoryImpl.getInformationAPI().newsinfo(name, code, startnum, endnum, all, new OnAPIListener<NewsInforModel>() {
+            @Override
+            public void onSuccess(NewsInforModel o) {
+                if (isMoreData){
+                    mView.addMoreItems(o.getList());
+                }else {
+                    mView.initDatas(o.getList());
+                }
+                LogUtils.logd(o.toString());
+                mView.stopLoading();
+            }
+
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.logd(ex.toString());
+                mView.stopLoading();
+            }
+        });
     }
 }

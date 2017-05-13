@@ -15,11 +15,10 @@ public interface NewInfoContract {
     interface Model extends BaseModel {
     }
     interface View extends BaseView {
-        public abstract void initDatas(ArrayList<NewsInforModel> list);
-        public abstract void addItems(ArrayList<NewsInforModel> list);
+        public abstract void initDatas(ArrayList<NewsInforModel.ListBean> list);
+        public abstract void addMoreItems(ArrayList<NewsInforModel.ListBean> list);
     }
     abstract static class Presenter extends BasePresenter<View, Model> {
-        //加载更多
-        public abstract void getMoreData();
+        public abstract void getData(boolean isMoreData,String name, String code,int startnum,int endnum,int all);
     }
 }

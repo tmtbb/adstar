@@ -12,7 +12,7 @@ import com.yundian.star.ui.main.model.NewsInforModel;
  * Created by Administrator on 2017/5/8.
  */
 
-public class NewsInforAdapter extends ListBaseAdapter<NewsInforModel> {
+public class NewsInforAdapter extends ListBaseAdapter<NewsInforModel.ListBean> {
     public NewsInforAdapter(Context context) {
         super(context);
     }
@@ -23,8 +23,8 @@ public class NewsInforAdapter extends ListBaseAdapter<NewsInforModel> {
 
     @Override
     public void onBindItemHolder(SuperViewHolder holder, int position) {
-        NewsInforModel item = mDataList.get(position);
+        NewsInforModel.ListBean item = mDataList.get(position);
         TextView titleText = holder.getView(R.id.tv_name);
-        titleText.setText(item.getUsername());
+        titleText.setText(item.getId()+"");
     }
 }

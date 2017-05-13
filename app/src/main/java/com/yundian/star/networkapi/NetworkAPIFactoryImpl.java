@@ -29,4 +29,7 @@ public class NetworkAPIFactoryImpl {
         return networkAPIFactory.getDealAPI();
     }
 
+    public static InformationAPI getInformationAPI() {
+        return networkAPIFactory.getInformationAPI();
+    }
 }

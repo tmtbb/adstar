@@ -1,7 +1,5 @@
 package com.yundian.star.ui.main.fragment;
 
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,25 +35,9 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     LRecyclerView lrv;
     //    @Bind(R.id.loadingTip)
 //    LoadingTip loadingTip ;
-    private ArrayList<NewsInforModel> arrayList;
+    private ArrayList<NewsInforModel.ListBean> arrayList = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private NewsInforAdapter newsInfoAdapter;
-    private Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            switch (msg.what){
-                case -1 :
-                    stopProgressDialog();
-                    newsInfoAdapter.clear();
-                    lRecyclerViewAdapter.notifyDataSetChanged();
-                    mCurrentCounter = 0;
-                    mPresenter.getMoreData();
-                    lrv.refreshComplete(REQUEST_COUNT);
-                    break;
-            }
-        }
-    };
     /**
      * 已经获取到多少条数据了
      */
@@ -82,40 +64,11 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
     @Override
     protected void initView() {
-        lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-               // if (mCurrentCounter < TOTAL_COUNTER) {
-                    // loading more
-                    int currentSize = lRecyclerViewAdapter.getItemCount();
-                    mPresenter.getMoreData();
-                    lrv.refreshComplete(REQUEST_COUNT);
-               // } else {
-                    //the end
-                    //lrv.setNoMore(true);
-               // }
-            }
-        });
+        mPresenter.getData(false,"1","1",0,10,1);
+        initAdpter();
     }
 
-    @Override
-    public void showLoading(String title) {
-
-    }
-
-    @Override
-    public void stopLoading() {
-
-    }
-
-    @Override
-    public void showErrorTip(String msg) {
-
-    }
-
-    @Override
-    public void initDatas(ArrayList<NewsInforModel> list) {
-        arrayList = list;
+    private void initAdpter() {
         newsInfoAdapter = new NewsInforAdapter(getActivity());
         newsInfoAdapter.setDataList(arrayList);
         lRecyclerViewAdapter = new LRecyclerViewAdapter(newsInfoAdapter);
@@ -140,6 +93,14 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
             public void onItemClick(View v, int position, String url) {
             }
         });
+
+        lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                mPresenter.getData(true,"1","1",mCurrentCounter+1,mCurrentCounter+1+REQUEST_COUNT,1);
+            }
+        });
+
         lRecyclerViewAdapter.addHeaderView(header);
         lrv.setLScrollListener(new LRecyclerView.LScrollListener() {
             @Override
@@ -173,9 +134,40 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     }
 
     @Override
-    public void addItems(ArrayList<NewsInforModel> list) {
+    public void showLoading(String title) {
+
+    }
+
+    @Override
+    public void stopLoading() {
+
+    }
+
+    @Override
+    public void showErrorTip(String msg) {
+
+    }
+
+    @Override
+    public void initDatas(ArrayList<NewsInforModel.ListBean> list) {
+        arrayList.clear();
+        arrayList = list;
+        mCurrentCounter = list.size();
+        newsInfoAdapter.clear();
+        lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         newsInfoAdapter.addAll(list);
-        mCurrentCounter += list.size();
+        lrv.refreshComplete(REQUEST_COUNT);
+    }
+
+    @Override
+    public void addMoreItems(ArrayList<NewsInforModel.ListBean> list) {
+        if (list==null||list.size()==0){
+            lrv.setNoMore(true);
+        }else {
+            newsInfoAdapter.addAll(list);
+            mCurrentCounter += list.size();
+            lrv.refreshComplete(REQUEST_COUNT);
+        }
     }
 
     //生命周期控制
@@ -201,20 +193,9 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden==false){
+            mCurrentCounter = 0;
             startProgressDialog("刷新中");
-            new Thread() {
-
-                @Override
-                public void run() {
-                    super.run();
-                    try {
-                        Thread.sleep(500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    mHandler.sendEmptyMessage(-1);
-                }
-            }.start();
+            mPresenter.getData(false,"1","1",0,10,1);
             LogUtils.loge("刷新");
         }
     }

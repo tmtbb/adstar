@@ -2,6 +2,7 @@ package com.yundian.star.networkapi.http;
 
 
 import com.yundian.star.networkapi.DealAPI;
+import com.yundian.star.networkapi.InformationAPI;
 import com.yundian.star.networkapi.NetworkAPIConfig;
 import com.yundian.star.networkapi.NetworkAPIFactory;
 import com.yundian.star.networkapi.UserAPI;
@@ -28,6 +29,11 @@ public class NetworkHttpAPIFactoryImpl implements NetworkAPIFactory {
 
     @Override
     public DealAPI getDealAPI() {
+        return null;
+    }
+
+    @Override
+    public InformationAPI getInformationAPI() {
         return null;
     }
 
