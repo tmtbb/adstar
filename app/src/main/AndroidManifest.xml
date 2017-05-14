@@ -76,6 +76,8 @@
 
         <activity android:name=".ui.im.activity.StarCommunicationBookActivity"></activity>
 
+        <activity android:name=".ui.main.activity.NewsBrowserActivity"></activity>
+
 
         <!-- APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
             如果 SDKOptions 中提供了，取 SDKOptions 中的值。 -->

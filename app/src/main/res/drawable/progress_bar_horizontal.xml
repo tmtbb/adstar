@@ -3,12 +3,12 @@
 
     <item
         android:id="@android:id/background"
-        android:drawable="@drawable/progress_bar_bg"/>
+        android:drawable="@color/white"/>
 
     <item android:id="@android:id/progress">
         <clip>
             <shape>
-                <solid android:color="@color/colorAccent"/>
+                <solid android:color="@color/blue"/>
             </shape>
         </clip>
     </item>

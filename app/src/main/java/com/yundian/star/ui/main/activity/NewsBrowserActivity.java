@@ -1,10 +1,9 @@
 
-package com.jaydenxiao.androidfire.ui.news.activity;
+package com.yundian.star.ui.main.activity;
 
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -12,23 +11,24 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 
-import com.jaydenxiao.androidfire.R;
-import com.jaydenxiao.androidfire.app.AppConstant;
-import com.jaydenxiao.common.base.BaseActivity;
+import com.yundian.star.R;
+import com.yundian.star.app.AppConstant;
+import com.yundian.star.base.BaseActivity;
+import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
 
 public class NewsBrowserActivity extends BaseActivity {
 
 
-    @Bind(R.id.toolbar)
-    Toolbar toolbar;
+    @Bind(R.id.nt_title)
+    NormalTitleBar nt_title;
     @Bind(R.id.progress_bar)
     ProgressBar progressBar;
     @Bind(R.id.web_view)
     WebView webView;
 
-    public static void startAction(Context context ,String link,String title){
+    public static void startAction(Context context , String link, String title){
         Intent intent = new Intent(context, NewsBrowserActivity.class);
         intent.putExtra(AppConstant.NEWS_LINK,link);
         intent.putExtra(AppConstant.NEWS_TITLE,title);
@@ -36,7 +36,7 @@ public class NewsBrowserActivity extends BaseActivity {
     }
     @Override
     public int getLayoutId() {
-        return R.layout.act_news_browser;
+        return R.layout.activity_news_browser;
     }
 
     @Override
@@ -50,6 +50,9 @@ public class NewsBrowserActivity extends BaseActivity {
 
 
     private void initWebView() {
+        nt_title.setTvLeftVisiable(true);
+        nt_title.setTitleText(getString(R.string.news_info_title));
+        nt_title.setRightImagVisibility(true);
         setWebViewSettings();
         setWebView();
     }

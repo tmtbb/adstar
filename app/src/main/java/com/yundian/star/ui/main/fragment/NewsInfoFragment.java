@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
+import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
@@ -17,6 +18,7 @@ import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.AdvBeen;
+import com.yundian.star.ui.main.activity.NewsBrowserActivity;
 import com.yundian.star.ui.main.adapter.NewsInforAdapter;
 import com.yundian.star.ui.main.contract.NewInfoContract;
 import com.yundian.star.ui.main.model.NewsInforModel;
@@ -91,6 +93,15 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
                 mPresenter.getData(true, "1", "1", mCurrentCounter + 1, mCurrentCounter + 1 + REQUEST_COUNT, 1);
             }
         });
+
+        lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                LogUtils.loge(position+"");
+                NewsInforModel.ListBean listBean = arrayList.get(position);
+                NewsBrowserActivity.startAction(getActivity(),listBean.getLink_url(),"");
+            }
+        });
         lrv.setLScrollListener(new LRecyclerView.LScrollListener() {
             @Override
             public void onScrollUp() {
@@ -153,6 +164,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         if (list == null || list.size() == 0) {
             lrv.setNoMore(true);
         } else {
+            arrayList.addAll(list);
             newsInfoAdapter.addAll(list);
             mCurrentCounter += list.size();
             lrv.refreshComplete(REQUEST_COUNT);
