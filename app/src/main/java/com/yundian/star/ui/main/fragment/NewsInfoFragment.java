@@ -6,8 +6,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
@@ -25,8 +27,10 @@ import com.yundian.star.ui.main.model.NewsInforModel;
 import com.yundian.star.ui.main.presenter.NewsInfoPresenter;
 import com.yundian.star.utils.AdViewpagerUtil;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.TimeUtil;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import butterknife.Bind;
 
@@ -37,6 +41,10 @@ import butterknife.Bind;
 public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforModel> implements NewInfoContract.View {
     @Bind(R.id.lrv)
     LRecyclerView lrv;
+    @Bind(R.id.rl_time)
+    RelativeLayout rl_time;
+    @Bind(R.id.tv_time)
+    TextView tv_time ;
     //    @Bind(R.id.loadingTip)
 //    LoadingTip loadingTip ;
     private ArrayList<NewsInforModel.ListBean> arrayList = new ArrayList<>();
@@ -55,6 +63,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
      */
     private static final int REQUEST_COUNT = 10;
     private AdViewpagerUtil adViewpagerUtil;
+    private int adv_height;
 
     @Override
     protected int getLayoutResource() {
@@ -115,7 +124,12 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
             @Override
             public void onScrolled(int distanceX, int distanceY) {
-
+                LogUtils.loge(distanceY+"...adv_height。。。"+adv_height);
+                if (distanceY>adv_height){
+                    rl_time.setVisibility(View.VISIBLE);
+                }else {
+                    rl_time.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -124,10 +138,17 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
                 if (layoutManager instanceof LinearLayoutManager) {
                     LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
                     //获取最后一个可见view的位置
-                    int lastItemPosition = linearManager.findLastVisibleItemPosition();
+                    //int lastItemPosition = linearManager.findLastVisibleItemPosition();
                     //获取第一个可见view的位置
                     int firstItemPosition = linearManager.findFirstVisibleItemPosition();
-                    LogUtils.loge(state + "...." + firstItemPosition + "...." + lastItemPosition);
+                    LogUtils.loge(firstItemPosition + "...." );
+                    if (linearManager.findFirstVisibleItemPosition()>=2){
+                        NewsInforModel.ListBean listBean = arrayList.get(firstItemPosition - 2);
+                        Date dateByFormat = TimeUtil.getDateByFormat(listBean.getTimes(), TimeUtil.dateFormatYMDHMS);
+                        String stringByFormat = TimeUtil.getStringByFormat(dateByFormat, TimeUtil.dateFormatYMD2);
+                        LogUtils.loge(stringByFormat);
+                        tv_time.setText(stringByFormat);
+                    }
                 }
             }
         });
@@ -180,7 +201,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         }
         //add a HeaderView
         final View header = LayoutInflater.from(getContext()).inflate(R.layout.adv_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
-        RelativeLayout rl_adroot = (RelativeLayout) header.findViewById(R.id.rl_adroot);
+        final RelativeLayout rl_adroot = (RelativeLayout) header.findViewById(R.id.rl_adroot);
         ViewPager viewpager = (ViewPager) header.findViewById(R.id.viewpager);
         LinearLayout ly_dots = (LinearLayout) header.findViewById(R.id.ly_dots);
         adViewpagerUtil = new AdViewpagerUtil(getActivity(), viewpager, ly_dots, adList);
@@ -190,6 +211,13 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
             }
         });
         lRecyclerViewAdapter.addHeaderView(header);
+        rl_adroot.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                adv_height = rl_adroot.getHeight();
+                rl_adroot.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            }
+        });
     }
 
     //生命周期控制

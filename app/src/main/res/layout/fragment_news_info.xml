@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
     <com.github.jdsjlzx.recyclerview.LRecyclerView
         android:id="@+id/lrv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/nt_title"></com.github.jdsjlzx.recyclerview.LRecyclerView>
-
-    <com.yundian.star.widget.LoadingTip
-        android:id="@+id/loadingTip"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
-        android:gravity="center" />
+        android:layout_height="@dimen/dp_44"
+        android:background="@color/color_921224"
+        android:id="@+id/rl_time"
+        android:visibility="gone"
+        >
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/fontSize_16sp"
+            android:textColor="@color/color_fafafa"
+            android:text="2017/5/15"
+            android:layout_centerInParent="true"
+            />
 
-</RelativeLayout>
+
+    </RelativeLayout>
+</FrameLayout>
