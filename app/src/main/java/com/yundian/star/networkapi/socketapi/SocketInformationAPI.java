@@ -1,6 +1,7 @@
 package com.yundian.star.networkapi.socketapi;
 
 import com.yundian.star.app.SocketAPIConstant;
+import com.yundian.star.been.AdvBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.InformationAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
@@ -26,4 +27,15 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
                 SocketAPIConstant.ReqeutType.NewInfos, map);
         requestEntity(socketDataPacket,NewsInforModel.class,listener);
     }
+
+    @Override
+    public void advInfo(String code, int all, OnAPIListener<AdvBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("code", code);
+        map.put("all", all);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Banner,
+                SocketAPIConstant.ReqeutType.NewInfos, map);
+        requestEntity(socketDataPacket,AdvBeen.class,listener);
+    }
+
 }

@@ -53,5 +53,6 @@ public interface SocketAPIConstant {
         Short ResetPasswd = 3019;
         Short WangYi = 9005;
         Short NewInfo = 10013;
+        Short Banner = 10015;
     }
 }

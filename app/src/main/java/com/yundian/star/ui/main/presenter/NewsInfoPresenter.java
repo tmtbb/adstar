@@ -1,5 +1,6 @@
 package com.yundian.star.ui.main.presenter;
 
+import com.yundian.star.been.AdvBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.contract.NewInfoContract;
@@ -35,6 +36,21 @@ public class NewsInfoPresenter extends NewInfoContract.Presenter {
             public void onError(Throwable ex) {
                 LogUtils.logd(ex.toString());
                 mView.stopLoading();
+            }
+        });
+    }
+
+    @Override
+    public void getAdvertisement(String code, int all) {
+        NetworkAPIFactoryImpl.getInformationAPI().advInfo(code, all, new OnAPIListener<AdvBeen>() {
+            @Override
+            public void onSuccess(AdvBeen adv) {
+                mView.initAdv(adv);
+            }
+
+            @Override
+            public void onError(Throwable ex) {
+
             }
         });
     }

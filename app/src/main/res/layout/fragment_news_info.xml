@@ -13,7 +13,6 @@
         android:id="@+id/loadingTip"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/nt_title"
         android:layout_gravity="center"
         android:gravity="center" />
 

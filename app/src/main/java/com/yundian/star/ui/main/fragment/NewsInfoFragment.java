@@ -13,8 +13,10 @@ import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
+import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseFragment;
+import com.yundian.star.been.AdvBeen;
 import com.yundian.star.ui.main.adapter.NewsInforAdapter;
 import com.yundian.star.ui.main.contract.NewInfoContract;
 import com.yundian.star.ui.main.model.NewsInforModel;
@@ -64,7 +66,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
     @Override
     protected void initView() {
-        mPresenter.getData(false,"1","1",0,10,1);
+        mPresenter.getData(false, "1", "1", 0, REQUEST_COUNT, 1);
         initAdpter();
     }
 
@@ -74,34 +76,21 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         lRecyclerViewAdapter = new LRecyclerViewAdapter(newsInfoAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
         DividerDecoration divider = new DividerDecoration.Builder(getContext())
-                .setHeight(R.dimen.dp_1)
+                .setHeight(R.dimen.dp_0_5)
                 .setColorResource(R.color.color_cccccc)
                 .build();
         //mRecyclerView.setHasFixedSize(true);
+        mPresenter.getAdvertisement("1", 1);
         lrv.addItemDecoration(divider);
         lrv.setLayoutManager(new LinearLayoutManager(getContext()));
         lrv.setPullRefreshEnabled(false);
-        //add a HeaderView
-        final View header = LayoutInflater.from(getContext()).inflate(R.layout.adv_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
-        RelativeLayout rl_adroot = (RelativeLayout) header.findViewById(R.id.rl_adroot);
-        ViewPager viewpager = (ViewPager) header.findViewById(R.id.viewpager);
-        LinearLayout ly_dots = (LinearLayout) header.findViewById(R.id.ly_dots);
-        String adList[] = {"http://img02.tooopen.com/downs/images/2010/9/16/sy_2010091620583620405.jpg", "http://pic15.nipic.com/20110731/8022110_162804602317_2.jpg"};
-        adViewpagerUtil = new AdViewpagerUtil(getActivity(), viewpager, ly_dots, adList);
-        adViewpagerUtil.setOnAdItemClickListener(new AdViewpagerUtil.OnAdItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position, String url) {
-            }
-        });
-
+        lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                mPresenter.getData(true,"1","1",mCurrentCounter+1,mCurrentCounter+1+REQUEST_COUNT,1);
+                mPresenter.getData(true, "1", "1", mCurrentCounter + 1, mCurrentCounter + 1 + REQUEST_COUNT, 1);
             }
         });
-
-        lRecyclerViewAdapter.addHeaderView(header);
         lrv.setLScrollListener(new LRecyclerView.LScrollListener() {
             @Override
             public void onScrollUp() {
@@ -127,7 +116,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
                     int lastItemPosition = linearManager.findLastVisibleItemPosition();
                     //获取第一个可见view的位置
                     int firstItemPosition = linearManager.findFirstVisibleItemPosition();
-                    LogUtils.loge(state+ "...." + firstItemPosition+"...."+lastItemPosition );
+                    LogUtils.loge(state + "...." + firstItemPosition + "...." + lastItemPosition);
                 }
             }
         });
@@ -161,13 +150,34 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
     @Override
     public void addMoreItems(ArrayList<NewsInforModel.ListBean> list) {
-        if (list==null||list.size()==0){
+        if (list == null || list.size() == 0) {
             lrv.setNoMore(true);
-        }else {
+        } else {
             newsInfoAdapter.addAll(list);
             mCurrentCounter += list.size();
             lrv.refreshComplete(REQUEST_COUNT);
         }
+    }
+
+    @Override
+    public void initAdv(AdvBeen o) {
+        String adList[] = new String[o.getList().size()];
+        for (int i = 0; i < o.getList().size(); i++) {
+            LogUtils.loge(o.getList().get(i).getPic_url());
+            adList[i] = o.getList().get(i).getPic_url();
+        }
+        //add a HeaderView
+        final View header = LayoutInflater.from(getContext()).inflate(R.layout.adv_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
+        RelativeLayout rl_adroot = (RelativeLayout) header.findViewById(R.id.rl_adroot);
+        ViewPager viewpager = (ViewPager) header.findViewById(R.id.viewpager);
+        LinearLayout ly_dots = (LinearLayout) header.findViewById(R.id.ly_dots);
+        adViewpagerUtil = new AdViewpagerUtil(getActivity(), viewpager, ly_dots, adList);
+        adViewpagerUtil.setOnAdItemClickListener(new AdViewpagerUtil.OnAdItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position, String url) {
+            }
+        });
+        lRecyclerViewAdapter.addHeaderView(header);
     }
 
     //生命周期控制
@@ -192,10 +202,10 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (hidden==false){
+        if (hidden == false) {
             mCurrentCounter = 0;
-            startProgressDialog("刷新中");
-            mPresenter.getData(false,"1","1",0,10,1);
+            lrv.setNoMore(false);
+            mPresenter.getData(false, "1", "1", 0, 10, 1);
             LogUtils.loge("刷新");
         }
     }
