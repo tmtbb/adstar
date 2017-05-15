@@ -4,6 +4,7 @@ package com.yundian.star.networkapi;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnBeen;
 import com.yundian.star.been.RegisterReturnWangYiBeen;
+import com.yundian.star.been.RegisterVerifyCodeBeen;
 import com.yundian.star.listener.OnAPIListener;
 
 /**
@@ -19,7 +20,7 @@ public interface UserAPI {
 //
     void register(String phone, String password, long memberId, String agentId, String recommend, OnAPIListener<RegisterReturnBeen> listener);
 //
-//    void verifyCode(String phone, int verifyType, OnAPIListener<VerifyCodeReturnEntry> listener);
+    void verifyCode(String phone, OnAPIListener<RegisterVerifyCodeBeen> listener);
 //
     void resetPasswd(String phone, String pwd,OnAPIListener<Object> listener); //修改交易/用户密码
 //

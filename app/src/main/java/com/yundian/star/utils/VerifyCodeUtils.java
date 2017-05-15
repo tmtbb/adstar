@@ -3,8 +3,7 @@ package com.yundian.star.utils;
 import android.content.Context;
 import android.view.View;
 
-import com.yundian.star.helper.CheckHelper;
-import com.yundian.star.widget.CheckException;
+import com.yundian.star.been.RegisterVerifyCodeBeen;
 import com.yundian.star.widget.WPEditText;
 
 
@@ -12,11 +11,9 @@ import com.yundian.star.widget.WPEditText;
  * Created by Administrator on 2017/2/22.
  */
 public class VerifyCodeUtils {
-    public static void getCode(WPEditText msgEditText, int verifyType, Context context, View view, WPEditText phoneEditText) {
-        String text = (String) msgEditText.getRightText().getTag();
-        if (StringUtil.isEmpty(text)) {
-            ToastUtils.showShort("请输入手机号码");
-        }
+    private  RegisterVerifyCodeBeen verifyCodeBeen ;
+    public void getCode() {
+
 //        else {
 //            if (Utils.isMobile(text))
 //                new CountUtil((TextView) msgEditText.getRightText()).start();
@@ -24,19 +21,11 @@ public class VerifyCodeUtils {
 //                ToastUtils.show(context, "请输入正确的手机号码");
 //        }
 
-        LogUtils.logd("请求网络获取短信验证码------------------------------");
-        CheckException exception = new CheckException();
-        String phoneEdit = phoneEditText.getEditTextString();
-        if (new CheckHelper().checkMobile(phoneEdit, exception)) {
-            Utils.closeSoftKeyboard(view);
-            //obtainAuthCode(msgEditText,context,phoneEdit, verifyType);//获取验证码
-        } else {
-            ToastUtils.showShort(exception.getErrorMsg());
-        }
+
     }
 
-   /* private static void obtainAuthCode(final WPEditText msgEditText, final Context context, String phoneEdit, final int verifyType) {
-        NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit, verifyType, new OnAPIListener<VerifyCodeReturnEntry>() {
+    private void obtainAuthCode(final WPEditText msgEditText,String phoneEdit) {
+        /*NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit, verifyType, new OnAPIListener<Object>() {
             @Override
             public void onError(Throwable ex) {
                 ex.printStackTrace();
@@ -59,6 +48,9 @@ public class VerifyCodeUtils {
                     //更新服务
                 }
             }
-        });
-    }*/
+        });*/
+
+
+
+    }
 }

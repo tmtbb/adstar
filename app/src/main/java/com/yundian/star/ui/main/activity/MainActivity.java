@@ -1,21 +1,37 @@
 package com.yundian.star.ui.main.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.netease.nim.uikit.LoginSyncDataStatusObserver;
+import com.netease.nim.uikit.common.ui.dialog.DialogMaker;
+import com.netease.nim.uikit.permission.MPermission;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionDenied;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionGranted;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionNeverAskAgain;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.StatusBarNotificationConfig;
+import com.netease.nimlib.sdk.mixpush.MixPushService;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.TabEntity;
 import com.yundian.star.ui.im.fragment.DifferAnswerFragment;
+import com.yundian.star.ui.main.fragment.MarketFragment;
 import com.yundian.star.ui.main.fragment.NewsInfoFragment;
 import com.yundian.star.ui.main.fragment.TestFragment;
+import com.yundian.star.ui.wangyi.chatroom.helper.ChatRoomHelper;
+import com.yundian.star.ui.wangyi.config.preference.UserPreferences;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 
@@ -34,9 +50,10 @@ public class MainActivity extends BaseActivity {
             R.drawable.ic_home_selected,R.drawable.ic_home_selected, R.drawable.ic_home_selected,R.drawable.ic_home_selected,R.drawable.ic_home_selected};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private NewsInfoFragment newsInfoFragment;
-    private TestFragment testFragment2;
+    private MarketFragment marketFragment;
     private TestFragment testFragment3;
     private DifferAnswerFragment differAnswerFragment;
+    private final int BASIC_PERMISSION_REQUEST_CODE = 100;
     private TestFragment testFragment5;
 
     @Override
@@ -58,26 +75,30 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         //初始化frament
         initFragment(savedInstanceState);
+        requestBasicPermission();
+        initWangYi();
     }
+
+
 
     private void initFragment(Bundle savedInstanceState) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         int currentTabPosition = 0;
         if (savedInstanceState != null) {
             newsInfoFragment = (NewsInfoFragment) getSupportFragmentManager().findFragmentByTag("NewsInfoFragment");
-            testFragment2 = (TestFragment) getSupportFragmentManager().findFragmentByTag("TestFragment2");
+            marketFragment = (MarketFragment) getSupportFragmentManager().findFragmentByTag("MarketFragment");
             testFragment3 = (TestFragment) getSupportFragmentManager().findFragmentByTag("TestFragment3");
             differAnswerFragment = (DifferAnswerFragment) getSupportFragmentManager().findFragmentByTag("DifferAnswerFragment");
             testFragment5 = (TestFragment) getSupportFragmentManager().findFragmentByTag("TestFragment5");
             currentTabPosition = savedInstanceState.getInt(AppConstant.HOME_CURRENT_TAB_POSITION);
         } else {
             newsInfoFragment = new NewsInfoFragment();
-            testFragment2 = new TestFragment();
+            marketFragment = new MarketFragment();
             testFragment3 = new TestFragment();
             differAnswerFragment = new DifferAnswerFragment();
             testFragment5 = new TestFragment();
             transaction.add(R.id.fl_main, newsInfoFragment, "NewsInfoFragment");
-            transaction.add(R.id.fl_main, testFragment2, "TestFragment2");
+            transaction.add(R.id.fl_main, marketFragment, "MarketFragment");
             transaction.add(R.id.fl_main, testFragment3, "TestFragment3");
             transaction.add(R.id.fl_main, differAnswerFragment, "DifferAnswerFragment");
             transaction.add(R.id.fl_main, testFragment5, "TestFragment5");
@@ -108,6 +129,28 @@ public class MainActivity extends BaseActivity {
             outState.putInt(AppConstant.HOME_CURRENT_TAB_POSITION, tabLayout.getCurrentTab());
         }
     }
+
+    private void initWangYi() {
+        // 等待同步数据完成
+        boolean syncCompleted = LoginSyncDataStatusObserver.getInstance().observeSyncDataCompletedEvent(new Observer<Void>() {
+            @Override
+            public void onEvent(Void v) {
+
+                syncPushNoDisturb(UserPreferences.getStatusConfig());
+
+                DialogMaker.dismissProgressDialog();
+            }
+        });
+
+        LogUtils.logd("sync completed = " + syncCompleted);
+        if (!syncCompleted) {
+            DialogMaker.showProgressDialog(MainActivity.this, getString(R.string.prepare_data)).setCanceledOnTouchOutside(false);
+        } else {
+            syncPushNoDisturb(UserPreferences.getStatusConfig());
+        }
+        // 聊天室初始化
+        ChatRoomHelper.init();
+    }
     /**
      * 切换
      */
@@ -116,7 +159,7 @@ public class MainActivity extends BaseActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (position) {
             case 0:
-                transaction.hide(testFragment2);
+                transaction.hide(marketFragment);
                 transaction.hide(testFragment3);
                 transaction.hide(differAnswerFragment);
                 transaction.hide(testFragment5);
@@ -128,11 +171,11 @@ public class MainActivity extends BaseActivity {
                 transaction.hide(testFragment3);
                 transaction.hide(differAnswerFragment);
                 transaction.hide(testFragment5);
-                transaction.show(testFragment2);
+                transaction.show(marketFragment);
                 transaction.commitAllowingStateLoss();
                 break;
             case 2:
-                transaction.hide(testFragment2);
+                transaction.hide(marketFragment);
                 transaction.hide(newsInfoFragment);
                 transaction.hide(differAnswerFragment);
                 transaction.hide(testFragment5);
@@ -140,7 +183,7 @@ public class MainActivity extends BaseActivity {
                 transaction.commitAllowingStateLoss();
                 break;
             case 3:
-                transaction.hide(testFragment2);
+                transaction.hide(marketFragment);
                 transaction.hide(testFragment3);
                 transaction.hide(newsInfoFragment);
                 transaction.hide(testFragment5);
@@ -148,7 +191,7 @@ public class MainActivity extends BaseActivity {
                 transaction.commitAllowingStateLoss();
                 break;
             case 4:
-                transaction.hide(testFragment2);
+                transaction.hide(marketFragment);
                 transaction.hide(testFragment3);
                 transaction.hide(newsInfoFragment);
                 transaction.hide(differAnswerFragment);
@@ -188,4 +231,59 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 基本权限管理
+     */
+    private final String[] BASIC_PERMISSIONS = new String[]{
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.RECORD_AUDIO,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION
+    };
+
+    private void requestBasicPermission() {
+        MPermission.printMPermissionResult(true, this, BASIC_PERMISSIONS);
+        MPermission.with(MainActivity.this)
+                .setRequestCode(BASIC_PERMISSION_REQUEST_CODE)
+                .permissions(BASIC_PERMISSIONS)
+                .request();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+    }
+
+    @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionSuccess() {
+        MPermission.printMPermissionResult(false, this, BASIC_PERMISSIONS);
+    }
+
+    @OnMPermissionDenied(BASIC_PERMISSION_REQUEST_CODE)
+    @OnMPermissionNeverAskAgain(BASIC_PERMISSION_REQUEST_CODE)
+    public void onBasicPermissionFailed() {
+        Toast.makeText(this, "未全部授权，部分功能可能无法正常运行！", Toast.LENGTH_SHORT).show();
+        MPermission.printMPermissionResult(false, this, BASIC_PERMISSIONS);
+    }
+
+    /**
+     * 若增加第三方推送免打扰（V3.2.0新增功能），则：
+     * 1.添加下面逻辑使得 push 免打扰与先前的设置同步。
+     * 2.设置界面 com.netease.nim.demo.main.activity.SettingsActivity 以及
+     * 免打扰设置界面 com.netease.nim.demo.main.activity.NoDisturbActivity 也应添加 push 免打扰的逻辑
+     * <p>
+     * 注意：isPushDndValid 返回 false， 表示未设置过push 免打扰。
+     */
+    private void syncPushNoDisturb(StatusBarNotificationConfig staConfig) {
+
+        boolean isNoDisbConfigExist = NIMClient.getService(MixPushService.class).isPushNoDisturbConfigExist();
+
+        if (!isNoDisbConfigExist && staConfig.downTimeToggle) {
+            NIMClient.getService(MixPushService.class).setPushNoDisturbConfig(staConfig.downTimeToggle,
+                    staConfig.downTimeBegin, staConfig.downTimeEnd);
+        }
+    }
 }

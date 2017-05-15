@@ -76,6 +76,8 @@
 
         <activity android:name=".ui.im.activity.StarCommunicationBookActivity"></activity>
 
+        <activity android:name=".ui.main.activity.NewsBrowserActivity"></activity>
+
 
         <!-- APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
             如果 SDKOptions 中提供了，取 SDKOptions 中的值。 -->
@@ -425,7 +427,15 @@
         <meta-data
             android:name="com.netease.cosine.target.receiver"
             android:value="com.netease.nimlib.service.NimReceiver"/>
-
+        <provider
+            android:authorities="${applicationId}.provider"
+            android:name="android.support.v4.content.FileProvider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths"/>
+        </provider>
 
 
 

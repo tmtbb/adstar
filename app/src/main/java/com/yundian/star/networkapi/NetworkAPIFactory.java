@@ -21,5 +21,6 @@ public interface NetworkAPIFactory {
      */
     DealAPI getDealAPI();
 
+    InformationAPI getInformationAPI();
 
 }

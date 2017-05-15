@@ -1,15 +1,21 @@
 package com.yundian.star.ui.main.activity;
 
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.been.RegisterVerifyCodeBeen;
 import com.yundian.star.helper.CheckHelper;
 import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIException;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
+import com.yundian.star.utils.CountUtil;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.MD5Util;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.CheckException;
 import com.yundian.star.widget.NormalTitleBar;
@@ -37,6 +43,8 @@ public class ResetUserPwdActivity extends BaseActivity {
     @Bind(R.id.okButton)
     Button okButton;
 
+    private RegisterVerifyCodeBeen verifyCodeBeen ;
+
     private CheckHelper checkHelper = new CheckHelper();
 
     @Override
@@ -55,8 +63,7 @@ public class ResetUserPwdActivity extends BaseActivity {
         nt_title.setTitleText(getString(R.string.butten_reset_psd));
         phoneEditText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         //当验证码接口有了后才用下面的方法
-        //checkHelper.checkButtonState(okButton, phoneEditText, msgEditText, pwdEditText1, pwdEditText2);
-        checkHelper.checkButtonState(okButton, phoneEditText, pwdEditText1, pwdEditText2);
+        checkHelper.checkButtonState(okButton, phoneEditText, msgEditText, pwdEditText1, pwdEditText2);
         checkHelper.checkVerificationCode(msgEditText.getRightText(), phoneEditText);
         /*msgEditText.getRightText().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,6 +73,17 @@ public class ResetUserPwdActivity extends BaseActivity {
                 VerifyCodeUtils.getCode(msgEditText, verifyType, context, v, phoneEditText);
             }
         });*/
+        msgEditText.getRightText().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!SocketAPINettyBootstrap.getInstance().isOpen()) {
+                    ToastUtils.showShort("网络连接失败,请检查网络");
+                    return;
+                }
+                getCode(msgEditText,view, phoneEditText);
+            }
+        });
+
 
     }
 
@@ -86,23 +104,53 @@ public class ResetUserPwdActivity extends BaseActivity {
     }
 
     private void resetUserPwd() {
+        //本地校验验证码   MD5(yd1742653sd + code_time + rand_code + phone)
+        if (!verifyCodeBeen.getVToken().equals(MD5Util.MD5("yd1742653sd" + verifyCodeBeen.getTimeStamp() + msgEditText.getEditTextString()+phoneEditText.getEditTextString()))) {
+            ToastUtils.showShort("验证码错误,请重新输入");
+            return;
+        }
         //int type = 0;//0：登录密码 1：交易密码，提现密码
         NetworkAPIFactoryImpl.getUserAPI().resetPasswd(phoneEditText.getEditTextString(), pwdEditText2.getEditTextString()
                 ,new OnAPIListener<Object>() {
                     @Override
                     public void onError(Throwable ex) {
-                        ex.printStackTrace();
                         ToastUtils.showShort("修改登录密码失败");
+                        ex.printStackTrace();
                     }
 
                     @Override
                     public void onSuccess(Object o) {
-                        ToastUtils.showShort("修改登录密码成功"+o.toString());
+                        ToastUtils.showShort("修改登录密码成功");
                         finish();
                         startActivity(LoginActivity.class);
                         overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
                     }
                 });
+    }
+
+    private void getCode(final WPEditText msgEditText,View view, WPEditText phoneEditText) {
+        LogUtils.logd("请求网络获取短信验证码------------------------------");
+        CheckException exception = new CheckException();
+        String phoneEdit = phoneEditText.getEditTextString();
+        if (new CheckHelper().checkMobile(phoneEdit, exception)) {
+            //Utils.closeSoftKeyboard(view);
+            NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit, new OnAPIListener<RegisterVerifyCodeBeen>()  {
+                @Override
+                public void onError(Throwable ex) {
+                    ex.printStackTrace();
+                    LogUtils.logd("验证码请求网络错误------------------"+((NetworkAPIException) ex).getErrorCode());
+                }
+
+                @Override
+                public void onSuccess(RegisterVerifyCodeBeen o) {
+                    verifyCodeBeen = o ;
+                    new CountUtil((TextView) msgEditText.getRightText()).start();   //收到回调才开启计时
+                    LogUtils.logd("获取到--注册短信验证码,时间戳是:" + o.toString());
+                }
+            });
+        } else {
+            ToastUtils.showShort(exception.getErrorMsg());
+        }
     }
 
 }

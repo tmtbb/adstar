@@ -59,6 +59,10 @@
     <string name="main_msg_unread_msg_count">[%d条]</string>
     <string name="out_time">超时</string>
     <string name="prepare_data">正在准备数据...</string>
+    <string name="all_market_detail">全部</string>
+    <string name="new_price_market_detail_1">最新价</string>
+    <string name="new_price_market_detail_2">元/秒</string>
+    <string name="price_limit">涨跌幅</string>
 
     <string name="readed">已读</string>
     <string name="about">关于</string>

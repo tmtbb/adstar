@@ -31,11 +31,16 @@
         <item name="dayNightThreeTextColor">@color/night_there_text_color</item>
         <item name="dayNightBackgroundDrawable">@color/night_there_text_color</item>
     </style>
-    <!--普通dialog-->
+    <!--dialog-->
     <style name="CustomProgressDialog" parent="@style/CustomDialog">
         <item name="android:windowBackground">@android:color/transparent</item>
+        <!--背景是否变暗，可以控制背景是半透明还是全透明-->
+        <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowNoTitle">true</item>
     </style>
+
+
+
 
     <style name="CustomDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
@@ -169,5 +174,11 @@
         <item name="android:layout_height">2px</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:background">@color/color_gray_d9d9d9</item>
+    </style>
+
+    <style name="CustomTabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:singleLine">true</item>
     </style>
 </resources>

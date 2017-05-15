@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FF000000</color>
+    <color name="colorPrimary">#FFFFFFFF</color>
     <color name="colorPrimaryDark">#FF000000</color>
     <color name="colorAccent">#FF000000</color>
     <!--白天主题-->
@@ -215,5 +215,6 @@
     <color name="color_black_ff666666">#ff666666</color>
     <color name="color_black_ff999999">#ff999999</color>
     <color name="color_gray_bfc2c5">#bfc2c5</color>
+    <color name="color_921224">#921224</color>
 
 </resources>

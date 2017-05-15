@@ -6,9 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
+import android.support.v4.content.FileProvider;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -130,7 +132,13 @@ public class PickImageActivity extends UI {
             }
             File outputFile = new File(outPath);
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(outputFile));
+            Uri photoURI;
+            if (Build.VERSION.SDK_INT >= 24) {
+                photoURI = FileProvider.getUriForFile(this, this.getApplicationContext().getPackageName() + ".provider", outputFile);
+            } else {
+                photoURI = Uri.fromFile(outputFile);
+            }
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
             startActivityForResult(intent, REQUEST_CODE_CAMERA);
         } catch (ActivityNotFoundException e) {
             finish();

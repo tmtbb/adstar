@@ -5,14 +5,13 @@ import com.yundian.star.app.SocketAPIConstant;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnBeen;
 import com.yundian.star.been.RegisterReturnWangYiBeen;
+import com.yundian.star.been.RegisterVerifyCodeBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.UserAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.utils.LogUtils;
 
 import java.util.HashMap;
-
-import static android.R.attr.password;
 
 /**
  * Created by yaowang on 2017/2/20.
@@ -52,6 +51,15 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Register,
                 SocketAPIConstant.ReqeutType.User, map);
         requestEntity(socketDataPacket, RegisterReturnBeen.class, listener);
+    }
+
+    @Override
+    public void verifyCode(String phone, OnAPIListener<RegisterVerifyCodeBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("phone", phone);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.VerifyCode,
+                SocketAPIConstant.ReqeutType.User, map);
+        requestEntity(socketDataPacket, RegisterVerifyCodeBeen.class,listener);
     }
 
     @Override

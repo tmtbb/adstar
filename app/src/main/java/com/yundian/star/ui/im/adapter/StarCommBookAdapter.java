@@ -26,6 +26,6 @@ public class StarCommBookAdapter extends ListBaseAdapter<NewsInforModel> {
     public void onBindItemHolder(SuperViewHolder holder, int position) {
         NewsInforModel item = mDataList.get(position);
         TextView titleText = holder.getView(R.id.tv_name);
-        titleText.setText(item.getUsername());
+        //titleText.setText(item.getUsername());
     }
 }
