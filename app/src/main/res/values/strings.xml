@@ -30,6 +30,8 @@
     <string name="check_famous_address_book">查看名人通讯录</string>
     <string name="famous_address_book">名人通讯录</string>
     <string name="diff_answer">分答</string>
+    <string name="ming_xing">明星</string>
+    <string name="number_80004">8004</string>
 
 
     <string name="title_activity_main">MainActivity</string>

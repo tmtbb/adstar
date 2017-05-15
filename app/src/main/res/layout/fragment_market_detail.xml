@@ -25,14 +25,16 @@
             android:layout_weight="1"
             android:gravity="center"
             >
+
             <TextView
+                android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="@string/new_price_market_detail_1"
                 android:textColor="@color/font_333333"
-                android:textSize="@dimen/fontSize_14sp"
-                />
+                android:textSize="@dimen/fontSize_14sp" />
+
             <TextView
                 android:layout_marginLeft="@dimen/dp_2"
                 android:layout_width="wrap_content"
@@ -45,15 +47,43 @@
 
         </LinearLayout>
 
-        <TextView
-            android:gravity="center"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/price_limit"
-            
-            />
 
+
+        <LinearLayout
+            android:id="@+id/ll_select_order"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_weight="1"
+            android:gravity="center"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/price_limit"
+                android:textSize="@dimen/fontSize_14sp"
+                android:textColor="@color/font_333333"
+                />
+            <ImageView
+                android:id="@+id/iv_select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/select_up_down"
+                />
+        </LinearLayout>
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0.5"
+        android:background="@color/color_cccccc"
+        >
+    </View>
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/lrv"
+        >
+    </com.github.jdsjlzx.recyclerview.LRecyclerView>
 </LinearLayout>
