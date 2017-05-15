@@ -11,7 +11,7 @@ public class AppConstant {
     public static final String MENU_SHOW_HIDE="MENU_SHOW_HIDE";
 
     /* 新闻*/
-    public static final String NEWS_ID = "news_id";
+    public static final String MARKET_DETAIL_ID = "market_detail_id";
     public static final String NEWS_TYPE = "news_type";
     public static final String CHANNEL_POSITION = "channel_position";
     public static final String CHANNEL_MINE = "CHANNEL_MINE";

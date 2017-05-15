@@ -82,7 +82,7 @@ public class LoginActivity extends BaseActivity{
             NetworkAPIFactoryImpl.getUserAPI().login(userNameEditText.getEditTextString(), passwordEditText.getEditTextString(), new OnAPIListener<LoginReturnInfo>() {
                 @Override
                 public void onError(Throwable ex) {
-                    LogUtils.logd("登录失败"+ex.toString());
+                    LogUtils.logd("登录失败_____"+ex.toString());
                 }
 
                 @Override

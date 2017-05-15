@@ -175,4 +175,10 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:background">@color/color_gray_d9d9d9</item>
     </style>
+
+    <style name="CustomTabLayoutTextAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:singleLine">true</item>
+    </style>
 </resources>

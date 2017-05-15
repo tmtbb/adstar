@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.yundian.star.widget.NormalTitleBar
+        android:id="@id/nt_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        ></com.yundian.star.widget.NormalTitleBar>
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tabs"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        app:tabBackground="@color/toast_white"
+        app:tabIndicatorColor="@color/color_8C0808"
+        app:tabSelectedTextColor="@color/color_8C0808"
+        app:tabGravity="fill"
+        app:tabTextAppearance="@style/CustomTabLayoutTextAppearance"
+        app:tabTextColor="@color/color_C2CFD8">
+    </android.support.design.widget.TabLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </android.support.v4.view.ViewPager>
+</LinearLayout>
