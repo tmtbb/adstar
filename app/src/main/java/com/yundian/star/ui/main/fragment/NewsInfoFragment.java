@@ -64,6 +64,8 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     private static final int REQUEST_COUNT = 10;
     private AdViewpagerUtil adViewpagerUtil;
     private int adv_height;
+    private View header;
+    private RelativeLayout rl_adroot;
 
     @Override
     protected int getLayoutResource() {
@@ -77,13 +79,13 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
     @Override
     protected void initView() {
-        mPresenter.getData(false, "1", "1", 0, REQUEST_COUNT, 1);
         initAdpter();
+        mPresenter.getAdvertisement("1", 1);
+        mPresenter.getData(false, "1", "1", 0, REQUEST_COUNT, 1);
     }
 
     private void initAdpter() {
         newsInfoAdapter = new NewsInforAdapter(getActivity());
-        newsInfoAdapter.setDataList(arrayList);
         lRecyclerViewAdapter = new LRecyclerViewAdapter(newsInfoAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
         DividerDecoration divider = new DividerDecoration.Builder(getContext())
@@ -91,7 +93,6 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
                 .setColorResource(R.color.color_cccccc)
                 .build();
         //mRecyclerView.setHasFixedSize(true);
-        mPresenter.getAdvertisement("1", 1);
         lrv.addItemDecoration(divider);
         lrv.setLayoutManager(new LinearLayoutManager(getContext()));
         lrv.setPullRefreshEnabled(false);
@@ -124,12 +125,6 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
             @Override
             public void onScrolled(int distanceX, int distanceY) {
-                LogUtils.loge(distanceY+"...adv_height。。。"+adv_height);
-                if (distanceY>adv_height){
-                    rl_time.setVisibility(View.VISIBLE);
-                }else {
-                    rl_time.setVisibility(View.GONE);
-                }
             }
 
             @Override
@@ -143,11 +138,14 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
                     int firstItemPosition = linearManager.findFirstVisibleItemPosition();
                     LogUtils.loge(firstItemPosition + "...." );
                     if (linearManager.findFirstVisibleItemPosition()>=2){
+                        rl_time.setVisibility(View.VISIBLE);
                         NewsInforModel.ListBean listBean = arrayList.get(firstItemPosition - 2);
                         Date dateByFormat = TimeUtil.getDateByFormat(listBean.getTimes(), TimeUtil.dateFormatYMDHMS);
                         String stringByFormat = TimeUtil.getStringByFormat(dateByFormat, TimeUtil.dateFormatYMD2);
                         LogUtils.loge(stringByFormat);
                         tv_time.setText(stringByFormat);
+                    }else {
+                        rl_time.setVisibility(View.GONE);
                     }
                 }
             }
@@ -175,6 +173,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         arrayList = list;
         mCurrentCounter = list.size();
         newsInfoAdapter.clear();
+        //newsInfoAdapter.setDataList(arrayList);
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         newsInfoAdapter.addAll(list);
         lrv.refreshComplete(REQUEST_COUNT);
@@ -200,14 +199,15 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
             adList[i] = o.getList().get(i).getPic_url();
         }
         //add a HeaderView
-        final View header = LayoutInflater.from(getContext()).inflate(R.layout.adv_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
-        final RelativeLayout rl_adroot = (RelativeLayout) header.findViewById(R.id.rl_adroot);
+        header = LayoutInflater.from(getContext()).inflate(R.layout.adv_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
+        rl_adroot = (RelativeLayout) header.findViewById(R.id.rl_adroot);
         ViewPager viewpager = (ViewPager) header.findViewById(R.id.viewpager);
         LinearLayout ly_dots = (LinearLayout) header.findViewById(R.id.ly_dots);
         adViewpagerUtil = new AdViewpagerUtil(getActivity(), viewpager, ly_dots, adList);
         adViewpagerUtil.setOnAdItemClickListener(new AdViewpagerUtil.OnAdItemClickListener() {
             @Override
             public void onItemClick(View v, int position, String url) {
+
             }
         });
         lRecyclerViewAdapter.addHeaderView(header);
