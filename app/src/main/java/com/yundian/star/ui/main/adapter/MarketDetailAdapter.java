@@ -1,18 +1,20 @@
 package com.yundian.star.ui.main.adapter;
 
 import android.content.Context;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yundian.star.R;
 import com.yundian.star.base.ListBaseAdapter;
 import com.yundian.star.base.SuperViewHolder;
-import com.yundian.star.ui.main.model.TestModel;
+import com.yundian.star.been.OptionsStarListBeen;
+import com.yundian.star.utils.ImageLoaderUtils;
 
 /**
  * Created by Administrator on 2017/5/15.
  */
 
-public class MarketDetailAdapter extends ListBaseAdapter<TestModel> {
+public class MarketDetailAdapter extends ListBaseAdapter<OptionsStarListBeen.ListBean> {
     public MarketDetailAdapter(Context context) {
         super(context);
     }
@@ -25,9 +27,16 @@ public class MarketDetailAdapter extends ListBaseAdapter<TestModel> {
 
     @Override
     public void onBindItemHolder(SuperViewHolder holder, int position) {
-        TestModel item = mDataList.get(position);
+        OptionsStarListBeen.ListBean item = mDataList.get(position);
+        ImageView imageView = holder.getView(R.id.image_star);
         TextView tv_name = holder.getView(R.id.tv_name);
+        TextView tv_code = holder.getView(R.id.tv_code);
         TextView tv_price = holder.getView(R.id.tv_price);
-        tv_name.setText(item.getUsername());
+        TextView tv_updown = holder.getView(R.id.tv_updown);
+        ImageLoaderUtils.display(mContext,imageView,item.getHead());
+        tv_name.setText(item.getName());
+        tv_code.setText(item.getStarcode());
+        tv_price.setText(String.valueOf(item.getPrice()));
+        tv_updown.setText(String.valueOf(item.getUpdown()));
     }
 }

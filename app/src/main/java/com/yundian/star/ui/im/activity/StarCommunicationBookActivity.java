@@ -31,7 +31,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
     private ArrayList<NewsInforModel> arrayList;
     private StarCommBookAdapter sarCommBookAdapter;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
-    private static int mCurrentCounter = 0;
+    private static int mCurrentCounter = 1;
     private static final int TOTAL_COUNTER = 34;
 
     @Override
@@ -86,7 +86,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
 
                 sarCommBookAdapter.clear();
                 lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
-                mCurrentCounter = 0;
+                mCurrentCounter = 1;
                 //startProgressDialog("刷新中");
                 requestData();
             }

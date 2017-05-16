@@ -3,6 +3,7 @@ package com.yundian.star.networkapi.socketapi;
 import com.yundian.star.app.SocketAPIConstant;
 import com.yundian.star.base.SearchReturnbeen;
 import com.yundian.star.been.AdvBeen;
+import com.yundian.star.been.OptionsStarListBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.InformationAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
@@ -46,6 +47,17 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.SearchStar,
                 SocketAPIConstant.ReqeutType.SearchStar, map);
         requestEntity(socketDataPacket,SearchReturnbeen.class,listener);
+    }
+
+    @Override
+    public void getOptionsStarList(String phone, int startnum, int endnum, OnAPIListener<OptionsStarListBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("phone", phone);
+        map.put("startnum", startnum);
+        map.put("endnum", endnum);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.OptionStarList,
+                SocketAPIConstant.ReqeutType.SearchStar, map);
+        requestEntity(socketDataPacket,OptionsStarListBeen.class,listener);
     }
 
 }

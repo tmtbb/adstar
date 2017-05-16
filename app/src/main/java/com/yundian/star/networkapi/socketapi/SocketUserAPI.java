@@ -30,8 +30,9 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
     }
 
     @Override
-    public void registerWangYi(String name_value, String accid_value, OnAPIListener<RegisterReturnWangYiBeen> listener) {
+    public void registerWangYi(String phone,String name_value, String accid_value, OnAPIListener<RegisterReturnWangYiBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
+        map.put("phone", phone);
         map.put("name_value", name_value);
         map.put("accid_value", accid_value);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.WangYi,

@@ -56,5 +56,6 @@ public interface SocketAPIConstant {
         Short NewInfo = 10013;
         Short Banner = 10015;
         Short SearchStar = 11007;
+        Short OptionStarList = 11013;
     }
 }

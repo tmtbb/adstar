@@ -95,6 +95,10 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void afterTextChanged(Editable s) {
                 if (TextUtils.isEmpty(s.toString().trim())){
+                    list.clear();
+                    searchListAdapter.clear();
+                    recyclerViewAdapter.notifyDataSetChanged();
+                    lrv.refresh();
                     return;
                 }
                 NetworkAPIFactoryImpl.getInformationAPI().searchStar(s.toString(), new OnAPIListener<SearchReturnbeen>() {

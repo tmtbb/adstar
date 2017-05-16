@@ -92,7 +92,7 @@ public class LoginActivity extends BaseActivity{
                     }else {
                         LogUtils.logd("登录成功"+loginReturnInfo);
                         //网易云注册
-                        NetworkAPIFactoryImpl.getUserAPI().registerWangYi(userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), new OnAPIListener<RegisterReturnWangYiBeen>() {
+                        NetworkAPIFactoryImpl.getUserAPI().registerWangYi(userNameEditText.getEditTextString(),userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), new OnAPIListener<RegisterReturnWangYiBeen>() {
                             @Override
                             public void onError(Throwable ex) {
                                 LogUtils.logd("网易云注册失败"+ex.toString());

@@ -224,7 +224,6 @@ public class MainActivity extends BaseActivity {
     private void checkIsLogin() {
         int firstlogin = SharePrefUtil.getInstance().getFirstlogin();
         String phoneNum = SharePrefUtil.getInstance().getPhoneNum();
-        LogUtils.loge(phoneNum);
         if (TextUtils.isEmpty(phoneNum)) { // 第一次登录, 需要走登录流程
             startActivity(new Intent(this,LoginActivity.class));
             overridePendingTransition(R.anim.activity_open_down_in,0);
@@ -237,6 +236,7 @@ public class MainActivity extends BaseActivity {
     private final String[] BASIC_PERMISSIONS = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.INTERNET,
             Manifest.permission.CAMERA,
             Manifest.permission.READ_PHONE_STATE,
             Manifest.permission.RECORD_AUDIO,
