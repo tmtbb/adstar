@@ -20,5 +20,6 @@ public interface InformationAPI {
     void searchStar(String code,OnAPIListener<SearchReturnbeen> listener);
     void getOptionsStarList(String phone,int startnum,int endnum,OnAPIListener<OptionsStarListBeen> listener);
     void getMarketKype(String phone,OnAPIListener<MarketTypeBeen> listener);
+    void getMarketstar(int type,int startnum,int endnum,OnAPIListener<OptionsStarListBeen> listener);
 
 }

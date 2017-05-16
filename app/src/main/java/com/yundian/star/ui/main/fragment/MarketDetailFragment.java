@@ -13,6 +13,7 @@ import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
+import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.OptionsStarListBeen;
 import com.yundian.star.listener.OnAPIListener;
@@ -59,6 +60,8 @@ public class MarketDetailFragment extends BaseFragment {
             }
         }
     };
+    private String marketDetailName;
+    private int marketDetailType;
 
     private void loadMoreData() {
         if (loadList == null || list.size() == 0) {
@@ -91,30 +94,57 @@ public class MarketDetailFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        if (getArguments()!=null){
+            marketDetailName = getArguments().getString(AppConstant.MARKET_DETAIL_NAME);
+            marketDetailType = getArguments().getInt(AppConstant.MARKET_DETAIL_TYPE);
+        }
         initAdpter();
         getData(false,1,REQUEST_COUNT);
     }
 
     private void getData(final boolean isLoadMore, int start, int end) {
-        NetworkAPIFactoryImpl.getInformationAPI().getOptionsStarList(/*SharePrefUtil.getInstance().getPhoneNum()*/1770640+"",start,end, new OnAPIListener<OptionsStarListBeen>() {
-            @Override
-            public void onError(Throwable ex) {
+        if (marketDetailType==0){
+            NetworkAPIFactoryImpl.getInformationAPI().getOptionsStarList(/*SharePrefUtil.getInstance().getPhoneNum()*/1770640+"",start,end, new OnAPIListener<OptionsStarListBeen>() {
+                @Override
+                public void onError(Throwable ex) {
 
-            }
-
-            @Override
-            public void onSuccess(OptionsStarListBeen optionsStarListBeen) {
-                if (isLoadMore){
-                    loadList.clear();
-                    loadList = optionsStarListBeen.getList();
-                    myHandler.sendEmptyMessage(LOAD_DATA);
-                }else {
-                    list.clear();
-                    list = optionsStarListBeen.getList();
-                    myHandler.sendEmptyMessage(GET_DATA);
                 }
-            }
-        });
+
+                @Override
+                public void onSuccess(OptionsStarListBeen optionsStarListBeen) {
+                    if (isLoadMore){
+                        loadList.clear();
+                        loadList = optionsStarListBeen.getList();
+                        myHandler.sendEmptyMessage(LOAD_DATA);
+                    }else {
+                        list.clear();
+                        list = optionsStarListBeen.getList();
+                        myHandler.sendEmptyMessage(GET_DATA);
+                    }
+                }
+            });
+        }else {
+            NetworkAPIFactoryImpl.getInformationAPI().getMarketstar(marketDetailType, start, end, new OnAPIListener<OptionsStarListBeen>() {
+                @Override
+                public void onError(Throwable ex) {
+
+                }
+
+                @Override
+                public void onSuccess(OptionsStarListBeen optionsStarListBeen) {
+                    if (isLoadMore){
+                        loadList.clear();
+                        loadList = optionsStarListBeen.getList();
+                        myHandler.sendEmptyMessage(LOAD_DATA);
+                    }else {
+                        list.clear();
+                        list = optionsStarListBeen.getList();
+                        myHandler.sendEmptyMessage(GET_DATA);
+                    }
+                }
+            });
+        }
+
 
 
     }

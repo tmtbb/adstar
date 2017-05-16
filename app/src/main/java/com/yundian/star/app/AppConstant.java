@@ -10,8 +10,9 @@ public class AppConstant {
     public static final String HOME_CURRENT_TAB_POSITION="HOME_CURRENT_TAB_POSITION";
     public static final String MENU_SHOW_HIDE="MENU_SHOW_HIDE";
 
-    /* 新闻*/
-    public static final String MARKET_DETAIL_ID = "market_detail_id";
+   /*行情*/
+    public static final String MARKET_DETAIL_NAME = "market_detail_name";
+    public static final String MARKET_DETAIL_TYPE= "market_detail_type";
     public static final String NEWS_TYPE = "news_type";
     public static final String CHANNEL_POSITION = "channel_position";
     public static final String CHANNEL_MINE = "CHANNEL_MINE";

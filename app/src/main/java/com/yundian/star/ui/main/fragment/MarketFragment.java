@@ -86,12 +86,10 @@ public class MarketFragment extends BaseFragment {
     }
 
     private void initFragment() {
-
         List<Fragment> mNewsFragmentList = new ArrayList<>();
         for (int i = 0; i < listType.size(); i++) {
-            mNewsFragmentList.add(createListFragments(i));
+            mNewsFragmentList.add(createListFragments(listType.get(i)));
         }
-
         if(fragmentAdapter==null) {
             fragmentAdapter = new MarketTypeFragmentAdapter(getChildFragmentManager(), mNewsFragmentList, listType);
         }else{
@@ -105,10 +103,11 @@ public class MarketFragment extends BaseFragment {
     }
 
 
-    private MarketDetailFragment createListFragments(int type) {
+    private MarketDetailFragment createListFragments(MarketTypeBeen.ListBean bean) {
         MarketDetailFragment fragment = new MarketDetailFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(AppConstant.MARKET_DETAIL_ID, String.valueOf(type));
+        bundle.putString(AppConstant.MARKET_DETAIL_NAME,bean.getName());
+        bundle.putInt(AppConstant.MARKET_DETAIL_TYPE,bean.getType());
         fragment.setArguments(bundle);
         return fragment;
     }

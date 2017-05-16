@@ -70,4 +70,15 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         requestEntity(socketDataPacket,MarketTypeBeen.class,listener);
     }
 
+    @Override
+    public void getMarketstar(int type, int startnum, int endnum, OnAPIListener<OptionsStarListBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("type", type);
+        map.put("startnum", startnum);
+        map.put("endnum", endnum);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.MarketStar,
+                SocketAPIConstant.ReqeutType.SearchStar, map);
+        requestEntity(socketDataPacket,OptionsStarListBeen.class,listener);
+    }
+
 }
