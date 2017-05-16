@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
@@ -74,14 +73,10 @@ public class MarketDetailFragment extends BaseFragment {
         marketDetailAdapter = new MarketDetailAdapter(getActivity());
         lRecyclerViewAdapter = new LRecyclerViewAdapter(marketDetailAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
-        DividerDecoration divider = new DividerDecoration.Builder(getContext())
-                .setHeight(R.dimen.dp_0_5)
-                .setColorResource(R.color.color_cccccc)
-                .build();
         //mRecyclerView.setHasFixedSize(true);
-        lrv.addItemDecoration(divider);
         lrv.setLayoutManager(new LinearLayoutManager(getContext()));
         lrv.setPullRefreshEnabled(false);
+        lrv.setLoadMoreEnabled(false);
         lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override

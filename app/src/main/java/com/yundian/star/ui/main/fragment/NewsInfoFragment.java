@@ -193,6 +193,9 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
     @Override
     public void initAdv(AdvBeen o) {
+        if (o.getList()==null||o.getList().size()==0){
+            return;
+        }
         String adList[] = new String[o.getList().size()];
         for (int i = 0; i < o.getList().size(); i++) {
             LogUtils.loge(o.getList().get(i).getPic_url());

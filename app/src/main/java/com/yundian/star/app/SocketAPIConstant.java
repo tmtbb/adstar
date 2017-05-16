@@ -17,6 +17,7 @@ public interface SocketAPIConstant {
         byte Pay = 7;
         byte Wangyi = 9;
         byte NewInfos = 10;
+        byte SearchStar = 11;
     }
 
     interface OperateCode {
@@ -54,5 +55,6 @@ public interface SocketAPIConstant {
         Short WangYi = 9005;
         Short NewInfo = 10013;
         Short Banner = 10015;
+        Short SearchStar = 11007;
     }
 }
