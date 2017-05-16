@@ -35,6 +35,7 @@
     <string name="search_hint">搜索发行人代码或名称</string>
     <string name="search_star_result_1">(</string>
     <string name="search_star_result_2">)</string>
+    <string name="option">自选</string>
 
 
     <string name="title_activity_main">MainActivity</string>

@@ -9,7 +9,10 @@ import android.view.View;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
-import com.yundian.star.base.BaseFragmentAdapter;
+import com.yundian.star.base.MarketTypeFragmentAdapter;
+import com.yundian.star.been.MarketTypeBeen;
+import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.SearchActivity;
 import com.yundian.star.utils.MyUtils;
 import com.yundian.star.widget.NormalTitleBar;
@@ -30,7 +33,8 @@ public class MarketFragment extends BaseFragment {
     TabLayout tabs ;
     @Bind(R.id.view_pager)
     ViewPager viewPager ;
-    private BaseFragmentAdapter fragmentAdapter;
+    private MarketTypeFragmentAdapter fragmentAdapter;
+    private List<MarketTypeBeen.ListBean> listType;
 
     @Override
     protected int getLayoutResource() {
@@ -48,8 +52,28 @@ public class MarketFragment extends BaseFragment {
         nt_title.setTitleText(R.string.star_hot);
         nt_title.setRightImagSrc(R.drawable.ic_home_normal);
         nt_title.setRightImagVisibility(true);
-        initFragment();
+        initType();
         initListener();
+    }
+
+    private void initType() {
+        NetworkAPIFactoryImpl.getInformationAPI().getMarketKype("", new OnAPIListener<MarketTypeBeen>() {
+            @Override
+            public void onError(Throwable ex) {
+
+            }
+
+            @Override
+            public void onSuccess(MarketTypeBeen marketTypeBeen) {
+                MarketTypeBeen.ListBean optional = new MarketTypeBeen.ListBean();
+                optional.setName(getResources().getString(R.string.option));
+                optional.setType(0);
+                listType = marketTypeBeen.getList();
+                listType.add(0,optional);
+                initFragment();
+
+            }
+        });
     }
 
     private void initListener() {
@@ -62,22 +86,17 @@ public class MarketFragment extends BaseFragment {
     }
 
     private void initFragment() {
-        List<String> tabTitle = new ArrayList<>();
-        tabTitle.add("自选");
-        tabTitle.add("艺人");
-        tabTitle.add("体育明星");
-        tabTitle.add("网红");
-        tabTitle.add("知名海外人士");
+
         List<Fragment> mNewsFragmentList = new ArrayList<>();
-        for (int i = 0; i < tabTitle.size(); i++) {
+        for (int i = 0; i < listType.size(); i++) {
             mNewsFragmentList.add(createListFragments(i));
         }
 
         if(fragmentAdapter==null) {
-            fragmentAdapter = new BaseFragmentAdapter(getChildFragmentManager(), mNewsFragmentList, tabTitle);
+            fragmentAdapter = new MarketTypeFragmentAdapter(getChildFragmentManager(), mNewsFragmentList, listType);
         }else{
             //刷新fragment
-            fragmentAdapter.setFragments(getChildFragmentManager(),mNewsFragmentList,tabTitle);
+            fragmentAdapter.setFragments(getChildFragmentManager(),mNewsFragmentList,listType);
         }
         viewPager.setAdapter(fragmentAdapter);
         tabs.setupWithViewPager(viewPager);

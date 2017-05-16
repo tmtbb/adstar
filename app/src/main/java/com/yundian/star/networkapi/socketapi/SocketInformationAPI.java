@@ -3,6 +3,7 @@ package com.yundian.star.networkapi.socketapi;
 import com.yundian.star.app.SocketAPIConstant;
 import com.yundian.star.base.SearchReturnbeen;
 import com.yundian.star.been.AdvBeen;
+import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.InformationAPI;
@@ -58,6 +59,15 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.OptionStarList,
                 SocketAPIConstant.ReqeutType.SearchStar, map);
         requestEntity(socketDataPacket,OptionsStarListBeen.class,listener);
+    }
+
+    @Override
+    public void getMarketKype(String phone, OnAPIListener<MarketTypeBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("phone", phone);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.MarketType,
+                SocketAPIConstant.ReqeutType.SearchStar, map);
+        requestEntity(socketDataPacket,MarketTypeBeen.class,listener);
     }
 
 }

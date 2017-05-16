@@ -57,5 +57,6 @@ public interface SocketAPIConstant {
         Short Banner = 10015;
         Short SearchStar = 11007;
         Short OptionStarList = 11013;
+        Short MarketType = 11001;
     }
 }
