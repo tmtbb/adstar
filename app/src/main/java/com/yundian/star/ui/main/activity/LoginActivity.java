@@ -15,7 +15,9 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.yundian.star.R;
+import com.yundian.star.app.AppApplication;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.base.baseapp.AppManager;
 import com.yundian.star.been.LoginReturnInfo;
@@ -50,6 +52,8 @@ public class LoginActivity extends BaseActivity{
     TextView registerText;
     @Bind(R.id.tv_retrieve_password)
     TextView tv_retrieve_password;
+    @Bind(R.id.tv_weixin_login)
+    TextView tv_weixin_login;
     private CheckHelper checkHelper = new CheckHelper();
     private AbortableFuture<LoginInfo> loginRequest;
     private long exitNow;
@@ -198,5 +202,19 @@ public class LoginActivity extends BaseActivity{
         }
         // 更新配置
         NIMClient.updateStatusBarNotificationConfig(statusBarNotificationConfig);
+    }
+
+    @OnClick(R.id.tv_weixin_login)
+    public void weixinLogin(){
+        if (!AppApplication.api.isWXAppInstalled()) {
+            ToastUtils.showShort("您还未安装微信客户端");
+            return;
+        }
+        final SendAuth.Req req = new SendAuth.Req();
+        ToastUtils.showShort("微信登录");
+        req.scope = "snsapi_userinfo";
+        req.state = "wechat_sdk_demo_test";
+        AppApplication.api.sendReq(req);
+
     }
 }

@@ -32,6 +32,8 @@ import com.netease.nimlib.sdk.rts.model.RTSData;
 import com.netease.nimlib.sdk.team.constant.TeamFieldEnum;
 import com.netease.nimlib.sdk.team.model.IMMessageFilter;
 import com.netease.nimlib.sdk.team.model.UpdateTeamAttachment;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.yundian.star.BuildConfig;
 import com.yundian.star.R;
 import com.yundian.star.base.baseapp.BaseApplication;
@@ -73,6 +75,7 @@ public class AppApplication extends BaseApplication {
         initNetworkAPIConfig();
         initWangYiIM();
         //checkToken();
+        registerToWx();   //注册微信
     }
 
     private void initWangYiIM() {
@@ -362,5 +365,11 @@ public class AppApplication extends BaseApplication {
         } else {
             return null;
         }
+    }
+
+    public static IWXAPI api;
+    private void registerToWx() {
+        api = WXAPIFactory.createWXAPI(this, Constant.APP_ID, false);
+        api.registerApp(Constant.APP_ID);
     }
 }

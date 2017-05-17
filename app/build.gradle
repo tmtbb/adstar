@@ -27,7 +27,7 @@ android {
     }
     buildTypes {
         release {
-            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "LOG_DEBUG", "true"
             minifyEnabled true
             shrinkResources true//去掉不用资源
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
