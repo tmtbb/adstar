@@ -47,3 +47,13 @@
 #如果你使用全文检索插件，需要加入
 -dontwarn org.apache.lucene.**
 -keep class org.apache.lucene.** {*;}
+#微信登录
+-keep class com.tencent.mm.opensdk.** {
+   *;
+}
+-keep class com.tencent.wxop.** {
+   *;
+}
+-keep class com.tencent.mm.sdk.** {
+   *;
+}

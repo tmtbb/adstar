@@ -29,7 +29,6 @@
     <uses-feature
         android:glEsVersion="0x00020000"
         android:required="true" />
-
     <permission
         android:name="com.yundian.star.permission.RECEIVE_MSG"
         android:protectionLevel="signature" />
