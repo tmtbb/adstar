@@ -26,6 +26,7 @@ android {
 }
 
 dependencies {
+    compile 'com.alibaba:fastjson:1.2.31'
     compile 'com.android.support:design:25+'
     compile 'com.android.support:appcompat-v7:25+'
     compile fileTree(include: '*.jar', dir: 'libs')

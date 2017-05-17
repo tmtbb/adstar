@@ -15,3 +15,12 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-dontwarn com.alibaba.fastjson.**
+-dontskipnonpubliclibraryclassmembers
+-dontskipnonpubliclibraryclasses
+
+-keep class com.alibaba.fastjson.**{*;}
+-keep class * implements java.io.Serializable { *; }
+
+-keepattributes *Annotation
+-keepattributes Signature

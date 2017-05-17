@@ -57,3 +57,46 @@
 -keep class com.tencent.mm.sdk.** {
    *;
 }
+
+
+#fastjson
+
+
+-dontwarn com.alibaba.fastjson.**
+-dontskipnonpubliclibraryclassmembers
+-dontskipnonpubliclibraryclasses
+
+-keep class com.alibaba.fastjson.**{*;}
+-keep class * implements java.io.Serializable { *; }
+
+-keepattributes *Annotation
+-keepattributes Signature
+
+#soket
+-keep class org.apache.http.** { *; }
+-keep class android.net.http.** { *; }
+-dontwarn org.apache.http.**
+-dontwarn android.net.http.**
+
+
+
+#高德地图2d
+-keep class com.amap.api.maps2d.**{*;}
+-keep class com.amap.api.mapcore2d.**{*;}
+#定位
+     -keep class com.amap.api.location.**{*;}
+     -keep class com.amap.api.fence.**{*;}
+     -keep class android.util.FloatMath.**{*;}
+     -keep class com.autonavi.aps.amapapi.model.**{*;}
+     -keep class com.amap.api.mapcore2d.MapMessage.**{*;}
+
+-dontwarn android.util.FloatMath.**
+-dontwarn com.amap.api.mapcore2d.**
+
+
+
+#高德搜索
+     -keep   class com.amap.api.services.**{*;}
+
+
+
