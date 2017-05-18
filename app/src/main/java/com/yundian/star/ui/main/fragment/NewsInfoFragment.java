@@ -81,7 +81,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     protected void initView() {
         initAdpter();
         mPresenter.getAdvertisement("1", 1);
-        mPresenter.getData(false, "1", "1", 0, REQUEST_COUNT, 1);
+        mPresenter.getData(false, "1", "1", 1, REQUEST_COUNT, 1);
     }
 
     private void initAdpter() {

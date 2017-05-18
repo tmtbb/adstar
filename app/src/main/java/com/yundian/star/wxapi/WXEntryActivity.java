@@ -6,16 +6,38 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.alibaba.fastjson.JSON;
+import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.cache.DataCacheManager;
+import com.netease.nimlib.sdk.AbortableFuture;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallback;
+import com.netease.nimlib.sdk.StatusBarNotificationConfig;
+import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.yundian.star.R;
 import com.yundian.star.app.AppApplication;
 import com.yundian.star.app.Constant;
+import com.yundian.star.been.EventBusMessage;
+import com.yundian.star.been.RegisterReturnWangYiBeen;
 import com.yundian.star.been.WXAccessTokenEntity;
+import com.yundian.star.been.WXUserInfoEntity;
+import com.yundian.star.been.WXinLoginReturnBeen;
+import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
+import com.yundian.star.ui.main.activity.RegisterUserActivity;
+import com.yundian.star.ui.wangyi.DemoCache;
+import com.yundian.star.ui.wangyi.config.preference.Preferences;
+import com.yundian.star.ui.wangyi.config.preference.UserPreferences;
 import com.yundian.star.utils.HttpUrlConnectionUtil;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
+import com.yundian.star.utils.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
 
 
 /**
@@ -49,7 +71,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     //app发送消息给微信，处理返回消息的回调
     @Override
     public void onResp(BaseResp resp) {
-        finish();
+        LogUtils.loge(resp.errCode + "" + "resp.getType()" + resp.getType());
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
             case BaseResp.ErrCode.ERR_USER_CANCEL:
@@ -63,11 +85,17 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 switch (resp.getType()) {
                     case RETURN_MSG_TYPE_LOGIN:
                         code = ((SendAuth.Resp) resp).code;
-                        try {
-                            sendRequest();     //拿到了微信返回的code,立马再去请求access_token
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+                        LogUtils.loge(((SendAuth.Resp) resp).code);
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    sendRequest();     //拿到了微信返回的code,立马再去请求access_token
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }).start();
                         break;
                     case RETURN_MSG_TYPE_SHARE:
                         LogUtils.logd("微信分享成功-----");
@@ -87,14 +115,14 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     break;
 
                 case 1:   //请求AccessToken成功
-                    /*String str = (String) msg.obj;
-                    final WXAccessTokenEntity entity = JSONEntityUtil.JSONToEntity(WXAccessTokenEntity.class, str);
+                    String str = (String) msg.obj;
+                    final WXAccessTokenEntity entity = JSON.parseObject(str, WXAccessTokenEntity.class);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
                             requestUserInfo(entity);
                         }
-                    }).start();*/
+                    }).start();
                     break;
 
                 default:
@@ -113,33 +141,14 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 .append("&openid=")
                 .append(entity.getOpenid());
         String url2 = sb2.toString();
-        String response = HttpUrlConnectionUtil.httpGet(url2);
-        if (response!=null){
-
-        }else {
+        String info = HttpUrlConnectionUtil.httpGet(url2);
+        if (info != null) {
+            LogUtils.loge("获取用户信息成功:" + info);
+            final WXUserInfoEntity tokenEntity = JSON.parseObject(info, WXUserInfoEntity.class);
+            bindPhoneNumber(tokenEntity);   //根据用户信息,绑定手机号码
+        } else {
             LogUtils.logd("获取用户信息失败");
         }
-        /*Request request = new Request.Builder()
-                .url(url2)
-                .build();
-        client.newCall(request).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();
-                LogUtil.d("获取用户信息失败");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    ResponseBody body2 = response.body();
-                    String str2 = body2.string();
-                    LogUtil.d("获取用户信息成功:" + str2);
-                    WXUserInfoEntity entity2 = JSONEntityUtil.JSONToEntity(WXUserInfoEntity.class, str2);
-                    bindPhoneNumber(entity2);   //根据用户信息,绑定手机号码
-                }
-            }
-        });*/
     }
 
     /**
@@ -160,70 +169,122 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 .append("authorization_code");
         String url = sb.toString();
         String response = HttpUrlConnectionUtil.httpGet(url);
-        if (response!=null){
+        LogUtils.logd(response);
+        if (response != null) {
             LogUtils.logd(response);
-        }else {
+            Message msg = new Message();
+            msg.what = 1;
+            msg.obj = response;
+            handler.sendMessage(msg);
+        } else {
             LogUtils.logd("获取用户信息失败");
         }
-        /*Request request = new Request.Builder()
-                .url(url)
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                e.printStackTrace();   //请求失败    break  弹出吐司
-                LogUtil.d("okhttp请求失败");
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    ResponseBody body = response.body();
-                    String str = body.string();
-                    Message msg = new Message();
-                    msg.what = 1;
-                    msg.obj = str;
-                    handler.sendMessage(msg);
-                }
-            }
-        });*/
     }
 
-    /*private void bindPhoneNumber(final WXUserInfoEntity entity2) {
-        //请求微信登录
-        NetworkAPIFactoryImpl.getUserAPI().wxLogin(entity2.getOpenid(), new OnAPIListener<LoginReturnEntity>() {
+    private void bindPhoneNumber(final WXUserInfoEntity entity2) {
+        NetworkAPIFactoryImpl.getUserAPI().wxLogin(entity2.getOpenid(), new OnAPIListener<WXinLoginReturnBeen>() {
             @Override
             public void onError(Throwable ex) {
-                ex.printStackTrace();
-
-                LogUtil.d("微信登录失败,进入绑定手机号界面");  //进入绑定手机号码页面
-                ToastUtils.show(WXEntryActivity.this, "请绑定手机号码");
-                Intent intent = new Intent(WXEntryActivity.this, RegisterActivity.class);
+                LogUtils.loge("微信登录失败,进入绑定手机号界面");  //进入绑定手机号码页面
+                ToastUtils.showLong("请绑定手机号码");
+                Intent intent = new Intent(WXEntryActivity.this, RegisterUserActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("wxBind", entity2);
-                intent.putExtra("wx", bundle);
+                intent.putExtra("wxBind", entity2);
                 startActivity(intent);
                 finish();
             }
 
             @Override
-            public void onSuccess(LoginReturnEntity loginReturnEntity) {
-                LogUtil.d("微信登录成功,直接调用登录:" + loginReturnEntity.toString());   //成功登录,进入主页
+            public void onSuccess(final WXinLoginReturnBeen info) {
+                int result = info.getResult();
+                if (result == 1) {
+                    if (info.getUserinfo() == null || info.getUserinfo().getPhone() == null) {
+                        return;
+                    } else {
+                        LogUtils.logd("登录成功" + info.getUserinfo().getPhone());
+                        //网易云注册
+                        NetworkAPIFactoryImpl.getUserAPI().registerWangYi(info.getUserinfo().getPhone(), info.getUserinfo().getPhone(), info.getUserinfo().getPhone(), new OnAPIListener<RegisterReturnWangYiBeen>() {
+                            @Override
+                            public void onError(Throwable ex) {
+                                LogUtils.logd("网易云注册失败" + ex.toString());
+                                ToastUtils.showShort("网易云注册失败");
+                            }
 
-                UserEntity en = new UserEntity();
-                en.setBalance(loginReturnEntity.getUserinfo().getBalance());
-                en.setId(loginReturnEntity.getUserinfo().getId());
-                en.setToken(loginReturnEntity.getToken());
-                en.setUserType(loginReturnEntity.getUserinfo().getType());
-                en.setMobile(loginReturnEntity.getUserinfo().getPhone());
-                UserManager.getInstance().saveUserEntity(en);
-                UserManager.getInstance().setLogin(true);
-                MyApplication.getApplication().onUserUpdate(true);
+                            @Override
+                            public void onSuccess(RegisterReturnWangYiBeen registerReturnWangYiBeen) {
+                                LogUtils.logd("网易云注册成功" + registerReturnWangYiBeen.getResult_value() + "网易云token" + registerReturnWangYiBeen.getToken_value());
+                                loginWangYi(info, registerReturnWangYiBeen);
+                            }
+                        });
 
-                EventBus.getDefault().postSticky(new EventBusMessage(-6));  //传递消息
-                finish();
+
+                    }
+                }else {
+                    LogUtils.loge("微信登录失败,进入绑定手机号界面");  //进入绑定手机号码页面
+                    ToastUtils.showLong("请绑定手机号码");
+                    Intent intent = new Intent(WXEntryActivity.this, RegisterUserActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    intent.putExtra("wxBind", entity2);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
-    }*/
+
+    }
+
+    private AbortableFuture<LoginInfo> loginRequest;
+
+    private void loginWangYi(final WXinLoginReturnBeen loginReturnInfos, RegisterReturnWangYiBeen registerReturnWangYiBeen) {
+        LogUtils.logd(loginReturnInfos.getUserinfo().getPhone() + "..." + registerReturnWangYiBeen.getToken_value());
+        // 登录
+        loginRequest = NimUIKit.doLogin(new LoginInfo(loginReturnInfos.getUserinfo().getPhone(), registerReturnWangYiBeen.getToken_value()), new RequestCallback<LoginInfo>() {
+            @Override
+            public void onSuccess(LoginInfo param) {
+                LogUtils.logd("网易云登录成功");
+                DemoCache.setAccount(param.getAccount());
+                saveLoginInfo(param.getAccount(), param.getToken());
+                // 初始化消息提醒配置
+                initNotificationConfig();
+                // 构建缓存
+                DataCacheManager.buildDataCacheAsync();
+                SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnInfos.getUserinfo());
+                EventBus.getDefault().postSticky(new EventBusMessage(-6));  //传递消息
+                WXEntryActivity.this.finish();
+            }
+
+            @Override
+            public void onFailed(int code) {
+                if (code == 302 || code == 404) {
+                    LogUtils.logd("网易云登录失败" + R.string.login_failed);
+                } else {
+                    LogUtils.logd("网易云登录失败" + code);
+                }
+            }
+
+            @Override
+            public void onException(Throwable exception) {
+                LogUtils.logd("网易云登录失败" + R.string.login_exception);
+            }
+        });
+    }
+
+    private void saveLoginInfo(final String account, final String token) {
+        Preferences.saveUserAccount(account);
+        Preferences.saveUserToken(token);
+    }
+
+    private void initNotificationConfig() {
+        // 初始化消息提醒
+        NIMClient.toggleNotification(UserPreferences.getNotificationToggle());
+
+        // 加载状态栏配置
+        StatusBarNotificationConfig statusBarNotificationConfig = UserPreferences.getStatusConfig();
+        if (statusBarNotificationConfig == null) {
+            statusBarNotificationConfig = DemoCache.getNotificationConfig();
+            UserPreferences.setStatusConfig(statusBarNotificationConfig);
+        }
+        // 更新配置
+        NIMClient.updateStatusBarNotificationConfig(statusBarNotificationConfig);
+    }
 }

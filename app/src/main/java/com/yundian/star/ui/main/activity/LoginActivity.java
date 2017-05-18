@@ -20,6 +20,7 @@ import com.yundian.star.R;
 import com.yundian.star.app.AppApplication;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.base.baseapp.AppManager;
+import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnWangYiBeen;
 import com.yundian.star.helper.CheckHelper;
@@ -33,6 +34,10 @@ import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.CheckException;
 import com.yundian.star.widget.WPEditText;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -57,6 +62,7 @@ public class LoginActivity extends BaseActivity{
     private CheckHelper checkHelper = new CheckHelper();
     private AbortableFuture<LoginInfo> loginRequest;
     private long exitNow;
+    boolean flag =true;
 
     @Override
     public int getLayoutId() {
@@ -70,6 +76,10 @@ public class LoginActivity extends BaseActivity{
 
     @Override
     public void initView() {
+        if (flag) {
+            EventBus.getDefault().register(this); // EventBus注册广播()
+            flag = false;//更改标记,使其不会再进行多次注册
+        }
         WindowManager.LayoutParams p = getWindow().getAttributes();// 获取对话框当前的参值
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
@@ -216,5 +226,23 @@ public class LoginActivity extends BaseActivity{
         req.state = "wechat_sdk_demo_test";
         AppApplication.api.sendReq(req);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().removeAllStickyEvents();
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    //接收消息
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void ReciveMessage(EventBusMessage eventBusMessage) {
+        switch (eventBusMessage.Message) {
+            case -6:  //成功
+                LogUtils.loge("当前是接收到微信登录成功的消息,finish");
+                finish();
+                break;
+        }
     }
 }

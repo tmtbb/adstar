@@ -34,7 +34,7 @@ public class MarketFragment extends BaseFragment {
     @Bind(R.id.view_pager)
     ViewPager viewPager ;
     private MarketTypeFragmentAdapter fragmentAdapter;
-    private List<MarketTypeBeen.ListBean> listType;
+    private List<MarketTypeBeen.ListBean> listType = new ArrayList<>();
 
     @Override
     protected int getLayoutResource() {
