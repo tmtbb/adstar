@@ -112,6 +112,17 @@
     <string name="user_not_exsit">该用户不存在</string>
     <string name="user_tips">请检查你输入的帐号是否正确</string>
     <string name="edit">编辑</string>
+    <string name="oneself_intro">个人简介</string>
+    <string name="oneself_intro_expeience">主要经历</string>
+    <string name="oneself_intro_achievement">主要成就</string>
+    <string name="intro_nationality">国籍:</string>
+    <string name="intro_nation">民族:</string>
+    <string name="intro_work">职业:</string>
+    <string name="intro_constellation">星座:</string>
+    <string name="intro_birth_day">出生日期:</string>
+    <string name="intro_colleage">毕业院校:</string>
+    <string name="intro_all_time">总时长</string>
+    <string name="click_buy">立即求购</string>
 
     <!-- session -->
     <string name="input_panel_guess">猜 拳</string>

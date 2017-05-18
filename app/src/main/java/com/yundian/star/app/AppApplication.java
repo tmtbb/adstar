@@ -74,7 +74,7 @@ public class AppApplication extends BaseApplication {
         LogUtils.logInit(BuildConfig.LOG_DEBUG);
         initNetworkAPIConfig();
         initWangYiIM();
-        //checkToken();
+        checkToken();
         registerToWx();   //注册微信
     }
 

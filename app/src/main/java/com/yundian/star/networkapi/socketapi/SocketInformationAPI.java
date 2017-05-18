@@ -81,4 +81,13 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         requestEntity(socketDataPacket,OptionsStarListBeen.class,listener);
     }
 
+    @Override
+    public void getStarBrief(String code, OnAPIListener<Object> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("code", code);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarBrief,
+                SocketAPIConstant.ReqeutType.SearchStar, map);
+        requestJsonObject(socketDataPacket,listener);
+    }
+
 }

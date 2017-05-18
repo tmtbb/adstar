@@ -1,5 +1,6 @@
 package com.yundian.star.ui.main.fragment;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.yundian.star.R;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.AdvBeen;
 import com.yundian.star.ui.main.activity.NewsBrowserActivity;
+import com.yundian.star.ui.main.activity.NewsStarBuyActivity;
 import com.yundian.star.ui.main.adapter.NewsInforAdapter;
 import com.yundian.star.ui.main.contract.NewInfoContract;
 import com.yundian.star.ui.main.model.NewsInforModel;
@@ -31,6 +33,7 @@ import com.yundian.star.utils.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -196,8 +199,9 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         if (o.getList()==null||o.getList().size()==0){
             return;
         }
-        String adList[] = new String[o.getList().size()];
-        for (int i = 0; i < o.getList().size(); i++) {
+        final List<AdvBeen.ListBean> listData = o.getList();
+        String adList[] = new String[listData.size()];
+        for (int i = 0; i < listData.size(); i++) {
             adList[i] = o.getList().get(i).getPic_url();
         }
         //add a HeaderView
@@ -210,6 +214,9 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
             @Override
             public void onItemClick(View v, int position, String url) {
 
+                Intent intent = new Intent(getActivity(),NewsStarBuyActivity.class);
+                intent.putExtra("code",listData.get(position).getCode());
+                startActivity(intent);
             }
         });
         lRecyclerViewAdapter.addHeaderView(header);

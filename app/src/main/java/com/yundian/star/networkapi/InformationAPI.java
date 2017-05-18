@@ -21,5 +21,6 @@ public interface InformationAPI {
     void getOptionsStarList(String phone,int startnum,int endnum,OnAPIListener<OptionsStarListBeen> listener);
     void getMarketKype(String phone,OnAPIListener<MarketTypeBeen> listener);
     void getMarketstar(int type,int startnum,int endnum,OnAPIListener<OptionsStarListBeen> listener);
+    void getStarBrief(String code,OnAPIListener<Object> listener);
 
 }

@@ -11,6 +11,7 @@
     <!--网易云im相关权限。。。。。。。。。。。。。。。。。。。-->
     <!-- 访问网络状态-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!-- 控制呼吸灯，振动器等，用于新消息提醒 -->
     <uses-permission android:name="android.permission.FLASHLIGHT" />
@@ -58,14 +59,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.main.activity.MainActivity">
+        <activity android:name=".ui.main.activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.activity.SplashActivity"></activity>
+        <activity android:name=".ui.main.activity.MainActivity"></activity>
         <activity android:name=".ui.main.activity.TestActivity"></activity>
         <activity
             android:name=".ui.main.activity.LoginActivity"
