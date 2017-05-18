@@ -132,15 +132,19 @@ public class MarketDetailFragment extends BaseFragment {
 
                 @Override
                 public void onSuccess(OptionsStarListBeen optionsStarListBeen) {
-                    if (isLoadMore){
-                        loadList.clear();
-                        loadList = optionsStarListBeen.getList();
-                        myHandler.sendEmptyMessage(LOAD_DATA);
-                    }else {
-                        list.clear();
-                        list = optionsStarListBeen.getList();
-                        myHandler.sendEmptyMessage(GET_DATA);
+                    LogUtils.loge("行情每个页面请求数据返回的retult:"+optionsStarListBeen);
+                    if(optionsStarListBeen.getResult()==1){
+                        if (isLoadMore){
+                            loadList.clear();
+                            loadList = optionsStarListBeen.getList();
+                            myHandler.sendEmptyMessage(LOAD_DATA);
+                        }else {
+                            list.clear();
+                            list = optionsStarListBeen.getList();
+                            myHandler.sendEmptyMessage(GET_DATA);
+                        }
                     }
+
                 }
             });
         }
