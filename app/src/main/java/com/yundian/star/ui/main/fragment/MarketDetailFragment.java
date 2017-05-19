@@ -43,6 +43,7 @@ public class MarketDetailFragment extends BaseFragment {
     private static final int REQUEST_COUNT = 10;
     private static final int GET_DATA = 10;
     private static final int LOAD_DATA = 11;
+    private int ORDER = 0;
     private ArrayList<OptionsStarListBeen.ListBean> list = new ArrayList<>();
     private ArrayList<OptionsStarListBeen.ListBean> loadList = new ArrayList<>();
     private Handler myHandler = new Handler(){
@@ -124,7 +125,7 @@ public class MarketDetailFragment extends BaseFragment {
                 }
             });
         }else {
-            NetworkAPIFactoryImpl.getInformationAPI().getMarketstar(marketDetailType, start, end, new OnAPIListener<OptionsStarListBeen>() {
+            NetworkAPIFactoryImpl.getInformationAPI().getMarketstar(marketDetailType, start, end,ORDER, new OnAPIListener<OptionsStarListBeen>() {
                 @Override
                 public void onError(Throwable ex) {
 

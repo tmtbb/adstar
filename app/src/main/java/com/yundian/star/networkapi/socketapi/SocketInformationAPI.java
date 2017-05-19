@@ -5,6 +5,9 @@ import com.yundian.star.base.SearchReturnbeen;
 import com.yundian.star.been.AdvBeen;
 import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
+import com.yundian.star.been.StarBuyActReferralInfo;
+import com.yundian.star.been.StarExperienceBeen;
+import com.yundian.star.been.StarStarAchBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.InformationAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
@@ -71,23 +74,41 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
-    public void getMarketstar(int type, int startnum, int endnum, OnAPIListener<OptionsStarListBeen> listener) {
+    public void getMarketstar(int type, int startnum, int endnum,int sorttype, OnAPIListener<OptionsStarListBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("type", type);
         map.put("startnum", startnum);
         map.put("endnum", endnum);
+        map.put("sorttype", sorttype);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.MarketStar,
                 SocketAPIConstant.ReqeutType.SearchStar, map);
         requestEntity(socketDataPacket,OptionsStarListBeen.class,listener);
     }
 
     @Override
-    public void getStarBrief(String code, OnAPIListener<Object> listener) {
+    public void getStarBrief(String code, OnAPIListener<StarBuyActReferralInfo> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("code", code);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarBrief,
                 SocketAPIConstant.ReqeutType.SearchStar, map);
-        requestJsonObject(socketDataPacket,listener);
+        requestEntity(socketDataPacket,StarBuyActReferralInfo.class,listener);
+    }
+
+    @Override
+    public void getStarExperience(String code, OnAPIListener<StarExperienceBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("code", code);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarExperience,
+                SocketAPIConstant.ReqeutType.SearchStar, map);
+        requestEntity(socketDataPacket,StarExperienceBeen.class,listener);
+    }
+    @Override
+    public void getStarachive(String code, OnAPIListener<StarStarAchBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("code", code);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Starachive,
+                SocketAPIConstant.ReqeutType.SearchStar, map);
+        requestEntity(socketDataPacket,StarStarAchBeen.class,listener);
     }
 
 }

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     >
     <LinearLayout
         android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         >
         <ImageView
             android:layout_marginLeft="@dimen/dp_12"
@@ -25,11 +26,15 @@
             android:text="@string/oneself_intro_expeience"
             />
     </LinearLayout>
-    <com.github.jdsjlzx.recyclerview.LRecyclerView
-        android:layout_marginTop="20dp"
-        android:id="@+id/lrv_newstar_buy"
+    <com.yundian.star.widget.MyListView
+        android:layout_marginLeft="12dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </com.github.jdsjlzx.recyclerview.LRecyclerView>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/listview_buy"
+        android:divider="#00000000"
+        android:listSelector="@android:color/transparent"
+        android:dividerHeight="8dp"
+        ></com.yundian.star.widget.MyListView>
 
 </LinearLayout>

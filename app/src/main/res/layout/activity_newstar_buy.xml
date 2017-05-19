@@ -6,26 +6,34 @@
     >
 
     <com.yundian.star.widget.NormalTitleBar
+        android:id="@+id/nl_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"></com.yundian.star.widget.NormalTitleBar>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="48dp">
+        android:layout_marginTop="48dp"
+        android:id="@+id/scroll_view"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
             android:orientation="vertical">
 
-            <include layout="@layout/adv_layout"></include>
+            <include layout="@layout/adv_layout"
+                android:id="@+id/adv_root"
+                ></include>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                >
 
                 <ImageView
                     android:layout_width="3dp"
@@ -105,11 +113,22 @@
 
             <include
                 android:id="@+id/ll_new_buy_expeience"
-                layout="@layout/newstar_buy_expeience"></include>
+                layout="@layout/newstar_buy_expeience"
+                android:visibility="gone"
+                ></include>
 
             <include
                 android:id="@+id/ll_new_buy_achievement"
-                layout="@layout/newstar_buy_expeience"></include>
+                layout="@layout/newstar_buy_expeience"
+                android:visibility="gone"
+                ></include>
+            <TextView
+                android:id="@+id/tv_mesure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/dp_20"
+                />
+
 
 
         </LinearLayout>
@@ -151,7 +170,7 @@
             android:textColor="@color/color_f4f4f4"
             android:textSize="@dimen/fontSize_16sp"
             android:gravity="center"
-            android:background="@drawable/login_selector"
+            android:background="@drawable/buy_button"
             />
 
     </LinearLayout>

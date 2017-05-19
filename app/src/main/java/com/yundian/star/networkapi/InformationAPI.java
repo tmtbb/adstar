@@ -5,6 +5,9 @@ import com.yundian.star.base.SearchReturnbeen;
 import com.yundian.star.been.AdvBeen;
 import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
+import com.yundian.star.been.StarBuyActReferralInfo;
+import com.yundian.star.been.StarExperienceBeen;
+import com.yundian.star.been.StarStarAchBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.ui.main.model.NewsInforModel;
 
@@ -20,7 +23,9 @@ public interface InformationAPI {
     void searchStar(String code,OnAPIListener<SearchReturnbeen> listener);
     void getOptionsStarList(String phone,int startnum,int endnum,OnAPIListener<OptionsStarListBeen> listener);
     void getMarketKype(String phone,OnAPIListener<MarketTypeBeen> listener);
-    void getMarketstar(int type,int startnum,int endnum,OnAPIListener<OptionsStarListBeen> listener);
-    void getStarBrief(String code,OnAPIListener<Object> listener);
+    void getMarketstar(int type,int startnum,int endnum,int sorttype,OnAPIListener<OptionsStarListBeen> listener);
+    void getStarBrief(String code,OnAPIListener<StarBuyActReferralInfo> listener);
+    void getStarExperience(String code,OnAPIListener<StarExperienceBeen> listener);
+    void getStarachive(String code,OnAPIListener<StarStarAchBeen> listener);
 
 }
