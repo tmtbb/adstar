@@ -21,7 +21,7 @@ public interface InformationAPI {
     void newsinfo(String name, String code,int startnum,int endnum,int all, OnAPIListener<NewsInforModel> listener);
     void advInfo(String code,int all, OnAPIListener<AdvBeen> listener);
     void searchStar(String code,OnAPIListener<SearchReturnbeen> listener);
-    void getOptionsStarList(String phone,int startnum,int endnum,OnAPIListener<OptionsStarListBeen> listener);
+    void getOptionsStarList(String phone,int startnum,int endnum,int sorttype,OnAPIListener<OptionsStarListBeen> listener);
     void getMarketKype(String phone,OnAPIListener<MarketTypeBeen> listener);
     void getMarketstar(int type,int startnum,int endnum,int sorttype,OnAPIListener<OptionsStarListBeen> listener);
     void getStarBrief(String code,OnAPIListener<StarBuyActReferralInfo> listener);

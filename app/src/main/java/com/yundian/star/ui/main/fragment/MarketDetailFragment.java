@@ -105,7 +105,7 @@ public class MarketDetailFragment extends BaseFragment {
 
     private void getData(final boolean isLoadMore, int start, int end) {
         if (marketDetailType==0){
-            NetworkAPIFactoryImpl.getInformationAPI().getOptionsStarList(/*SharePrefUtil.getInstance().getPhoneNum()*/1770640+"",start,end, new OnAPIListener<OptionsStarListBeen>() {
+            NetworkAPIFactoryImpl.getInformationAPI().getOptionsStarList(/*SharePrefUtil.getInstance().getPhoneNum()*/1770640+"",start,end,ORDER, new OnAPIListener<OptionsStarListBeen>() {
                 @Override
                 public void onError(Throwable ex) {
 

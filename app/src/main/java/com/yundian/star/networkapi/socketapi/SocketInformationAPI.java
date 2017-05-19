@@ -54,11 +54,12 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
-    public void getOptionsStarList(String phone, int startnum, int endnum, OnAPIListener<OptionsStarListBeen> listener) {
+    public void getOptionsStarList(String phone, int startnum, int endnum,int sorttype, OnAPIListener<OptionsStarListBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("phone", phone);
         map.put("startnum", startnum);
         map.put("endnum", endnum);
+        map.put("sorttype", sorttype);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.OptionStarList,
                 SocketAPIConstant.ReqeutType.SearchStar, map);
         requestEntity(socketDataPacket,OptionsStarListBeen.class,listener);

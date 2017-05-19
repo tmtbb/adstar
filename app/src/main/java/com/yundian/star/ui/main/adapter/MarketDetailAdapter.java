@@ -9,6 +9,7 @@ import com.yundian.star.base.ListBaseAdapter;
 import com.yundian.star.base.SuperViewHolder;
 import com.yundian.star.been.OptionsStarListBeen;
 import com.yundian.star.utils.ImageLoaderUtils;
+import com.yundian.star.utils.LogUtils;
 
 /**
  * Created by Administrator on 2017/5/15.
@@ -37,6 +38,12 @@ public class MarketDetailAdapter extends ListBaseAdapter<OptionsStarListBeen.Lis
         tv_name.setText(item.getName());
         tv_code.setText(item.getStarcode());
         tv_price.setText(String.valueOf(item.getPrice()));
+        LogUtils.loge("指数"+item.getUpdown());
+        if (item.getUpdown()>=0){
+            tv_updown.setBackgroundColor(mContext.getResources().getColor(R.color.color_CB4232));
+        }else {
+            tv_updown.setBackgroundColor(mContext.getResources().getColor(R.color.color_18B03F));
+        }
         tv_updown.setText(String.valueOf(item.getUpdown()));
     }
 }
