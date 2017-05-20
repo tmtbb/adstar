@@ -70,6 +70,8 @@
     <string name="new_price_market_detail_2">元/秒</string>
     <string name="price_limit">涨跌幅</string>
     <string name="star_hot">明星热度</string>
+    <string name="star_price_time_share">￥19.88</string>
+    <string name="star_price_time_share_limit">+0.02/14.29%</string>
 
     <string name="readed">已读</string>
     <string name="about">关于</string>
@@ -123,6 +125,7 @@
     <string name="intro_colleage">毕业院校:%s</string>
     <string name="intro_all_time">总时长</string>
     <string name="click_buy">立即求购</string>
+
 
     <!-- session -->
     <string name="input_panel_guess">猜 拳</string>

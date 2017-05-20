@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.yundian.star.widget.NormalTitleBar
+        android:id="@+id/nt_title"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_gravity="top"></com.yundian.star.widget.NormalTitleBar>
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_marginTop="48dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imageView2"
+                    android:layout_width="61dp"
+                    android:layout_height="61dp"
+                    android:src="@drawable/ic_home_normal" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/imageView2"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="19dp"
+                    android:layout_toEndOf="@+id/imageView2"
+                    android:layout_toRightOf="@+id/imageView2"
+                    android:text="@string/star_price_time_share"
+                    android:textColor="@color/color_CB4232"
+                    android:textSize="@dimen/fontSize_24sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:background="@drawable/star_time_share_bg"
+                    android:padding="8dp"
+                    android:text="@string/star_price_time_share_limit"
+                    android:textColor="@color/color_white_ffffffff"
+                    android:textSize="@dimen/fontSize_16sp" />
+            </RelativeLayout>
+
+            <FrameLayout
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="290dp">
+
+            </FrameLayout>
+            <LinearLayout
+                android:id="@+id/ll_tab_fargment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                >
+                <android.support.design.widget.TabLayout
+                    android:focusable="false"
+                    android:id="@+id/tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="51dp"
+                    app:tabBackground="@color/toast_white"
+                    app:tabGravity="fill"
+                    app:tabIndicatorColor="@color/color_8C0808"
+                    app:tabSelectedTextColor="@color/color_8C0808"
+                    app:tabTextAppearance="@style/CustomTabLayoutTextAppearance"
+                    app:tabTextColor="@color/color_C2CFD8"></android.support.design.widget.TabLayout>
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/tab_bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@drawable/bg_main_down_table"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
+        tl:tl_iconHeight="24dp"
+        tl:tl_iconMargin="@dimen/dp_5"
+        tl:tl_iconWidth="24dp"
+        tl:tl_textSelectColor="@color/color_8D0809"
+        tl:tl_textUnselectColor="@color/color_C2CFD8"
+        tl:tl_textsize="@dimen/fontSize_10sp"
+        tl:tl_underline_height="0dp" />
+</FrameLayout>

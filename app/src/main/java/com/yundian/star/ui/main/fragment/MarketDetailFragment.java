@@ -18,6 +18,7 @@ import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.OptionsStarListBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
+import com.yundian.star.ui.main.activity.StarTimeShareActivity;
 import com.yundian.star.ui.main.adapter.MarketDetailAdapter;
 import com.yundian.star.utils.LogUtils;
 
@@ -173,6 +174,7 @@ public class MarketDetailFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 LogUtils.logd(position+"");
+                startActivity(StarTimeShareActivity.class);
             }
         });
     }
