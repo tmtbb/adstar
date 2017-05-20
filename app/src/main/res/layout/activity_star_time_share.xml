@@ -12,7 +12,7 @@
         android:layout_height="@dimen/dp_48"
         android:layout_gravity="top"></com.yundian.star.widget.NormalTitleBar>
 
-    <ScrollView
+    <com.yundian.star.wxapi.MyScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -100,7 +100,7 @@
         </LinearLayout>
 
 
-    </ScrollView>
+    </com.yundian.star.wxapi.MyScrollView>
 
     <com.flyco.tablayout.CommonTabLayout
         android:id="@+id/tab_bottom_layout"

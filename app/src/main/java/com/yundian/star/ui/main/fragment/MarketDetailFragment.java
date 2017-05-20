@@ -1,5 +1,6 @@
 package com.yundian.star.ui.main.fragment;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
@@ -174,7 +175,9 @@ public class MarketDetailFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 LogUtils.logd(position+"");
-                startActivity(StarTimeShareActivity.class);
+                Intent intent = new Intent(getActivity(),StarTimeShareActivity.class);
+                intent.putExtra(AppConstant.MARKET_STARTIME_TYPE,"1001");
+                startActivity(intent);
             }
         });
     }

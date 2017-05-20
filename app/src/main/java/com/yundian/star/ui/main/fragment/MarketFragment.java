@@ -14,7 +14,7 @@ import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.SearchActivity;
-import com.yundian.star.utils.MyUtils;
+import com.yundian.star.utils.MyTabLayoutUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import java.util.ArrayList;
@@ -98,7 +98,7 @@ public class MarketFragment extends BaseFragment {
         }
         viewPager.setAdapter(fragmentAdapter);
         tabs.setupWithViewPager(viewPager);
-        MyUtils.dynamicSetTabLayoutMode(tabs);
+        MyTabLayoutUtils.dynamicSetTabLayoutMode(tabs);
         setPageChangeListener();
     }
 

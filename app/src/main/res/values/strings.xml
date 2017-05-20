@@ -125,6 +125,10 @@
     <string name="intro_colleage">毕业院校:%s</string>
     <string name="intro_all_time">总时长</string>
     <string name="click_buy">立即求购</string>
+    <string name="star_time_intro">简介</string>
+    <string name="star_time_fans">粉丝热度榜</string>
+    <string name="star_time_auction">拍卖</string>
+    <string name="star_time_comment">评论</string>
 
 
     <!-- session -->

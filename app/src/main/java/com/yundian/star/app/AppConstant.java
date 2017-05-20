@@ -13,6 +13,9 @@ public class AppConstant {
    /*行情*/
     public static final String MARKET_DETAIL_NAME = "market_detail_name";
     public static final String MARKET_DETAIL_TYPE= "market_detail_type";
+    public static final String MARKET_DETAIL_IN_TYPE= "market_detail_in_type";
+    public static final String MARKET_STARTIME_TYPE= "market_star_time_type";
+
     public static final String NEWS_TYPE = "news_type";
     public static final String CHANNEL_POSITION = "channel_position";
     public static final String CHANNEL_MINE = "CHANNEL_MINE";
