@@ -77,17 +77,18 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 >
-                <android.support.design.widget.TabLayout
-                    android:focusable="false"
+                <com.flyco.tablayout.SlidingTabLayout
                     android:id="@+id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="51dp"
-                    app:tabBackground="@color/toast_white"
-                    app:tabGravity="fill"
-                    app:tabIndicatorColor="@color/color_8C0808"
-                    app:tabSelectedTextColor="@color/color_8C0808"
-                    app:tabTextAppearance="@style/CustomTabLayoutTextAppearance"
-                    app:tabTextColor="@color/color_C2CFD8"></android.support.design.widget.TabLayout>
+                    android:background="@color/color_white_ffffffff"
+                    app:tl_indicator_width_equal_title="true"
+                    app:tl_tab_space_equal="true"
+                    app:tl_indicator_color="@color/color_8C0808"
+                    app:tl_textSelectColor="@color/color_8C0808"
+                    app:tl_textUnselectColor="@color/color_C2CFD8"
+                    app:tl_textsize="@dimen/fontSize_16sp"
+                    ></com.flyco.tablayout.SlidingTabLayout>
 
                 <android.support.v4.view.ViewPager
                     android:id="@+id/view_pager"

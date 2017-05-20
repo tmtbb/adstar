@@ -3,7 +3,6 @@ package com.yundian.star.ui.main.activity;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
@@ -15,6 +14,7 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.flyco.tablayout.CommonTabLayout;
+import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.yundian.star.R;
@@ -26,7 +26,6 @@ import com.yundian.star.ui.main.fragment.StarIntroFragment;
 import com.yundian.star.ui.main.fragment.TestFragment;
 import com.yundian.star.utils.DisplayUtil;
 import com.yundian.star.utils.LogUtils;
-import com.yundian.star.utils.MyTabLayoutUtils;
 import com.yundian.star.widget.NormalTitleBar;
 import com.yundian.star.wxapi.MyScrollView;
 
@@ -45,7 +44,7 @@ public class StarTimeShareActivity extends BaseActivity {
     @Bind(R.id.nt_title)
     NormalTitleBar nt_title;
     @Bind(R.id.tabs)
-    TabLayout tabs ;
+    SlidingTabLayout tabs ;
     @Bind(R.id.view_pager)
     ViewPager viewPager ;
     @Bind(R.id.tab_bottom_layout)
@@ -97,7 +96,6 @@ public class StarTimeShareActivity extends BaseActivity {
         listType.add(getString(R.string.star_time_comment));
         initFragmentHigh();
         initFragment();
-        MyTabLayoutUtils.dynamicSetTabLayoutMode(tabs);
         scroll_view.smoothScrollTo(0,0);
     }
 
@@ -181,8 +179,8 @@ public class StarTimeShareActivity extends BaseActivity {
             fragmentAdapter.setFragments(getSupportFragmentManager(), mNewsFragmentList,listType);
         }
         viewPager.setAdapter(fragmentAdapter);
-        tabs.setupWithViewPager(viewPager);
-        MyTabLayoutUtils.dynamicSetTabLayoutMode(tabs);
+        tabs.setViewPager(viewPager);
+        //MyTabLayoutUtils.dynamicSetTabLayoutMode(tabs);
         setPageChangeListener();
     }
 
