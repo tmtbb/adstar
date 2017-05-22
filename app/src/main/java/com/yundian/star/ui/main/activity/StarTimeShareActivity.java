@@ -16,6 +16,7 @@ import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.TabEntity;
 import com.yundian.star.ui.main.adapter.StartTimeShareAdpter;
+import com.yundian.star.ui.main.fragment.FansHotFragment;
 import com.yundian.star.ui.main.fragment.StarIntroFragment;
 import com.yundian.star.ui.main.fragment.TestFragment;
 import com.yundian.star.utils.LogUtils;
@@ -157,18 +158,18 @@ public class StarTimeShareActivity extends BaseActivity {
 
 
     private void createListFragments() {
-        StarIntroFragment starIntroFragment = new StarIntroFragment();
         Bundle bundle = new Bundle();
         bundle.putString(AppConstant.MARKET_DETAIL_IN_TYPE,"1001");
+        StarIntroFragment starIntroFragment = new StarIntroFragment();
         starIntroFragment.setArguments(bundle);
         mNewsFragmentList.add(starIntroFragment);
-
-        TestFragment testFragment1 = new TestFragment();
+        FansHotFragment fansHotFragment = new FansHotFragment();
+        fansHotFragment.setArguments(bundle);
         TestFragment testFragment2= new TestFragment();
         TestFragment testFragment3 = new TestFragment();
 
 
-        mNewsFragmentList.add(testFragment1);
+        mNewsFragmentList.add(fansHotFragment);
         mNewsFragmentList.add(testFragment2);
         mNewsFragmentList.add(testFragment3);
 

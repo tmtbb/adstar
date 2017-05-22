@@ -68,7 +68,7 @@ public class MarketDetailFragment extends BaseFragment {
 
     private void loadMoreData() {
         if (loadList == null || list.size() == 0) {
-            //lrv.setNoMore(true);
+            lrv.setNoMore(true);
         } else {
             list.addAll(loadList);
             marketDetailAdapter.addAll(loadList);

@@ -62,5 +62,8 @@ public interface SocketAPIConstant {
         Short StarBrief = 11005;
         Short StarExperience = 11009;
         Short Starachive = 11011;
+        Short SeekLike = 11021;
+        Short TransferList = 11019;
+
     }
 }

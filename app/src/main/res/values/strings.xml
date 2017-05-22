@@ -129,6 +129,10 @@
     <string name="star_time_fans">粉丝热度榜</string>
     <string name="star_time_auction">拍卖</string>
     <string name="star_time_comment">评论</string>
+    <string name="ask_to_buy_hot">求购榜单</string>
+    <string name="transfer_to_buy_hot">转让榜单</string>
+    <string name="no_name">匿名</string>
+    <string name="buy_price">%.2f元/秒</string>
 
 
     <!-- session -->

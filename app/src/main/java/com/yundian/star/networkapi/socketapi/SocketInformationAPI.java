@@ -3,6 +3,7 @@ package com.yundian.star.networkapi.socketapi;
 import com.yundian.star.app.SocketAPIConstant;
 import com.yundian.star.base.SearchReturnbeen;
 import com.yundian.star.been.AdvBeen;
+import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
@@ -111,5 +112,28 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
                 SocketAPIConstant.ReqeutType.SearchStar, map);
         requestEntity(socketDataPacket,StarStarAchBeen.class,listener);
     }
+
+    @Override
+    public void getSeekList(String code, int startnum, int endnum, OnAPIListener<FansHotBuyReturnBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("starcode", code);
+        map.put("startnum", startnum);
+        map.put("endnum", endnum);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.SeekLike,
+                SocketAPIConstant.ReqeutType.SearchStar, map);
+        requestEntity(socketDataPacket,FansHotBuyReturnBeen.class,listener);
+    }
+
+    @Override
+    public void getTransferList(String code, int startnum, int endnum, OnAPIListener<FansHotBuyReturnBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("starcode", code);
+        map.put("startnum", startnum);
+        map.put("endnum", endnum);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.TransferList,
+                SocketAPIConstant.ReqeutType.SearchStar, map);
+        requestEntity(socketDataPacket,FansHotBuyReturnBeen.class,listener);
+    }
+
 
 }

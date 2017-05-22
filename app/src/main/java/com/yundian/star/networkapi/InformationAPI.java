@@ -3,6 +3,7 @@ package com.yundian.star.networkapi;
 
 import com.yundian.star.base.SearchReturnbeen;
 import com.yundian.star.been.AdvBeen;
+import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
@@ -27,5 +28,7 @@ public interface InformationAPI {
     void getStarBrief(String code,OnAPIListener<StarBuyActReferralInfo> listener);
     void getStarExperience(String code,OnAPIListener<StarExperienceBeen> listener);
     void getStarachive(String code,OnAPIListener<StarStarAchBeen> listener);
+    void getSeekList(String code,int startnum,int endnum,OnAPIListener<FansHotBuyReturnBeen> listener);
+    void getTransferList(String code,int startnum,int endnum,OnAPIListener<FansHotBuyReturnBeen> listener);
 
 }
