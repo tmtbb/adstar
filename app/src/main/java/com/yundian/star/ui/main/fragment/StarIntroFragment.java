@@ -1,8 +1,8 @@
 package com.yundian.star.ui.main.fragment;
 
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -17,14 +17,12 @@ import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.been.StarStarAchBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
-import com.yundian.star.ui.main.activity.StarTimeShareActivity;
 import com.yundian.star.ui.main.adapter.StarBuyAchAdapter;
 import com.yundian.star.ui.main.adapter.StarBuyExcAdapter;
 import com.yundian.star.utils.AdViewpagerUtil;
 import com.yundian.star.utils.ListViewUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.widget.MyListView;
-import com.yundian.star.wxapi.MyScrollView;
 
 import butterknife.Bind;
 
@@ -51,7 +49,7 @@ public class StarIntroFragment extends BaseFragment {
     @Bind(R.id.ll_new_buy_achievement)
     LinearLayout ll_new_buy_achievement ;
     @Bind(R.id.scroll_view)
-    MyScrollView scroll_view ;
+    NestedScrollView scroll_view ;
     @Bind(R.id.tv_mesure)
     TextView tv_mesure;
 
@@ -80,12 +78,8 @@ public class StarIntroFragment extends BaseFragment {
         gitData();
         getStarExperience();
         getStarAch();
-        initListener();
     }
 
-    private void initListener() {
-        scroll_view.setOnTouchListener(new TouchListenerImpl());
-    }
 
     private void gitData() {
         NetworkAPIFactoryImpl.getInformationAPI().getStarBrief("1001", new OnAPIListener<StarBuyActReferralInfo>() {
@@ -185,40 +179,5 @@ public class StarIntroFragment extends BaseFragment {
         layoutParams.height = high ;
         tv_mesure.setLayoutParams(layoutParams);
     }
-
-    private class TouchListenerImpl implements View.OnTouchListener{
-        StarTimeShareActivity activity=(StarTimeShareActivity)getActivity() ;
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            switch (motionEvent.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-
-                    break;
-                case MotionEvent.ACTION_MOVE:
-
-                    int scrollY=view.getScrollY();
-                    int height=view.getHeight();
-                    int scrollViewMeasuredHeight=scroll_view.getChildAt(0).getMeasuredHeight();
-                    if(scrollY==0){
-                        LogUtils.logd("滑动到了顶端 view.getScrollY()="+scrollY);
-                        activity.setFatherScrollCanScroll(true);
-                    }else {
-                        activity.setFatherScrollCanScroll(false);
-                    }
-                    if((scrollY+height)==scrollViewMeasuredHeight){
-                        //scroll_view.onInterceptTouchEvent()
-                        LogUtils.logd("滑动到了底部 scrollY="+scrollY);
-                        LogUtils.logd("滑动到了底部 height="+height);
-                        LogUtils.logd("滑动到了底部 scrollViewMeasuredHeight="+scrollViewMeasuredHeight);
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-            return false;
-        }
-
-    };
 
 }

@@ -1,17 +1,11 @@
 package com.yundian.star.ui.main.activity;
 
 import android.content.Context;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
-import android.view.MotionEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
 import android.view.WindowManager;
-import android.widget.LinearLayout;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.SlidingTabLayout;
@@ -24,10 +18,8 @@ import com.yundian.star.been.TabEntity;
 import com.yundian.star.ui.main.adapter.StartTimeShareAdpter;
 import com.yundian.star.ui.main.fragment.StarIntroFragment;
 import com.yundian.star.ui.main.fragment.TestFragment;
-import com.yundian.star.utils.DisplayUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.widget.NormalTitleBar;
-import com.yundian.star.wxapi.MyScrollView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,10 +41,6 @@ public class StarTimeShareActivity extends BaseActivity {
     ViewPager viewPager ;
     @Bind(R.id.tab_bottom_layout)
     CommonTabLayout tabLayout ;
-    @Bind(R.id.scroll_view)
-    MyScrollView scroll_view ;
-    @Bind(R.id.ll_tab_fargment)
-    LinearLayout ll_tab_fargment ;
 
     private String[] mTitles = {"求购", "转让","粉丝见面会","自选"};
     private int[] mIconUnselectIds = {
@@ -81,12 +69,9 @@ public class StarTimeShareActivity extends BaseActivity {
         nt_title.setTitleText("柳岩");
         initType();
         initTab();
-        initListener();
+
     }
 
-    private void initListener() {
-        scroll_view.setOnTouchListener(new TouchListenerImpl());
-    }
 
     //内部fragment的tab头部
     private void initType() {
@@ -96,7 +81,6 @@ public class StarTimeShareActivity extends BaseActivity {
         listType.add(getString(R.string.star_time_comment));
         initFragmentHigh();
         initFragment();
-        scroll_view.smoothScrollTo(0,0);
     }
 
     private void initFragmentHigh() {
@@ -109,19 +93,6 @@ public class StarTimeShareActivity extends BaseActivity {
 
     }
 
-    @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus){
-            Rect outRect = new Rect();
-            getWindow().findViewById(Window.ID_ANDROID_CONTENT).getDrawingRect(outRect);
-            ViewGroup.LayoutParams layoutParams = ll_tab_fargment.getLayoutParams();
-            layoutParams.height = outRect.height()- DisplayUtil.dip2px(48);
-            //layoutParams.height = outRect.height();
-            ll_tab_fargment.setLayoutParams(layoutParams);
-            LogUtils.loge("第一个"+ heightPixels +"第二个"+outRect.height());
-        }
-    }
 
     /**
      * 初始化tab
@@ -222,44 +193,4 @@ public class StarTimeShareActivity extends BaseActivity {
         });
     }
 
-
-    private class TouchListenerImpl implements View.OnTouchListener{
-        @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
-            switch (motionEvent.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    int scrollY=view.getScrollY();
-                    int height=view.getHeight();
-                    int scrollViewMeasuredHeight=scroll_view.getChildAt(0).getMeasuredHeight();
-                    if(scrollY==0){
-                        LogUtils.logd("滑动到了顶端 view.getScrollY()="+scrollY);
-                    }
-                    if((scrollY+height)==scrollViewMeasuredHeight){
-                        scroll_view.setScanScroll(false);
-                        //scroll_view.onInterceptTouchEvent()
-                        LogUtils.logd("滑动到了底部 scrollY="+scrollY);
-                        LogUtils.logd("滑动到了底部 height="+height);
-                        LogUtils.logd("滑动到了底部 scrollViewMeasuredHeight="+scrollViewMeasuredHeight);
-                    }else {
-                        scroll_view.setScanScroll(true);
-                    }
-                    break;
-
-                default:
-                    break;
-            }
-            return false;
-        }
-
-    };
-    public void setFatherScrollCanScroll(boolean isCan){
-        if (isCan){
-            scroll_view.setScanScroll(true);
-        }else {
-            scroll_view.setScanScroll(false);
-        }
-    }
 }
