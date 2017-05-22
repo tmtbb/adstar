@@ -4,29 +4,28 @@
     xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipToPadding="true"
-    >
+    android:clipToPadding="true">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_white_ffffffff"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        >
+        android:theme="@style/AppTheme.AppBarOverlay">
+
         <com.yundian.star.widget.NormalTitleBar
             android:id="@+id/nt_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_48"
             android:layout_gravity="top"
-            app:layout_scrollFlags="scroll"
-            ></com.yundian.star.widget.NormalTitleBar>
+            app:layout_scrollFlags="scroll"></com.yundian.star.widget.NormalTitleBar>
+
         <RelativeLayout
-            app:layout_scrollFlags="scroll"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:orientation="horizontal"
+            app:layout_scrollFlags="scroll">
 
             <ImageView
                 android:id="@+id/imageView2"
@@ -61,34 +60,34 @@
         </RelativeLayout>
 
         <FrameLayout
-            app:layout_scrollFlags="scroll"
+            android:layout_width="match_parent"
+            android:layout_height="290dp"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:layout_width="match_parent"
-            android:layout_height="290dp">
+            app:layout_scrollFlags="scroll">
 
         </FrameLayout>
+
         <com.flyco.tablayout.SlidingTabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="51dp"
             android:background="@color/color_white_ffffffff"
+            app:tl_indicator_color="@color/color_8C0808"
             app:tl_indicator_width_equal_title="true"
             app:tl_tab_space_equal="true"
-            app:tl_indicator_color="@color/color_8C0808"
             app:tl_textSelectColor="@color/color_8C0808"
             app:tl_textUnselectColor="@color/color_C2CFD8"
-            app:tl_textsize="@dimen/fontSize_16sp"
-            ></com.flyco.tablayout.SlidingTabLayout>
+            app:tl_textsize="@dimen/fontSize_16sp"></com.flyco.tablayout.SlidingTabLayout>
 
 
     </android.support.design.widget.AppBarLayout>
+
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        ></android.support.v4.view.ViewPager>
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v4.view.ViewPager>
 
     <!--<com.yundian.star.wxapi.MyScrollView
         android:id="@+id/scroll_view"

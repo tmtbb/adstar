@@ -133,6 +133,12 @@
     <string name="transfer_to_buy_hot">转让榜单</string>
     <string name="no_name">匿名</string>
     <string name="buy_price">%.2f元/秒</string>
+    <string name="remain_deal_time">剩余交易时间:</string>
+    <string name="auction_have_time">已持有 %1$s (%2$s)</string>
+    <string name="num_time">%d秒</string>
+
+
+
 
 
     <!-- session -->
