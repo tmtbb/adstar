@@ -135,5 +135,15 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         requestEntity(socketDataPacket,FansHotBuyReturnBeen.class,listener);
     }
 
+    @Override
+    public void getFansComments(String phone,String starcode, OnAPIListener<Object> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("phone", phone);
+        map.put("starcode", starcode);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.FansComments,
+                SocketAPIConstant.ReqeutType.NewInfos, map);
+        requestJsonObject(socketDataPacket,listener);
+    }
+
 
 }

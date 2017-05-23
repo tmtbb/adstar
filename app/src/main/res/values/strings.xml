@@ -136,6 +136,7 @@
     <string name="remain_deal_time">剩余交易时间:</string>
     <string name="auction_have_time">已持有 %1$s (%2$s)</string>
     <string name="num_time">%d秒</string>
+    <string name="comment">评价</string>
 
 
 

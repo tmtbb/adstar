@@ -17,9 +17,9 @@ import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.TabEntity;
 import com.yundian.star.ui.main.adapter.StartTimeShareAdpter;
 import com.yundian.star.ui.main.fragment.AuctionMarketFragment;
+import com.yundian.star.ui.main.fragment.CommentMarketFragment;
 import com.yundian.star.ui.main.fragment.FansHotFragment;
 import com.yundian.star.ui.main.fragment.StarIntroFragment;
-import com.yundian.star.ui.main.fragment.TestFragment;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
@@ -147,9 +147,6 @@ public class StarTimeShareActivity extends BaseActivity {
         createListFragments();
         if(fragmentAdapter==null) {
             fragmentAdapter = new StartTimeShareAdpter(getSupportFragmentManager(), mNewsFragmentList, listType);
-        }else{
-            //刷新fragment
-            fragmentAdapter.setFragments(getSupportFragmentManager(), mNewsFragmentList,listType);
         }
         viewPager.setAdapter(fragmentAdapter);
         tabs.setViewPager(viewPager);
@@ -169,12 +166,13 @@ public class StarTimeShareActivity extends BaseActivity {
 
         AuctionMarketFragment auctionMarketFragment =new AuctionMarketFragment();
         auctionMarketFragment.setArguments(bundle);
-        TestFragment testFragment3 = new TestFragment();
 
+        CommentMarketFragment commentMarketFragment = new CommentMarketFragment();
+        commentMarketFragment.setArguments(bundle);
 
         mNewsFragmentList.add(fansHotFragment);
         mNewsFragmentList.add(auctionMarketFragment);
-        mNewsFragmentList.add(testFragment3);
+        mNewsFragmentList.add(commentMarketFragment);
 
 
     }

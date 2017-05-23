@@ -64,6 +64,7 @@ public interface SocketAPIConstant {
         Short Starachive = 11011;
         Short SeekLike = 11021;
         Short TransferList = 11019;
+        Short FansComments = 10017;
 
     }
 }

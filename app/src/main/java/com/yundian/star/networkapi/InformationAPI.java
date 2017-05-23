@@ -30,5 +30,6 @@ public interface InformationAPI {
     void getStarachive(String code,OnAPIListener<StarStarAchBeen> listener);
     void getSeekList(String code,int startnum,int endnum,OnAPIListener<FansHotBuyReturnBeen> listener);
     void getTransferList(String code,int startnum,int endnum,OnAPIListener<FansHotBuyReturnBeen> listener);
+    void getFansComments(String phone ,String starcode,OnAPIListener<Object> listener);
 
 }

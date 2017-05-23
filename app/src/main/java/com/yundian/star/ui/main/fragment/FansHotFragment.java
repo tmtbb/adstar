@@ -1,6 +1,7 @@
 package com.yundian.star.ui.main.fragment;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
@@ -43,24 +44,34 @@ public class FansHotFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        initFragment();
+
     }
 
-    private void initFragment() {
-        Bundle bundle1 = new Bundle();
-        bundle1.putString(AppConstant.MARKET_DETAIL_IN_TYPE,"1001");
-        bundle1.putInt(AppConstant.FANS_HOT_TYPE,1);
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        hotBuyFragment = new FansHotBuyFragment();
-        hotBuyFragment.setArguments(bundle1);
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initFragment(savedInstanceState);
+    }
 
-        Bundle bundle2= new Bundle();
-        bundle2.putString(AppConstant.MARKET_DETAIL_IN_TYPE,"1001");
-        bundle2.putInt(AppConstant.FANS_HOT_TYPE,2);
-        transferFragment = new FansHotBuyFragment();
-        transferFragment.setArguments(bundle2);
-        transaction.add(R.id.fl_fans_hot_content, hotBuyFragment,"FansHotBuyFragment");
-        transaction.add(R.id.fl_fans_hot_content, transferFragment,"FansHotTransferFragment");
+    private void initFragment(Bundle savedInstanceState) {
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        if (savedInstanceState==null){
+            Bundle bundle1 = new Bundle();
+            bundle1.putString(AppConstant.MARKET_DETAIL_IN_TYPE,"1001");
+            bundle1.putInt(AppConstant.FANS_HOT_TYPE,1);
+            hotBuyFragment = new FansHotBuyFragment();
+            hotBuyFragment.setArguments(bundle1);
+            Bundle bundle2= new Bundle();
+            bundle2.putString(AppConstant.MARKET_DETAIL_IN_TYPE,"1001");
+            bundle2.putInt(AppConstant.FANS_HOT_TYPE,2);
+            transferFragment = new FansHotBuyFragment();
+            transferFragment.setArguments(bundle2);
+            transaction.add(R.id.fl_fans_hot_content, hotBuyFragment,"FansHotBuyFragment");
+            transaction.add(R.id.fl_fans_hot_content, transferFragment,"FansHotTransferFragment");
+        }else {
+            hotBuyFragment = (FansHotBuyFragment) getChildFragmentManager().findFragmentByTag("FansHotBuyFragment");
+            transferFragment = (FansHotBuyFragment) getChildFragmentManager().findFragmentByTag("FansHotTransferFragment");
+        }
         transaction.commit();
         buyHotOnclick();
     }
