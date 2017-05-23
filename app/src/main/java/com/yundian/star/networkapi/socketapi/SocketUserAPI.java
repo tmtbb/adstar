@@ -6,6 +6,7 @@ import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnBeen;
 import com.yundian.star.been.RegisterReturnWangYiBeen;
 import com.yundian.star.been.RegisterVerifyCodeBeen;
+import com.yundian.star.been.WXinLoginReturnBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.UserAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
@@ -30,13 +31,24 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
     }
 
     @Override
-    public void registerWangYi(String name_value, String accid_value, OnAPIListener<RegisterReturnWangYiBeen> listener) {
+    public void registerWangYi(String phone,String name_value, String accid_value, OnAPIListener<RegisterReturnWangYiBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
+        map.put("phone", phone);
         map.put("name_value", name_value);
         map.put("accid_value", accid_value);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.WangYi,
                 SocketAPIConstant.ReqeutType.Wangyi, map);
         requestEntity(socketDataPacket, RegisterReturnWangYiBeen.class, listener);
+    }
+
+    @Override
+    public void wxLogin(String openid, OnAPIListener<WXinLoginReturnBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("openid", openid);
+        map.put("deviceId", AppApplication.getAndroidId());
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.WXLogin,
+                SocketAPIConstant.ReqeutType.User, map);
+        requestEntity(socketDataPacket,WXinLoginReturnBeen.class, listener);
     }
 
     @Override
@@ -71,6 +83,26 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.ResetPasswd,
                 SocketAPIConstant.ReqeutType.User, map);
         requestJsonObject(socketDataPacket,listener);
+    }
+
+    @Override
+    public void bindNumber(String phone, String openid, String password,long timeStamp,String vToken,String vCode, long memberId, String agentId, String recommend, String nickname, String headerUrl, OnAPIListener<RegisterReturnBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("phone", phone);
+        map.put("openid", openid);
+        map.put("pwd", password);
+        map.put("vCode", vCode);
+        map.put("nickname", nickname);
+        map.put("headerUrl", headerUrl);
+        map.put("timeStamp",timeStamp);
+        map.put("vToken", vToken);
+        map.put("memberId", memberId);
+        map.put("agentId", agentId);
+        map.put("recommend", recommend);
+        map.put("deviceId",  AppApplication.getAndroidId());
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.WXBind,
+                SocketAPIConstant.ReqeutType.User, map);
+        requestEntity(socketDataPacket, RegisterReturnBeen.class, listener);
     }
 
 //    @Override

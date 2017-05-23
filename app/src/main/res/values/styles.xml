@@ -39,6 +39,16 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="Anim_fade" parent="android:Theme.Light.NoTitleBar">
+        <item name="android:windowAnimationStyle">@style/fade</item>
+    </style>
+    <style name="fade" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/act_in_from_right</item>
+        <item name="android:activityOpenExitAnimation">@anim/act_out_from_left</item>
+        <item name="android:activityCloseEnterAnimation">@anim/act_in_from_right</item>
+        <item name="android:activityCloseExitAnimation">@anim/act_out_from_left</item>
+    </style>
+
 
 
 

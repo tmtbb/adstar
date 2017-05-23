@@ -1,5 +1,6 @@
 package com.yundian.star.ui.main.fragment;
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,7 @@ import com.yundian.star.R;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.AdvBeen;
 import com.yundian.star.ui.main.activity.NewsBrowserActivity;
+import com.yundian.star.ui.main.activity.NewsStarBuyActivity;
 import com.yundian.star.ui.main.adapter.NewsInforAdapter;
 import com.yundian.star.ui.main.contract.NewInfoContract;
 import com.yundian.star.ui.main.model.NewsInforModel;
@@ -31,6 +33,7 @@ import com.yundian.star.utils.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -53,7 +56,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     /**
      * 已经获取到多少条数据了
      */
-    private static int mCurrentCounter = 0;
+    private static int mCurrentCounter = 1;
     /**
      * 服务器端一共多少条数据
      */
@@ -81,7 +84,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     protected void initView() {
         initAdpter();
         mPresenter.getAdvertisement("1", 1);
-        mPresenter.getData(false, "1", "1", 0, REQUEST_COUNT, 1);
+        mPresenter.getData(false, "1", "1", 1, REQUEST_COUNT, 1);
     }
 
     private void initAdpter() {
@@ -100,7 +103,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                mPresenter.getData(true, "1", "1", mCurrentCounter + 1, mCurrentCounter + 1 + REQUEST_COUNT, 1);
+                mPresenter.getData(true, "1", "1", mCurrentCounter+1, mCurrentCounter+REQUEST_COUNT, 1);
             }
         });
 
@@ -176,7 +179,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         //newsInfoAdapter.setDataList(arrayList);
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         newsInfoAdapter.addAll(list);
-        lrv.refreshComplete(REQUEST_COUNT);
+        lrv.refresh();
     }
 
     @Override
@@ -193,9 +196,12 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
     @Override
     public void initAdv(AdvBeen o) {
-        String adList[] = new String[o.getList().size()];
-        for (int i = 0; i < o.getList().size(); i++) {
-            LogUtils.loge(o.getList().get(i).getPic_url());
+        if (o.getList()==null||o.getList().size()==0){
+            return;
+        }
+        final List<AdvBeen.ListBean> listData = o.getList();
+        String adList[] = new String[listData.size()];
+        for (int i = 0; i < listData.size(); i++) {
             adList[i] = o.getList().get(i).getPic_url();
         }
         //add a HeaderView
@@ -208,6 +214,9 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
             @Override
             public void onItemClick(View v, int position, String url) {
 
+                Intent intent = new Intent(getActivity(),NewsStarBuyActivity.class);
+                intent.putExtra("code",listData.get(position).getCode());
+                startActivity(intent);
             }
         });
         lRecyclerViewAdapter.addHeaderView(header);
@@ -243,9 +252,9 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden == false) {
-            mCurrentCounter = 0;
+            mCurrentCounter = 1;
             lrv.setNoMore(false);
-            mPresenter.getData(false, "1", "1", 0, 10, 1);
+            mPresenter.getData(false, "1", "1",1, REQUEST_COUNT, 1);
             LogUtils.loge("刷新");
         }
     }

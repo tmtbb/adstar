@@ -5,7 +5,7 @@ public interface Constant {
     String[] rechargeType = new String[]{"微信支付", "支付宝支付"};
     String[] handleText = new String[]{" 未操作 ", " 双倍返还 ", " 货运 ", " 退舱 "};
     String APP_ID = "wx9dc39aec13ee3158";
-    String SECRET = "1e372a173a248fb1b5c88d24236ef3b3";
+    String SECRET = "def7f0fc10c95e5fc3b4c17eab2527c4";
 
     String USER_ENTITY = "user_entity";
 

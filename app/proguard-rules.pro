@@ -47,3 +47,93 @@
 #如果你使用全文检索插件，需要加入
 -dontwarn org.apache.lucene.**
 -keep class org.apache.lucene.** {*;}
+#微信登录
+-keep class com.tencent.mm.opensdk.** {
+   *;
+}
+-keep class com.tencent.wxop.** {
+   *;
+}
+-keep class com.tencent.mm.sdk.** {
+   *;
+}
+
+
+#fastjson
+
+
+-dontwarn com.alibaba.fastjson.**
+-dontskipnonpubliclibraryclassmembers
+-dontskipnonpubliclibraryclasses
+
+-keep class com.alibaba.fastjson.**{*;}
+-keep class * implements java.io.Serializable { *; }
+
+-keepattributes *Annotation
+-keepattributes Signature
+
+#soket
+-keep class org.apache.http.** { *; }
+-keep class android.net.http.** { *; }
+-dontwarn org.apache.http.**
+-dontwarn android.net.http.**
+
+
+
+#高德地图2d
+-keep class com.amap.api.maps2d.**{*;}
+-keep class com.amap.api.mapcore2d.**{*;}
+#定位
+     -keep class com.amap.api.location.**{*;}
+     -keep class com.amap.api.fence.**{*;}
+     -keep class android.util.FloatMath.**{*;}
+     -keep class com.autonavi.aps.amapapi.model.**{*;}
+     -keep class com.amap.api.mapcore2d.MapMessage.**{*;}
+
+-dontwarn android.util.FloatMath.**
+-dontwarn com.amap.api.mapcore2d.**
+
+
+
+#高德搜索
+     -keep   class com.amap.api.services.**{*;}
+     -keepattributes EnclosingMethod
+
+
+-dontwarn Android.support.**
+-dontwarn com.alibaba.fastjson.**
+
+
+-dontskipnonpubliclibraryclassmembers
+-dontskipnonpubliclibraryclasses
+
+-keep class com.baidu.** { *; }
+
+-keepclassmembers class * {
+public <methods>;
+}
+
+-keepclassmembers class * implements Java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+    public <fields>;
+}
+-keepclassmembers class * implements android.os.Parcelable {
+    static android.os.Parcelable$Creator CREATOR;
+}
+
+-keepattributes *Annotation*
+-keepclassmembers class ** {
+    @org.greenrobot.eventbus.Subscribe <methods>;
+}
+-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+
+# Only required if you use AsyncExecutor
+-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+    <init>(java.lang.Throwable);
+}
+

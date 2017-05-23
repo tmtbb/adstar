@@ -30,6 +30,12 @@
     <string name="check_famous_address_book">查看名人通讯录</string>
     <string name="famous_address_book">名人通讯录</string>
     <string name="diff_answer">分答</string>
+    <string name="ming_xing">明星</string>
+    <string name="number_80004">8004</string>
+    <string name="search_hint">搜索发行人代码或名称</string>
+    <string name="search_star_result_1">(</string>
+    <string name="search_star_result_2">)</string>
+    <string name="option">自选</string>
 
 
     <string name="title_activity_main">MainActivity</string>
@@ -63,6 +69,9 @@
     <string name="new_price_market_detail_1">最新价</string>
     <string name="new_price_market_detail_2">元/秒</string>
     <string name="price_limit">涨跌幅</string>
+    <string name="star_hot">明星热度</string>
+    <string name="star_price_time_share">￥19.88</string>
+    <string name="star_price_time_share_limit">+0.02/14.29%</string>
 
     <string name="readed">已读</string>
     <string name="about">关于</string>
@@ -105,6 +114,33 @@
     <string name="user_not_exsit">该用户不存在</string>
     <string name="user_tips">请检查你输入的帐号是否正确</string>
     <string name="edit">编辑</string>
+    <string name="oneself_intro">个人简介</string>
+    <string name="oneself_intro_expeience">主要经历</string>
+    <string name="oneself_intro_achievement">主要成就</string>
+    <string name="intro_nationality">国籍:%s</string>
+    <string name="intro_nation">民族:%s</string>
+    <string name="intro_work">职业:%s</string>
+    <string name="intro_constellation">星座:%s</string>
+    <string name="intro_birth_day">出生日期:%s</string>
+    <string name="intro_colleage">毕业院校:%s</string>
+    <string name="intro_all_time">总时长</string>
+    <string name="click_buy">立即求购</string>
+    <string name="star_time_intro">简介</string>
+    <string name="star_time_fans">粉丝热度榜</string>
+    <string name="star_time_auction">拍卖</string>
+    <string name="star_time_comment">评论</string>
+    <string name="ask_to_buy_hot">求购榜单</string>
+    <string name="transfer_to_buy_hot">转让榜单</string>
+    <string name="no_name">匿名</string>
+    <string name="buy_price">%.2f元/秒</string>
+    <string name="remain_deal_time">剩余交易时间:</string>
+    <string name="auction_have_time">已持有 %1$s (%2$s)</string>
+    <string name="num_time">%d秒</string>
+    <string name="comment">评价</string>
+
+
+
+
 
     <!-- session -->
     <string name="input_panel_guess">猜 拳</string>

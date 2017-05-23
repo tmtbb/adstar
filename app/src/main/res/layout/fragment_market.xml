@@ -6,7 +6,7 @@
     <com.yundian.star.widget.NormalTitleBar
         android:id="@id/nt_title"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
+        android:layout_height="48dp"
         ></com.yundian.star.widget.NormalTitleBar>
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"

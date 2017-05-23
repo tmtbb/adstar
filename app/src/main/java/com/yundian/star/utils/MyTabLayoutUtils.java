@@ -23,11 +23,7 @@ import android.view.ViewGroup;
 
 import com.yundian.star.app.AppApplication;
 
-/**
- * @author 咖枯
- * @version 1.0 2016/5/31
- */
-public class MyUtils {
+public class MyTabLayoutUtils {
 
     public static void dynamicSetTabLayoutMode(TabLayout tabLayout) {
         int tabWidth = calculateTabWidth(tabLayout);

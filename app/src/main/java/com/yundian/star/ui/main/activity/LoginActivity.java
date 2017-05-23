@@ -15,9 +15,12 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.auth.LoginInfo;
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.yundian.star.R;
+import com.yundian.star.app.AppApplication;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.base.baseapp.AppManager;
+import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnWangYiBeen;
 import com.yundian.star.helper.CheckHelper;
@@ -31,6 +34,10 @@ import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.CheckException;
 import com.yundian.star.widget.WPEditText;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -50,9 +57,12 @@ public class LoginActivity extends BaseActivity{
     TextView registerText;
     @Bind(R.id.tv_retrieve_password)
     TextView tv_retrieve_password;
+    @Bind(R.id.tv_weixin_login)
+    TextView tv_weixin_login;
     private CheckHelper checkHelper = new CheckHelper();
     private AbortableFuture<LoginInfo> loginRequest;
     private long exitNow;
+    boolean flag =true;
 
     @Override
     public int getLayoutId() {
@@ -66,6 +76,10 @@ public class LoginActivity extends BaseActivity{
 
     @Override
     public void initView() {
+        if (flag) {
+            EventBus.getDefault().register(this); // EventBus注册广播()
+            flag = false;//更改标记,使其不会再进行多次注册
+        }
         WindowManager.LayoutParams p = getWindow().getAttributes();// 获取对话框当前的参值
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
@@ -92,7 +106,7 @@ public class LoginActivity extends BaseActivity{
                     }else {
                         LogUtils.logd("登录成功"+loginReturnInfo);
                         //网易云注册
-                        NetworkAPIFactoryImpl.getUserAPI().registerWangYi(userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), new OnAPIListener<RegisterReturnWangYiBeen>() {
+                        NetworkAPIFactoryImpl.getUserAPI().registerWangYi(userNameEditText.getEditTextString(),userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), new OnAPIListener<RegisterReturnWangYiBeen>() {
                             @Override
                             public void onError(Throwable ex) {
                                 LogUtils.logd("网易云注册失败"+ex.toString());
@@ -198,5 +212,37 @@ public class LoginActivity extends BaseActivity{
         }
         // 更新配置
         NIMClient.updateStatusBarNotificationConfig(statusBarNotificationConfig);
+    }
+
+    @OnClick(R.id.tv_weixin_login)
+    public void weixinLogin(){
+        if (!AppApplication.api.isWXAppInstalled()) {
+            ToastUtils.showShort("您还未安装微信客户端");
+            return;
+        }
+        final SendAuth.Req req = new SendAuth.Req();
+        ToastUtils.showShort("微信登录");
+        req.scope = "snsapi_userinfo";
+        req.state = "wechat_sdk_demo_test";
+        AppApplication.api.sendReq(req);
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().removeAllStickyEvents();
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+
+    //接收消息
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void ReciveMessage(EventBusMessage eventBusMessage) {
+        switch (eventBusMessage.Message) {
+            case -6:  //成功
+                LogUtils.loge("当前是接收到微信登录成功的消息,finish");
+                finish();
+                break;
+        }
     }
 }

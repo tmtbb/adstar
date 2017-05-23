@@ -7,7 +7,7 @@
     <com.yundian.star.widget.NormalTitleBar
     android:id="@+id/nt_title"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_45"></com.yundian.star.widget.NormalTitleBar>
+    android:layout_height="wrap_content"></com.yundian.star.widget.NormalTitleBar>
     <com.yundian.star.widget.WPEditText
         android:id="@+id/phoneEditText"
         android:layout_width="match_parent"

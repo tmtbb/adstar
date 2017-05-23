@@ -1,5 +1,6 @@
 package com.yundian.star.ui.main.activity;
 
+import android.content.Intent;
 import android.graphics.Point;
 import android.view.View;
 import android.view.WindowManager;
@@ -11,6 +12,7 @@ import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.RegisterReturnBeen;
 import com.yundian.star.been.RegisterVerifyCodeBeen;
+import com.yundian.star.been.WXUserInfoEntity;
 import com.yundian.star.helper.CheckHelper;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIException;
@@ -48,6 +50,8 @@ public class RegisterUserActivity extends BaseActivity {
     private String pwd;
     private String vCode;
     private RegisterVerifyCodeBeen verifyCodeBeen ;
+    private boolean isWXBind = false;
+    private WXUserInfoEntity wxUserInfo;
 
     @Override
     public int getLayoutId() {
@@ -61,6 +65,12 @@ public class RegisterUserActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        Intent intent = getIntent();
+        wxUserInfo = (WXUserInfoEntity)intent.getParcelableExtra("wxBind");
+        if (wxUserInfo !=null){
+            registerButton.setText("微信绑定");
+            isWXBind = true;
+        }
         WindowManager.LayoutParams p = getWindow().getAttributes();// 获取对话框当前的参值
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
@@ -95,23 +105,44 @@ public class RegisterUserActivity extends BaseActivity {
 
                 if (checkHelper.checkMobile(phone, exception) && checkHelper.checkPassword(pwd, exception)
                         && checkHelper.checkVerifyCode(vCode, exception)) {
-                    register();
-                   /* newPwd = SHA256Util.shaEncrypt(SHA256Util.shaEncrypt(pwd + "t1@s#df!") + phone);
-                    memberUnitText = 0;
-                    if (!TextUtils.isEmpty(memberUnit.getEditTextString())) {
-                        memberUnitText = Long.parseLong(memberUnit.getEditTextString());
-                    }
-                    agentIdText = agentId.getEditTextString();
-                    refereeIdText = refereeId.getEditTextString();
-                    if (isBind) {
-                        bindUserInfo();
-                    } else {
+                    if (isWXBind){
+                        wxBindInfo();
+                    }else {
                         register();
-                    }*/
+                    }
                 } else {
-                    //closeLoader();
                     ToastUtils.showShort(exception.getErrorMsg());
                 }
+    }
+
+    private void wxBindInfo() {
+        if (!verifyCode()){
+            return;
+        }
+        NetworkAPIFactoryImpl.getUserAPI().bindNumber(userNameEditText.getEditTextString(), wxUserInfo.getOpenid()
+                , passwordEditText.getEditTextString(), verifyCodeBeen.getTimeStamp(), verifyCodeBeen.getVToken(), vCode,
+                -1, "-1", "-1", wxUserInfo.getNickname(), wxUserInfo.getHeadimgurl(), new OnAPIListener<RegisterReturnBeen>() {
+                    @Override
+                    public void onError(Throwable ex) {
+                        LogUtils.logd("微信绑定失败!");
+                    }
+
+                    @Override
+                    public void onSuccess(RegisterReturnBeen registerReturnBeen) {
+                        LogUtils.logd("微信绑定成功" + registerReturnBeen.toString());
+                        if (registerReturnBeen.getResult() == -301) {
+                            ToastUtils.showShort("用户已经注册,请直接登录");
+                            startActivity(LoginActivity.class);
+                            finish();
+                            overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
+                        } else if (registerReturnBeen.getResult() == 1) {
+                            ToastUtils.showShort("注册成功");
+//                            loginGetUserInfo(newPwd);  //登录请求数据
+                            finish();
+                            overridePendingTransition(0,R.anim.activity_off_top_out);
+                        }
+                    }
+                });
     }
 
     @OnClick(R.id.tv_retrieve_password)
@@ -127,13 +158,22 @@ public class RegisterUserActivity extends BaseActivity {
         overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
     }
 
-    private void register() {
+    private boolean verifyCode() {
         //本地校验验证码   MD5(yd1742653sd + code_time + rand_code + phone)
         if (!verifyCodeBeen.getVToken().equals(MD5Util.MD5("yd1742653sd" + verifyCodeBeen.getTimeStamp() + vCode+userNameEditText.getEditTextString()))) {
             ToastUtils.showShort("验证码错误,请重新输入");
+            return false;
+        }else {
+            return true ;
+        }
+    }
+
+
+    private void register() {
+        if (!verifyCode()){
             return;
         }
-                NetworkAPIFactoryImpl.getUserAPI().register(userNameEditText.getEditTextString(), passwordEditText.getEditTextString(), -1, "-1", "-1", new OnAPIListener<RegisterReturnBeen>() {
+        NetworkAPIFactoryImpl.getUserAPI().register(userNameEditText.getEditTextString(), passwordEditText.getEditTextString(), -1, "-1", "-1", new OnAPIListener<RegisterReturnBeen>() {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.logd("注册请求网络失败"+ex.toString());
