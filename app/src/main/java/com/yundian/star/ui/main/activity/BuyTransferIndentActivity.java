@@ -1,5 +1,6 @@
 package com.yundian.star.ui.main.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -9,8 +10,8 @@ import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.ui.main.adapter.BuyTransferIndentAdapter;
+import com.yundian.star.ui.main.fragment.AlreadyBoughtFragment;
 import com.yundian.star.ui.main.fragment.AskToBuyMarketFragment;
-import com.yundian.star.ui.main.fragment.AuctionMarketFragment;
 import com.yundian.star.ui.main.fragment.CommentMarketFragment;
 import com.yundian.star.ui.main.fragment.TransferMarketFragment;
 
@@ -35,6 +36,7 @@ public class BuyTransferIndentActivity extends BaseActivity {
 
     private List<String> listType = new ArrayList<>();
     private List<Fragment> mBuyTransferFragmentList;
+    private int type;
 
     @Override
     public int getLayoutId() {
@@ -48,6 +50,8 @@ public class BuyTransferIndentActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        Intent intent = getIntent();
+        type = intent.getIntExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 0);
         initType();
     }
 
@@ -74,6 +78,7 @@ public class BuyTransferIndentActivity extends BaseActivity {
         view_pager.setAdapter(fragmentAdapter);
         tabs.setViewPager(view_pager);
         setPageChangeListener();
+        view_pager.setCurrentItem(type);
 
     }
 
@@ -87,8 +92,8 @@ public class BuyTransferIndentActivity extends BaseActivity {
         TransferMarketFragment transferMarketFragment = new TransferMarketFragment();
         transferMarketFragment.setArguments(bundle);
 
-        AuctionMarketFragment auctionMarketFragment =new AuctionMarketFragment();
-        auctionMarketFragment.setArguments(bundle);
+        AlreadyBoughtFragment alreadyBoughtFragment =new AlreadyBoughtFragment();
+        alreadyBoughtFragment.setArguments(bundle);
 
         CommentMarketFragment commentMarketFragment = new CommentMarketFragment();
         commentMarketFragment.setArguments(bundle);
@@ -98,7 +103,7 @@ public class BuyTransferIndentActivity extends BaseActivity {
 
         mBuyTransferFragmentList.add(askToBuyMarketFragment);
         mBuyTransferFragmentList.add(transferMarketFragment);
-        mBuyTransferFragmentList.add(auctionMarketFragment);
+        mBuyTransferFragmentList.add(alreadyBoughtFragment);
         mBuyTransferFragmentList.add(commentMarketFragment);
         mBuyTransferFragmentList.add(commentMarketFragment2);
 

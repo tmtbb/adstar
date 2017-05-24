@@ -13,7 +13,6 @@ import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.FansHotBuyAdapter;
-import com.yundian.star.utils.LogUtils;
 
 import java.util.ArrayList;
 
@@ -56,15 +55,12 @@ public class FansHotBuyFragment extends BaseFragment {
             hotType = getArguments().getInt(AppConstant.FANS_HOT_TYPE);
 
         }
-        //mCurrentCounter = 1;
         initAdapter();
         getData(false,1,REQUEST_COUNT);
-        LogUtils.loge("1");
     }
 
     private void getData(final boolean isLoadMore,int start ,int end ) {
         if (hotType==1){
-            LogUtils.loge("2");
             NetworkAPIFactoryImpl.getInformationAPI().getSeekList("1001", start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
                 @Override
                 public void onError(Throwable ex) {
@@ -89,7 +85,6 @@ public class FansHotBuyFragment extends BaseFragment {
                 }
             });
         }else {
-            LogUtils.loge("3");
             NetworkAPIFactoryImpl.getInformationAPI().getTransferList("1001", start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
                 @Override
                 public void onError(Throwable ex) {
@@ -128,7 +123,6 @@ public class FansHotBuyFragment extends BaseFragment {
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                LogUtils.loge("4");
                 getData(true,mCurrentCounter+1,mCurrentCounter+REQUEST_COUNT);
             }
         });

@@ -1,5 +1,6 @@
 package com.yundian.star.ui.main.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -63,13 +64,19 @@ public class StarTimeShareActivity extends BaseActivity {
     public void onRadioButtenClick(View view){
         switch (view.getId()){
             case R.id.rb_1:
-                startActivity(BuyTransferIndentActivity.class);
+                Intent intent = new Intent(this,BuyTransferIndentActivity.class);
+                intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE,0);
+                startActivity(intent);
                 break;
             case R.id.rb_2:
-                startActivity(BuyTransferIndentActivity.class);
+                Intent intent2 = new Intent(this,BuyTransferIndentActivity.class);
+                intent2.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE,1);
+                startActivity(intent2);
                 break;
             case R.id.rb_3:
-                startActivity(BuyTransferIndentActivity.class);
+                Intent intent3 = new Intent(this,BuyTransferIndentActivity.class);
+                intent3.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE,2);
+                startActivity(intent3);
                 break;
             case R.id.rb_4:
                 break;

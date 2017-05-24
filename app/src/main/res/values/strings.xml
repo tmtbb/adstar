@@ -157,6 +157,12 @@
     <string name="sure_buy">确认购买</string>
     <string name="ask_to_buy_price">求购价格</string>
     <string name="ask_to_buy_num">求购数量</string>
+    <string name="usable_money">可用金额(元)</string>
+    <string name="hold_have_money">持仓总市值(元)</string>
+    <string name="name_market_value">名称/市值(元)</string>
+    <string name="have_transfer">持有/可转(秒)</string>
+    <string name="current_price_cost">现价/成本(秒)</string>
+    <string name="profit_and_loss">盈亏(元)</string>
 
 
 
