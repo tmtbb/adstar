@@ -115,6 +115,10 @@ public class MarketDetailFragment extends BaseFragment {
 
                 @Override
                 public void onSuccess(OptionsStarListBeen optionsStarListBeen) {
+                    if (optionsStarListBeen.getList()==null){
+                        lrv.setNoMore(true);
+                        return;
+                    }
                     if (isLoadMore){
                         loadList.clear();
                         loadList = optionsStarListBeen.getList();
@@ -136,6 +140,10 @@ public class MarketDetailFragment extends BaseFragment {
                 @Override
                 public void onSuccess(OptionsStarListBeen optionsStarListBeen) {
                     LogUtils.loge("行情每个页面请求数据返回的retult:"+optionsStarListBeen);
+                    if (optionsStarListBeen.getList()==null){
+                        lrv.setNoMore(true);
+                        return;
+                    }
                     if(optionsStarListBeen.getResult()==1){
                         if (isLoadMore){
                             loadList.clear();
@@ -164,6 +172,7 @@ public class MarketDetailFragment extends BaseFragment {
         lrv.setLayoutManager(new LinearLayoutManager(getContext()));
         lrv.setPullRefreshEnabled(false);
         lrv.setLoadMoreEnabled(true);
+        lrv.setNoMore(false);
         lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override

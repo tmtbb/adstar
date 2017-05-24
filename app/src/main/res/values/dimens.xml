@@ -91,9 +91,11 @@
     <dimen name="fontSize_20sp">20sp</dimen>
     <dimen name="fontSize_24sp">24sp</dimen>
     <dimen name="fontSize_25sp">25sp</dimen>
+    <dimen name="fontSize_27sp">27sp</dimen>
     <dimen name="fontSize_30sp">30sp</dimen>
     <dimen name="fontSize_32sp">32sp</dimen>
     <dimen name="fontSize_48sp">48sp</dimen>
+    <dimen name="fontSize_40sp">40sp</dimen>
 
     <!-- 通用 -->
     <dimen name="isetting_item_height">55dip</dimen>

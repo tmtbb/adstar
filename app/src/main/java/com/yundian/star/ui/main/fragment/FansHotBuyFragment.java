@@ -2,7 +2,6 @@ package com.yundian.star.ui.main.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 
-import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
@@ -14,6 +13,7 @@ import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.FansHotBuyAdapter;
+import com.yundian.star.utils.LogUtils;
 
 import java.util.ArrayList;
 
@@ -56,12 +56,15 @@ public class FansHotBuyFragment extends BaseFragment {
             hotType = getArguments().getInt(AppConstant.FANS_HOT_TYPE);
 
         }
+        //mCurrentCounter = 1;
         initAdapter();
         getData(false,1,REQUEST_COUNT);
+        LogUtils.loge("1");
     }
 
     private void getData(final boolean isLoadMore,int start ,int end ) {
         if (hotType==1){
+            LogUtils.loge("2");
             NetworkAPIFactoryImpl.getInformationAPI().getSeekList("1001", start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
                 @Override
                 public void onError(Throwable ex) {
@@ -70,6 +73,10 @@ public class FansHotBuyFragment extends BaseFragment {
 
                 @Override
                 public void onSuccess(FansHotBuyReturnBeen fansHotBuyReturnBeen) {
+                    if (fansHotBuyReturnBeen.getList()==null){
+                        lrv.setNoMore(true);
+                        return;
+                    }
                     if (isLoadMore){
                         loadList.clear();
                         loadList = fansHotBuyReturnBeen.getList();
@@ -82,6 +89,7 @@ public class FansHotBuyFragment extends BaseFragment {
                 }
             });
         }else {
+            LogUtils.loge("3");
             NetworkAPIFactoryImpl.getInformationAPI().getTransferList("1001", start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
                 @Override
                 public void onError(Throwable ex) {
@@ -90,6 +98,10 @@ public class FansHotBuyFragment extends BaseFragment {
 
                 @Override
                 public void onSuccess(FansHotBuyReturnBeen fansHotBuyReturnBeen) {
+                    if (fansHotBuyReturnBeen.getList()==null){
+                        lrv.setNoMore(true);
+                        return;
+                    }
                     if (isLoadMore){
                         loadList.clear();
                         loadList = fansHotBuyReturnBeen.getList();
@@ -109,18 +121,14 @@ public class FansHotBuyFragment extends BaseFragment {
         fansHotBuyAdapter = new FansHotBuyAdapter(getActivity());
         lRecyclerViewAdapter = new LRecyclerViewAdapter(fansHotBuyAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
-        DividerDecoration divider = new DividerDecoration.Builder(getContext())
-                .setHeight(R.dimen.dp_30)
-                .setColorResource(R.color.transparent)
-                .build();
-        //mRecyclerView.setHasFixedSize(true);
-        lrv.addItemDecoration(divider);
         lrv.setLayoutManager(new LinearLayoutManager(getContext()));
         lrv.setPullRefreshEnabled(false);
+        lrv.setNoMore(false);
         lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
+                LogUtils.loge("4");
                 getData(true,mCurrentCounter+1,mCurrentCounter+REQUEST_COUNT);
             }
         });

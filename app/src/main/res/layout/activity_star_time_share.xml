@@ -82,58 +82,58 @@
 
 
     </android.support.design.widget.AppBarLayout>
-
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v4.view.ViewPager>
-
-    <!--<com.yundian.star.wxapi.MyScrollView
-        android:id="@+id/scroll_view"
+    <RadioGroup
+        android:id="@+id/rg_butten"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:layout_marginTop="48dp">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:orientation="vertical">
-
-
-            <LinearLayout
-                android:id="@+id/ll_tab_fargment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
-
-
-
-
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-
-    </com.yundian.star.wxapi.MyScrollView>-->
-
-    <com.flyco.tablayout.CommonTabLayout
-        android:id="@+id/tab_bottom_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="bottom"
-        android:background="@drawable/bg_main_down_table"
-        android:paddingBottom="6dp"
-        android:paddingTop="6dp"
-        tl:tl_iconHeight="24dp"
-        tl:tl_iconMargin="@dimen/dp_5"
-        tl:tl_iconWidth="24dp"
-        tl:tl_textSelectColor="@color/color_8D0809"
-        tl:tl_textUnselectColor="@color/color_C2CFD8"
-        tl:tl_textsize="@dimen/fontSize_10sp"
-        tl:tl_underline_height="0dp" />
+        android:orientation="horizontal"
+        android:background="@drawable/radi_button_bg"
+        >
+
+        <RadioButton
+            android:id="@+id/rb_1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/ic_home_normal"
+            android:gravity="center"
+            android:text="@string/ask_to_buy" />
+
+        <RadioButton
+            android:id="@+id/rb_2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/ic_home_normal"
+            android:gravity="center"
+            android:text="@string/transfer" />
+
+        <RadioButton
+            android:id="@+id/rb_3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/ic_home_normal"
+            android:gravity="center"
+            android:text="@string/fans_meet_and_greet" />
+        <RadioButton
+            android:id="@+id/rb_4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/ic_home_normal"
+            android:gravity="center"
+            android:text="@string/optional" />
+
+    </RadioGroup>
 </android.support.design.widget.CoordinatorLayout>
