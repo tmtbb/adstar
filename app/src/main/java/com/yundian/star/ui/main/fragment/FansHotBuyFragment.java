@@ -2,7 +2,6 @@ package com.yundian.star.ui.main.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 
-import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
@@ -70,6 +69,10 @@ public class FansHotBuyFragment extends BaseFragment {
 
                 @Override
                 public void onSuccess(FansHotBuyReturnBeen fansHotBuyReturnBeen) {
+                    if (fansHotBuyReturnBeen.getList()==null){
+                        lrv.setNoMore(true);
+                        return;
+                    }
                     if (isLoadMore){
                         loadList.clear();
                         loadList = fansHotBuyReturnBeen.getList();
@@ -90,6 +93,10 @@ public class FansHotBuyFragment extends BaseFragment {
 
                 @Override
                 public void onSuccess(FansHotBuyReturnBeen fansHotBuyReturnBeen) {
+                    if (fansHotBuyReturnBeen.getList()==null){
+                        lrv.setNoMore(true);
+                        return;
+                    }
                     if (isLoadMore){
                         loadList.clear();
                         loadList = fansHotBuyReturnBeen.getList();
@@ -109,14 +116,9 @@ public class FansHotBuyFragment extends BaseFragment {
         fansHotBuyAdapter = new FansHotBuyAdapter(getActivity());
         lRecyclerViewAdapter = new LRecyclerViewAdapter(fansHotBuyAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
-        DividerDecoration divider = new DividerDecoration.Builder(getContext())
-                .setHeight(R.dimen.dp_30)
-                .setColorResource(R.color.transparent)
-                .build();
-        //mRecyclerView.setHasFixedSize(true);
-        lrv.addItemDecoration(divider);
         lrv.setLayoutManager(new LinearLayoutManager(getContext()));
         lrv.setPullRefreshEnabled(false);
+        lrv.setNoMore(false);
         lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
