@@ -47,3 +47,5 @@ captures/
 /build
 /captures
 .externalNativeBuild
+# ignore idea
+.idea
