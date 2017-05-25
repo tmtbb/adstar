@@ -24,7 +24,7 @@ import com.yundian.star.been.TabEntity;
 import com.yundian.star.ui.im.fragment.DifferAnswerFragment;
 import com.yundian.star.ui.main.fragment.MarketFragment;
 import com.yundian.star.ui.main.fragment.NewsInfoFragment;
-import com.yundian.star.ui.main.fragment.TestFragment;
+import com.yundian.star.ui.main.fragment.UserInfoFragment;
 import com.yundian.star.ui.wangyi.chatroom.helper.ChatRoomHelper;
 import com.yundian.star.ui.wangyi.config.preference.UserPreferences;
 import com.yundian.star.utils.LogUtils;
@@ -46,11 +46,12 @@ public class MainActivity extends BaseActivity {
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private NewsInfoFragment newsInfoFragment;
     private MarketFragment marketFragment;
-    private TestFragment testFragment3;
+    private UserInfoFragment userInfoFragment3;
     private DifferAnswerFragment differAnswerFragment;
+    private UserInfoFragment userInfoFragment;
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
     public static int CHECHK_LOGIN = 0;
-    private TestFragment testFragment5;
+
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -100,21 +101,21 @@ public class MainActivity extends BaseActivity {
         if (savedInstanceState != null) {
             newsInfoFragment = (NewsInfoFragment) getSupportFragmentManager().findFragmentByTag("NewsInfoFragment");
             marketFragment = (MarketFragment) getSupportFragmentManager().findFragmentByTag("MarketFragment");
-            testFragment3 = (TestFragment) getSupportFragmentManager().findFragmentByTag("TestFragment3");
+            userInfoFragment3 = (UserInfoFragment) getSupportFragmentManager().findFragmentByTag("TestFragment3");
             differAnswerFragment = (DifferAnswerFragment) getSupportFragmentManager().findFragmentByTag("DifferAnswerFragment");
-            testFragment5 = (TestFragment) getSupportFragmentManager().findFragmentByTag("TestFragment5");
+            userInfoFragment = (UserInfoFragment) getSupportFragmentManager().findFragmentByTag("TestFragment5");
             currentTabPosition = savedInstanceState.getInt(AppConstant.HOME_CURRENT_TAB_POSITION);
         } else {
             newsInfoFragment = new NewsInfoFragment();
             marketFragment = new MarketFragment();
-            testFragment3 = new TestFragment();
+            userInfoFragment3 = new UserInfoFragment();
             differAnswerFragment = new DifferAnswerFragment();
-            testFragment5 = new TestFragment();
+            userInfoFragment = new UserInfoFragment();
             transaction.add(R.id.fl_main, newsInfoFragment, "NewsInfoFragment");
             transaction.add(R.id.fl_main, marketFragment, "MarketFragment");
-            transaction.add(R.id.fl_main, testFragment3, "TestFragment3");
+            transaction.add(R.id.fl_main, userInfoFragment3, "TestFragment3");
             transaction.add(R.id.fl_main, differAnswerFragment, "DifferAnswerFragment");
-            transaction.add(R.id.fl_main, testFragment5, "TestFragment5");
+            transaction.add(R.id.fl_main, userInfoFragment, "TestFragment5");
         }
         transaction.commit();
         SwitchTo(currentTabPosition);
@@ -173,17 +174,17 @@ public class MainActivity extends BaseActivity {
         switch (position) {
             case 0:
                 transaction.hide(marketFragment);
-                transaction.hide(testFragment3);
+                transaction.hide(userInfoFragment3);
                 transaction.hide(differAnswerFragment);
-                transaction.hide(testFragment5);
+                transaction.hide(userInfoFragment);
                 transaction.show(newsInfoFragment);
                 transaction.commitAllowingStateLoss();
                 break;
             case 1:
                 transaction.hide(newsInfoFragment);
-                transaction.hide(testFragment3);
+                transaction.hide(userInfoFragment3);
                 transaction.hide(differAnswerFragment);
-                transaction.hide(testFragment5);
+                transaction.hide(userInfoFragment);
                 transaction.show(marketFragment);
                 transaction.commitAllowingStateLoss();
                 break;
@@ -191,24 +192,24 @@ public class MainActivity extends BaseActivity {
                 transaction.hide(marketFragment);
                 transaction.hide(newsInfoFragment);
                 transaction.hide(differAnswerFragment);
-                transaction.hide(testFragment5);
-                transaction.show(testFragment3);
+                transaction.hide(userInfoFragment);
+                transaction.show(userInfoFragment3);
                 transaction.commitAllowingStateLoss();
                 break;
             case 3:
                 transaction.hide(marketFragment);
-                transaction.hide(testFragment3);
+                transaction.hide(userInfoFragment3);
                 transaction.hide(newsInfoFragment);
-                transaction.hide(testFragment5);
+                transaction.hide(userInfoFragment);
                 transaction.show(differAnswerFragment);
                 transaction.commitAllowingStateLoss();
                 break;
             case 4:
                 transaction.hide(marketFragment);
-                transaction.hide(testFragment3);
+                transaction.hide(userInfoFragment3);
                 transaction.hide(newsInfoFragment);
                 transaction.hide(differAnswerFragment);
-                transaction.show(testFragment5);
+                transaction.show(userInfoFragment);
                 transaction.commitAllowingStateLoss();
                 break;
             default:

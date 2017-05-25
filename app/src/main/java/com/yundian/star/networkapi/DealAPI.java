@@ -1,6 +1,9 @@
 package com.yundian.star.networkapi;
 
 
+import com.yundian.star.been.WXPayReturnEntity;
+import com.yundian.star.listener.OnAPIListener;
+
 /**
  * Created by yaowang on 2017/2/20.
  * 交易 行情相关接口
@@ -35,7 +38,7 @@ public interface DealAPI {
 //    void totalDealInfo(OnAPIListener<TotalDealInfoEntity> listener);
 //
 //    //微信支付
-//    void weixinPay(String title, double price, OnAPIListener<WXPayReturnEntity> listener);
+    void weixinPay(String title, double price, OnAPIListener<WXPayReturnEntity> listener);
 //
 //    void unionPay(String title, double price, OnAPIListener<Object> listener);  //银联支付
 //
