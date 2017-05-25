@@ -42,14 +42,13 @@
     <style name="Anim_fade" parent="android:Theme.Light.NoTitleBar">
         <item name="android:windowAnimationStyle">@style/fade</item>
     </style>
+
     <style name="fade" parent="@android:style/Animation.Activity">
         <item name="android:activityOpenEnterAnimation">@anim/act_in_from_right</item>
         <item name="android:activityOpenExitAnimation">@anim/act_out_from_left</item>
         <item name="android:activityCloseEnterAnimation">@anim/act_in_from_right</item>
         <item name="android:activityCloseExitAnimation">@anim/act_out_from_left</item>
     </style>
-
-
 
 
     <style name="CustomDialog" parent="@android:style/Theme.Dialog">
@@ -71,6 +70,7 @@
         <item name="listPreferredItemPaddingLeft">@dimen/dp_36</item>
         <item name="listPreferredItemPaddingRight">@dimen/dp_36</item>
     </style>
+
     <style name="ButtonStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -78,6 +78,7 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">@dimen/fontSize_16sp</item>
     </style>
+
     <style name="ButtonLogin">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_50</item>
@@ -157,17 +158,20 @@
 
     <style name="grid_view" parent="@android:style/Widget.GridView">
         <item name="android:scrollbarThumbVertical">@drawable/nim_scrollbar_handle_holo_dark</item>
-        <item name="android:scrollbarThumbHorizontal">@drawable/nim_scrollbar_handle_holo_dark</item>
+        <item name="android:scrollbarThumbHorizontal">@drawable/nim_scrollbar_handle_holo_dark
+        </item>
     </style>
 
     <style name="list_view" parent="@android:style/Widget.ListView">
         <item name="android:scrollbarThumbVertical">@drawable/nim_scrollbar_handle_holo_dark</item>
-        <item name="android:scrollbarThumbHorizontal">@drawable/nim_scrollbar_handle_holo_dark</item>
+        <item name="android:scrollbarThumbHorizontal">@drawable/nim_scrollbar_handle_holo_dark
+        </item>
     </style>
 
     <style name="scroll_view" parent="@android:style/Widget.ScrollView">
         <item name="android:scrollbarThumbVertical">@drawable/nim_scrollbar_handle_holo_dark</item>
-        <item name="android:scrollbarThumbHorizontal">@drawable/nim_scrollbar_handle_holo_dark</item>
+        <item name="android:scrollbarThumbHorizontal">@drawable/nim_scrollbar_handle_holo_dark
+        </item>
     </style>
 
     <style name="blue_bottom_line_edit_text_style" parent="@android:style/Widget.EditText">
@@ -190,5 +194,37 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="user_setting_text_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/color_434343</item>
+    </style>
+
+    <style name="user_info_setting_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/dp_24</item>
+        <item name="android:background">@color/main_bg_color</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:paddingBottom">@dimen/dp_15</item>
+        <item name="android:paddingRight">@dimen/dp_11</item>
+        <item name="android:paddingTop">@dimen/dp_15</item>
+    </style>
+
+    <style name="recharge_money_style">
+        <item name="android:paddingTop">@dimen/dp_12</item>
+        <item name="android:paddingBottom">@dimen/dp_12</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@drawable/sel_recharge_btn_text</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:background">@drawable/sel_recharge_money_type</item>
     </style>
 </resources>

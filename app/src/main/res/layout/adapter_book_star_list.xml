@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:paddingBottom="@dimen/dp_12"
+    android:paddingTop="@dimen/dp_12">
+
+
+    <ImageView
+        android:id="@+id/iv_star_head"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:src="@drawable/ic_home_normal" />
+
+    <TextView
+        android:id="@+id/tv_star_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_13"
+        android:layout_toRightOf="@id/iv_star_head"
+        android:text="姓名"
+        android:textColor="@color/font_333333"
+        android:textSize="@dimen/text_size_14" />
+
+    <TextView
+        android:id="@+id/tv_star_job"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_star_name"
+        android:layout_below="@id/tv_star_name"
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_toRightOf="@id/iv_star_head"
+        android:text="xxxx音乐人"
+        android:textColor="@color/font_999999"
+        android:textSize="@dimen/text_size_12" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tv_star_job"
+        android:layout_marginLeft="@dimen/dp_9"
+        android:layout_toRightOf="@id/tv_star_job"
+        android:background="@drawable/booking_star_status"
+        android:padding="@dimen/dp_5"
+        android:text="约见"
+        android:textColor="@color/color_fefefe"
+        android:textSize="@dimen/text_size_12" />
+
+    <TextView
+        android:id="@+id/have_talk"
+        android:layout_width="@dimen/dp_70"
+        android:layout_height="@dimen/dp_26"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="@dimen/dp_12"
+        android:background="@drawable/bg_booking_star_talk"
+        android:gravity="center"
+        android:text="@string/have_talk"
+        android:textColor="@color/color_8C0808"
+        android:textSize="@dimen/dp_12" />
+
+
+</RelativeLayout>

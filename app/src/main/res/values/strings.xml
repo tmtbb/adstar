@@ -36,6 +36,55 @@
     <string name="search_star_result_1">(</string>
     <string name="search_star_result_2">)</string>
     <string name="option">自选</string>
+    <string name="user_total_assets">资产总额</string>
+    <string name="user_buyed_star">已购明星</string>
+
+
+    <string name="my_moneybag">我的钱包</string>
+    <string name="my_order_star">我约的明星</string>
+    <string name="customer_service">客服中心</string>
+    <string name="common_problem">常见问题</string>
+    <string name="general_settings">通用设置</string>
+    <string name="my_referee">我的推荐人</string>
+    <string name="user_info">个人信息</string>
+    <string name="user_head_imageview">头像</string>
+    <string name="user_phone">手机号码</string>
+    <string name="user_pet_name">昵称</string>
+    <string name="user_real_name">真实姓名</string>
+    <string name="user_card_number">身份证号码</string>
+    <string name="star_money">星享币</string>
+    <string name="user_asset_manage">资产管理</string>
+    <string name="user_have_market_value">持有市值</string>
+    <string name="user_acailable_balance">可用余额</string>
+    <string name="user_recharge">充值</string>
+    <string name="user_fudai">福袋</string>
+    <string name="end_bank_number">尾号:%s</string>
+    <string name="recharge_money">充值金额</string>
+    <string name="input_recharge_money">手动输入充值金额</string>
+    <string name="choose_recharge_money">选择充值额度</string>
+    <string name="recharge_money1">1元</string>
+    <string name="recharge_money2">10元</string>
+    <string name="recharge_money3">100元</string>
+    <string name="recharge_money4">1000元</string>
+    <string name="recharge_money5">10000元</string>
+    <string name="recharge_money6">50000元</string>
+    <string name="recharge_ali_pay">支付宝支付</string>
+    <string name="recharge_wxpay">微信支付</string>
+    <string name="app_version_name">星享V:%s</string>
+    <string name="money_bag_detail">钱包明细</string>
+    <string name="bank_info">银行卡</string>
+    <string name="booking_star_list">预约名单</string>
+    <string name="have_talk">聊一聊</string>
+    <string name="service_center">客服中心</string>
+    <string name="service_weixin">客服微信</string>
+    <string name="service_wx_number">星享V:%s</string>
+    <string name="service_qq_number">客服QQ</string>
+    <string name="service_business_cooperation">商务合作</string>
+    <string name="setting_deal_rule">买卖规则</string>
+    <string name="setting_about_us">关于我们</string>
+    <string name="setting_clear_cache">清空缓存</string>
+    <string name="setting_quit_login">退出登录</string>
+    <string name="my_setting">设置</string>
 
 
     <string name="title_activity_main">MainActivity</string>
@@ -163,9 +212,6 @@
     <string name="have_transfer">持有/可转(秒)</string>
     <string name="current_price_cost">现价/成本(秒)</string>
     <string name="profit_and_loss">盈亏(元)</string>
-
-
-
 
 
 

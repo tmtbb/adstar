@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_fafafa"
+    android:orientation="vertical">
+
+    <com.yundian.star.widget.NormalTitleBar
+        android:id="@+id/nt_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp" />
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/room_cover_58" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_100"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginRight="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_18"
+                android:background="@color/main_bg_color"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/iv_contact1"
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
+                    android:src="@drawable/about_logo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/iv_contact1"
+                    android:layout_marginLeft="@dimen/dp_6"
+                    android:layout_toRightOf="@id/iv_contact1"
+                    android:text="@string/service_weixin"
+                    android:textColor="@color/font_999999"
+                    android:textSize="@dimen/text_size_14" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/iv_contact1"
+                    android:layout_marginTop="@dimen/dp_17"
+                    android:text="@string/service_wx_number"
+                    android:textColor="@color/color_434343"
+                    android:textSize="@dimen/text_size_16" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_100"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginRight="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_18"
+                android:background="@color/main_bg_color"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/iv_contact2"
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
+                    android:src="@drawable/about_logo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/iv_contact2"
+                    android:layout_marginLeft="@dimen/dp_6"
+                    android:layout_toRightOf="@id/iv_contact2"
+                    android:text="@string/service_qq_number"
+                    android:textColor="@color/font_999999"
+                    android:textSize="@dimen/text_size_14" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/iv_contact2"
+                    android:layout_marginTop="@dimen/dp_17"
+                    android:text="666666"
+                    android:textColor="@color/color_434343"
+                    android:textSize="@dimen/text_size_16" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_100"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginRight="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_18"
+                android:background="@color/main_bg_color"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/iv_contact3"
+                    android:layout_width="@dimen/dp_25"
+                    android:layout_height="@dimen/dp_25"
+                    android:src="@drawable/about_logo" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/iv_contact3"
+                    android:layout_marginLeft="@dimen/dp_6"
+                    android:layout_toRightOf="@id/iv_contact3"
+                    android:text="@string/service_business_cooperation"
+                    android:textColor="@color/font_999999"
+                    android:textSize="@dimen/text_size_14" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/iv_contact3"
+                    android:layout_marginTop="@dimen/dp_17"
+                    android:text="666666"
+                    android:textColor="@color/color_434343"
+                    android:textSize="@dimen/text_size_16" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
