@@ -2,7 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+    <com.yundian.star.widget.NormalTitleBar
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:id="@+id/nt_title"
+        >
+    </com.yundian.star.widget.NormalTitleBar>
     <com.github.jdsjlzx.recyclerview.LRecyclerView
         android:id="@+id/lrv"
         android:layout_width="match_parent"

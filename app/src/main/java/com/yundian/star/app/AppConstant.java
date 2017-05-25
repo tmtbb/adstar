@@ -16,6 +16,8 @@ public class AppConstant {
     public static final String MARKET_DETAIL_IN_TYPE= "market_detail_in_type";
     public static final String MARKET_STARTIME_TYPE= "market_star_time_type";
     public static final String FANS_HOT_TYPE= "fans_hot_type";
+    public static final String BUY_TRANSFER_INTENT_TYPE= "buy_transfer_indent_type";
+
 
     public static final String NEWS_TYPE = "news_type";
     public static final String CHANNEL_POSITION = "channel_position";

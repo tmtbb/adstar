@@ -137,6 +137,34 @@
     <string name="auction_have_time">已持有 %1$s (%2$s)</string>
     <string name="num_time">%d秒</string>
     <string name="comment">评价</string>
+    <string name="ask_to_buy">求购</string>
+    <string name="transfer">转让</string>
+    <string name="fans_meet_and_greet">粉丝见面会</string>
+    <string name="optional">自选</string>
+    <string name="name_code">%1$s (%2$s)</string>
+    <string name="at_present_have">当前总持有</string>
+    <string name="second">秒</string>
+    <string name="at_present_price">当前价格(元/秒)</string>
+    <string name="ups_and_downs">涨跌(元)</string>
+    <string name="ups_and_range">涨跌幅</string>
+    <string name="transfe_price">转让价格</string>
+    <string name="transfe_num">转让数量</string>
+    <string name="bought">已购</string>
+    <string name="indent">订单</string>
+    <string name="detail">明细</string>
+    <string name="total_prices">总价:</string>
+    <string name="sure_transfer">确认转让</string>
+    <string name="sure_buy">确认购买</string>
+    <string name="ask_to_buy_price">求购价格</string>
+    <string name="ask_to_buy_num">求购数量</string>
+    <string name="usable_money">可用金额(元)</string>
+    <string name="hold_have_money">持仓总市值(元)</string>
+    <string name="name_market_value">名称/市值(元)</string>
+    <string name="have_transfer">持有/可转(秒)</string>
+    <string name="current_price_cost">现价/成本(秒)</string>
+    <string name="profit_and_loss">盈亏(元)</string>
+
+
 
 
 
