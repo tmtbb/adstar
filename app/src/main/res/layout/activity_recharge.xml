@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_fafafa"
+    android:orientation="vertical">
+
+    <com.yundian.star.widget.NormalTitleBar
+        android:id="@+id/nt_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp" />
+
+    <RelativeLayout
+        android:id="@+id/choose_recharge_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_25"
+        android:background="@color/main_bg_color"
+        android:paddingBottom="@dimen/dp_20"
+        android:paddingTop="@dimen/dp_20"
+        android:visibility="gone">
+
+        <com.yundian.star.ui.view.RoundImageView
+            android:id="@+id/iv_bank_sign"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:scaleType="centerCrop"
+            android:src="@drawable/welcome_bg"
+            app:roundHeight="20dp"
+            app:roundWidth="20dp" />
+
+        <TextView
+            android:id="@+id/tv_bank_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_25"
+            android:layout_toRightOf="@id/iv_bank_sign"
+            android:text="招商银行"
+            android:textColor="@color/color_434343"
+            android:textSize="@dimen/text_size_16" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_bank_name"
+            android:layout_below="@id/tv_bank_name"
+            android:layout_marginTop="@dimen/dp_8"
+            android:text="@string/end_bank_number"
+            android:textColor="@color/font_999999"
+            android:textSize="@dimen/text_size_14" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_20"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:scaleType="centerCrop"
+            android:src="@drawable/nim_arrow_right" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_10">
+
+        <com.yundian.star.ui.view.RoundImageView
+            android:id="@+id/iv_recharge_sign"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:scaleType="centerCrop"
+            android:src="@drawable/welcome_bg"
+            app:roundHeight="10dp"
+            app:roundWidth="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:text="@string/recharge_ali_pay"
+            android:textColor="@color/color_434343"
+            android:textSize="@dimen/text_size_16" />
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+
+        android:padding="@dimen/dp_10">
+
+        <com.yundian.star.ui.view.RoundImageView
+            android:id="@+id/iv_recharge_wx"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:scaleType="centerCrop"
+            android:src="@drawable/welcome_bg"
+            app:roundHeight="10dp"
+            app:roundWidth="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:text="@string/recharge_wxpay"
+            android:textColor="@color/color_434343"
+            android:textSize="@dimen/text_size_16" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:layout_gravity="center_vertical"
+        android:layout_marginTop="@dimen/dp_24"
+        android:background="@color/main_bg_color">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_13"
+            android:text="@string/recharge_money"
+            android:textColor="@color/color_434343"
+            android:textSize="@dimen/text_size_16" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:hint="@string/input_recharge_money"
+            android:paddingLeft="@dimen/dp_10" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/dp_13"
+        android:text="选择充值额度"
+        android:background="@color/main_bg_color"
+        android:textColor="@color/font_999999"
+        android:textSize="@dimen/text_size_14" />
+
+    <com.yundian.star.ui.view.CustomerRadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/main_bg_color"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dp_24"
+            android:paddingRight="@dimen/dp_24"
+            android:paddingTop="@dimen/dp_24">
+
+            <RadioButton
+                android:id="@+id/rb_recharge_money1"
+                style="@style/recharge_money_style"
+                android:checked="true"
+                android:text="@string/recharge_money1" />
+
+            <RadioButton
+                android:id="@+id/rb_recharge_money2"
+                style="@style/recharge_money_style"
+                android:layout_marginLeft="@dimen/dp_29"
+                android:text="@string/recharge_money2" />
+
+            <RadioButton
+                android:id="@+id/rb_recharge_money3"
+                style="@style/recharge_money_style"
+                android:layout_marginLeft="@dimen/dp_29"
+                android:text="@string/recharge_money3" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/main_bg_color"
+            android:paddingBottom="@dimen/dp_28"
+            android:paddingLeft="@dimen/dp_24"
+            android:paddingRight="@dimen/dp_24"
+            android:paddingTop="@dimen/dp_24">
+
+            <RadioButton
+                android:id="@+id/rb_recharge_money4"
+                style="@style/recharge_money_style"
+                android:text="@string/recharge_money4" />
+
+            <RadioButton
+                android:id="@+id/rb_recharge_money5"
+                style="@style/recharge_money_style"
+                android:layout_marginLeft="@dimen/dp_29"
+                android:text="@string/recharge_money5" />
+
+            <RadioButton
+                android:id="@+id/rb_recharge_money6"
+                style="@style/recharge_money_style"
+                android:layout_marginLeft="@dimen/dp_29"
+                android:text="@string/recharge_money6" />
+
+        </LinearLayout>
+
+    </com.yundian.star.ui.view.CustomerRadioGroup>
+
+    <Button
+        android:id="@+id/btn_recharge_sure"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginRight="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_60"
+        android:background="@drawable/bg_make_sure"
+        android:text="确定"
+        android:textColor="@color/main_bg_color"
+        android:textSize="@dimen/text_size_14" />
+</LinearLayout>
+

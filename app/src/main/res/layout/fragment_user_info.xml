@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_user_info_bg"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/room_cover_58" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_user_info_bg"
+            android:background="@color/color_fafafa"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/dp_10">
+
+            <TextView
+                android:id="@+id/tv_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="50dp"
+                android:text="尼古拉斯"
+                android:textColor="@color/color_black_333333"
+                android:textSize="@dimen/text_size_18" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/user_total_assets"
+                    android:textColor="@color/color_grey_999999"
+                    android:textSize="@dimen/text_size_14" />
+
+                <TextView
+                    android:id="@+id/tv_user_total_assets"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:text="33"
+                    android:textColor="@color/color_black_333333"
+                    android:textSize="@dimen/text_size_16" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_40"
+                    android:text="@string/user_buyed_star"
+                    android:textColor="@color/color_grey_999999"
+                    android:textSize="@dimen/text_size_14" />
+
+                <TextView
+                    android:id="@+id/tv_order_star"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:text="33"
+                    android:textColor="@color/color_black_333333"
+                    android:textSize="@dimen/text_size_16" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.yundian.star.ui.view.RoundImageView
+            android:id="@+id/headImage"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="120dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/welcome_bg"
+            app:roundHeight="38dp"
+            app:roundWidth="38dp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_user_money_bag"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_24"
+        android:background="@color/main_bg_color"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_11"
+        android:paddingTop="@dimen/dp_10">
+
+        <TextView
+            style="@style/user_setting_text_style"
+            android:text="@string/my_moneybag" />
+
+        <include layout="@layout/ll_right_arrow" />
+
+    </LinearLayout>
+
+    <include layout="@layout/ll_interval_line" />
+
+    <LinearLayout
+        android:id="@+id/ll_user_order_star"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_24"
+        android:background="@color/main_bg_color"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_11"
+        android:paddingTop="@dimen/dp_10">
+
+        <TextView
+            style="@style/user_setting_text_style"
+            android:text="@string/my_order_star" />
+
+        <include layout="@layout/ll_right_arrow" />
+
+    </LinearLayout>
+
+    <include layout="@layout/ll_interval_line" />
+
+    <LinearLayout
+        android:id="@+id/ll_customer_service"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_24"
+        android:background="@color/main_bg_color"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_11"
+        android:paddingTop="@dimen/dp_10">
+
+        <TextView
+            style="@style/user_setting_text_style"
+            android:text="@string/customer_service" />
+
+        <include layout="@layout/ll_right_arrow" />
+
+    </LinearLayout>
+
+    <include layout="@layout/ll_interval_line" />
+
+    <LinearLayout
+        android:id="@+id/ll_common_problem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_24"
+        android:background="@color/main_bg_color"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_11"
+        android:paddingTop="@dimen/dp_10"
+        android:visibility="gone">
+
+        <TextView
+            style="@style/user_setting_text_style"
+            android:text="@string/common_problem" />
+
+        <include layout="@layout/ll_right_arrow" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/ll_general_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_24"
+        android:layout_marginTop="@dimen/dp_20"
+        android:background="@color/main_bg_color"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_11"
+        android:paddingTop="@dimen/dp_10">
+
+        <TextView
+            style="@style/user_setting_text_style"
+            android:text="@string/general_settings" />
+
+        <include layout="@layout/ll_right_arrow" />
+
+    </LinearLayout>
+
+    <include layout="@layout/ll_interval_line" />
+
+    <Button
+        android:id="@+id/btn_my_referee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_13"
+        android:background="@color/main_bg_color"
+        android:padding="@dimen/dp_15"
+        android:text="@string/my_referee"
+        android:textColor="@color/color_434343"
+        android:textSize="@dimen/text_size_14" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingBottom="@dimen/dp_10"
+        android:text="@string/app_version_name" />
+</LinearLayout>

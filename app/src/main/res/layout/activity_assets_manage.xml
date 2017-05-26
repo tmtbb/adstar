@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_fafafa"
+    android:orientation="vertical">
+
+    <com.yundian.star.widget.NormalTitleBar
+        android:id="@+id/nt_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/color_FB9938" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_140"
+        android:background="@color/color_FB9938"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_24"
+            android:text="@string/star_money"
+            android:textColor="@color/main_bg_color"
+            android:textSize="@dimen/text_size_14" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp_26"
+            android:text="9999.00"
+            android:textColor="@color/main_bg_color"
+            android:textSize="@dimen/text_size_40" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_bg_color"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/dp_18"
+            android:paddingTop="@dimen/dp_18">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_have_market_value"
+                android:textColor="@color/font_999999"
+                android:textSize="@dimen/text_size_14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_18"
+                android:text="99999"
+                android:textColor="@color/color_FB9938"
+                android:textSize="@dimen/text_size_16" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/dp_18"
+            android:paddingTop="@dimen/dp_18">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/user_have_market_value"
+                android:textColor="@color/font_999999"
+                android:textSize="@dimen/text_size_14" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_18"
+                android:text="99999"
+                android:textColor="@color/color_FB9938"
+                android:textSize="@dimen/text_size_16" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_recharge"
+        style="@style/user_info_setting_style"
+        android:layout_marginTop="@dimen/dp_29"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:src="@drawable/about_logo" />
+
+        <TextView
+            style="@style/user_setting_text_style"
+            android:layout_marginLeft="@dimen/dp_22"
+            android:text="@string/user_recharge" />
+
+        <include layout="@layout/ll_right_arrow" />
+
+    </LinearLayout>
+
+    <include layout="@layout/ll_interval_line" />
+
+    <LinearLayout
+        android:id="@+id/ll_user_fudai"
+        style="@style/user_info_setting_style"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:layout_width="@dimen/dp_22"
+            android:layout_height="@dimen/dp_22"
+            android:src="@drawable/about_logo" />
+
+        <TextView
+            style="@style/user_setting_text_style"
+            android:layout_marginLeft="@dimen/dp_22"
+            android:text="@string/user_fudai" />
+
+        <include layout="@layout/ll_right_arrow" />
+
+    </LinearLayout>
+
+    <include layout="@layout/ll_interval_line" />
+
+</LinearLayout>
