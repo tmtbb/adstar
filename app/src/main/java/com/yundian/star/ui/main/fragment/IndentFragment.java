@@ -12,7 +12,7 @@ import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
-import com.yundian.star.ui.main.adapter.AlreadyBoughtAdapter;
+import com.yundian.star.ui.main.adapter.IndentAdapter;
 
 import java.util.ArrayList;
 
@@ -20,23 +20,22 @@ import butterknife.Bind;
 
 /**
  * Created by Administrator on 2017/5/24.
- * 已购
+ * 订单信息
  */
 
-public class AlreadyBoughtFragment extends BaseFragment {
+public class IndentFragment extends BaseFragment {
     @Bind(R.id.lrv)
     LRecyclerView lrv ;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
-    private AlreadyBoughtAdapter alreadyBoughtAdapter;
+    private IndentAdapter indentAdapter;
     private static int mCurrentCounter = 1;
     private static final int REQUEST_COUNT = 10;
     private ArrayList<FansHotBuyReturnBeen.ListBean> list = new ArrayList<>();
     private ArrayList<FansHotBuyReturnBeen.ListBean> loadList = new ArrayList<>();
 
-
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_already_bought_fragment;
+        return R.layout.fragment_indent;
     }
 
     @Override
@@ -52,8 +51,8 @@ public class AlreadyBoughtFragment extends BaseFragment {
 
 
     private void initAdapter() {
-        alreadyBoughtAdapter = new AlreadyBoughtAdapter(getActivity());
-        lRecyclerViewAdapter = new LRecyclerViewAdapter(alreadyBoughtAdapter);
+        indentAdapter= new IndentAdapter(getActivity());
+        lRecyclerViewAdapter = new LRecyclerViewAdapter(indentAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
         lrv.setLayoutManager(new LinearLayoutManager(getContext()));
         lrv.setPullRefreshEnabled(false);
@@ -106,7 +105,7 @@ public class AlreadyBoughtFragment extends BaseFragment {
     public void showData() {
         mCurrentCounter =list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
-        alreadyBoughtAdapter.addAll(list);
+        indentAdapter.addAll(list);
         lrv.refresh();
     }
 
@@ -115,7 +114,7 @@ public class AlreadyBoughtFragment extends BaseFragment {
             lrv.setNoMore(true);
         } else {
             list.addAll(loadList);
-            alreadyBoughtAdapter.addAll(loadList);
+            indentAdapter.addAll(loadList);
             mCurrentCounter += loadList.size();
             lrv.refreshComplete(REQUEST_COUNT);
         }
