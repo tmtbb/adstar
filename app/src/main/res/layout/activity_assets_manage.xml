@@ -96,8 +96,7 @@
     <LinearLayout
         android:id="@+id/ll_recharge"
         style="@style/user_info_setting_style"
-        android:layout_marginTop="@dimen/dp_29"
-        android:gravity="center_vertical">
+        android:layout_marginTop="@dimen/dp_29">
 
         <ImageView
             android:layout_width="@dimen/dp_22"
@@ -117,8 +116,7 @@
 
     <LinearLayout
         android:id="@+id/ll_user_fudai"
-        style="@style/user_info_setting_style"
-        android:gravity="center_vertical">
+        style="@style/user_info_setting_style">
 
         <ImageView
             android:layout_width="@dimen/dp_22"

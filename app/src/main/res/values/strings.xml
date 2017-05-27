@@ -85,6 +85,25 @@
     <string name="setting_clear_cache">清空缓存</string>
     <string name="setting_quit_login">退出登录</string>
     <string name="my_setting">设置</string>
+    <string name="money_detail_service_charge">手续费</string>
+    <string name="money_billing_detail">账单详情</string>
+    <string name="money_issuer_info">发行人信息</string>
+    <string name="money_setup_time">创建时间</string>
+    <string name="money_bank_info">银行信息</string>
+    <string name="dialog_title_referee">推荐人</string>
+    <string name="dialog_title_referee2">推荐人:%s</string>
+    <string name="dialog_input_tip">输入不能为空</string>
+    <string name="identity_tip">您还没有身份验证</string>
+    <string name="identity_tip_msg">您需要进行身份验证,\n之后才可以进行明星时间交易。</string>
+    <string name="start_verification">开始验证</string>
+    <string name="input_real_name">请输入您真实姓名</string>
+    <string name="input_real_card_number">请输入您的身份证号码</string>
+    <string name="complete_verification">完成验证</string>
+    <string name="identity_verification">身份验证</string>
+    <string name="setting_pwd_tip">为保障您的交易安全，请设置支付密码。</string>
+    <string name="setting_next">下一步</string>
+    <string name="setting_pay_pwd">设置支付密码</string>
+    <string name="setting_pay_pwd2">请确认支付密码</string>
 
 
     <string name="title_activity_main">MainActivity</string>

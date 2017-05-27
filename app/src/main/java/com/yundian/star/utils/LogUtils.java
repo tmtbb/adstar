@@ -9,7 +9,7 @@ import com.yundian.star.app.AppConfig;
  * 使用logger封装
  */
 public class LogUtils {
-    public static boolean DEBUG_ENABLE =false;// 是否调试模式
+    public static boolean DEBUG_ENABLE =true;// 是否调试模式
     /**
      * 在application调用初始化
      */
