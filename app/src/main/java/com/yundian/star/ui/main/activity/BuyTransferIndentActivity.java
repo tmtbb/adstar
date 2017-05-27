@@ -12,7 +12,8 @@ import com.yundian.star.base.BaseActivity;
 import com.yundian.star.ui.main.adapter.BuyTransferIndentAdapter;
 import com.yundian.star.ui.main.fragment.AlreadyBoughtFragment;
 import com.yundian.star.ui.main.fragment.AskToBuyMarketFragment;
-import com.yundian.star.ui.main.fragment.CommentMarketFragment;
+import com.yundian.star.ui.main.fragment.DetailFragment;
+import com.yundian.star.ui.main.fragment.IndentFragment;
 import com.yundian.star.ui.main.fragment.TransferMarketFragment;
 
 import java.util.ArrayList;
@@ -93,19 +94,18 @@ public class BuyTransferIndentActivity extends BaseActivity {
         transferMarketFragment.setArguments(bundle);
 
         AlreadyBoughtFragment alreadyBoughtFragment =new AlreadyBoughtFragment();
-        alreadyBoughtFragment.setArguments(bundle);
 
-        CommentMarketFragment commentMarketFragment = new CommentMarketFragment();
-        commentMarketFragment.setArguments(bundle);
 
-        CommentMarketFragment commentMarketFragment2 = new CommentMarketFragment();
-        commentMarketFragment2.setArguments(bundle);
+        IndentFragment indentFragment = new IndentFragment();
+
+
+        DetailFragment detailFragment = new DetailFragment();
 
         mBuyTransferFragmentList.add(askToBuyMarketFragment);
         mBuyTransferFragmentList.add(transferMarketFragment);
         mBuyTransferFragmentList.add(alreadyBoughtFragment);
-        mBuyTransferFragmentList.add(commentMarketFragment);
-        mBuyTransferFragmentList.add(commentMarketFragment2);
+        mBuyTransferFragmentList.add(indentFragment);
+        mBuyTransferFragmentList.add(detailFragment);
 
 
     }

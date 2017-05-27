@@ -26,6 +26,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/5/20.
+ * 行情主界面
  */
 
 public class StarTimeShareActivity extends BaseActivity {
@@ -74,9 +75,7 @@ public class StarTimeShareActivity extends BaseActivity {
                 startActivity(intent2);
                 break;
             case R.id.rb_3:
-                Intent intent3 = new Intent(this,BuyTransferIndentActivity.class);
-                intent3.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE,2);
-                startActivity(intent3);
+
                 break;
             case R.id.rb_4:
                 break;

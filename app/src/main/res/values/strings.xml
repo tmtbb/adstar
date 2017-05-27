@@ -212,6 +212,22 @@
     <string name="have_transfer">持有/可转(秒)</string>
     <string name="current_price_cost">现价/成本(秒)</string>
     <string name="profit_and_loss">盈亏(元)</string>
+    <string name="name_and_code">名称/代码</string>
+    <string name="delegation_and_deal">委托/成交</string>
+    <string name="price">价格</string>
+    <string name="state">状态</string>
+    <string name="deal_time">成交时间</string>
+    <string name="transaction_price_num">成交价/成交量</string>
+    <string name="volume_of_transaction">成交额</string>
+    <string name="on_that_day_transaction">当日成交</string>
+    <string name="on_that_day_delegation">当日委托</string>
+    <string name="history_delegation">历史委托</string>
+    <string name="history_deal">历史交易</string>
+    <string name="buy_text">购买</string>
+    <string name="delegation_time">委托价/时间</string>
+    <string name="delegation_transaction_num">委托量/成交量</string>
+    <string name="start_time">起始时间</string>
+    <string name="end_time">结束时间</string>
 
 
 

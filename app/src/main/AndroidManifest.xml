@@ -91,7 +91,8 @@
         <activity android:name="com.yundian.star.ui.main.activity.NewsStarBuyActivity"></activity>
         <activity android:name=".ui.main.activity.StarTimeShareActivity"></activity>
         <activity android:name=".ui.main.activity.BuyTransferIndentActivity"
-            android:windowSoftInputMode="stateHidden"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             ></activity>
         <!-- APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
             如果 SDKOptions 中提供了，取 SDKOptions 中的值。 -->

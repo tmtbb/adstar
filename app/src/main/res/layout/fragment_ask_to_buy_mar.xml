@@ -175,6 +175,7 @@
                 android:textSize="@dimen/fontSize_14sp" />
 
             <com.yundian.star.widget.NumberButton
+                android:id="@+id/but_buy_price"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 qinc:editable="true"
@@ -199,6 +200,7 @@
                 android:textSize="@dimen/fontSize_14sp" />
 
             <com.yundian.star.widget.NumberButton
+                android:id="@+id/but_buy_num"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 qinc:editable="true"
@@ -254,6 +256,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tv_sure_buy"
             android:clickable="true"
             android:gravity="center"
             android:textSize="@dimen/fontSize_16sp"
