@@ -5,6 +5,7 @@ import android.widget.LinearLayout;
 
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
@@ -48,6 +49,9 @@ public class GeneralSettingsActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_setting_deal_rule:
+                ToastUtils.showShort("模拟第一次交易");
+
+
                 break;
             case R.id.ll_setting_about_us:
                 break;

@@ -1,22 +1,24 @@
 package com.yundian.star.ui.main.activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-
 
 /**
  * 用户资产管理
@@ -92,7 +94,8 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
                 startActivity(RechargeActivity.class);
                 break;
             case R.id.ll_user_fudai:
-                ToastUtils.showShort("福袋");
+                ToastUtils.showShort("模拟进行身份认证");
+                showIdentityDialog();
                 break;
         }
     }
@@ -102,11 +105,46 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
         switch (v.getId()) {
             case R.id.tv_money_detail:
                 ToastUtils.showShort("钱包明细");
-                startActivity(MoneyBagDetail.class);
+                startActivity(MoneyBagDetailActivity.class);
                 break;
             case R.id.tv_bank_info:
                 ToastUtils.showShort("银行卡");
                 break;
         }
     }
+
+    private void showIdentityDialog() {
+        final Dialog mDetailDialog = new Dialog(this, R.style.custom_dialog);
+        mDetailDialog.setContentView(R.layout.dialog_identity_authentivation);
+        final Button startIdentity = (Button) mDetailDialog.findViewById(R.id.btn_start_identity);
+        ImageView closeImg = (ImageView) mDetailDialog.findViewById(R.id.iv_dialog_close);
+        closeImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDetailDialog.dismiss();
+            }
+        });
+        mDetailDialog.setCancelable(false);
+        startIdentity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogUtils.logd("进入身份认证页面-----");
+                startActivity(IdentityAuthenticationActivity.class);
+                mDetailDialog.dismiss();
+            }
+        });
+//        mDetailDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+//            @Override
+//            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+//                if (keyCode == KeyEvent.KEYCODE_BACK) {
+//                    mDetailDialog.dismiss();
+//                    return true;
+//                } else {
+//                    return false;
+//                }
+//            }
+//        });
+        mDetailDialog.show();
+    }
+
 }

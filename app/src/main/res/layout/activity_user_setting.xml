@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_fafafa"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:id="@+id/ll_set_user_info">
 
     <com.yundian.star.widget.NormalTitleBar
         android:id="@+id/nt_title"
@@ -21,12 +22,15 @@
     <LinearLayout
         android:id="@+id/ll_user_head_icon"
         style="@style/user_info_setting_style"
-        android:layout_marginTop="@dimen/dp_25"
-        android:gravity="center_vertical">
+        android:layout_marginTop="@dimen/dp_25">
 
         <TextView
             style="@style/user_setting_text_style"
             android:text="@string/user_head_imageview" />
+        <ImageView
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
+            android:id="@+id/iv_imageview"/>
 
         <com.yundian.star.ui.view.RoundImageView
             android:id="@+id/headImage"
@@ -47,8 +51,7 @@
 
     <LinearLayout
         android:id="@+id/ll_user_phone"
-        style="@style/user_info_setting_style"
-        android:gravity="center_vertical">
+        style="@style/user_info_setting_style">
 
         <TextView
             style="@style/user_setting_text_style"
@@ -56,8 +59,7 @@
 
         <TextView
             android:id="@+id/tv_user_phone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/user_setting_hint_style"
             android:text="00000000" />
 
     </LinearLayout>
@@ -66,8 +68,7 @@
 
     <LinearLayout
         android:id="@+id/ll_user_pet_name"
-        style="@style/user_info_setting_style"
-        android:gravity="center_vertical">
+        style="@style/user_info_setting_style">
 
         <TextView
             style="@style/user_setting_text_style"
@@ -75,8 +76,7 @@
 
         <TextView
             android:id="@+id/tv_user_pet_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/user_setting_hint_style"
             android:text="武松" />
 
     </LinearLayout>
@@ -91,29 +91,33 @@
 
     <LinearLayout
         android:id="@+id/ll_user_name"
-        style="@style/user_info_setting_style"
-        android:gravity="center_vertical">
+        style="@style/user_info_setting_style">
 
         <TextView
             style="@style/user_setting_text_style"
             android:text="@string/user_real_name" />
 
-        <include layout="@layout/ll_right_arrow" />
-
+        <TextView
+            android:id="@+id/tv_user_real_name"
+            style="@style/user_setting_hint_style"
+            android:text="武二郎" />
     </LinearLayout>
 
     <include layout="@layout/ll_interval_line" />
 
     <LinearLayout
         android:id="@+id/ll_user_card_number"
-        style="@style/user_info_setting_style"
-        android:gravity="center_vertical">
+        style="@style/user_info_setting_style">
 
         <TextView
             style="@style/user_setting_text_style"
             android:text="@string/user_card_number" />
 
-        <include layout="@layout/ll_right_arrow" />
+        <TextView
+            android:id="@+id/tv_user_card_number"
+            style="@style/user_setting_hint_style"
+            android:text="341221465456454545" />
+
 
     </LinearLayout>
 

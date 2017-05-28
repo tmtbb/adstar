@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_fafafa"
+    android:orientation="vertical">
+
+    <com.yundian.star.widget.NormalTitleBar
+        android:id="@+id/nt_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/color_FB9938" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_13"
+        android:background="@color/main_bg_color"
+        android:gravity="center"
+        android:padding="@dimen/dp_30">
+
+        <com.yundian.star.ui.view.RoundImageView
+            android:id="@+id/headImage"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginRight="@dimen/dp_8"
+            android:scaleType="centerCrop"
+            android:src="@drawable/welcome_bg"
+            app:roundHeight="20dp"
+            app:roundWidth="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:text="无情"
+            android:textColor="@color/font_333333"
+            android:textSize="@dimen/text_size_14" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_billing_detail_money"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_bg_color"
+        android:gravity="center"
+        android:text="888.88"
+        android:textColor="@color/color_FB9938"
+        android:textSize="@dimen/dp_24" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/main_bg_color"
+        android:gravity="center"
+        android:paddingBottom="@dimen/dp_25"
+        android:paddingTop="@dimen/dp_19"
+        android:text="充值成功"
+        android:textColor="@color/color_666666"
+        android:textSize="@dimen/dp_12" />
+
+    <LinearLayout
+        android:id="@+id/ll_service_recharge"
+        style="@style/user_info_setting_style">
+
+        <TextView
+            style="@style/user_setting_text_style"
+            android:text="@string/money_detail_service_charge" />
+
+        <TextView
+            android:id="@+id/tv_service_recharge"
+            style="@style/user_setting_hint_style"
+            android:text="0.000" />
+    </LinearLayout>
+
+    <include layout="@layout/ll_interval_line" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_bank_info"
+        style="@style/user_info_setting_style">
+
+        <TextView
+            android:id="@+id/tv_billing_bank_info"
+            style="@style/user_setting_text_style"
+            android:text="@string/money_bank_info" />
+
+        <TextView
+            android:id="@+id/tv_detail_bank_info"
+            style="@style/user_setting_hint_style"
+            android:text="招商银行--庆春支行" />
+    </LinearLayout>
+
+    <include layout="@layout/ll_interval_line" />
+
+    <LinearLayout
+        android:id="@+id/ll_setup_time"
+        style="@style/user_info_setting_style">
+
+        <TextView
+            style="@style/user_setting_text_style"
+            android:text="@string/money_setup_time" />
+
+        <TextView
+            android:id="@+id/tv_detail_setup_time"
+            style="@style/user_setting_hint_style"
+            android:text="20170202" />
+    </LinearLayout>
+
+    <include layout="@layout/ll_interval_line" />
+
+</LinearLayout>

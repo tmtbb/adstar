@@ -87,5 +87,5 @@ dependencies {
     //微信登录
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
     compile 'org.greenrobot:eventbus:3.0.0'
-
+    compile files('libs/alipaySingle-20170510.jar')
 }
