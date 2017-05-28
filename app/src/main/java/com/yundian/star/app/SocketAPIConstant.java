@@ -12,7 +12,7 @@ public interface SocketAPIConstant {
         byte Time = 4;
         byte Deal = 5;
         byte Verify = 1;
-        byte Starmail = 6;
+        byte History = 6;
         byte Bank = 8;
         byte Pay = 7;
         byte Wangyi = 9;

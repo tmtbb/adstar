@@ -30,6 +30,7 @@ import com.yundian.star.ui.wangyi.DemoCache;
 import com.yundian.star.ui.wangyi.config.preference.Preferences;
 import com.yundian.star.ui.wangyi.config.preference.UserPreferences;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.MD5Util;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.CheckException;
@@ -83,11 +84,7 @@ public class LoginActivity extends BaseActivity {
         WindowManager.LayoutParams p = getWindow().getAttributes();// 获取对话框当前的参值
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
-<<<<<<< HEAD
         p.width = (int)(size.x*0.85);
-=======
-        p.width = (int) (size.x * 0.9);
->>>>>>> dbf78a4226729b76b73d4304ce640cd23c9c0840
         getWindow().setAttributes(p); // 设置生效
         userNameEditText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         checkHelper.checkButtonState(loginButton, userNameEditText, passwordEditText);
@@ -96,9 +93,10 @@ public class LoginActivity extends BaseActivity {
     @OnClick(R.id.loginButton)
     public void loging() {
         CheckException exception = new CheckException();
+        LogUtils.loge(MD5Util.MD5(passwordEditText.getEditTextString()));
         if (checkHelper.checkMobile(userNameEditText.getEditTextString(), exception)
                 && checkHelper.checkPassword(passwordEditText.getEditTextString(), exception)) {
-            NetworkAPIFactoryImpl.getUserAPI().login(userNameEditText.getEditTextString(), passwordEditText.getEditTextString(), new OnAPIListener<LoginReturnInfo>() {
+            NetworkAPIFactoryImpl.getUserAPI().login(userNameEditText.getEditTextString(), MD5Util.MD5(passwordEditText.getEditTextString()), new OnAPIListener<LoginReturnInfo>() {
                 @Override
                 public void onError(Throwable ex) {
                     LogUtils.logd("登录失败_____" + ex.toString());
@@ -106,9 +104,19 @@ public class LoginActivity extends BaseActivity {
 
                 @Override
                 public void onSuccess(final LoginReturnInfo loginReturnInfo) {
-                    if (loginReturnInfo == null || loginReturnInfo.getUserinfo() == null) {
+                    if (loginReturnInfo.getResult()==-301){
+                        ToastUtils.showShort("用户不存在,请先注册");
                         return;
-                    } else {
+                    }else if (loginReturnInfo.getResult()==-302){
+                        ToastUtils.showShort("账号或密错误");
+                        return;
+                    }else if (loginReturnInfo.getResult()==-303){
+                        ToastUtils.showShort("登录信息失效，请重新登录");
+                        return;
+                    }else if (loginReturnInfo.getResult()==-304){
+                        ToastUtils.showShort("用户已存在");
+                        return;
+                    }else if (loginReturnInfo != null && loginReturnInfo.getUserinfo() != null){
                         LogUtils.logd("登录成功" + loginReturnInfo);
                         //网易云注册
                         NetworkAPIFactoryImpl.getUserAPI().registerWangYi(userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), new OnAPIListener<RegisterReturnWangYiBeen>() {
@@ -124,8 +132,6 @@ public class LoginActivity extends BaseActivity {
                                 loginWangYi(loginReturnInfo, registerReturnWangYiBeen);
                             }
                         });
-
-
                     }
 
                 }

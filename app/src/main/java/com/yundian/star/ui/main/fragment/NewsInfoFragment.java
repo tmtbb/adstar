@@ -172,6 +172,9 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
     @Override
     public void initDatas(ArrayList<NewsInforModel.ListBean> list) {
+        if (list==null){
+            return;
+        }
         arrayList.clear();
         arrayList = list;
         mCurrentCounter = list.size();

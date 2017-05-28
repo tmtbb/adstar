@@ -3,7 +3,6 @@ package com.yundian.star.ui.im.activity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 
-import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
@@ -14,7 +13,6 @@ import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.im.adapter.BookStarComAdapter;
-import com.yundian.star.ui.wangyi.session.SessionHelper;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.widget.NormalTitleBar;
@@ -27,7 +25,7 @@ import butterknife.Bind;
  * Created by Administrator on 2017/5/10.
  */
 
-public class StarCommunicationBookActivity extends BaseActivity {
+public class SystemMessagesActivity extends BaseActivity {
     @Bind(R.id.lrv)
     LRecyclerView lrv;
     @Bind(R.id.nt_title)
@@ -42,7 +40,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_star_com_book;
+        return R.layout.activity_sys_message;
     }
 
     @Override
@@ -53,7 +51,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
     @Override
     public void initView() {
         nt_title.setBackVisibility(true);
-        nt_title.setTitleText(R.string.famous_address_book);
+        nt_title.setTitleText(R.string.systen_news);
         initAdapter();
         getData(false,0,REQUEST_COUNT);
         initListener();
@@ -64,12 +62,6 @@ public class StarCommunicationBookActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 finish();
-            }
-        });
-        lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                SessionHelper.startP2PSession(StarCommunicationBookActivity.this,"17682310986");
             }
         });
     }

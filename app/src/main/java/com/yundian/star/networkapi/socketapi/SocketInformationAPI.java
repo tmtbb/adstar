@@ -147,14 +147,15 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
-    public void getStarmaillist(long id, String token, int startPos, int count, OnAPIListener<StarMailListBeen> listener) {
+    public void getStarmaillist(long id, String token,String status, int startPos, int count, OnAPIListener<StarMailListBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("id", id);
         map.put("token", token);
         map.put("startPos", startPos);
+        map.put("status", status);
         map.put("count", count);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Starmaillist,
-                SocketAPIConstant.ReqeutType.Starmail, map);
+                SocketAPIConstant.ReqeutType.History, map);
         requestEntity(socketDataPacket,StarMailListBeen.class,listener);
     }
 

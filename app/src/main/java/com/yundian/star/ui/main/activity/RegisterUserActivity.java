@@ -2,14 +2,18 @@ package com.yundian.star.ui.main.activity;
 
 import android.content.Intent;
 import android.graphics.Point;
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.base.baseapp.AppManager;
 import com.yundian.star.been.RegisterReturnBeen;
 import com.yundian.star.been.RegisterVerifyCodeBeen;
 import com.yundian.star.been.WXUserInfoEntity;
@@ -164,6 +168,12 @@ public class RegisterUserActivity extends BaseActivity {
 
     private boolean verifyCode() {
         //本地校验验证码   MD5(yd1742653sd + code_time + rand_code + phone)
+        if (verifyCodeBeen==null|| TextUtils.isEmpty(verifyCodeBeen.getVToken())){
+            ToastUtils.showShort("无效验证码");
+            return false;
+        }
+
+        //本地校验验证码   MD5(yd1742653sd + code_time + rand_code + phone)
         if (!verifyCodeBeen.getVToken().equals(MD5Util.MD5("yd1742653sd" + verifyCodeBeen.getTimeStamp() + vCode+userNameEditText.getEditTextString()))) {
             ToastUtils.showShort("验证码错误,请重新输入");
             return false;
@@ -177,7 +187,7 @@ public class RegisterUserActivity extends BaseActivity {
         if (!verifyCode()){
             return;
         }
-        NetworkAPIFactoryImpl.getUserAPI().register(userNameEditText.getEditTextString(), passwordEditText.getEditTextString(), -1, "-1", "-1", new OnAPIListener<RegisterReturnBeen>() {
+        NetworkAPIFactoryImpl.getUserAPI().register(userNameEditText.getEditTextString(), MD5Util.MD5(passwordEditText.getEditTextString()), -1, "-1", "-1", new OnAPIListener<RegisterReturnBeen>() {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.logd("注册请求网络失败"+ex.toString());
@@ -204,10 +214,11 @@ public class RegisterUserActivity extends BaseActivity {
                     finish();
                     overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
                 } else if (registerReturnBeen.getResult() == 1) {
-                    ToastUtils.showShort("注册成功");
+                    ToastUtils.showShort("注册成功,请登录");
 //                            loginGetUserInfo(newPwd);  //登录请求数据
+                    startActivity(LoginActivity.class);
                     finish();
-                    overridePendingTransition(0,R.anim.activity_off_top_out);
+                    overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
                 }
             }
         });
@@ -242,5 +253,21 @@ public class RegisterUserActivity extends BaseActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(0,R.anim.activity_off_top_out);
+    }
+    private long exitNow;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)) {
+
+            if ((System.currentTimeMillis() - exitNow) > 2000) {
+                Toast.makeText(this, String.format(getString(R.string.confirm_exit_app), getString(R.string.app_name)), Toast.LENGTH_SHORT).show();
+                exitNow = System.currentTimeMillis();
+            } else if ((System.currentTimeMillis() - exitNow) > 0) {
+                AppManager.getAppManager().AppExit(this, false);
+                return super.onKeyDown(keyCode, event);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

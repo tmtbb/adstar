@@ -1,12 +1,18 @@
 package com.yundian.star.ui.main.activity;
 
+import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.base.baseapp.AppManager;
 import com.yundian.star.been.RegisterVerifyCodeBeen;
 import com.yundian.star.helper.CheckHelper;
 import com.yundian.star.listener.OnAPIListener;
@@ -105,12 +111,20 @@ public class ResetUserPwdActivity extends BaseActivity {
 
     private void resetUserPwd() {
         //本地校验验证码   MD5(yd1742653sd + code_time + rand_code + phone)
+        if (verifyCodeBeen==null||TextUtils.isEmpty(verifyCodeBeen.getVToken())){
+            ToastUtils.showShort("无效验证码");
+            return;
+        }
         if (!verifyCodeBeen.getVToken().equals(MD5Util.MD5("yd1742653sd" + verifyCodeBeen.getTimeStamp() + msgEditText.getEditTextString()+phoneEditText.getEditTextString()))) {
             ToastUtils.showShort("验证码错误,请重新输入");
             return;
         }
         //int type = 0;//0：登录密码 1：交易密码，提现密码
-        NetworkAPIFactoryImpl.getUserAPI().resetPasswd(phoneEditText.getEditTextString(), pwdEditText2.getEditTextString()
+        if (!TextUtils.equals(pwdEditText1.getEditTextString(),pwdEditText2.getEditTextString())){
+            ToastUtils.showShort("2次密码不一致");
+            return;
+        }
+        NetworkAPIFactoryImpl.getUserAPI().resetPasswd(phoneEditText.getEditTextString(), MD5Util.MD5(pwdEditText2.getEditTextString())
                 ,new OnAPIListener<Object>() {
                     @Override
                     public void onError(Throwable ex) {
@@ -120,10 +134,17 @@ public class ResetUserPwdActivity extends BaseActivity {
 
                     @Override
                     public void onSuccess(Object o) {
-                        ToastUtils.showShort("修改登录密码成功");
-                        finish();
-                        startActivity(LoginActivity.class);
-                        overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
+                        JSONObject object = JSON.parseObject(o.toString());
+                        int result = object.getInteger("result");
+                        if (result==-301){
+                            ToastUtils.showShort("用户不存在");
+                        }else if (result==1){
+                            ToastUtils.showShort("修改登录密码成功");
+                            finish();
+                            startActivity(LoginActivity.class);
+                            overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
+                        }
+
                     }
                 });
     }
@@ -151,6 +172,22 @@ public class ResetUserPwdActivity extends BaseActivity {
         } else {
             ToastUtils.showShort(exception.getErrorMsg());
         }
+    }
+    private long exitNow;
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)) {
+
+            if ((System.currentTimeMillis() - exitNow) > 2000) {
+                Toast.makeText(this, String.format(getString(R.string.confirm_exit_app), getString(R.string.app_name)), Toast.LENGTH_SHORT).show();
+                exitNow = System.currentTimeMillis();
+            } else if ((System.currentTimeMillis() - exitNow) > 0) {
+                AppManager.getAppManager().AppExit(this, false);
+                return super.onKeyDown(keyCode, event);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

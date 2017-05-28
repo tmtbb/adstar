@@ -32,6 +32,6 @@ public interface InformationAPI {
     void getSeekList(String code,int startnum,int endnum,OnAPIListener<FansHotBuyReturnBeen> listener);
     void getTransferList(String code,int startnum,int endnum,OnAPIListener<FansHotBuyReturnBeen> listener);
     void getFansComments(String phone ,String starcode,OnAPIListener<Object> listener);
-    void getStarmaillist(long id ,String token,int startPos,int count,OnAPIListener<StarMailListBeen> listener);
+    void getStarmaillist(long id ,String token,String status,int startPos,int count,OnAPIListener<StarMailListBeen> listener);
 
 }
