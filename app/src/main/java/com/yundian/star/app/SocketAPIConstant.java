@@ -12,7 +12,7 @@ public interface SocketAPIConstant {
         byte Time = 4;
         byte Deal = 5;
         byte Verify = 1;
-        byte History = 6;
+        byte Starmail = 6;
         byte Bank = 8;
         byte Pay = 7;
         byte Wangyi = 9;
@@ -65,6 +65,7 @@ public interface SocketAPIConstant {
         Short SeekLike = 11021;
         Short TransferList = 11019;
         Short FansComments = 10017;
+        Short Starmaillist = 6013;
 
     }
 }

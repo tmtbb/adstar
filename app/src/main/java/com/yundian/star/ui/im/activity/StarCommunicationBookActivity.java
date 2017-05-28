@@ -93,6 +93,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
                 list.add(bean);
             }
             showData();
+        //NetworkAPIFactoryImpl.getInformationAPI().getStarmaillist(SharePrefUtil.getInstance().getPhoneNum(),);
 
         /*NetworkAPIFactoryImpl.getInformationAPI().getSeekList("1001", start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
             @Override
