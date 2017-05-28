@@ -22,6 +22,7 @@ import com.yundian.star.R;
 import com.yundian.star.app.AppApplication;
 import com.yundian.star.app.Constant;
 import com.yundian.star.been.EventBusMessage;
+import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnWangYiBeen;
 import com.yundian.star.been.WXAccessTokenEntity;
 import com.yundian.star.been.WXUserInfoEntity;
@@ -219,7 +220,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
 
 
                     }
-                }else {
+                } else {
                     LogUtils.loge("微信登录失败,进入绑定手机号界面");  //进入绑定手机号码页面
                     ToastUtils.showLong("请绑定手机号码");
                     Intent intent = new Intent(WXEntryActivity.this, RegisterUserActivity.class);
@@ -248,7 +249,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 initNotificationConfig();
                 // 构建缓存
                 DataCacheManager.buildDataCacheAsync();
-                SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnInfos.getUserinfo());
+                LoginReturnInfo info = new LoginReturnInfo();
+                info.setToken(loginReturnInfos.getToken());
+                info.setUserinfo(loginReturnInfos.getUserinfo());
+                SharePrefUtil.getInstance().saveLoginUserInfo(info);
                 EventBus.getDefault().postSticky(new EventBusMessage(-6));  //传递消息
                 WXEntryActivity.this.finish();
             }

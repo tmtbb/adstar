@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg_color"
+    android:orientation="vertical">
+
+    <com.yundian.star.widget.NormalTitleBar
+        android:id="@+id/nt_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp" />
+
+    <ImageView
+        android:layout_width="168dp"
+        android:layout_height="168dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="38dp"
+        android:src="@drawable/back_arrow" />
+
+    <EditText
+        android:id="@+id/et_input_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_37"
+        android:layout_marginRight="@dimen/dp_37"
+        android:layout_marginTop="@dimen/dp_30"
+        android:background="@drawable/bg_dialog_referee_editext"
+        android:gravity="center"
+        android:hint="@string/input_real_name"
+        android:padding="@dimen/dp_12"
+        android:singleLine="true"
+        android:textColor="@color/font_333333"
+        android:textColorHint="@color/color_A6A6A6"
+        android:textSize="@dimen/fontSize_15sp" />
+
+    <EditText
+        android:id="@+id/et_input_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_37"
+        android:layout_marginRight="@dimen/dp_37"
+        android:layout_marginTop="@dimen/dp_24"
+        android:background="@drawable/bg_dialog_referee_editext"
+        android:digits="0123456789qwertyuioplkjhgfdsazxcvbnm"
+        android:gravity="center"
+        android:hint="@string/input_real_card_number"
+        android:inputType="number"
+        android:padding="@dimen/dp_12"
+        android:singleLine="true"
+        android:textColor="@color/font_333333"
+        android:textColorHint="@color/color_A6A6A6"
+        android:textSize="@dimen/fontSize_15sp" />
+
+    <Button
+        android:id="@+id/btn_verification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_37"
+        android:layout_marginRight="@dimen/dp_37"
+        android:layout_marginTop="@dimen/dp_50"
+        android:background="@drawable/selector_verification"
+        android:padding="@dimen/dp_12"
+        android:text="@string/complete_verification"
+        android:textColor="@color/color_f8f8f8"
+        android:textSize="@dimen/fontSize_16sp" />
+</LinearLayout>

@@ -467,7 +467,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.main.activity.MoneyBagDetail"
+            android:name=".ui.main.activity.MoneyBagDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
             android:screenOrientation="portrait" />
         <activity
@@ -480,6 +480,34 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.main.activity.GeneralSettingsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.BillingDetailsActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.IdentityAuthenticationActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.SettingDealPwdActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
+            android:screenOrientation="portrait" />
+        <!--支付宝-->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" />
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" />
+
+        <activity
+            android:name=".ui.main.activity.DisclaimerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
             android:screenOrientation="portrait" />
     </application>

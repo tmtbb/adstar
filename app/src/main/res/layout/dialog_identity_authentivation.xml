@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="@drawable/bg_dialog_referee"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/dp_10">
+
+        <ImageView
+            android:id="@+id/iv_dialog_close"
+            android:layout_width="@dimen/dp_16"
+            android:layout_height="@dimen/dp_16"
+            android:layout_gravity="right"
+            android:layout_marginRight="@dimen/dp_10"
+            android:src="@drawable/nim_team_member_item_delete_icon" />
+
+        <ImageView
+            android:layout_width="236dp"
+            android:layout_height="180dp"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginRight="@dimen/dp_20"
+            android:src="@drawable/back_arrow" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_19"
+            android:text="@string/identity_tip"
+            android:textColor="@color/font_333333"
+            android:textSize="@dimen/text_size_16" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_25"
+            android:gravity="center"
+            android:lineSpacingExtra="5dp"
+            android:text="@string/identity_tip_msg"
+            android:textColor="@color/font_999999"
+            android:textSize="@dimen/text_size_14" />
+
+        <Button
+            android:id="@+id/btn_start_identity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_40"
+            android:padding="@dimen/dp_10"
+            android:background="@drawable/bg_dialog_start"
+            android:text="@string/start_verification"
+            android:textColor="@color/color_fafafa"
+            android:textSize="@dimen/text_size_14" />
+
+    </LinearLayout>
+</LinearLayout>

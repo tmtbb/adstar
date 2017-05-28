@@ -2,14 +2,19 @@ package com.yundian.star.networkapi.socketapi;
 
 
 import com.yundian.star.app.SocketAPIConstant;
+import com.yundian.star.been.BookingStarListBean;
+import com.yundian.star.been.MoneyDetailListBean;
+import com.yundian.star.been.RequestResultBean;
 import com.yundian.star.been.WXPayReturnEntity;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.DealAPI;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by yaowang on 2017/2/20.
@@ -161,6 +166,63 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.WXPay,
                 SocketAPIConstant.ReqeutType.Pay, map);
         requestEntity(socketDataPacket, WXPayReturnEntity.class, listener);
+    }
+
+    @Override
+    public void moneyList(int status, int count, int startPos, OnAPIListener<List<MoneyDetailListBean>> listener) {
+        LogUtils.logd("请求钱包明细");
+        HashMap<String, Object> map = new HashMap<>();
+//        map.put("id", SharePrefUtil.getInstance().getUserId());
+//        map.put("token", SharePrefUtil.getInstance().getToken());
+        map.put("id", 120);
+        map.put("token", "deef1f3d463139a1c50d366c63b22687");   //临时写死
+        map.put("status", 0); //(1:处理中,2:成功,3:失败),不传则查所有状态
+        map.put("count", count);
+        map.put("startPos", startPos);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.MoneyDetail,
+                SocketAPIConstant.ReqeutType.History, map);
+        requestEntitys(socketDataPacket, "depositsinfo", MoneyDetailListBean.class, listener);
+    }
+
+    @Override
+    public void bookingStarList(int startPos, int count, OnAPIListener<List<BookingStarListBean>> listener) {
+        LogUtils.logd("请求预约明星列表");
+        HashMap<String, Object> map = new HashMap<>();
+//        map.put("id", SharePrefUtil.getInstance().getUserId());
+//        map.put("token", SharePrefUtil.getInstance().getToken());
+        map.put("id", 120);
+        map.put("token", "deef1f3d463139a1c50d366c63b22687");
+        map.put("count", count);
+        map.put("startPos", startPos);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.BookingStar,
+                SocketAPIConstant.ReqeutType.History, map);
+        requestEntitys(socketDataPacket, "depositsinfo", BookingStarListBean.class, listener);
+    }
+
+    @Override
+    public void identityAuthentication(String realname, String id_card, OnAPIListener<RequestResultBean> listener) {
+        LogUtils.logd("实名认证--");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", SharePrefUtil.getInstance().getUserId());
+        map.put("realname", realname);
+        map.put("id_card", id_card);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Identity,
+                SocketAPIConstant.ReqeutType.User, map);
+        requestEntity(socketDataPacket, RequestResultBean.class, listener);
+    }
+
+    @Override
+    public void dealPwd(String vCode, int type, String pwd, OnAPIListener<RequestResultBean> listener) {
+        LogUtils.logd("交易密码--");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", SharePrefUtil.getInstance().getUserId());
+        map.put("vToken", SharePrefUtil.getInstance().getToken());
+        map.put("vCode", vCode);
+        map.put("type", type);
+        map.put("pwd", pwd);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.DealPwd,
+                SocketAPIConstant.ReqeutType.User, map);
+        requestEntity(socketDataPacket, RequestResultBean.class, listener);
     }
 
 //    @Override
