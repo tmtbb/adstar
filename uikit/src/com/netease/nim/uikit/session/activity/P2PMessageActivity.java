@@ -3,6 +3,9 @@ package com.netease.nim.uikit.session.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -10,7 +13,6 @@ import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.OnlineStateChangeListener;
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.cache.FriendDataCache;
-import com.netease.nim.uikit.model.ToolBarOptions;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.fragment.MessageFragment;
@@ -30,6 +32,7 @@ import java.util.Set;
 /**
  * 点对点聊天界面
  * <p/>
+ * 标记一下
  * Created by huangjun on 2015/2/1.
  */
 public class P2PMessageActivity extends BaseMessageActivity {
@@ -45,7 +48,6 @@ public class P2PMessageActivity extends BaseMessageActivity {
         }
         intent.setClass(context, P2PMessageActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-
         context.startActivity(intent);
     }
 
@@ -80,7 +82,18 @@ public class P2PMessageActivity extends BaseMessageActivity {
     }
 
     private void requestBuddyInfo() {
-        setTitle(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
+        TextView viewById = (TextView) findViewById(R.id.text_name);
+        ImageView back = (ImageView) findViewById(R.id.back);
+        viewById.setText(sessionId);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        //setTitle(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
+
+
     }
 
     private void registerObservers(boolean register) {
@@ -219,7 +232,7 @@ public class P2PMessageActivity extends BaseMessageActivity {
 
     @Override
     protected void initToolBar() {
-        ToolBarOptions options = new ToolBarOptions();
-        setToolBar(R.id.toolbar, options);
+        //ToolBarOptions options = new ToolBarOptions();
+        //setToolBar(R.id.toolbar, options);
     }
 }

@@ -58,7 +58,6 @@ public class HomeFragment extends TFragment implements OnPageChangeListener, Rem
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setToolBar(R.id.toolbar, R.string.app_name, R.drawable.actionbar_dark_logo);
-
         setTitle(R.string.app_name);
 
         findViews();

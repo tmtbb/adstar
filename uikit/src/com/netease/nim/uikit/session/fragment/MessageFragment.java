@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.netease.nim.uikit.CustomPushContentProvider;
 import com.netease.nim.uikit.NimUIKit;
@@ -147,11 +146,12 @@ public class MessageFragment extends TFragment implements ModuleProxy {
      */
     // 是否允许发送消息
     protected boolean isAllowSendMessage(final IMMessage message) {
-        if (!isAllow){
+        /*if (!isAllow){
             LogUtil.e("秒数已使用完，请再次购买","");
-            Toast.makeText(getContext(),"秒数已使用完，请再次购买",Toast.LENGTH_LONG);
+            Toast.makeText(getContext(),"秒数已使用完，请再次购买",Toast.LENGTH_LONG).show();
+
             return false;
-        }
+        }*/
         return true;
     }
 
