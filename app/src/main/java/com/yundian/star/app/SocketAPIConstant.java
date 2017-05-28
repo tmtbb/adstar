@@ -35,7 +35,7 @@ public interface SocketAPIConstant {
         Short Position = 5003;
         Short History = 6001;
         Short Balance = 3007;
-        Short Total = 6003;
+        Short MoneyDetail = 6003;
         Short WXPay = 7033;
         Short Cash = 8001;
         Short CashOut = 7045;
@@ -65,6 +65,8 @@ public interface SocketAPIConstant {
         Short SeekLike = 11021;
         Short TransferList = 11019;
         Short FansComments = 10017;
+        Short BookingStar = 6013;
+        Short Identity = 3021;
 
     }
 }

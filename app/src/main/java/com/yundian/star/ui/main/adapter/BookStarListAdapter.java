@@ -25,7 +25,8 @@ public class BookStarListAdapter extends ListBaseAdapter<BookingStarListBean> {
     @Override
     public void onBindItemHolder(SuperViewHolder holder, int position) {
         BookingStarListBean item = mDataList.get(position);
-        TextView titleText = holder.getView(R.id.tv_star_name);
+        TextView nameText = holder.getView(R.id.tv_star_name);
+        nameText.setText(item.getStarname());
 
     }
 }

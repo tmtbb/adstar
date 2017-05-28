@@ -1,8 +1,13 @@
 package com.yundian.star.networkapi;
 
 
+import com.yundian.star.been.BookingStarListBean;
+import com.yundian.star.been.MoneyDetailListBean;
+import com.yundian.star.been.RequestResultBean;
 import com.yundian.star.been.WXPayReturnEntity;
 import com.yundian.star.listener.OnAPIListener;
+
+import java.util.List;
 
 /**
  * Created by yaowang on 2017/2/20.
@@ -10,7 +15,7 @@ import com.yundian.star.listener.OnAPIListener;
  */
 
 public interface DealAPI {
-//    void products(OnAPIListener<List<ProductEntity>> listener);
+    //    void products(OnAPIListener<List<ProductEntity>> listener);
 //
 //    //当前分时数据
 //    void timeline(String exchangeName, String platformName, String symbol, int aType, OnAPIListener<List<CurrentTimeLineReturnEntity>> listener);
@@ -39,7 +44,8 @@ public interface DealAPI {
 //
 //    //微信支付
     void weixinPay(String title, double price, OnAPIListener<WXPayReturnEntity> listener);
-//
+
+    //
 //    void unionPay(String title, double price, OnAPIListener<Object> listener);  //银联支付
 //
 //    void payment(String outTradeNo, long amount, String content, String payType, OnAPIListener<UnionPayReturnEntity> listener);  //第三方支付
@@ -72,4 +78,11 @@ public interface DealAPI {
 //    void unBindCard(long bankCardId, String verCode, OnAPIListener<Object> listener);//解绑操作
 //
 //    void rechargeList(int startPos, int count, OnAPIListener<List<RechargeRecordItemEntity>> listener);//解绑操作
+    void moneyList(int status, int count, int startPos, OnAPIListener<List<MoneyDetailListBean>> listener);//资金明细
+
+    void bookingStarList(int startPos, int count, OnAPIListener<List<BookingStarListBean>> listener);//预约明星列表
+
+    void identityAuthentication(String realname, String id_card, OnAPIListener<RequestResultBean> listener);
+
+    void dealPwd(String vCode, int type, String pwd, OnAPIListener<RequestResultBean> listener);//预约明星列表
 }

@@ -32,8 +32,9 @@
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/dp_12"
             android:background="@drawable/bg_dialog_referee_editext"
+            android:gravity="center"
             android:padding="@dimen/dp_10"
-            android:text="ssssssss" />
+            android:singleLine="true" />
 
 
         <View

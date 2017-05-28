@@ -7,7 +7,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />`
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
 
     <!--网易云im相关权限。。。。。。。。。。。。。。。。。。。-->
     <!-- 访问网络状态-->
@@ -52,6 +51,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
+
     <application
         android:name=".app.AppApplication"
         android:allowBackup="true"
@@ -90,9 +90,10 @@
             android:exported="true"></activity>
         <activity android:name="com.yundian.star.ui.main.activity.NewsStarBuyActivity"></activity>
         <activity android:name=".ui.main.activity.StarTimeShareActivity"></activity>
-        <activity
-            android:name=".ui.main.activity.BuyTransferIndentActivity"
-            android:windowSoftInputMode="stateHidden"></activity>
+        <activity android:name=".ui.main.activity.BuyTransferIndentActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            ></activity>
         <!-- APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
             如果 SDKOptions 中提供了，取 SDKOptions 中的值。 -->
         <meta-data
@@ -504,7 +505,11 @@
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
             android:screenOrientation="behind" />
-    </application>
 
+        <activity
+            android:name=".ui.main.activity.DisclaimerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
+            android:screenOrientation="portrait" />
+    </application>
 
 </manifest>

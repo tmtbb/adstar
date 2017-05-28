@@ -2,7 +2,6 @@ package com.yundian.star.ui.main.activity;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -131,20 +130,20 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
             public void onClick(View v) {
                 LogUtils.logd("进入身份认证页面-----");
                 startActivity(IdentityAuthenticationActivity.class);
+                mDetailDialog.dismiss();
             }
         });
-        mDetailDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK) {
-                    mDetailDialog.dismiss();
-                    finish();
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        });
+//        mDetailDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
+//            @Override
+//            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+//                if (keyCode == KeyEvent.KEYCODE_BACK) {
+//                    mDetailDialog.dismiss();
+//                    return true;
+//                } else {
+//                    return false;
+//                }
+//            }
+//        });
         mDetailDialog.show();
     }
 

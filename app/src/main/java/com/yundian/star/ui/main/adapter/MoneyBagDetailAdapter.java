@@ -7,12 +7,13 @@ import com.yundian.star.R;
 import com.yundian.star.base.ListBaseAdapter;
 import com.yundian.star.base.SuperViewHolder;
 import com.yundian.star.been.BookingStarListBean;
+import com.yundian.star.been.MoneyDetailListBean;
 
 /**
  * Created by sll on 2017/5/25.
  */
 
-public class MoneyBagDetailAdapter extends ListBaseAdapter<BookingStarListBean> {
+public class MoneyBagDetailAdapter extends ListBaseAdapter<MoneyDetailListBean> {
     public MoneyBagDetailAdapter(Context context) {
         super(context);
     }
@@ -24,8 +25,10 @@ public class MoneyBagDetailAdapter extends ListBaseAdapter<BookingStarListBean> 
 
     @Override
     public void onBindItemHolder(SuperViewHolder holder, int position) {
-        BookingStarListBean item = mDataList.get(position);
-        TextView titleText = holder.getView(R.id.tv_money_detail_week);
+        MoneyDetailListBean item = mDataList.get(position);
+        TextView name = holder.getView(R.id.tv_star_name);
+        name.setText(item.getDepositName());
+
 
     }
 }

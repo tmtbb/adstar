@@ -3,32 +3,85 @@ package com.yundian.star.been;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.util.List;
-
 /**
  * Created by sll on 2017/5/24.
  */
 
 public class BookingStarListBean implements Parcelable {
 
+
     /**
-     * list : [{"faccid":"4","ownseconds":6,"starcode":"5","starname":"3"}]
-     * result : 1
+     * uid : 10000002
+     * ownseconds : 10001
+     * appoint : 0
+     * starcode : 1483422506
+     * starname : 1
+     * faccid : 0sd223kl
+     * status : 1
      */
 
-    private int result;
-    private List<ListBean> list;
+    private long uid;
+    private long ownseconds;
+    private int appoint;
+    private String starcode;
+    private String starname;
+    private String faccid;
+    private int status;
 
-    public BookingStarListBean() {
+    public long getUid() {
+        return uid;
     }
 
-    protected BookingStarListBean(Parcel in) {
-        result = in.readInt();
+    public void setUid(long uid) {
+        this.uid = uid;
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(result);
+    public long getOwnseconds() {
+        return ownseconds;
+    }
+
+    public void setOwnseconds(long ownseconds) {
+        this.ownseconds = ownseconds;
+    }
+
+    public int getAppoint() {
+        return appoint;
+    }
+
+    public void setAppoint(int appoint) {
+        this.appoint = appoint;
+    }
+
+    public String getStarcode() {
+        return starcode;
+    }
+
+    public void setStarcode(String starcode) {
+        this.starcode = starcode;
+    }
+
+    public String getStarname() {
+        return starname;
+    }
+
+    public void setStarname(String starname) {
+        this.starname = starname;
+    }
+
+    public String getFaccid() {
+        return faccid;
+    }
+
+    public void setFaccid(String faccid) {
+        this.faccid = faccid;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     @Override
@@ -36,10 +89,34 @@ public class BookingStarListBean implements Parcelable {
         return 0;
     }
 
-    public static final Creator<BookingStarListBean> CREATOR = new Creator<BookingStarListBean>() {
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(this.uid);
+        dest.writeLong(this.ownseconds);
+        dest.writeInt(this.appoint);
+        dest.writeString(this.starcode);
+        dest.writeString(this.starname);
+        dest.writeString(this.faccid);
+        dest.writeInt(this.status);
+    }
+
+    public BookingStarListBean() {
+    }
+
+    protected BookingStarListBean(Parcel in) {
+        this.uid = in.readLong();
+        this.ownseconds = in.readLong();
+        this.appoint = in.readInt();
+        this.starcode = in.readString();
+        this.starname = in.readString();
+        this.faccid = in.readString();
+        this.status = in.readInt();
+    }
+
+    public static final Parcelable.Creator<BookingStarListBean> CREATOR = new Parcelable.Creator<BookingStarListBean>() {
         @Override
-        public BookingStarListBean createFromParcel(Parcel in) {
-            return new BookingStarListBean(in);
+        public BookingStarListBean createFromParcel(Parcel source) {
+            return new BookingStarListBean(source);
         }
 
         @Override
@@ -47,101 +124,4 @@ public class BookingStarListBean implements Parcelable {
             return new BookingStarListBean[size];
         }
     };
-
-    public int getResult() {
-        return result;
-    }
-
-    public void setResult(int result) {
-        this.result = result;
-    }
-
-    public List<ListBean> getList() {
-        return list;
-    }
-
-    public void setList(List<ListBean> list) {
-        this.list = list;
-    }
-
-    public static class ListBean implements Parcelable {
-        /**
-         * faccid : 4
-         * ownseconds : 6
-         * starcode : 5
-         * starname : 3
-         */
-
-        private String faccid;
-        private int ownseconds;
-        private String starcode;
-        private String starname;
-
-        protected ListBean() {
-        }
-
-        protected ListBean(Parcel in) {
-            faccid = in.readString();
-            ownseconds = in.readInt();
-            starcode = in.readString();
-            starname = in.readString();
-        }
-
-        public static final Creator<ListBean> CREATOR = new Creator<ListBean>() {
-            @Override
-            public ListBean createFromParcel(Parcel in) {
-                return new ListBean(in);
-            }
-
-            @Override
-            public ListBean[] newArray(int size) {
-                return new ListBean[size];
-            }
-        };
-
-        public String getFaccid() {
-            return faccid;
-        }
-
-        public void setFaccid(String faccid) {
-            this.faccid = faccid;
-        }
-
-        public int getOwnseconds() {
-            return ownseconds;
-        }
-
-        public void setOwnseconds(int ownseconds) {
-            this.ownseconds = ownseconds;
-        }
-
-        public String getStarcode() {
-            return starcode;
-        }
-
-        public void setStarcode(String starcode) {
-            this.starcode = starcode;
-        }
-
-        public String getStarname() {
-            return starname;
-        }
-
-        public void setStarname(String starname) {
-            this.starname = starname;
-        }
-
-        @Override
-        public int describeContents() {
-            return 0;
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            dest.writeString(faccid);
-            dest.writeInt(ownseconds);
-            dest.writeString(starcode);
-            dest.writeString(starname);
-        }
-    }
 }

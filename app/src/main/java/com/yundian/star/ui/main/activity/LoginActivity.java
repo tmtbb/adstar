@@ -46,13 +46,13 @@ import butterknife.OnClick;
  * Created by Null on 2017/5/7.
  */
 
-public class LoginActivity extends BaseActivity{
+public class LoginActivity extends BaseActivity {
     @Bind(R.id.userNameEditText)
-    WPEditText userNameEditText ;
+    WPEditText userNameEditText;
     @Bind(R.id.passwordEditText)
-    WPEditText passwordEditText ;
+    WPEditText passwordEditText;
     @Bind(R.id.loginButton)
-    Button loginButton ;
+    Button loginButton;
     @Bind(R.id.registerText)
     TextView registerText;
     @Bind(R.id.tv_retrieve_password)
@@ -62,7 +62,7 @@ public class LoginActivity extends BaseActivity{
     private CheckHelper checkHelper = new CheckHelper();
     private AbortableFuture<LoginInfo> loginRequest;
     private long exitNow;
-    boolean flag =true;
+    boolean flag = true;
 
     @Override
     public int getLayoutId() {
@@ -83,11 +83,12 @@ public class LoginActivity extends BaseActivity{
         WindowManager.LayoutParams p = getWindow().getAttributes();// 获取对话框当前的参值
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
-        p.width = (int)(size.x*0.9);
+        p.width = (int) (size.x * 0.9);
         getWindow().setAttributes(p); // 设置生效
         userNameEditText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         checkHelper.checkButtonState(loginButton, userNameEditText, passwordEditText);
     }
+
     @OnClick(R.id.loginButton)
     public void loging() {
         CheckException exception = new CheckException();
@@ -96,27 +97,27 @@ public class LoginActivity extends BaseActivity{
             NetworkAPIFactoryImpl.getUserAPI().login(userNameEditText.getEditTextString(), passwordEditText.getEditTextString(), new OnAPIListener<LoginReturnInfo>() {
                 @Override
                 public void onError(Throwable ex) {
-                    LogUtils.logd("登录失败_____"+ex.toString());
+                    LogUtils.logd("登录失败_____" + ex.toString());
                 }
 
                 @Override
                 public void onSuccess(final LoginReturnInfo loginReturnInfo) {
-                    if(loginReturnInfo==null||loginReturnInfo.getUserinfo()==null){
+                    if (loginReturnInfo == null || loginReturnInfo.getUserinfo() == null) {
                         return;
-                    }else {
-                        LogUtils.logd("登录成功"+loginReturnInfo);
+                    } else {
+                        LogUtils.logd("登录成功" + loginReturnInfo);
                         //网易云注册
-                        NetworkAPIFactoryImpl.getUserAPI().registerWangYi(userNameEditText.getEditTextString(),userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), new OnAPIListener<RegisterReturnWangYiBeen>() {
+                        NetworkAPIFactoryImpl.getUserAPI().registerWangYi(userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), new OnAPIListener<RegisterReturnWangYiBeen>() {
                             @Override
                             public void onError(Throwable ex) {
-                                LogUtils.logd("网易云注册失败"+ex.toString());
+                                LogUtils.logd("网易云注册失败" + ex.toString());
                                 ToastUtils.showShort("网易云注册失败");
                             }
 
                             @Override
                             public void onSuccess(RegisterReturnWangYiBeen registerReturnWangYiBeen) {
-                                LogUtils.logd("网易云注册成功"+registerReturnWangYiBeen.getResult_value()+"网易云token"+registerReturnWangYiBeen.getToken_value());
-                                loginWangYi(loginReturnInfo,registerReturnWangYiBeen);
+                                LogUtils.logd("网易云注册成功" + registerReturnWangYiBeen.getResult_value() + "网易云token" + registerReturnWangYiBeen.getToken_value());
+                                loginWangYi(loginReturnInfo, registerReturnWangYiBeen);
                             }
                         });
 
@@ -132,8 +133,8 @@ public class LoginActivity extends BaseActivity{
 
     }
 
-    private void loginWangYi(final LoginReturnInfo loginReturnInfos,RegisterReturnWangYiBeen registerReturnWangYiBeen) {
-        LogUtils.logd(loginReturnInfos.getUserinfo().getPhone()+"..."+registerReturnWangYiBeen.getToken_value());
+    private void loginWangYi(final LoginReturnInfo loginReturnInfos, RegisterReturnWangYiBeen registerReturnWangYiBeen) {
+        LogUtils.logd(loginReturnInfos.getUserinfo().getPhone() + "..." + registerReturnWangYiBeen.getToken_value());
         // 登录
         loginRequest = NimUIKit.doLogin(new LoginInfo(loginReturnInfos.getUserinfo().getPhone(), registerReturnWangYiBeen.getToken_value()), new RequestCallback<LoginInfo>() {
             @Override
@@ -145,24 +146,24 @@ public class LoginActivity extends BaseActivity{
                 initNotificationConfig();
                 // 构建缓存
                 DataCacheManager.buildDataCacheAsync();
-                SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnInfos.getUserinfo());
+                SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnInfos);
                 LoginActivity.this.finish();
-                LoginActivity.this.overridePendingTransition(0,R.anim.activity_off_top_out);
+                LoginActivity.this.overridePendingTransition(0, R.anim.activity_off_top_out);
                 finish();
             }
 
             @Override
             public void onFailed(int code) {
                 if (code == 302 || code == 404) {
-                    LogUtils.logd("网易云登录失败"+R.string.login_failed);
+                    LogUtils.logd("网易云登录失败" + R.string.login_failed);
                 } else {
-                    LogUtils.logd("网易云登录失败"+code);
+                    LogUtils.logd("网易云登录失败" + code);
                 }
             }
 
             @Override
             public void onException(Throwable exception) {
-                LogUtils.logd("网易云登录失败"+R.string.login_exception);
+                LogUtils.logd("网易云登录失败" + R.string.login_exception);
             }
         });
     }
@@ -171,10 +172,11 @@ public class LoginActivity extends BaseActivity{
     public void doingReregister() {
         startActivity(RegisterUserActivity.class);
         finish();
-        overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
+        overridePendingTransition(R.anim.activity_open_down_in, R.anim.activity_off_top_out);
     }
+
     @OnClick(R.id.tv_retrieve_password)
-    public void retrievePassword(){
+    public void retrievePassword() {
         finish();
         startActivity(ResetUserPwdActivity.class);
     }
@@ -187,7 +189,7 @@ public class LoginActivity extends BaseActivity{
                 Toast.makeText(this, String.format(getString(R.string.confirm_exit_app), getString(R.string.app_name)), Toast.LENGTH_SHORT).show();
                 exitNow = System.currentTimeMillis();
             } else if ((System.currentTimeMillis() - exitNow) > 0) {
-                AppManager.getAppManager().AppExit(this,false);
+                AppManager.getAppManager().AppExit(this, false);
                 return super.onKeyDown(keyCode, event);
             }
             return true;
@@ -215,7 +217,7 @@ public class LoginActivity extends BaseActivity{
     }
 
     @OnClick(R.id.tv_weixin_login)
-    public void weixinLogin(){
+    public void weixinLogin() {
         if (!AppApplication.api.isWXAppInstalled()) {
             ToastUtils.showShort("您还未安装微信客户端");
             return;

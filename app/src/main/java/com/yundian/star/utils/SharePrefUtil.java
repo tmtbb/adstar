@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.yundian.star.app.AppApplication;
+import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.UserinfoBean;
 import com.yundian.star.ui.wangyi.DemoCache;
 import static android.content.Context.MODE_PRIVATE;
@@ -34,9 +35,11 @@ public class SharePrefUtil {
     private static String UserInfo = "AdstarUser";
     private static String UserLoginInfo = "UserLoginInfo";
 
-    public void saveLoginUserInfo(UserinfoBean user) {
+    public void saveLoginUserInfo(LoginReturnInfo user) {
         sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
-        sp.edit().putString("phoneNum", user.getPhone()).apply();
+        sp.edit().putString("phoneNum", user.getUserinfo().getPhone()).apply();
+        sp.edit().putString("token", user.getToken()).apply();
+        sp.edit().putInt("userId", user.getUserinfo().getId()).apply();
 
     }
 
@@ -52,6 +55,14 @@ public class SharePrefUtil {
         userinfoBean.setPhone(phoneNum);
         return userinfoBean;
     }
+
+    public String getToken() {
+        sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
+        String token = sp.getString("token", "");
+        return token;
+    }
+
+
 
     /**
      * 清空UserInfo
@@ -102,9 +113,9 @@ public class SharePrefUtil {
 
     }
 
-    public String getUserId() {
+    public int getUserId() {
         sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
-        String userId = sp.getString("userId", null);
+        int userId = sp.getInt("userId", 0);
         return userId;
     }
 
@@ -310,37 +321,11 @@ public class SharePrefUtil {
 
     private static String CBSTATES = "cbstates";
 
-    /**
-     * 设置摄像机推流地址选中状态
-     *
-     * @param b
-     */
-    public void setCheckBoxStates(boolean b) {
-        sp = context.getSharedPreferences(CBSTATES, MODE_PRIVATE);
-        sp.edit().putBoolean(getUserId(), b).apply();
-    }
 
-    public boolean getCheckBoxStates() {
-        sp = context.getSharedPreferences(CBSTATES, MODE_PRIVATE);
-        return sp.getBoolean(getUserId(), false);
-    }
 
     private static String PUSHURL = "pushurl";
 
-    /**
-     * 缓存推流地址
-     *
-     * @param s
-     */
-    public void setPushUrl(String s) {
-        sp = context.getSharedPreferences(PUSHURL, MODE_PRIVATE);
-        sp.edit().putString(getUserId(), s).apply();
-    }
 
-    public String getPushUrl() {
-        sp = context.getSharedPreferences(PUSHURL, MODE_PRIVATE);
-        return sp.getString(getUserId(), "");
-    }
 
     public void saveString(String key, String value) {
         SharedPreferences.Editor editor = getSharedPreferences().edit();

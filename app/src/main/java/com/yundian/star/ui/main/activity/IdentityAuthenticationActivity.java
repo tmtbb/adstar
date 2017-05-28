@@ -5,7 +5,11 @@ import android.widget.EditText;
 
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.been.RequestResultBean;
 import com.yundian.star.helper.CheckHelper;
+import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
+import com.yundian.star.utils.LogUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
@@ -48,7 +52,20 @@ public class IdentityAuthenticationActivity extends BaseActivity {
 
     @OnClick(R.id.btn_verification)
     public void onViewClicked() {
-        //请求接口验证身份证,成功后  免责声明,设置支付密码
-        startActivity(SettingDealPwdActivity.class);
+        NetworkAPIFactoryImpl.getDealAPI().identityAuthentication(etInputName.getText().toString().trim(),
+                etInputCard.getText().toString().trim(), new OnAPIListener<RequestResultBean>() {
+                    @Override
+                    public void onError(Throwable ex) {
+                        ex.printStackTrace();
+                        LogUtils.logd("实名认证请求失败");
+                    }
+
+                    @Override
+                    public void onSuccess(RequestResultBean resultBean) {
+                        LogUtils.logd("实名认证请求成功:" + resultBean.toString());
+                        //请求接口验证身份证,成功后  免责声明,设置支付密码
+                        startActivity(DisclaimerActivity.class);
+                    }
+                });
     }
 }

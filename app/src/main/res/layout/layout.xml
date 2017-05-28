@@ -40,10 +40,10 @@
         android:layout_height="wrap_content"
         android:background="@null"
         android:cursorVisible="true"
-        android:digits="0123456789"
+
         android:gravity="center"
         android:singleLine="true"
-        android:inputType="number"
+
         android:minWidth="65dp"
         android:paddingBottom="3dp"
         android:paddingLeft="5dp"

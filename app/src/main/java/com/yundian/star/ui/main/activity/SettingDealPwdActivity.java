@@ -8,6 +8,9 @@ import android.widget.LinearLayout;
 
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.been.RequestResultBean;
+import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.view.PayPwdEditText;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.ToastUtils;
@@ -113,11 +116,36 @@ public class SettingDealPwdActivity extends BaseActivity {
                 break;
             case R.id.btn_next2:
                 if (prePwd.equals(newPwd)) {
-                    ToastUtils.showShort("进入下一个页面");
+//                    ToastUtils.showShort("进入下一个页面");
+                    settingDealPwd(newPwd);
                 }
 
                 break;
         }
+    }
+
+    private void settingDealPwd(String newPwd) {
+        String vCode = null;
+        int type = 0; //0-设置密码1-重置密码
+        String pwd = newPwd;  //加密之后
+        NetworkAPIFactoryImpl.getDealAPI().dealPwd(vCode, type, pwd, new OnAPIListener<RequestResultBean>() {
+            @Override
+            public void onError(Throwable ex) {
+                ex.printStackTrace();
+                LogUtils.logd("交易密码设置失败");
+            }
+
+            @Override
+            public void onSuccess(RequestResultBean resultBean) {
+                LogUtils.logd("交易密码设置成功:" + resultBean.toString());
+                if (resultBean.getStatus() == 0) {
+                    ToastUtils.showShort("设置交易密码成功");
+                } else {
+                    ToastUtils.showShort("设置交易密码失败");
+                }
+
+            }
+        });
     }
 
     @Override

@@ -6,16 +6,21 @@ import android.view.View;
 
 import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
+import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.BookingStarListBean;
+import com.yundian.star.been.MoneyDetailListBean;
 import com.yundian.star.been.MyPopupMenuEntity;
+import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.listener.OnChildViewClickListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.MoneyBagDetailAdapter;
 import com.yundian.star.ui.view.MyPopupMenu;
+import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
@@ -38,6 +43,13 @@ public class MoneyBagDetailActivity extends BaseActivity {
     LRecyclerView lrv;
     private MyPopupMenu popupMenu;
     private List<MyPopupMenuEntity> lists;
+    private MoneyBagDetailAdapter moneyBagDetailAdapter;
+    private LRecyclerViewAdapter lRecyclerViewAdapter;
+
+    private static final int REQUEST_COUNT = 10;
+    private static int mCurrentCounter = 1;
+    private List<MoneyDetailListBean> loadList = new ArrayList<>();
+    private List<MoneyDetailListBean> refreshList = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -46,8 +58,6 @@ public class MoneyBagDetailActivity extends BaseActivity {
 
     @Override
     public void initPresenter() {
-
-
     }
 
     @Override
@@ -56,7 +66,69 @@ public class MoneyBagDetailActivity extends BaseActivity {
         ntTitle.setTvLeftVisiable(true);
         ntTitle.setRightImagSrc(R.drawable.about_logo);
         initPopupMenu();
-        setListData();
+        initAdapter();
+        requestMoneyDetailData(false, 0, 10);
+    }
+
+    private void requestMoneyDetailData(final boolean isLoadMore, int start, int count) {
+        NetworkAPIFactoryImpl.getDealAPI().moneyList(0, count, start, new OnAPIListener<List<MoneyDetailListBean>>() {
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.logd("钱包详情请求失败----");
+            }
+
+            @Override
+            public void onSuccess(List<MoneyDetailListBean> list) {
+                if (list == null) {
+                    lrv.setNoMore(true);
+                    return;
+                }
+                if (isLoadMore) {
+                    loadList.clear();
+                    loadList = list;
+                    loadMoreData();
+                } else {
+                    refreshList.clear();
+                    refreshList = list;
+                    showData();
+                }
+            }
+        });
+    }
+
+    private void loadMoreData() {
+        if (loadList == null || refreshList.size() == 0) {
+            lrv.setNoMore(true);
+        } else {
+            refreshList.addAll(loadList);
+            moneyBagDetailAdapter.addAll(loadList);
+            mCurrentCounter += loadList.size();
+            lrv.refreshComplete(REQUEST_COUNT);
+        }
+    }
+
+    public void showData() {
+        mCurrentCounter = refreshList.size();
+        lRecyclerViewAdapter.notifyDataSetChanged();
+        moneyBagDetailAdapter.addAll(refreshList);
+        lrv.refresh();
+    }
+
+
+    private void initAdapter() {
+        moneyBagDetailAdapter = new MoneyBagDetailAdapter(this);
+//        moneyBagDetailAdapter.setDataList(detailList);
+        lRecyclerViewAdapter = new LRecyclerViewAdapter(moneyBagDetailAdapter);
+        lrv.setAdapter(lRecyclerViewAdapter);
+        DividerDecoration divider = new DividerDecoration.Builder(this)
+                .setHeight(R.dimen.dp_1)
+                .setColorResource(R.color.color_cccccc)
+                .build();
+        lrv.addItemDecoration(divider);
+        lrv.setPullRefreshEnabled(false);
+        lrv.setLayoutManager(new LinearLayoutManager(this));
+        lrv.setPullRefreshEnabled(true);
+        initListner();
     }
 
     private void initPopupMenu() {
@@ -86,80 +158,29 @@ public class MoneyBagDetailActivity extends BaseActivity {
         }
     }
 
-    private ArrayList<BookingStarListBean> arrayList;
-    private MoneyBagDetailAdapter moneyBagDetailAdapter;
-    private LRecyclerViewAdapter lRecyclerViewAdapter;
-    private static int mCurrentCounter = 1;
-    private static final int TOTAL_COUNTER = 34;
-
-
-
-    private void setListData() {
-        arrayList = new ArrayList<>();
-        BookingStarListBean infor = null;
-        for (int i = 0; i < 20; i++) {
-            infor = new BookingStarListBean();
-            arrayList.add(infor);
-        }
-
-        moneyBagDetailAdapter = new MoneyBagDetailAdapter(this);
-        moneyBagDetailAdapter.setDataList(arrayList);
-        lRecyclerViewAdapter = new LRecyclerViewAdapter(moneyBagDetailAdapter);
-        lrv.setAdapter(lRecyclerViewAdapter);
-        DividerDecoration divider = new DividerDecoration.Builder(this)
-                .setHeight(R.dimen.dp_1)
-                .setColorResource(R.color.color_cccccc)
-                .build();
-        //mRecyclerView.setHasFixedSize(true);
-        lrv.addItemDecoration(divider);
-        lrv.setLayoutManager(new LinearLayoutManager(this));
-        lrv.setPullRefreshEnabled(true);
-        initListner();
-    }
-
     private void initListner() {
         lrv.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                moneyBagDetailAdapter.clear();
-                lRecyclerViewAdapter.notifyDataSetChanged();
-                mCurrentCounter = 1;
-//                startProgressDialog("刷新中");
-                requestData();
+                requestMoneyDetailData(false, 0, 10);
             }
         });
+
+        lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                requestMoneyDetailData(true, mCurrentCounter + 1, mCurrentCounter + REQUEST_COUNT);
+            }
+        });
+
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 ToastUtils.showShort("当前被点击:" + position);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable("dealDetail", new BookingStarListBean());
-                startActivity(BillingDetailsActivity.class,bundle);
-//                SessionHelper.startP2PSession(StarCommunicationBookActivity.this, "17682310986");
+                startActivity(BillingDetailsActivity.class, bundle);
             }
         });
-
-    }
-
-    private void requestData() {
-        int currentSize = moneyBagDetailAdapter.getItemCount();
-        //模拟组装10个数据
-        ArrayList<BookingStarListBean> newList = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            if (newList.size() + currentSize >= TOTAL_COUNTER) {
-                break;
-            }
-
-            BookingStarListBean item = new BookingStarListBean();
-            newList.add(item);
-        }
-
-        addItems(newList);
-        lrv.refreshComplete(currentSize);
-    }
-
-    public void addItems(ArrayList<BookingStarListBean> list) {
-        moneyBagDetailAdapter.addAll(list);
-        mCurrentCounter += list.size();
     }
 }
