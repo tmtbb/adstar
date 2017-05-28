@@ -124,7 +124,7 @@ public class RegisterUserActivity extends BaseActivity {
             return;
         }
         NetworkAPIFactoryImpl.getUserAPI().bindNumber(userNameEditText.getEditTextString(), wxUserInfo.getOpenid()
-                , passwordEditText.getEditTextString(), verifyCodeBeen.getTimeStamp(), verifyCodeBeen.getVToken(), vCode,
+                , MD5Util.MD5(passwordEditText.getEditTextString()), verifyCodeBeen.getTimeStamp(), verifyCodeBeen.getVToken(), vCode,
                 -1, "-1", "-1", wxUserInfo.getNickname(), wxUserInfo.getHeadimgurl(), new OnAPIListener<RegisterReturnBeen>() {
                     @Override
                     public void onError(Throwable ex) {
