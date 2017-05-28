@@ -77,7 +77,7 @@ public class BookingStarListBean implements Parcelable {
         private String starcode;
         private String starname;
 
-        protected ListBean() {
+        public ListBean() {
         }
 
         protected ListBean(Parcel in) {

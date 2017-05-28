@@ -38,15 +38,14 @@ import butterknife.Bind;
 public class MainActivity extends BaseActivity {
     @Bind(R.id.tab_bottom_layout)
     CommonTabLayout tabLayout ;
-    private String[] mTitles = {"资讯", "行情","买卖","分答","我的"};
+    private String[] mTitles = {"资讯", "行情","分答","我的"};
     private int[] mIconUnselectIds = {
-            R.drawable.ic_home_normal,R.drawable.ic_home_normal,R.drawable.ic_home_normal,R.drawable.ic_home_normal,R.drawable.ic_home_normal};
+            R.drawable.message_no_ok,R.drawable.market_no_ok,R.drawable.differ_answer_no_ok,R.drawable.me_no_ok};
     private int[] mIconSelectIds = {
-            R.drawable.ic_home_selected,R.drawable.ic_home_selected, R.drawable.ic_home_selected,R.drawable.ic_home_selected,R.drawable.ic_home_selected};
+            R.drawable.message_ok,R.drawable.market_ok, R.drawable.differ_answer_ok,R.drawable.me_ok};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private NewsInfoFragment newsInfoFragment;
     private MarketFragment marketFragment;
-    private UserInfoFragment userInfoFragment3;
     private DifferAnswerFragment differAnswerFragment;
     private UserInfoFragment userInfoFragment;
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
@@ -101,21 +100,18 @@ public class MainActivity extends BaseActivity {
         if (savedInstanceState != null) {
             newsInfoFragment = (NewsInfoFragment) getSupportFragmentManager().findFragmentByTag("NewsInfoFragment");
             marketFragment = (MarketFragment) getSupportFragmentManager().findFragmentByTag("MarketFragment");
-            userInfoFragment3 = (UserInfoFragment) getSupportFragmentManager().findFragmentByTag("TestFragment3");
             differAnswerFragment = (DifferAnswerFragment) getSupportFragmentManager().findFragmentByTag("DifferAnswerFragment");
-            userInfoFragment = (UserInfoFragment) getSupportFragmentManager().findFragmentByTag("TestFragment5");
+            userInfoFragment = (UserInfoFragment) getSupportFragmentManager().findFragmentByTag("UserInfoFragment");
             currentTabPosition = savedInstanceState.getInt(AppConstant.HOME_CURRENT_TAB_POSITION);
         } else {
             newsInfoFragment = new NewsInfoFragment();
             marketFragment = new MarketFragment();
-            userInfoFragment3 = new UserInfoFragment();
             differAnswerFragment = new DifferAnswerFragment();
             userInfoFragment = new UserInfoFragment();
             transaction.add(R.id.fl_main, newsInfoFragment, "NewsInfoFragment");
             transaction.add(R.id.fl_main, marketFragment, "MarketFragment");
-            transaction.add(R.id.fl_main, userInfoFragment3, "TestFragment3");
             transaction.add(R.id.fl_main, differAnswerFragment, "DifferAnswerFragment");
-            transaction.add(R.id.fl_main, userInfoFragment, "TestFragment5");
+            transaction.add(R.id.fl_main, userInfoFragment, "UserInfoFragment");
         }
         transaction.commit();
         SwitchTo(currentTabPosition);
@@ -174,7 +170,6 @@ public class MainActivity extends BaseActivity {
         switch (position) {
             case 0:
                 transaction.hide(marketFragment);
-                transaction.hide(userInfoFragment3);
                 transaction.hide(differAnswerFragment);
                 transaction.hide(userInfoFragment);
                 transaction.show(newsInfoFragment);
@@ -182,7 +177,6 @@ public class MainActivity extends BaseActivity {
                 break;
             case 1:
                 transaction.hide(newsInfoFragment);
-                transaction.hide(userInfoFragment3);
                 transaction.hide(differAnswerFragment);
                 transaction.hide(userInfoFragment);
                 transaction.show(marketFragment);
@@ -191,22 +185,12 @@ public class MainActivity extends BaseActivity {
             case 2:
                 transaction.hide(marketFragment);
                 transaction.hide(newsInfoFragment);
-                transaction.hide(differAnswerFragment);
-                transaction.hide(userInfoFragment);
-                transaction.show(userInfoFragment3);
-                transaction.commitAllowingStateLoss();
-                break;
-            case 3:
-                transaction.hide(marketFragment);
-                transaction.hide(userInfoFragment3);
-                transaction.hide(newsInfoFragment);
                 transaction.hide(userInfoFragment);
                 transaction.show(differAnswerFragment);
                 transaction.commitAllowingStateLoss();
                 break;
-            case 4:
+            case 3:
                 transaction.hide(marketFragment);
-                transaction.hide(userInfoFragment3);
                 transaction.hide(newsInfoFragment);
                 transaction.hide(differAnswerFragment);
                 transaction.show(userInfoFragment);

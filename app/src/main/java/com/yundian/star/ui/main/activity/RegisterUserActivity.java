@@ -74,7 +74,7 @@ public class RegisterUserActivity extends BaseActivity {
         WindowManager.LayoutParams p = getWindow().getAttributes();// 获取对话框当前的参值
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
-        p.width = (int)(size.x*0.9);
+        p.width = (int)(size.x*0.85);
         getWindow().setAttributes(p); // 设置生效
         userNameEditText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         checkHelper.checkButtonState(registerButton, userNameEditText, msgEditText, passwordEditText);
@@ -137,9 +137,13 @@ public class RegisterUserActivity extends BaseActivity {
                             overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
                         } else if (registerReturnBeen.getResult() == 1) {
                             ToastUtils.showShort("注册成功");
-//                            loginGetUserInfo(newPwd);  //登录请求数据
+                            /*//loginGetUserInfo(newPwd);  //登录请求数据
                             finish();
-                            overridePendingTransition(0,R.anim.activity_off_top_out);
+                            overridePendingTransition(0,R.anim.activity_off_top_out);*/
+
+                            startActivity(LoginActivity.class);
+                            finish();
+                            overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
                         }
                     }
                 });

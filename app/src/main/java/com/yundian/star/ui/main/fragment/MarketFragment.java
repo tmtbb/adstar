@@ -50,7 +50,7 @@ public class MarketFragment extends BaseFragment {
     protected void initView() {
         nt_title.setBackVisibility(false);
         nt_title.setTitleText(R.string.star_hot);
-        nt_title.setRightImagSrc(R.drawable.ic_home_normal);
+        nt_title.setRightImagSrc(R.drawable.search);
         nt_title.setRightImagVisibility(true);
         initType();
         initListener();

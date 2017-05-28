@@ -63,6 +63,7 @@
     <string name="timer_default">00:00</string>
     <string name="recording_cancel_tip">松开手指，取消发送</string>
     <string name="recording_max_time">录音达到最大时间，是否发送？</string>
+    <string name="pelese_input_mesage">请输入消息...</string>
 
     <!-- 拍照视频 -->
     <string name="gallery_invalid">你的手机没有图库程序</string>

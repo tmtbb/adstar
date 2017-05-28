@@ -6,16 +6,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.netease.nim.uikit.CustomPushContentProvider;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.common.fragment.TFragment;
+import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.actions.BaseAction;
 import com.netease.nim.uikit.session.actions.ImageAction;
-import com.netease.nim.uikit.session.actions.LocationAction;
-import com.netease.nim.uikit.session.actions.VideoAction;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.netease.nim.uikit.session.module.Container;
 import com.netease.nim.uikit.session.module.ModuleProxy;
@@ -147,6 +147,11 @@ public class MessageFragment extends TFragment implements ModuleProxy {
      */
     // 是否允许发送消息
     protected boolean isAllowSendMessage(final IMMessage message) {
+        if (!isAllow){
+            LogUtil.e("秒数已使用完，请再次购买","");
+            Toast.makeText(getContext(),"秒数已使用完，请再次购买",Toast.LENGTH_LONG);
+            return false;
+        }
         return true;
     }
 
@@ -182,12 +187,18 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         }
     };
 
-
+    int i = 0 ;
+    boolean isAllow =true ;
     /**
      * ********************** implements ModuleProxy *********************
      */
     @Override
     public boolean sendMessage(IMMessage message) {
+        if (i>=10){
+            isAllow = false ;
+        }
+        LogUtil.e("ysl_消息发送了",i+"");
+        i++;
         if (!isAllowSendMessage(message)) {
             return false;
         }
@@ -237,8 +248,8 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     protected List<BaseAction> getActionList() {
         List<BaseAction> actions = new ArrayList<>();
         actions.add(new ImageAction());
-        actions.add(new VideoAction());
-        actions.add(new LocationAction());
+        //actions.add(new VideoAction());
+        //actions.add(new LocationAction());
 
         if (customization != null && customization.actions != null) {
             actions.addAll(customization.actions);

@@ -8,7 +8,6 @@ import android.os.SystemClock;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.Spannable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,7 +19,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,10 +75,10 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     protected EditText messageEditText;// 文本消息编辑框
     protected Button audioRecordBtn; // 录音按钮
     protected View audioAnimLayout; // 录音动画布局
-    protected FrameLayout textAudioSwitchLayout; // 切换文本，语音按钮布局
+    //protected FrameLayout textAudioSwitchLayout; // 切换文本，语音按钮布局
     protected View switchToTextButtonInInputBar;// 文本消息选择按钮
     protected View switchToAudioButtonInInputBar;// 语音消息选择按钮
-    protected View moreFuntionButtonInInputBar;// 更多消息选择按钮
+    //protected View moreFuntionButtonInInputBar;// 更多消息选择按钮
     protected View sendMessageButtonInInputBar;// 发送消息按钮
     protected View emojiButtonInInputBar;// 发送消息按钮
     protected View messageInputBar;
@@ -99,6 +97,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     private boolean cancelled = false;
     private boolean touched = false; // 是否按着
     private boolean isKeyboardShowed = true; // 是否显示键盘
+    private View ll_text_layout ;
 
     // state
     private boolean actionPanelBottomLayoutHasSetup = false;
@@ -113,6 +112,10 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     // message edit watcher
 
     private MessageEditWatcher watcher;
+    private View image_pic;
+    private int initRequestCode;
+    private int initResultCode;
+    private Intent initData;
 
     public InputPanel(Container container, View view, List<BaseAction> actions, boolean isTextAudioSwitchShow) {
         this.container = container;
@@ -181,12 +184,15 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
 
     private void initViews() {
         // input bar
+
+        image_pic = view.findViewById(R.id.image_pic);
         messageActivityBottomLayout = (LinearLayout) view.findViewById(R.id.messageActivityBottomLayout);
         messageInputBar = view.findViewById(R.id.textMessageLayout);
         switchToTextButtonInInputBar = view.findViewById(R.id.buttonTextMessage);
         switchToAudioButtonInInputBar = view.findViewById(R.id.buttonAudioMessage);
-        moreFuntionButtonInInputBar = view.findViewById(R.id.buttonMoreFuntionInText);
+        //moreFuntionButtonInInputBar = view.findViewById(R.id.buttonMoreFuntionInText);
         emojiButtonInInputBar = view.findViewById(R.id.emoji_button);
+        ll_text_layout = view.findViewById(R.id.ll_text_layout);
         sendMessageButtonInInputBar = view.findViewById(R.id.buttonSendMessage);
         messageEditText = (EditText) view.findViewById(R.id.editTextMessage);
 
@@ -204,13 +210,13 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         switchToTextButtonInInputBar.setVisibility(View.GONE);
         switchToAudioButtonInInputBar.setVisibility(View.VISIBLE);
 
-        // 文本录音按钮切换布局
+        /*// 文本录音按钮切换布局
         textAudioSwitchLayout = (FrameLayout) view.findViewById(R.id.switchLayout);
         if (isTextAudioSwitchShow) {
             textAudioSwitchLayout.setVisibility(View.VISIBLE);
         } else {
             textAudioSwitchLayout.setVisibility(View.GONE);
-        }
+        }*/
     }
 
     private void initInputBarListener() {
@@ -218,7 +224,8 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         switchToAudioButtonInInputBar.setOnClickListener(clickListener);
         emojiButtonInInputBar.setOnClickListener(clickListener);
         sendMessageButtonInInputBar.setOnClickListener(clickListener);
-        moreFuntionButtonInInputBar.setOnClickListener(clickListener);
+        image_pic.setOnClickListener(clickListener);
+       // moreFuntionButtonInInputBar.setOnClickListener(clickListener);
     }
 
     private void initTextEdit() {
@@ -322,16 +329,18 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
 
         @Override
         public void onClick(View v) {
-            if (v == switchToTextButtonInInputBar) {
-                switchToTextLayout(true);// 显示文本发送的布局
-            } else if (v == sendMessageButtonInInputBar) {
-                onTextMessageSendButtonPressed();
-            } else if (v == switchToAudioButtonInInputBar) {
+            if (v == switchToAudioButtonInInputBar) {
                 switchToAudioLayout();
-            } else if (v == moreFuntionButtonInInputBar) {
-                toggleActionPanelLayout();
             } else if (v == emojiButtonInInputBar) {
                 toggleEmojiLayout();
+            }else if (v ==sendMessageButtonInInputBar){
+                onTextMessageSendButtonPressed();
+            }else if (v == switchToTextButtonInInputBar) {
+                switchToTextLayout(true);// 显示文本发送的布局
+            }else if (v ==image_pic){
+                /*actions.get(0).onActivityResult(initRequestCode & 0xff, initResultCode, initData);
+                LogUtil.e("ysl","点击图像"+initRequestCode+"..."+initResultCode+initData);*/
+                actions.get(0).onClick();
             }
         }
     };
@@ -341,11 +350,11 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         hideEmojiLayout();
         hideActionPanelLayout();
 
+        ll_text_layout.setVisibility(View.VISIBLE);
         audioRecordBtn.setVisibility(View.GONE);
         messageEditText.setVisibility(View.VISIBLE);
         switchToTextButtonInInputBar.setVisibility(View.GONE);
         switchToAudioButtonInInputBar.setVisibility(View.VISIBLE);
-
         messageInputBar.setVisibility(View.VISIBLE);
 
         if (needShowInput) {
@@ -371,7 +380,8 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
 
     // 切换成音频，收起键盘，按钮切换成键盘
     private void switchToAudioLayout() {
-        messageEditText.setVisibility(View.GONE);
+        //messageEditText.setVisibility(View.GONE);
+        ll_text_layout.setVisibility(View.GONE);
         audioRecordBtn.setVisibility(View.VISIBLE);
         hideInputMethod();
         hideEmojiLayout();
@@ -394,6 +404,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     private void toggleEmojiLayout() {
         if (emoticonPickerView == null || emoticonPickerView.getVisibility() == View.GONE) {
             showEmojiLayout();
+
         } else {
             hideEmojiLayout();
         }
@@ -428,6 +439,8 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     private void hideAudioLayout() {
         audioRecordBtn.setVisibility(View.GONE);
         messageEditText.setVisibility(View.VISIBLE);
+
+        ll_text_layout.setVisibility(View.GONE);
         switchToTextButtonInInputBar.setVisibility(View.VISIBLE);
         switchToAudioButtonInInputBar.setVisibility(View.GONE);
     }
@@ -437,7 +450,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         hideInputMethod();
         hideActionPanelLayout();
         hideAudioLayout();
-
+        ll_text_layout.setVisibility(View.VISIBLE);
         messageEditText.requestFocus();
         uiHandler.postDelayed(showEmojiRunnable, 200);
         emoticonPickerView.setVisibility(View.VISIBLE);
@@ -526,13 +539,6 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
      */
     private void checkSendButtonEnable(EditText editText) {
         String textMessage = editText.getText().toString();
-        if (!TextUtils.isEmpty(StringUtil.removeBlanks(textMessage)) && editText.hasFocus()) {
-            moreFuntionButtonInInputBar.setVisibility(View.GONE);
-            sendMessageButtonInInputBar.setVisibility(View.VISIBLE);
-        } else {
-            sendMessageButtonInInputBar.setVisibility(View.GONE);
-            moreFuntionButtonInInputBar.setVisibility(View.VISIBLE);
-        }
     }
 
     /**
@@ -604,7 +610,6 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
                     touched = true;
                     cancelAudioRecord(isCancelled(v, event));
                 }
-
                 return false;
             }
         });
@@ -653,7 +658,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
 
         audioMessageHelper.completeRecord(cancel);
         audioRecordBtn.setText(R.string.record_audio);
-        audioRecordBtn.setBackgroundResource(R.drawable.nim_message_input_edittext_box);
+        //audioRecordBtn.setBackgroundResource(R.drawable.nim_message_input_edittext_box);
         stopAudioRecordAnim();
     }
 
@@ -723,7 +728,7 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         }
 
         audioRecordBtn.setText(R.string.record_audio_end);
-        audioRecordBtn.setBackgroundResource(R.drawable.nim_message_input_edittext_box_pressed);
+        //audioRecordBtn.setBackgroundResource(R.drawable.nim_message_input_edittext_box_pressed);
 
         updateTimerTip(false); // 初始化语音动画状态
         playAudioRecordAnim();
@@ -767,6 +772,10 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        initRequestCode = requestCode;
+        initResultCode = resultCode;
+        initData = data;
+        LogUtil.e("ysl_0000","点击图像"+initRequestCode+"..."+initResultCode+initData);
         if (resultCode != Activity.RESULT_OK) {
             return;
         }
@@ -816,4 +825,5 @@ public class InputPanel implements IEmoticonSelectedListener, IAudioRecordCallba
         // 显示键盘
         uiHandler.postDelayed(showTextRunnable, SHOW_LAYOUT_DELAY);
     }
+
 }

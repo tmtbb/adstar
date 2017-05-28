@@ -14,15 +14,16 @@
         android:layout_height="48dp">
 
         <TextView
+            android:paddingRight="20dp"
             android:id="@+id/tv_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:background="@android:color/transparent"
-            android:drawableLeft="@drawable/back1"
+            android:drawableLeft="@drawable/back_button"
             android:gravity="center"
-            android:padding="8dp"
+            android:layout_marginLeft="12dp"
             android:textColor="@color/white"
             android:visibility="visible" />
 
@@ -35,7 +36,7 @@
             android:layout_centerInParent="true"
             android:gravity="center_vertical"
             android:textColor="@color/color_8C0808"
-            android:textSize="@dimen/fontSize_24sp" />
+            android:textSize="@dimen/fontSize_18sp" />
 
 
         <ImageView

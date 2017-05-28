@@ -127,6 +127,13 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             }
         });
 
+        nt_title.setOnBackListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
     }
 
     @Override
