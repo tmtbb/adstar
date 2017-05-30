@@ -46,6 +46,7 @@ import com.yundian.star.ui.wangyi.session.action.RTSAction;
 import com.yundian.star.ui.wangyi.session.action.SnapChatAction;
 import com.yundian.star.ui.wangyi.session.action.TipAction;
 import com.yundian.star.ui.wangyi.session.activity.MessageHistoryActivity;
+import com.yundian.star.ui.wangyi.session.activity.P2PMessageActivity;
 import com.yundian.star.ui.wangyi.session.extension.CustomAttachParser;
 import com.yundian.star.ui.wangyi.session.extension.CustomAttachment;
 import com.yundian.star.ui.wangyi.session.extension.GuessAttachment;
@@ -112,9 +113,12 @@ public class SessionHelper {
 
     public static void startP2PSession(Context context, String account, IMMessage anchor) {
         if (!DemoCache.getAccount().equals(account)) {
-            NimUIKit.startP2PSession(context, account, anchor);
+            //NimUIKit.startP2PSession(context, account, anchor);
+            SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
+            P2PMessageActivity.start(context, account, customization, anchor);
         } else {
-            NimUIKit.startChatting(context, account, SessionTypeEnum.P2P, getMyP2pCustomization(), anchor);
+           // TeamMessageActivity.start(context, account, customization, null, anchor);
+           // NimUIKit.startChatting(context, account, SessionTypeEnum.P2P, getMyP2pCustomization(), anchor);
         }
     }
 

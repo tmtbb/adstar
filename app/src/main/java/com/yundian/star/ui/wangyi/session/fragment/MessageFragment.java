@@ -1,4 +1,4 @@
-package com.netease.nim.uikit.session.fragment;
+package com.yundian.star.ui.wangyi.session.fragment;
 
 import android.content.Intent;
 import android.media.AudioManager;

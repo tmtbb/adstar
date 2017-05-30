@@ -1,4 +1,4 @@
-package com.netease.nim.uikit.session.activity;
+package com.yundian.star.ui.wangyi.session.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import com.netease.nim.uikit.common.activity.UI;
 import com.netease.nim.uikit.common.util.sys.ScreenUtil;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.constant.Extras;
-import com.netease.nim.uikit.session.fragment.MessageFragment;
+import com.yundian.star.ui.wangyi.session.fragment.MessageFragment;
 
 import java.util.List;
 

@@ -155,6 +155,18 @@
             android:value="com.netease.nimlib.service.NimReceiver" />
 
         <!--网易云-->
+        <activity
+            android:name=".ui.wangyi.session.activity.P2PMessageActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".ui.wangyi.session.activity.TeamMessageActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <!-- 关于 -->
         <activity
             android:name=".ui.wangyi.main.activity.AboutActivity"

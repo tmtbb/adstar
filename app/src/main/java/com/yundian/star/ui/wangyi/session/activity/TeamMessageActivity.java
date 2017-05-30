@@ -1,4 +1,4 @@
-package com.netease.nim.uikit.session.activity;
+package com.yundian.star.ui.wangyi.session.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -15,8 +15,6 @@ import com.netease.nim.uikit.cache.TeamDataCache;
 import com.netease.nim.uikit.model.ToolBarOptions;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.constant.Extras;
-import com.netease.nim.uikit.session.fragment.MessageFragment;
-import com.netease.nim.uikit.session.fragment.TeamMessageFragment;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
@@ -24,6 +22,8 @@ import com.netease.nimlib.sdk.team.TeamService;
 import com.netease.nimlib.sdk.team.constant.TeamTypeEnum;
 import com.netease.nimlib.sdk.team.model.Team;
 import com.netease.nimlib.sdk.team.model.TeamMember;
+import com.yundian.star.ui.wangyi.session.fragment.MessageFragment;
+import com.yundian.star.ui.wangyi.session.fragment.TeamMessageFragment;
 
 import java.util.List;
 
