@@ -68,6 +68,7 @@ public interface SocketAPIConstant {
         Short Starmaillist = 6013;
         Short BookingStar = 6013;
         Short Identity = 3021;
+        Short AddFriend = 9099;
 
 
     }

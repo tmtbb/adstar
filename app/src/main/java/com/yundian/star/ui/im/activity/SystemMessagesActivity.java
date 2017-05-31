@@ -8,7 +8,6 @@ import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
-import com.yundian.star.been.BookingStarListBean;
 import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
@@ -33,8 +32,8 @@ public class SystemMessagesActivity extends BaseActivity {
 
     private static int mCurrentCounter = 1;
     private static final int REQUEST_COUNT = 10;
-    private ArrayList<BookingStarListBean.ListBean> list = new ArrayList<>();
-    private ArrayList<BookingStarListBean.ListBean> loadList = new ArrayList<>();
+    private ArrayList<StarMailListBeen.DepositsinfoBean> list = new ArrayList<>();
+    private ArrayList<StarMailListBeen.DepositsinfoBean> loadList = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private BookStarComAdapter starCommBookAdapter;
 
@@ -85,8 +84,8 @@ public class SystemMessagesActivity extends BaseActivity {
     private void getData(final boolean isLoadMore,int start ,int end ) {
 
             for (int i =0 ;i<5;i++){
-                BookingStarListBean.ListBean bean = new BookingStarListBean.ListBean();
-                bean.setStarname("明星"+i);
+                StarMailListBeen.DepositsinfoBean bean = new StarMailListBeen.DepositsinfoBean();
+                bean.setStarname(i);
                 list.add(bean);
             }
             showData();

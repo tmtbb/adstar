@@ -9,7 +9,6 @@ import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
-import com.yundian.star.been.BookingStarListBean;
 import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
@@ -35,8 +34,8 @@ public class StarCommunicationBookActivity extends BaseActivity {
 
     private static int mCurrentCounter = 1;
     private static final int REQUEST_COUNT = 10;
-    private ArrayList<BookingStarListBean.ListBean> list = new ArrayList<>();
-    private ArrayList<BookingStarListBean.ListBean> loadList = new ArrayList<>();
+    private ArrayList<StarMailListBeen.DepositsinfoBean> list = new ArrayList<>();
+    private ArrayList<StarMailListBeen.DepositsinfoBean> loadList = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private BookStarComAdapter starCommBookAdapter;
 
@@ -69,7 +68,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SessionHelper.startP2PSession(StarCommunicationBookActivity.this,"17682310986");
+                SessionHelper.startP2PSession(StarCommunicationBookActivity.this,list.get(position).getFaccid());
             }
         });
     }
@@ -92,21 +91,35 @@ public class StarCommunicationBookActivity extends BaseActivity {
 
     private void getData(final boolean isLoadMore,int start ,int end ) {
 
-            for (int i =0 ;i<5;i++){
+            /*for (int i =0 ;i<5;i++){
                 BookingStarListBean.ListBean bean = new BookingStarListBean.ListBean();
                 bean.setStarname("明星"+i);
                 list.add(bean);
             }
-            showData();
-        NetworkAPIFactoryImpl.getInformationAPI().getStarmaillist(SharePrefUtil.getInstance().getUserId(), SharePrefUtil.getInstance().getToken(),"123", start, end, new OnAPIListener<StarMailListBeen>() {
+            showData();*/
+        NetworkAPIFactoryImpl.getInformationAPI().getStarmaillist(SharePrefUtil.getInstance().getUserId(), SharePrefUtil.getInstance().getToken(),"123", start, REQUEST_COUNT, new OnAPIListener<StarMailListBeen>() {
             @Override
             public void onError(Throwable ex) {
+                lrv.setNoMore(true);
 
             }
 
             @Override
             public void onSuccess(StarMailListBeen starMailListBeen) {
                 LogUtils.loge(starMailListBeen.toString());
+                if (starMailListBeen.getDepositsinfo()==null){
+                    lrv.setNoMore(true);
+                    return;
+                }
+                if (isLoadMore){
+                    loadList.clear();
+                    loadList = starMailListBeen.getDepositsinfo();
+                    loadMoreData();
+                }else {
+                    list.clear();
+                    list = starMailListBeen.getDepositsinfo();
+                    showData();
+                }
             }
         });
 

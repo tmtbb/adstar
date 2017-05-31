@@ -1,6 +1,6 @@
 package com.yundian.star.been;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2017/5/28.
@@ -8,13 +8,13 @@ import java.util.List;
 
 public class StarMailListBeen {
 
-    private List<DepositsinfoBean> depositsinfo;
+    private ArrayList<DepositsinfoBean> depositsinfo;
 
-    public List<DepositsinfoBean> getDepositsinfo() {
+    public ArrayList<DepositsinfoBean> getDepositsinfo() {
         return depositsinfo;
     }
 
-    public void setDepositsinfo(List<DepositsinfoBean> depositsinfo) {
+    public void setDepositsinfo(ArrayList<DepositsinfoBean> depositsinfo) {
         this.depositsinfo = depositsinfo;
     }
 
@@ -92,5 +92,25 @@ public class StarMailListBeen {
         public void setStatus(int status) {
             this.status = status;
         }
+
+        @Override
+        public String toString() {
+            return "DepositsinfoBean{" +
+                    "uid=" + uid +
+                    ", ownseconds=" + ownseconds +
+                    ", appoint=" + appoint +
+                    ", starcode=" + starcode +
+                    ", starname=" + starname +
+                    ", faccid='" + faccid + '\'' +
+                    ", status=" + status +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "StarMailListBeen{" +
+                "depositsinfo=" + depositsinfo +
+                '}';
     }
 }

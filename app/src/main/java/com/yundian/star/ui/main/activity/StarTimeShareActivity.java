@@ -57,8 +57,18 @@ public class StarTimeShareActivity extends BaseActivity {
         nt_title.setBackVisibility(true);
         nt_title.setTitleText("柳岩");
         initType();
+        initListener();
         //initTab();
 
+    }
+
+    private void initListener() {
+        nt_title.setOnBackListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     @OnClick({ R.id.rb_1, R.id.rb_2, R.id.rb_3,R.id.rb_4})

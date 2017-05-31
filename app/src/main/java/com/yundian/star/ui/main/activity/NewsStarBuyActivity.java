@@ -27,6 +27,7 @@ import com.yundian.star.widget.MyListView;
 import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/5/18.
@@ -194,5 +195,20 @@ public class NewsStarBuyActivity extends BaseActivity {
         if (!TextUtils.isEmpty(info.getPic5())){
             adList[4] = info.getPic5();
         }
+    }
+
+    @OnClick(R.id.tv_to_buy)
+    public void toBuy(){
+        NetworkAPIFactoryImpl.getInformationAPI().addFriend("13072714518", "17682310986", "",1, new OnAPIListener<Object>() {
+            @Override
+            public void onError(Throwable ex) {
+
+            }
+
+            @Override
+            public void onSuccess(Object o) {
+                LogUtils.loge("添加好友成功"+o.toString());
+            }
+        });
     }
 }
