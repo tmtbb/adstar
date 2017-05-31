@@ -30,6 +30,7 @@ import butterknife.Bind;
 
 /**
  * Created by Administrator on 2017/5/18.
+ * 广告点击明星求购页面
  */
 
 public class NewsStarBuyActivity extends BaseActivity {
@@ -111,6 +112,8 @@ public class NewsStarBuyActivity extends BaseActivity {
         StarBuyAchAdapter buyAchAdapter = new StarBuyAchAdapter(NewsStarBuyActivity.this, o.getList());
         ll_new_buy_achievement.setVisibility(View.VISIBLE);
         MyListView listExpView2 = (MyListView)ll_new_buy_achievement.findViewById(R.id.listview_buy);
+        TextView textAch = (TextView)ll_new_buy_achievement.findViewById(R.id.tv_content);
+        textAch.setText(getString(R.string.oneself_intro_achievement));
         listExpView2.setAdapter(buyAchAdapter);
         int high = ListViewUtil.setListViewHeightBasedOnChildren(listExpView2);
         ViewGroup.LayoutParams layoutParams = tv_mesure.getLayoutParams();
