@@ -6,7 +6,8 @@ package com.yundian.star.app;
  * on 2016.09.10:44
  */
 public class AppConstant {
-
+   //明星code
+    public static final String STAR_CODE="STAR_CODE";
     public static final String HOME_CURRENT_TAB_POSITION="HOME_CURRENT_TAB_POSITION";
     public static final String MENU_SHOW_HIDE="MENU_SHOW_HIDE";
 

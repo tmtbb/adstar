@@ -11,6 +11,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.yundian.star.R;
+import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.StarBuyActReferralInfo;
 import com.yundian.star.been.StarExperienceBeen;
@@ -74,7 +75,7 @@ public class NewsStarBuyActivity extends BaseActivity {
         nl_title.setBackVisibility(true);
         nl_title.setRightImagVisibility(true);
         Intent intent = getIntent();
-        code = intent.getStringExtra("code");
+        code = intent.getStringExtra(AppConstant.STAR_CODE);
         gitData();
         getStarExperience();
         getStarAch();
