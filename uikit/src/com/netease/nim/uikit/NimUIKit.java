@@ -21,8 +21,7 @@ import com.netease.nim.uikit.custom.DefalutUserInfoProvider;
 import com.netease.nim.uikit.custom.DefaultContactProvider;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.SessionEventListener;
-import com.netease.nim.uikit.session.activity.P2PMessageActivity;
-import com.netease.nim.uikit.session.activity.TeamMessageActivity;
+
 import com.netease.nim.uikit.session.emoji.StickerManager;
 import com.netease.nim.uikit.session.module.MsgForwardFilter;
 import com.netease.nim.uikit.session.module.MsgRevokeFilter;
@@ -201,6 +200,10 @@ public final class NimUIKit {
     public static void startP2PSession(Context context, String account, IMMessage anchor) {
         NimUIKit.startChatting(context, account, SessionTypeEnum.P2P, commonP2PSessionCustomization, anchor);
     }
+    public static SessionCustomization getCommonP2PSessionCustomization() {
+        return commonP2PSessionCustomization ;
+    }
+
 
     /**
      * 打开群聊界面，若开发者未设置 {@link NimUIKit#setCommonTeamSessionCustomization(SessionCustomization)},
@@ -274,9 +277,9 @@ public final class NimUIKit {
     public static void startChatting(Context context, String id, SessionTypeEnum sessionType, SessionCustomization
             customization, IMMessage anchor) {
         if (sessionType == SessionTypeEnum.P2P) {
-            P2PMessageActivity.start(context, id, customization, anchor);
+            //P2PMessageActivity.start(context, id, customization, anchor);
         } else if (sessionType == SessionTypeEnum.Team) {
-            TeamMessageActivity.start(context, id, customization, null, anchor);
+            //TeamMessageActivity.start(context, id, customization, null, anchor);
         }
     }
 
@@ -293,7 +296,7 @@ public final class NimUIKit {
     public static void startChatting(Context context, String id, SessionTypeEnum sessionType, SessionCustomization customization,
                                      Class<? extends Activity> backToClass, IMMessage anchor) {
         if (sessionType == SessionTypeEnum.Team) {
-            TeamMessageActivity.start(context, id, customization, backToClass, anchor);
+            //TeamMessageActivity.start(context, id, customization, backToClass, anchor);
         }
     }
 

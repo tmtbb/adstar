@@ -44,11 +44,11 @@
                 android:textSize="@dimen/fontSize_12sp" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_alignParentRight="true"
                 android:layout_marginTop="@dimen/dp_16"
-                android:src="@drawable/ic_home_normal" />
+                android:src="@drawable/close" />
         </RelativeLayout>
 
         <com.yundian.star.widget.WPEditText
@@ -125,7 +125,7 @@
                 android:id="@+id/tv_weixin_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/ic_home_normal"
+                android:drawableLeft="@drawable/weixin_login"
                 android:drawablePadding="@dimen/dp_4"
                 android:gravity="bottom"
                 android:text="@string/wei_xin_login"

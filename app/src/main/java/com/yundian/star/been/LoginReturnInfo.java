@@ -8,6 +8,16 @@ public class LoginReturnInfo {
     private String token;
     private UserinfoBean userinfo;
 
+    public int getResult() {
+        return result;
+    }
+
+    public void setResult(int result) {
+        this.result = result;
+    }
+
+    private int result ;
+
     public String getToken() {
         return token;
     }
@@ -21,5 +31,14 @@ public class LoginReturnInfo {
 
     public void setUserinfo(UserinfoBean userinfo) {
         this.userinfo = userinfo;
+    }
+
+    @Override
+    public String toString() {
+        return "LoginReturnInfo{" +
+                "token='" + token + '\'' +
+                ", userinfo=" + userinfo +
+                ", result='" + result + '\'' +
+                '}';
     }
 }

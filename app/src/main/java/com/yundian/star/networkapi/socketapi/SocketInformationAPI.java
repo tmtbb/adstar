@@ -8,6 +8,7 @@ import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
 import com.yundian.star.been.StarExperienceBeen;
+import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.StarStarAchBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.InformationAPI;
@@ -143,6 +144,19 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.FansComments,
                 SocketAPIConstant.ReqeutType.NewInfos, map);
         requestJsonObject(socketDataPacket,listener);
+    }
+
+    @Override
+    public void getStarmaillist(long id, String token,String status, int startPos, int count, OnAPIListener<StarMailListBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("token", token);
+        map.put("startPos", startPos);
+        map.put("status", status);
+        map.put("count", count);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Starmaillist,
+                SocketAPIConstant.ReqeutType.History, map);
+        requestEntity(socketDataPacket,StarMailListBeen.class,listener);
     }
 
 

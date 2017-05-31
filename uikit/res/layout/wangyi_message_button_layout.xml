@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:id="@+id/textMessageLayout"
+    >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/fl_messagee_text_content"
+        >
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:id="@+id/ll_text_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_alignParentTop="true"
+            android:maxHeight="72dip"
+            android:minHeight="40dp"
+            android:gravity="center_vertical"
+            >
+            <EditText
+                android:background="@null"
+                android:id="@+id/editTextMessage"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:autoLink="web|email|phone"
+                android:hint="@string/pelese_input_mesage"
+                android:minHeight="40dp"
+                android:maxHeight="72dp"
+                android:paddingLeft="25dp"
+                android:maxLines="4"
+                android:textSize="14sp" />
+            <TextView
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:id="@+id/buttonSendMessage"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:background="@drawable/nim_message_button_bottom_send_selector"
+                android:contentDescription="@string/empty"
+                android:text="@string/send"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/audioRecord"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="4dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="@string/record_audio"
+            android:gravity="center"
+            android:textColor="@color/color_black_333333"
+            android:textSize="16sp"
+            android:visibility="gone"
+            android:background="@drawable/send_message_selecter_bg"
+            />
+    </FrameLayout>
+
+
+
+    <FrameLayout
+        android:layout_marginTop="10dp"
+        android:id="@+id/audioTextSwitchLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+         />
+    </FrameLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical|right"
+        android:layout_below="@+id/fl_messagee_text_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/linearLayout">
+        <ImageView
+            android:id="@+id/emoji_button"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@id/audioTextSwitchLayout"
+            android:layout_marginRight="40dp"
+            android:layout_toLeftOf="@+id/sendLayout"
+            android:background="@drawable/nim_message_button_bottom_emoji_selector"
+            android:contentDescription="@string/empty"
+            android:scaleType="center" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="40dp"
+            >
+            <ImageView
+                android:id="@+id/buttonTextMessage"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/nim_message_button_bottom_text_selector"
+                android:contentDescription="@string/empty"
+                android:scaleType="center" />
+            <ImageView
+                android:id="@+id/buttonAudioMessage"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/nim_message_button_bottom_audio_selector"
+                android:contentDescription="@string/empty"
+                android:scaleType="center" />
+        </FrameLayout>
+
+
+        <ImageView
+            android:layout_marginRight="25dp"
+            android:id="@+id/image_pic"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/nim_message_plus_photo_normal"
+            android:contentDescription="@string/empty"
+            android:scaleType="center" />
+    </LinearLayout>
+
+</RelativeLayout>

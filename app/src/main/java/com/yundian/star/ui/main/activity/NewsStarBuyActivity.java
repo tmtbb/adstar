@@ -78,6 +78,16 @@ public class NewsStarBuyActivity extends BaseActivity {
         gitData();
         getStarExperience();
         getStarAch();
+        initlistener();
+    }
+
+    private void initlistener() {
+        nl_title.setOnBackListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     private void getStarAch() {

@@ -137,7 +137,8 @@ public <methods>;
     <init>(java.lang.Throwable);
 }
 #支付宝
--libraryjars libs/alipaySDK-20150602.jar
+# -libraryjars libs/alipaySingle-20170510.jar
+
 
 -keep class com.alipay.android.app.IAlixPay{*;}
 -keep class com.alipay.android.app.IAlixPay$Stub{*;}
@@ -145,4 +146,17 @@ public <methods>;
 -keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
 -keep class com.alipay.sdk.app.PayTask{ public *;}
 -keep class com.alipay.sdk.app.AuthTask{ public *;}
+
+-keep class  com.alipay.share.sdk.** {
+   *;
+}
+
+-dontwarn com.alipay.**
+-keep class com.alipay.**{*;}
+
+-dontwarn com.ta.utdid2.**
+-keep class com.ta.utdid2.**{*;}
+
+-dontwarn com.ut.device.**
+-keep class com.ut.device.**{*;}
 

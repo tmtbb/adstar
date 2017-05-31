@@ -46,7 +46,7 @@ import com.yundian.star.ui.wangyi.session.action.RTSAction;
 import com.yundian.star.ui.wangyi.session.action.SnapChatAction;
 import com.yundian.star.ui.wangyi.session.action.TipAction;
 import com.yundian.star.ui.wangyi.session.activity.MessageHistoryActivity;
-import com.yundian.star.ui.wangyi.session.activity.MessageInfoActivity;
+import com.yundian.star.ui.wangyi.session.activity.P2PMessageActivity;
 import com.yundian.star.ui.wangyi.session.extension.CustomAttachParser;
 import com.yundian.star.ui.wangyi.session.extension.CustomAttachment;
 import com.yundian.star.ui.wangyi.session.extension.GuessAttachment;
@@ -68,6 +68,7 @@ import java.util.List;
 
 /**
  * UIKit自定义消息界面用法展示类
+ * 标记一下
  */
 public class SessionHelper {
 
@@ -112,9 +113,12 @@ public class SessionHelper {
 
     public static void startP2PSession(Context context, String account, IMMessage anchor) {
         if (!DemoCache.getAccount().equals(account)) {
-            NimUIKit.startP2PSession(context, account, anchor);
+            //NimUIKit.startP2PSession(context, account, anchor);
+            SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
+            P2PMessageActivity.start(context, account, customization, anchor);
         } else {
-            NimUIKit.startChatting(context, account, SessionTypeEnum.P2P, getMyP2pCustomization(), anchor);
+           // TeamMessageActivity.start(context, account, customization, null, anchor);
+           // NimUIKit.startChatting(context, account, SessionTypeEnum.P2P, getMyP2pCustomization(), anchor);
         }
     }
 
@@ -178,17 +182,17 @@ public class SessionHelper {
             };
             cloudMsgButton.iconId = R.drawable.nim_ic_messge_history;
 
-            SessionCustomization.OptionsButton infoButton = new SessionCustomization.OptionsButton() {
+            /*SessionCustomization.OptionsButton infoButton = new SessionCustomization.OptionsButton() {
                 @Override
                 public void onClick(Context context, View view, String sessionId) {
                     MessageInfoActivity.startActivity(context, sessionId); //打开聊天信息
                 }
-            };
+            };*/
 
-            infoButton.iconId = R.drawable.nim_ic_message_actionbar_p2p_add;
+            //infoButton.iconId = R.drawable.nim_ic_message_actionbar_p2p_add;
 
             buttons.add(cloudMsgButton);
-            buttons.add(infoButton);
+            //buttons.add(infoButton);
             p2pCustomization.buttons = buttons;
         }
 

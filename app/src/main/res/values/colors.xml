@@ -141,6 +141,7 @@
     <color name="color_CB4232">#CB4232</color>
     <color name="color_A6A6A6">#A6A6A6</color>
     <color name="color_e5e5e5">#e5e5e5</color>
+    <color name="color_A8E0D7">#A8E0D7</color>
 
 
     <color name="color_f2f7fc">#F2F7FC</color>
@@ -190,6 +191,7 @@
     <color name="color_blue_3a9efb">#3a9efb</color>
     <color name="color_green_89fbff">#89fbff</color>
     <color name="color_dcdcdc">#dcdcdc</color>
+    <color name="color_ffffff">#ffffff</color>
 
     <!-- main bg color -->
     <color name="g_child_page_bg_color">#FFFFFF</color>

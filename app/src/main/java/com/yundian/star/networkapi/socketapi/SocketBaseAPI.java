@@ -79,7 +79,6 @@ public class SocketBaseAPI {
             @Override
             public void onSuccess(SocketAPIResponse socketAPIResponse) {
                 if( listener != null ) {
-
                     Object object = JSON.parseObject(socketAPIResponse.jsonObject().toString(),cls);
                     SocketBaseAPI.this.onSuccess(listener,object);
 
