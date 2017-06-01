@@ -220,6 +220,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         for (int i = 0; i < listData.size(); i++) {
             adList[i] = o.getList().get(i).getPic_url();
         }
+        LogUtils.loge("首页资讯轮播图数据"+listData.toString());
         //add a HeaderView
         header = LayoutInflater.from(getContext()).inflate(R.layout.adv_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
         rl_adroot = (RelativeLayout) header.findViewById(R.id.rl_adroot);
@@ -231,6 +232,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
             public void onItemClick(View v, int position, String url) {
                 Intent intent = new Intent(getActivity(),NewsStarBuyActivity.class);
                 intent.putExtra(AppConstant.STAR_CODE,o.getList().get(position).getCode());
+                LogUtils.loge("首页资讯轮播图明星code"+o.getList().get(position).getCode());
                 startActivity(intent);
             }
         });

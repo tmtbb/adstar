@@ -34,5 +34,5 @@ public interface InformationAPI {
     void getFansComments(String starcode,OnAPIListener<Object> listener);
     void getStarmaillist(long id ,String token,String status,int startPos,int count,OnAPIListener<StarMailListBeen> listener);
     void addFriend(String accid,String faccid,String msg,int type,OnAPIListener<Object> listener);
-
+    void reduceTime(String phone,String starcode,OnAPIListener<Object> listener);
 }

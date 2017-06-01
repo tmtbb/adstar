@@ -125,7 +125,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                         }
                     }).start();
                     break;
-
+                case 2:
+                    String info = String.valueOf(msg.obj);
+                    LogUtils.loge("获取用户信息成功:" + info);
+                    WXUserInfoEntity tokenEntity = JSON.parseObject(info, WXUserInfoEntity.class);
+                    bindPhoneNumber(tokenEntity);   //根据用户信息,绑定手机号码
                 default:
                     break;
             }
@@ -144,9 +148,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         String url2 = sb2.toString();
         String info = HttpUrlConnectionUtil.httpGet(url2);
         if (info != null) {
-            LogUtils.loge("获取用户信息成功:" + info);
-            final WXUserInfoEntity tokenEntity = JSON.parseObject(info, WXUserInfoEntity.class);
-            bindPhoneNumber(tokenEntity);   //根据用户信息,绑定手机号码
+            Message message = Message.obtain();
+            message.what = 2 ;
+            message.obj = info ;
+            handler.sendMessage(message);
         } else {
             LogUtils.logd("获取用户信息失败");
         }

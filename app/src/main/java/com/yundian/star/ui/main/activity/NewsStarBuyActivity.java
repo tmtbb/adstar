@@ -37,6 +37,7 @@ import butterknife.OnClick;
 public class NewsStarBuyActivity extends BaseActivity {
 
     private String code;
+    private String name;
     @Bind(R.id.nl_title)
     NormalTitleBar nl_title;
     @Bind(R.id.tv_1)
@@ -61,6 +62,7 @@ public class NewsStarBuyActivity extends BaseActivity {
     TextView tv_mesure;
 
     private String[] adList;
+    private AdViewpagerUtil adViewpagerUtil;
 
     @Override
     public int getLayoutId() {
@@ -78,6 +80,7 @@ public class NewsStarBuyActivity extends BaseActivity {
         nl_title.setRightImagVisibility(true);
         Intent intent = getIntent();
         code = intent.getStringExtra(AppConstant.STAR_CODE);
+        LogUtils.loge("明星求购页面code"+code);
         gitData();
         getStarExperience();
         getStarAch();
@@ -94,7 +97,7 @@ public class NewsStarBuyActivity extends BaseActivity {
     }
 
     private void getStarAch() {
-        NetworkAPIFactoryImpl.getInformationAPI().getStarachive("1001", new OnAPIListener<StarStarAchBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarachive(code, new OnAPIListener<StarStarAchBeen>() {
             @Override
             public void onError(Throwable ex) {
 
@@ -124,7 +127,7 @@ public class NewsStarBuyActivity extends BaseActivity {
     }
 
     private void getStarExperience() {
-        NetworkAPIFactoryImpl.getInformationAPI().getStarExperience("1001", new OnAPIListener<StarExperienceBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarExperience(code, new OnAPIListener<StarExperienceBeen>() {
             @Override
             public void onError(Throwable ex) {
 
@@ -149,7 +152,7 @@ public class NewsStarBuyActivity extends BaseActivity {
 
 
     private void gitData() {
-        NetworkAPIFactoryImpl.getInformationAPI().getStarBrief("1001", new OnAPIListener<StarBuyActReferralInfo>() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarBrief(code, new OnAPIListener<StarBuyActReferralInfo>() {
             @Override
             public void onError(Throwable ex) {
 
@@ -163,6 +166,7 @@ public class NewsStarBuyActivity extends BaseActivity {
     }
 
     private void initData(StarBuyActReferralInfo info) {
+        name = info.getName();
         nl_title.setTitleText(info.getName());
         initPic(info);
         tv_1.setText(String.format(getString(R.string.intro_nationality),info.getNationality()));
@@ -175,7 +179,7 @@ public class NewsStarBuyActivity extends BaseActivity {
         RelativeLayout rl_adroot = (RelativeLayout)findViewById(R.id.adv_root);
         ViewPager viewPager = (ViewPager)rl_adroot.findViewById(R.id.viewpager);
         LinearLayout page_indicator = (LinearLayout)rl_adroot.findViewById(R.id.ly_dots);
-        AdViewpagerUtil adViewpagerUtil = new AdViewpagerUtil(this, viewPager, page_indicator, adList);
+        adViewpagerUtil = new AdViewpagerUtil(this, viewPager, page_indicator, adList);
     }
 
     private void initPic(StarBuyActReferralInfo info) {
@@ -199,16 +203,27 @@ public class NewsStarBuyActivity extends BaseActivity {
 
     @OnClick(R.id.tv_to_buy)
     public void toBuy(){
-        NetworkAPIFactoryImpl.getInformationAPI().addFriend("13072714518", "17682310986", "",1, new OnAPIListener<Object>() {
-            @Override
-            public void onError(Throwable ex) {
+        Intent intent = new Intent(this,StarTimeShareActivity.class);
+        intent.putExtra(AppConstant.STAR_CODE,code);
+        intent.putExtra(AppConstant.STAR_NAME,name);
+        startActivity(intent);
+    }
+    //生命周期控制
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (adViewpagerUtil != null) {
+            adViewpagerUtil.stopLoopViewPager();
+            LogUtils.logd("广告停止");
+        }
+    }
 
-            }
-
-            @Override
-            public void onSuccess(Object o) {
-                LogUtils.loge("添加好友成功"+o.toString());
-            }
-        });
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adViewpagerUtil != null) {
+            adViewpagerUtil.startLoopViewPager();
+            LogUtils.logd("广告开始");
+        }
     }
 }

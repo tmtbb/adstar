@@ -39,9 +39,10 @@ public class P2PMessageActivity extends BaseMessageActivity {
 
     private boolean isResume = false;
 
-    public static void start(Context context, String contactId, SessionCustomization customization, IMMessage anchor) {
+    public static void start(Context context, String contactId,String starcode, SessionCustomization customization, IMMessage anchor) {
         Intent intent = new Intent();
         intent.putExtra(Extras.EXTRA_ACCOUNT, contactId);
+        intent.putExtra(Extras.EXTRA_STARCODE, starcode);
         intent.putExtra(Extras.EXTRA_CUSTOMIZATION, customization);
         if (anchor != null) {
             intent.putExtra(Extras.EXTRA_ANCHOR, anchor);
@@ -54,7 +55,6 @@ public class P2PMessageActivity extends BaseMessageActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         // 单聊特例话数据，包括个人信息，
         requestBuddyInfo();
         displayOnlineState();

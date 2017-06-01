@@ -85,7 +85,7 @@ public class SystemMessagesActivity extends BaseActivity {
 
             for (int i =0 ;i<5;i++){
                 StarMailListBeen.DepositsinfoBean bean = new StarMailListBeen.DepositsinfoBean();
-                bean.setStarname(i);
+                bean.setStarname("哈哈"+i);
                 list.add(bean);
             }
             showData();

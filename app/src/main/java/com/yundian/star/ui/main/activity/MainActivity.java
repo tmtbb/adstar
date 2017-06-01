@@ -24,6 +24,9 @@ import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.mixpush.MixPushService;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.MsgServiceObserve;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
@@ -38,6 +41,7 @@ import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -95,13 +99,25 @@ public class MainActivity extends BaseActivity {
     public void initView() {
         initTab();
         checkIsLogin();
+        checkunReadMsg();
     }
+
+    private void checkunReadMsg() {
+        int unreadNum = NIMClient.getService(MsgService.class).getTotalUnreadCount();
+        if (unreadNum>0){
+            tabLayout.showDot(2);
+        }else {
+            tabLayout.hideMsg(2);
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //初始化frament
         initFragment(savedInstanceState);
         initWangYi();
+        registerObservers(true);
     }
 
 
@@ -232,9 +248,9 @@ public class MainActivity extends BaseActivity {
         });
     }
     private void checkIsLogin() {
-        int firstlogin = SharePrefUtil.getInstance().getFirstlogin();
         String phoneNum = SharePrefUtil.getInstance().getPhoneNum();
-        if (TextUtils.isEmpty(phoneNum)) { // 第一次登录, 需要走登录流程
+        String token = SharePrefUtil.getInstance().getToken();
+        if (TextUtils.isEmpty(phoneNum)||TextUtils.isEmpty(token)) { // 第一次登录, 需要走登录流程
             handler.postDelayed(runnable,500);
         }
         handler.postDelayed(runnablePermission,1000);
@@ -297,4 +313,25 @@ public class MainActivity extends BaseActivity {
                     staConfig.downTimeBegin, staConfig.downTimeEnd);
         }
     }
+
+    /**
+     * ********************** 收消息，处理状态变化 ************************
+     */
+    private void registerObservers(boolean register) {
+        MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
+        service.observeRecentContact(messageObserver, register);
+    }
+    Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
+        @Override
+        public void onEvent(List<RecentContact> recentContacts) {
+            checkunReadMsg();
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        registerObservers(false);
+    }
+
 }

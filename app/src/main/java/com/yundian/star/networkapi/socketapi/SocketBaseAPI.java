@@ -8,6 +8,7 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIRequestManage;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIResponse;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
+import com.yundian.star.utils.LogUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -79,6 +80,7 @@ public class SocketBaseAPI {
             @Override
             public void onSuccess(SocketAPIResponse socketAPIResponse) {
                 if( listener != null ) {
+                    LogUtils.loge("解析"+socketAPIResponse.jsonObject().toString());
                     Object object = JSON.parseObject(socketAPIResponse.jsonObject().toString(),cls);
                     SocketBaseAPI.this.onSuccess(listener,object);
 

@@ -41,6 +41,8 @@ public class StarTimeShareActivity extends BaseActivity {
     private List<String> listType = new ArrayList<>();
     private StartTimeShareAdpter fragmentAdapter;
     private List<Fragment> mNewsFragmentList;
+    private String code;
+    private String name;
 
     @Override
     public int getLayoutId() {
@@ -54,8 +56,10 @@ public class StarTimeShareActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        code = getIntent().getStringExtra(AppConstant.STAR_CODE);
+        name = getIntent().getStringExtra(AppConstant.STAR_NAME);
         nt_title.setBackVisibility(true);
-        nt_title.setTitleText("柳岩");
+        nt_title.setTitleText(name);
         initType();
         initListener();
         //initTab();
@@ -119,7 +123,7 @@ public class StarTimeShareActivity extends BaseActivity {
 
     private void createListFragments() {
         Bundle bundle = new Bundle();
-        bundle.putString(AppConstant.MARKET_DETAIL_IN_TYPE,"1001");
+        bundle.putString(AppConstant.STAR_CODE,code);
         StarIntroFragment starIntroFragment = new StarIntroFragment();
         starIntroFragment.setArguments(bundle);
         mNewsFragmentList.add(starIntroFragment);

@@ -48,6 +48,16 @@ public class NewsBrowserActivity extends BaseActivity {
     @Override
     public void initView() {
         initWebView();
+        initListener();
+    }
+
+    private void initListener() {
+        nt_title.setOnBackListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 

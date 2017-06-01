@@ -20,38 +20,20 @@ public class StarMailListBeen {
 
     public static class DepositsinfoBean {
         /**
-         * uid : 10000002
-         * ownseconds : 10001
          * appoint : 0
-         * starcode : 1483422506
-         * starname : 1
-         * faccid : 0sd223kl
-         * status : 1
+         * faccid : 13072714518
+         * ownseconds : 111
+         * starcode : 111
+         * starname : 17682310986
+         * uid : 124
          */
 
-        private int uid;
-        private int ownseconds;
         private int appoint;
-        private int starcode;
-        private int starname;
         private String faccid;
-        private int status;
-
-        public int getUid() {
-            return uid;
-        }
-
-        public void setUid(int uid) {
-            this.uid = uid;
-        }
-
-        public int getOwnseconds() {
-            return ownseconds;
-        }
-
-        public void setOwnseconds(int ownseconds) {
-            this.ownseconds = ownseconds;
-        }
+        private int ownseconds;
+        private String starcode;
+        private String starname;
+        private int uid;
 
         public int getAppoint() {
             return appoint;
@@ -59,22 +41,6 @@ public class StarMailListBeen {
 
         public void setAppoint(int appoint) {
             this.appoint = appoint;
-        }
-
-        public int getStarcode() {
-            return starcode;
-        }
-
-        public void setStarcode(int starcode) {
-            this.starcode = starcode;
-        }
-
-        public int getStarname() {
-            return starname;
-        }
-
-        public void setStarname(int starname) {
-            this.starname = starname;
         }
 
         public String getFaccid() {
@@ -85,24 +51,47 @@ public class StarMailListBeen {
             this.faccid = faccid;
         }
 
-        public int getStatus() {
-            return status;
+        public int getOwnseconds() {
+            return ownseconds;
         }
 
-        public void setStatus(int status) {
-            this.status = status;
+        public void setOwnseconds(int ownseconds) {
+            this.ownseconds = ownseconds;
+        }
+
+        public String getStarcode() {
+            return starcode;
+        }
+
+        public void setStarcode(String starcode) {
+            this.starcode = starcode;
+        }
+
+        public String getStarname() {
+            return starname;
+        }
+
+        public void setStarname(String starname) {
+            this.starname = starname;
+        }
+
+        public int getUid() {
+            return uid;
+        }
+
+        public void setUid(int uid) {
+            this.uid = uid;
         }
 
         @Override
         public String toString() {
             return "DepositsinfoBean{" +
-                    "uid=" + uid +
-                    ", ownseconds=" + ownseconds +
-                    ", appoint=" + appoint +
-                    ", starcode=" + starcode +
-                    ", starname=" + starname +
+                    "appoint=" + appoint +
                     ", faccid='" + faccid + '\'' +
-                    ", status=" + status +
+                    ", ownseconds=" + ownseconds +
+                    ", starcode='" + starcode + '\'' +
+                    ", starname='" + starname + '\'' +
+                    ", uid=" + uid +
                     '}';
         }
     }
