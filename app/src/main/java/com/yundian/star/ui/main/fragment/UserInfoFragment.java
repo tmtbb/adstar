@@ -13,12 +13,16 @@ import android.widget.TextView;
 
 import com.yundian.star.R;
 import com.yundian.star.base.BaseFragment;
+import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.BookingStarActivity;
 import com.yundian.star.ui.main.activity.CustomerServiceActivity;
 import com.yundian.star.ui.main.activity.GeneralSettingsActivity;
 import com.yundian.star.ui.main.activity.UserAssetsManageActivity;
 import com.yundian.star.ui.main.activity.UserSettingActivity;
 import com.yundian.star.ui.view.RoundImageView;
+import com.yundian.star.utils.ImageLoaderUtils;
+import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
 
@@ -68,12 +72,22 @@ public class UserInfoFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initData();
+    }
+
+    private void initData() {
         String referee = SharePrefUtil.getInstance().getUserReferee();
         if (referee == null) {
             myReferee.setText(getString(R.string.my_referee));
         } else {
             myReferee.setText(String.format(getString(R.string.dialog_title_referee2), referee));
         }
+        String userPhotoUrl = SharePrefUtil.getInstance().getUserPhotoUrl();
+        ImageLoaderUtils.display(getContext(), headImage, userPhotoUrl);
+        userName.setText(SharePrefUtil.getInstance().getUserNickName());
+        userTotalAssets.setText(SharePrefUtil.getInstance().getBalance());
+        userName.setText(SharePrefUtil.getInstance().getUserNickName());
+        userOrderStar.setText(SharePrefUtil.getInstance().getOrderStar() + "");
     }
 
     @OnClick({R.id.iv_user_info_bg, R.id.headImage, R.id.ll_user_money_bag, R.id.ll_user_order_star, R.id.ll_customer_service, R.id.ll_common_problem, R.id.ll_general_settings, R.id.btn_my_referee})
@@ -81,6 +95,7 @@ public class UserInfoFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.iv_user_info_bg:
                 ToastUtils.showShort("点击背景");
+                requestBalance();
                 break;
             case R.id.headImage:
                 startActivity(UserSettingActivity.class);
@@ -133,4 +148,20 @@ public class UserInfoFragment extends BaseFragment {
                         });
         builder.show();
     }
+
+    private void requestBalance() {
+        NetworkAPIFactoryImpl.getDealAPI().balance(new OnAPIListener<Object>() {
+            @Override
+            public void onSuccess(Object o) {
+                LogUtils.loge("余额请求成功:" + o.toString());
+            }
+
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.loge("余额请求失败:" + ex.getMessage());
+            }
+
+        });
+    }
+
 }

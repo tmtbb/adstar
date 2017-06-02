@@ -8,7 +8,6 @@ import com.yundian.star.been.RequestResultBean;
 import com.yundian.star.been.WXPayReturnEntity;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.DealAPI;
-import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
@@ -160,7 +159,7 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
     public void weixinPay(String title, double price, OnAPIListener<WXPayReturnEntity> listener) {
         LogUtils.logd("请求微信支付");
         HashMap<String, Object> map = new HashMap<>();
-        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
+        map.put("id", 120);
         map.put("title", title);
         map.put("price", price);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.WXPay,
@@ -188,10 +187,10 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
     public void bookingStarList(int startPos, int count, OnAPIListener<List<BookingStarListBean>> listener) {
         LogUtils.logd("请求预约明星列表");
         HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", SharePrefUtil.getInstance().getUserId());
-//        map.put("token", SharePrefUtil.getInstance().getToken());
-        map.put("id", 120);
-        map.put("token", "deef1f3d463139a1c50d366c63b22687");
+        map.put("id", SharePrefUtil.getInstance().getUserId());
+        map.put("token", SharePrefUtil.getInstance().getToken());
+//        map.put("id", 120);
+//        map.put("token", "deef1f3d463139a1c50d366c63b22687");
         map.put("count", count);
         map.put("startPos", startPos);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.BookingStar,
@@ -212,17 +211,46 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
     }
 
     @Override
-    public void dealPwd(String vCode, int type, String pwd, OnAPIListener<RequestResultBean> listener) {
+    public void dealPwd(String phone, String vToken, String vCode, long timestamp, int type, String pwd, OnAPIListener<RequestResultBean> listener) {
         LogUtils.logd("交易密码--");
         HashMap<String, Object> map = new HashMap<>();
         map.put("id", SharePrefUtil.getInstance().getUserId());
-        map.put("vToken", SharePrefUtil.getInstance().getToken());
+//        map.put("vToken", SharePrefUtil.getInstance().getToken());
+        map.put("phone", phone);
+        map.put("vToken", vToken);
         map.put("vCode", vCode);
+        map.put("timestamp", timestamp);  //时间戳
         map.put("type", type);
         map.put("pwd", pwd);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.DealPwd,
                 SocketAPIConstant.ReqeutType.User, map);
         requestEntity(socketDataPacket, RequestResultBean.class, listener);
+//        requestJsonObject(socketDataPacket,listener);
+    }
+
+    @Override
+    public void test(String title, double price, OnAPIListener<Object> listener) {
+        LogUtils.logd("模拟请求微信支付");
+        HashMap<String, Object> map = new HashMap<>();
+//        map.put("id", 120);
+        map.put("id", SharePrefUtil.getInstance().getUserId());
+        map.put("title", title);
+        map.put("price", price);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.WXPay,
+                SocketAPIConstant.ReqeutType.Pay, map);
+        requestJsonObject(socketDataPacket, listener);
+    }
+
+    @Override
+    public void balance(OnAPIListener<Object> listener) {
+        LogUtils.logd("请求资产明细---");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", SharePrefUtil.getInstance().getUserId());
+        map.put("token", SharePrefUtil.getInstance().getToken());
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Balance,
+                SocketAPIConstant.ReqeutType.User, map);
+//      requestEntity(socketDataPacket,AssetDetailsBean.class,listener);
+        requestJsonObject(socketDataPacket, listener);
     }
 
 //    @Override

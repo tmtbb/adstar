@@ -64,7 +64,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/dp_5"
-                            android:text="33"
                             android:textColor="@color/color_black_333333"
                             android:textSize="@dimen/text_size_16" />
 

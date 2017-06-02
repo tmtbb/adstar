@@ -118,7 +118,7 @@ public class LoginActivity extends BaseActivity {
                         ToastUtils.showShort("用户已存在");
                         return;
                     }else if (loginReturnInfo != null && loginReturnInfo.getUserinfo() != null){
-                        LogUtils.logd("登录成功" + loginReturnInfo);
+                        LogUtils.logd("登录成功" + loginReturnInfo.toString());
                         //网易云注册
                         NetworkAPIFactoryImpl.getUserAPI().registerWangYi(userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), new OnAPIListener<RegisterReturnWangYiBeen>() {
                             @Override
@@ -150,7 +150,7 @@ public class LoginActivity extends BaseActivity {
         loginRequest = NimUIKit.doLogin(new LoginInfo(loginReturnInfos.getUserinfo().getPhone(), registerReturnWangYiBeen.getToken_value()), new RequestCallback<LoginInfo>() {
             @Override
             public void onSuccess(LoginInfo param) {
-                LogUtils.logd("网易云登录成功");
+                LogUtils.logd("网易云登录成功:"+param.toString());
                 DemoCache.setAccount(param.getAccount());
                 saveLoginInfo(param.getAccount(), param.getToken());
                 // 初始化消息提醒配置

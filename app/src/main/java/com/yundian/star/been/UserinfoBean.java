@@ -15,16 +15,16 @@ public class UserinfoBean implements Parcelable {
      * type : 0
      */
 
-    private int balance;
+    private double balance;
     private int id;
     private String phone;
     private int type;
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 
@@ -59,7 +59,7 @@ public class UserinfoBean implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(this.balance);
+        dest.writeDouble(this.balance);
         dest.writeInt(this.id);
         dest.writeString(this.phone);
         dest.writeInt(this.type);

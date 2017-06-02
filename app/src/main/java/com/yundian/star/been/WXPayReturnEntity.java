@@ -14,46 +14,6 @@ public class WXPayReturnEntity implements Parcelable {
     private String sign;
     private String rid;
 
-    protected WXPayReturnEntity(Parcel in) {
-        appid = in.readString();
-        partnerid = in.readString();
-        prepayid = in.readString();
-        Package = in.readString();
-        noncestr = in.readString();
-        timestamp = in.readString();
-        sign = in.readString();
-        rid = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(appid);
-        dest.writeString(partnerid);
-        dest.writeString(prepayid);
-        dest.writeString(Package);
-        dest.writeString(noncestr);
-        dest.writeString(timestamp);
-        dest.writeString(sign);
-        dest.writeString(rid);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<WXPayReturnEntity> CREATOR = new Creator<WXPayReturnEntity>() {
-        @Override
-        public WXPayReturnEntity createFromParcel(Parcel in) {
-            return new WXPayReturnEntity(in);
-        }
-
-        @Override
-        public WXPayReturnEntity[] newArray(int size) {
-            return new WXPayReturnEntity[size];
-        }
-    };
-
     public String getAppid() {
         return appid;
     }
@@ -117,4 +77,51 @@ public class WXPayReturnEntity implements Parcelable {
     public void setRid(String rid) {
         this.rid = rid;
     }
+
+    public static Creator<WXPayReturnEntity> getCREATOR() {
+        return CREATOR;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.appid);
+        dest.writeString(this.partnerid);
+        dest.writeString(this.prepayid);
+        dest.writeString(this.Package);
+        dest.writeString(this.noncestr);
+        dest.writeString(this.timestamp);
+        dest.writeString(this.sign);
+        dest.writeString(this.rid);
+    }
+
+    public WXPayReturnEntity() {
+    }
+
+    protected WXPayReturnEntity(Parcel in) {
+        this.appid = in.readString();
+        this.partnerid = in.readString();
+        this.prepayid = in.readString();
+        this.Package = in.readString();
+        this.noncestr = in.readString();
+        this.timestamp = in.readString();
+        this.sign = in.readString();
+        this.rid = in.readString();
+    }
+
+    public static final Creator<WXPayReturnEntity> CREATOR = new Creator<WXPayReturnEntity>() {
+        @Override
+        public WXPayReturnEntity createFromParcel(Parcel source) {
+            return new WXPayReturnEntity(source);
+        }
+
+        @Override
+        public WXPayReturnEntity[] newArray(int size) {
+            return new WXPayReturnEntity[size];
+        }
+    };
 }
