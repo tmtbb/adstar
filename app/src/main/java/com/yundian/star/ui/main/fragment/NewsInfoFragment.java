@@ -19,6 +19,7 @@ import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
+import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.AdvBeen;
 import com.yundian.star.ui.main.activity.NewsBrowserActivity;
@@ -48,6 +49,10 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     RelativeLayout rl_time;
     @Bind(R.id.tv_time)
     TextView tv_time ;
+    @Bind(R.id.tv_am_pm)
+    TextView tv_am_pm ;
+    @Bind(R.id.tv_time_h)
+    TextView tv_time_h ;
     //    @Bind(R.id.loadingTip)
 //    LoadingTip loadingTip ;
     private ArrayList<NewsInforModel.ListBean> arrayList = new ArrayList<>();
@@ -144,9 +149,17 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
                         rl_time.setVisibility(View.VISIBLE);
                         NewsInforModel.ListBean listBean = arrayList.get(firstItemPosition - 2);
                         Date dateByFormat = TimeUtil.getDateByFormat(listBean.getTimes(), TimeUtil.dateFormatYMDHMS);
+                        int hours = dateByFormat.getHours();
+                        if (hours>12){
+                            tv_am_pm.setText(getString(R.string.PM));
+                        }else {
+                            tv_am_pm.setText(getString(R.string.AM));
+                        }
                         String stringByFormat = TimeUtil.getStringByFormat(dateByFormat, TimeUtil.dateFormatYMD2);
+                        String stringDateFormatHM = TimeUtil.getStringByFormat(dateByFormat, TimeUtil.dateFormatHM);
                         LogUtils.loge(stringByFormat);
                         tv_time.setText(stringByFormat);
+                        tv_time_h.setText(stringDateFormatHM);
                     }else {
                         rl_time.setVisibility(View.GONE);
                     }
@@ -198,7 +211,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     }
 
     @Override
-    public void initAdv(AdvBeen o) {
+    public void initAdv(final AdvBeen o) {
         if (o.getList()==null||o.getList().size()==0){
             return;
         }
@@ -207,6 +220,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         for (int i = 0; i < listData.size(); i++) {
             adList[i] = o.getList().get(i).getPic_url();
         }
+        LogUtils.loge("首页资讯轮播图数据"+listData.toString());
         //add a HeaderView
         header = LayoutInflater.from(getContext()).inflate(R.layout.adv_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
         rl_adroot = (RelativeLayout) header.findViewById(R.id.rl_adroot);
@@ -216,9 +230,9 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         adViewpagerUtil.setOnAdItemClickListener(new AdViewpagerUtil.OnAdItemClickListener() {
             @Override
             public void onItemClick(View v, int position, String url) {
-
                 Intent intent = new Intent(getActivity(),NewsStarBuyActivity.class);
-                intent.putExtra("code",listData.get(position).getCode());
+                intent.putExtra(AppConstant.STAR_CODE,o.getList().get(position).getCode());
+                LogUtils.loge("首页资讯轮播图明星code"+o.getList().get(position).getCode());
                 startActivity(intent);
             }
         });

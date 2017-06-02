@@ -126,6 +126,7 @@ public class GeneralSettingsActivity extends BaseActivity {
 
     private void logout() {
         SharePrefUtil.getInstance().clearUserInfo();
+        SharePrefUtil.getInstance().clearUserLoginInfo();
         Preferences.saveUserToken("");
         LogoutHelper.logout();
 //        DataCacheManager.clearDataCache();  //清空缓存

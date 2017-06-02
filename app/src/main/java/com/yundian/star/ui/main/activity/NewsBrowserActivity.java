@@ -18,8 +18,10 @@ import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
 
+/**
+ * 资讯点击webview页面
+ */
 public class NewsBrowserActivity extends BaseActivity {
-
 
     @Bind(R.id.nt_title)
     NormalTitleBar nt_title;
@@ -46,6 +48,16 @@ public class NewsBrowserActivity extends BaseActivity {
     @Override
     public void initView() {
         initWebView();
+        initListener();
+    }
+
+    private void initListener() {
+        nt_title.setOnBackListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
 

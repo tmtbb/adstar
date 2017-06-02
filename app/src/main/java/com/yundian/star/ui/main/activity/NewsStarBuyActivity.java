@@ -11,6 +11,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.yundian.star.R;
+import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.StarBuyActReferralInfo;
 import com.yundian.star.been.StarExperienceBeen;
@@ -26,14 +27,17 @@ import com.yundian.star.widget.MyListView;
 import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/5/18.
+ * 广告点击明星求购页面
  */
 
 public class NewsStarBuyActivity extends BaseActivity {
 
     private String code;
+    private String name;
     @Bind(R.id.nl_title)
     NormalTitleBar nl_title;
     @Bind(R.id.tv_1)
@@ -58,6 +62,7 @@ public class NewsStarBuyActivity extends BaseActivity {
     TextView tv_mesure;
 
     private String[] adList;
+    private AdViewpagerUtil adViewpagerUtil;
 
     @Override
     public int getLayoutId() {
@@ -74,7 +79,8 @@ public class NewsStarBuyActivity extends BaseActivity {
         nl_title.setBackVisibility(true);
         nl_title.setRightImagVisibility(true);
         Intent intent = getIntent();
-        code = intent.getStringExtra("code");
+        code = intent.getStringExtra(AppConstant.STAR_CODE);
+        LogUtils.loge("明星求购页面code"+code);
         gitData();
         getStarExperience();
         getStarAch();
@@ -91,7 +97,7 @@ public class NewsStarBuyActivity extends BaseActivity {
     }
 
     private void getStarAch() {
-        NetworkAPIFactoryImpl.getInformationAPI().getStarachive("1001", new OnAPIListener<StarStarAchBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarachive(code, new OnAPIListener<StarStarAchBeen>() {
             @Override
             public void onError(Throwable ex) {
 
@@ -110,6 +116,8 @@ public class NewsStarBuyActivity extends BaseActivity {
         StarBuyAchAdapter buyAchAdapter = new StarBuyAchAdapter(NewsStarBuyActivity.this, o.getList());
         ll_new_buy_achievement.setVisibility(View.VISIBLE);
         MyListView listExpView2 = (MyListView)ll_new_buy_achievement.findViewById(R.id.listview_buy);
+        TextView textAch = (TextView)ll_new_buy_achievement.findViewById(R.id.tv_content);
+        textAch.setText(getString(R.string.oneself_intro_achievement));
         listExpView2.setAdapter(buyAchAdapter);
         int high = ListViewUtil.setListViewHeightBasedOnChildren(listExpView2);
         ViewGroup.LayoutParams layoutParams = tv_mesure.getLayoutParams();
@@ -119,7 +127,7 @@ public class NewsStarBuyActivity extends BaseActivity {
     }
 
     private void getStarExperience() {
-        NetworkAPIFactoryImpl.getInformationAPI().getStarExperience("1001", new OnAPIListener<StarExperienceBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarExperience(code, new OnAPIListener<StarExperienceBeen>() {
             @Override
             public void onError(Throwable ex) {
 
@@ -144,7 +152,7 @@ public class NewsStarBuyActivity extends BaseActivity {
 
 
     private void gitData() {
-        NetworkAPIFactoryImpl.getInformationAPI().getStarBrief("1001", new OnAPIListener<StarBuyActReferralInfo>() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarBrief(code, new OnAPIListener<StarBuyActReferralInfo>() {
             @Override
             public void onError(Throwable ex) {
 
@@ -158,6 +166,7 @@ public class NewsStarBuyActivity extends BaseActivity {
     }
 
     private void initData(StarBuyActReferralInfo info) {
+        name = info.getName();
         nl_title.setTitleText(info.getName());
         initPic(info);
         tv_1.setText(String.format(getString(R.string.intro_nationality),info.getNationality()));
@@ -170,7 +179,7 @@ public class NewsStarBuyActivity extends BaseActivity {
         RelativeLayout rl_adroot = (RelativeLayout)findViewById(R.id.adv_root);
         ViewPager viewPager = (ViewPager)rl_adroot.findViewById(R.id.viewpager);
         LinearLayout page_indicator = (LinearLayout)rl_adroot.findViewById(R.id.ly_dots);
-        AdViewpagerUtil adViewpagerUtil = new AdViewpagerUtil(this, viewPager, page_indicator, adList);
+        adViewpagerUtil = new AdViewpagerUtil(this, viewPager, page_indicator, adList);
     }
 
     private void initPic(StarBuyActReferralInfo info) {
@@ -189,6 +198,32 @@ public class NewsStarBuyActivity extends BaseActivity {
         }
         if (!TextUtils.isEmpty(info.getPic5())){
             adList[4] = info.getPic5();
+        }
+    }
+
+    @OnClick(R.id.tv_to_buy)
+    public void toBuy(){
+        Intent intent = new Intent(this,StarTimeShareActivity.class);
+        intent.putExtra(AppConstant.STAR_CODE,code);
+        intent.putExtra(AppConstant.STAR_NAME,name);
+        startActivity(intent);
+    }
+    //生命周期控制
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (adViewpagerUtil != null) {
+            adViewpagerUtil.stopLoopViewPager();
+            LogUtils.logd("广告停止");
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adViewpagerUtil != null) {
+            adViewpagerUtil.startLoopViewPager();
+            LogUtils.logd("广告开始");
         }
     }
 }

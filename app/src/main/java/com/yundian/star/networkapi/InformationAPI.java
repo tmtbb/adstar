@@ -31,7 +31,8 @@ public interface InformationAPI {
     void getStarachive(String code,OnAPIListener<StarStarAchBeen> listener);
     void getSeekList(String code,int startnum,int endnum,OnAPIListener<FansHotBuyReturnBeen> listener);
     void getTransferList(String code,int startnum,int endnum,OnAPIListener<FansHotBuyReturnBeen> listener);
-    void getFansComments(String phone ,String starcode,OnAPIListener<Object> listener);
+    void getFansComments(String starcode,OnAPIListener<Object> listener);
     void getStarmaillist(long id ,String token,String status,int startPos,int count,OnAPIListener<StarMailListBeen> listener);
-
+    void addFriend(String accid,String faccid,String msg,int type,OnAPIListener<Object> listener);
+    void reduceTime(String phone,String starcode,OnAPIListener<Object> listener);
 }

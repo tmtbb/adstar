@@ -1,18 +1,15 @@
 package com.yundian.star.ui.main.activity;
 
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
-import com.yundian.star.base.baseapp.AppManager;
 import com.yundian.star.been.RegisterVerifyCodeBeen;
 import com.yundian.star.helper.CheckHelper;
 import com.yundian.star.listener.OnAPIListener;
@@ -89,7 +86,12 @@ public class ResetUserPwdActivity extends BaseActivity {
                 getCode(msgEditText,view, phoneEditText);
             }
         });
-
+        nt_title.setOnBackListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
@@ -172,22 +174,6 @@ public class ResetUserPwdActivity extends BaseActivity {
         } else {
             ToastUtils.showShort(exception.getErrorMsg());
         }
-    }
-    private long exitNow;
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)) {
-
-            if ((System.currentTimeMillis() - exitNow) > 2000) {
-                Toast.makeText(this, String.format(getString(R.string.confirm_exit_app), getString(R.string.app_name)), Toast.LENGTH_SHORT).show();
-                exitNow = System.currentTimeMillis();
-            } else if ((System.currentTimeMillis() - exitNow) > 0) {
-                AppManager.getAppManager().AppExit(this, false);
-                return super.onKeyDown(keyCode, event);
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
     }
 
 }

@@ -1,22 +1,32 @@
 package com.yundian.star.ui.main.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.netease.nim.uikit.LoginSyncDataStatusObserver;
 import com.netease.nim.uikit.common.ui.dialog.DialogMaker;
+import com.netease.nim.uikit.permission.MPermission;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionDenied;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionGranted;
+import com.netease.nim.uikit.permission.annotation.OnMPermissionNeverAskAgain;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.mixpush.MixPushService;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.MsgServiceObserve;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
@@ -31,6 +41,7 @@ import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -68,6 +79,12 @@ public class MainActivity extends BaseActivity {
             overridePendingTransition(R.anim.activity_open_down_in,0);
         }
     };
+    Runnable runnablePermission = new Runnable() {
+        @Override
+        public void run() {
+            requestBasicPermission();
+        }
+    };
 
     @Override
     public int getLayoutId() {
@@ -82,14 +99,25 @@ public class MainActivity extends BaseActivity {
     public void initView() {
         initTab();
         checkIsLogin();
+        checkunReadMsg();
     }
+
+    private void checkunReadMsg() {
+        int unreadNum = NIMClient.getService(MsgService.class).getTotalUnreadCount();
+        if (unreadNum>0){
+            tabLayout.showDot(2);
+        }else {
+            tabLayout.hideMsg(2);
+        }
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //requestBasicPermission();
         //初始化frament
         initFragment(savedInstanceState);
         initWangYi();
+        registerObservers(true);
     }
 
 
@@ -220,16 +248,17 @@ public class MainActivity extends BaseActivity {
         });
     }
     private void checkIsLogin() {
-        int firstlogin = SharePrefUtil.getInstance().getFirstlogin();
         String phoneNum = SharePrefUtil.getInstance().getPhoneNum();
-        if (TextUtils.isEmpty(phoneNum)) { // 第一次登录, 需要走登录流程
-            handler.postDelayed(runnable,400);
+        String token = SharePrefUtil.getInstance().getToken();
+        if (TextUtils.isEmpty(phoneNum)||TextUtils.isEmpty(token)) { // 第一次登录, 需要走登录流程
+            handler.postDelayed(runnable,500);
         }
+        handler.postDelayed(runnablePermission,1000);
     }
 
     /**
      * 基本权限管理
-     *//*
+     */
     private final String[] BASIC_PERMISSIONS = new String[]{
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -265,7 +294,7 @@ public class MainActivity extends BaseActivity {
     public void onBasicPermissionFailed() {
         Toast.makeText(this, "未全部授权，部分功能可能无法正常运行！", Toast.LENGTH_SHORT).show();
         MPermission.printMPermissionResult(false, this, BASIC_PERMISSIONS);
-    }*/
+    }
 
     /**
      * 若增加第三方推送免打扰（V3.2.0新增功能），则：
@@ -284,4 +313,25 @@ public class MainActivity extends BaseActivity {
                     staConfig.downTimeBegin, staConfig.downTimeEnd);
         }
     }
+
+    /**
+     * ********************** 收消息，处理状态变化 ************************
+     */
+    private void registerObservers(boolean register) {
+        MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
+        service.observeRecentContact(messageObserver, register);
+    }
+    Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
+        @Override
+        public void onEvent(List<RecentContact> recentContacts) {
+            checkunReadMsg();
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        registerObservers(false);
+    }
+
 }

@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Created by huangjun on 2016/12/11.
+ * 标记一下。联系人未读消息红点
  */
 
 public class RecentContactAdapter extends BaseMultiItemQuickAdapter<RecentContact, BaseViewHolder> {

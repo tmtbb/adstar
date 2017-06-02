@@ -104,7 +104,7 @@
     <string name="setting_next">下一步</string>
     <string name="setting_pay_pwd">设置支付密码</string>
     <string name="setting_pay_pwd2">请确认支付密码</string>
-    <string name="disclaimer_title">请确认支付密码</string>
+    <string name="disclaimer_title">免责声明</string>
     <string name="disclaimer">"        "在使用本系统的所有功能之前，请您务必仔细阅读并透彻理解本声明。您可以选择不使用本系统，但如果您使用本系统，您的使用行为将被视为对本声明全部内容的认可。 　　免责声明： 鉴于本系统使用非人工检索/分析方式，无法确定您输入的条件进行是否合法，所以本系统对检索/分析出的结果不承担责任。如果因以本系统的检索/分析结果作为任何商业行为或者学术研究的依据而产生不良后果，本系统不承担任何法律责任。 　　关于隐私权： 访问者在本系统注册时提供的一些个人资料，本系统除您本人同意外不会将用户的任何资料以任何方式泄露给第三方。当政府部门、司法机关等依照法定程序要求本系统披露个人资料时，本系统将根据执法单位之要求或为公共安全之目的提供个人资料，在此情况下的披露，本系统不承担任何责任。</string>
     <string name="login_out">退出登录</string>
     <string name="reset_login_pwd">重置登录密码</string>
@@ -253,6 +253,8 @@
     <string name="end_time">结束时间</string>
     <string name="systen_news">系统消息</string>
     <string name="star_address_book">明星通讯录</string>
+    <string name="PM">PM</string>
+    <string name="AM">AM</string>
 
 
 
