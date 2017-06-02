@@ -59,7 +59,7 @@
         <item name="android:windowSoftInputMode">stateUnspecified|adjustPan</item>
     </style>
     <!--透明activity弹窗-->
-    <style name="TransparentActivityDialog" parent="Theme.AppCompat.NoActionBar">
+    <style name="TransparentActivityDialog" parent="FullScreenTheme">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
