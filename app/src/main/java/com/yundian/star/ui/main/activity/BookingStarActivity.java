@@ -3,6 +3,7 @@ package com.yundian.star.ui.main.activity;
 import android.support.v7.widget.LinearLayoutManager;
 
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
@@ -63,21 +64,22 @@ public class BookingStarActivity extends BaseActivity {
         NetworkAPIFactoryImpl.getDealAPI().bookingStarList(start, count, new OnAPIListener<List<BookingStarListBean>>() {
             @Override
             public void onError(Throwable ex) {
-                ex.printStackTrace();
                 LogUtils.logd("预约明星列表错误----------");
+                lrv.setNoMore(true);
             }
 
             @Override
             public void onSuccess(List<BookingStarListBean> bookingStarList) {
                 LogUtils.logd("预约明星列表成功----------");
 
-                if (bookingStarList == null) {
+                if (bookingStarList == null || bookingStarList.size() == 0) {
                     lrv.setNoMore(true);
                     return;
                 }
                 if (isLoadMore) {
                     loadList.clear();
                     loadList = bookingStarList;
+                    mCurrentCounter = list.size();
                     loadMoreData();
                 } else {
                     list.clear();
@@ -93,13 +95,19 @@ public class BookingStarActivity extends BaseActivity {
         lRecyclerViewAdapter = new LRecyclerViewAdapter(bookStarListAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
         lrv.setLayoutManager(new LinearLayoutManager(mContext));
-        lrv.setPullRefreshEnabled(false);
+        lrv.setPullRefreshEnabled(true);
         lrv.setNoMore(false);
         lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getData(true, mCurrentCounter + 1, mCurrentCounter + REQUEST_COUNT);
+                getData(true, mCurrentCounter + 1, REQUEST_COUNT);
+            }
+        });
+        lrv.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData(false, 1, 10);
             }
         });
     }
@@ -108,7 +116,8 @@ public class BookingStarActivity extends BaseActivity {
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();
         bookStarListAdapter.addAll(list);
-        lrv.refresh();
+//        lrv.refresh();
+        lrv.refreshComplete(REQUEST_COUNT);
     }
 
     private void loadMoreData() {
@@ -118,7 +127,7 @@ public class BookingStarActivity extends BaseActivity {
             list.addAll(loadList);
             bookStarListAdapter.addAll(loadList);
             mCurrentCounter += loadList.size();
-            lrv.refreshComplete(REQUEST_COUNT);
+            lrv.refreshComplete(loadList.size());
         }
     }
 

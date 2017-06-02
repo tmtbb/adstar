@@ -8,6 +8,8 @@ public interface Constant {
     String SECRET = "def7f0fc10c95e5fc3b4c17eab2527c4";
 
     String USER_ENTITY = "user_entity";
+    String USER_PWD = "user_pwd";
+    String PAY_PWD = "pay_pwd";
 
     interface IntentKey {
         String CHOOSE_IMGS_SCAN = "CHOOSE_IMGS_SCAN";

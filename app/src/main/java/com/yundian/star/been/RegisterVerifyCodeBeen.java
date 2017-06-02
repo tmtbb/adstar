@@ -25,7 +25,7 @@ public class RegisterVerifyCodeBeen implements Parcelable {
      */
 
     private int result;
-    private int timeStamp;
+    private long timeStamp;
     private String vToken;
 
     public int getResult() {
@@ -36,11 +36,11 @@ public class RegisterVerifyCodeBeen implements Parcelable {
         this.result = result;
     }
 
-    public int getTimeStamp() {
+    public long getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(int timeStamp) {
+    public void setTimeStamp(long timeStamp) {
         this.timeStamp = timeStamp;
     }
 
@@ -60,7 +60,7 @@ public class RegisterVerifyCodeBeen implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.result);
-        dest.writeInt(this.timeStamp);
+        dest.writeLong(this.timeStamp);
         dest.writeString(this.vToken);
     }
 

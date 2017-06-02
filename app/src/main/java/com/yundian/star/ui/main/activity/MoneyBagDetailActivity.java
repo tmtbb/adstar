@@ -67,7 +67,7 @@ public class MoneyBagDetailActivity extends BaseActivity {
         ntTitle.setRightImagSrc(R.drawable.about_logo);
         initPopupMenu();
         initAdapter();
-        requestMoneyDetailData(false, 0, 10);
+        requestMoneyDetailData(false, 1, 10);
     }
 
     private void requestMoneyDetailData(final boolean isLoadMore, int start, int count) {
@@ -75,17 +75,20 @@ public class MoneyBagDetailActivity extends BaseActivity {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.logd("钱包详情请求失败----");
+                    lrv.setNoMore(true);
             }
 
             @Override
             public void onSuccess(List<MoneyDetailListBean> list) {
-                if (list == null) {
+                LogUtils.loge("list.size()"+list.toString()+","+list.size());
+                if (list == null || list.size() == 0) {
                     lrv.setNoMore(true);
                     return;
                 }
                 if (isLoadMore) {
                     loadList.clear();
                     loadList = list;
+                    mCurrentCounter = refreshList.size();
                     loadMoreData();
                 } else {
                     refreshList.clear();
@@ -103,7 +106,7 @@ public class MoneyBagDetailActivity extends BaseActivity {
             refreshList.addAll(loadList);
             moneyBagDetailAdapter.addAll(loadList);
             mCurrentCounter += loadList.size();
-            lrv.refreshComplete(REQUEST_COUNT);
+            lrv.refreshComplete(loadList.size());
         }
     }
 
@@ -111,7 +114,9 @@ public class MoneyBagDetailActivity extends BaseActivity {
         mCurrentCounter = refreshList.size();
         lRecyclerViewAdapter.notifyDataSetChanged();
         moneyBagDetailAdapter.addAll(refreshList);
-        lrv.refresh();
+        lrv.refreshComplete(REQUEST_COUNT);
+
+//        lrv.refresh();
     }
 
 
@@ -120,12 +125,12 @@ public class MoneyBagDetailActivity extends BaseActivity {
 //        moneyBagDetailAdapter.setDataList(detailList);
         lRecyclerViewAdapter = new LRecyclerViewAdapter(moneyBagDetailAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
+        lrv.setNoMore(false);
         DividerDecoration divider = new DividerDecoration.Builder(this)
                 .setHeight(R.dimen.dp_1)
                 .setColorResource(R.color.color_cccccc)
                 .build();
         lrv.addItemDecoration(divider);
-        lrv.setPullRefreshEnabled(false);
         lrv.setLayoutManager(new LinearLayoutManager(this));
         lrv.setPullRefreshEnabled(true);
         initListner();
@@ -162,14 +167,16 @@ public class MoneyBagDetailActivity extends BaseActivity {
         lrv.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                requestMoneyDetailData(false, 0, 10);
+                LogUtils.logd("下拉刷新---------");
+                requestMoneyDetailData(false, 1, 10);
             }
         });
 
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                requestMoneyDetailData(true, mCurrentCounter + 1, mCurrentCounter + REQUEST_COUNT);
+                LogUtils.logd("上拉加载更多----起始位置:" );
+                requestMoneyDetailData(true, mCurrentCounter + 1, REQUEST_COUNT);
             }
         });
 

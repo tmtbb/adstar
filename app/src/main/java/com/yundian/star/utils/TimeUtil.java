@@ -1061,4 +1061,9 @@ public class TimeUtil {
         }
         return 0;
     }
+    //获取星期
+    public static String getWeek(long time) {
+        SimpleDateFormat format = new SimpleDateFormat("EEEE");
+        return format.format(new Date(time));
+    }
 }
