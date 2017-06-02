@@ -1,6 +1,7 @@
 package com.yundian.star.ui.main.activity;
 
 import android.graphics.Point;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
@@ -89,6 +90,10 @@ public class LoginActivity extends BaseActivity {
         getWindow().setAttributes(p); // 设置生效
         userNameEditText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         checkHelper.checkButtonState(loginButton, userNameEditText, passwordEditText);
+        String phoneNum = SharePrefUtil.getInstance().getPhoneNum();
+        if (!TextUtils.isEmpty(phoneNum)){
+            userNameEditText.getEditText().setText(phoneNum);
+        }
     }
 
     @OnClick(R.id.loginButton)
@@ -158,6 +163,7 @@ public class LoginActivity extends BaseActivity {
                 // 构建缓存
                 DataCacheManager.buildDataCacheAsync();
                 SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnInfos);
+                EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
                 LoginActivity.this.finish();
                 LoginActivity.this.overridePendingTransition(0, R.anim.activity_off_top_out);
             }
@@ -255,5 +261,12 @@ public class LoginActivity extends BaseActivity {
                 finish();
                 break;
         }
+    }
+
+
+    @OnClick(R.id.close)
+    public void close(){
+        EventBus.getDefault().postSticky(new EventBusMessage(2));  //登录取消消息
+        finish();
     }
 }

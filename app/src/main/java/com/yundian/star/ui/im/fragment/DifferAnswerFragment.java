@@ -37,6 +37,7 @@ public class DifferAnswerFragment extends BaseFragment {
         nt_title.setTitleText(getString(R.string.diff_answer));
     }
 
+
     @OnClick(R.id.ll_star_address_book)
     public void gotoAddressBook(){
         startActivity(StarCommunicationBookActivity.class);
@@ -46,4 +47,5 @@ public class DifferAnswerFragment extends BaseFragment {
     public void gotoSystemMessage(){
         startActivity(SystemMessagesActivity.class);
     }
+
 }

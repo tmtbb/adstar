@@ -13,14 +13,19 @@ import android.widget.TextView;
 
 import com.yundian.star.R;
 import com.yundian.star.base.BaseFragment;
+import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.ui.main.activity.BookingStarActivity;
 import com.yundian.star.ui.main.activity.CustomerServiceActivity;
 import com.yundian.star.ui.main.activity.GeneralSettingsActivity;
 import com.yundian.star.ui.main.activity.UserAssetsManageActivity;
 import com.yundian.star.ui.main.activity.UserSettingActivity;
 import com.yundian.star.ui.view.RoundImageView;
+import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -75,6 +80,8 @@ public class UserInfoFragment extends BaseFragment {
             myReferee.setText(String.format(getString(R.string.dialog_title_referee2), referee));
         }
     }
+
+
 
     @OnClick({R.id.iv_user_info_bg, R.id.headImage, R.id.ll_user_money_bag, R.id.ll_user_order_star, R.id.ll_customer_service, R.id.ll_common_problem, R.id.ll_general_settings, R.id.btn_my_referee})
     public void onViewClicked(View view) {
@@ -133,4 +140,16 @@ public class UserInfoFragment extends BaseFragment {
                         });
         builder.show();
     }
+
+    //接收消息
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void ReciveMessageEventBus(EventBusMessage eventBusMessage) {
+        switch (eventBusMessage.Message) {
+            case 1:  //成功
+                LogUtils.loge("用户登录成功了，请刷新数据");
+
+                break;
+        }
+    }
+
 }
