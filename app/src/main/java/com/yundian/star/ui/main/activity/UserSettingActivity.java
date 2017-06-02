@@ -10,11 +10,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.netease.nim.uikit.common.media.picker.PickImageHelper;
-import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.ui.view.RoundImageView;
+import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
@@ -81,7 +81,7 @@ public class UserSettingActivity extends BaseActivity {
                     tvUserPhone.setText(SharePrefUtil.getInstance().getPhoneNum());
                     tvUserPetName.setText(SharePrefUtil.getInstance().getUserNickName());
                     tvUserRealName.setText(SharePrefUtil.getInstance().getRealName());
-                    tvUserCardNumber.setText(SharePrefUtil.getInstance().getPhoneNum());
+                    tvUserCardNumber.setText(SharePrefUtil.getInstance().getIdnum());
                 }
             }
         }, 100);
@@ -135,8 +135,9 @@ public class UserSettingActivity extends BaseActivity {
         if (file == null) {
             return;
         }
-
-        LogUtil.audio("获取到上传的图片的地址:" + path);
+        LogUtils.loge("获取到上传的图片的地址:" + path);
+        SharePrefUtil.getInstance().putUserPhotoUrl(path);
+        ImageLoaderUtils.display(mContext, headImage, path);
     }
 
 }

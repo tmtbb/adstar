@@ -9,6 +9,7 @@ import com.yundian.star.listener.OnAPIListener;
 
 import java.util.List;
 
+
 /**
  * Created by yaowang on 2017/2/20.
  * 交易 行情相关接口
@@ -84,5 +85,7 @@ public interface DealAPI {
 
     void identityAuthentication(String realname, String id_card, OnAPIListener<RequestResultBean> listener);
 
-    void dealPwd(String vCode, int type, String pwd, OnAPIListener<RequestResultBean> listener);//预约明星列表
+    void dealPwd(String phone,String vToken,String vCode, long timestamp,int type, String pwd, OnAPIListener<RequestResultBean> listener);//预约明星列表
+    void test(String title, double price ,OnAPIListener<Object> listener);//预约明星列表
+    void balance(OnAPIListener<Object> listener);//预约明星列表
 }

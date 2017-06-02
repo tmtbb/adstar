@@ -9,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp" />
 
-    <com.github.jdsjlzx.recyclerview.LRecyclerView
-        android:id="@+id/lrv"
+    <WebView
+        android:id="@+id/wv_html_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

@@ -13,6 +13,8 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.view.PayPwdEditText;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.MD5Util;
+import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
@@ -127,23 +129,25 @@ public class SettingDealPwdActivity extends BaseActivity {
     private void settingDealPwd(String newPwd) {
         String vCode = null;
         int type = 0; //0-设置密码1-重置密码
-        String pwd = newPwd;  //加密之后
-        NetworkAPIFactoryImpl.getDealAPI().dealPwd(vCode, type, pwd, new OnAPIListener<RequestResultBean>() {
+        String pwd = MD5Util.MD5(newPwd);  //加密之后
+        String vToken = SharePrefUtil.getInstance().getToken();
+        String phone = SharePrefUtil.getInstance().getPhoneNum();
+
+        NetworkAPIFactoryImpl.getDealAPI().dealPwd(phone, vToken, vCode, 0, type, pwd, new OnAPIListener<RequestResultBean>() {
+            @Override
+            public void onSuccess(RequestResultBean resultBean) {
+                LogUtils.loge("设置支付密码成功回调:" + resultBean.toString());
+                if (resultBean.getStatus() == 0) {
+                    ToastUtils.showShort("设置支付密码成功");
+                } else {
+                    ToastUtils.showShort("设置支付密码失败");
+                }
+            }
+
             @Override
             public void onError(Throwable ex) {
                 ex.printStackTrace();
                 LogUtils.logd("交易密码设置失败");
-            }
-
-            @Override
-            public void onSuccess(RequestResultBean resultBean) {
-                LogUtils.logd("交易密码设置成功:" + resultBean.toString());
-                if (resultBean.getStatus() == 0) {
-                    ToastUtils.showShort("设置交易密码成功");
-                } else {
-                    ToastUtils.showShort("设置交易密码失败");
-                }
-
             }
         });
     }

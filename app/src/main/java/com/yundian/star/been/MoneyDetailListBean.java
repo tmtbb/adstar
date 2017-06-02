@@ -21,10 +21,23 @@ public class MoneyDetailListBean implements Parcelable {
     private long rid;
     private int id;
     private double amount;
-    private long depositTime;
+    private String depositTime;
     private int depositType;
     private String depositName;
     private int status;
+
+    @Override
+    public String toString() {
+        return "MoneyDetailListBean{" +
+                "rid=" + rid +
+                ", id=" + id +
+                ", amount=" + amount +
+                ", depositTime='" + depositTime + '\'' +
+                ", depositType=" + depositType +
+                ", depositName='" + depositName + '\'' +
+                ", status=" + status +
+                '}';
+    }
 
     public long getRid() {
         return rid;
@@ -50,11 +63,11 @@ public class MoneyDetailListBean implements Parcelable {
         this.amount = amount;
     }
 
-    public long getDepositTime() {
+    public String getDepositTime() {
         return depositTime;
     }
 
-    public void setDepositTime(long depositTime) {
+    public void setDepositTime(String depositTime) {
         this.depositTime = depositTime;
     }
 
@@ -82,10 +95,6 @@ public class MoneyDetailListBean implements Parcelable {
         this.status = status;
     }
 
-    public static Creator<MoneyDetailListBean> getCREATOR() {
-        return CREATOR;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -96,7 +105,7 @@ public class MoneyDetailListBean implements Parcelable {
         dest.writeLong(this.rid);
         dest.writeInt(this.id);
         dest.writeDouble(this.amount);
-        dest.writeLong(this.depositTime);
+        dest.writeString(this.depositTime);
         dest.writeInt(this.depositType);
         dest.writeString(this.depositName);
         dest.writeInt(this.status);
@@ -109,7 +118,7 @@ public class MoneyDetailListBean implements Parcelable {
         this.rid = in.readLong();
         this.id = in.readInt();
         this.amount = in.readDouble();
-        this.depositTime = in.readLong();
+        this.depositTime = in.readString();
         this.depositType = in.readInt();
         this.depositName = in.readString();
         this.status = in.readInt();

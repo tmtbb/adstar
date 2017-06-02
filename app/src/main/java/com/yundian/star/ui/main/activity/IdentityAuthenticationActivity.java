@@ -10,6 +10,8 @@ import com.yundian.star.helper.CheckHelper;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
+import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
@@ -63,8 +65,22 @@ public class IdentityAuthenticationActivity extends BaseActivity {
                     @Override
                     public void onSuccess(RequestResultBean resultBean) {
                         LogUtils.logd("实名认证请求成功:" + resultBean.toString());
-                        //请求接口验证身份证,成功后  免责声明,设置支付密码
-                        startActivity(DisclaimerActivity.class);
+                        if (resultBean.getResult() == 0) {
+                            ToastUtils.showShort("实名认证成功");
+                            SharePrefUtil.getInstance().setRealName(etInputName.getText().toString().trim());
+                            SharePrefUtil.getInstance().setIdnum(etInputCard.getText().toString().trim());
+                            startActivity(DisclaimerActivity.class);
+                        } else {
+                            ToastUtils.showShort("实名认证失败");
+                        }
+
+//                        if (resultBean.getResult() == 0) {
+//                            //请求接口验证身份证,成功后  免责声明,设置支付密码
+//                            ToastUtils.showShort("实名认证成功");
+//                            startActivity(DisclaimerActivity.class);
+//                        } else {
+//                            ToastUtils.showShort("实名认证失败");
+//                        }
                     }
                 });
     }

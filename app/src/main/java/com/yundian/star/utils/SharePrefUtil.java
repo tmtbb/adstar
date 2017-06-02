@@ -7,6 +7,7 @@ import com.yundian.star.app.AppApplication;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.UserinfoBean;
 import com.yundian.star.ui.wangyi.DemoCache;
+
 import static android.content.Context.MODE_PRIVATE;
 
 /**
@@ -40,7 +41,7 @@ public class SharePrefUtil {
         sp.edit().putString("phoneNum", user.getUserinfo().getPhone()).apply();
         sp.edit().putString("token", user.getToken()).apply();
         sp.edit().putInt("userId", user.getUserinfo().getId()).apply();
-
+        sp.edit().putString("balance", user.getUserinfo().getBalance() + "").apply();
     }
 
     public String getUserRole() {
@@ -61,7 +62,6 @@ public class SharePrefUtil {
         String token = sp.getString("token", "");
         return token;
     }
-
 
 
     /**
@@ -322,9 +322,7 @@ public class SharePrefUtil {
     private static String CBSTATES = "cbstates";
 
 
-
     private static String PUSHURL = "pushurl";
-
 
 
     public void saveString(String key, String value) {
@@ -333,7 +331,7 @@ public class SharePrefUtil {
         editor.commit();
     }
 
-    public String getString(String key,String defaultValue) {
+    public String getString(String key, String defaultValue) {
         return getSharedPreferences().getString(key, defaultValue);
     }
 
@@ -354,9 +352,23 @@ public class SharePrefUtil {
     /**
      * 移除年龄信数据
      */
-    public void removeUserInfo(String key){
+    public void removeUserInfo(String key) {
         sp = context.getSharedPreferences(UserLoginInfo, MODE_PRIVATE);
-       sp.edit().remove(key).apply();
+        sp.edit().remove(key).apply();
 
+    }
+    public String getBalance() {
+        sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
+        String balance = sp.getString("balance", "0");
+        return balance;
+    }
+    public void putOrderStar(int count) {
+        sp = context.getSharedPreferences(UserLoginInfo, MODE_PRIVATE);
+        sp.edit().putInt("orderStar", count).apply();
+    }
+    public int getOrderStar() {
+        sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
+        int count = sp.getInt("orderStar", 0);
+        return count;
     }
 }
