@@ -19,6 +19,7 @@ import android.widget.ScrollView;
  * View启动过程：Constructors -> onAttachedToWindow -> onMeasure() -> onSizeChanged() -> onLayout() -> onDraw()
  * <p>
  * Created by huangjun on 2016/9/13.
+ * 标记一下
  */
 public class DropFake extends View {
 

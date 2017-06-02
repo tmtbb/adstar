@@ -45,6 +45,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Null on 2017/5/7.
+ * 登录
  */
 
 public class LoginActivity extends BaseActivity {
@@ -159,7 +160,6 @@ public class LoginActivity extends BaseActivity {
                 SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnInfos);
                 LoginActivity.this.finish();
                 LoginActivity.this.overridePendingTransition(0, R.anim.activity_off_top_out);
-                finish();
             }
 
             @Override
@@ -187,7 +187,6 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.tv_retrieve_password)
     public void retrievePassword() {
-        finish();
         startActivity(ResetUserPwdActivity.class);
     }
 
@@ -249,7 +248,7 @@ public class LoginActivity extends BaseActivity {
 
     //接收消息
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void ReciveMessage(EventBusMessage eventBusMessage) {
+    public void ReciveMessageEventBus(EventBusMessage eventBusMessage) {
         switch (eventBusMessage.Message) {
             case -6:  //成功
                 LogUtils.loge("当前是接收到微信登录成功的消息,finish");

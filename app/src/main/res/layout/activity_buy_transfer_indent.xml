@@ -13,7 +13,7 @@
             android:id="@+id/back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_home_normal" />
+            android:src="@drawable/back_button" />
 
         <com.flyco.tablayout.SlidingTabLayout
             android:id="@+id/tabs"

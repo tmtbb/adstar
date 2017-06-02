@@ -71,15 +71,19 @@
         <activity android:name=".ui.main.activity.TestActivity"></activity>
         <activity
             android:name=".ui.main.activity.LoginActivity"
-            android:theme="@style/TransparentActivityDialog"></activity>
+            android:launchMode="singleTask"
+            android:theme="@style/TransparentActivityDialog"
+            ></activity>
         <activity
             android:name=".ui.main.activity.RegisterUserActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/TransparentActivityDialog"></activity>
         <activity android:name=".ui.main.activity.ResetUserPwdActivity"></activity>
 
         <activity android:name=".ui.im.activity.StarCommunicationBookActivity"></activity>
 
         <activity android:name=".ui.main.activity.NewsBrowserActivity"></activity>
+
         <activity
             android:name="com.yundian.star.ui.main.activity.SearchActivity"
             android:screenOrientation="portrait"
@@ -87,7 +91,12 @@
 
         <activity
             android:name=".wxapi.WXEntryActivity"
-            android:exported="true"></activity>
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            >
+        </activity>
         <activity android:name="com.yundian.star.ui.main.activity.NewsStarBuyActivity"></activity>
         <activity android:name=".ui.main.activity.StarTimeShareActivity"></activity>
         <activity

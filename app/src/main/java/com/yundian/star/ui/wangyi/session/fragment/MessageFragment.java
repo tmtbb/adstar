@@ -27,6 +27,9 @@ import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.MessageReceipt;
+import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
+import com.yundian.star.utils.SharePrefUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,6 +56,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
     // modules
     protected InputPanel inputPanel;
     protected MessageListPanelEx messageListPanel;
+    private String starCode;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -115,6 +119,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
 
     private void parseIntent() {
         sessionId = getArguments().getString(Extras.EXTRA_ACCOUNT);
+        starCode = getArguments().getString(Extras.EXTRA_STARCODE);
         sessionType = (SessionTypeEnum) getArguments().getSerializable(Extras.EXTRA_TYPE);
         IMMessage anchor = (IMMessage) getArguments().getSerializable(Extras.EXTRA_ANCHOR);
 
@@ -146,10 +151,20 @@ public class MessageFragment extends TFragment implements ModuleProxy {
      */
     // 是否允许发送消息
     protected boolean isAllowSendMessage(final IMMessage message) {
+        NetworkAPIFactoryImpl.getInformationAPI().reduceTime(SharePrefUtil.getInstance().getPhoneNum(), sessionId, new OnAPIListener<Object>() {
+            @Override
+            public void onError(Throwable ex) {
+
+            }
+
+            @Override
+            public void onSuccess(Object o) {
+                LogUtil.e("聊天扣除秒数",o.toString());
+            }
+        });
         /*if (!isAllow){
             LogUtil.e("秒数已使用完，请再次购买","");
             Toast.makeText(getContext(),"秒数已使用完，请再次购买",Toast.LENGTH_LONG).show();
-
             return false;
         }*/
         return true;

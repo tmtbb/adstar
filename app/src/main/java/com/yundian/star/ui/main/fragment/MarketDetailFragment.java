@@ -184,8 +184,10 @@ public class MarketDetailFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 LogUtils.logd(position+"");
+                OptionsStarListBeen.ListBean bean = list.get(position);
                 Intent intent = new Intent(getActivity(),StarTimeShareActivity.class);
-                intent.putExtra(AppConstant.MARKET_STARTIME_TYPE,"1001");
+                intent.putExtra(AppConstant.STAR_CODE,bean.getStarcode());
+                intent.putExtra(AppConstant.STAR_NAME,bean.getName());
                 startActivity(intent);
             }
         });

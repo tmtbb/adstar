@@ -1,25 +1,34 @@
 package com.yundian.star.ui.im.activity;
 
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.TextView;
 
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
+import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.common.ui.drop.DropFake;
+import com.netease.nim.uikit.session.SessionCustomization;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.msg.MsgServiceObserve;
+import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
-import com.yundian.star.been.BookingStarListBean;
 import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.im.adapter.BookStarComAdapter;
-import com.yundian.star.ui.wangyi.session.SessionHelper;
+import com.yundian.star.ui.wangyi.session.activity.P2PMessageActivity;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
-import com.yundian.star.widget.NormalTitleBar;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -30,13 +39,19 @@ import butterknife.Bind;
 public class StarCommunicationBookActivity extends BaseActivity {
     @Bind(R.id.lrv)
     LRecyclerView lrv;
-    @Bind(R.id.nt_title)
-    NormalTitleBar nt_title;
+
+    @Bind(R.id.tv_back)
+    TextView tv_back;
+    @Bind(R.id.tv_title)
+    TextView tv_title;
+    @Bind(R.id.tab_new_msg_label)
+    DropFake tab_new_msg_label;
+
 
     private static int mCurrentCounter = 1;
     private static final int REQUEST_COUNT = 10;
-    private ArrayList<BookingStarListBean.ListBean> list = new ArrayList<>();
-    private ArrayList<BookingStarListBean.ListBean> loadList = new ArrayList<>();
+    private ArrayList<StarMailListBeen.DepositsinfoBean> list = new ArrayList<>();
+    private ArrayList<StarMailListBeen.DepositsinfoBean> loadList = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private BookStarComAdapter starCommBookAdapter;
 
@@ -52,15 +67,15 @@ public class StarCommunicationBookActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        nt_title.setBackVisibility(true);
-        nt_title.setTitleText(R.string.famous_address_book);
+        checkunReadMsg();
+        tv_title.setText(R.string.famous_address_book);
         initAdapter();
         getData(false,0,REQUEST_COUNT);
         initListener();
     }
 
     private void initListener() {
-        nt_title.setOnBackListener(new View.OnClickListener() {
+        tv_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -69,7 +84,10 @@ public class StarCommunicationBookActivity extends BaseActivity {
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SessionHelper.startP2PSession(StarCommunicationBookActivity.this,"13072714518");
+
+                SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
+                P2PMessageActivity.start(StarCommunicationBookActivity.this, list.get(position).getFaccid(),list.get(position).getStarcode(), customization, null);
+                //SessionHelper.startP2PSession(StarCommunicationBookActivity.this,list.get(position).getFaccid());
             }
         });
     }
@@ -92,21 +110,35 @@ public class StarCommunicationBookActivity extends BaseActivity {
 
     private void getData(final boolean isLoadMore,int start ,int end ) {
 
-            for (int i =0 ;i<5;i++){
+            /*for (int i =0 ;i<5;i++){
                 BookingStarListBean.ListBean bean = new BookingStarListBean.ListBean();
                 bean.setStarname("明星"+i);
                 list.add(bean);
             }
-            showData();
-        NetworkAPIFactoryImpl.getInformationAPI().getStarmaillist(SharePrefUtil.getInstance().getUserId(), SharePrefUtil.getInstance().getToken(),"123", start, end, new OnAPIListener<StarMailListBeen>() {
+            showData();*/
+        NetworkAPIFactoryImpl.getInformationAPI().getStarmaillist(SharePrefUtil.getInstance().getUserId(), SharePrefUtil.getInstance().getToken(),"123", start, REQUEST_COUNT, new OnAPIListener<StarMailListBeen>() {
             @Override
             public void onError(Throwable ex) {
+                lrv.setNoMore(true);
 
             }
 
             @Override
             public void onSuccess(StarMailListBeen starMailListBeen) {
                 LogUtils.loge(starMailListBeen.toString());
+                if (starMailListBeen.getDepositsinfo()==null){
+                    lrv.setNoMore(true);
+                    return;
+                }
+                if (isLoadMore){
+                    loadList.clear();
+                    loadList = starMailListBeen.getDepositsinfo();
+                    loadMoreData();
+                }else {
+                    list.clear();
+                    list = starMailListBeen.getDepositsinfo();
+                    showData();
+                }
             }
         });
 
@@ -128,5 +160,44 @@ public class StarCommunicationBookActivity extends BaseActivity {
             mCurrentCounter += loadList.size();
             lrv.refreshComplete(REQUEST_COUNT);
         }
+    }
+
+    private void checkunReadMsg() {
+        int unreadNum = NIMClient.getService(MsgService.class).getTotalUnreadCount();
+        if (unreadNum>0){
+            tab_new_msg_label.setVisibility(View.VISIBLE);
+            if (unreadNum>99){
+                tab_new_msg_label.setText("99+");
+            }else {
+                tab_new_msg_label.setText(String.valueOf(unreadNum));
+            }
+        }else {
+            tab_new_msg_label.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        registerObservers(true);
+    }
+    /**
+     * ********************** 收消息，处理状态变化 ************************
+     */
+    private void registerObservers(boolean register) {
+        MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
+        service.observeRecentContact(messageObserver, register);
+    }
+    Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
+        @Override
+        public void onEvent(List<RecentContact> recentContacts) {
+            checkunReadMsg();
+        }
+    };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        registerObservers(false);
     }
 }

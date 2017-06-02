@@ -76,5 +76,23 @@ public class AdvBeen {
         public void setType(int type) {
             this.type = type;
         }
+
+        @Override
+        public String toString() {
+            return "ListBean{" +
+                    "code='" + code + '\'' +
+                    ", name='" + name + '\'' +
+                    ", pic_url='" + pic_url + '\'' +
+                    ", type=" + type +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "AdvBeen{" +
+                "result=" + result +
+                ", list=" + list +
+                '}';
     }
 }

@@ -72,6 +72,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
     //app发送消息给微信，处理返回消息的回调
     @Override
     public void onResp(BaseResp resp) {
+        finish();
         LogUtils.loge(resp.errCode + "" + "resp.getType()" + resp.getType());
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
@@ -125,7 +126,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                         }
                     }).start();
                     break;
-
+                case 2:
+                    String info = String.valueOf(msg.obj);
+                    LogUtils.loge("获取用户信息成功:" + info);
+                    WXUserInfoEntity tokenEntity = JSON.parseObject(info, WXUserInfoEntity.class);
+                    bindPhoneNumber(tokenEntity);   //根据用户信息,绑定手机号码
                 default:
                     break;
             }
@@ -144,9 +149,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         String url2 = sb2.toString();
         String info = HttpUrlConnectionUtil.httpGet(url2);
         if (info != null) {
-            LogUtils.loge("获取用户信息成功:" + info);
-            final WXUserInfoEntity tokenEntity = JSON.parseObject(info, WXUserInfoEntity.class);
-            bindPhoneNumber(tokenEntity);   //根据用户信息,绑定手机号码
+            Message message = Message.obtain();
+            message.what = 2 ;
+            message.obj = info ;
+            handler.sendMessage(message);
         } else {
             LogUtils.logd("获取用户信息失败");
         }
@@ -186,13 +192,13 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         NetworkAPIFactoryImpl.getUserAPI().wxLogin(entity2.getOpenid(), new OnAPIListener<WXinLoginReturnBeen>() {
             @Override
             public void onError(Throwable ex) {
-                LogUtils.loge("微信登录失败,进入绑定手机号界面");  //进入绑定手机号码页面
+                LogUtils.loge("微信登录失败,进入绑定手机号界面"+Thread.currentThread().getName());  //进入绑定手机号码页面
                 ToastUtils.showLong("请绑定手机号码");
+                EventBus.getDefault().postSticky(new EventBusMessage(-6));  //传递消息
                 Intent intent = new Intent(WXEntryActivity.this, RegisterUserActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 intent.putExtra("wxBind", entity2);
                 startActivity(intent);
-                finish();
+                WXEntryActivity.this.finish();
             }
 
             @Override
@@ -225,9 +231,10 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     ToastUtils.showLong("请绑定手机号码");
                     Intent intent = new Intent(WXEntryActivity.this, RegisterUserActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                    EventBus.getDefault().postSticky(new EventBusMessage(-6));  //传递消息
                     intent.putExtra("wxBind", entity2);
                     startActivity(intent);
-                    finish();
+                    WXEntryActivity.this.finish();
                 }
             }
         });

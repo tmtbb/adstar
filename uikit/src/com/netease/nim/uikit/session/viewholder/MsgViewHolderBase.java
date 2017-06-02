@@ -31,6 +31,8 @@ import com.netease.nimlib.sdk.msg.model.IMMessage;
 /**
  * 会话窗口消息列表项的ViewHolder基类，负责每个消息项的外层框架，包括头像，昵称，发送/接收进度条，重发按钮等。<br>
  * 具体的消息展示项可继承该基类，然后完成具体消息内容展示即可。
+ * 头像点击事件注释
+ * 标记一下
  */
 public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItemFetchLoadAdapter, BaseViewHolder, IMMessage> {
 
@@ -271,7 +273,8 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
         });
 
         // 头像点击事件响应
-        if (NimUIKit.getSessionListener() != null) {
+        //头像点击事件注释
+        /*if (NimUIKit.getSessionListener() != null) {
             View.OnClickListener portraitListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -280,7 +283,7 @@ public abstract class MsgViewHolderBase extends RecyclerViewHolder<BaseMultiItem
             };
             avatarLeft.setOnClickListener(portraitListener);
             avatarRight.setOnClickListener(portraitListener);
-        }
+        }*/
     }
 
     /**
