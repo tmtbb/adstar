@@ -19,7 +19,7 @@
     <string name="get_note_code">获取验证码</string>
     <string name="regiset_put_note_code">输入系统验证码</string>
     <string name="put_account_number">请输入账号</string>
-    <string name="put_password_number">请输入密码</string>
+    <string name="put_password_number">请输入6位以上密码</string>
     <string name="regiset_phone_number">输入您的手机号</string>
     <string name="retrieve_password_1">忘记密码？</string>
     <string name="retrieve_password_2">点击找回</string>

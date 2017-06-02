@@ -268,6 +268,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 info.setUserinfo(loginReturnInfos.getUserinfo());
                 SharePrefUtil.getInstance().saveLoginUserInfo(info);
                 EventBus.getDefault().postSticky(new EventBusMessage(-6));  //传递消息
+                EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
                 WXEntryActivity.this.finish();
             }
 

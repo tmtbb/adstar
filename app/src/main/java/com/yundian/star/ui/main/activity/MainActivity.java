@@ -30,6 +30,7 @@ import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.TabEntity;
 import com.yundian.star.ui.im.fragment.DifferAnswerFragment;
 import com.yundian.star.ui.main.fragment.MarketFragment;
@@ -39,6 +40,10 @@ import com.yundian.star.ui.wangyi.chatroom.helper.ChatRoomHelper;
 import com.yundian.star.ui.wangyi.config.preference.UserPreferences;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -61,24 +66,18 @@ public class MainActivity extends BaseActivity {
     private UserInfoFragment userInfoFragment;
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
     public static int CHECHK_LOGIN = 0;
+    private boolean flag = true;
 
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 0 :
-
                     break;
             }
         }
     };
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            startActivity(new Intent(MainActivity.this,LoginActivity.class));
-            overridePendingTransition(R.anim.activity_open_down_in,0);
-        }
-    };
+
     Runnable runnablePermission = new Runnable() {
         @Override
         public void run() {
@@ -98,8 +97,8 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView() {
         initTab();
-        checkIsLogin();
         checkunReadMsg();
+        handler.postDelayed(runnablePermission,1000);
     }
 
     private void checkunReadMsg() {
@@ -118,6 +117,10 @@ public class MainActivity extends BaseActivity {
         initFragment(savedInstanceState);
         initWangYi();
         registerObservers(true);
+        if (flag) {
+            EventBus.getDefault().register(this); // EventBus注册广播()
+            flag = false;//更改标记,使其不会再进行多次注册
+        }
     }
 
 
@@ -211,6 +214,7 @@ public class MainActivity extends BaseActivity {
                 transaction.commitAllowingStateLoss();
                 break;
             case 2:
+                checkLogin();
                 transaction.hide(marketFragment);
                 transaction.hide(newsInfoFragment);
                 transaction.hide(userInfoFragment);
@@ -218,6 +222,7 @@ public class MainActivity extends BaseActivity {
                 transaction.commitAllowingStateLoss();
                 break;
             case 3:
+                checkLogin();
                 transaction.hide(marketFragment);
                 transaction.hide(newsInfoFragment);
                 transaction.hide(differAnswerFragment);
@@ -247,14 +252,7 @@ public class MainActivity extends BaseActivity {
             }
         });
     }
-    private void checkIsLogin() {
-        String phoneNum = SharePrefUtil.getInstance().getPhoneNum();
-        String token = SharePrefUtil.getInstance().getToken();
-        if (TextUtils.isEmpty(phoneNum)||TextUtils.isEmpty(token)) { // 第一次登录, 需要走登录流程
-            handler.postDelayed(runnable,500);
-        }
-        handler.postDelayed(runnablePermission,1000);
-    }
+
 
     /**
      * 基本权限管理
@@ -330,8 +328,28 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
+        EventBus.getDefault().removeAllStickyEvents();
+        EventBus.getDefault().unregister(this);
         super.onDestroy();
         registerObservers(false);
+    }
+
+    //接收消息
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void ReciveMessageEventBus(EventBusMessage eventBusMessage) {
+        switch (eventBusMessage.Message) {
+            case 2:  //登录取消
+                SwitchTo(0);
+                break;
+        }
+    }
+    private void checkLogin() {
+        String phoneNum = SharePrefUtil.getInstance().getPhoneNum();
+        String token = SharePrefUtil.getInstance().getToken();
+        if (TextUtils.isEmpty(phoneNum)||TextUtils.isEmpty(token)) { // 第一次登录, 需要走登录流程
+            startActivity(LoginActivity.class);
+            overridePendingTransition(R.anim.activity_open_down_in,0);
+        }
     }
 
 }
