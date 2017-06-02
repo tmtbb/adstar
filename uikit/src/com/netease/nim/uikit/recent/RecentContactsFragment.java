@@ -54,6 +54,7 @@ import static com.netease.nim.uikit.common.ui.dialog.CustomAlertDialog.onSeparat
  * 最近联系人列表(会话列表)
  * <p/>
  * Created by huangjun on 2015/2/1.
+ * 标记一下。会话列表
  */
 public class RecentContactsFragment extends TFragment {
 
@@ -321,6 +322,7 @@ public class RecentContactsFragment extends TFragment {
                     return;
                 }
                 // 查询最近联系人列表数据
+                //数据源。小红点也是这里出来。
                 NIMClient.getService(MsgService.class).queryRecentContacts().setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
 
                     @Override

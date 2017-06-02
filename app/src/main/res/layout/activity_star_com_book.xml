@@ -2,12 +2,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.yundian.star.widget.NormalTitleBar
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:id="@+id/nt_title"
+        android:orientation="horizontal"
+        android:background="#ffffff"
         >
-    </com.yundian.star.widget.NormalTitleBar>
+        <TextView
+            android:paddingRight="30dp"
+            android:id="@+id/tv_back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@android:color/transparent"
+            android:drawableLeft="@drawable/back_button"
+            android:gravity="center"
+            android:paddingLeft="12dp"
+            android:textColor="@color/white"
+            android:visibility="visible" />
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical"
+            android:textColor="@color/color_8C0808"
+            android:textSize="@dimen/fontSize_18sp" />
+        <com.netease.nim.uikit.common.ui.drop.DropFake
+            android:id="@+id/tab_new_msg_label"
+            android:layout_width="28dip"
+            android:layout_height="28dip"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:visibility="gone"/>
+    </RelativeLayout>
     <com.github.jdsjlzx.recyclerview.LRecyclerView
         android:id="@+id/lrv"
         android:layout_width="match_parent"

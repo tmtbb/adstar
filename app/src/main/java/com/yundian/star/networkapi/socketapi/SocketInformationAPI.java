@@ -137,9 +137,8 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
-    public void getFansComments(String phone,String starcode, OnAPIListener<Object> listener) {
+    public void getFansComments(String starcode, OnAPIListener<Object> listener) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("phone", phone);
         map.put("starcode", starcode);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.FansComments,
                 SocketAPIConstant.ReqeutType.NewInfos, map);
@@ -159,5 +158,26 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         requestEntity(socketDataPacket,StarMailListBeen.class,listener);
     }
 
+    @Override
+    public void addFriend(String accid, String faccid, String msg,int type, OnAPIListener<Object> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("accid", accid);
+        map.put("faccid", faccid);
+        map.put("msg", msg);
+        map.put("type", type);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.AddFriend,
+                SocketAPIConstant.ReqeutType.Wangyi, map);
+        requestJsonObject(socketDataPacket,listener);
+    }
+
+    @Override
+    public void reduceTime(String phone, String starcode, OnAPIListener<Object> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("phone", phone);
+        map.put("starcode", starcode);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.ReduceTime,
+                SocketAPIConstant.ReqeutType.Wangyi, map);
+        requestJsonObject(socketDataPacket,listener);
+    }
 
 }

@@ -54,6 +54,7 @@ public class StarIntroFragment extends BaseFragment {
     TextView tv_mesure;
 
     private String[] adList;
+    private AdViewpagerUtil adViewpagerUtil;
 
 
     @Override
@@ -73,7 +74,8 @@ public class StarIntroFragment extends BaseFragment {
 
     private void init() {
         if (getArguments()!=null){
-            code = getArguments().getString(AppConstant.MARKET_DETAIL_IN_TYPE);
+            code = getArguments().getString(AppConstant.STAR_CODE);
+            LogUtils.loge("明星code"+code);
         }
         gitData();
         getStarExperience();
@@ -82,7 +84,7 @@ public class StarIntroFragment extends BaseFragment {
 
 
     private void gitData() {
-        NetworkAPIFactoryImpl.getInformationAPI().getStarBrief("1001", new OnAPIListener<StarBuyActReferralInfo>() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarBrief(code, new OnAPIListener<StarBuyActReferralInfo>() {
             @Override
             public void onError(Throwable ex) {
 
@@ -107,7 +109,7 @@ public class StarIntroFragment extends BaseFragment {
         RelativeLayout rl_adroot = (RelativeLayout) getActivity().findViewById(R.id.adv_root);
         ViewPager viewPager = (ViewPager)rl_adroot.findViewById(R.id.viewpager);
         LinearLayout page_indicator = (LinearLayout)rl_adroot.findViewById(R.id.ly_dots);
-        AdViewpagerUtil adViewpagerUtil = new AdViewpagerUtil(getActivity(), viewPager, page_indicator, adList);
+        adViewpagerUtil = new AdViewpagerUtil(getActivity(), viewPager, page_indicator, adList);
     }
 
     private void initPic(StarBuyActReferralInfo info) {
@@ -129,7 +131,7 @@ public class StarIntroFragment extends BaseFragment {
         }
     }
     private void getStarExperience() {
-        NetworkAPIFactoryImpl.getInformationAPI().getStarExperience("1001", new OnAPIListener<StarExperienceBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarExperience(code, new OnAPIListener<StarExperienceBeen>() {
             @Override
             public void onError(Throwable ex) {
 
@@ -153,7 +155,7 @@ public class StarIntroFragment extends BaseFragment {
     }
 
     private void getStarAch() {
-        NetworkAPIFactoryImpl.getInformationAPI().getStarachive("1001", new OnAPIListener<StarStarAchBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarachive(code, new OnAPIListener<StarStarAchBeen>() {
             @Override
             public void onError(Throwable ex) {
 
@@ -172,12 +174,33 @@ public class StarIntroFragment extends BaseFragment {
         StarBuyAchAdapter buyAchAdapter = new StarBuyAchAdapter(getActivity(), o.getList());
         ll_new_buy_achievement.setVisibility(View.VISIBLE);
         MyListView listExpView2 = (MyListView)ll_new_buy_achievement.findViewById(R.id.listview_buy);
+        TextView textAch = (TextView)ll_new_buy_achievement.findViewById(R.id.tv_content);
+        textAch.setText(getString(R.string.oneself_intro_achievement));
         listExpView2.setAdapter(buyAchAdapter);
         int high = ListViewUtil.setListViewHeightBasedOnChildren(listExpView2);
         ViewGroup.LayoutParams layoutParams = tv_mesure.getLayoutParams();
         LogUtils.loge(high+"最后一个listview高度");
         layoutParams.height = high ;
         tv_mesure.setLayoutParams(layoutParams);
+    }
+
+    //生命周期控制
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (adViewpagerUtil != null) {
+            adViewpagerUtil.stopLoopViewPager();
+            LogUtils.logd("广告停止");
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adViewpagerUtil != null) {
+            adViewpagerUtil.startLoopViewPager();
+            LogUtils.logd("广告开始");
+        }
     }
 
 }
