@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.netease.nim.uikit.NimUIKit;
@@ -150,8 +151,8 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         String info = HttpUrlConnectionUtil.httpGet(url2);
         if (info != null) {
             Message message = Message.obtain();
-            message.what = 2 ;
-            message.obj = info ;
+            message.what = 2;
+            message.obj = info;
             handler.sendMessage(message);
         } else {
             LogUtils.logd("获取用户信息失败");
@@ -192,7 +193,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
         NetworkAPIFactoryImpl.getUserAPI().wxLogin(entity2.getOpenid(), new OnAPIListener<WXinLoginReturnBeen>() {
             @Override
             public void onError(Throwable ex) {
-                LogUtils.loge("微信登录失败,进入绑定手机号界面"+Thread.currentThread().getName());  //进入绑定手机号码页面
+                LogUtils.loge("微信登录失败,进入绑定手机号界面" + Thread.currentThread().getName());  //进入绑定手机号码页面
                 ToastUtils.showLong("请绑定手机号码");
                 EventBus.getDefault().postSticky(new EventBusMessage(-6));  //传递消息
                 Intent intent = new Intent(WXEntryActivity.this, RegisterUserActivity.class);
@@ -208,6 +209,12 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     if (info.getUserinfo() == null || info.getUserinfo().getPhone() == null) {
                         return;
                     } else {
+                        if (TextUtils.isEmpty(SharePrefUtil.getInstance().getUserPhotoUrl())) { //如果没有设置过昵称和头像,保存在下来
+                            SharePrefUtil.getInstance().putUserPhotoUrl(entity2.getHeadimgurl());
+                        }
+                        if (TextUtils.isEmpty(SharePrefUtil.getInstance().getUserNickName())) {
+                            SharePrefUtil.getInstance().putUserNickName(entity2.getNickname());
+                        }
                         LogUtils.logd("登录成功" + info.getUserinfo().getPhone());
                         //网易云注册
                         NetworkAPIFactoryImpl.getUserAPI().registerWangYi(info.getUserinfo().getPhone(), info.getUserinfo().getPhone(), info.getUserinfo().getPhone(), new OnAPIListener<RegisterReturnWangYiBeen>() {

@@ -8,6 +8,7 @@ import android.widget.LinearLayout;
 
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.base.baseapp.AppManager;
 import com.yundian.star.been.RequestResultBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
@@ -139,6 +140,10 @@ public class SettingDealPwdActivity extends BaseActivity {
                 LogUtils.loge("设置支付密码成功回调:" + resultBean.toString());
                 if (resultBean.getStatus() == 0) {
                     ToastUtils.showShort("设置支付密码成功");
+                    finish();
+                    //关闭前面几个页面
+                    AppManager.getAppManager().finishActivity(DisclaimerActivity.class);
+                    AppManager.getAppManager().finishActivity(IdentityAuthenticationActivity.class);
                 } else {
                     ToastUtils.showShort("设置支付密码失败");
                 }
