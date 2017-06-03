@@ -9,6 +9,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.crashlytics.android.Crashlytics;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.contact.core.query.PinYin;
 import com.netease.nim.uikit.custom.DefalutUserInfoProvider;
@@ -64,7 +65,10 @@ import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.MD5Util;
 import com.yundian.star.utils.Utils;
 
+
 import java.util.Map;
+
+import io.fabric.sdk.android.Fabric;
 
 /**
  * APPLICATION 17682310986
@@ -73,6 +77,7 @@ public class AppApplication extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         //初始化logger
         LogUtils.logInit(BuildConfig.LOG_DEBUG);
         initNetworkAPIConfig();

@@ -70,6 +70,7 @@ public interface SocketAPIConstant {
         Short Identity = 3021;
         Short AddFriend = 9099;
         Short ReduceTime = 9017;
+        Short IdentityInfo = 3027;
 
 
     }

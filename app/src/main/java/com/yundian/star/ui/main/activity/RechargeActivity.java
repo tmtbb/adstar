@@ -52,6 +52,8 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 
+import static com.yundian.star.R.id.back;
+import static com.yundian.star.R.id.iv_recharge_type;
 import static com.yundian.star.R.id.rb_recharge_money1;
 import static com.yundian.star.R.id.rb_recharge_money2;
 
@@ -86,7 +88,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     LinearLayout rechargeType;
     @Bind(R.id.tv_recharge_name)
     TextView rechargeName;
-    @Bind(R.id.iv_recharge_type)
+    @Bind(iv_recharge_type)
     ImageView rechargeIcon;
     @Bind(R.id.edit_recharge_money)
     EditText rechargeMoney;
@@ -245,7 +247,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         View contentview = inflater.inflate(R.layout.layout_dialog_recharge_type, null);
         contentview.setFocusable(true); // 这个很重要
         contentview.setFocusableInTouchMode(true);
-        popupWindow = new PopupWindow(contentview, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow = new PopupWindow(contentview, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setFocusable(true);
         popupWindow.setAnimationStyle(R.style.popwin_anim_style);
         popupWindow.setOutsideTouchable(false);
@@ -260,27 +262,29 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 return false;
             }
         });
-        contentview.findViewById(R.id.recharge_alipay).setOnClickListener(this);
-        contentview.findViewById(R.id.recharge_weixin_pay).setOnClickListener(this);
-        contentview.findViewById(R.id.recharge_cancel).setOnClickListener(this);
+        contentview.findViewById(R.id.ll_recharge_alipay).setOnClickListener(this);
+        contentview.findViewById(R.id.ll_recharge_weixin).setOnClickListener(this);
+        contentview.findViewById(R.id.iv_pay_close).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.recharge_alipay:
+            case R.id.ll_recharge_alipay:
                 ToastUtils.showShort("支付宝");
+                rechargeIcon.setImageResource(R.drawable.icon_alipay);
                 rechargeName.setText(getString(R.string.recharge_ali_pay));
                 isAliPay = true;
                 //设置图标
                 popupWindow.dismiss();
                 break;
-            case R.id.recharge_weixin_pay:
+            case R.id.ll_recharge_weixin:
                 isAliPay = false;
+                rechargeIcon.setImageResource(R.drawable.icon_weixin);
                 rechargeName.setText(getString(R.string.recharge_wxpay));
                 popupWindow.dismiss();
                 break;
-            case R.id.recharge_cancel:
+            case R.id.iv_pay_close:
                 popupWindow.dismiss();
                 break;
         }

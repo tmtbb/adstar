@@ -362,6 +362,10 @@ public class SharePrefUtil {
         String balance = sp.getString("balance", "0");
         return balance;
     }
+    public void putBalance(double balance){
+        sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
+        sp.edit().putString("balance", balance + "").apply();
+    }
     public void putOrderStar(int count) {
         sp = context.getSharedPreferences(UserLoginInfo, MODE_PRIVATE);
         sp.edit().putInt("orderStar", count).apply();

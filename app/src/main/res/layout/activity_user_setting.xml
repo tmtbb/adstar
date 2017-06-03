@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_set_user_info"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_fafafa"
-    android:orientation="vertical"
-    android:id="@+id/ll_set_user_info">
+    android:orientation="vertical">
 
     <com.yundian.star.widget.NormalTitleBar
         android:id="@+id/nt_title"
@@ -27,10 +27,11 @@
         <TextView
             style="@style/user_setting_text_style"
             android:text="@string/user_head_imageview" />
+
         <ImageView
+            android:id="@+id/iv_imageview"
             android:layout_width="@dimen/dp_50"
-            android:layout_height="@dimen/dp_50"
-            android:id="@+id/iv_imageview"/>
+            android:layout_height="@dimen/dp_50" />
 
         <com.yundian.star.ui.view.RoundImageView
             android:id="@+id/headImage"
@@ -59,8 +60,7 @@
 
         <TextView
             android:id="@+id/tv_user_phone"
-            style="@style/user_setting_hint_style"
-            android:text="00000000" />
+            style="@style/user_setting_hint_style" />
 
     </LinearLayout>
 
@@ -76,8 +76,7 @@
 
         <TextView
             android:id="@+id/tv_user_pet_name"
-            style="@style/user_setting_hint_style"
-            android:text="武松" />
+            style="@style/user_setting_hint_style" />
 
     </LinearLayout>
 
@@ -99,8 +98,7 @@
 
         <TextView
             android:id="@+id/tv_user_real_name"
-            style="@style/user_setting_hint_style"
-            android:text="武二郎" />
+            style="@style/user_setting_hint_style" />
     </LinearLayout>
 
     <include layout="@layout/ll_interval_line" />
@@ -115,8 +113,7 @@
 
         <TextView
             android:id="@+id/tv_user_card_number"
-            style="@style/user_setting_hint_style"
-            android:text="341221465456454545" />
+            style="@style/user_setting_hint_style" />
 
 
     </LinearLayout>

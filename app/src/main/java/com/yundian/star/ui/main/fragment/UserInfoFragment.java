@@ -14,8 +14,10 @@ import android.widget.TextView;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseFragment;
 
+import com.yundian.star.been.AssetDetailsBean;
 import com.yundian.star.been.EventBusMessage;
 
+import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 
@@ -80,7 +82,10 @@ public class UserInfoFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        initData();
+        if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getPhoneNum())) {
+            initData();
+            requestBalance();
+        }
     }
 
     private void initData() {
@@ -91,13 +96,20 @@ public class UserInfoFragment extends BaseFragment {
             myReferee.setText(String.format(getString(R.string.dialog_title_referee2), referee));
         }
         String userPhotoUrl = SharePrefUtil.getInstance().getUserPhotoUrl();
-        ImageLoaderUtils.display(getContext(), headImage, userPhotoUrl);
-        userName.setText(SharePrefUtil.getInstance().getUserNickName());
-        userTotalAssets.setText(SharePrefUtil.getInstance().getBalance());
-        userName.setText(SharePrefUtil.getInstance().getUserNickName());
+        if (TextUtils.isEmpty(userPhotoUrl)) {
+            headImage.setImageResource(R.drawable.user_default_head);
+        } else {
+            ImageLoaderUtils.display(getContext(), headImage, userPhotoUrl);
+        }
+        String userNickName = SharePrefUtil.getInstance().getUserNickName();
+        if (TextUtils.isEmpty(userNickName)) {
+            userName.setText(SharePrefUtil.getInstance().getPhoneNum());
+        } else {
+            userName.setText(userNickName);
+        }
+
         userOrderStar.setText(SharePrefUtil.getInstance().getOrderStar() + "");
     }
-
 
 
     @OnClick({R.id.iv_user_info_bg, R.id.headImage, R.id.ll_user_money_bag, R.id.ll_user_order_star, R.id.ll_customer_service, R.id.ll_common_problem, R.id.ll_general_settings, R.id.btn_my_referee})
@@ -165,25 +177,26 @@ public class UserInfoFragment extends BaseFragment {
         switch (eventBusMessage.Message) {
             case 1:  //成功
                 LogUtils.loge("用户登录成功了，请刷新数据");
-
+                initData();
+                requestBalance();
                 break;
         }
     }
 
     private void requestBalance() {
-        NetworkAPIFactoryImpl.getDealAPI().balance(new OnAPIListener<Object>() {
+        NetworkAPIFactoryImpl.getDealAPI().balance(new OnAPIListener<AssetDetailsBean>() {
             @Override
-            public void onSuccess(Object o) {
-                LogUtils.loge("余额请求成功:" + o.toString());
+            public void onSuccess(AssetDetailsBean bean) {
+                LogUtils.loge("余额请求成功:" + bean.toString());
+                userTotalAssets.setText(bean.getBalance() + "");
+                SharePrefUtil.getInstance().putBalance(bean.getBalance());
             }
 
             @Override
             public void onError(Throwable ex) {
                 LogUtils.loge("余额请求失败:" + ex.getMessage());
             }
-
         });
-
     }
 
 }
