@@ -75,15 +75,21 @@
         android:paddingRight="@dimen/dp_11"
         android:paddingTop="@dimen/dp_15">
 
-        <com.yundian.star.ui.view.RoundImageView
+        <!--<com.yundian.star.ui.view.RoundImageView-->
+            <!--android:id="@+id/iv_recharge_type"-->
+            <!--android:layout_width="@dimen/dp_20"-->
+            <!--android:layout_height="@dimen/dp_20"-->
+            <!--android:layout_marginLeft="@dimen/dp_13"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:src="@drawable/icon_weixin"-->
+            <!--app:roundHeight="10dp"-->
+            <!--app:roundWidth="10dp" />-->
+        <ImageView
             android:id="@+id/iv_recharge_type"
             android:layout_width="@dimen/dp_20"
             android:layout_height="@dimen/dp_20"
             android:layout_marginLeft="@dimen/dp_13"
-            android:scaleType="centerCrop"
-            android:src="@drawable/welcome_bg"
-            app:roundHeight="10dp"
-            app:roundWidth="10dp" />
+            android:src="@drawable/icon_weixin" />
 
         <TextView
             android:id="@+id/tv_recharge_name"

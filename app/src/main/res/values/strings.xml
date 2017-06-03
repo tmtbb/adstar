@@ -109,6 +109,7 @@
     <string name="login_out">退出登录</string>
     <string name="reset_login_pwd">重置登录密码</string>
     <string name="reset_pay_pwd">重置支付密码</string>
+    <string name="choose_pay_type">请选择付款方式</string>
 
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_world">Hello world!</string>

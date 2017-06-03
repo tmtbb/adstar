@@ -547,6 +547,9 @@
             android:name=".ui.main.activity.DisclaimerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
             android:screenOrientation="portrait" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="13b0dd85b007ad78249b02fc26fa3972dff8da79" />
     </application>
 
 </manifest>

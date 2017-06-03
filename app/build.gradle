@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'io.fabric'
+
 def getGitVersion() {
     try {
         return 'git rev-parse --short HEAD'.execute().text.trim()
@@ -56,8 +58,10 @@ android {
         from fileTree(dir: "libs", include: "**/*.so")
         into "lib"
     }
-
-
+}
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
@@ -88,4 +92,7 @@ dependencies {
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile files('libs/alipaySingle-20170510.jar')
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+        transitive = true;
+    }  //fabric
 }

@@ -1,7 +1,9 @@
 package com.yundian.star.networkapi;
 
 
+import com.yundian.star.been.AssetDetailsBean;
 import com.yundian.star.been.BookingStarListBean;
+import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.been.MoneyDetailListBean;
 import com.yundian.star.been.RequestResultBean;
 import com.yundian.star.been.WXPayReturnEntity;
@@ -87,5 +89,6 @@ public interface DealAPI {
 
     void dealPwd(String phone,String vToken,String vCode, long timestamp,int type, String pwd, OnAPIListener<RequestResultBean> listener);//预约明星列表
     void test(String title, double price ,OnAPIListener<Object> listener);//预约明星列表
-    void balance(OnAPIListener<Object> listener);//预约明星列表
+    void balance(OnAPIListener<AssetDetailsBean> listener);//余额
+    void identity(OnAPIListener<IdentityInfoBean> listener);//身份
 }

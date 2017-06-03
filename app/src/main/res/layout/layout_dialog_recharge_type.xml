@@ -1,61 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/pop_layout"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#312E3F"
-        android:gravity="center_horizontal"
-        android:orientation="vertical" >
+        android:background="@color/color_ffffff"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/recharge_alipay"
+        <LinearLayout
+            android:id="@+id/ll_choose_recharge_type"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            android:layout_marginTop="10dp"
-            android:background="#373447"
-            android:padding="10dp"
-            android:text="支付宝支付"
-            android:textColor="#CEC9E7"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:gravity="center_vertical"
+            android:padding="@dimen/dp_10">
 
-        <Button
-            android:id="@+id/recharge_weixin_pay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            android:layout_marginTop="5dp"
-            android:background="#373447"
-            android:padding="10dp"
-            android:text="微信"
-            android:textColor="#CEC9E7"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            <ImageView
+                android:id="@+id/iv_pay_close"
+                android:layout_width="@dimen/dp_16"
+                android:layout_height="@dimen/dp_16"
+                android:layout_marginLeft="@dimen/dp_3"
+                android:src="@drawable/close" />
 
-        <Button
-            android:id="@+id/recharge_cancel"
+            <TextView
+                style="@style/user_setting_text_style"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:gravity="center"
+                android:text="@string/choose_pay_type"
+                android:textColor="@color/font_333333" />
+        </LinearLayout>
+
+        <View
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="15dip"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
-            android:layout_marginTop="20dp"
-            android:background="@android:color/white"
-            android:padding="10dp"
-            android:text="取消"
-            android:textColor="#373447"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:layout_height="0.5dp"
+            android:background="@color/color_dcdcdc" />
+
+
+        <LinearLayout
+            android:id="@+id/ll_recharge_alipay"
+            style="@style/user_info_setting_style">
+
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:src="@drawable/icon_alipay" />
+
+            <TextView
+                style="@style/user_setting_text_style"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:text="@string/recharge_ali_pay"
+                android:textColor="@color/font_333333" />
+        </LinearLayout>
+
+        <include layout="@layout/ll_interval_line" />
+
+        <LinearLayout
+            android:id="@+id/ll_recharge_weixin"
+            style="@style/user_info_setting_style">
+
+            <ImageView
+                android:layout_width="@dimen/dp_30"
+                android:layout_height="@dimen/dp_30"
+                android:src="@drawable/icon_weixin" />
+
+            <TextView
+                style="@style/user_setting_text_style"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:text="@string/recharge_wxpay"
+                android:textColor="@color/font_333333" />
+        </LinearLayout>
+
+        <include layout="@layout/ll_interval_line" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_45" />
     </LinearLayout>
 
 </RelativeLayout>
