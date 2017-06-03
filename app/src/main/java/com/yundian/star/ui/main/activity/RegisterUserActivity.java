@@ -10,7 +10,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.yundian.star.R;
+import com.yundian.star.app.AppApplication;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.RegisterReturnBeen;
@@ -265,5 +267,19 @@ public class RegisterUserActivity extends BaseActivity {
     public void close(){
         EventBus.getDefault().postSticky(new EventBusMessage(2));  //登录取消消息
         finish();
+    }
+
+    @OnClick(R.id.tv_weixin_login)
+    public void weixinLogin() {
+        if (!AppApplication.api.isWXAppInstalled()) {
+            ToastUtils.showShort("您还未安装微信客户端");
+            return;
+        }
+        final SendAuth.Req req = new SendAuth.Req();
+        ToastUtils.showShort("微信登录");
+        req.scope = "snsapi_userinfo";
+        req.state = "wechat_sdk_demo_test";
+        AppApplication.api.sendReq(req);
+
     }
 }
