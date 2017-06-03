@@ -13,7 +13,11 @@ import com.netease.nim.uikit.common.media.picker.PickImageHelper;
 import com.netease.nim.uikit.session.constant.Extras;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.been.IdentityInfoBean;
+import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.view.RoundImageView;
+import com.yundian.star.utils.FormatUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
@@ -74,17 +78,21 @@ public class UserSettingActivity extends BaseActivity {
     }
 
     private void initData() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (SharePrefUtil.getInstance().getLoginUserInfo() != null) {
-                    tvUserPhone.setText(SharePrefUtil.getInstance().getPhoneNum());
-                    tvUserPetName.setText(SharePrefUtil.getInstance().getUserNickName());
-                    tvUserRealName.setText(SharePrefUtil.getInstance().getRealName());
-                    tvUserCardNumber.setText(SharePrefUtil.getInstance().getIdnum());
-                }
-            }
-        }, 100);
+        requestIdentity();
+        tvUserPhone.setText(FormatUtil.formatCard(SharePrefUtil.getInstance().getPhoneNum()));
+        String userNickName = SharePrefUtil.getInstance().getUserNickName();
+        if (TextUtils.isEmpty(userNickName)) {
+            tvUserPetName.setText(SharePrefUtil.getInstance().getPhoneNum());
+        } else {
+            tvUserPetName.setText(userNickName);
+        }
+
+        String userPhotoUrl = SharePrefUtil.getInstance().getUserPhotoUrl();
+        if (TextUtils.isEmpty(userPhotoUrl)) {
+            headImage.setImageResource(R.drawable.user_default_head);
+        } else {
+            ImageLoaderUtils.display(mContext, headImage, userPhotoUrl);
+        }
     }
 
 
@@ -92,7 +100,6 @@ public class UserSettingActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.headImage:
-                ToastUtils.showShort("临时调用xiangce");
                 showSelector(R.string.user_info, 100);
                 break;
             case R.id.ll_user_phone:
@@ -138,6 +145,24 @@ public class UserSettingActivity extends BaseActivity {
         LogUtils.loge("获取到上传的图片的地址:" + path);
         SharePrefUtil.getInstance().putUserPhotoUrl(path);
         ImageLoaderUtils.display(mContext, headImage, path);
+    }
+
+    private void requestIdentity() {
+        NetworkAPIFactoryImpl.getDealAPI().identity(new OnAPIListener<IdentityInfoBean>() {
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.loge("实名信息失败-----------");
+            }
+
+            @Override
+            public void onSuccess(IdentityInfoBean identityInfoBean) {
+                LogUtils.loge("实名信息成功-----------" + identityInfoBean.toString());
+                tvUserRealName.setText(identityInfoBean.getRealname());
+                tvUserCardNumber.setText(FormatUtil.formatCard(identityInfoBean.getId_card()));
+                SharePrefUtil.getInstance().setRealName(identityInfoBean.getRealname());
+                SharePrefUtil.getInstance().setIdnum(identityInfoBean.getId_card());
+            }
+        });
     }
 
 }

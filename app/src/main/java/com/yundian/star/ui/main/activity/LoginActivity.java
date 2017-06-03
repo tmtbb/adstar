@@ -22,6 +22,7 @@ import com.yundian.star.app.AppApplication;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.base.baseapp.AppManager;
 import com.yundian.star.been.EventBusMessage;
+import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnWangYiBeen;
 import com.yundian.star.helper.CheckHelper;
@@ -86,12 +87,12 @@ public class LoginActivity extends BaseActivity {
         WindowManager.LayoutParams p = getWindow().getAttributes();// 获取对话框当前的参值
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
-        p.width = (int)(size.x*0.85);
+        p.width = (int) (size.x * 0.85);
         getWindow().setAttributes(p); // 设置生效
         userNameEditText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         checkHelper.checkButtonState(loginButton, userNameEditText, passwordEditText);
         String phoneNum = SharePrefUtil.getInstance().getPhoneNum();
-        if (!TextUtils.isEmpty(phoneNum)){
+        if (!TextUtils.isEmpty(phoneNum)) {
             userNameEditText.getEditText().setText(phoneNum);
         }
     }
@@ -110,19 +111,19 @@ public class LoginActivity extends BaseActivity {
 
                 @Override
                 public void onSuccess(final LoginReturnInfo loginReturnInfo) {
-                    if (loginReturnInfo.getResult()==-301){
+                    if (loginReturnInfo.getResult() == -301) {
                         ToastUtils.showShort("用户不存在,请先注册");
                         return;
-                    }else if (loginReturnInfo.getResult()==-302){
+                    } else if (loginReturnInfo.getResult() == -302) {
                         ToastUtils.showShort("账号或密错误");
                         return;
-                    }else if (loginReturnInfo.getResult()==-303){
+                    } else if (loginReturnInfo.getResult() == -303) {
                         ToastUtils.showShort("登录信息失效，请重新登录");
                         return;
-                    }else if (loginReturnInfo.getResult()==-304){
+                    } else if (loginReturnInfo.getResult() == -304) {
                         ToastUtils.showShort("用户已存在");
                         return;
-                    }else if (loginReturnInfo != null && loginReturnInfo.getUserinfo() != null){
+                    } else if (loginReturnInfo != null && loginReturnInfo.getUserinfo() != null) {
                         LogUtils.logd("登录成功" + loginReturnInfo.toString());
                         //网易云注册
                         NetworkAPIFactoryImpl.getUserAPI().registerWangYi(userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), new OnAPIListener<RegisterReturnWangYiBeen>() {
@@ -155,7 +156,7 @@ public class LoginActivity extends BaseActivity {
         loginRequest = NimUIKit.doLogin(new LoginInfo(loginReturnInfos.getUserinfo().getPhone(), registerReturnWangYiBeen.getToken_value()), new RequestCallback<LoginInfo>() {
             @Override
             public void onSuccess(LoginInfo param) {
-                LogUtils.logd("网易云登录成功:"+param.toString());
+                LogUtils.logd("网易云登录成功:" + param.toString());
                 DemoCache.setAccount(param.getAccount());
                 saveLoginInfo(param.getAccount(), param.getToken());
                 // 初始化消息提醒配置
@@ -265,7 +266,7 @@ public class LoginActivity extends BaseActivity {
 
 
     @OnClick(R.id.close)
-    public void close(){
+    public void close() {
         EventBus.getDefault().postSticky(new EventBusMessage(2));  //登录取消消息
         finish();
     }

@@ -320,5 +320,22 @@ public class FormatUtil {
     public static String checkValue(String str) {
         return TextUtils.isEmpty(str)?"":str;
     }
+
+    /**
+     * 格式化银行卡 加*
+     * 3749 **** **** 330
+     *
+     * @param cardNo 银行卡
+     * @return 3749 **** **** 330
+     */
+    public static String formatCard(String cardNo) {
+        if (cardNo.length() <4){
+            return cardNo;
+        }
+        String card = " **** **** ";
+        String startNo = cardNo.substring(0,3);
+        card = startNo + card + cardNo.substring(cardNo.length() - 4);
+        return card;
+    }
 }
 

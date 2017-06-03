@@ -23,6 +23,7 @@ import com.yundian.star.R;
 import com.yundian.star.app.AppApplication;
 import com.yundian.star.app.Constant;
 import com.yundian.star.been.EventBusMessage;
+import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnWangYiBeen;
 import com.yundian.star.been.WXAccessTokenEntity;

@@ -9,8 +9,8 @@ import android.os.Parcelable;
 
 public class AssetDetailsBean implements Parcelable {
     private double balance;
-    private double market_cap;
-    private double total_amt;
+    private double market_cap;  //市值
+    private double total_amt;   //总资产
     private int is_setpwd;  //是否需要设置支付密码 ：0-否,1-是
 
     @Override

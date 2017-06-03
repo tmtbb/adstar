@@ -72,7 +72,6 @@ public class IdentityAuthenticationActivity extends BaseActivity {
                             startActivity(DisclaimerActivity.class);
                         } else {
                             ToastUtils.showShort("实名认证失败");
-                            startActivity(DisclaimerActivity.class);  //临时解除限制
                         }
 
 //                        if (resultBean.getResult() == 0) {

@@ -2,7 +2,9 @@ package com.yundian.star.networkapi.socketapi;
 
 
 import com.yundian.star.app.SocketAPIConstant;
+import com.yundian.star.been.AssetDetailsBean;
 import com.yundian.star.been.BookingStarListBean;
+import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.been.MoneyDetailListBean;
 import com.yundian.star.been.RequestResultBean;
 import com.yundian.star.been.WXPayReturnEntity;
@@ -242,15 +244,26 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
     }
 
     @Override
-    public void balance(OnAPIListener<Object> listener) {
+    public void balance(OnAPIListener<AssetDetailsBean> listener) {
         LogUtils.logd("请求资产明细---");
         HashMap<String, Object> map = new HashMap<>();
         map.put("id", SharePrefUtil.getInstance().getUserId());
         map.put("token", SharePrefUtil.getInstance().getToken());
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Balance,
                 SocketAPIConstant.ReqeutType.User, map);
-//      requestEntity(socketDataPacket,AssetDetailsBean.class,listener);
-        requestJsonObject(socketDataPacket, listener);
+      requestEntity(socketDataPacket,AssetDetailsBean.class,listener);
+//        requestJsonObject(socketDataPacket, listener);
+    }
+
+    @Override
+    public void identity(OnAPIListener<IdentityInfoBean> listener) {
+        LogUtils.loge("身份信息");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", SharePrefUtil.getInstance().getUserId());
+        map.put("token", SharePrefUtil.getInstance().getToken());
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.IdentityInfo,
+                SocketAPIConstant.ReqeutType.User, map);
+        requestEntity(socketDataPacket,IdentityInfoBean.class,listener);
     }
 
 //    @Override
