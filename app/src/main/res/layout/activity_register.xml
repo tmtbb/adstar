@@ -42,6 +42,17 @@
                 android:text="@string/title_welcome_2"
                 android:textColor="@color/font_333333"
                 android:textSize="@dimen/fontSize_12sp" />
+            <TextView
+                android:id="@+id/close"
+                android:layout_marginTop="16dp"
+                android:paddingTop="16dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:paddingBottom="16dp"
+                android:paddingLeft="10dp"
+                android:background="@drawable/close"
+                android:layout_alignParentRight="true"
+                />
         </RelativeLayout>
 
         <com.yundian.star.widget.WPEditText

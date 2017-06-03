@@ -25,9 +25,19 @@ android {
         multiDexEnabled true
 
     }
+    signingConfigs{
+        config{
+            keyAlias 'star'
+            keyPassword 'yundian'
+            storePassword 'yundian'
+            storeFile file('src/main/starkey.jks')
+        }
+    }
+
     buildTypes {
         release {
             buildConfigField "boolean", "LOG_DEBUG", "true"
+            signingConfig signingConfigs.config
             minifyEnabled true
             shrinkResources true//去掉不用资源
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'

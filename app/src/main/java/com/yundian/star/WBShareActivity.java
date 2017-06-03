@@ -1,4 +1,4 @@
-package com.umeng.soexample;
+package com.yundian.star;
 
 //import com.umeng.socialize.media.WBShareCallBackActivity;
 

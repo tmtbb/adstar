@@ -1,6 +1,5 @@
 package com.yundian.star.wxapi;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +17,7 @@ import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.umeng.weixin.callback.WXCallbackActivity;
 import com.yundian.star.R;
 import com.yundian.star.app.AppApplication;
 import com.yundian.star.app.Constant;
@@ -44,7 +44,7 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * Created by Administrator on 2017/3/13.
  */
-public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
+public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHandler {
 
     private String code;
     private static final int RETURN_MSG_TYPE_LOGIN = 1;
@@ -87,7 +87,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 switch (resp.getType()) {
                     case RETURN_MSG_TYPE_LOGIN:
                         code = ((SendAuth.Resp) resp).code;
-                        LogUtils.loge(((SendAuth.Resp) resp).code);
+                        LogUtils.loge("微信登录返回code"+((SendAuth.Resp) resp).code);
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -175,8 +175,9 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 .append("&grant_type=")
                 .append("authorization_code");
         String url = sb.toString();
+        LogUtils.loge("拼接的获取access_token地址"+url);
         String response = HttpUrlConnectionUtil.httpGet(url);
-        LogUtils.logd(response);
+        LogUtils.loge(response);
         if (response != null) {
             LogUtils.logd(response);
             Message msg = new Message();
