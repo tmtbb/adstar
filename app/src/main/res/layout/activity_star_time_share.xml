@@ -60,6 +60,7 @@
         </RelativeLayout>
 
         <FrameLayout
+            android:id="@+id/fl_KChartFragment"
             android:layout_width="match_parent"
             android:layout_height="290dp"
             android:layout_marginLeft="12dp"

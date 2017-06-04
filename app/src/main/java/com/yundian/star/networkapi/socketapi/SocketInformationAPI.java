@@ -10,6 +10,7 @@ import com.yundian.star.been.StarBuyActReferralInfo;
 import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.StarStarAchBeen;
+import com.yundian.star.been.StartTimeShareBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.InformationAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
@@ -178,6 +179,27 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.ReduceTime,
                 SocketAPIConstant.ReqeutType.Wangyi, map);
         requestJsonObject(socketDataPacket,listener);
+    }
+
+    @Override
+    public void inquiry(String symbol, int startPos, int count, OnAPIListener<Object> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("symbol", symbol);
+        map.put("token", "adc28ac69625652b46d5c00b");
+        map.put("startPos", startPos);
+        map.put("count", count);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Inquiry,
+                SocketAPIConstant.ReqeutType.Inquirylist, map);
+        requestJsonObject(socketDataPacket,listener);
+    }
+
+    @Override
+    public void getStarStatist(String starcode, OnAPIListener<StartTimeShareBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("starcode", starcode);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Starstatist,
+                SocketAPIConstant.ReqeutType.SearchStar, map);
+        requestEntity(socketDataPacket,StartTimeShareBeen.class,listener);
     }
 
 }
