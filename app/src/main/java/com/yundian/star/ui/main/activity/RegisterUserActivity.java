@@ -158,7 +158,6 @@ public class RegisterUserActivity extends BaseActivity {
 
     @OnClick(R.id.tv_retrieve_password)
     public void retrievePassword(){
-        finish();
         startActivity(ResetUserPwdActivity.class);
     }
 

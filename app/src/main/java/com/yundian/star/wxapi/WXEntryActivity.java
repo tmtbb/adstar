@@ -23,7 +23,6 @@ import com.yundian.star.R;
 import com.yundian.star.app.AppApplication;
 import com.yundian.star.app.Constant;
 import com.yundian.star.been.EventBusMessage;
-import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnWangYiBeen;
 import com.yundian.star.been.WXAccessTokenEntity;
@@ -133,6 +132,11 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                     LogUtils.loge("获取用户信息成功:" + info);
                     WXUserInfoEntity tokenEntity = JSON.parseObject(info, WXUserInfoEntity.class);
                     bindPhoneNumber(tokenEntity);   //根据用户信息,绑定手机号码
+                    break;
+                case 3:
+                    ToastUtils.showLong(getString(R.string.often_error));
+                    WXEntryActivity.this.finish();
+                    break;
                 default:
                     break;
             }
@@ -150,13 +154,15 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                 .append(entity.getOpenid());
         String url2 = sb2.toString();
         String info = HttpUrlConnectionUtil.httpGet(url2);
-        if (info != null) {
-            Message message = Message.obtain();
+        boolean iserrcode = info.contains("errcode");
+        Message message = Message.obtain();
+        if (iserrcode){
+            message.what = 3;
+            handler.sendMessage(message);
+        }else if (info != null){
             message.what = 2;
             message.obj = info;
             handler.sendMessage(message);
-        } else {
-            LogUtils.logd("获取用户信息失败");
         }
     }
 
@@ -179,15 +185,17 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
         String url = sb.toString();
         LogUtils.loge("拼接的获取access_token地址"+url);
         String response = HttpUrlConnectionUtil.httpGet(url);
+        boolean iserrcode = response.contains("errcode");
         LogUtils.loge(response);
-        if (response != null) {
+        Message msg = new Message();
+        if (iserrcode){
+            msg.what = 3;
+            handler.sendMessage(msg);
+        }else if (response != null){
             LogUtils.logd(response);
-            Message msg = new Message();
             msg.what = 1;
             msg.obj = response;
             handler.sendMessage(msg);
-        } else {
-            LogUtils.logd("获取用户信息失败");
         }
     }
 
