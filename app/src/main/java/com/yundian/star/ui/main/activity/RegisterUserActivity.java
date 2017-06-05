@@ -259,8 +259,11 @@ public class RegisterUserActivity extends BaseActivity {
     private long exitNow;
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        close();
-        return false;
+        if (keyCode==KeyEvent.KEYCODE_BACK){
+            close();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
     @OnClick(R.id.close)
     public void close(){

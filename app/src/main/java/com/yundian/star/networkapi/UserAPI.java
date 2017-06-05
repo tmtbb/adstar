@@ -32,4 +32,5 @@ public interface UserAPI {
 //    void balance(OnAPIListener<BalanceInfoEntity> listener);
 //
         void bindNumber(String phone, String openid, String password,long timeStamp,String vToken, String vCode, long memberId, String agentId, String recommend, String nickname, String headerUrl, OnAPIListener<RegisterReturnBeen> listener);
+    void loginWithToken(OnAPIListener<LoginReturnInfo> listener);
 }
