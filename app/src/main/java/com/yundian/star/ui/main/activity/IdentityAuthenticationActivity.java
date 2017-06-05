@@ -1,7 +1,13 @@
 package com.yundian.star.ui.main.activity;
 
+import android.app.Dialog;
+import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
@@ -32,7 +38,12 @@ public class IdentityAuthenticationActivity extends BaseActivity {
     EditText etInputCard;
     @Bind(R.id.btn_verification)
     Button btnVerification;
+    @Bind(R.id.cb_agree)
+    CheckBox cb_agree;
+    @Bind(R.id.tv_disclaimer)
+    TextView disclaimer;
     private CheckHelper checkHelper = new CheckHelper();
+    private boolean isCheck = false;
 
     @Override
     public int getLayoutId() {
@@ -48,12 +59,31 @@ public class IdentityAuthenticationActivity extends BaseActivity {
         ntTitle.setTitleText(getString(R.string.identity_verification));
         checkHelper.checkButtonState1(btnVerification, etInputName, etInputCard);
 //        checkHelper.checkIdentityCard(etInputCard,mContext);
-
+        cb_agree.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                isCheck = isChecked;
+            }
+        });
     }
 
+    @OnClick({R.id.btn_verification, R.id.tv_disclaimer})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_verification:
+                nextBtn();
+                break;
+            case R.id.tv_disclaimer:
+                startActivity(DisclaimerActivity.class);
+                break;
+        }
+    }
 
-    @OnClick(R.id.btn_verification)
-    public void onViewClicked() {
+    private void nextBtn() {
+        if (!isCheck) {
+            ToastUtils.showShort("请先同意免责声明");
+            return;
+        }
         NetworkAPIFactoryImpl.getDealAPI().identityAuthentication(etInputName.getText().toString().trim(),
                 etInputCard.getText().toString().trim(), new OnAPIListener<RequestResultBean>() {
                     @Override
@@ -67,21 +97,38 @@ public class IdentityAuthenticationActivity extends BaseActivity {
                         LogUtils.logd("实名认证请求成功:" + resultBean.toString());
                         if (resultBean.getResult() == 0) {
                             ToastUtils.showShort("实名认证成功");
+                            showIdentityDialog();  //提示开通支付
                             SharePrefUtil.getInstance().setRealName(etInputName.getText().toString().trim());
                             SharePrefUtil.getInstance().setIdnum(etInputCard.getText().toString().trim());
-                            startActivity(DisclaimerActivity.class);
+//
                         } else {
                             ToastUtils.showShort("实名认证失败");
                         }
-
-//                        if (resultBean.getResult() == 0) {
-//                            //请求接口验证身份证,成功后  免责声明,设置支付密码
-//                            ToastUtils.showShort("实名认证成功");
-//                            startActivity(DisclaimerActivity.class);
-//                        } else {
-//                            ToastUtils.showShort("实名认证失败");
-//                        }
                     }
                 });
+    }
+
+    private void showIdentityDialog() {
+        final Dialog mDetailDialog = new Dialog(this, R.style.custom_dialog);
+        mDetailDialog.setContentView(R.layout.dialog_open_pay);
+        final Button startIdentity = (Button) mDetailDialog.findViewById(R.id.btn_start_identity);
+        ImageView closeImg = (ImageView) mDetailDialog.findViewById(R.id.iv_dialog_close);
+        closeImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDetailDialog.dismiss();
+            }
+        });
+        mDetailDialog.setCancelable(false);
+        startIdentity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogUtils.logd("进入输入密码-----");
+                startActivity(SettingDealPwdActivity.class);
+                mDetailDialog.dismiss();
+            }
+        });
+
+        mDetailDialog.show();
     }
 }

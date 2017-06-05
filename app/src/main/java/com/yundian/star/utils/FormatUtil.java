@@ -337,5 +337,14 @@ public class FormatUtil {
         card = startNo + card + cardNo.substring(cardNo.length() - 4);
         return card;
     }
+    public static String formatPhone(String cardNo) {
+        if (cardNo.length() <4){
+            return cardNo;
+        }
+        String card = " **** ";
+        String startNo = cardNo.substring(0,3);
+        card = startNo + card + cardNo.substring(cardNo.length() - 4);
+        return card;
+    }
 }
 

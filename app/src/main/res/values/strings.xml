@@ -110,6 +110,10 @@
     <string name="reset_login_pwd">重置登录密码</string>
     <string name="reset_pay_pwd">重置支付密码</string>
     <string name="choose_pay_type">请选择付款方式</string>
+    <string name="star_booking">约见</string>
+    <string name="star_refuse">已拒绝</string>
+    <string name="me_agree">我已同意</string>
+    <string name="disclaimer_text">《免责声明》</string>
 
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_world">Hello world!</string>
@@ -256,6 +260,9 @@
     <string name="star_address_book">明星通讯录</string>
     <string name="PM">PM</string>
     <string name="AM">AM</string>
+    <string name="open_pay">开通支付</string>
+    <string name="open_pay_agree">我知道了</string>
+    <string name="open_pay_des">需要开通支付才能进行充值等相关操作。 开通支付后，可以在求购、转让、约见、 分答功能中使用钱包消费。</string>
 
 
 

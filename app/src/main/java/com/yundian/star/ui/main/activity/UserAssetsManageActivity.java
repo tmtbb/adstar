@@ -106,9 +106,11 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
             case R.id.tv_money_detail:
                 ToastUtils.showShort("钱包明细");
                 startActivity(MoneyBagDetailActivity.class);
+                popupWindow.dismiss();
                 break;
             case R.id.tv_bank_info:
                 ToastUtils.showShort("银行卡");
+                popupWindow.dismiss();
                 break;
         }
     }
@@ -133,17 +135,6 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
                 mDetailDialog.dismiss();
             }
         });
-//        mDetailDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
-//            @Override
-//            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
-//                if (keyCode == KeyEvent.KEYCODE_BACK) {
-//                    mDetailDialog.dismiss();
-//                    return true;
-//                } else {
-//                    return false;
-//                }
-//            }
-//        });
         mDetailDialog.show();
     }
 
