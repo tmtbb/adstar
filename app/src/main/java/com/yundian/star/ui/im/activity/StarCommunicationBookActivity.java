@@ -39,7 +39,6 @@ import butterknife.Bind;
 public class StarCommunicationBookActivity extends BaseActivity {
     @Bind(R.id.lrv)
     LRecyclerView lrv;
-
     @Bind(R.id.tv_back)
     TextView tv_back;
     @Bind(R.id.tv_title)
@@ -119,7 +118,9 @@ public class StarCommunicationBookActivity extends BaseActivity {
         NetworkAPIFactoryImpl.getInformationAPI().getStarmaillist(SharePrefUtil.getInstance().getUserId(), SharePrefUtil.getInstance().getToken(),"123", start, REQUEST_COUNT, new OnAPIListener<StarMailListBeen>() {
             @Override
             public void onError(Throwable ex) {
-                lrv.setNoMore(true);
+                if (lrv!=null){
+                    lrv.setNoMore(true);
+                }
 
             }
 

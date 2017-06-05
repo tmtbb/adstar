@@ -1,6 +1,5 @@
 package com.yundian.star.wxapi;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,11 +18,11 @@ import com.tencent.mm.opensdk.modelbase.BaseReq;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
+import com.umeng.weixin.callback.WXCallbackActivity;
 import com.yundian.star.R;
 import com.yundian.star.app.AppApplication;
 import com.yundian.star.app.Constant;
 import com.yundian.star.been.EventBusMessage;
-import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnWangYiBeen;
 import com.yundian.star.been.WXAccessTokenEntity;
@@ -46,7 +45,7 @@ import org.greenrobot.eventbus.EventBus;
 /**
  * Created by Administrator on 2017/3/13.
  */
-public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
+public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHandler {
 
     private String code;
     private static final int RETURN_MSG_TYPE_LOGIN = 1;
@@ -89,7 +88,7 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 switch (resp.getType()) {
                     case RETURN_MSG_TYPE_LOGIN:
                         code = ((SendAuth.Resp) resp).code;
-                        LogUtils.loge(((SendAuth.Resp) resp).code);
+                        LogUtils.loge("微信登录返回code"+((SendAuth.Resp) resp).code);
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -133,6 +132,11 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                     LogUtils.loge("获取用户信息成功:" + info);
                     WXUserInfoEntity tokenEntity = JSON.parseObject(info, WXUserInfoEntity.class);
                     bindPhoneNumber(tokenEntity);   //根据用户信息,绑定手机号码
+                    break;
+                case 3:
+                    ToastUtils.showLong(getString(R.string.often_error));
+                    WXEntryActivity.this.finish();
+                    break;
                 default:
                     break;
             }
@@ -150,13 +154,15 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 .append(entity.getOpenid());
         String url2 = sb2.toString();
         String info = HttpUrlConnectionUtil.httpGet(url2);
-        if (info != null) {
-            Message message = Message.obtain();
+        boolean iserrcode = info.contains("errcode");
+        Message message = Message.obtain();
+        if (iserrcode){
+            message.what = 3;
+            handler.sendMessage(message);
+        }else if (info != null){
             message.what = 2;
             message.obj = info;
             handler.sendMessage(message);
-        } else {
-            LogUtils.logd("获取用户信息失败");
         }
     }
 
@@ -177,16 +183,19 @@ public class WXEntryActivity extends Activity implements IWXAPIEventHandler {
                 .append("&grant_type=")
                 .append("authorization_code");
         String url = sb.toString();
+        LogUtils.loge("拼接的获取access_token地址"+url);
         String response = HttpUrlConnectionUtil.httpGet(url);
-        LogUtils.logd(response);
-        if (response != null) {
+        boolean iserrcode = response.contains("errcode");
+        LogUtils.loge(response);
+        Message msg = new Message();
+        if (iserrcode){
+            msg.what = 3;
+            handler.sendMessage(msg);
+        }else if (response != null){
             LogUtils.logd(response);
-            Message msg = new Message();
             msg.what = 1;
             msg.obj = response;
             handler.sendMessage(msg);
-        } else {
-            LogUtils.logd("获取用户信息失败");
         }
     }
 

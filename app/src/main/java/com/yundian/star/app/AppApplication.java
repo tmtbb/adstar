@@ -35,6 +35,9 @@ import com.netease.nimlib.sdk.team.model.IMMessageFilter;
 import com.netease.nimlib.sdk.team.model.UpdateTeamAttachment;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.umeng.socialize.Config;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 import com.yundian.star.BuildConfig;
 import com.yundian.star.R;
 import com.yundian.star.base.baseapp.BaseApplication;
@@ -81,6 +84,8 @@ public class AppApplication extends BaseApplication {
         initWangYiIM();
         checkToken();
         registerToWx();   //注册微信
+        UMShareAPI.get(this);//初始化友盟
+        Config.DEBUG =true ;
     }
 
     private void initWangYiIM() {
@@ -376,5 +381,12 @@ public class AppApplication extends BaseApplication {
     private void registerToWx() {
         api = WXAPIFactory.createWXAPI(this, Constant.APP_ID, false);
         api.registerApp(Constant.APP_ID);
+    }
+
+    {
+        //友盟分享对应appid.要修改成自己的
+        PlatformConfig.setWeixin("wx9dc39aec13ee3158", "a12a88f2c4596b2726dd4ba7623bc27e");
+        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
     }
 }

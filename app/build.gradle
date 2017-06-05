@@ -27,9 +27,19 @@ android {
         multiDexEnabled true
 
     }
+    signingConfigs{
+        config{
+            keyAlias 'star'
+            keyPassword 'yundian'
+            storePassword 'yundian'
+            storeFile file('src/main/starkey.jks')
+        }
+    }
+
     buildTypes {
         release {
             buildConfigField "boolean", "LOG_DEBUG", "true"
+            signingConfig signingConfigs.config
             minifyEnabled true
             shrinkResources true//去掉不用资源
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -87,6 +97,7 @@ dependencies {
     compile 'com.alibaba:fastjson:1.2.31'
     compile 'io.netty:netty-all:5.0.0.Alpha2'
     compile 'com.netease.nimlib:jsbridge:1.3.1'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.1.6'
     compile project(path: ':uikit')
     //微信登录
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'

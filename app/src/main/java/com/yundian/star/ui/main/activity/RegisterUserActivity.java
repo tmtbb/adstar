@@ -9,11 +9,12 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.yundian.star.R;
+import com.yundian.star.app.AppApplication;
 import com.yundian.star.base.BaseActivity;
-import com.yundian.star.base.baseapp.AppManager;
+import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.RegisterReturnBeen;
 import com.yundian.star.been.RegisterVerifyCodeBeen;
 import com.yundian.star.been.WXUserInfoEntity;
@@ -28,6 +29,8 @@ import com.yundian.star.utils.MD5Util;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.CheckException;
 import com.yundian.star.widget.WPEditText;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -155,7 +158,6 @@ public class RegisterUserActivity extends BaseActivity {
 
     @OnClick(R.id.tv_retrieve_password)
     public void retrievePassword(){
-        finish();
         startActivity(ResetUserPwdActivity.class);
     }
 
@@ -257,17 +259,26 @@ public class RegisterUserActivity extends BaseActivity {
     private long exitNow;
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)) {
+        close();
+        return false;
+    }
+    @OnClick(R.id.close)
+    public void close(){
+        EventBus.getDefault().postSticky(new EventBusMessage(2));  //登录取消消息
+        finish();
+    }
 
-            if ((System.currentTimeMillis() - exitNow) > 2000) {
-                Toast.makeText(this, String.format(getString(R.string.confirm_exit_app), getString(R.string.app_name)), Toast.LENGTH_SHORT).show();
-                exitNow = System.currentTimeMillis();
-            } else if ((System.currentTimeMillis() - exitNow) > 0) {
-                AppManager.getAppManager().AppExit(this, false);
-                return super.onKeyDown(keyCode, event);
-            }
-            return true;
+    @OnClick(R.id.tv_weixin_login)
+    public void weixinLogin() {
+        if (!AppApplication.api.isWXAppInstalled()) {
+            ToastUtils.showShort("您还未安装微信客户端");
+            return;
         }
-        return super.onKeyDown(keyCode, event);
+        final SendAuth.Req req = new SendAuth.Req();
+        ToastUtils.showShort("微信登录");
+        req.scope = "snsapi_userinfo";
+        req.state = "wechat_sdk_demo_test";
+        AppApplication.api.sendReq(req);
+
     }
 }

@@ -10,6 +10,7 @@ import com.yundian.star.been.StarBuyActReferralInfo;
 import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.StarStarAchBeen;
+import com.yundian.star.been.StartTimeShareBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.ui.main.model.NewsInforModel;
 
@@ -35,4 +36,6 @@ public interface InformationAPI {
     void getStarmaillist(long id ,String token,String status,int startPos,int count,OnAPIListener<StarMailListBeen> listener);
     void addFriend(String accid,String faccid,String msg,int type,OnAPIListener<Object> listener);
     void reduceTime(String phone,String starcode,OnAPIListener<Object> listener);
+    void inquiry(String symbol,int startPos,int count ,OnAPIListener<Object> listener);
+    void getStarStatist(String starcode ,OnAPIListener<StartTimeShareBeen> listener);
 }

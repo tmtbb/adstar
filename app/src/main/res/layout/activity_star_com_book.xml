@@ -41,11 +41,11 @@
             android:layout_marginRight="20dp"
             android:visibility="gone"/>
     </RelativeLayout>
+
     <com.github.jdsjlzx.recyclerview.LRecyclerView
         android:id="@+id/lrv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.github.jdsjlzx.recyclerview.LRecyclerView>
+        android:layout_height="match_parent"></com.github.jdsjlzx.recyclerview.LRecyclerView>
 
     <com.yundian.star.widget.LoadingTip
         android:id="@+id/loadingTip"
