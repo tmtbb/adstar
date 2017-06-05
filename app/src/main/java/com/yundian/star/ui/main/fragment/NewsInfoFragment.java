@@ -3,14 +3,12 @@ package com.yundian.star.ui.main.fragment;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
@@ -30,10 +28,8 @@ import com.yundian.star.ui.main.model.NewsInforModel;
 import com.yundian.star.ui.main.presenter.NewsInfoPresenter;
 import com.yundian.star.utils.AdViewpagerUtil;
 import com.yundian.star.utils.LogUtils;
-import com.yundian.star.utils.TimeUtil;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -45,14 +41,14 @@ import butterknife.Bind;
 public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforModel> implements NewInfoContract.View {
     @Bind(R.id.lrv)
     LRecyclerView lrv;
-    @Bind(R.id.rl_time)
+    /*@Bind(R.id.rl_time)
     RelativeLayout rl_time;
     @Bind(R.id.tv_time)
     TextView tv_time ;
     @Bind(R.id.tv_am_pm)
     TextView tv_am_pm ;
     @Bind(R.id.tv_time_h)
-    TextView tv_time_h ;
+    TextView tv_time_h ;*/
     //    @Bind(R.id.loadingTip)
 //    LoadingTip loadingTip ;
     private ArrayList<NewsInforModel.ListBean> arrayList = new ArrayList<>();
@@ -120,7 +116,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
                 NewsBrowserActivity.startAction(getActivity(),listBean.getLink_url(),"");
             }
         });
-        lrv.setLScrollListener(new LRecyclerView.LScrollListener() {
+        /*lrv.setLScrollListener(new LRecyclerView.LScrollListener() {
             @Override
             public void onScrollUp() {
 
@@ -165,7 +161,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
                     }
                 }
             }
-        });
+        });*/
     }
 
     @Override
