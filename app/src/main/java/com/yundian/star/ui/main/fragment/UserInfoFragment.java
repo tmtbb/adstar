@@ -17,7 +17,6 @@ import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.AssetDetailsBean;
 import com.yundian.star.been.EventBusMessage;
 
-import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 
@@ -33,6 +32,7 @@ import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -69,6 +69,7 @@ public class UserInfoFragment extends BaseFragment {
     LinearLayout generalSettings;
     @Bind(R.id.btn_my_referee)
     Button myReferee;
+    private boolean flag = true;
 
     @Override
     protected int getLayoutResource() {
@@ -82,10 +83,11 @@ public class UserInfoFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getPhoneNum())) {
-            initData();
-            requestBalance();
-        }
+//        if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getPhoneNum())) {
+//            initData();
+//            LogUtils.loge("---登陆成功了,更新数据和请求余额");
+//            requestBalance();
+//        }
     }
 
     private void initData() {
@@ -116,8 +118,7 @@ public class UserInfoFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_user_info_bg:
-                ToastUtils.showShort("点击背景");
-                requestBalance();
+//                requestBalance();
                 break;
             case R.id.headImage:
                 startActivity(UserSettingActivity.class);
@@ -199,4 +200,23 @@ public class UserInfoFragment extends BaseFragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (flag) {
+            EventBus.getDefault().register(this); // EventBus注册广播()
+            flag = false;//更改标记,使其不会再进行多次注册
+        }
+        if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getPhoneNum())) {
+            initData();
+            requestBalance();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        EventBus.getDefault().removeAllStickyEvents();
+        EventBus.getDefault().unregister(this);
+    }
 }

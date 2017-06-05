@@ -39,6 +39,7 @@
 
 
     <TextView
+        android:id="@+id/tv_booking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/tv_star_job"
@@ -48,6 +49,20 @@
         android:padding="@dimen/dp_5"
         android:text="约见"
         android:textColor="@color/color_fefefe"
+        android:textSize="@dimen/text_size_12"
+        android:visibility="visible"/>
+    <TextView
+        android:id="@+id/tv_booking_refuse"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tv_star_job"
+        android:layout_marginLeft="@dimen/dp_9"
+        android:layout_toRightOf="@id/tv_star_job"
+        android:background="@drawable/booking_star_status_refuse"
+        android:padding="@dimen/dp_5"
+        android:text="@string/star_refuse"
+        android:textColor="@color/color_fefefe"
+        android:visibility="gone"
         android:textSize="@dimen/text_size_12" />
 
     <TextView

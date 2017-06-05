@@ -79,7 +79,7 @@ public class UserSettingActivity extends BaseActivity {
 
     private void initData() {
         requestIdentity();
-        tvUserPhone.setText(FormatUtil.formatCard(SharePrefUtil.getInstance().getPhoneNum()));
+        tvUserPhone.setText(FormatUtil.formatPhone(SharePrefUtil.getInstance().getPhoneNum()));
         String userNickName = SharePrefUtil.getInstance().getUserNickName();
         if (TextUtils.isEmpty(userNickName)) {
             tvUserPetName.setText(SharePrefUtil.getInstance().getPhoneNum());

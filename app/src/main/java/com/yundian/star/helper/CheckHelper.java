@@ -150,7 +150,7 @@ public class CheckHelper {
         }
     }
 
-    public void checkButtonState1(final View button, final EditText... editText) {
+    public boolean checkButtonState1(final View button, final EditText... editText) {
         button.setEnabled(false);
         for (int i = 0; i < editText.length; i++) {
             final int positon = i;
@@ -175,6 +175,7 @@ public class CheckHelper {
                 }
             });
         }
+        return button.isEnabled();
     }
 
     public boolean checkVerifyCode(String verifycode, CheckException exception) {
