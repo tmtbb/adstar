@@ -38,7 +38,7 @@ public class CommentMarketFragment extends BaseFragment {
     @Override
     protected void initView() {
         initAdapter();
-        getData(false,1,REQUEST_COUNT);
+        getData(false,0,REQUEST_COUNT);
     }
 
     private void initAdapter() {
@@ -51,18 +51,19 @@ public class CommentMarketFragment extends BaseFragment {
         lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
     }
 
-    private void getData(final boolean isLoadMore,int start ,int end) {
-        NetworkAPIFactoryImpl.getInformationAPI().getFansComments("1001", new OnAPIListener<Object>() {
-                    @Override
-                    public void onError(Throwable ex) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(Object o) {
-                        LogUtils.loge("f粉丝评论"+o.toString());
-                    }
+    private void getData(final boolean isLoadMore,int start ,int count) {
+        NetworkAPIFactoryImpl.getInformationAPI().inquiry("100002", start, count, new OnAPIListener<Object>() {
+            @Override
+            public void onError(Throwable ex) {
+                if (lrv!=null){
+                    lrv.setNoMore(true);
                 }
-        );
+            }
+
+            @Override
+            public void onSuccess(Object o) {
+                LogUtils.loge("评论"+o.toString());
+            }
+        });
     }
 }

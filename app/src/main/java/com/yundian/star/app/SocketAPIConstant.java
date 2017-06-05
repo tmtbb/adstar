@@ -18,6 +18,7 @@ public interface SocketAPIConstant {
         byte Wangyi = 9;
         byte NewInfos = 10;
         byte SearchStar = 11;
+        byte Inquirylist = 12;
     }
 
     interface OperateCode {
@@ -71,6 +72,8 @@ public interface SocketAPIConstant {
         Short AddFriend = 9099;
         Short ReduceTime = 9017;
         Short IdentityInfo = 3027;
+        Short Inquiry = 12003;
+        Short Starstatist = 11017;
 
 
     }

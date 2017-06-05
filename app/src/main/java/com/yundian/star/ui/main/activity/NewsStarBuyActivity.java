@@ -9,7 +9,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
@@ -32,6 +38,7 @@ import butterknife.OnClick;
 /**
  * Created by Administrator on 2017/5/18.
  * 广告点击明星求购页面
+ * 资讯购买页
  */
 
 public class NewsStarBuyActivity extends BaseActivity {
@@ -78,6 +85,7 @@ public class NewsStarBuyActivity extends BaseActivity {
     public void initView() {
         nl_title.setBackVisibility(true);
         nl_title.setRightImagVisibility(true);
+        nl_title.setRightImagSrc(R.drawable.share);
         Intent intent = getIntent();
         code = intent.getStringExtra(AppConstant.STAR_CODE);
         LogUtils.loge("明星求购页面code"+code);
@@ -94,6 +102,23 @@ public class NewsStarBuyActivity extends BaseActivity {
                 finish();
             }
         });
+        nl_title.setOnRightImagListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                share();
+            }
+        });
+    }
+
+    private void share() {
+        UMImage thumb =  new UMImage(this, R.drawable.welcome_bg);
+        //检测安装微信没
+        new ShareAction(NewsStarBuyActivity.this).withText(getString(R.string.app_name))
+                .setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.QQ,SHARE_MEDIA.SINA)
+                .setCallback(umShareListener)
+                .withMedia(thumb)
+                .open();
+
     }
 
     private void getStarAch() {
@@ -226,4 +251,31 @@ public class NewsStarBuyActivity extends BaseActivity {
             LogUtils.logd("广告开始");
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            //分享开始的回调
+        }
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Toast.makeText(NewsStarBuyActivity.this,"分享成功啦", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(NewsStarBuyActivity.this,"分享失败了", Toast.LENGTH_SHORT).show();
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(NewsStarBuyActivity.this,"分享取消了", Toast.LENGTH_SHORT).show();
+        }
+    };
 }

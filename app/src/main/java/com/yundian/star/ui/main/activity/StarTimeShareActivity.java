@@ -3,6 +3,7 @@ package com.yundian.star.ui.main.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
@@ -14,6 +15,7 @@ import com.yundian.star.ui.main.adapter.StartTimeShareAdpter;
 import com.yundian.star.ui.main.fragment.AuctionMarketFragment;
 import com.yundian.star.ui.main.fragment.CommentMarketFragment;
 import com.yundian.star.ui.main.fragment.FansHotFragment;
+import com.yundian.star.ui.main.fragment.KChartFragment;
 import com.yundian.star.ui.main.fragment.StarIntroFragment;
 import com.yundian.star.widget.NormalTitleBar;
 
@@ -62,8 +64,17 @@ public class StarTimeShareActivity extends BaseActivity {
         nt_title.setTitleText(name);
         initType();
         initListener();
+        initTimeShare();
         //initTab();
 
+    }
+
+    //初始化分时图
+    private void initTimeShare() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        KChartFragment kChartFragment = new KChartFragment();
+        transaction.add(R.id.fl_KChartFragment, kChartFragment, "kChartFragment");
+        transaction.commit();
     }
 
     private void initListener() {

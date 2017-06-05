@@ -7,7 +7,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.cache.DataCacheManager;
@@ -20,7 +19,6 @@ import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.yundian.star.R;
 import com.yundian.star.app.AppApplication;
 import com.yundian.star.base.BaseActivity;
-import com.yundian.star.base.baseapp.AppManager;
 import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.been.LoginReturnInfo;
@@ -199,18 +197,8 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if ((keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)) {
-
-            if ((System.currentTimeMillis() - exitNow) > 2000) {
-                Toast.makeText(this, String.format(getString(R.string.confirm_exit_app), getString(R.string.app_name)), Toast.LENGTH_SHORT).show();
-                exitNow = System.currentTimeMillis();
-            } else if ((System.currentTimeMillis() - exitNow) > 0) {
-                AppManager.getAppManager().AppExit(this, false);
-                return super.onKeyDown(keyCode, event);
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
+        close();
+        return false ;
     }
 
     private void saveLoginInfo(final String account, final String token) {
