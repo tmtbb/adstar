@@ -7,6 +7,7 @@ import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
+import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.BookingStarListBean;
@@ -34,7 +35,6 @@ public class BookingStarActivity extends BaseActivity {
     NormalTitleBar ntTitle;
     @Bind(R.id.lrv)
     LRecyclerView lrv;
-    private ArrayList<BookingStarListBean> arrayList;
     private BookStarListAdapter bookStarListAdapter;
     private static final int TOTAL_COUNTER = 34;
     private static final int REQUEST_COUNT = 10;
@@ -57,7 +57,7 @@ public class BookingStarActivity extends BaseActivity {
         ntTitle.setTitleText(getResources().getString(R.string.booking_star_list));
         ntTitle.setBackVisibility(true);
         initAdapter();
-        getData(false, 1, REQUEST_COUNT);
+        getData(false, 0, REQUEST_COUNT);
     }
 
     private void getData(final boolean isLoadMore, int start, int count) {
@@ -65,7 +65,11 @@ public class BookingStarActivity extends BaseActivity {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.logd("预约明星列表错误----------");
-                lrv.setNoMore(true);
+                if (lrv != null) {
+                    lrv.setNoMore(true);
+                }
+//
+                //lrv.refreshComplete(REQUEST_COUNT);
             }
 
             @Override
@@ -73,13 +77,13 @@ public class BookingStarActivity extends BaseActivity {
                 LogUtils.logd("预约明星列表成功----------");
 
                 if (bookingStarList == null || bookingStarList.size() == 0) {
-                    lrv.setNoMore(true);
+                    lrv.setNoMore(false);
                     return;
                 }
                 if (isLoadMore) {
                     loadList.clear();
                     loadList = bookingStarList;
-                    mCurrentCounter = list.size();
+//                    mCurrentCounter = list.size();
                     loadMoreData();
                 } else {
                     list.clear();
@@ -95,28 +99,30 @@ public class BookingStarActivity extends BaseActivity {
         lRecyclerViewAdapter = new LRecyclerViewAdapter(bookStarListAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
         lrv.setLayoutManager(new LinearLayoutManager(mContext));
-        lrv.setPullRefreshEnabled(true);
+       // lrv.setPullRefreshEnabled(true);
         lrv.setNoMore(false);
         lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getData(true, mCurrentCounter + 1, REQUEST_COUNT);
+                getData(true, mCurrentCounter, REQUEST_COUNT);
             }
         });
         lrv.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getData(false, 1, 10);
+                getData(false, 0, 10);
             }
         });
     }
 
     public void showData() {
+        bookStarListAdapter.clear();
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();
         bookStarListAdapter.addAll(list);
-//        lrv.refresh();
+        LogUtils.loge("当前刷新list:" + list.toString());
+        lrv.refresh();
         lrv.refreshComplete(REQUEST_COUNT);
     }
 

@@ -145,7 +145,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         rgRechargeType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-                rechargeMoney.setText("");
+//                rechargeMoney.setText("");
                 switch (checkedId) {
                     case R.id.rb_recharge_money1:
                         price = 1;
@@ -172,6 +172,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                         price = 50000;
                         break;
                 }
+                rechargeMoney.setText(price+"");
             }
         });
         rechargeMoney.addTextChangedListener(new TextWatcher() {
@@ -385,9 +386,9 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 showDialogTip();
                 ToastUtils.showShort("用户取消支付:" + eventBusMessage.Message);
                 break;
-            default:
-                ToastUtils.showShort("接收到的信息:" + eventBusMessage.Message);
-                break;
+//            default:
+//                ToastUtils.showShort("接收到的信息:" + eventBusMessage.Message);
+//                break;
         }
     }
 

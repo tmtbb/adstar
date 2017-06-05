@@ -51,13 +51,37 @@
         android:textColorHint="@color/color_A6A6A6"
         android:textSize="@dimen/fontSize_15sp" />
 
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <CheckBox
+            android:id="@+id/cb_agree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/me_agree"
+            android:textColor="@color/color_666666"
+            android:textSize="@dimen/fontSize_15sp" />
+
+        <TextView
+            android:id="@+id/tv_disclaimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/disclaimer_text"
+            android:textColor="@color/color_0000FF"
+            android:textSize="@dimen/fontSize_15sp" />
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/btn_verification"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_37"
         android:layout_marginRight="@dimen/dp_37"
-        android:layout_marginTop="@dimen/dp_50"
+        android:layout_marginTop="@dimen/dp_40"
         android:background="@drawable/selector_verification"
         android:padding="@dimen/dp_12"
         android:text="@string/complete_verification"

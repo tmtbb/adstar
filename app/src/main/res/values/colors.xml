@@ -192,6 +192,7 @@
     <color name="color_green_89fbff">#89fbff</color>
     <color name="color_dcdcdc">#dcdcdc</color>
     <color name="color_ffffff">#ffffff</color>
+    <color name="color_0000FF">#0000FF</color>
 
     <!-- main bg color -->
     <color name="g_child_page_bg_color">#FFFFFF</color>

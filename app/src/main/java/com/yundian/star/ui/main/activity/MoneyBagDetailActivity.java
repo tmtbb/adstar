@@ -75,12 +75,13 @@ public class MoneyBagDetailActivity extends BaseActivity {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.logd("钱包详情请求失败----");
-                    lrv.setNoMore(true);
+//                    lrv.setNoMore(true);
+                lrv.refreshComplete(REQUEST_COUNT);
             }
 
             @Override
             public void onSuccess(List<MoneyDetailListBean> list) {
-                LogUtils.loge("list.size()"+list.toString()+","+list.size());
+                LogUtils.loge("list.size()" + list.toString() + "," + list.size());
                 if (list == null || list.size() == 0) {
                     lrv.setNoMore(true);
                     return;
@@ -175,7 +176,7 @@ public class MoneyBagDetailActivity extends BaseActivity {
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                LogUtils.logd("上拉加载更多----起始位置:" );
+                LogUtils.logd("上拉加载更多----起始位置:");
                 requestMoneyDetailData(true, mCurrentCounter + 1, REQUEST_COUNT);
             }
         });

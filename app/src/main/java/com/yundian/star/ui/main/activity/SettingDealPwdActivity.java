@@ -142,7 +142,7 @@ public class SettingDealPwdActivity extends BaseActivity {
                     ToastUtils.showShort("设置支付密码成功");
                     finish();
                     //关闭前面几个页面
-                    AppManager.getAppManager().finishActivity(DisclaimerActivity.class);
+//                    AppManager.getAppManager().finishActivity(DisclaimerActivity.class);
                     AppManager.getAppManager().finishActivity(IdentityAuthenticationActivity.class);
                 } else {
                     ToastUtils.showShort("设置支付密码失败");
