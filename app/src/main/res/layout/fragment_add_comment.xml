@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:id="@+id/lrv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="50dp"
+        ></com.github.jdsjlzx.recyclerview.LRecyclerView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        >
+        <EditText
+            android:id="@+id/et_add_comment"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_white_selector_all"
+            android:hint="发表评论"
+            android:paddingLeft="10dp"
+            />
+        <TextView
+            android:id="@+id/tv_send"
+            android:background="@drawable/butten_message_selected"
+            android:gravity="center"
+            android:textColor="@color/color_black_000000_88_transparent"
+            android:text="@string/send"
+            android:textSize="@dimen/fontSize_20sp"
+            android:layout_width="80dp"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -3,6 +3,7 @@ package com.yundian.star.networkapi.socketapi;
 import com.yundian.star.app.SocketAPIConstant;
 import com.yundian.star.base.SearchReturnbeen;
 import com.yundian.star.been.AdvBeen;
+import com.yundian.star.been.CommentMarketBeen;
 import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
@@ -182,7 +183,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
-    public void inquiry(String symbol, int startPos, int count, OnAPIListener<Object> listener) {
+    public void inquiry(String symbol, int startPos, int count, OnAPIListener<CommentMarketBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("symbol", symbol);
         map.put("token", "adc28ac69625652b46d5c00b");
@@ -190,7 +191,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("count", count);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Inquiry,
                 SocketAPIConstant.ReqeutType.Inquirylist, map);
-        requestJsonObject(socketDataPacket,listener);
+        requestEntity(socketDataPacket,CommentMarketBeen.class,listener);
     }
 
     @Override
@@ -200,6 +201,19 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Starstatist,
                 SocketAPIConstant.ReqeutType.SearchStar, map);
         requestEntity(socketDataPacket,StartTimeShareBeen.class,listener);
+    }
+
+    @Override
+    public void getAddComment(String symbol, String fans_id, String nick_name, String comments, String head_url, OnAPIListener<Object> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("symbol", symbol);
+        map.put("fans_id", fans_id);
+        map.put("nick_name", nick_name);
+        map.put("comments", comments);
+        map.put("head_url", head_url);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.AddComment,
+                SocketAPIConstant.ReqeutType.Inquirylist, map);
+        requestJsonObject(socketDataPacket,listener);
     }
 
 }

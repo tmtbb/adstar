@@ -85,6 +85,9 @@
         <activity android:name=".ui.im.activity.StarCommunicationBookActivity"></activity>
 
         <activity android:name=".ui.main.activity.NewsBrowserActivity"></activity>
+        <activity android:name=".ui.main.activity.AddUserCommentActivity"
+            android:launchMode="singleTask"
+            ></activity>
 
         <activity
             android:name="com.yundian.star.ui.main.activity.SearchActivity"

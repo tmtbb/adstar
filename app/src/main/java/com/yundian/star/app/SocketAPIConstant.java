@@ -74,6 +74,7 @@ public interface SocketAPIConstant {
         Short IdentityInfo = 3027;
         Short Inquiry = 12003;
         Short Starstatist = 11017;
+        Short AddComment = 12001;
 
 
     }

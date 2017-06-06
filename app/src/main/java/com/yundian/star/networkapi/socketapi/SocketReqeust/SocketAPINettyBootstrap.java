@@ -5,6 +5,7 @@ import android.os.SystemClock;
 
 import com.yundian.star.networkapi.NetworkAPIConfig;
 import com.yundian.star.networkapi.socketapi.SocketAPIFactoryImpl;
+import com.yundian.star.utils.LogUtils;
 
 import java.net.InetSocketAddress;
 
@@ -74,7 +75,9 @@ public class SocketAPINettyBootstrap {
             if (future.isSuccess()) {
                 socketChannel = (SocketChannel) future.channel();
                 System.out.println("connect server  成功---------");
+                LogUtils.loge("connect server  成功---------");
                 if (onConnectListener != null) {
+                    LogUtils.loge(onConnectListener+"。。。。connect server  成功---------");
                     onConnectListener.onSuccess();
                 }
                 return true;
