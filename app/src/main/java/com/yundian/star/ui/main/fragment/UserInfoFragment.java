@@ -17,6 +17,7 @@ import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.AssetDetailsBean;
 import com.yundian.star.been.EventBusMessage;
 
+import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 
@@ -26,6 +27,7 @@ import com.yundian.star.ui.main.activity.GeneralSettingsActivity;
 import com.yundian.star.ui.main.activity.UserAssetsManageActivity;
 import com.yundian.star.ui.main.activity.UserSettingActivity;
 import com.yundian.star.ui.view.RoundImageView;
+import com.yundian.star.utils.FormatUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
 
 import com.yundian.star.utils.LogUtils;
@@ -177,11 +179,28 @@ public class UserInfoFragment extends BaseFragment {
     public void ReciveMessageEventBus(EventBusMessage eventBusMessage) {
         switch (eventBusMessage.Message) {
             case 1:  //成功
-                LogUtils.loge("用户登录成功了，请刷新数据");
+                LogUtils.loge("用户登录成功了，请刷新数据----------");
                 initData();
                 requestBalance();
+                requestIdentity();
                 break;
         }
+    }
+
+    private void requestIdentity() {
+        NetworkAPIFactoryImpl.getDealAPI().identity(new OnAPIListener<IdentityInfoBean>() {
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.loge("实名信息失败-----------");
+            }
+
+            @Override
+            public void onSuccess(IdentityInfoBean identityInfoBean) {
+                LogUtils.loge("实名信息成功-----------" + identityInfoBean.toString());
+                SharePrefUtil.getInstance().setRealName(identityInfoBean.getRealname());
+                SharePrefUtil.getInstance().setIdnum(identityInfoBean.getId_card());
+            }
+        });
     }
 
     private void requestBalance() {
@@ -190,7 +209,7 @@ public class UserInfoFragment extends BaseFragment {
             public void onSuccess(AssetDetailsBean bean) {
                 LogUtils.loge("余额请求成功:" + bean.toString());
                 userTotalAssets.setText(bean.getBalance() + "");
-                SharePrefUtil.getInstance().putBalance(bean.getBalance());
+                SharePrefUtil.getInstance().saveAssetInfo(bean);
             }
 
             @Override
@@ -213,9 +232,16 @@ public class UserInfoFragment extends BaseFragment {
         }
     }
 
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        EventBus.getDefault().removeAllStickyEvents();
+//        EventBus.getDefault().unregister(this);
+//    }
+
     @Override
-    public void onPause() {
-        super.onPause();
+    public void onDestroy() {
+        super.onDestroy();
         EventBus.getDefault().removeAllStickyEvents();
         EventBus.getDefault().unregister(this);
     }

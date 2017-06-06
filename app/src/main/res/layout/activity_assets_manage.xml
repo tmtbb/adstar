@@ -79,7 +79,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/user_have_market_value"
+                android:text="@string/user_acailable_balance"
                 android:textColor="@color/font_999999"
                 android:textSize="@dimen/text_size_14" />
 
