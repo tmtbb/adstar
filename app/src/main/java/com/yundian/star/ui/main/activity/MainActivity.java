@@ -8,7 +8,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.flyco.tablayout.CommonTabLayout;
@@ -38,8 +37,8 @@ import com.yundian.star.ui.main.fragment.NewsInfoFragment;
 import com.yundian.star.ui.main.fragment.UserInfoFragment;
 import com.yundian.star.ui.wangyi.chatroom.helper.ChatRoomHelper;
 import com.yundian.star.ui.wangyi.config.preference.UserPreferences;
+import com.yundian.star.utils.CheckLoginUtil;
 import com.yundian.star.utils.LogUtils;
-import com.yundian.star.utils.SharePrefUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -214,7 +213,7 @@ public class MainActivity extends BaseActivity {
                 transaction.commitAllowingStateLoss();
                 break;
             case 2:
-                checkLogin();
+                CheckLoginUtil.checkLogin(this);
                 transaction.hide(marketFragment);
                 transaction.hide(newsInfoFragment);
                 transaction.hide(userInfoFragment);
@@ -222,7 +221,7 @@ public class MainActivity extends BaseActivity {
                 transaction.commitAllowingStateLoss();
                 break;
             case 3:
-                checkLogin();
+                CheckLoginUtil.checkLogin(this);
                 transaction.hide(marketFragment);
                 transaction.hide(newsInfoFragment);
                 transaction.hide(differAnswerFragment);
@@ -340,16 +339,8 @@ public class MainActivity extends BaseActivity {
         switch (eventBusMessage.Message) {
             case 2:  //登录取消
                 SwitchTo(0);
+                tabLayout.setCurrentTab(0);
                 break;
         }
     }
-    private void checkLogin() {
-        String phoneNum = SharePrefUtil.getInstance().getPhoneNum();
-        String token = SharePrefUtil.getInstance().getToken();
-        if (TextUtils.isEmpty(phoneNum)||TextUtils.isEmpty(token)) { // 第一次登录, 需要走登录流程
-            startActivity(LoginActivity.class);
-            overridePendingTransition(R.anim.activity_open_down_in,0);
-        }
-    }
-
 }

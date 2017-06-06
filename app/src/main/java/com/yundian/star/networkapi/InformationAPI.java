@@ -3,6 +3,7 @@ package com.yundian.star.networkapi;
 
 import com.yundian.star.base.SearchReturnbeen;
 import com.yundian.star.been.AdvBeen;
+import com.yundian.star.been.CommentMarketBeen;
 import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
@@ -36,6 +37,7 @@ public interface InformationAPI {
     void getStarmaillist(long id ,String token,String status,int startPos,int count,OnAPIListener<StarMailListBeen> listener);
     void addFriend(String accid,String faccid,String msg,int type,OnAPIListener<Object> listener);
     void reduceTime(String phone,String starcode,OnAPIListener<Object> listener);
-    void inquiry(String symbol,int startPos,int count ,OnAPIListener<Object> listener);
+    void inquiry(String symbol,int startPos,int count ,OnAPIListener<CommentMarketBeen> listener);
     void getStarStatist(String starcode ,OnAPIListener<StartTimeShareBeen> listener);
+    void getAddComment(String symbol,String fans_id,String nick_name,String comments,String head_url ,OnAPIListener<Object> listener);
 }

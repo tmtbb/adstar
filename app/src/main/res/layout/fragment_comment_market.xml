@@ -1,48 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:background="@color/color_fafafa"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="25dp"
         android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/comment"
-                android:textColor="@color/color_070707"
-                android:textSize="@dimen/fontSize_14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="14dp"
-                android:text="100"
-                android:textColor="@color/color_FB9938"
-                android:textSize="@dimen/fontSize_14sp"
-
-                />
-
-
-        </LinearLayout>
-
         <com.github.jdsjlzx.recyclerview.LRecyclerView
             android:id="@+id/lrv"
             android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginBottom="50dp"
+            android:background="@color/color_fafafa"
+            >
+        </com.github.jdsjlzx.recyclerview.LRecyclerView>
+        <TextView
+            android:id="@+id/tv_add_comment"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="14dp"></com.github.jdsjlzx.recyclerview.LRecyclerView>
-
+            android:text="添加评论"
+            android:textSize="@dimen/fontSize_24sp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            />
     </LinearLayout>
-
 
 </android.support.v4.widget.NestedScrollView>

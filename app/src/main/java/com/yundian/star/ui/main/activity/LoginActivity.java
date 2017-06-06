@@ -20,7 +20,6 @@ import com.yundian.star.R;
 import com.yundian.star.app.AppApplication;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.EventBusMessage;
-import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnWangYiBeen;
 import com.yundian.star.helper.CheckHelper;
@@ -197,8 +196,11 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        close();
-        return false ;
+        if (keyCode==KeyEvent.KEYCODE_BACK){
+            close();
+            return false;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void saveLoginInfo(final String account, final String token) {

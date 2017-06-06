@@ -1,27 +1,28 @@
-package com.yundian.star.ui.main.fragment;
+package com.yundian.star.ui.main.activity;
 
-import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
-import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
-import com.yundian.star.base.BaseFragment;
+import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.CommentMarketBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
-import com.yundian.star.ui.main.activity.AddUserCommentActivity;
 import com.yundian.star.ui.main.adapter.CommentMarketAdapter;
-import com.yundian.star.utils.CheckLoginUtil;
+import com.yundian.star.utils.KeyBordUtil;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
 
 import java.util.ArrayList;
 
@@ -29,15 +30,15 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
- * Created by Administrator on 2017/5/22.
- * 粉丝评论界面
+ * Created by Administrator on 2017/6/5.
  */
 
-public class CommentMarketFragment extends BaseFragment {
+public class AddUserCommentActivity extends BaseActivity {
+
+    @Bind(R.id.et_add_comment)
+    EditText et_add_comment ;
     @Bind(R.id.lrv)
     LRecyclerView lrv ;
-    @Bind(R.id.tv_add_comment)
-    TextView tv_add_comment ;
     private static final int REQUEST_COUNT = 10;
     private static int mCurrentCounter = 0;
     private String code;
@@ -46,9 +47,10 @@ public class CommentMarketFragment extends BaseFragment {
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private CommentMarketAdapter commentMarketAdapter;
 
+
     @Override
-    protected int getLayoutResource() {
-        return R.layout.fragment_comment_market;
+    public int getLayoutId() {
+        return R.layout.fragment_add_comment;
     }
 
     @Override
@@ -57,62 +59,72 @@ public class CommentMarketFragment extends BaseFragment {
     }
 
     @Override
-    protected void initView() {
-        if (getArguments()!=null){
-            code = getArguments().getString(AppConstant.STAR_CODE);
-            LogUtils.loge("明星code"+code);
-        }
+    public void initView() {
+        code = getIntent().getStringExtra(AppConstant.STAR_CODE);
         initAdapter();
-        getData(false,0,REQUEST_COUNT);
         initListener();
+        getData(false,0,REQUEST_COUNT);
     }
 
-    private void initListener() {
-        /*lrv.setOnRefreshListener(new OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                commentMarketAdapter.clear();
-                mCurrentCounter = 0;
-                getData(false,0,REQUEST_COUNT);
-            }
-        });*/
-        lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void onLoadMore() {
-                getData(true,mCurrentCounter,REQUEST_COUNT);
-            }
-        });
-        lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                boolean login = CheckLoginUtil.checkLogin(getActivity());
-                if (login){
-                    Intent intent = new Intent(getActivity(),AddUserCommentActivity.class);
-                    intent.putExtra(AppConstant.STAR_CODE,code);
-                    getActivity().startActivity(intent);
-                }
+    @OnClick(R.id.tv_send)
+    public void sendButton(){
+        String contont = et_add_comment.getText().toString().trim();
+        NetworkAPIFactoryImpl.getInformationAPI().getAddComment(code, String.valueOf(SharePrefUtil.getInstance().getUserId()), TextUtils.isEmpty(SharePrefUtil.getInstance().getUserNickName()) ? SharePrefUtil.getInstance().getPhoneNum() : SharePrefUtil.getInstance().getUserNickName(),
+                contont, TextUtils.isEmpty(SharePrefUtil.getInstance().getUserPhotoUrl())?"http://ppt.downhot.com/d/file/p/2014/03/13/0673249a8d8942271ac07b975049b531.jpg":SharePrefUtil.getInstance().getUserPhotoUrl(), new OnAPIListener<Object>() {
+                    @Override
+                    public void onError(Throwable ex) {
+                        LogUtils.loge(ex.toString());
+                        mCurrentCounter = 0;
+                        commentMarketAdapter.clear();
+                        getData(false,0,REQUEST_COUNT);
+                        et_add_comment.setText("");
+                        KeyBordUtil.hideSoftKeyboard(et_add_comment);
+                        et_add_comment.clearFocus();
+                    }
 
-            }
-        });
+                    @Override
+                    public void onSuccess(Object o) {
+                        LogUtils.loge(o.toString());
+                    }
+                }
+        );
+
 
     }
 
     private void initAdapter() {
-        commentMarketAdapter = new CommentMarketAdapter(getActivity());
+        commentMarketAdapter = new CommentMarketAdapter(this);
         lRecyclerViewAdapter = new LRecyclerViewAdapter(commentMarketAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
         lrv.setNoMore(false);
-        lrv.setPullRefreshEnabled(false);
-        lrv.setLayoutManager(new LinearLayoutManager(getContext()));
+        lrv.setLayoutManager(new LinearLayoutManager(this));
         lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
         initLrvHeadView();
     }
 
     private void initLrvHeadView() {
         //add a HeaderView
-        View header = LayoutInflater.from(getContext()).inflate(R.layout.head_comment_list, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
+        View header = LayoutInflater.from(this).inflate(R.layout.head_comment_list, (ViewGroup)findViewById(android.R.id.content), false);
         TextView tv_num = (TextView) header.findViewById(R.id.tv_num);
         lRecyclerViewAdapter.addHeaderView(header);
+    }
+
+    private void initListener() {
+        lrv.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                commentMarketAdapter.clear();
+                mCurrentCounter = 0;
+                getData(false,0,REQUEST_COUNT);
+            }
+        });
+        lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                getData(true,mCurrentCounter,REQUEST_COUNT);
+            }
+        });
+
     }
 
     private void getData(final boolean isLoadMore,int start ,int count) {
@@ -145,19 +157,7 @@ public class CommentMarketFragment extends BaseFragment {
         });
     }
 
-    @OnClick(R.id.tv_add_comment)
-    public void OnclickAddComment(){
-        Intent intent = new Intent(getActivity(), AddUserCommentActivity.class);
-        intent.putExtra(AppConstant.STAR_CODE,code);
-        getActivity().startActivity(intent);
-    }
-
     public void showData() {
-        if (list.size()==0){
-            tv_add_comment.setVisibility(View.VISIBLE);
-        }else {
-            tv_add_comment.setVisibility(View.GONE);
-        }
         mCurrentCounter =list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         commentMarketAdapter.addAll(list);

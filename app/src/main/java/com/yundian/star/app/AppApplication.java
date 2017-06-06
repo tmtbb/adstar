@@ -41,11 +41,13 @@ import com.umeng.socialize.UMShareAPI;
 import com.yundian.star.BuildConfig;
 import com.yundian.star.R;
 import com.yundian.star.base.baseapp.BaseApplication;
+import com.yundian.star.been.LoginReturnInfo;
+import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.Host;
 import com.yundian.star.networkapi.NetworkAPIConfig;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
-import com.yundian.star.ui.main.activity.MainActivity;
+import com.yundian.star.ui.im.activity.StarCommunicationBookActivity;
 import com.yundian.star.ui.wangyi.DemoCache;
 import com.yundian.star.ui.wangyi.PrivatizationConfig;
 import com.yundian.star.ui.wangyi.avchat.AVChatProfile;
@@ -59,12 +61,13 @@ import com.yundian.star.ui.wangyi.config.preference.UserPreferences;
 import com.yundian.star.ui.wangyi.contact.ContactHelper;
 import com.yundian.star.ui.wangyi.event.DemoOnlineStateContentProvider;
 import com.yundian.star.ui.wangyi.event.OnlineStateEventManager;
+import com.yundian.star.ui.wangyi.login.LogoutHelper;
 import com.yundian.star.ui.wangyi.rts.activity.RTSActivity;
 import com.yundian.star.ui.wangyi.session.SessionHelper;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.MD5Util;
+import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.Utils;
-
 
 import java.util.Map;
 
@@ -80,9 +83,9 @@ public class AppApplication extends BaseApplication {
         Fabric.with(this, new Crashlytics());
         //初始化logger
         LogUtils.logInit(BuildConfig.LOG_DEBUG);
+        checkToken();
         initNetworkAPIConfig();
         initWangYiIM();
-        checkToken();
         registerToWx();   //注册微信
         UMShareAPI.get(this);//初始化友盟
         Config.DEBUG =true ;
@@ -121,28 +124,7 @@ public class AppApplication extends BaseApplication {
         }
     }
 
-    private void checkToken() {
-        SocketAPINettyBootstrap.getInstance().setOnConnectListener(new SocketAPINettyBootstrap.OnConnectListener() {
-            @Override
-            public void onExist() {
-            }
 
-            @Override
-            public void onSuccess() {
-                LogUtils.logd("检测到连接成功-------------------");
-                //judgeIsLogin();
-            }
-
-            @Override
-            public void onFailure(boolean tag) {
-                LogUtils.logd("检测到连接失败--------------");
-                if (tag){
-                   // connectionError();
-                }
-
-            }
-        });
-    }
 
     private void initNetworkAPIConfig() {
         NetworkAPIConfig networkAPIConfig = new NetworkAPIConfig();
@@ -349,7 +331,7 @@ public class AppApplication extends BaseApplication {
     private StatusBarNotificationConfig loadStatusBarNotificationConfig() {
         StatusBarNotificationConfig config = new StatusBarNotificationConfig();
         // 点击通知需要跳转到的界面
-        config.notificationEntrance = MainActivity.class;
+        config.notificationEntrance = StarCommunicationBookActivity.class;
         config.notificationSmallIconId = R.drawable.ic_stat_notify_msg;
         config.notificationColor = getResources().getColor(R.color.color_blue_3a9efb);
         // 通知铃声的uri字符串
@@ -389,4 +371,62 @@ public class AppApplication extends BaseApplication {
         PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
         PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
     }
+    private void logout() {
+        SharePrefUtil.getInstance().clearUserInfo();
+        SharePrefUtil.getInstance().clearUserLoginInfo();
+        SharePrefUtil.getInstance().clearUserLoginInfo();
+        Preferences.saveUserToken("");
+        LogoutHelper.logout();
+//        DataCacheManager.clearDataCache();  //清空缓存
+    }
+
+    private void judgeIsLogin() {
+        if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getToken())) {
+            LogUtils.loge("已经登录,开始校验token");
+            NetworkAPIFactoryImpl.getUserAPI().loginWithToken(new OnAPIListener<LoginReturnInfo>() {
+                @Override
+                public void onError(Throwable ex) {
+                    ex.printStackTrace();
+                    LogUtils.loge("登录失败.token已经失效");
+                    logout();
+                }
+
+                @Override
+                public void onSuccess(LoginReturnInfo loginReturnEntity) {
+                    LogUtils.loge("登录成功，保存信息");
+                    SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
+                }
+            });
+        }
+    }
+
+    private void checkToken() {
+        LogUtils.logd("检测网络-------------------");
+        SocketAPINettyBootstrap.getInstance().setOnConnectListener(new SocketAPINettyBootstrap.OnConnectListener() {
+            @Override
+            public void onExist() {
+                LogUtils.logd("检测到链接存在-------------------");
+            }
+
+            @Override
+            public void onSuccess() {
+                LogUtils.logd("检测到连接成功-------------------");
+                judgeIsLogin();
+            }
+
+            @Override
+            public void onFailure(boolean tag) {
+                LogUtils.logd("检测到连接失败--------------");
+                if (tag){
+                    // connectionError();
+                }
+
+            }
+        });
+    }
+
+
+
+
+
 }
