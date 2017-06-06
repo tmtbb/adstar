@@ -8,18 +8,17 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         ></com.yundian.star.widget.NormalTitleBar>
-    <android.support.design.widget.TabLayout
-        android:id="@+id/tabs"
-        android:layout_width="match_parent"
-        android:layout_height="42dp"
-        app:tabBackground="@color/toast_white"
-        app:tabIndicatorColor="@color/color_8C0808"
-        app:tabSelectedTextColor="@color/color_8C0808"
-        app:tabGravity="fill"
-        app:tabTextAppearance="@style/CustomTabLayoutTextAppearance"
-        app:tabTextColor="@color/color_C2CFD8">
-    </android.support.design.widget.TabLayout>
+        <com.flyco.tablayout.SlidingTabLayout
+            android:id="@+id/tabs"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:background="@color/color_white_ffffffff"
+            app:tl_indicator_color="@color/color_8C0808"
 
+            app:tl_tab_space_equal="true"
+            app:tl_textSelectColor="@color/color_8C0808"
+            app:tl_textUnselectColor="@color/color_C2CFD8"
+            app:tl_textsize="@dimen/fontSize_16sp"></com.flyco.tablayout.SlidingTabLayout>
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"

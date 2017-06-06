@@ -9,6 +9,7 @@ import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
 import com.yundian.star.been.StarExperienceBeen;
+import com.yundian.star.been.StarListbeen;
 import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.StarStarAchBeen;
 import com.yundian.star.been.StartTimeShareBeen;
@@ -16,6 +17,7 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.InformationAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.ui.main.model.NewsInforModel;
+import com.yundian.star.utils.SharePrefUtil;
 
 import java.util.HashMap;
 
@@ -79,16 +81,19 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
-    public void getMarketstar(int type, int startnum, int endnum,int sorttype, OnAPIListener<OptionsStarListBeen> listener) {
+    public void getStarList(long id,String token,int sort, int aType, int start, int count, OnAPIListener<StarListbeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("type", type);
-        map.put("startnum", startnum);
-        map.put("endnum", endnum);
-        map.put("sorttype", sorttype);
-        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.MarketStar,
-                SocketAPIConstant.ReqeutType.SearchStar, map);
-        requestEntity(socketDataPacket,OptionsStarListBeen.class,listener);
+        map.put("id", id);
+        map.put("token", token);
+        map.put("sort", sort);
+        map.put("aType", aType);
+        map.put("start", start);
+        map.put("count", count);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarList,
+                SocketAPIConstant.ReqeutType.Time, map);
+        requestEntity(socketDataPacket,StarListbeen.class,listener);
     }
+
 
     @Override
     public void getStarBrief(String code, OnAPIListener<StarBuyActReferralInfo> listener) {
@@ -186,7 +191,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     public void inquiry(String symbol, int startPos, int count, OnAPIListener<CommentMarketBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("symbol", symbol);
-        map.put("token", "adc28ac69625652b46d5c00b");
+        map.put("token", SharePrefUtil.getInstance().getToken());
         map.put("startPos", startPos);
         map.put("count", count);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Inquiry,

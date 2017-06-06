@@ -9,43 +9,37 @@ public class StarBuyActReferralInfo {
     /**
      * birth : 11
      * colleage : 清华
+     * constellaction :
+     * gender : 1
+     * head_url :
      * introduction : 林志玲，1974年11月
      * name : 林
      * nation : 汉族
      * nationality : 中国
-     * pic1 : http://pic27.nipic.com/20130320/3822951_105204803000_2.jpg
-     * pic2 : http://pic27.nipic.com/20130320/3822951_105204803000_2.jpg
-     * pic3 : http://pic27.nipic.com/20130320/3822951_105204803000_2.jpg
-     * pic4 : http://pic27.nipic.com/20130320/3822951_105204803000_2.jpg
-     * pic5 : http://pic27.nipic.com/20130320/3822951_105204803000_2.jpg
+     * owntimes : 1000
+     * pic_url : http://www.wanhuajing.com/pic/1605/1815/3129838/7_640_312.jpg
      * result : 1
-     * seconds : 1000
+     * star_vip : 0
+     * symbol : 1000
+     * weibo_index_id : 1011223178222
      * work : 艺人
      */
 
     private String birth;
     private String colleage;
+    private String constellaction;
+    private int gender;
+    private String head_url;
     private String introduction;
     private String name;
     private String nation;
     private String nationality;
-    private String pic1;
-    private String pic2;
-    private String pic3;
-    private String pic4;
-    private String pic5;
-    private String constellation;
-
-    public String getConstellation() {
-        return constellation;
-    }
-
-    public void setConstellation(String constellation) {
-        this.constellation = constellation;
-    }
-
+    private int owntimes;
+    private String pic_url;
     private int result;
-    private int seconds;
+    private int star_vip;
+    private String symbol;
+    private String weibo_index_id;
     private String work;
 
     public String getBirth() {
@@ -62,6 +56,30 @@ public class StarBuyActReferralInfo {
 
     public void setColleage(String colleage) {
         this.colleage = colleage;
+    }
+
+    public String getConstellaction() {
+        return constellaction;
+    }
+
+    public void setConstellaction(String constellaction) {
+        this.constellaction = constellaction;
+    }
+
+    public int getGender() {
+        return gender;
+    }
+
+    public void setGender(int gender) {
+        this.gender = gender;
+    }
+
+    public String getHead_url() {
+        return head_url;
+    }
+
+    public void setHead_url(String head_url) {
+        this.head_url = head_url;
     }
 
     public String getIntroduction() {
@@ -96,44 +114,20 @@ public class StarBuyActReferralInfo {
         this.nationality = nationality;
     }
 
-    public String getPic1() {
-        return pic1;
+    public int getOwntimes() {
+        return owntimes;
     }
 
-    public void setPic1(String pic1) {
-        this.pic1 = pic1;
+    public void setOwntimes(int owntimes) {
+        this.owntimes = owntimes;
     }
 
-    public String getPic2() {
-        return pic2;
+    public String getPic_url() {
+        return pic_url;
     }
 
-    public void setPic2(String pic2) {
-        this.pic2 = pic2;
-    }
-
-    public String getPic3() {
-        return pic3;
-    }
-
-    public void setPic3(String pic3) {
-        this.pic3 = pic3;
-    }
-
-    public String getPic4() {
-        return pic4;
-    }
-
-    public void setPic4(String pic4) {
-        this.pic4 = pic4;
-    }
-
-    public String getPic5() {
-        return pic5;
-    }
-
-    public void setPic5(String pic5) {
-        this.pic5 = pic5;
+    public void setPic_url(String pic_url) {
+        this.pic_url = pic_url;
     }
 
     public int getResult() {
@@ -144,12 +138,28 @@ public class StarBuyActReferralInfo {
         this.result = result;
     }
 
-    public int getSeconds() {
-        return seconds;
+    public int getStar_vip() {
+        return star_vip;
     }
 
-    public void setSeconds(int seconds) {
-        this.seconds = seconds;
+    public void setStar_vip(int star_vip) {
+        this.star_vip = star_vip;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public String getWeibo_index_id() {
+        return weibo_index_id;
+    }
+
+    public void setWeibo_index_id(String weibo_index_id) {
+        this.weibo_index_id = weibo_index_id;
     }
 
     public String getWork() {

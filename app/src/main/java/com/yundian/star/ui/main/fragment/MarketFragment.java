@@ -1,20 +1,17 @@
 package com.yundian.star.ui.main.fragment;
 
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.flyco.tablayout.SlidingTabLayout;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.base.MarketTypeFragmentAdapter;
 import com.yundian.star.been.MarketTypeBeen;
-import com.yundian.star.listener.OnAPIListener;
-import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.SearchActivity;
-import com.yundian.star.utils.MyTabLayoutUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import java.util.ArrayList;
@@ -30,7 +27,7 @@ public class MarketFragment extends BaseFragment {
     @Bind(R.id.nt_title)
     NormalTitleBar nt_title;
     @Bind(R.id.tabs)
-    TabLayout tabs ;
+    SlidingTabLayout tabs ;
     @Bind(R.id.view_pager)
     ViewPager viewPager ;
     private MarketTypeFragmentAdapter fragmentAdapter;
@@ -57,23 +54,15 @@ public class MarketFragment extends BaseFragment {
     }
 
     private void initType() {
-        NetworkAPIFactoryImpl.getInformationAPI().getMarketKype("", new OnAPIListener<MarketTypeBeen>() {
-            @Override
-            public void onError(Throwable ex) {
-
-            }
-
-            @Override
-            public void onSuccess(MarketTypeBeen marketTypeBeen) {
-                MarketTypeBeen.ListBean optional = new MarketTypeBeen.ListBean();
-                optional.setName(getResources().getString(R.string.option));
-                optional.setType(0);
-                listType = marketTypeBeen.getList();
-                listType.add(0,optional);
-                initFragment();
-
-            }
-        });
+        MarketTypeBeen.ListBean optional1 = new MarketTypeBeen.ListBean();
+        optional1.setName(getResources().getString(R.string.option));
+        optional1.setType(0);
+        MarketTypeBeen.ListBean optional2 = new MarketTypeBeen.ListBean();
+        optional2.setName(getResources().getString(R.string.ming_xing));
+        optional2.setType(1);
+        listType.add(optional1);
+        listType.add(optional2);
+        initFragment();
     }
 
     private void initListener() {
@@ -97,8 +86,7 @@ public class MarketFragment extends BaseFragment {
             fragmentAdapter.setFragments(getChildFragmentManager(),mNewsFragmentList,listType);
         }
         viewPager.setAdapter(fragmentAdapter);
-        tabs.setupWithViewPager(viewPager);
-        MyTabLayoutUtils.dynamicSetTabLayoutMode(tabs);
+        tabs.setViewPager(viewPager);
         setPageChangeListener();
     }
 

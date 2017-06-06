@@ -24,9 +24,13 @@
             android:layout_marginBottom="10dp"
             android:orientation="vertical">
 
-            <include layout="@layout/adv_layout"
+           <!-- <include layout="@layout/adv_layout"
                 android:id="@+id/adv_root"
-                ></include>
+                ></include>-->
+            <ImageView
+                android:id="@+id/img_adv"
+                android:layout_width="match_parent"
+                android:layout_height="160dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
