@@ -56,7 +56,6 @@ public class MarketDetailFragment extends BaseFragment {
                     showData();
                     break;
                 case LOAD_DATA:
-                    mCurrentCounter =list.size();
                     loadMoreData();
                     break;
 

@@ -2,20 +2,25 @@ package com.yundian.star.ui.main.fragment;
 
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.github.jdsjlzx.interfaces.OnItemClickListener;
+import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
-import com.yundian.star.been.FansHotBuyReturnBeen;
+import com.yundian.star.been.CommentMarketBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.AddUserCommentActivity;
 import com.yundian.star.ui.main.adapter.CommentMarketAdapter;
+import com.yundian.star.utils.CheckLoginUtil;
 import com.yundian.star.utils.LogUtils;
 
 import java.util.ArrayList;
@@ -34,10 +39,12 @@ public class CommentMarketFragment extends BaseFragment {
     @Bind(R.id.tv_add_comment)
     TextView tv_add_comment ;
     private static final int REQUEST_COUNT = 10;
-    private static int mCurrentCounter = 1;
+    private static int mCurrentCounter = 0;
     private String code;
-    private ArrayList<FansHotBuyReturnBeen.ListBean> list = new ArrayList<>();
-    private ArrayList<FansHotBuyReturnBeen.ListBean> loadList = new ArrayList<>();
+    private ArrayList<CommentMarketBeen.CommentsinfoBean> list = new ArrayList<>();
+    private ArrayList<CommentMarketBeen.CommentsinfoBean> loadList = new ArrayList<>();
+    private LRecyclerViewAdapter lRecyclerViewAdapter;
+    private CommentMarketAdapter commentMarketAdapter;
 
     @Override
     protected int getLayoutResource() {
@@ -57,25 +64,59 @@ public class CommentMarketFragment extends BaseFragment {
         }
         initAdapter();
         getData(false,0,REQUEST_COUNT);
-        if (list.size()==0){
-            tv_add_comment.setVisibility(View.VISIBLE);
-        }else {
-            tv_add_comment.setVisibility(View.GONE);
-        }
+        initListener();
+    }
+
+    private void initListener() {
+        /*lrv.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                commentMarketAdapter.clear();
+                mCurrentCounter = 0;
+                getData(false,0,REQUEST_COUNT);
+            }
+        });*/
+        lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                getData(true,mCurrentCounter,REQUEST_COUNT);
+            }
+        });
+        lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                boolean login = CheckLoginUtil.checkLogin(getActivity());
+                if (login){
+                    Intent intent = new Intent(getActivity(),AddUserCommentActivity.class);
+                    intent.putExtra(AppConstant.STAR_CODE,code);
+                    getActivity().startActivity(intent);
+                }
+
+            }
+        });
+
     }
 
     private void initAdapter() {
-        CommentMarketAdapter commentMarketAdapter = new CommentMarketAdapter(getActivity());
-        LRecyclerViewAdapter lRecyclerViewAdapter = new LRecyclerViewAdapter(commentMarketAdapter);
+        commentMarketAdapter = new CommentMarketAdapter(getActivity());
+        lRecyclerViewAdapter = new LRecyclerViewAdapter(commentMarketAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
         lrv.setNoMore(false);
-        lrv.setLayoutManager(new LinearLayoutManager(getContext()));
         lrv.setPullRefreshEnabled(false);
+        lrv.setLayoutManager(new LinearLayoutManager(getContext()));
         lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
+        initLrvHeadView();
+    }
+
+    private void initLrvHeadView() {
+        //add a HeaderView
+        View header = LayoutInflater.from(getContext()).inflate(R.layout.head_comment_list, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
+        TextView tv_num = (TextView) header.findViewById(R.id.tv_num);
+        lRecyclerViewAdapter.addHeaderView(header);
     }
 
     private void getData(final boolean isLoadMore,int start ,int count) {
-        NetworkAPIFactoryImpl.getInformationAPI().inquiry(code, start, count, new OnAPIListener<Object>() {
+        NetworkAPIFactoryImpl.getInformationAPI().inquiry(code, start, count, new OnAPIListener<CommentMarketBeen>() {
             @Override
             public void onError(Throwable ex) {
                 if (lrv!=null){
@@ -84,8 +125,22 @@ public class CommentMarketFragment extends BaseFragment {
             }
 
             @Override
-            public void onSuccess(Object o) {
-                LogUtils.loge("评论"+o.toString());
+            public void onSuccess(CommentMarketBeen been) {
+                LogUtils.loge("评论"+been.toString());
+                if (been.getCommentsinfo()==null){
+                    lrv.setNoMore(true);
+                    return;
+                }
+                if (isLoadMore){
+                    loadList.clear();
+                    loadList = been.getCommentsinfo();
+                    loadMoreData();
+                }else {
+                    list.clear();
+                    list = been.getCommentsinfo();
+                    showData();
+                }
+
             }
         });
     }
@@ -95,5 +150,27 @@ public class CommentMarketFragment extends BaseFragment {
         Intent intent = new Intent(getActivity(), AddUserCommentActivity.class);
         intent.putExtra(AppConstant.STAR_CODE,code);
         getActivity().startActivity(intent);
+    }
+
+    public void showData() {
+        if (list.size()==0){
+            tv_add_comment.setVisibility(View.VISIBLE);
+        }else {
+            tv_add_comment.setVisibility(View.GONE);
+        }
+        mCurrentCounter =list.size();
+        lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
+        commentMarketAdapter.addAll(list);
+        lrv.refreshComplete(REQUEST_COUNT);
+    }
+    private void loadMoreData() {
+        if (loadList == null || list.size() == 0) {
+            lrv.setNoMore(true);
+        } else {
+            list.addAll(loadList);
+            commentMarketAdapter.addAll(loadList);
+            mCurrentCounter += loadList.size();
+            lrv.refreshComplete(loadList.size());
+        }
     }
 }
