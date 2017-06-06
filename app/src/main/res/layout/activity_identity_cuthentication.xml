@@ -15,7 +15,7 @@
         android:layout_height="168dp"
         android:layout_gravity="center"
         android:layout_marginTop="38dp"
-        android:src="@drawable/back_arrow" />
+        android:src="@drawable/identity_verification" />
 
     <EditText
         android:id="@+id/et_input_name"

@@ -1,6 +1,7 @@
 package com.yundian.star.ui.main.activity;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
@@ -38,7 +39,9 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.view.CustomerRadioGroup;
 import com.yundian.star.ui.view.RoundImageView;
+import com.yundian.star.utils.JudgeIdentityUril;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
@@ -149,30 +152,35 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 switch (checkedId) {
                     case R.id.rb_recharge_money1:
                         price = 1;
+                        rechargeMoney.setText("1.00");
                         rbRechargeMoney1.setChecked(true);
                         break;
                     case R.id.rb_recharge_money2:
+                        rechargeMoney.setText("10.00");
                         rbRechargeMoney2.setChecked(true);
                         price = 10;
                         break;
                     case R.id.rb_recharge_money3:
+                        rechargeMoney.setText("100.00");
                         rbRechargeMoney3.setChecked(true);
                         price = 100;
                         break;
                     case R.id.rb_recharge_money4:
+                        rechargeMoney.setText("1000.00");
                         rbRechargeMoney4.setChecked(true);
                         price = 1000;
                         break;
                     case R.id.rb_recharge_money5:
+                        rechargeMoney.setText("10000.00");
                         rbRechargeMoney5.setChecked(true);
                         price = 10000;
                         break;
                     case R.id.rb_recharge_money6:
+                        rechargeMoney.setText("50000.00");
                         rbRechargeMoney6.setChecked(true);
                         price = 50000;
                         break;
                 }
-                rechargeMoney.setText(price+"");
             }
         });
         rechargeMoney.addTextChangedListener(new TextWatcher() {
@@ -221,7 +229,9 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_recharge_sure:
-                applyRecharge();
+                if (JudgeIdentityUril.isIdentityed(this)){
+                    applyRecharge();
+                }
                 break;
             case R.id.ll_user_recharge_type:  //选择充值方式
                 popupWindow.showAtLocation(findViewById(R.id.ll_recharge_ui), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);

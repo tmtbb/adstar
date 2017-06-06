@@ -29,6 +29,7 @@ import java.util.List;
 
 import butterknife.Bind;
 
+import static com.yundian.star.ui.wangyi.DemoCache.clear;
 import static com.yundian.star.ui.wangyi.DemoCache.getContext;
 
 /**
@@ -47,7 +48,7 @@ public class MoneyBagDetailActivity extends BaseActivity {
     private LRecyclerViewAdapter lRecyclerViewAdapter;
 
     private static final int REQUEST_COUNT = 10;
-    private static int mCurrentCounter = 1;
+    private static int mCurrentCounter = 0;
     private List<MoneyDetailListBean> loadList = new ArrayList<>();
     private List<MoneyDetailListBean> refreshList = new ArrayList<>();
 
@@ -64,10 +65,10 @@ public class MoneyBagDetailActivity extends BaseActivity {
     public void initView() {
         ntTitle.setTitleText(getResources().getString(R.string.money_bag_detail));
         ntTitle.setTvLeftVisiable(true);
-        ntTitle.setRightImagSrc(R.drawable.about_logo);
+        ntTitle.setRightImagSrc(R.drawable.money_screen);
         initPopupMenu();
         initAdapter();
-        requestMoneyDetailData(false, 1, 10);
+        requestMoneyDetailData(false, 0, 10);
     }
 
     private void requestMoneyDetailData(final boolean isLoadMore, int start, int count) {
@@ -112,6 +113,7 @@ public class MoneyBagDetailActivity extends BaseActivity {
     }
 
     public void showData() {
+        moneyBagDetailAdapter.clear();
         mCurrentCounter = refreshList.size();
         lRecyclerViewAdapter.notifyDataSetChanged();
         moneyBagDetailAdapter.addAll(refreshList);
@@ -169,7 +171,7 @@ public class MoneyBagDetailActivity extends BaseActivity {
             @Override
             public void onRefresh() {
                 LogUtils.logd("下拉刷新---------");
-                requestMoneyDetailData(false, 1, 10);
+                requestMoneyDetailData(false, 0, 10);
             }
         });
 
@@ -177,7 +179,7 @@ public class MoneyBagDetailActivity extends BaseActivity {
             @Override
             public void onLoadMore() {
                 LogUtils.logd("上拉加载更多----起始位置:");
-                requestMoneyDetailData(true, mCurrentCounter + 1, REQUEST_COUNT);
+                requestMoneyDetailData(true, mCurrentCounter, REQUEST_COUNT);
             }
         });
 

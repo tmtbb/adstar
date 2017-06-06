@@ -94,8 +94,7 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
                 startActivity(RechargeActivity.class);
                 break;
             case R.id.ll_user_fudai:
-                ToastUtils.showShort("模拟进行身份认证");
-                showIdentityDialog();
+//                ToastUtils.showShort("模拟进行身份认证");
                 break;
         }
     }
@@ -113,29 +112,6 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
                 popupWindow.dismiss();
                 break;
         }
-    }
-
-    private void showIdentityDialog() {
-        final Dialog mDetailDialog = new Dialog(this, R.style.custom_dialog);
-        mDetailDialog.setContentView(R.layout.dialog_identity_authentivation);
-        final Button startIdentity = (Button) mDetailDialog.findViewById(R.id.btn_start_identity);
-        ImageView closeImg = (ImageView) mDetailDialog.findViewById(R.id.iv_dialog_close);
-        closeImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDetailDialog.dismiss();
-            }
-        });
-        mDetailDialog.setCancelable(false);
-        startIdentity.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogUtils.logd("进入身份认证页面-----");
-                startActivity(IdentityAuthenticationActivity.class);
-                mDetailDialog.dismiss();
-            }
-        });
-        mDetailDialog.show();
     }
 
 }

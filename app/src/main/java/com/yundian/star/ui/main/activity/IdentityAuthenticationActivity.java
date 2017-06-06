@@ -81,7 +81,7 @@ public class IdentityAuthenticationActivity extends BaseActivity {
 
     private void nextBtn() {
         if (!isCheck) {
-            ToastUtils.showShort("请先同意免责声明");
+            ToastUtils.showShort("您尚未勾选《免责声明》，请选择。");
             return;
         }
         NetworkAPIFactoryImpl.getDealAPI().identityAuthentication(etInputName.getText().toString().trim(),

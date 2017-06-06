@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.yundian.star.app.AppApplication;
+import com.yundian.star.been.AssetDetailsBean;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.UserinfoBean;
 import com.yundian.star.ui.wangyi.DemoCache;
@@ -374,5 +375,27 @@ public class SharePrefUtil {
         sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
         int count = sp.getInt("orderStar", 0);
         return count;
+    }
+
+    public int getIsSetpwd() {
+        sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
+        int is_setpwd = sp.getInt("is_setpwd", 0);   //0否  1是
+        return is_setpwd;
+    }
+    public void putIsSetpwd(int is_setpwd){
+        sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
+        sp.edit().putInt("is_setpwd", is_setpwd ).apply();
+    }
+
+    /**
+     * 保存资产信息  余额 / 市值  总资产等
+     * @param bean
+     */
+    public void saveAssetInfo(AssetDetailsBean bean) {
+        sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
+        sp.edit().putString("balance", bean.getBalance() + "").apply();
+        sp.edit().putString("market_cap", bean.getMarket_cap()+"").apply();
+        sp.edit().putString("total_amt", bean.getTotal_amt()+"").apply();
+        sp.edit().putInt("is_setpwd", bean.getIs_setpwd() ).apply();
     }
 }
