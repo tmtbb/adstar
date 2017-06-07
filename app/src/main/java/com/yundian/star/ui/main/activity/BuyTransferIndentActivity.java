@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.View;
+import android.widget.ImageView;
 
 import com.flyco.tablayout.SlidingTabLayout;
 import com.yundian.star.R;
@@ -29,16 +31,20 @@ public class BuyTransferIndentActivity extends BaseActivity {
 
     @Bind(R.id.tabs)
     SlidingTabLayout tabs ;
-
     @Bind(R.id.view_pager)
     ViewPager view_pager ;
+    @Bind(R.id.back)
+    ImageView back ;
+    private String code;
+    private String name;
+    private String wid;
+    private String head_url;
 
     private BuyTransferIndentAdapter fragmentAdapter;
 
     private List<String> listType = new ArrayList<>();
     private List<Fragment> mBuyTransferFragmentList;
-    private int type;
-
+    private int type ;
     @Override
     public int getLayoutId() {
         return R.layout.activity_buy_transfer_indent;
@@ -53,7 +59,21 @@ public class BuyTransferIndentActivity extends BaseActivity {
     public void initView() {
         Intent intent = getIntent();
         type = intent.getIntExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 0);
+        wid = intent.getStringExtra(AppConstant.STAR_WID);
+        code = intent.getStringExtra(AppConstant.STAR_CODE);
+        head_url = intent.getStringExtra(AppConstant.STAR_HEAD_URL);
+        name = intent.getStringExtra(AppConstant.STAR_NAME);
         initType();
+        initListener();
+    }
+
+    private void initListener() {
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     //内部fragment的tab头部
@@ -85,8 +105,10 @@ public class BuyTransferIndentActivity extends BaseActivity {
 
     private void createListFragments() {
         Bundle bundle = new Bundle();
-        bundle.putString(AppConstant.MARKET_DETAIL_IN_TYPE,"1001");
-
+        bundle.putString(AppConstant.STAR_CODE,code);
+        bundle.putString(AppConstant.STAR_HEAD_URL,head_url);
+        bundle.putString(AppConstant.STAR_WID,wid);
+        bundle.putString(AppConstant.STAR_NAME,name);
         AskToBuyMarketFragment askToBuyMarketFragment = new AskToBuyMarketFragment();
         askToBuyMarketFragment.setArguments(bundle);
 

@@ -45,6 +45,10 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
     private EditText mCount;
     private OnWarnListener mOnWarnListener;
     private boolean isDoubleType = false;
+    private TextView addButton;
+    private TextView subButton;
+    private Context myContext;
+    private boolean isEditGetFocus = false ;
 
     public NumberButton(Context context) {
         this(context, null);
@@ -52,6 +56,7 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
 
     public NumberButton(Context context, AttributeSet attrs) {
         super(context, attrs);
+        myContext = context;
         init(context, attrs);
     }
 //
@@ -62,9 +67,9 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
     private void init(Context context, AttributeSet attrs) {
         LayoutInflater.from(context).inflate(R.layout.layout, this);
 
-        TextView addButton = (TextView) findViewById(R.id.button_add);
+        addButton = (TextView) findViewById(R.id.button_add);
         addButton.setOnClickListener(this);
-        TextView subButton = (TextView) findViewById(R.id.button_sub);
+        subButton = (TextView) findViewById(R.id.button_sub);
         subButton.setOnClickListener(this);
 
         mCount = ((EditText) findViewById(R.id.text_count));
@@ -102,7 +107,7 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
             mCount.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
         } else {
             //mCount.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-            mCount.setKeyListener(new DigitsKeyListener(false,true));
+            mCount.setKeyListener(new DigitsKeyListener(false, true));
             // mCount.setInputType(InputType.TYPE_CLASS_NUMBER);
 
             /*mCount.setKeyListener(new NumberKeyListener() {
@@ -120,7 +125,45 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
 
 
         }
+        mCount.setOnFocusChangeListener(new android.view.View.
+                OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    // 此处为得到焦点时的处理内容
+                    isEditGetFocus= true ;
+                } else {
+                    isEditGetFocus = false;
+                    // 此处为失去焦点时的处理内容
+                }
+            }
+        });
+        mCount.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isEditGetFocus){
+                    mCount.setFocusable(false);
+                    mCount.setEnabled(false);
+                    mCount.setFocusableInTouchMode(false);
+                    mCount.clearFocus();
+                    mCount.postDelayed(runnable,200);
+
+                }
+               // mCount.requestFocus();
+                LogUtils.loge("编辑框状态变化");
+                //KeyBordUtil.showSoftKeyboard(mCount);
+            }
+        });
     }
+    public Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            mCount.setFocusable(true);
+            mCount.setEnabled(true);
+            mCount.setFocusableInTouchMode(true);
+            mCount.requestFocus();
+        }
+    };
 
     public int getNumber() {
         try {
@@ -147,64 +190,89 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
         int id = v.getId();
         if (isDoubleType) {
             double floatcount = getFloatNumber();
-            LogUtils.loge("点击..."+String.valueOf(floatcount));
+            LogUtils.loge("点击..." + String.valueOf(floatcount));
             if (id == R.id.button_sub) {
                 if (floatcount <= mBuyMin) {
                     //超过最小数量
+                    subButton.setBackgroundResource(R.drawable.subtract_no_can);
                     warningForBuyMin();
                 } else {
-                    double v1 = floatcount-0.01;
-                    String result1 = String .format("%.2f",v1);
+                    subButton.setBackgroundResource(R.drawable.subtract_can);
+                    addButton.setBackgroundResource(R.drawable.add_can);
+                    double v1 = floatcount - 0.01;
+                    String result1 = String.format("%.2f", v1);
                     mCount.setText(result1);
                 }
 
             } else if (id == R.id.button_add) {
                 LogUtils.loge("1");
                 if (floatcount < Math.min(mBuyMax, mInventory)) {
-                    double v2 = floatcount+0.01;
-                    String result2 = String .format("%.2f",v2);
+                    addButton.setBackgroundResource(R.drawable.add_can);
+                    subButton.setBackgroundResource(R.drawable.subtract_can);
+                    double v2 = floatcount + 0.01;
+                    String result2 = String.format("%.2f", v2);
                     mCount.setText(result2);
                 } else if (mInventory < mBuyMax) {
+                    addButton.setBackgroundResource(R.drawable.add_no_can);
                     //库存不足
                     warningForInventory();
                 } else {
+                    addButton.setBackgroundResource(R.drawable.add_no_can);
                     //超过最大购买数
                     warningForBuyMax();
                 }
 
-            } else if (id == R.id.text_count) {
+            } /*else if (id == R.id.text_count) {
                 mCount.setSelection(mCount.getText().toString().length());
-            }
+            }*/
 
         } else {
             int count = getNumber();
             if (id == R.id.button_sub) {
                 if (count <= mBuyMin) {
                     //超过最小数量
+                    subButton.setBackgroundResource(R.drawable.subtract_no_can);
                     warningForBuyMin();
                 } else {
+                    subButton.setBackgroundResource(R.drawable.subtract_can);
+                    addButton.setBackgroundResource(R.drawable.add_can);
                     mCount.setText("" + (count - 1));
                 }
 
             } else if (id == R.id.button_add) {
                 if (count < Math.min(mBuyMax, mInventory)) {
                     //正常添加
+                    addButton.setBackgroundResource(R.drawable.add_can);
+                    subButton.setBackgroundResource(R.drawable.subtract_can);
                     mCount.setText("" + (count + 1));
                 } else if (mInventory < mBuyMax) {
+                    addButton.setBackgroundResource(R.drawable.add_no_can);
                     //库存不足
                     warningForInventory();
                 } else {
+                    addButton.setBackgroundResource(R.drawable.add_no_can);
                     //超过最大购买数
                     warningForBuyMax();
                 }
 
-            } else if (id == R.id.text_count) {
+            } /*else if (id == R.id.text_count) {
                 mCount.setSelection(mCount.getText().toString().length());
-            }
+            }*/
         }
     }
 
     private void onNumberInput() {
+        if (getFloatNumber()>=mBuyMax){
+            addButton.setBackgroundResource(R.drawable.add_no_can);
+        }else {
+            addButton.setBackgroundResource(R.drawable.add_can);
+        }
+        if (getFloatNumber()<=mBuyMin){
+            subButton.setBackgroundResource(R.drawable.subtract_no_can);
+        }else {
+            subButton.setBackgroundResource(R.drawable.subtract_can);
+        }
+
         if (isDoubleType) {
             double floatcount = getFloatNumber();
             LogUtils.loge(String.valueOf(floatcount));
@@ -293,7 +361,18 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
     }
 
     public NumberButton setCurrentNumber(int currentNumber) {
-        if (currentNumber < 1) mCount.setText("1");
+        if (currentNumber <= mBuyMin) {
+            mCount.setText(String.valueOf(mBuyMin));
+            subButton.setBackgroundResource(R.drawable.subtract_no_can);
+        } else {
+            subButton.setBackgroundResource(R.drawable.subtract_can);
+        }
+
+        if (currentNumber >= mBuyMax) {
+            addButton.setBackgroundResource(R.drawable.add_no_can);
+        } else {
+            addButton.setBackgroundResource(R.drawable.add_can);
+        }
         mCount.setText("" + Math.min(Math.min(mBuyMax, mInventory), currentNumber));
         return this;
     }

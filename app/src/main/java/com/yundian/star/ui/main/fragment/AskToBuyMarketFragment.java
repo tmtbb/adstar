@@ -4,6 +4,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.yundian.star.R;
+import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.widget.NumberButton;
@@ -21,6 +22,10 @@ public class AskToBuyMarketFragment extends BaseFragment {
     NumberButton but_buy_num;
     @Bind(R.id.tv_sure_buy)
     TextView tv_sure_buy ;
+    private String code;
+    private String head_url;
+    private String wid;
+    private String name;
 
     @Override
     protected int getLayoutResource() {
@@ -34,9 +39,19 @@ public class AskToBuyMarketFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        if (getArguments()!=null){
+            code = getArguments().getString(AppConstant.STAR_CODE);
+            head_url = getArguments().getString(AppConstant.STAR_HEAD_URL);
+            wid = getArguments().getString(AppConstant.STAR_WID);
+            name = getArguments().getString(AppConstant.STAR_NAME);
+        }
+        initListener();
+    }
+
+    private void initListener() {
         but_buy_price.setBuyMax(100)
                 .setInventory(200)
-                .setCurrentNumber(5)
+                .setCurrentNumber(1)
                 .setBuyMin(1)
                 .setDoubleType(true)
                 .setOnWarnListener(new NumberButton.OnWarnListener() {

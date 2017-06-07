@@ -101,11 +101,19 @@ public class StarTimeShareActivity extends BaseActivity {
             case R.id.rb_1:
                 Intent intent = new Intent(this,BuyTransferIndentActivity.class);
                 intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE,0);
+                intent.putExtra(AppConstant.STAR_WID,wid);
+                intent.putExtra(AppConstant.STAR_NAME,name);
+                intent.putExtra(AppConstant.STAR_CODE,code);
+                intent.putExtra(AppConstant.STAR_HEAD_URL,head_url);
                 startActivity(intent);
                 break;
             case R.id.rb_2:
                 Intent intent2 = new Intent(this,BuyTransferIndentActivity.class);
                 intent2.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE,1);
+                intent2.putExtra(AppConstant.STAR_WID,wid);
+                intent2.putExtra(AppConstant.STAR_NAME,name);
+                intent2.putExtra(AppConstant.STAR_CODE,code);
+                intent2.putExtra(AppConstant.STAR_HEAD_URL,head_url);
                 startActivity(intent2);
                 break;
             case R.id.rb_3:
