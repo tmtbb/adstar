@@ -67,6 +67,8 @@ public class NewsStarBuyActivity extends BaseActivity {
     TextView tv_mesure;
     @Bind(R.id.img_adv)
     ImageView img_adv;
+    private String weibo_index_id;
+    private String head_url;
 
     @Override
     public int getLayoutId() {
@@ -188,6 +190,8 @@ public class NewsStarBuyActivity extends BaseActivity {
     }
 
     private void initData(StarBuyActReferralInfo info) {
+        weibo_index_id = info.getWeibo_index_id();
+        head_url = info.getHead_url();
         name = info.getName();
         nl_title.setTitleText(info.getName());
 
@@ -210,6 +214,8 @@ public class NewsStarBuyActivity extends BaseActivity {
         Intent intent = new Intent(this,StarTimeShareActivity.class);
         intent.putExtra(AppConstant.STAR_CODE,code);
         intent.putExtra(AppConstant.STAR_NAME,name);
+        intent.putExtra(AppConstant.STAR_WID,weibo_index_id);
+        intent.putExtra(AppConstant.STAR_HEAD_URL,head_url);
         startActivity(intent);
     }
     //生命周期控制

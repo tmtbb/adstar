@@ -147,7 +147,7 @@
     <string name="new_price_market_detail_2">元/秒</string>
     <string name="price_limit">涨跌幅</string>
     <string name="star_hot">明星热度</string>
-    <string name="star_price_time_share">￥19.88</string>
+    <string name="star_price_time_share">￥%s</string>
     <string name="star_price_time_share_limit">+0.02/14.29%</string>
 
     <string name="readed">已读</string>

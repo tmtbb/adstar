@@ -45,6 +45,8 @@ public class StarTimeShareActivity extends BaseActivity {
     private List<Fragment> mNewsFragmentList;
     private String code;
     private String name;
+    private String wid;
+    private String head_url;
 
     @Override
     public int getLayoutId() {
@@ -60,6 +62,8 @@ public class StarTimeShareActivity extends BaseActivity {
     public void initView() {
         code = getIntent().getStringExtra(AppConstant.STAR_CODE);
         name = getIntent().getStringExtra(AppConstant.STAR_NAME);
+        wid = getIntent().getStringExtra(AppConstant.STAR_WID);
+        head_url = getIntent().getStringExtra(AppConstant.STAR_HEAD_URL);
         nt_title.setBackVisibility(true);
         nt_title.setTitleText(name);
         initType();
@@ -71,8 +75,13 @@ public class StarTimeShareActivity extends BaseActivity {
 
     //初始化分时图
     private void initTimeShare() {
+        Bundle bundle = new Bundle();
+        bundle.putString(AppConstant.STAR_CODE,code);
+        bundle.putString(AppConstant.STAR_WID,wid);
+        bundle.putString(AppConstant.STAR_HEAD_URL,head_url);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         KChartFragment kChartFragment = new KChartFragment();
+        kChartFragment.setArguments(bundle);
         transaction.add(R.id.fl_KChartFragment, kChartFragment, "kChartFragment");
         transaction.commit();
     }

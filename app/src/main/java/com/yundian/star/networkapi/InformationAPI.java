@@ -12,7 +12,7 @@ import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.been.StarListbeen;
 import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.StarStarAchBeen;
-import com.yundian.star.been.StartTimeShareBeen;
+import com.yundian.star.been.TimeLineBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.ui.main.model.NewsInforModel;
 
@@ -39,6 +39,6 @@ public interface InformationAPI {
     void addFriend(String accid,String faccid,String msg,int type,OnAPIListener<Object> listener);
     void reduceTime(String phone,String starcode,OnAPIListener<Object> listener);
     void inquiry(String symbol,int startPos,int count ,OnAPIListener<CommentMarketBeen> listener);
-    void getStarStatist(String starcode ,OnAPIListener<StartTimeShareBeen> listener);
+    void getTimeLine(long id,String token,String symbol ,int aType,OnAPIListener<TimeLineBeen> listener);
     void getAddComment(String symbol,String fans_id,String nick_name,String comments,String head_url ,OnAPIListener<Object> listener);
 }

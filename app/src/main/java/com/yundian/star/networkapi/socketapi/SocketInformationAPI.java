@@ -12,7 +12,7 @@ import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.been.StarListbeen;
 import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.StarStarAchBeen;
-import com.yundian.star.been.StartTimeShareBeen;
+import com.yundian.star.been.TimeLineBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.InformationAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
@@ -200,13 +200,17 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
-    public void getStarStatist(String starcode, OnAPIListener<StartTimeShareBeen> listener) {
+    public void getTimeLine(long id, String token, String symbol, int aType, OnAPIListener<TimeLineBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("starcode", starcode);
-        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Starstatist,
-                SocketAPIConstant.ReqeutType.SearchStar, map);
-        requestEntity(socketDataPacket,StartTimeShareBeen.class,listener);
+        map.put("id", id);
+        map.put("token", token);
+        map.put("symbol", symbol);
+        map.put("aType", aType);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.TimeLine,
+                SocketAPIConstant.ReqeutType.Time, map);
+        requestEntity(socketDataPacket,TimeLineBeen.class,listener);
     }
+
 
     @Override
     public void getAddComment(String symbol, String fans_id, String nick_name, String comments, String head_url, OnAPIListener<Object> listener) {

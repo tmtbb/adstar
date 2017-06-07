@@ -152,6 +152,8 @@ public class MarketDetailFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(), StarTimeShareActivity.class);
                 intent.putExtra(AppConstant.STAR_CODE, infoBean.getSymbol());
                 intent.putExtra(AppConstant.STAR_NAME, infoBean.getName());
+                intent.putExtra(AppConstant.STAR_WID, infoBean.getWid());
+                intent.putExtra(AppConstant.STAR_HEAD_URL, infoBean.getPic());
                 startActivity(intent);
             }
         });
