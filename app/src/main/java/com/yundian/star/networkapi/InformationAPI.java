@@ -7,6 +7,8 @@ import com.yundian.star.been.CommentMarketBeen;
 import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
+import com.yundian.star.been.SrealSendBeen;
+import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
 import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.been.StarListbeen;
@@ -15,6 +17,8 @@ import com.yundian.star.been.StarStarAchBeen;
 import com.yundian.star.been.TimeLineBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.ui.main.model.NewsInforModel;
+
+import java.util.List;
 
 /**
  * Created by ysl .
@@ -41,4 +45,5 @@ public interface InformationAPI {
     void inquiry(String symbol,int startPos,int count ,OnAPIListener<CommentMarketBeen> listener);
     void getTimeLine(long id,String token,String symbol ,int aType,OnAPIListener<TimeLineBeen> listener);
     void getAddComment(String symbol,String fans_id,String nick_name,String comments,String head_url ,OnAPIListener<Object> listener);
+    void getSrealtime(long id, String token, List<SrealSendBeen> symbolInfos , OnAPIListener<SrealSendReturnBeen> listener);
 }

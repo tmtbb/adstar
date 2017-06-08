@@ -148,7 +148,7 @@
     <string name="price_limit">涨跌幅</string>
     <string name="star_hot">明星热度</string>
     <string name="star_price_time_share">￥%s</string>
-    <string name="star_price_time_share_limit">+0.02/14.29%</string>
+    <string name="star_price_time_share_limit">%1$s/%2$s</string>
 
     <string name="readed">已读</string>
     <string name="about">关于</string>

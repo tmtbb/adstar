@@ -76,6 +76,7 @@ public interface SocketAPIConstant {
         Short Starstatist = 11017;
         Short AddComment = 12001;
         Short StarList = 4007;
+        Short Srealtime = 4001;
 
 
     }

@@ -1,5 +1,6 @@
 package com.yundian.star.networkapi.socketapi;
 
+
 import com.yundian.star.app.SocketAPIConstant;
 import com.yundian.star.base.SearchReturnbeen;
 import com.yundian.star.been.AdvBeen;
@@ -7,6 +8,8 @@ import com.yundian.star.been.CommentMarketBeen;
 import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
+import com.yundian.star.been.SrealSendBeen;
+import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
 import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.been.StarListbeen;
@@ -17,9 +20,15 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.InformationAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.ui.main.model.NewsInforModel;
+import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by ysl.
@@ -223,6 +232,29 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.AddComment,
                 SocketAPIConstant.ReqeutType.Inquirylist, map);
         requestJsonObject(socketDataPacket,listener);
+    }
+
+    @Override
+    public void getSrealtime(long id, String token, List<SrealSendBeen> symbolInfos, OnAPIListener<SrealSendReturnBeen> listener) {
+        JSONArray json = new JSONArray();
+        for (SrealSendBeen symbolInfo : symbolInfos) {
+            JSONObject jo = new JSONObject();
+            try {
+                jo.put("symbol", symbolInfo.getSymbol());
+                jo.put("aType", symbolInfo.getAType());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            json.put(jo);
+        }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("token", token);
+        map.put("symbolInfos", json);
+        LogUtils.loge(symbolInfos+"。。。HashMap"+json.toString()+"MAP....."+map.toString());
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Srealtime,
+                SocketAPIConstant.ReqeutType.Time, map);
+        requestEntity(socketDataPacket, SrealSendReturnBeen.class,listener);
     }
 
 }

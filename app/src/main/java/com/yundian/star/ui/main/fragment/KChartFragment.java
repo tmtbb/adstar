@@ -27,6 +27,7 @@ import com.yundian.star.utils.TimeUtil;
 import com.yundian.star.wxapi.LineMarkerView;
 
 import java.lang.ref.WeakReference;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -111,6 +112,9 @@ public class KChartFragment extends BaseFragment {
             @Override
             public void onSuccess(TimeLineBeen timeLineBeen) {
                 LogUtils.loge("分时图" + timeLineBeen.toString());
+                if (timeLineBeen.getPriceinfo()==null){
+                    return;
+                }
                 loadChartData(timeLineBeen.getPriceinfo());
 
             }
@@ -171,7 +175,10 @@ public class KChartFragment extends BaseFragment {
             tv_change.setBackgroundColor(getActivity().getResources().getColor(R.color.color_18B03F));
             tv_preice.setTextColor(getContext().getResources().getColor(R.color.color_18B03F));
         }
-        tv_change.setText(String.format("%.2f", currentTimeLineEntities.get(0).getChange()));
+        DecimalFormat format = new DecimalFormat("0.00%");
+        String updown = format.format(currentTimeLineEntities.get(0).getPchg()/100);
+        tv_change.setText(String.format(getContext().getResources().getString(R.string.star_price_time_share_limit),
+                String.format("%.2f",currentTimeLineEntities.get(0).getChange()),updown));
         tv_preice.setText(String.format(getString(R.string.star_price_time_share),String.format("%.2f", currentTimeLineEntities.get(0).getCurrentPrice())));
         mChart.resetTracking();
         if (currentTimeLineEntities.size() == 0) {
@@ -219,7 +226,7 @@ public class KChartFragment extends BaseFragment {
                 switch (msg.what) {
                     case GRT_DATA:
                         fragment.getData();
-                        fragment.mHandler.sendEmptyMessageDelayed(GRT_DATA, 5 * 1000);
+                        fragment.mHandler.sendEmptyMessageDelayed(GRT_DATA, 3 * 1000);
                         break;
                 }
             }

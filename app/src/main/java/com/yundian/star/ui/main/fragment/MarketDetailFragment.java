@@ -33,6 +33,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/5/15.
+ * 行情明星热度列表
  */
 
 public class MarketDetailFragment extends BaseFragment {
