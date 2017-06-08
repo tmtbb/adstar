@@ -22,9 +22,16 @@ android {
         buildConfigField "String", "BUILD_DATE", "\"${new Date().toLocaleString()}\"";
         ndk {
             //设置支持的SO库架构
-            abiFilters "armeabi-v7a", "x86","arm64-v8a","x86_64"
+            abiFilters "armeabi-v7a", "x86","arm64-v8a","x86_64","armeabi"
         }
         multiDexEnabled true
+
+        manifestPlaceholders = [
+                GETUI_APP_ID : "DfosxEx3QE9YpPMWr39BJ4",
+                GETUI_APP_KEY : "ysA6H8Vmci7ctI5fvWHBD9",
+                GETUI_APP_SECRET : "bKuqlpTu0r5wVbbsHOPGn",
+                PACKAGE_NAME : applicationId
+        ]
 
     }
     signingConfigs{
@@ -105,5 +112,8 @@ dependencies {
     compile files('libs/alipaySingle-20170510.jar')
     compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
         transitive = true;
-    }  //fabric
+    }
+    //fabric
+    compile project(':qAMasterSDK')
+    compile 'com.getui:sdk:2.10.2.0'
 }

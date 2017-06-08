@@ -137,15 +137,16 @@ public class SettingDealPwdActivity extends BaseActivity {
         NetworkAPIFactoryImpl.getDealAPI().dealPwd(phone, vToken, vCode, 0, type, pwd, new OnAPIListener<RequestResultBean>() {
             @Override
             public void onSuccess(RequestResultBean resultBean) {
-                LogUtils.loge("设置支付密码成功回调:" + resultBean.toString());
+                LogUtils.loge("设置交易密码成功回调:" + resultBean.toString());
                 if (resultBean.getStatus() == 0) {
-                    ToastUtils.showShort("设置支付密码成功");
+                    ToastUtils.showShort("设置交易密码成功");
+                    SharePrefUtil.getInstance().putIsSetpwd(0);   //设置过密码
                     finish();
                     //关闭前面几个页面
 //                    AppManager.getAppManager().finishActivity(DisclaimerActivity.class);
                     AppManager.getAppManager().finishActivity(IdentityAuthenticationActivity.class);
                 } else {
-                    ToastUtils.showShort("设置支付密码失败");
+                    ToastUtils.showShort("设置交易密码失败");
                 }
             }
 

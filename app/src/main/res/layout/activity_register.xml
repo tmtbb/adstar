@@ -119,6 +119,7 @@
             android:background="@color/color_D2D2D2" />
 
         <TextView
+            android:id="@+id/tv_three_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/dp_22"
@@ -128,6 +129,7 @@
             android:textSize="@dimen/fontSize_14sp" />
 
         <LinearLayout
+            android:id="@+id/ll_wx_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_25"

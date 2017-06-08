@@ -3,10 +3,10 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/set_pwd_layout2"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/set_pwd_layout2"
     tools:showIn="@layout/activity_setting_deal_pwd">
 
     <com.yundian.star.widget.NormalTitleBar
@@ -40,7 +40,7 @@
         android:layout_marginTop="134dp"
         android:background="@drawable/selector_verification"
         android:padding="@dimen/dp_12"
-        android:text="@string/setting_next"
+        android:text="@string/make_sure"
         android:textColor="@color/color_f8f8f8"
         android:textSize="@dimen/dp_16" />
 </LinearLayout>

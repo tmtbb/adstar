@@ -19,7 +19,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
             android:textColor="#333333"
-            android:text="输入支付密码"/>
+            android:text="输入交易密码"/>
         <com.yundian.star.ui.view.PayPwdEditText
             android:id="@+id/ppet"
             android:layout_below="@+id/tv_title"

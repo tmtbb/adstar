@@ -57,7 +57,7 @@ public class BookingStarActivity extends BaseActivity {
         ntTitle.setTitleText(getResources().getString(R.string.booking_star_list));
         ntTitle.setBackVisibility(true);
         initAdapter();
-        getData(false, 0, REQUEST_COUNT);
+        getData(false, 1, REQUEST_COUNT);
     }
 
     private void getData(final boolean isLoadMore, int start, int count) {
@@ -105,13 +105,13 @@ public class BookingStarActivity extends BaseActivity {
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getData(true, mCurrentCounter, REQUEST_COUNT);
+                getData(true, mCurrentCounter+1, REQUEST_COUNT);
             }
         });
         lrv.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getData(false, 0, 10);
+                getData(false, 1, 10);
             }
         });
     }

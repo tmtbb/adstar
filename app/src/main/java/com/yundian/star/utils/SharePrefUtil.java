@@ -379,7 +379,7 @@ public class SharePrefUtil {
 
     public int getIsSetpwd() {
         sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
-        int is_setpwd = sp.getInt("is_setpwd", 0);   //0否  1是
+        int is_setpwd = sp.getInt("is_setpwd", 1);   //1 需要设置密码  0,已经设置过了
         return is_setpwd;
     }
     public void putIsSetpwd(int is_setpwd){

@@ -6,6 +6,7 @@ public interface Constant {
     String[] handleText = new String[]{" 未操作 ", " 双倍返还 ", " 货运 ", " 退舱 "};
     String APP_ID = "wx9dc39aec13ee3158";
     String SECRET = "a12a88f2c4596b2726dd4ba7623bc27e";
+    String BUG_OUT_ID = "1664ea921dcbe122834e440f7f584e2e";
 
     String USER_ENTITY = "user_entity";
     String USER_PWD = "user_pwd";

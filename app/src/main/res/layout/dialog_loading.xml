@@ -1,26 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
+    android:id="@+id/loading_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
     android:gravity="center"
-    android:minHeight="60dp"
-    android:minWidth="180dp"
-    android:orientation="vertical"
-    android:padding="10dp" >
+    android:orientation="horizontal">
 
-    <ProgressBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:indeterminateDrawable="@drawable/loading_dialog_progressbar" />
+    <LinearLayout
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:background="@drawable/dialog_selector"
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/id_tv_loading_dialog_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="@string/loading"
-        android:textColor="@color/black"
-        android:textSize="14sp" />
+        <com.yundian.star.ui.view.MyProgressView
+            android:layout_width="40dp"
+            android:layout_height="40dp" />
 
+        <TextView
+            android:id="@+id/id_tv_loading_dialog_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="  正在加载..."
+            android:textColor="#fff"
+            android:textSize="14sp" />
+    </LinearLayout>
 </LinearLayout>

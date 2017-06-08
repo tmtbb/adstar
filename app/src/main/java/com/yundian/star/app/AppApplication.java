@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.igexin.sdk.PushManager;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.contact.core.query.PinYin;
 import com.netease.nim.uikit.custom.DefalutUserInfoProvider;
@@ -41,6 +42,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.yundian.star.BuildConfig;
 import com.yundian.star.R;
 import com.yundian.star.base.baseapp.BaseApplication;
+import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.Host;
@@ -69,6 +71,8 @@ import com.yundian.star.utils.MD5Util;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.Utils;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Map;
 
 import io.fabric.sdk.android.Fabric;
@@ -88,7 +92,7 @@ public class AppApplication extends BaseApplication {
         initWangYiIM();
         registerToWx();   //注册微信
         UMShareAPI.get(this);//初始化友盟
-        Config.DEBUG =true ;
+        Config.DEBUG = true;
     }
 
     private void initWangYiIM() {
@@ -125,7 +129,6 @@ public class AppApplication extends BaseApplication {
     }
 
 
-
     private void initNetworkAPIConfig() {
         NetworkAPIConfig networkAPIConfig = new NetworkAPIConfig();
         networkAPIConfig.setContext(getApplicationContext());
@@ -133,9 +136,11 @@ public class AppApplication extends BaseApplication {
         networkAPIConfig.setSocketServerPort(Host.getSocketServerPort());
         NetworkAPIFactoryImpl.initConfig(networkAPIConfig);
     }
+
     public static String getAndroidId() {
         return MD5Util.MD5(Utils.getUniquePsuedoID());
     }
+
     public boolean inMainProcess() {
         String packageName = getPackageName();
         String processName = SystemUtil.getProcessName(this);
@@ -360,6 +365,7 @@ public class AppApplication extends BaseApplication {
     }
 
     public static IWXAPI api;
+
     private void registerToWx() {
         api = WXAPIFactory.createWXAPI(this, Constant.APP_ID, false);
         api.registerApp(Constant.APP_ID);
@@ -371,6 +377,7 @@ public class AppApplication extends BaseApplication {
         PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
         PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
     }
+
     private void logout() {
         SharePrefUtil.getInstance().clearUserInfo();
         SharePrefUtil.getInstance().clearUserLoginInfo();
@@ -395,6 +402,7 @@ public class AppApplication extends BaseApplication {
                 public void onSuccess(LoginReturnInfo loginReturnEntity) {
                     LogUtils.loge("登录成功，保存信息");
                     SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
+                    EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
                 }
             });
         }
@@ -417,14 +425,13 @@ public class AppApplication extends BaseApplication {
             @Override
             public void onFailure(boolean tag) {
                 LogUtils.logd("检测到连接失败--------------");
-                if (tag){
+                if (tag) {
                     // connectionError();
                 }
 
             }
         });
     }
-
 
 
 

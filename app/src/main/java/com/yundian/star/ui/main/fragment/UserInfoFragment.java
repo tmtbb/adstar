@@ -27,7 +27,6 @@ import com.yundian.star.ui.main.activity.GeneralSettingsActivity;
 import com.yundian.star.ui.main.activity.UserAssetsManageActivity;
 import com.yundian.star.ui.main.activity.UserSettingActivity;
 import com.yundian.star.ui.view.RoundImageView;
-import com.yundian.star.utils.FormatUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
 
 import com.yundian.star.utils.LogUtils;
