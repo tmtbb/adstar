@@ -16,8 +16,10 @@
 
 package com.yundian.star.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -45,7 +47,7 @@ public class NumberBoubleButton extends LinearLayout implements View.OnClickList
     private OnWarnListener mOnWarnListener;
     private TextView addButton;
     private TextView subButton;
-    private Context myContext;
+    private Activity myContext;
     private boolean isEditGetFocus = false;
 
     public NumberBoubleButton(Context context) {
@@ -54,7 +56,6 @@ public class NumberBoubleButton extends LinearLayout implements View.OnClickList
 
     public NumberBoubleButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        myContext = context;
         init(context, attrs);
     }
 //
@@ -120,18 +121,31 @@ public class NumberBoubleButton extends LinearLayout implements View.OnClickList
             @Override
             public void onClick(View v) {
                 if (isEditGetFocus) {
-                    mCount.setFocusable(false);
-                    mCount.setEnabled(false);
-                    mCount.setFocusableInTouchMode(false);
-                    mCount.clearFocus();
-                    mCount.postDelayed(runnable, 200);
-
+                    //判断隐藏软键盘是否弹出
+                    if (myContext!=null){
+                        if (isSoftShowing()){
+                            return;
+                        }else {
+                            mCount.setFocusable(false);
+                            mCount.setEnabled(false);
+                            mCount.setFocusableInTouchMode(false);
+                            mCount.clearFocus();
+                            mCount.postDelayed(runnable, 90);
+                            LogUtils.loge("连续点击");
+                        }
+                    }
                 }
-                // mCount.requestFocus();
-                LogUtils.loge("编辑框状态变化");
-                //KeyBordUtil.showSoftKeyboard(mCount);
             }
         });
+    }
+    private boolean isSoftShowing() {
+        //获取当前屏幕内容的高度
+        int screenHeight = myContext.getWindow().getDecorView().getHeight();
+        //获取View可见区域的bottom
+        Rect rect = new Rect();
+        myContext.getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+
+        return screenHeight - rect.bottom != 0;
     }
 
     public Runnable runnable = new Runnable() {
@@ -305,6 +319,10 @@ public class NumberBoubleButton extends LinearLayout implements View.OnClickList
 
     public NumberBoubleButton setBuyMax(double buyMax) {
         mBuyMax = buyMax;
+        return this;
+    }
+    public NumberBoubleButton setContext(Activity context){
+        myContext = context;
         return this;
     }
 

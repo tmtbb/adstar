@@ -4,8 +4,9 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryDark">@color/transparent</item>
+        <item name="colorAccent">@color/transparent</item>
+
     </style>
     <!--白天主题，此处直接和AppTheme一样-->
     <style name="DayTheme" parent="Theme.AppCompat.Light.NoActionBar">
@@ -24,7 +25,6 @@
         <item name="colorPrimary">@color/night_backgroup_color</item>
         <item name="colorPrimaryDark">@color/night_backgroup_color</item>
         <item name="colorAccent">@color/night_backgroup_color</item>
-
         <item name="dayNightBackground">@color/night_backgroup_color</item>
         <item name="dayNightOneTextColor">@color/night_one_text_color</item>
         <item name="dayNightTwoTextColor">@color/night_two_text_color</item>

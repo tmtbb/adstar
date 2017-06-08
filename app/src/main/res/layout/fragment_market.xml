@@ -14,8 +14,8 @@
             android:layout_height="42dp"
             android:background="@color/color_white_ffffffff"
             app:tl_indicator_color="@color/color_8C0808"
-
-            app:tl_tab_space_equal="true"
+            app:tl_indicator_width_equal_title="true"
+            app:tl_tab_space_equal="false"
             app:tl_textSelectColor="@color/color_8C0808"
             app:tl_textUnselectColor="@color/color_C2CFD8"
             app:tl_textsize="@dimen/fontSize_16sp"></com.flyco.tablayout.SlidingTabLayout>

@@ -16,8 +16,10 @@
 
 package com.yundian.star.widget;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Rect;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
@@ -46,7 +48,7 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
     private boolean isDoubleType = false;
     private TextView addButton;
     private TextView subButton;
-    private Context myContext;
+    private Activity myContext;
     private boolean isEditGetFocus = false;
 
     public NumberButton(Context context) {
@@ -55,7 +57,6 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
 
     public NumberButton(Context context, AttributeSet attrs) {
         super(context, attrs);
-        myContext = context;
         init(context, attrs);
     }
 //
@@ -119,16 +120,21 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
             @Override
             public void onClick(View v) {
                 if (isEditGetFocus) {
-                    mCount.setFocusable(false);
-                    mCount.setEnabled(false);
-                    mCount.setFocusableInTouchMode(false);
-                    mCount.clearFocus();
-                    mCount.postDelayed(runnable, 200);
-
+                    //判断隐藏软键盘是否弹出
+                    if (myContext!=null){
+                        if (isSoftShowing()){
+                            return;
+                        }else {
+                            mCount.setFocusable(false);
+                            mCount.setEnabled(false);
+                            mCount.setFocusableInTouchMode(false);
+                            mCount.clearFocus();
+                            mCount.postDelayed(runnable, 90);
+                            LogUtils.loge("连续点击");
+                        }
+                    }
                 }
                 // mCount.requestFocus();
-                LogUtils.loge("编辑框状态变化");
-                //KeyBordUtil.showSoftKeyboard(mCount);
             }
         });
     }
@@ -307,6 +313,10 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
         mOnWarnListener = onWarnListener;
         return this;
     }
+    public NumberButton setContext(Activity context){
+        myContext = context;
+        return this;
+    }
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -338,5 +348,14 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
 
     public void setOnChangeContent(OnChangeContentListener content){
         this.onChangeContent = content ;
+    }
+    private boolean isSoftShowing() {
+        //获取当前屏幕内容的高度
+        int screenHeight = myContext.getWindow().getDecorView().getHeight();
+        //获取View可见区域的bottom
+        Rect rect = new Rect();
+        myContext.getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+
+        return screenHeight - rect.bottom != 0;
     }
 }

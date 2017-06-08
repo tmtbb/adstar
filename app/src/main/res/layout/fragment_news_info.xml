@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/nt_title"></com.github.jdsjlzx.recyclerview.LRecyclerView>
-    <!--<RelativeLayout
+   <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44"
         android:background="@color/color_921224"
@@ -57,5 +57,5 @@
             />
 
 
-    </RelativeLayout>-->
+    </RelativeLayout>
 </FrameLayout>

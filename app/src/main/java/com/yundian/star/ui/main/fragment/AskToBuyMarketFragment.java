@@ -28,6 +28,7 @@ import butterknife.Bind;
 
 /**
  * Created by Administrator on 2017/5/24.
+ * 求购页面
  */
 
 public class AskToBuyMarketFragment extends BaseFragment {
@@ -153,6 +154,7 @@ public class AskToBuyMarketFragment extends BaseFragment {
     private void initListener() {
         tv_total.setText(String.format("%.2f", total_prices));
         but_buy_price.setBuyMin(0.01)
+                .setContext(getActivity())
                 .setOnWarnListener(new NumberBoubleButton.OnWarnListener() {
                     @Override
                     public void onWarningForInventory(double inventory) {
@@ -170,8 +172,8 @@ public class AskToBuyMarketFragment extends BaseFragment {
                     }
                 });
 
-        but_buy_num.setBuyMax(100)
-                .setCurrentNumber(1)
+        but_buy_num.setContext(getActivity())
+                .setCurrentNumber(600)
                 .setBuyMin(1)
                 .setOnWarnListener(new NumberButton.OnWarnListener() {
                     @Override

@@ -25,6 +25,7 @@ import butterknife.Bind;
 
 /**
  * Created by Administrator on 2017/5/23.
+ * 求购主页面
  */
 
 public class BuyTransferIndentActivity extends BaseActivity {
