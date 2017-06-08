@@ -152,6 +152,7 @@ public class UserSettingActivity extends BaseActivity {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.loge("实名信息失败-----------");
+                tvUserCardNumber.setText("未实名认证");
             }
 
             @Override

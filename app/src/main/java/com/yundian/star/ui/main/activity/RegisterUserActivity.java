@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -52,6 +53,10 @@ public class RegisterUserActivity extends BaseActivity {
     TextView tv_retrieve_password;
     @Bind(R.id.registerText)
     TextView registerText;
+    @Bind(R.id.ll_wx_login)
+    LinearLayout wxLogin;
+    @Bind(R.id.tv_three_login)
+    TextView threeLogin;
     private CheckHelper checkHelper = new CheckHelper();
     private String phone;
     private String pwd;
@@ -77,6 +82,11 @@ public class RegisterUserActivity extends BaseActivity {
         if (wxUserInfo !=null){
             registerButton.setText("微信绑定");
             isWXBind = true;
+            wxLogin.setVisibility(View.GONE);
+            threeLogin.setVisibility(View.GONE);
+        }else {
+            wxLogin.setVisibility(View.VISIBLE);
+            threeLogin.setVisibility(View.VISIBLE);
         }
         WindowManager.LayoutParams p = getWindow().getAttributes();// 获取对话框当前的参值
         Point size = new Point();

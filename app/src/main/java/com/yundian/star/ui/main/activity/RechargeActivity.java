@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
@@ -39,9 +40,7 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.view.CustomerRadioGroup;
 import com.yundian.star.ui.view.RoundImageView;
-import com.yundian.star.utils.JudgeIdentityUril;
 import com.yundian.star.utils.LogUtils;
-import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
@@ -54,8 +53,6 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-
-import static com.yundian.star.R.id.back;
 import static com.yundian.star.R.id.iv_recharge_type;
 import static com.yundian.star.R.id.rb_recharge_money1;
 import static com.yundian.star.R.id.rb_recharge_money2;
@@ -102,6 +99,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     private PopupWindow popupWindow;
     private boolean isAliPay = false;
     private double price = 1;
+    private long exitNow;
 
     /**
      * 支付宝支付业务：入参app_id
@@ -148,7 +146,6 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         rgRechargeType.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-//                rechargeMoney.setText("");
                 switch (checkedId) {
                     case R.id.rb_recharge_money1:
                         price = 1;
@@ -229,9 +226,8 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_recharge_sure:
-                if (JudgeIdentityUril.isIdentityed(this)){
-                    applyRecharge();
-                }
+                preventConcurrency();
+                applyRecharge();
                 break;
             case R.id.ll_user_recharge_type:  //选择充值方式
                 popupWindow.showAtLocation(findViewById(R.id.ll_recharge_ui), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -389,12 +385,13 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     public void ReciveMessage(EventBusMessage eventBusMessage) {
         switch (eventBusMessage.Message) {
             case 0:  //成功
-                ToastUtils.showShort("支付成功:" + eventBusMessage.Message);       //1-成功 2-取消支付
-                LogUtils.logd("支付成功,更新余额,进入充值列表");
+                showDialogTip();
+//                ToastUtils.showShort("支付成功:" + eventBusMessage.Message);       //1-成功 2-取消支付
+//                LogUtils.logd("支付成功,更新余额,进入充值列表");
                 break;
             case -2:  //取消支付
-                showDialogTip();
-                ToastUtils.showShort("用户取消支付:" + eventBusMessage.Message);
+             //   showDialogTip();
+//                ToastUtils.showShort("用户取消支付:" + eventBusMessage.Message);
                 break;
 //            default:
 //                ToastUtils.showShort("接收到的信息:" + eventBusMessage.Message);
@@ -404,7 +401,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
     private void showDialogTip() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("确认退出登录吗？")
+        builder.setMessage("是否完成支付?")
                 .setTitle("提示")
                 .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
@@ -426,5 +423,14 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         EventBus.getDefault().removeAllStickyEvents();
         EventBus.getDefault().unregister(this);
         super.onDestroy();
+    }
+    /**
+     * 防止并发
+     */
+    private void preventConcurrency() {
+        if ((System.currentTimeMillis() - exitNow) < 3000) {
+            return;
+        }
+        exitNow = System.currentTimeMillis();
     }
 }

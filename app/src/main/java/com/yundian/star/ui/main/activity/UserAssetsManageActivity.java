@@ -1,19 +1,16 @@
 package com.yundian.star.ui.main.activity;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
-import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.JudgeIdentityUril;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
@@ -91,10 +88,13 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.ll_recharge:
                 ToastUtils.showShort("充值");
-                startActivity(RechargeActivity.class);
+                if (JudgeIdentityUril.isIdentityed(this)) {
+                    startActivity(RechargeActivity.class);
+                }
                 break;
             case R.id.ll_user_fudai:
 //                ToastUtils.showShort("模拟进行身份认证");
+                //    startProgressDialog("加载中...");
                 break;
         }
     }

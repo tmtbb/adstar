@@ -41,7 +41,6 @@
                         android:layout_centerHorizontal="true"
                         android:layout_gravity="center"
                         android:layout_marginTop="50dp"
-                        android:text="尼古拉斯"
                         android:textColor="@color/color_black_333333"
                         android:textSize="@dimen/text_size_18" />
 
@@ -80,7 +79,6 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/dp_5"
-                            android:text="33"
                             android:textColor="@color/color_black_333333"
                             android:textSize="@dimen/text_size_16" />
                     </LinearLayout>

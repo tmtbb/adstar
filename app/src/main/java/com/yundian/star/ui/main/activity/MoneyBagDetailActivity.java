@@ -46,9 +46,10 @@ public class MoneyBagDetailActivity extends BaseActivity {
     private List<MyPopupMenuEntity> lists;
     private MoneyBagDetailAdapter moneyBagDetailAdapter;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
+    private long exitNow;
 
     private static final int REQUEST_COUNT = 10;
-    private static int mCurrentCounter = 0;
+    private static int mCurrentCounter = 1;
     private List<MoneyDetailListBean> loadList = new ArrayList<>();
     private List<MoneyDetailListBean> refreshList = new ArrayList<>();
 
@@ -68,7 +69,7 @@ public class MoneyBagDetailActivity extends BaseActivity {
         ntTitle.setRightImagSrc(R.drawable.money_screen);
         initPopupMenu();
         initAdapter();
-        requestMoneyDetailData(false, 0, 10);
+        requestMoneyDetailData(false, 1, 10);
     }
 
     private void requestMoneyDetailData(final boolean isLoadMore, int start, int count) {
@@ -171,7 +172,7 @@ public class MoneyBagDetailActivity extends BaseActivity {
             @Override
             public void onRefresh() {
                 LogUtils.logd("下拉刷新---------");
-                requestMoneyDetailData(false, 0, 10);
+                requestMoneyDetailData(false, 1, 10);
             }
         });
 
@@ -179,18 +180,29 @@ public class MoneyBagDetailActivity extends BaseActivity {
             @Override
             public void onLoadMore() {
                 LogUtils.logd("上拉加载更多----起始位置:");
-                requestMoneyDetailData(true, mCurrentCounter, REQUEST_COUNT);
+                requestMoneyDetailData(true, mCurrentCounter+1, REQUEST_COUNT);
             }
         });
 
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                ToastUtils.showShort("当前被点击:" + position);
+//                ToastUtils.showShort("当前被点击:" + position);
+                preventConcurrency();
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("dealDetail", new BookingStarListBean());
+                bundle.putParcelable("dealDetail",refreshList.get(position));
                 startActivity(BillingDetailsActivity.class, bundle);
             }
         });
+    }
+
+    /**
+     * 防止并发
+     */
+    private void preventConcurrency() {
+        if ((System.currentTimeMillis() - exitNow) < 3000) {
+            return;
+        }
+        exitNow = System.currentTimeMillis();
     }
 }
