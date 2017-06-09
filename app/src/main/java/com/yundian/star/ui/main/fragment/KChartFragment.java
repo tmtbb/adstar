@@ -123,10 +123,10 @@ public class KChartFragment extends BaseFragment {
 
 
     public void initChart() {
-        colorHomeBg = getResources().getColor(R.color.white); //背景色
-        colorDivide = getResources().getColor(R.color.white);//分割线
-        colorText = getResources().getColor(R.color.color_666666);
-        colorLine = getResources().getColor(R.color.red);//条目
+        colorHomeBg = getActivity().getResources().getColor(R.color.white); //背景色
+        colorDivide = getActivity().getResources().getColor(R.color.color_fafafa);//分割线
+        colorText = getActivity().getResources().getColor(R.color.color_7fcb4232);
+        colorLine = getActivity().getResources().getColor(R.color.color_CB4232);//条目
 
         mChart.setDescription("");//描述信息
         mChart.setDrawGridBackground(false); //是否显示表格颜色
@@ -162,6 +162,7 @@ public class KChartFragment extends BaseFragment {
         rightAxis.setTextColor(colorText);
         rightAxis.setDrawGridLines(false);
         rightAxis.setStartAtZero(false);
+        rightAxis.setDrawGridLines(true);
         YAxis leftAxis = mChart.getAxisLeft();
         leftAxis.setEnabled(false);
         refreshMarkerView();
@@ -169,10 +170,10 @@ public class KChartFragment extends BaseFragment {
 
     public void loadChartData(ArrayList<TimeLineBeen.PriceinfoBean> currentTimeLineEntities) {
         if (currentTimeLineEntities.get(0).getChange()>=0){
-            tv_change.setBackgroundColor(getActivity().getResources().getColor(R.color.color_CB4232));
+            tv_change.setBackgroundResource(R.drawable.bg_red_radius);
             tv_preice.setTextColor(getContext().getResources().getColor(R.color.color_CB4232));
         }else {
-            tv_change.setBackgroundColor(getActivity().getResources().getColor(R.color.color_18B03F));
+            tv_change.setBackgroundResource(R.drawable.bg_green_radius);
             tv_preice.setTextColor(getContext().getResources().getColor(R.color.color_18B03F));
         }
         DecimalFormat format = new DecimalFormat("0.00%");
@@ -257,7 +258,7 @@ public class KChartFragment extends BaseFragment {
         set.setDrawCubic(true);//圆滑曲线
         set.setDrawCircles(false);//设置有圆点
         set.setDrawFilled(true);  //设置包括的范围区域填充颜色
-        set.setFillColor(R.color.color_cccccc);
+        set.setFillColor(colorText);
         set.setCubicIntensity(0.2f);
         set.setDrawCircleHole(false);
         set.setDrawValues(false);

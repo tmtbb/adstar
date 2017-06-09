@@ -29,7 +29,7 @@ import java.util.List;
 public interface InformationAPI {
     void newsinfo(String name, String code,int startnum,int endnum,int all, OnAPIListener<NewsInforModel> listener);
     void advInfo(String code,int all, OnAPIListener<AdvBeen> listener);
-    void searchStar(String code,OnAPIListener<SearchReturnbeen> listener);
+    void searchStar(long id,String token ,String message,OnAPIListener<SearchReturnbeen> listener);
     void getOptionsStarList(String phone,int startnum,int endnum,int sorttype,OnAPIListener<OptionsStarListBeen> listener);
     void getMarketKype(String phone,OnAPIListener<MarketTypeBeen> listener);
     void getStarList(long id,String token,int sort,int aType,int start,int count,OnAPIListener<StarListbeen> listener);

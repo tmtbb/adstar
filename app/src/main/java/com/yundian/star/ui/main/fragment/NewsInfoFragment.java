@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -54,6 +55,8 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     TextView tv_am_pm;
     @Bind(R.id.tv_time_h)
     TextView tv_time_h;
+    @Bind(R.id.imageView2)
+    ImageView imageView2 ;
     //    @Bind(R.id.loadingTip)
 //    LoadingTip loadingTip ;
     private ArrayList<NewsInforModel.ListBean> arrayList = new ArrayList<>();
@@ -160,6 +163,11 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
                             tv_am_pm.setText(getString(R.string.PM));
                         } else {
                             tv_am_pm.setText(getString(R.string.AM));
+                        }
+                        if (hour>=6&&hour<18){
+                            imageView2.setImageDrawable(getResources().getDrawable(R.drawable.news_day));
+                        }else {
+                            imageView2.setImageDrawable(getResources().getDrawable(R.drawable.news_night));
                         }
                         String stringByFormat = TimeUtil.formatDateYMD(listBean.getTimes());
                         tv_time.setText(stringByFormat);

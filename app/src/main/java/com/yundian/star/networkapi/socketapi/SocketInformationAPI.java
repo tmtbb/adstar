@@ -30,6 +30,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.List;
 
+import static android.R.attr.id;
+
 /**
  * Created by ysl.
  */
@@ -60,11 +62,13 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
-    public void searchStar(String code, OnAPIListener<SearchReturnbeen> listener) {
+    public void searchStar(long id,String token ,String message, OnAPIListener<SearchReturnbeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("code", code);
+        map.put("id", id);
+        map.put("token", token);
+        map.put("message", message);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.SearchStar,
-                SocketAPIConstant.ReqeutType.SearchStar, map);
+                SocketAPIConstant.ReqeutType.Search, map);
         requestEntity(socketDataPacket,SearchReturnbeen.class,listener);
     }
 

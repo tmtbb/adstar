@@ -42,10 +42,10 @@ public class MarketDetailAdapter extends ListBaseAdapter<StarListbeen.SymbolInfo
         tv_price.setText(String.valueOf(item.getCurrentPrice()));
         LogUtils.loge("指数"+item.getChange());
         if (item.getChange()>=0){
-            tv_updown.setBackgroundColor(mContext.getResources().getColor(R.color.color_CB4232));
+            tv_updown.setBackgroundResource(R.drawable.bg_red_radius);
             tv_price.setTextColor(mContext.getResources().getColor(R.color.color_CB4232));
         }else {
-            tv_updown.setBackgroundColor(mContext.getResources().getColor(R.color.color_18B03F));
+            tv_updown.setBackgroundResource(R.drawable.bg_green_radius);
             tv_price.setTextColor(mContext.getResources().getColor(R.color.color_18B03F));
         }
         DecimalFormat format = new DecimalFormat("0.00%");

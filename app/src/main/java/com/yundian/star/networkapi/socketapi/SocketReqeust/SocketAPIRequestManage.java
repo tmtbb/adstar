@@ -66,13 +66,17 @@ public class SocketAPIRequestManage {
                 int statusCode = socketAPIResponse.statusCode();
                 if( statusCode == 0 ) {
                     socketAPIRequest.onSuccess(socketAPIResponse);
-                    LogUtils.logd("jsonResponse:"+socketAPIResponse.jsonObject());
+                    LogUtils.loge("服务器发送数据接收口Handler+jsonResponse:"+socketAPIResponse.jsonObject());
                 }
                 else {
                     socketAPIRequest.onErrorCode(statusCode);
                 }
             }
         }
+    }
+    //收到消息接口回调
+    public interface OnPushInfo{
+
     }
 
     public void startJsonRequest(SocketDataPacket socketDataPacket, OnAPIListener<SocketAPIResponse> listener) {

@@ -19,6 +19,7 @@ public interface SocketAPIConstant {
         byte NewInfos = 10;
         byte SearchStar = 11;
         byte Inquirylist = 12;
+        byte Search = 13;
     }
 
     interface OperateCode {
@@ -56,7 +57,7 @@ public interface SocketAPIConstant {
         Short WangYi = 9005;
         Short NewInfo = 10013;
         Short Banner = 10015;
-        Short SearchStar = 11007;
+        Short SearchStar = 13001;
         Short OptionStarList = 11013;
         Short MarketType = 11001;
         Short MarketStar = 11003;

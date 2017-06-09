@@ -152,6 +152,7 @@
     <color name="video_call_peer_close_cameral_text_color">#f1f1f1</color>
     <color name="color_gray_alpha">#99323232</color>
     <color name="color_gray_alpha40">#66000000</color>
+    <color name="color_7fcb4232">#7fcb4232</color>
 
     <color name="grey">#333333</color>
     <color name="global_bg">#9000</color>
