@@ -63,6 +63,9 @@ public class SocketAPIRequestManage {
             if( socketAPIRequest != null && socketAPIRequest.getListener() != null ) {
                 socketAPIRequestHashMap.remove(socketDataPacket.getSessionId());
                 SocketAPIResponse socketAPIResponse = new SocketAPIResponse(socketDataPacket);
+                if (socketDataPacket.getOperateCode()==5030&&sucessListener!=null){
+                    sucessListener.onMatchListener(socketDataPacket);
+                }
                 LogUtils.loge("服务器发送数据接收口getOperateCode:"+socketDataPacket.getOperateCode());
                 int statusCode = socketAPIResponse.statusCode();
                 if( statusCode == 0 ) {
@@ -75,11 +78,17 @@ public class SocketAPIRequestManage {
             }
         }
     }
+    private OnMatchSucessListener sucessListener ;
     //收到消息接口回调
-    public interface OnPushInfo{
-        void onChange(double price);
+    public interface OnMatchSucessListener{
+        void onMatchListener(SocketDataPacket socketDataPacket);
     }
-
+    public void setOnMatchSucessListener(OnMatchSucessListener sucessListener){
+        this.sucessListener = sucessListener ;
+    }
+    public void unboundOnMatchSucessListener(){
+        this.sucessListener = null ;
+    }
     public void startJsonRequest(SocketDataPacket socketDataPacket, OnAPIListener<SocketAPIResponse> listener) {
         if (socketDataPacket != null && listener != null) {
             SocketAPIRequest socketAPIRequest = new SocketAPIRequest();
