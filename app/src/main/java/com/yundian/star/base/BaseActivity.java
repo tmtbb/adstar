@@ -14,11 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.Window;
 
-import com.igexin.sdk.PushManager;
 import com.testin.agent.Bugout;
-import com.testin.agent.BugoutConfig;
 import com.yundian.star.R;
-import com.yundian.star.app.AppApplication;
 import com.yundian.star.base.baseapp.AppManager;
 import com.yundian.star.utils.TUtil;
 import com.yundian.star.utils.ToastUtils;
@@ -69,8 +66,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bugout.init(this, "1664ea921dcbe122834e440f7f584e2e", "yingyongbao");
-        initGeTui();
         isConfigChange = false;
         doBeforeSetcontentView();
         setContentView(getLayoutId());
@@ -83,8 +78,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         }
         this.initPresenter();
         this.initView();
-        initBugOut();
-
     }
 
     /**
@@ -285,53 +278,5 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
             AppManager.getAppManager().finishActivity(this);
         }
         ButterKnife.unbind(this);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //* 注：回调 1
-        Bugout.onResume(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //* 注：回调 2
-        Bugout.onPause(this);
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        //* 注：回调 3
-        Bugout.onDispatchTouchEvent(this, event);
-        return super.dispatchTouchEvent(event);
-    }
-
-    private void initBugOut() {
-        BugoutConfig config = new BugoutConfig.Builder(mContext)
-                //.withAppKey(a15147f843a6cdb414b8a61b6f5191b8)     // 您的应用的项目ID,如果已经在 Manifest 中配置则此处可略
-                //  .withAppChannel(cnl)     // 发布应用的渠道,如果已经在 Manifest 中配置则此处可略
-                .withUserInfo(AppApplication.getAndroidId())    // 用户信息-崩溃分析根据用户记录崩溃信息
-                .withDebugModel(true)    // 输出更多SDK的debug信息
-                .withErrorActivity(true)    // 发生崩溃时采集Activity信息
-                .withCollectNDKCrash(true) //  收集NDK崩溃信息
-                .withOpenCrash(true)    // 收集崩溃信息开关
-                .withOpenEx(true)     // 是否收集异常信息
-                .withReportOnlyWifi(true)    // 仅在 WiFi 下上报崩溃信息
-                .withReportOnBack(true)    // 当APP在后台运行时,是否采集信息
-                .withQAMaster(true)    // 是否收集摇一摇反馈
-                .withCloseOption(false)   // 是否在摇一摇菜单展示‘关闭摇一摇选项’
-                .withLogCat(true)  // 是否系统操作信息
-                .build();
-        Bugout.init(config);
-    }
-
-    private void initGeTui() {
-        // com.getui.demo.DemoPushService 为第三方自定义推送服务
-        PushManager.getInstance().initialize(this.getApplicationContext(), com.yundian.star.service.DemoPushService.class);
-
-        // com.getui.demo.DemoIntentService 为第三方自定义的推送服务事件接收类
-        PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), com.yundian.star.service.DemoIntentService.class);
     }
 }

@@ -123,25 +123,26 @@ public class ToastUtils {
      * 显示有image的toast
      *
      * @param tvStr
-     * @param imageResource
+     * @param isSuccess  是不是加载成功图
      * @return
      */
-    public static Toast showSuccessVeiw(final String tvStr, final int imageResource) {
+    public static Toast showStatusView(final String tvStr, boolean isSuccess) {
         if (toast2 == null) {
             toast2 = new Toast(BaseApplication.getAppContext());
         }
         View view = LayoutInflater.from(BaseApplication.getAppContext()).inflate(R.layout.toast_success_view, null);
-        TextView tv = (TextView) view.findViewById(R.id.toast_custom_tv);
+        TextView tv = (TextView) view.findViewById(R.id.id_tv_loading_dialog_text);
         tv.setText(TextUtils.isEmpty(tvStr) ? "" : tvStr);
-        ImageView iv = (ImageView) view.findViewById(R.id.toast_custom_iv);
-        if (imageResource > 0) {
-            iv.setVisibility(View.VISIBLE);
-            iv.setImageResource(imageResource);
+        ImageView iv = (ImageView) view.findViewById(R.id.iv_toast_icon);
+
+        if (isSuccess) {
+            iv.setImageResource(R.drawable.toast_show_success);
         } else {
-            iv.setVisibility(View.GONE);
+            iv.setImageResource(R.drawable.toast_show_error);
         }
         toast2.setView(view);
         toast2.setGravity(Gravity.CENTER, 0, 0);
+        toast2.setDuration(Toast.LENGTH_SHORT);
         toast2.show();
         return toast2;
 

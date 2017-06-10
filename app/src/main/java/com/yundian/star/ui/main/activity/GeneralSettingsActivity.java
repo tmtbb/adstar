@@ -10,11 +10,14 @@ import android.widget.TextView;
 import com.yundian.star.R;
 import com.yundian.star.app.Constant;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.ui.wangyi.config.preference.Preferences;
 import com.yundian.star.ui.wangyi.login.LogoutHelper;
 import com.yundian.star.utils.DataCleanManagerTtil;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.widget.NormalTitleBar;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -130,8 +133,9 @@ public class GeneralSettingsActivity extends BaseActivity {
         Preferences.saveUserToken("");
         LogoutHelper.logout();
 //        DataCacheManager.clearDataCache();  //清空缓存
+        EventBus.getDefault().postSticky(new EventBusMessage(2));  //登录取消消息
         finish();
-        startActivity(LoginActivity.class);
+//        startActivity(LoginActivity.class);
     }
 
     private void clearAppCache() {

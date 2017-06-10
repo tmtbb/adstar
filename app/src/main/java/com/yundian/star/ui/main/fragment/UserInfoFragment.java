@@ -32,6 +32,7 @@ import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
+import com.yundian.star.utils.ViewConcurrencyUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -122,24 +123,29 @@ public class UserInfoFragment extends BaseFragment {
 //                requestBalance();
                 break;
             case R.id.headImage:
+                ViewConcurrencyUtils.preventConcurrency();  //防止并发
                 startActivity(UserSettingActivity.class);
                 break;
             case R.id.ll_user_money_bag:
-                ToastUtils.showShort("我的钱包");
+                ViewConcurrencyUtils.preventConcurrency();  //防止并发
                 startActivity(UserAssetsManageActivity.class);
                 break;
             case R.id.ll_user_order_star:
+                ViewConcurrencyUtils.preventConcurrency();  //防止并发
                 startActivity(BookingStarActivity.class);
                 break;
             case R.id.ll_customer_service:
+                ViewConcurrencyUtils.preventConcurrency();  //防止并发
                 startActivity(CustomerServiceActivity.class);
                 break;
             case R.id.ll_common_problem:
                 break;
             case R.id.ll_general_settings:
+                ViewConcurrencyUtils.preventConcurrency();  //防止并发
                 startActivity(GeneralSettingsActivity.class);
                 break;
             case R.id.btn_my_referee:
+                ViewConcurrencyUtils.preventConcurrency();  //防止并发
                 showDialog();
                 break;
         }

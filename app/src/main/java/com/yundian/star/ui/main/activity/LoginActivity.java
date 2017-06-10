@@ -32,6 +32,7 @@ import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.MD5Util;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
+import com.yundian.star.utils.ViewConcurrencyUtils;
 import com.yundian.star.widget.CheckException;
 import com.yundian.star.widget.WPEditText;
 
@@ -96,6 +97,7 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.loginButton)
     public void loging() {
+        ViewConcurrencyUtils.preventConcurrency();  //防止并发
         CheckException exception = new CheckException();
         LogUtils.loge(MD5Util.MD5(passwordEditText.getEditTextString()));
         if (checkHelper.checkMobile(userNameEditText.getEditTextString(), exception)
@@ -154,6 +156,7 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onSuccess(LoginInfo param) {
                 LogUtils.logd("网易云登录成功:" + param.toString());
+                ToastUtils.showStatusView("登陆成功", true);
                 DemoCache.setAccount(param.getAccount());
                 saveLoginInfo(param.getAccount(), param.getToken());
                 // 初始化消息提醒配置
@@ -191,6 +194,7 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.tv_retrieve_password)
     public void retrievePassword() {
+        ViewConcurrencyUtils.preventConcurrency();  //防止并发
         startActivity(ResetUserPwdActivity.class);
     }
 
@@ -224,6 +228,7 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.tv_weixin_login)
     public void weixinLogin() {
+        ViewConcurrencyUtils.preventConcurrency();  //防止并发
         if (!AppApplication.api.isWXAppInstalled()) {
             ToastUtils.showShort("您还未安装微信客户端");
             return;

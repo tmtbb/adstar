@@ -19,11 +19,11 @@ import com.yundian.star.utils.LogUtils;
 public class DemoIntentService extends GTIntentService {
 
     public DemoIntentService() {
-
     }
 
     @Override
     public void onReceiveServicePid(Context context, int pid) {
+        Log.e(TAG, "-------------------onReceiveServicePid -> " + "pid = " + pid);
     }
 
     @Override
@@ -48,14 +48,16 @@ public class DemoIntentService extends GTIntentService {
 
     @Override
     public void onReceiveClientId(Context context, String clientid) {
-        Log.e(TAG, "onReceiveClientId -> " + "clientid = " + clientid);
+        Log.e(TAG, "-------------------onReceiveClientId -> " + "clientid = " + clientid);
     }
 
     @Override
     public void onReceiveOnlineState(Context context, boolean online) {
+        LogUtils.loge("------------------离线上线通知:" + online);
     }
 
     @Override
     public void onReceiveCommandResult(Context context, GTCmdMessage cmdMessage) {
+        LogUtils.loge("------------onReceiveCommandResult:" + cmdMessage);
     }
 }

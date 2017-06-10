@@ -232,14 +232,12 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
 
     @Override
     public void test(String title, double price, OnAPIListener<Object> listener) {
-        LogUtils.logd("模拟请求微信支付");
+        LogUtils.logd("测试端口");
         HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", 120);
         map.put("id", SharePrefUtil.getInstance().getUserId());
-        map.put("title", title);
-        map.put("price", price);
-        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.WXPay,
-                SocketAPIConstant.ReqeutType.Pay, map);
+        map.put("token", SharePrefUtil.getInstance().getToken());
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Products,
+                SocketAPIConstant.ReqeutType.Deal, map);
         requestJsonObject(socketDataPacket, listener);
     }
 

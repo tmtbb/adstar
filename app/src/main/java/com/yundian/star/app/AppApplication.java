@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
-import com.igexin.sdk.PushManager;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.contact.core.query.PinYin;
 import com.netease.nim.uikit.custom.DefalutUserInfoProvider;
@@ -394,13 +393,13 @@ public class AppApplication extends BaseApplication {
                 @Override
                 public void onError(Throwable ex) {
                     ex.printStackTrace();
-                    LogUtils.loge("登录失败.token已经失效");
+                    LogUtils.loge("-----------登录失败.token已经失效");
                     logout();
                 }
 
                 @Override
                 public void onSuccess(LoginReturnInfo loginReturnEntity) {
-                    LogUtils.loge("登录成功，保存信息");
+                    LogUtils.loge("------------------登录成功，保存信息");
                     SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
                     EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
                 }

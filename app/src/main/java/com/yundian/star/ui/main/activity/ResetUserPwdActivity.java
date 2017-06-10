@@ -34,7 +34,7 @@ import butterknife.OnClick;
 public class ResetUserPwdActivity extends BaseActivity {
 
     @Bind(R.id.nt_title)
-    NormalTitleBar nt_title ;
+    NormalTitleBar nt_title;
     @Bind(R.id.phoneEditText)
     WPEditText phoneEditText;
     @Bind(R.id.msgEditText)
@@ -46,7 +46,7 @@ public class ResetUserPwdActivity extends BaseActivity {
     @Bind(R.id.okButton)
     Button okButton;
 
-    private RegisterVerifyCodeBeen verifyCodeBeen ;
+    private RegisterVerifyCodeBeen verifyCodeBeen;
 
     private CheckHelper checkHelper = new CheckHelper();
 
@@ -83,7 +83,7 @@ public class ResetUserPwdActivity extends BaseActivity {
                     ToastUtils.showShort("网络连接失败,请检查网络");
                     return;
                 }
-                getCode(msgEditText,view, phoneEditText);
+                getCode(msgEditText, view, phoneEditText);
             }
         });
         nt_title.setOnBackListener(new View.OnClickListener() {
@@ -96,77 +96,77 @@ public class ResetUserPwdActivity extends BaseActivity {
     }
 
     @OnClick(R.id.okButton)
-    public void okButton(){
-                LogUtils.logd("此时网络的连接状态是:" + SocketAPINettyBootstrap.getInstance().isOpen());
-                CheckException exception = new CheckException();
-                if (checkHelper.checkMobile(phoneEditText.getEditTextString(), exception)
-                        && checkHelper.checkMobile(phoneEditText.getEditTextString(), exception)
-                        && checkHelper.checkPassword(pwdEditText1.getEditTextString(), exception)
-                        && checkHelper.checkPassword2(pwdEditText1.getEditTextString(), pwdEditText2.getEditTextString(), exception)) {
-                    resetUserPwd();
+    public void okButton() {
+        LogUtils.logd("此时网络的连接状态是:" + SocketAPINettyBootstrap.getInstance().isOpen());
+        CheckException exception = new CheckException();
+        if (checkHelper.checkMobile(phoneEditText.getEditTextString(), exception)
+                && checkHelper.checkMobile(phoneEditText.getEditTextString(), exception)
+                && checkHelper.checkPassword(pwdEditText1.getEditTextString(), exception)
+                && checkHelper.checkPassword2(pwdEditText1.getEditTextString(), pwdEditText2.getEditTextString(), exception)) {
+            resetUserPwd();
 
-                } else {
-                    showShortToast(exception.getErrorMsg());
-                }
+        } else {
+            showShortToast(exception.getErrorMsg());
+        }
 
     }
 
     private void resetUserPwd() {
         //本地校验验证码   MD5(yd1742653sd + code_time + rand_code + phone)
-        if (verifyCodeBeen==null||TextUtils.isEmpty(verifyCodeBeen.getVToken())){
+        if (verifyCodeBeen == null || TextUtils.isEmpty(verifyCodeBeen.getVToken())) {
             ToastUtils.showShort("无效验证码");
             return;
         }
-        if (!verifyCodeBeen.getVToken().equals(MD5Util.MD5("yd1742653sd" + verifyCodeBeen.getTimeStamp() + msgEditText.getEditTextString()+phoneEditText.getEditTextString()))) {
+        if (!verifyCodeBeen.getVToken().equals(MD5Util.MD5("yd1742653sd" + verifyCodeBeen.getTimeStamp() + msgEditText.getEditTextString() + phoneEditText.getEditTextString()))) {
             ToastUtils.showShort("验证码错误,请重新输入");
             return;
         }
         //int type = 0;//0：登录密码 1：交易密码，提现密码
-        if (!TextUtils.equals(pwdEditText1.getEditTextString(),pwdEditText2.getEditTextString())){
+        if (!TextUtils.equals(pwdEditText1.getEditTextString(), pwdEditText2.getEditTextString())) {
             ToastUtils.showShort("2次密码不一致");
             return;
         }
         NetworkAPIFactoryImpl.getUserAPI().resetPasswd(phoneEditText.getEditTextString(), MD5Util.MD5(pwdEditText2.getEditTextString())
-                ,new OnAPIListener<Object>() {
+                , new OnAPIListener<Object>() {
                     @Override
                     public void onError(Throwable ex) {
-                        ToastUtils.showShort("修改登录密码失败");
                         ex.printStackTrace();
+                        ToastUtils.showStatusView("修改登录密码失败", false);
                     }
 
                     @Override
                     public void onSuccess(Object o) {
                         JSONObject object = JSON.parseObject(o.toString());
                         int result = object.getInteger("result");
-                        if (result==-301){
+                        if (result == -301) {
                             ToastUtils.showShort("用户不存在");
-                        }else if (result==1){
-                            ToastUtils.showShort("修改登录密码成功");
+                        } else if (result == 1) {
+                            ToastUtils.showStatusView("修改登录密码成功", true);
                             finish();
                             startActivity(LoginActivity.class);
-                            overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
+                            overridePendingTransition(R.anim.activity_open_down_in, R.anim.activity_off_top_out);
                         }
 
                     }
                 });
     }
 
-    private void getCode(final WPEditText msgEditText,View view, WPEditText phoneEditText) {
+    private void getCode(final WPEditText msgEditText, View view, WPEditText phoneEditText) {
         LogUtils.logd("请求网络获取短信验证码------------------------------");
         CheckException exception = new CheckException();
         String phoneEdit = phoneEditText.getEditTextString();
         if (new CheckHelper().checkMobile(phoneEdit, exception)) {
             //Utils.closeSoftKeyboard(view);
-            NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit, new OnAPIListener<RegisterVerifyCodeBeen>()  {
+            NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit, new OnAPIListener<RegisterVerifyCodeBeen>() {
                 @Override
                 public void onError(Throwable ex) {
                     ex.printStackTrace();
-                    LogUtils.logd("验证码请求网络错误------------------"+((NetworkAPIException) ex).getErrorCode());
+                    LogUtils.logd("验证码请求网络错误------------------" + ((NetworkAPIException) ex).getErrorCode());
                 }
 
                 @Override
                 public void onSuccess(RegisterVerifyCodeBeen o) {
-                    verifyCodeBeen = o ;
+                    verifyCodeBeen = o;
                     new CountUtil((TextView) msgEditText.getRightText()).start();   //收到回调才开启计时
                     LogUtils.logd("获取到--注册短信验证码,时间戳是:" + o.toString());
                 }

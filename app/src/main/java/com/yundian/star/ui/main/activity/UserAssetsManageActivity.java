@@ -10,7 +10,10 @@ import android.widget.PopupWindow;
 
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.utils.JudgeIdentityUril;
+import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
@@ -93,8 +96,6 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
                 }
                 break;
             case R.id.ll_user_fudai:
-//                ToastUtils.showShort("模拟进行身份认证");
-                //    startProgressDialog("加载中...");
                 break;
         }
     }
