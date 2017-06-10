@@ -97,6 +97,9 @@ public class StarTimeShareActivity extends BaseActivity {
 
     @OnClick({ R.id.rb_1, R.id.rb_2, R.id.rb_3,R.id.rb_4})
     public void onRadioButtenClick(View view){
+        /*if (!CheckLoginUtil.checkLogin(this)){
+            return;
+        }*/
         switch (view.getId()){
             case R.id.rb_1:
                 Intent intent = new Intent(this,BuyTransferIndentActivity.class);

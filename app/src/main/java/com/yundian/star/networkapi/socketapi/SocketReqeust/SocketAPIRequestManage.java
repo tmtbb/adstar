@@ -63,6 +63,7 @@ public class SocketAPIRequestManage {
             if( socketAPIRequest != null && socketAPIRequest.getListener() != null ) {
                 socketAPIRequestHashMap.remove(socketDataPacket.getSessionId());
                 SocketAPIResponse socketAPIResponse = new SocketAPIResponse(socketDataPacket);
+                LogUtils.loge("服务器发送数据接收口getOperateCode:"+socketDataPacket.getOperateCode());
                 int statusCode = socketAPIResponse.statusCode();
                 if( statusCode == 0 ) {
                     socketAPIRequest.onSuccess(socketAPIResponse);
@@ -76,7 +77,7 @@ public class SocketAPIRequestManage {
     }
     //收到消息接口回调
     public interface OnPushInfo{
-
+        void onChange(double price);
     }
 
     public void startJsonRequest(SocketDataPacket socketDataPacket, OnAPIListener<SocketAPIResponse> listener) {

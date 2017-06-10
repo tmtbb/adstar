@@ -4,6 +4,7 @@ package com.yundian.star.networkapi.socketapi;
 import com.yundian.star.app.SocketAPIConstant;
 import com.yundian.star.base.SearchReturnbeen;
 import com.yundian.star.been.AdvBeen;
+import com.yundian.star.been.AskToBuyReturnBeen;
 import com.yundian.star.been.CommentMarketBeen;
 import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.been.MarketTypeBeen;
@@ -20,7 +21,6 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.InformationAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.ui.main.model.NewsInforModel;
-import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 
 import org.json.JSONArray;
@@ -29,8 +29,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
-
-import static android.R.attr.id;
 
 /**
  * Created by ysl.
@@ -255,10 +253,25 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("id", id);
         map.put("token", token);
         map.put("symbolInfos", json);
-        LogUtils.loge(symbolInfos+"。。。HashMap"+json.toString()+"MAP....."+map.toString());
+        //LogUtils.loge(symbolInfos+"。。。HashMap"+json.toString()+"MAP....."+map.toString());
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Srealtime,
                 SocketAPIConstant.ReqeutType.Time, map);
         requestEntity(socketDataPacket, SrealSendReturnBeen.class,listener);
+    }
+
+    @Override
+    public void getAskToBuy(long id, String token, int sort, String symbol, int buySell, int amount, double price, OnAPIListener<AskToBuyReturnBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("token", token);
+        map.put("sort", sort);
+        map.put("symbol", symbol);
+        map.put("buySell", buySell);
+        map.put("amount", amount);
+        map.put("price", price);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.AskToBuy,
+                SocketAPIConstant.ReqeutType.BuyOrSell, map);
+        requestEntity(socketDataPacket,AskToBuyReturnBeen.class,listener);
     }
 
 }

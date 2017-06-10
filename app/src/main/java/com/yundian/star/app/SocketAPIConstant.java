@@ -10,7 +10,6 @@ public interface SocketAPIConstant {
         byte Error = 0;
         byte User = 3;
         byte Time = 4;
-        byte Deal = 5;
         byte Verify = 1;
         byte History = 6;
         byte Bank = 8;
@@ -20,12 +19,12 @@ public interface SocketAPIConstant {
         byte SearchStar = 11;
         byte Inquirylist = 12;
         byte Search = 13;
+        byte BuyOrSell = 5;
     }
 
     interface OperateCode {
         Short Login = 3003;
         Short WXLogin = 3013;
-        Short Products = 5001;
         Short VerifyCode = 3011;
         Short Register = 3001;
         Short DealPwd = 3005;
@@ -78,7 +77,6 @@ public interface SocketAPIConstant {
         Short AddComment = 12001;
         Short StarList = 4007;
         Short Srealtime = 4001;
-
-
+        Short AskToBuy = 5001;
     }
 }

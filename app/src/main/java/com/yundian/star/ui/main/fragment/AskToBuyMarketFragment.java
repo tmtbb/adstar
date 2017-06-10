@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
+import com.yundian.star.been.AskToBuyReturnBeen;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.listener.OnAPIListener;
@@ -16,10 +17,12 @@ import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
+import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NumberBoubleButton;
 import com.yundian.star.widget.NumberButton;
 
 import java.lang.ref.WeakReference;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +55,8 @@ public class AskToBuyMarketFragment extends BaseFragment {
     TextView tv_content_limit;
     @Bind(R.id.tv_total)
     TextView tv_total;
-    private double buy_price = 0;
-    private int buy_num = 1;
+    private double buy_price = 0.01;
+    private int buy_num = 600;
     private double total_prices = 0;
     private String code;
     private String head_url;
@@ -96,7 +99,7 @@ public class AskToBuyMarketFragment extends BaseFragment {
         sendBeen.setAType(5);
         sendBeen.setSymbol(wid);
         symbolInfos.add(sendBeen);
-        LogUtils.loge("事实数据" + symbolInfos.toString());
+        //LogUtils.loge("事实数据" + symbolInfos.toString());
         NetworkAPIFactoryImpl.getInformationAPI().getSrealtime(SharePrefUtil.getInstance().getUserId(),
                 SharePrefUtil.getInstance().getToken(), symbolInfos, new OnAPIListener<SrealSendReturnBeen>() {
                     @Override
@@ -106,7 +109,7 @@ public class AskToBuyMarketFragment extends BaseFragment {
 
                     @Override
                     public void onSuccess(SrealSendReturnBeen been) {
-                        LogUtils.loge("事实数据" + been.toString());
+                        //LogUtils.loge("事实数据" + been.toString());
                         if (been.getPriceinfo() == null || been.getPriceinfo().size() == 0) {
                             return;
                         }
@@ -150,9 +153,15 @@ public class AskToBuyMarketFragment extends BaseFragment {
         }
     }
 
+    Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            tv_total.setText(String.format("%.2f", total_prices));
+        }
+    };
 
     private void initListener() {
-        tv_total.setText(String.format("%.2f", total_prices));
+        tv_total.postDelayed(runnable, 100);
         but_buy_price.setBuyMin(0.01)
                 .setContext(getActivity())
                 .setOnWarnListener(new NumberBoubleButton.OnWarnListener() {
@@ -195,7 +204,23 @@ public class AskToBuyMarketFragment extends BaseFragment {
         tv_sure_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogUtils.loge("获取数值" + total_prices);
+                BigDecimal bg = new BigDecimal(buy_price);
+                double ask_buy_prices = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                LogUtils.loge("获取数值总价" + buy_price + "转换后的数据" + ask_buy_prices+"之前的"+"..."+buy_num);
+                NetworkAPIFactoryImpl.getInformationAPI().getAskToBuy(142/*SharePrefUtil.getInstance().getUserId()*/,
+                        /*SharePrefUtil.getInstance().getToken()*/"6902464177061903496", 1, "1001", 1, buy_num, ask_buy_prices,
+                        new OnAPIListener<AskToBuyReturnBeen>() {
+                            @Override
+                            public void onError(Throwable ex) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(AskToBuyReturnBeen askToBuyReturnBeen) {
+                                LogUtils.loge("求购成功");
+                                ToastUtils.showShort("挂单成功");
+                            }
+                        });
             }
         });
 

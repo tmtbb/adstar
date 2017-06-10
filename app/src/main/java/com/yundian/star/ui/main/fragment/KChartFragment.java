@@ -111,7 +111,7 @@ public class KChartFragment extends BaseFragment {
 
             @Override
             public void onSuccess(TimeLineBeen timeLineBeen) {
-                LogUtils.loge("分时图" + timeLineBeen.toString());
+                //LogUtils.loge("分时图" + timeLineBeen.toString());
                 if (timeLineBeen.getPriceinfo()==null){
                     return;
                 }
