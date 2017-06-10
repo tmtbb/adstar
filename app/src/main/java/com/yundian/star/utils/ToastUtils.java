@@ -118,4 +118,32 @@ public class ToastUtils {
         return toast2;
 
     }
+
+    /**
+     * 显示有image的toast
+     *
+     * @param tvStr
+     * @param imageResource
+     * @return
+     */
+    public static Toast showSuccessVeiw(final String tvStr, final int imageResource) {
+        if (toast2 == null) {
+            toast2 = new Toast(BaseApplication.getAppContext());
+        }
+        View view = LayoutInflater.from(BaseApplication.getAppContext()).inflate(R.layout.toast_success_view, null);
+        TextView tv = (TextView) view.findViewById(R.id.toast_custom_tv);
+        tv.setText(TextUtils.isEmpty(tvStr) ? "" : tvStr);
+        ImageView iv = (ImageView) view.findViewById(R.id.toast_custom_iv);
+        if (imageResource > 0) {
+            iv.setVisibility(View.VISIBLE);
+            iv.setImageResource(imageResource);
+        } else {
+            iv.setVisibility(View.GONE);
+        }
+        toast2.setView(view);
+        toast2.setGravity(Gravity.CENTER, 0, 0);
+        toast2.show();
+        return toast2;
+
+    }
 }

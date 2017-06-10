@@ -242,3 +242,13 @@ public <methods>;
 
     -keep class com.linkedin.** { *; }
     -keepattributes Signature
+    #bugout
+    -dontwarn com.qamaster.android.**
+    -dontwarn com.testin.agent.**
+    -keepattributes InnerClasses
+    -keep class com.testin.agent.** { *; }
+
+    -dontwarn com.igexin.**
+    -keep class com.igexin.** { *; }
+    -keep class org.json.** { *; }
+

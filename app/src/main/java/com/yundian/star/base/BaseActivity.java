@@ -83,7 +83,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         }
         this.initPresenter();
         this.initView();
-        matchSucessListener();
     }
 
     /**
@@ -277,6 +276,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         ButterKnife.unbind(this);
     }
 
+
     private void showAlertDialog() {
         final Dialog mPopWindowHistory = new Dialog(this, R.style.myDialog);
         mPopWindowHistory.setContentView(R.layout.mach_sucess_choose);
@@ -312,5 +312,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                 });
             }
         });
+
+
     }
 }

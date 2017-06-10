@@ -50,6 +50,7 @@ public class ResetPayPwdActivity extends BaseActivity {
     WPEditText pwdEditText2;
     @Bind(R.id.okButton)
     Button okButton;
+    private long exitNow;
 
     private RegisterVerifyCodeBeen verifyCodeBeen;
 
@@ -99,7 +100,7 @@ public class ResetPayPwdActivity extends BaseActivity {
                 pwdEditText1.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER);
                 pwdEditText2.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER);
                 pwdEditText1.getEditText().setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)});
-                pwdEditText1.getEditText().setHint("请输入六位数字支付密码");
+                pwdEditText1.getEditText().setHint("请输入六位数字交易密码");
                 pwdEditText2.getEditText().setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)});
                 isResetPayPwd = true;
             } else if (resetPwd != null && resetPwd.equals(Constant.USER_PWD)) {  //重置用户密码
@@ -111,6 +112,7 @@ public class ResetPayPwdActivity extends BaseActivity {
 
     @OnClick(R.id.okButton)
     public void okButton() {
+        preventConcurrency();
         LogUtils.logd("此时网络的连接状态是:" + SocketAPINettyBootstrap.getInstance().isOpen());
         CheckException exception = new CheckException();
         if (checkHelper.checkMobile(phoneEditText.getEditTextString(), exception)
@@ -196,7 +198,7 @@ public class ResetPayPwdActivity extends BaseActivity {
 
 
     /**
-     * 重置支付密码
+     * 重置交易密码
      */
     private void resetPayPwd() {
         checkInputInfo();
@@ -210,20 +212,29 @@ public class ResetPayPwdActivity extends BaseActivity {
         NetworkAPIFactoryImpl.getDealAPI().dealPwd(phoneEditText.getEditTextString(),verifyCodeBeen.getVToken(), vCode, verifyCodeBeen.getTimeStamp(), type, pwd, new OnAPIListener<RequestResultBean>() {
             @Override
             public void onSuccess(RequestResultBean resultBean) {
-                LogUtils.logd("支付密码成功回调:" + resultBean.toString());
+                LogUtils.logd("交易密码成功回调:" + resultBean.toString());
                 if (resultBean.getStatus() == 0) {
-                    ToastUtils.showShort("修改支付密码成功");
+                    ToastUtils.showShort("修改交易密码成功");
                     finish();
                 } else {
-                    ToastUtils.showShort("修改支付密码失败");
+                    ToastUtils.showShort("修改交易密码失败");
                 }
             }
 
 
             @Override
             public void onError(Throwable ex) {
-                ToastUtils.showShort("支付密码重置失败");
+                ToastUtils.showShort("交易密码重置失败");
             }
         });
+    }
+    /**
+     * 防止并发
+     */
+    private void preventConcurrency() {
+        if ((System.currentTimeMillis() - exitNow) < 3000) {
+            return;
+        }
+        exitNow = System.currentTimeMillis();
     }
 }

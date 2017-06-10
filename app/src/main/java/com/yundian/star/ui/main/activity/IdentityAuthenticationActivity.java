@@ -1,7 +1,9 @@
 package com.yundian.star.ui.main.activity;
 
 import android.app.Dialog;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -22,6 +24,8 @@ import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+
+import static com.umeng.socialize.utils.DeviceConfig.context;
 
 /**
  * 身份认证
@@ -110,9 +114,9 @@ public class IdentityAuthenticationActivity extends BaseActivity {
 
     private void showIdentityDialog() {
         final Dialog mDetailDialog = new Dialog(this, R.style.custom_dialog);
-        mDetailDialog.setContentView(R.layout.dialog_open_pay);
-        final Button startIdentity = (Button) mDetailDialog.findViewById(R.id.btn_start_identity);
-        ImageView closeImg = (ImageView) mDetailDialog.findViewById(R.id.iv_dialog_close);
+        mDetailDialog.setContentView((R.layout.dialog_open_pay));
+        final Button startIdentity = (Button) mDetailDialog.findViewById(R.id.btn_start_identity2);
+        ImageView closeImg = (ImageView) mDetailDialog.findViewById(R.id.iv_dialog_close2);
         closeImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

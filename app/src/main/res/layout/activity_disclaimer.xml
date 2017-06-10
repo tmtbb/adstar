@@ -22,7 +22,6 @@
         android:textSize="@dimen/text_size_14" />
 
     <Button
-        android:visibility="gone"
         android:id="@+id/btn_disclaimer_agree"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -33,5 +32,6 @@
         android:padding="@dimen/dp_16"
         android:text="本人同意"
         android:textColor="@color/color_fafafa"
-        android:textSize="@dimen/text_size_14" />
+        android:textSize="@dimen/text_size_14"
+        android:visibility="gone" />
 </LinearLayout>
