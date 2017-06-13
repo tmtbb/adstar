@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright 2016. SHENQINCI(沈钦赐)<946736079@qq.com>
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,20 +14,23 @@
   ~ limitations under the License.
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:orientation="horizontal"
-            android:gravity="center_vertical"
-              android:showDividers="middle">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:showDividers="middle">
+
     <TextView
         android:id="@+id/button_sub"
         android:layout_width="20dp"
         android:layout_height="20dp"
-
-        android:background="@drawable/number_background_selector"
+        android:layout_marginRight="5dp"
+        android:paddingLeft="5dp"
+        android:background="@drawable/subtract_no_can"
         android:gravity="center_horizontal"
         android:minWidth="30dp"
-        android:text="-"
         android:textAlignment="center"
         android:textColor="@color/color_white_ffffffff"
         android:textSize="18sp" />
@@ -36,29 +38,29 @@
     <EditText
         android:id="@+id/text_count"
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:background="@null"
         android:cursorVisible="true"
-
         android:gravity="center"
-        android:singleLine="true"
-
         android:minWidth="65dp"
         android:paddingBottom="3dp"
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:paddingTop="3dp"
+        android:singleLine="true"
         android:text="555"
         android:textColor="#000"
-        android:textCursorDrawable="@null"/>
+        android:textCursorDrawable="@null" />
+
     <TextView
+        android:layout_marginLeft="5dp"
+        android:paddingRight="5dp"
         android:id="@+id/button_add"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:background="@drawable/number_background_selector"
+        android:background="@drawable/add_can"
         android:gravity="center"
-        android:text="+"
         android:textAlignment="center"
         android:textColor="@color/color_white_ffffffff"
         android:textSize="18sp" />

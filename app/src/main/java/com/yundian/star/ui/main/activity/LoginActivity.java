@@ -104,6 +104,7 @@ public class LoginActivity extends BaseActivity {
                 @Override
                 public void onError(Throwable ex) {
                     LogUtils.logd("登录失败_____" + ex.toString());
+                    ToastUtils.showShort("登录失败");
                 }
 
                 @Override

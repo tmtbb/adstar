@@ -12,7 +12,8 @@ import com.yundian.star.R;
  * 支付密码弹窗
  */
 
-public class PayDialog extends BaseDialog{
+public class
+PayDialog extends BaseDialog{
 
     private PayPwdEditText payPwdEditText;
 

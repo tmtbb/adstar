@@ -83,6 +83,7 @@ public class MainActivity extends BaseActivity {
             requestBasicPermission();
         }
     };
+    private int match_info;
 
     @Override
     public int getLayoutId() {
@@ -119,6 +120,12 @@ public class MainActivity extends BaseActivity {
         if (flag) {
             EventBus.getDefault().register(this); // EventBus注册广播()
             flag = false;//更改标记,使其不会再进行多次注册
+        }
+        Intent intent = getIntent();
+        match_info = intent.getIntExtra(AppConstant.MATCH_SUCESS_INFO, 0);
+        if (match_info==1){
+            SwitchTo(2);
+            tabLayout.setCurrentTab(2);
         }
     }
 

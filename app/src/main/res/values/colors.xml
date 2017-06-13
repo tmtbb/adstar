@@ -42,6 +42,7 @@
     <color name="toast_white">#ffffff</color>
     <color name="toast_stroke_gray">#99d4d4d4</color>
     <color name="color_070707">#070707</color>
+    <color name="color_ececec">#ececec</color>
 
 
     <color name="alpha_05_white">#0DFFFFFF</color>
@@ -142,6 +143,10 @@
     <color name="color_A6A6A6">#A6A6A6</color>
     <color name="color_e5e5e5">#e5e5e5</color>
     <color name="color_A8E0D7">#A8E0D7</color>
+    <color name="color_FB6A38">#FB6A38</color>
+    <color name="color_4BE2C9">#4BE2C9</color>
+    <color name="color_010101">#010101</color>
+    <color name="color_BDC6B8">#BDC6B8</color>
 
 
     <color name="color_f2f7fc">#F2F7FC</color>
@@ -152,6 +157,7 @@
     <color name="video_call_peer_close_cameral_text_color">#f1f1f1</color>
     <color name="color_gray_alpha">#99323232</color>
     <color name="color_gray_alpha40">#66000000</color>
+    <color name="color_7fcb4232">#7fcb4232</color>
 
     <color name="grey">#333333</color>
     <color name="global_bg">#9000</color>

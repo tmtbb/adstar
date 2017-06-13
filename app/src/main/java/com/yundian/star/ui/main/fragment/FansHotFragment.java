@@ -15,6 +15,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/5/22.
+ * 粉丝热度榜
  */
 
 public class FansHotFragment extends BaseFragment {
@@ -30,6 +31,7 @@ public class FansHotFragment extends BaseFragment {
 
     private FansHotBuyFragment hotBuyFragment;
     private FansHotBuyFragment transferFragment;
+    private String code;
 
 
     @Override
@@ -44,7 +46,9 @@ public class FansHotFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-
+        if (getArguments()!=null){
+            code = getArguments().getString(AppConstant.STAR_CODE);
+        }
     }
 
     @Override
@@ -57,12 +61,12 @@ public class FansHotFragment extends BaseFragment {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         if (savedInstanceState==null){
             Bundle bundle1 = new Bundle();
-            bundle1.putString(AppConstant.MARKET_DETAIL_IN_TYPE,"1001");
+            bundle1.putString(AppConstant.STAR_CODE,code);
             bundle1.putInt(AppConstant.FANS_HOT_TYPE,1);
             hotBuyFragment = new FansHotBuyFragment();
             hotBuyFragment.setArguments(bundle1);
             Bundle bundle2= new Bundle();
-            bundle2.putString(AppConstant.MARKET_DETAIL_IN_TYPE,"1001");
+            bundle2.putString(AppConstant.STAR_CODE,code);
             bundle2.putInt(AppConstant.FANS_HOT_TYPE,2);
             transferFragment = new FansHotBuyFragment();
             transferFragment.setArguments(bundle2);
@@ -75,8 +79,6 @@ public class FansHotFragment extends BaseFragment {
         transaction.commit();
         buyHotOnclick();
     }
-
-
 
     @OnClick(R.id.rl_buy)
     public void buyHotOnclick(){

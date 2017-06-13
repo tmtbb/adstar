@@ -4,6 +4,7 @@ package com.yundian.star.base;
  * 基类
  */
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -11,15 +12,16 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
+import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
 
-import com.igexin.sdk.PushManager;
-import com.testin.agent.Bugout;
-import com.testin.agent.BugoutConfig;
 import com.yundian.star.R;
-import com.yundian.star.app.AppApplication;
+import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.baseapp.AppManager;
+import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIRequestManage;
+import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
+import com.yundian.star.ui.main.activity.MainActivity;
 import com.yundian.star.utils.TUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.utils.daynightmodeutils.ChangeModeController;
@@ -69,8 +71,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Bugout.init(this, "1664ea921dcbe122834e440f7f584e2e", "yingyongbao");
-        initGeTui();
         isConfigChange = false;
         doBeforeSetcontentView();
         setContentView(getLayoutId());
@@ -83,8 +83,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         }
         this.initPresenter();
         this.initView();
-        initBugOut();
-
     }
 
     /**
@@ -131,7 +129,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
      * 着色状态栏（4.4以上系统有效）
      */
     protected void SetStatusBarColor() {
-        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.color_921224));
     }
 
     /**
@@ -260,16 +258,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         ToastUtils.showToastWithImg(error, R.drawable.ic_wifi_off);
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//    }
-
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//    }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -279,6 +267,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        SocketAPIRequestManage.getInstance().unboundOnMatchSucessListener();
         if (mPresenter != null)
             mPresenter.onDestroy();
         if (!isConfigChange) {
@@ -287,51 +276,43 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         ButterKnife.unbind(this);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        //* 注：回调 1
-        Bugout.onResume(this);
+
+    private void showAlertDialog() {
+        final Dialog mPopWindowHistory = new Dialog(this, R.style.myDialog);
+        mPopWindowHistory.setContentView(R.layout.mach_sucess_choose);
+        TextView tvSure = (TextView) mPopWindowHistory.findViewById(R.id.btn_sure);
+        tvSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopWindowHistory.dismiss();
+                Intent intent = new Intent(BaseActivity.this, MainActivity.class);
+                intent.putExtra(AppConstant.MATCH_SUCESS_INFO, 1);
+                startActivity(intent);
+            }
+        });
+        TextView btn_cancel = (TextView) mPopWindowHistory.findViewById(R.id.btn_cancel);
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopWindowHistory.dismiss();
+            }
+        });
+        mPopWindowHistory.show();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        //* 注：回调 2
-        Bugout.onPause(this);
-    }
+    private void matchSucessListener() {
+        SocketAPIRequestManage.getInstance().setOnMatchSucessListener(new SocketAPIRequestManage.OnMatchSucessListener() {
+            @Override
+            public void onMatchListener(SocketDataPacket socketDataPacket) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showAlertDialog();
+                    }
+                });
+            }
+        });
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-        //* 注：回调 3
-        Bugout.onDispatchTouchEvent(this, event);
-        return super.dispatchTouchEvent(event);
-    }
 
-    private void initBugOut() {
-        BugoutConfig config = new BugoutConfig.Builder(mContext)
-                //.withAppKey(a15147f843a6cdb414b8a61b6f5191b8)     // 您的应用的项目ID,如果已经在 Manifest 中配置则此处可略
-                //  .withAppChannel(cnl)     // 发布应用的渠道,如果已经在 Manifest 中配置则此处可略
-                .withUserInfo(AppApplication.getAndroidId())    // 用户信息-崩溃分析根据用户记录崩溃信息
-                .withDebugModel(true)    // 输出更多SDK的debug信息
-                .withErrorActivity(true)    // 发生崩溃时采集Activity信息
-                .withCollectNDKCrash(true) //  收集NDK崩溃信息
-                .withOpenCrash(true)    // 收集崩溃信息开关
-                .withOpenEx(true)     // 是否收集异常信息
-                .withReportOnlyWifi(true)    // 仅在 WiFi 下上报崩溃信息
-                .withReportOnBack(true)    // 当APP在后台运行时,是否采集信息
-                .withQAMaster(true)    // 是否收集摇一摇反馈
-                .withCloseOption(false)   // 是否在摇一摇菜单展示‘关闭摇一摇选项’
-                .withLogCat(true)  // 是否系统操作信息
-                .build();
-        Bugout.init(config);
-    }
-
-    private void initGeTui() {
-        // com.getui.demo.DemoPushService 为第三方自定义推送服务
-        PushManager.getInstance().initialize(this.getApplicationContext(), com.yundian.star.service.DemoPushService.class);
-
-        // com.getui.demo.DemoIntentService 为第三方自定义的推送服务事件接收类
-        PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), com.yundian.star.service.DemoIntentService.class);
     }
 }

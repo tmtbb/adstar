@@ -1,12 +1,10 @@
 package com.yundian.star.ui.main.fragment;
 
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yundian.star.R;
@@ -19,7 +17,7 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.StarBuyAchAdapter;
 import com.yundian.star.ui.main.adapter.StarBuyExcAdapter;
-import com.yundian.star.utils.AdViewpagerUtil;
+import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.ListViewUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.widget.MyListView;
@@ -52,9 +50,9 @@ public class StarIntroFragment extends BaseFragment {
     NestedScrollView scroll_view ;
     @Bind(R.id.tv_mesure)
     TextView tv_mesure;
+    @Bind(R.id.img_adv)
+    ImageView img_adv;
 
-    private String[] adList;
-    private AdViewpagerUtil adViewpagerUtil;
 
 
     @Override
@@ -98,37 +96,13 @@ public class StarIntroFragment extends BaseFragment {
     }
 
     private void initData(StarBuyActReferralInfo info) {
-        initPic(info);
         tv_1.setText(String.format(getString(R.string.intro_nationality),info.getNationality()));
         tv_2.setText(String.format(getString(R.string.intro_nation),info.getNation()));
         tv_3.setText(String.format(getString(R.string.intro_work),info.getWork()));
-        tv_4.setText(String.format(getString(R.string.intro_constellation),info.getConstellation()));
+        tv_4.setText(String.format(getString(R.string.intro_constellation),info.getConstellaction()));
         tv_5.setText(String.format(getString(R.string.intro_birth_day),info.getBirth()));
         tv_6.setText(String.format(getString(R.string.intro_colleage),info.getColleage()));
-
-        RelativeLayout rl_adroot = (RelativeLayout) getActivity().findViewById(R.id.adv_root);
-        ViewPager viewPager = (ViewPager)rl_adroot.findViewById(R.id.viewpager);
-        LinearLayout page_indicator = (LinearLayout)rl_adroot.findViewById(R.id.ly_dots);
-        adViewpagerUtil = new AdViewpagerUtil(getActivity(), viewPager, page_indicator, adList);
-    }
-
-    private void initPic(StarBuyActReferralInfo info) {
-        adList = new String[5];
-        if (!TextUtils.isEmpty(info.getPic1())){
-            adList[0] = info.getPic1();
-        }
-        if (!TextUtils.isEmpty(info.getPic2())){
-            adList[1] = info.getPic2();
-        }
-        if (!TextUtils.isEmpty(info.getPic3())){
-            adList[2] = info.getPic3();
-        }
-        if (!TextUtils.isEmpty(info.getPic4())){
-            adList[3] = info.getPic4();
-        }
-        if (!TextUtils.isEmpty(info.getPic5())){
-            adList[4] = info.getPic5();
-        }
+        ImageLoaderUtils.display(getActivity(),img_adv,info.getPic_url());
     }
     private void getStarExperience() {
         NetworkAPIFactoryImpl.getInformationAPI().getStarExperience(code, new OnAPIListener<StarExperienceBeen>() {
@@ -188,19 +162,11 @@ public class StarIntroFragment extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        if (adViewpagerUtil != null) {
-            adViewpagerUtil.stopLoopViewPager();
-            LogUtils.logd("广告停止");
-        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (adViewpagerUtil != null) {
-            adViewpagerUtil.startLoopViewPager();
-            LogUtils.logd("广告开始");
-        }
     }
 
 }

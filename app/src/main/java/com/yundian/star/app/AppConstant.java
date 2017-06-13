@@ -9,8 +9,12 @@ public class AppConstant {
    //明星code
     public static final String STAR_CODE="STAR_CODE";
     public static final String STAR_NAME="STAR_NAME";
+    public static final String STAR_WID="STAR_WID";
+    public static final String STAR_HEAD_URL="STAR_HEAD_URL";
+    public static final String MATCH_SUCESS_INFO="MATCH_SUCESS_INFO";
     public static final String HOME_CURRENT_TAB_POSITION="HOME_CURRENT_TAB_POSITION";
     public static final String MENU_SHOW_HIDE="MENU_SHOW_HIDE";
+    public static final String AUCTION_TYPE="AUCTION_TYPE";
 
    /*行情*/
     public static final String MARKET_DETAIL_NAME = "market_detail_name";

@@ -69,6 +69,7 @@
             android:id="@+id/tv_updown"
             android:text="-0.34%"
             android:gravity="center"
+            android:textColor="@color/color_ffffff"
             android:layout_width="@dimen/dp_71"
             android:layout_height="@dimen/dp_26"
             android:background="@drawable/textview_green_bg"

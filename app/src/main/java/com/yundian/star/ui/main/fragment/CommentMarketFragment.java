@@ -63,7 +63,7 @@ public class CommentMarketFragment extends BaseFragment {
             LogUtils.loge("明星code"+code);
         }
         initAdapter();
-        getData(false,0,REQUEST_COUNT);
+        getData(false,1,REQUEST_COUNT);
         initListener();
     }
 
@@ -79,7 +79,7 @@ public class CommentMarketFragment extends BaseFragment {
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getData(true,mCurrentCounter,REQUEST_COUNT);
+                getData(true,mCurrentCounter+1,REQUEST_COUNT);
             }
         });
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {

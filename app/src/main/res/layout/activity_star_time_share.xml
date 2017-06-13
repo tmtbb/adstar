@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tl="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/color_ffffff"
     android:clipToPadding="true">
 
     <android.support.design.widget.AppBarLayout
@@ -19,54 +19,12 @@
             android:layout_gravity="top"
             app:layout_scrollFlags="scroll"></com.yundian.star.widget.NormalTitleBar>
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:orientation="horizontal"
-            app:layout_scrollFlags="scroll">
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="61dp"
-                android:layout_height="61dp"
-                android:src="@drawable/ic_home_normal" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/imageView2"
-                android:layout_gravity="bottom"
-                android:layout_marginLeft="19dp"
-                android:layout_toEndOf="@+id/imageView2"
-                android:layout_toRightOf="@+id/imageView2"
-                android:text="@string/star_price_time_share"
-                android:textColor="@color/color_CB4232"
-                android:textSize="@dimen/fontSize_24sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:background="@drawable/star_time_share_bg"
-                android:padding="8dp"
-                android:text="@string/star_price_time_share_limit"
-                android:textColor="@color/color_white_ffffffff"
-                android:textSize="@dimen/fontSize_16sp" />
-        </RelativeLayout>
-
         <FrameLayout
+            android:layout_marginTop="15dp"
             android:id="@+id/fl_KChartFragment"
             android:layout_width="match_parent"
-            android:layout_height="290dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
+            android:layout_height="wrap_content"
             app:layout_scrollFlags="scroll">
-
         </FrameLayout>
 
         <com.flyco.tablayout.SlidingTabLayout
@@ -91,8 +49,9 @@
     <RadioGroup
         android:id="@+id/rg_butten"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="52dp"
         android:layout_gravity="bottom"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
         android:background="@drawable/radi_button_bg"
         >
@@ -100,39 +59,43 @@
         <RadioButton
             android:id="@+id/rb_1"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableTop="@drawable/ic_home_normal"
+            android:drawableTop="@drawable/want_buy_icon"
             android:gravity="center"
+            android:textColor="@color/color_8C0808"
             android:text="@string/ask_to_buy" />
 
         <RadioButton
             android:id="@+id/rb_2"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableTop="@drawable/ic_home_normal"
+            android:drawableTop="@drawable/transfer_icon"
             android:gravity="center"
+            android:textColor="@color/color_8C0808"
             android:text="@string/transfer" />
 
         <RadioButton
             android:id="@+id/rb_3"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableTop="@drawable/ic_home_normal"
+            android:drawableTop="@drawable/fans_see"
             android:gravity="center"
+            android:textColor="@color/color_8C0808"
             android:text="@string/fans_meet_and_greet" />
         <RadioButton
+            android:textColor="@color/color_8C0808"
             android:id="@+id/rb_4"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:button="@null"
-            android:drawableTop="@drawable/ic_home_normal"
+            android:drawableTop="@drawable/optional_icon"
             android:gravity="center"
             android:text="@string/optional" />
 

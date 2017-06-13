@@ -1,5 +1,6 @@
 package com.yundian.star.ui.main.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -12,12 +13,14 @@ import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.yundian.star.R;
+import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.base.SearchReturnbeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.SearchListAdapter;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.widget.NormalTitleBar;
 
 import java.util.ArrayList;
@@ -27,6 +30,7 @@ import butterknife.Bind;
 
 /**
  * Created by Administrator on 2017/5/16.
+ * 搜索页面
  */
 
 public class SearchActivity extends BaseActivity implements View.OnClickListener {
@@ -42,7 +46,9 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     private String textsearch;
     private SearchListAdapter searchListAdapter;
     private LRecyclerViewAdapter recyclerViewAdapter;
-    private List<SearchReturnbeen.ListBean> list =new ArrayList<SearchReturnbeen.ListBean>(){};
+    private List<SearchReturnbeen.StarsinfoBean> list =new ArrayList<SearchReturnbeen.StarsinfoBean>(){};
+    private int userId;
+    private String token;
 
 
     @Override
@@ -59,6 +65,8 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
     public void initView() {
         nt_title.setTitleText(R.string.search);
         nt_title.setBackVisibility(true);
+        userId = SharePrefUtil.getInstance().getUserId();
+        token = SharePrefUtil.getInstance().getToken();
         initListener();
         initAdapter();
     }
@@ -74,7 +82,13 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         recyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                SearchReturnbeen.StarsinfoBean starsinfoBean = list.get(position);
+                Intent intent = new Intent(SearchActivity.this,StarTimeShareActivity.class);
+                intent.putExtra(AppConstant.STAR_CODE, starsinfoBean.getSymbol());
+                intent.putExtra(AppConstant.STAR_NAME, starsinfoBean.getName());
+                intent.putExtra(AppConstant.STAR_WID, starsinfoBean.getWid());
+                intent.putExtra(AppConstant.STAR_HEAD_URL, starsinfoBean.getPic());
+                startActivity(intent);
             }
         });
     }
@@ -100,30 +114,31 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                     recyclerViewAdapter.notifyDataSetChanged();
                     lrv.refresh();
                     return;
-                }
-                NetworkAPIFactoryImpl.getInformationAPI().searchStar(s.toString(), new OnAPIListener<SearchReturnbeen>() {
-                    @Override
-                    public void onError(Throwable ex) {
+                }else {
+                    NetworkAPIFactoryImpl.getInformationAPI().searchStar(userId,token,s.toString(), new OnAPIListener<SearchReturnbeen>() {
+                        @Override
+                        public void onError(Throwable ex) {
 
-                    }
-
-                    @Override
-                    public void onSuccess(SearchReturnbeen searchReturnbeen) {
-                        LogUtils.loge(searchReturnbeen.toString());
-                        list.clear();
-                        searchListAdapter.clear();
-                        if (searchReturnbeen.getResult()==1){
-                            list = searchReturnbeen.getList();
-                            //newsInfoAdapter.setDataList(arrayList);
-                            recyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
-                            LogUtils.loge(list.toString());
-                            searchListAdapter.addAll(list);
-                        }else {
-                            recyclerViewAdapter.notifyDataSetChanged();
                         }
-                        lrv.refresh();
-                    }
-                });
+
+                        @Override
+                        public void onSuccess(SearchReturnbeen searchReturnbeen) {
+                            LogUtils.loge(searchReturnbeen.toString());
+                            list.clear();
+                            searchListAdapter.clear();
+                            if (searchReturnbeen.getStarsinfo()!=null&&searchReturnbeen.getStarsinfo().size()!=0){
+                                list = searchReturnbeen.getStarsinfo();
+                                //newsInfoAdapter.setDataList(arrayList);
+                                recyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
+                                LogUtils.loge(list.toString());
+                                searchListAdapter.addAll(list);
+                            }else {
+                                recyclerViewAdapter.notifyDataSetChanged();
+                            }
+                            lrv.refresh();
+                        }
+                    });
+                }
             }
         });
 

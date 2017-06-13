@@ -37,6 +37,7 @@ public class FansHotBuyFragment extends BaseFragment {
     private static int mCurrentCounter = 1;
     private FansHotBuyAdapter fansHotBuyAdapter;
     private int hotType;
+    private String code;
 
     @Override
     protected int getLayoutResource() {
@@ -51,7 +52,7 @@ public class FansHotBuyFragment extends BaseFragment {
     @Override
     protected void initView() {
         if (getArguments()!=null){
-            String  code = getArguments().getString(AppConstant.MARKET_DETAIL_IN_TYPE);
+            code = getArguments().getString(AppConstant.STAR_CODE);
             hotType = getArguments().getInt(AppConstant.FANS_HOT_TYPE);
 
         }
@@ -61,7 +62,7 @@ public class FansHotBuyFragment extends BaseFragment {
 
     private void getData(final boolean isLoadMore,int start ,int end ) {
         if (hotType==1){
-            NetworkAPIFactoryImpl.getInformationAPI().getSeekList("1001", start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
+            NetworkAPIFactoryImpl.getInformationAPI().getSeekList(code, start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
                 @Override
                 public void onError(Throwable ex) {
 
@@ -85,7 +86,7 @@ public class FansHotBuyFragment extends BaseFragment {
                 }
             });
         }else {
-            NetworkAPIFactoryImpl.getInformationAPI().getTransferList("1001", start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
+            NetworkAPIFactoryImpl.getInformationAPI().getTransferList(code, start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
                 @Override
                 public void onError(Throwable ex) {
 
