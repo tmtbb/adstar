@@ -4,6 +4,7 @@ package com.yundian.star.base;
  * 基类
  */
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -11,16 +12,22 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.TextView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yundian.star.R;
+import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.baseapp.AppManager;
+import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIRequestManage;
+import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
+import com.yundian.star.ui.main.activity.MainActivity;
 import com.yundian.star.utils.TUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.utils.daynightmodeutils.ChangeModeController;
@@ -131,7 +138,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
      * 着色状态栏（4.4以上系统有效）
      */
     protected void SetStatusBarColor() {
-        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimaryDark));
+        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.color_921224));
     }
 
     /**
@@ -260,16 +267,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         ToastUtils.showToastWithImg(error, R.drawable.ic_wifi_off);
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//    }
-
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//    }
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -279,6 +276,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        SocketAPIRequestManage.getInstance().unboundOnMatchSucessListener();
         if (mPresenter != null)
             mPresenter.onDestroy();
         if (!isConfigChange) {
@@ -318,4 +316,43 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         parent.setVisibility(View.VISIBLE);
     }
 
+
+    private void showAlertDialog() {
+        final Dialog mPopWindowHistory = new Dialog(this, R.style.myDialog);
+        mPopWindowHistory.setContentView(R.layout.mach_sucess_choose);
+        TextView tvSure = (TextView) mPopWindowHistory.findViewById(R.id.btn_sure);
+        tvSure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopWindowHistory.dismiss();
+                Intent intent = new Intent(BaseActivity.this, MainActivity.class);
+                intent.putExtra(AppConstant.MATCH_SUCESS_INFO, 1);
+                startActivity(intent);
+            }
+        });
+        TextView btn_cancel = (TextView) mPopWindowHistory.findViewById(R.id.btn_cancel);
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mPopWindowHistory.dismiss();
+            }
+        });
+        mPopWindowHistory.show();
+    }
+
+    private void matchSucessListener() {
+        SocketAPIRequestManage.getInstance().setOnMatchSucessListener(new SocketAPIRequestManage.OnMatchSucessListener() {
+            @Override
+            public void onMatchListener(SocketDataPacket socketDataPacket) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showAlertDialog();
+                    }
+                });
+            }
+        });
+
+
+    }
 }

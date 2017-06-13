@@ -1,23 +1,34 @@
 package com.yundian.star.networkapi.socketapi;
 
+
 import com.yundian.star.app.SocketAPIConstant;
 import com.yundian.star.base.SearchReturnbeen;
 import com.yundian.star.been.AdvBeen;
+import com.yundian.star.been.AskToBuyReturnBeen;
 import com.yundian.star.been.CommentMarketBeen;
 import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
+import com.yundian.star.been.SrealSendBeen;
+import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
 import com.yundian.star.been.StarExperienceBeen;
+import com.yundian.star.been.StarListbeen;
 import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.StarStarAchBeen;
-import com.yundian.star.been.StartTimeShareBeen;
+import com.yundian.star.been.TimeLineBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.InformationAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.ui.main.model.NewsInforModel;
+import com.yundian.star.utils.SharePrefUtil;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by ysl.
@@ -49,11 +60,13 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
-    public void searchStar(String code, OnAPIListener<SearchReturnbeen> listener) {
+    public void searchStar(long id,String token ,String message, OnAPIListener<SearchReturnbeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("code", code);
+        map.put("id", id);
+        map.put("token", token);
+        map.put("message", message);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.SearchStar,
-                SocketAPIConstant.ReqeutType.SearchStar, map);
+                SocketAPIConstant.ReqeutType.Search, map);
         requestEntity(socketDataPacket,SearchReturnbeen.class,listener);
     }
 
@@ -79,16 +92,19 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
-    public void getMarketstar(int type, int startnum, int endnum,int sorttype, OnAPIListener<OptionsStarListBeen> listener) {
+    public void getStarList(long id,String token,int sort, int aType, int start, int count, OnAPIListener<StarListbeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("type", type);
-        map.put("startnum", startnum);
-        map.put("endnum", endnum);
-        map.put("sorttype", sorttype);
-        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.MarketStar,
-                SocketAPIConstant.ReqeutType.SearchStar, map);
-        requestEntity(socketDataPacket,OptionsStarListBeen.class,listener);
+        map.put("id", id);
+        map.put("token", token);
+        map.put("sort", sort);
+        map.put("aType", aType);
+        map.put("start", start);
+        map.put("count", count);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarList,
+                SocketAPIConstant.ReqeutType.Time, map);
+        requestEntity(socketDataPacket,StarListbeen.class,listener);
     }
+
 
     @Override
     public void getStarBrief(String code, OnAPIListener<StarBuyActReferralInfo> listener) {
@@ -186,7 +202,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     public void inquiry(String symbol, int startPos, int count, OnAPIListener<CommentMarketBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("symbol", symbol);
-        map.put("token", "adc28ac69625652b46d5c00b");
+        map.put("token", SharePrefUtil.getInstance().getToken());
         map.put("startPos", startPos);
         map.put("count", count);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Inquiry,
@@ -195,13 +211,17 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
-    public void getStarStatist(String starcode, OnAPIListener<StartTimeShareBeen> listener) {
+    public void getTimeLine(long id, String token, String symbol, int aType, OnAPIListener<TimeLineBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("starcode", starcode);
-        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Starstatist,
-                SocketAPIConstant.ReqeutType.SearchStar, map);
-        requestEntity(socketDataPacket,StartTimeShareBeen.class,listener);
+        map.put("id", id);
+        map.put("token", token);
+        map.put("symbol", symbol);
+        map.put("aType", aType);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.TimeLine,
+                SocketAPIConstant.ReqeutType.Time, map);
+        requestEntity(socketDataPacket,TimeLineBeen.class,listener);
     }
+
 
     @Override
     public void getAddComment(String symbol, String fans_id, String nick_name, String comments, String head_url, OnAPIListener<Object> listener) {
@@ -214,6 +234,44 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.AddComment,
                 SocketAPIConstant.ReqeutType.Inquirylist, map);
         requestJsonObject(socketDataPacket,listener);
+    }
+
+    @Override
+    public void getSrealtime(long id, String token, List<SrealSendBeen> symbolInfos, OnAPIListener<SrealSendReturnBeen> listener) {
+        JSONArray json = new JSONArray();
+        for (SrealSendBeen symbolInfo : symbolInfos) {
+            JSONObject jo = new JSONObject();
+            try {
+                jo.put("symbol", symbolInfo.getSymbol());
+                jo.put("aType", symbolInfo.getAType());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            json.put(jo);
+        }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("token", token);
+        map.put("symbolInfos", json);
+        //LogUtils.loge(symbolInfos+"。。。HashMap"+json.toString()+"MAP....."+map.toString());
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Srealtime,
+                SocketAPIConstant.ReqeutType.Time, map);
+        requestEntity(socketDataPacket, SrealSendReturnBeen.class,listener);
+    }
+
+    @Override
+    public void getAskToBuy(long id, String token, int sort, String symbol, int buySell, int amount, double price, OnAPIListener<AskToBuyReturnBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("token", token);
+        map.put("sort", sort);
+        map.put("symbol", symbol);
+        map.put("buySell", buySell);
+        map.put("amount", amount);
+        map.put("price", price);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.AskToBuy,
+                SocketAPIConstant.ReqeutType.BuyOrSell, map);
+        requestEntity(socketDataPacket,AskToBuyReturnBeen.class,listener);
     }
 
 }

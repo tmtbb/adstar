@@ -50,10 +50,10 @@ public class HistoryBuyFragment extends BaseFragment {
     private ArrayList<FansHotBuyReturnBeen.ListBean> loadList = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private int end_year;
-    private int start_year = 2017;
     private int end_month;
-    private int start_month = 1;
     private int end_day;
+    private int start_year = 2017;
+    private int start_month = 1;
     private int start_day = 1;
     private int current_end_year;
     private int current_end_month;

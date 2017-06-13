@@ -3,12 +3,16 @@ package com.yundian.star.ui.main.fragment;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
@@ -28,8 +32,10 @@ import com.yundian.star.ui.main.model.NewsInforModel;
 import com.yundian.star.ui.main.presenter.NewsInfoPresenter;
 import com.yundian.star.utils.AdViewpagerUtil;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.TimeUtil;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
@@ -41,14 +47,16 @@ import butterknife.Bind;
 public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforModel> implements NewInfoContract.View {
     @Bind(R.id.lrv)
     LRecyclerView lrv;
-    /*@Bind(R.id.rl_time)
+    @Bind(R.id.rl_time)
     RelativeLayout rl_time;
     @Bind(R.id.tv_time)
-    TextView tv_time ;
+    TextView tv_time;
     @Bind(R.id.tv_am_pm)
-    TextView tv_am_pm ;
+    TextView tv_am_pm;
     @Bind(R.id.tv_time_h)
-    TextView tv_time_h ;*/
+    TextView tv_time_h;
+    @Bind(R.id.imageView2)
+    ImageView imageView2 ;
     //    @Bind(R.id.loadingTip)
 //    LoadingTip loadingTip ;
     private ArrayList<NewsInforModel.ListBean> arrayList = new ArrayList<>();
@@ -104,19 +112,19 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                mPresenter.getData(true, "1", "1", mCurrentCounter+1, mCurrentCounter+REQUEST_COUNT, 1);
+                mPresenter.getData(true, "1", "1", mCurrentCounter + 1, mCurrentCounter + REQUEST_COUNT, 1);
             }
         });
 
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                LogUtils.loge(position+"");
+                LogUtils.loge(position + "");
                 NewsInforModel.ListBean listBean = arrayList.get(position);
-                NewsBrowserActivity.startAction(getActivity(),listBean.getLink_url(),"");
+                NewsBrowserActivity.startAction(getActivity(), listBean.getLink_url(), "");
             }
         });
-        /*lrv.setLScrollListener(new LRecyclerView.LScrollListener() {
+        lrv.setLScrollListener(new LRecyclerView.LScrollListener() {
             @Override
             public void onScrollUp() {
 
@@ -140,28 +148,37 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
                     //int lastItemPosition = linearManager.findLastVisibleItemPosition();
                     //获取第一个可见view的位置
                     int firstItemPosition = linearManager.findFirstVisibleItemPosition();
-                    LogUtils.loge(firstItemPosition + "...." );
-                    if (linearManager.findFirstVisibleItemPosition()>=2){
+                    LogUtils.loge(firstItemPosition + "....");
+                    if (linearManager.findFirstVisibleItemPosition() >= 2) {
+                        full(true);
                         rl_time.setVisibility(View.VISIBLE);
                         NewsInforModel.ListBean listBean = arrayList.get(firstItemPosition - 2);
-                        Date dateByFormat = TimeUtil.getDateByFormat(listBean.getTimes(), TimeUtil.dateFormatYMDHMS);
-                        int hours = dateByFormat.getHours();
-                        if (hours>12){
+                        long time = System.currentTimeMillis();
+                        final Calendar mCalendar = Calendar.getInstance();
+                        mCalendar.setTimeInMillis(time);
+                        int hour = mCalendar.get(Calendar.HOUR_OF_DAY);
+                        int m = mCalendar.get(Calendar.MINUTE);
+                        int apm = mCalendar.get(Calendar.AM_PM);
+                        if (apm == 1) {
                             tv_am_pm.setText(getString(R.string.PM));
-                        }else {
+                        } else {
                             tv_am_pm.setText(getString(R.string.AM));
                         }
-                        String stringByFormat = TimeUtil.getStringByFormat(dateByFormat, TimeUtil.dateFormatYMD2);
-                        String stringDateFormatHM = TimeUtil.getStringByFormat(dateByFormat, TimeUtil.dateFormatHM);
-                        LogUtils.loge(stringByFormat);
+                        if (hour>=6&&hour<18){
+                            imageView2.setImageDrawable(getResources().getDrawable(R.drawable.news_day));
+                        }else {
+                            imageView2.setImageDrawable(getResources().getDrawable(R.drawable.news_night));
+                        }
+                        String stringByFormat = TimeUtil.formatDateYMD(listBean.getTimes());
                         tv_time.setText(stringByFormat);
-                        tv_time_h.setText(stringDateFormatHM);
-                    }else {
+                        tv_time_h.setText(hour + ":" + m);
+                    } else {
+                        full(false);
                         rl_time.setVisibility(View.GONE);
                     }
                 }
             }
-        });*/
+        });
     }
 
     @Override
@@ -181,7 +198,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
     @Override
     public void initDatas(ArrayList<NewsInforModel.ListBean> list) {
-        if (list==null){
+        if (list == null) {
             return;
         }
         arrayList.clear();
@@ -208,7 +225,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
     @Override
     public void initAdv(final AdvBeen o) {
-        if (o.getList()==null||o.getList().size()==0){
+        if (o.getList() == null || o.getList().size() == 0) {
             return;
         }
         final List<AdvBeen.ListBean> listData = o.getList();
@@ -216,7 +233,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         for (int i = 0; i < listData.size(); i++) {
             adList[i] = o.getList().get(i).getPic_url();
         }
-        LogUtils.loge("首页资讯轮播图数据"+listData.toString());
+        LogUtils.loge("首页资讯轮播图数据" + listData.toString());
         //add a HeaderView
         header = LayoutInflater.from(getContext()).inflate(R.layout.adv_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
         rl_adroot = (RelativeLayout) header.findViewById(R.id.rl_adroot);
@@ -226,9 +243,9 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         adViewpagerUtil.setOnAdItemClickListener(new AdViewpagerUtil.OnAdItemClickListener() {
             @Override
             public void onItemClick(View v, int position, String url) {
-                Intent intent = new Intent(getActivity(),NewsStarBuyActivity.class);
-                intent.putExtra(AppConstant.STAR_CODE,o.getList().get(position).getCode());
-                LogUtils.loge("首页资讯轮播图明星code"+o.getList().get(position).getCode());
+                Intent intent = new Intent(getActivity(), NewsStarBuyActivity.class);
+                intent.putExtra(AppConstant.STAR_CODE, o.getList().get(position).getCode());
+                LogUtils.loge("首页资讯轮播图明星code" + o.getList().get(position).getCode());
                 startActivity(intent);
             }
         });
@@ -267,7 +284,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         if (hidden == false) {
             mCurrentCounter = 1;
             lrv.setNoMore(false);
-            mPresenter.getData(false, "1", "1",1, REQUEST_COUNT, 1);
+            mPresenter.getData(false, "1", "1", 1, REQUEST_COUNT, 1);
             LogUtils.loge("刷新");
         }
     }
@@ -281,5 +298,17 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         }
     }*/
 
-
+    private void full(boolean enable) {
+        if (enable) {
+            WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+            lp.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+            getActivity().getWindow().setAttributes(lp);
+            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        } else {
+            WindowManager.LayoutParams attr = getActivity().getWindow().getAttributes();
+            attr.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getActivity().getWindow().setAttributes(attr);
+            getActivity().getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+        }
+    }
 }

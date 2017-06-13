@@ -45,6 +45,8 @@ public class StarTimeShareActivity extends BaseActivity {
     private List<Fragment> mNewsFragmentList;
     private String code;
     private String name;
+    private String wid;
+    private String head_url;
 
     @Override
     public int getLayoutId() {
@@ -60,6 +62,8 @@ public class StarTimeShareActivity extends BaseActivity {
     public void initView() {
         code = getIntent().getStringExtra(AppConstant.STAR_CODE);
         name = getIntent().getStringExtra(AppConstant.STAR_NAME);
+        wid = getIntent().getStringExtra(AppConstant.STAR_WID);
+        head_url = getIntent().getStringExtra(AppConstant.STAR_HEAD_URL);
         nt_title.setBackVisibility(true);
         nt_title.setTitleText(name);
         initType();
@@ -71,8 +75,13 @@ public class StarTimeShareActivity extends BaseActivity {
 
     //初始化分时图
     private void initTimeShare() {
+        Bundle bundle = new Bundle();
+        bundle.putString(AppConstant.STAR_CODE,code);
+        bundle.putString(AppConstant.STAR_WID,wid);
+        bundle.putString(AppConstant.STAR_HEAD_URL,head_url);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         KChartFragment kChartFragment = new KChartFragment();
+        kChartFragment.setArguments(bundle);
         transaction.add(R.id.fl_KChartFragment, kChartFragment, "kChartFragment");
         transaction.commit();
     }
@@ -88,19 +97,36 @@ public class StarTimeShareActivity extends BaseActivity {
 
     @OnClick({ R.id.rb_1, R.id.rb_2, R.id.rb_3,R.id.rb_4})
     public void onRadioButtenClick(View view){
+        /*if (!CheckLoginUtil.checkLogin(this)){
+            return;
+        }*/
         switch (view.getId()){
             case R.id.rb_1:
                 Intent intent = new Intent(this,BuyTransferIndentActivity.class);
                 intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE,0);
+                intent.putExtra(AppConstant.STAR_WID,wid);
+                intent.putExtra(AppConstant.STAR_NAME,name);
+                intent.putExtra(AppConstant.STAR_CODE,code);
+                intent.putExtra(AppConstant.STAR_HEAD_URL,head_url);
                 startActivity(intent);
                 break;
             case R.id.rb_2:
                 Intent intent2 = new Intent(this,BuyTransferIndentActivity.class);
                 intent2.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE,1);
+                intent2.putExtra(AppConstant.STAR_WID,wid);
+                intent2.putExtra(AppConstant.STAR_NAME,name);
+                intent2.putExtra(AppConstant.STAR_CODE,code);
+                intent2.putExtra(AppConstant.STAR_HEAD_URL,head_url);
                 startActivity(intent2);
                 break;
             case R.id.rb_3:
-
+                Intent intent3 = new Intent(this,MeetStarActivity.class);
+                intent3.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE,1);
+                intent3.putExtra(AppConstant.STAR_WID,wid);
+                intent3.putExtra(AppConstant.STAR_NAME,name);
+                intent3.putExtra(AppConstant.STAR_CODE,code);
+                intent3.putExtra(AppConstant.STAR_HEAD_URL,head_url);
+                startActivity(intent3);
                 break;
             case R.id.rb_4:
                 break;

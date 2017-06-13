@@ -65,10 +65,11 @@
                 android:textColor="@color/font_333333"
                 />
             <ImageView
+                android:layout_marginLeft="4dp"
                 android:id="@+id/iv_select"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/select_up_down"
+                android:background="@drawable/sort_nomal"
                 />
         </LinearLayout>
 

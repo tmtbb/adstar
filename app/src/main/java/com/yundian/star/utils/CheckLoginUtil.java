@@ -9,6 +9,7 @@ import com.yundian.star.ui.main.activity.LoginActivity;
 
 /**
  * Created by Administrator on 2017/6/6.
+ * 检查登录工具类
  */
 
 public class CheckLoginUtil {

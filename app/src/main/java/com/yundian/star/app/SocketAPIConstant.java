@@ -19,12 +19,14 @@ public interface SocketAPIConstant {
         byte NewInfos = 10;
         byte SearchStar = 11;
         byte Inquirylist = 12;
+        byte Search = 13;
+        byte BuyOrSell = 5;
     }
 
     interface OperateCode {
+        Short Products = 5001;
         Short Login = 3003;
         Short WXLogin = 3013;
-        Short Products = 5001;
         Short VerifyCode = 3011;
         Short Register = 3001;
         Short DealPwd = 3005;
@@ -56,7 +58,7 @@ public interface SocketAPIConstant {
         Short WangYi = 9005;
         Short NewInfo = 10013;
         Short Banner = 10015;
-        Short SearchStar = 11007;
+        Short SearchStar = 13001;
         Short OptionStarList = 11013;
         Short MarketType = 11001;
         Short MarketStar = 11003;
@@ -75,6 +77,9 @@ public interface SocketAPIConstant {
         Short Inquiry = 12003;
         Short Starstatist = 11017;
         Short AddComment = 12001;
+        Short StarList = 4007;
+        Short Srealtime = 4001;
+        Short AskToBuy = 5001;
         Short IsRegister = 3029;
 
 
