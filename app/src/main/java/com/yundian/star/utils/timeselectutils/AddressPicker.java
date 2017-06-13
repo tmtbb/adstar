@@ -1,4 +1,4 @@
-package cn.qqtheme.framework.picker;
+package com.yundian.star.utils.timeselectutils;
 
 import android.app.Activity;
 import android.support.annotation.NonNull;
@@ -9,11 +9,7 @@ import android.widget.LinearLayout;
 import java.util.ArrayList;
 import java.util.List;
 
-import cn.qqtheme.framework.entity.City;
-import cn.qqtheme.framework.entity.County;
-import cn.qqtheme.framework.entity.Province;
-import cn.qqtheme.framework.util.LogUtils;
-import cn.qqtheme.framework.widget.WheelView;
+
 
 /**
  * 地址选择器（包括省级、地级、县级），地址数据见示例项目assets目录下。
@@ -163,7 +159,6 @@ public class AddressPicker extends LinkagePicker<Province, City, County> {
                 if (onWheelListener != null) {
                     onWheelListener.onProvinceWheeled(selectedFirstIndex, selectedFirstItem);
                 }
-                LogUtils.verbose(this, "change cities after province wheeled: index=" + index);
                 selectedSecondIndex = 0;//重置地级索引
                 selectedThirdIndex = 0;//重置县级索引
                 //根据省份获取地市
@@ -198,7 +193,6 @@ public class AddressPicker extends LinkagePicker<Province, City, County> {
                 if (onWheelListener != null) {
                     onWheelListener.onCityWheeled(selectedSecondIndex, selectedSecondItem);
                 }
-                LogUtils.verbose(this, "change counties after city wheeled: index=" + index);
                 selectedThirdIndex = 0;//重置县级索引
                 //根据地市获取区县
                 //noinspection unchecked

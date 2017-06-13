@@ -1,12 +1,10 @@
-package cn.qqtheme.framework.entity;
+package com.yundian.star.utils.timeselectutils;
 
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import cn.qqtheme.framework.util.LogUtils;
 
 /**
  * JavaBean类
@@ -46,7 +44,6 @@ public class JavaBean implements Serializable {
                 sb.append(obj);
                 sb.append("\n");
             } catch (IllegalAccessException e) {
-                LogUtils.error(e);
             }
         }
         return sb.toString();

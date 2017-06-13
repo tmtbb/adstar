@@ -1,4 +1,4 @@
-package cn.qqtheme.framework.entity;
+package com.yundian.star.utils.timeselectutils;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * DateTime:2017/04/17 00:33
  * Builder:Android Studio
  *
- * @see cn.qqtheme.framework.picker.LinkagePicker
+ *
  */
 public interface LinkageFirst<Snd> extends LinkageItem {
 

@@ -279,6 +279,7 @@
     <string name="meet_date">约见日期</string>
     <string name="need_consume">即将消耗:</string>
     <string name="sure_meet">确定约见</string>
+    <string name="meet_start">约见名人</string>
     <string name="meet_content">请输入您对此次约见的其他要求200字以内...</string>
     <string name="meet_rule">TIPS：履约过程中产生的相关费用由用户承担明星出行的安保费通讯费、交通费、住宿费、餐饮费、服化费等必要开支。确定约见即表示您已阅读并同意《%1$s》</string>
 

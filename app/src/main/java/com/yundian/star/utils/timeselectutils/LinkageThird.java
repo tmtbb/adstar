@@ -1,4 +1,4 @@
-package cn.qqtheme.framework.entity;
+package com.yundian.star.utils.timeselectutils;
 
 /**
  * 用于联动选择器展示的第三级条目
@@ -7,7 +7,7 @@ package cn.qqtheme.framework.entity;
  * DateTime:2017/04/17 00:35
  * Builder:Android Studio
  *
- * @see cn.qqtheme.framework.picker.LinkagePicker
+ *
  */
 public interface LinkageThird extends LinkageItem {
 }

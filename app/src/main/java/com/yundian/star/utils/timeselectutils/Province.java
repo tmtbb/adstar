@@ -1,4 +1,4 @@
-package cn.qqtheme.framework.entity;
+package com.yundian.star.utils.timeselectutils;
 
 import java.util.ArrayList;
 import java.util.List;
