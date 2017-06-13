@@ -1,7 +1,9 @@
 package com.yundian.star.ui.main.activity;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +11,10 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.yundian.star.R;
+import com.yundian.star.app.Constant;
 import com.yundian.star.base.BaseActivity;
-import com.yundian.star.listener.OnAPIListener;
-import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
-import com.yundian.star.utils.JudgeIdentityUril;
+import com.yundian.star.ui.view.PayDialog;
+import com.yundian.star.utils.JudgeIdentityUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
@@ -32,7 +34,10 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
     LinearLayout recharge;
     @Bind(R.id.ll_user_fudai)
     LinearLayout fudai;
+    @Bind(R.id.parent_view)
+    LinearLayout parentView;
     private PopupWindow popupWindow;
+    private PayDialog payDialog;
 
     @Override
     public int getLayoutId() {
@@ -48,8 +53,10 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
     public void initView() {
         ntTitle.setTitleText(getResources().getString(R.string.user_asset_manage));
         ntTitle.setBackVisibility(true);
-        ntTitle.setRightImagSrc(R.drawable.about_logo);
-
+        ntTitle.setTitleColor(Color.rgb(255, 255, 255));
+        ntTitle.setBackGroundColor(Color.rgb(251, 153, 56));
+        ntTitle.setRightImagSrc(R.drawable.money_bag_more);
+        payDialog = new PayDialog(this);
         showPopupWindow();
         ntTitle.setOnRightImagListener(new View.OnClickListener() {
             @Override
@@ -91,11 +98,14 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.ll_recharge:
                 ToastUtils.showShort("充值");
-                if (JudgeIdentityUril.isIdentityed(this)) {
+                if (JudgeIdentityUtils.isIdentityed(this)) {
                     startActivity(RechargeActivity.class);
                 }
                 break;
             case R.id.ll_user_fudai:
+                LogUtils.loge("点击福袋；；");
+//                showErrorView(parentView,"sssss");
+                payDialog.show();
                 break;
         }
     }

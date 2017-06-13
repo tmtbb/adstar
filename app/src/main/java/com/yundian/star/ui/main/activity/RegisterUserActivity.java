@@ -25,6 +25,7 @@ import com.yundian.star.networkapi.NetworkAPIException;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
 import com.yundian.star.utils.CountUtil;
+import com.yundian.star.utils.FormatUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.MD5Util;
 import com.yundian.star.utils.ToastUtils;
@@ -36,6 +37,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+
+import static com.yundian.star.R.id.phoneEditText;
 
 /**
  * Created by Administrator on 2017/5/9.
@@ -104,7 +107,9 @@ public class RegisterUserActivity extends BaseActivity {
                     ToastUtils.showShort("网络连接失败,请检查网络");
                     return;
                 }
-                getCode(msgEditText, view, userNameEditText);
+                //判断是否注册过
+                JudgeRegister();
+
             }
         });
     }
@@ -155,7 +160,7 @@ public class RegisterUserActivity extends BaseActivity {
                             finish();
                             overridePendingTransition(R.anim.activity_open_down_in, R.anim.activity_off_top_out);
                         } else if (registerReturnBeen.getResult() == 1) {
-                            ToastUtils.showShort("注册成功");
+                            ToastUtils.showShort("绑定成功");
                             /*//loginGetUserInfo(newPwd);  //登录请求数据
                             finish();
                             overridePendingTransition(0,R.anim.activity_off_top_out);*/
@@ -239,11 +244,10 @@ public class RegisterUserActivity extends BaseActivity {
             }
         });
     }
-
-    private void getCode(final WPEditText msgEditText, View view, WPEditText phoneEditText) {
+    private void getCode() {
         LogUtils.logd("请求网络获取短信验证码------------------------------");
         CheckException exception = new CheckException();
-        String phoneEdit = phoneEditText.getEditTextString();
+        String phoneEdit = userNameEditText.getEditTextString();
         if (new CheckHelper().checkMobile(phoneEdit, exception)) {
             //Utils.closeSoftKeyboard(view);
             NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit, new OnAPIListener<RegisterVerifyCodeBeen>() {
@@ -256,7 +260,7 @@ public class RegisterUserActivity extends BaseActivity {
                 @Override
                 public void onSuccess(RegisterVerifyCodeBeen o) {
                     verifyCodeBeen = o;
-                    new CountUtil((TextView) msgEditText.getRightText()).start();   //收到回调才开启计时
+                    new CountUtil(msgEditText.getRightText()).start();   //收到回调才开启计时
                     LogUtils.logd("获取到--注册短信验证码,时间戳是:" + o.toString());
                 }
             });
@@ -299,5 +303,34 @@ public class RegisterUserActivity extends BaseActivity {
         req.state = "wechat_sdk_demo_test";
         AppApplication.api.sendReq(req);
 
+    }
+
+    private void JudgeRegister() {
+        startProgressDialog();
+        CheckException exception = new CheckException();
+        String phoneEdit = userNameEditText.getEditTextString();
+        if (new CheckHelper().checkMobile(phoneEdit, exception)) {
+            NetworkAPIFactoryImpl.getUserAPI().isRegisted(phoneEdit, new OnAPIListener<RegisterReturnBeen>() {
+                @Override
+                public void onError(Throwable ex) {
+                    stopProgressDialog();
+                    LogUtils.loge("错误--------------");
+                    ToastUtils.showShort("网络异常,请检查网络连接");
+                }
+
+                @Override
+                public void onSuccess(RegisterReturnBeen registerReturnBeen) {
+                    stopProgressDialog();
+                    if (registerReturnBeen.getResult() == 1) {
+                        ToastUtils.showShort("手机号码已注册,请直接登录");
+                    } else if (registerReturnBeen.getResult() == 0) {
+                        getCode();
+                    }
+
+                }
+            });
+        } else {
+            ToastUtils.showShort(exception.getErrorMsg());
+        }
     }
 }

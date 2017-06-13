@@ -270,8 +270,8 @@
     <string name="open_pay_agree">我知道了</string>
     <string name="open_pay_des">需要开通支付才能进行充值等相关操作。开通支付后，可以在求购、转让、约见、分答功能中使用钱包消费。</string>
     <string name="make_sure">确定</string>
-
-
+    <string name="error_msg_news">当前还没有相关记录</string>
+    <string name="input_pay_pwd">请输入支付密码</string>
 
 
     <!-- session -->

@@ -109,10 +109,10 @@ public class WPEditText extends BaseLinearLayout {
                         ToastUtils.show("请输入手机号码", 2000);
                     } else {
                         //Utils.isMobile(text)
-                        if (FormatUtil.isMobileNO(text))
-                            new CountUtil(rightText).start();
-                        else
-                            ToastUtils.show("请输入正确的手机号码", 2000);
+//                        if (FormatUtil.isMobileNO(text))
+//                            new CountUtil(rightText).start();
+//                        else
+//                            ToastUtils.show("请输入正确的手机号码", 2000);
                     }
 
                 }
@@ -141,7 +141,7 @@ public class WPEditText extends BaseLinearLayout {
         return "";
     }
 
-    public View getRightText() {
+    public Button getRightText() {
         return rightText;
     }
 

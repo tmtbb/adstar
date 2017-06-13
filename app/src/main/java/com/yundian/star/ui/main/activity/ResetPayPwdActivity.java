@@ -177,17 +177,20 @@ public class ResetPayPwdActivity extends BaseActivity {
         String phoneEdit = phoneEditText.getEditTextString();
         if (new CheckHelper().checkMobile(phoneEdit, exception)) {
             //Utils.closeSoftKeyboard(view);
+            startProgressDialog();
             NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit, new OnAPIListener<RegisterVerifyCodeBeen>() {
                 @Override
                 public void onError(Throwable ex) {
                     ex.printStackTrace();
+                    stopProgressDialog();
                     LogUtils.logd("验证码请求网络错误------------------" + ((NetworkAPIException) ex).getErrorCode());
                 }
 
                 @Override
                 public void onSuccess(RegisterVerifyCodeBeen o) {
                     verifyCodeBeen = o;
-                    new CountUtil((TextView) msgEditText.getRightText()).start();   //收到回调才开启计时
+                    stopProgressDialog();
+                    new CountUtil(msgEditText.getRightText()).start();   //收到回调才开启计时
                     LogUtils.logd("获取到--注册短信验证码,时间戳是:" + o.toString());
                 }
             });

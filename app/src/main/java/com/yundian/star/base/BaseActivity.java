@@ -11,10 +11,14 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.view.MotionEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.testin.agent.Bugout;
 import com.yundian.star.R;
 import com.yundian.star.base.baseapp.AppManager;
 import com.yundian.star.utils.TUtil;
@@ -62,13 +66,16 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     public E mModel;
     public Context mContext;
     private boolean isConfigChange = false;
+    protected View rootView;
+    private View errorView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         isConfigChange = false;
         doBeforeSetcontentView();
-        setContentView(getLayoutId());
+        rootView = LayoutInflater.from(this).inflate(getLayoutId(), null);
+        setContentView(rootView);
         ButterKnife.bind(this);
         mContext = this;
         mPresenter = TUtil.getT(this, 0);
@@ -279,4 +286,36 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         }
         ButterKnife.unbind(this);
     }
+
+    /**
+     * 加载失败view
+     *
+     * @param parent 根布局  标题栏以下
+     * @param msg    错误信息
+     */
+    public void showErrorView(ViewGroup parent, String msg) {
+        if (parent == null) {
+            return;
+        }
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        LayoutInflater inflater3 = LayoutInflater.from(mContext);
+        errorView = inflater3.inflate(R.layout.layout_error_view, null);
+        TextView errorMsg = (TextView) errorView.findViewById(R.id.tv_error_msg);
+        errorMsg.setText(msg);
+        errorView.setLayoutParams(lp);
+        if (rootView != null) {
+            ((FrameLayout) rootView.getParent()).addView(errorView);
+        }
+        parent.setVisibility(View.INVISIBLE);
+        errorView.setVisibility(View.VISIBLE);
+    }
+
+    public void closeErrorView(ViewGroup parent) {
+        if (errorView != null) {
+            errorView.setVisibility(View.GONE);
+        }
+        parent.setVisibility(View.VISIBLE);
+    }
+
 }

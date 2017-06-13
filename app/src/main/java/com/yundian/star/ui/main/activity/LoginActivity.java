@@ -164,6 +164,7 @@ public class LoginActivity extends BaseActivity {
                 // 构建缓存
                 DataCacheManager.buildDataCacheAsync();
                 SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnInfos);
+                SharePrefUtil.getInstance().putLoginPhone(loginReturnInfos.getUserinfo().getPhone());
                 EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
                 LoginActivity.this.finish();
                 LoginActivity.this.overridePendingTransition(0, R.anim.activity_off_top_out);
@@ -200,7 +201,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode==KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             close();
             return false;
         }

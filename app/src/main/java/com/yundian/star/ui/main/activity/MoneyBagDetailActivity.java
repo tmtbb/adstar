@@ -78,7 +78,9 @@ public class MoneyBagDetailActivity extends BaseActivity {
             public void onError(Throwable ex) {
                 LogUtils.logd("钱包详情请求失败----");
 //                    lrv.setNoMore(true);
-                lrv.refreshComplete(REQUEST_COUNT);
+                if (lrv != null){
+                    lrv.refreshComplete(REQUEST_COUNT);
+                }
             }
 
             @Override

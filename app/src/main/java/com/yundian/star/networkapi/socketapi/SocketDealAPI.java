@@ -180,6 +180,7 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
         map.put("status", 0); //(1:处理中,2:成功,3:失败),不传则查所有状态
         map.put("count", count);
         map.put("startPos", startPos);
+//        map.put("time", time);  //time  不传是获取所有  1 2 3
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.MoneyDetail,
                 SocketAPIConstant.ReqeutType.History, map);
         requestEntitys(socketDataPacket, "depositsinfo", MoneyDetailListBean.class, listener);

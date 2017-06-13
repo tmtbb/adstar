@@ -167,7 +167,7 @@ public class ResetUserPwdActivity extends BaseActivity {
                 @Override
                 public void onSuccess(RegisterVerifyCodeBeen o) {
                     verifyCodeBeen = o;
-                    new CountUtil((TextView) msgEditText.getRightText()).start();   //收到回调才开启计时
+                    new CountUtil(msgEditText.getRightText()).start();   //收到回调才开启计时
                     LogUtils.logd("获取到--注册短信验证码,时间戳是:" + o.toString());
                 }
             });

@@ -128,6 +128,7 @@ public class GeneralSettingsActivity extends BaseActivity {
     }
 
     private void logout() {
+
         SharePrefUtil.getInstance().clearUserInfo();
         SharePrefUtil.getInstance().clearUserLoginInfo();
         Preferences.saveUserToken("");
