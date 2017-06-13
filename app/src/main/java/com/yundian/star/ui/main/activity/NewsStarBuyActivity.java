@@ -113,7 +113,7 @@ public class NewsStarBuyActivity extends BaseActivity {
         UMImage thumb =  new UMImage(this, R.drawable.welcome_bg);
         //检测安装微信没
         new ShareAction(NewsStarBuyActivity.this).withText(getString(R.string.app_name))
-                .setDisplayList(SHARE_MEDIA.WEIXIN,SHARE_MEDIA.QQ,SHARE_MEDIA.SINA)
+                .setDisplayList(SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QZONE,SHARE_MEDIA.SINA,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.QQ)
                 .setCallback(umShareListener)
                 .withMedia(thumb)
                 .open();

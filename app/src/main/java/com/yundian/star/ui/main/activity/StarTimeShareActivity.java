@@ -120,7 +120,13 @@ public class StarTimeShareActivity extends BaseActivity {
                 startActivity(intent2);
                 break;
             case R.id.rb_3:
-
+                Intent intent3 = new Intent(this,MeetStarActivity.class);
+                intent3.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE,1);
+                intent3.putExtra(AppConstant.STAR_WID,wid);
+                intent3.putExtra(AppConstant.STAR_NAME,name);
+                intent3.putExtra(AppConstant.STAR_CODE,code);
+                intent3.putExtra(AppConstant.STAR_HEAD_URL,head_url);
+                startActivity(intent3);
                 break;
             case R.id.rb_4:
                 break;

@@ -270,6 +270,17 @@
     <string name="open_pay_agree">我知道了</string>
     <string name="open_pay_des">需要开通支付才能进行充值等相关操作。开通支付后，可以在求购、转让、约见、分答功能中使用钱包消费。</string>
     <string name="make_sure">确定</string>
+    <string name="total_second">总计：%1$d秒</string>
+    <string name="buy_in">买入：%1$d人</string>
+    <string name="buy">买入</string>
+    <string name="shell">卖出</string>
+    <string name="shell_out">卖出：%1$d人</string>
+    <string name="meet_city">约见城市</string>
+    <string name="meet_date">约见日期</string>
+    <string name="need_consume">即将消耗:</string>
+    <string name="sure_meet">确定约见</string>
+    <string name="meet_content">请输入您对此次约见的其他要求200字以内...</string>
+    <string name="meet_rule">TIPS：履约过程中产生的相关费用由用户承担明星出行的安保费通讯费、交通费、住宿费、餐饮费、服化费等必要开支。确定约见即表示您已阅读并同意《%1$s》</string>
 
 
 

@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="12dp"
-    android:layout_marginRight="12dp">
+    android:layout_marginRight="12dp"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -70,7 +71,112 @@
 
         </LinearLayout>
 
-
+        <com.yundian.star.ui.view.MySeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:max="100"
+            android:maxHeight="16dp"
+            android:minHeight="16dp"
+            android:progress="30"
+            android:focusable="false"
+            android:progressDrawable="@drawable/bg_progress_miao_auction"
+            android:splitTrack="false"
+            android:thumb="@drawable/shape_market_beauty_round"
+            android:thumbOffset="0dp" />
+        <TextView
+            android:id="@+id/tv_total_second"
+            android:layout_marginRight="14dp"
+            android:layout_marginTop="12dp"
+            android:layout_gravity="right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/fontSize_14sp"
+            android:textColor="@color/font_333333"
+            android:text="@string/total_second"
+            />
+        <com.yundian.star.ui.view.MySeekBar
+            android:id="@+id/press"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:focusable="false"
+            android:max="100"
+            android:padding="0dp"
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:maxHeight="16dp"
+            android:minHeight="16dp"
+            android:splitTrack="false"
+            android:progress="30"
+            android:progressDrawable="@drawable/bg_progress_default_auction"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+            <TextView
+                android:id="@+id/tv_buy_in"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/fontSize_14sp"
+                android:textColor="@color/font_333333"
+                android:text="@string/buy_in"
+                />
+            <TextView
+                android:layout_alignParentRight="true"
+                android:id="@+id/tv_shell_out"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/fontSize_14sp"
+                android:textColor="@color/font_333333"
+                android:text="@string/shell_out"
+                />
+        </RelativeLayout>
+        <RadioGroup
+            android:id="@+id/radio_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginRight="40dp"
+            android:layout_marginLeft="40dp"
+            >
+            <RadioButton
+                android:id="@+id/rb_1"
+                android:gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="26dp"
+                android:button="@null"
+                android:text="@string/buy"
+                android:background="@drawable/selector_auction"
+                />
+            <RadioButton
+                android:id="@+id/rb_2"
+                android:gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="26dp"
+                android:button="@null"
+                android:text="@string/shell"
+                android:background="@drawable/selector_auction"
+                />
+        </RadioGroup>
+        <FrameLayout
+            android:id="@+id/fl_auction_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></FrameLayout>
     </LinearLayout>
 
 

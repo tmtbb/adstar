@@ -10,21 +10,18 @@ import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.FansHotBuyReturnBeen;
-import com.yundian.star.listener.OnAPIListener;
-import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
-import com.yundian.star.ui.main.adapter.FansHotBuyAdapter;
+import com.yundian.star.ui.main.adapter.AutionTopAdapter;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 
-
 /**
- * Created by Administrator on 2017/5/22.
+ * Created by Administrator on 2017/6/12.
+ * 拍卖排行榜
  */
 
-public class FansHotBuyFragment extends BaseFragment {
-
+public class AutionTopFragment extends BaseFragment {
     @Bind(R.id.lrv)
     LRecyclerView lrv ;
 
@@ -35,13 +32,13 @@ public class FansHotBuyFragment extends BaseFragment {
     private ArrayList<FansHotBuyReturnBeen.ListBean> list = new ArrayList<>();
     private ArrayList<FansHotBuyReturnBeen.ListBean> loadList = new ArrayList<>();
     private static int mCurrentCounter = 1;
-    private FansHotBuyAdapter fansHotBuyAdapter;
+    private AutionTopAdapter autionTopAdapter;
     private int hotType;
     private String code;
 
     @Override
     protected int getLayoutResource() {
-        return R.layout.fragment_fans_hot_buy;
+        return R.layout.fragment_auction_top;
     }
 
     @Override
@@ -53,7 +50,7 @@ public class FansHotBuyFragment extends BaseFragment {
     protected void initView() {
         if (getArguments()!=null){
             code = getArguments().getString(AppConstant.STAR_CODE);
-            hotType = getArguments().getInt(AppConstant.FANS_HOT_TYPE);
+            hotType = getArguments().getInt(AppConstant.AUCTION_TYPE);
 
         }
         initAdapter();
@@ -62,7 +59,16 @@ public class FansHotBuyFragment extends BaseFragment {
 
     private void getData(final boolean isLoadMore,int start ,int end ) {
         if (hotType==1){
-            NetworkAPIFactoryImpl.getInformationAPI().getSeekList(code, start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
+            if (isLoadMore){
+                loadList.clear();
+                moNiData(isLoadMore);
+                loadMoreData();
+            }else {
+                list.clear();
+                moNiData(isLoadMore);
+                showData();
+            }
+            /*NetworkAPIFactoryImpl.getInformationAPI().getSeekList(code, start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
                 @Override
                 public void onError(Throwable ex) {
 
@@ -84,9 +90,18 @@ public class FansHotBuyFragment extends BaseFragment {
                         showData();
                     }
                 }
-            });
+            });*/
         }else {
-            NetworkAPIFactoryImpl.getInformationAPI().getTransferList(code, start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
+            if (isLoadMore){
+                loadList.clear();
+                moNiData(isLoadMore);
+                loadMoreData();
+            }else {
+                list.clear();
+                moNiData(isLoadMore);
+                showData();
+            }
+            /*NetworkAPIFactoryImpl.getInformationAPI().getTransferList(code, start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
                 @Override
                 public void onError(Throwable ex) {
 
@@ -108,14 +123,14 @@ public class FansHotBuyFragment extends BaseFragment {
                         showData();
                     }
                 }
-            });
+            });*/
         }
 
     }
 
     private void initAdapter() {
-        fansHotBuyAdapter = new FansHotBuyAdapter(getActivity());
-        lRecyclerViewAdapter = new LRecyclerViewAdapter(fansHotBuyAdapter);
+        autionTopAdapter = new AutionTopAdapter(getActivity());
+        lRecyclerViewAdapter = new LRecyclerViewAdapter(autionTopAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
         lrv.setLayoutManager(new LinearLayoutManager(getContext()));
         lrv.setPullRefreshEnabled(false);
@@ -132,7 +147,7 @@ public class FansHotBuyFragment extends BaseFragment {
     public void showData() {
         mCurrentCounter =list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
-        fansHotBuyAdapter.addAll(list);
+        autionTopAdapter.addAll(list);
         lrv.refresh();
     }
 
@@ -141,11 +156,21 @@ public class FansHotBuyFragment extends BaseFragment {
             lrv.setNoMore(true);
         } else {
             list.addAll(loadList);
-            fansHotBuyAdapter.addAll(loadList);
+            autionTopAdapter.addAll(loadList);
             mCurrentCounter += loadList.size();
             lrv.refreshComplete(REQUEST_COUNT);
         }
     }
-
-
+    private void moNiData(boolean isLoadMore){
+        for (int i =0;i<10;i++){
+            FansHotBuyReturnBeen.ListBean listBean = new FansHotBuyReturnBeen.ListBean();
+            listBean.setName("哈哈"+i);
+            listBean.setPrice(i);
+            if (isLoadMore){
+                loadList.add(listBean);
+            }else {
+                list.add(listBean);
+            }
+        }
+    }
 }

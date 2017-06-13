@@ -64,6 +64,7 @@
             android:button="@null"
             android:drawableTop="@drawable/want_buy_icon"
             android:gravity="center"
+            android:textColor="@color/color_8C0808"
             android:text="@string/ask_to_buy" />
 
         <RadioButton
@@ -74,6 +75,7 @@
             android:button="@null"
             android:drawableTop="@drawable/transfer_icon"
             android:gravity="center"
+            android:textColor="@color/color_8C0808"
             android:text="@string/transfer" />
 
         <RadioButton
@@ -84,8 +86,10 @@
             android:button="@null"
             android:drawableTop="@drawable/fans_see"
             android:gravity="center"
+            android:textColor="@color/color_8C0808"
             android:text="@string/fans_meet_and_greet" />
         <RadioButton
+            android:textColor="@color/color_8C0808"
             android:id="@+id/rb_4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -137,6 +137,7 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="stateHidden|adjustPan"></activity>
         <activity android:name=".ui.im.activity.SystemMessagesActivity"></activity>
+        <activity android:name=".ui.main.activity.MeetStarActivity"></activity>
 
         <!--微博回调-->
         <activity
