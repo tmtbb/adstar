@@ -21,7 +21,7 @@ import com.yundian.star.ui.main.activity.SettingDealPwdActivity;
  * Created by sll on 2017/6/5.
  */
 
-public class JudgeIdentityUril {
+public class JudgeIdentityUtils {
 
     public static boolean isIdentityed(Context context) {
         String realName = SharePrefUtil.getInstance().getRealName();

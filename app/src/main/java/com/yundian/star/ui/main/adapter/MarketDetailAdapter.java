@@ -39,7 +39,7 @@ public class MarketDetailAdapter extends ListBaseAdapter<StarListbeen.SymbolInfo
         ImageLoaderUtils.display(mContext,imageView,item.getPic());
         tv_name.setText(item.getName());
         tv_code.setText(item.getSymbol());
-        tv_price.setText(String.valueOf(item.getCurrentPrice()));
+        tv_price.setText(String.format("%.2f",item.getCurrentPrice()));
         LogUtils.loge("指数"+item.getChange());
         if (item.getChange()>=0){
             tv_updown.setBackgroundResource(R.drawable.bg_red_radius);

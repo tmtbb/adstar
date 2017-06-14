@@ -12,16 +12,8 @@ public class AssetDetailsBean implements Parcelable {
     private double market_cap;  //市值
     private double total_amt;   //总资产
     private int is_setpwd;  //是否需要设置支付密码 ：0-否,1-是
-
-    @Override
-    public String toString() {
-        return "AssetDetailsBean{" +
-                "balance=" + balance +
-                ", market_cap=" + market_cap +
-                ", total_amt=" + total_amt +
-                ", is_setpwd=" + is_setpwd +
-                '}';
-    }
+    private String head_url;  //头像
+    private String nick_name;  //昵称
 
     public double getBalance() {
         return balance;
@@ -55,6 +47,22 @@ public class AssetDetailsBean implements Parcelable {
         this.is_setpwd = is_setpwd;
     }
 
+    public String getHead_url() {
+        return head_url;
+    }
+
+    public void setHead_url(String head_url) {
+        this.head_url = head_url;
+    }
+
+    public String getNick_name() {
+        return nick_name;
+    }
+
+    public void setNick_name(String nick_name) {
+        this.nick_name = nick_name;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -66,6 +74,8 @@ public class AssetDetailsBean implements Parcelable {
         dest.writeDouble(this.market_cap);
         dest.writeDouble(this.total_amt);
         dest.writeInt(this.is_setpwd);
+        dest.writeString(this.head_url);
+        dest.writeString(this.nick_name);
     }
 
     public AssetDetailsBean() {
@@ -76,6 +86,8 @@ public class AssetDetailsBean implements Parcelable {
         this.market_cap = in.readDouble();
         this.total_amt = in.readDouble();
         this.is_setpwd = in.readInt();
+        this.head_url = in.readString();
+        this.nick_name = in.readString();
     }
 
     public static final Creator<AssetDetailsBean> CREATOR = new Creator<AssetDetailsBean>() {
@@ -89,4 +101,16 @@ public class AssetDetailsBean implements Parcelable {
             return new AssetDetailsBean[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "AssetDetailsBean{" +
+                "balance=" + balance +
+                ", market_cap=" + market_cap +
+                ", total_amt=" + total_amt +
+                ", is_setpwd=" + is_setpwd +
+                ", head_url='" + head_url + '\'' +
+                ", nick_name='" + nick_name + '\'' +
+                '}';
+    }
 }

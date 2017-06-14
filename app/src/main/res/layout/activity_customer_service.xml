@@ -21,12 +21,25 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
-            <ImageView
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/room_cover_58" />
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="160dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/customer_center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="SERVICE"
+                    android:textColor="@color/color_B90A0A"
+                    android:textSize="@dimen/fontSize_30sp" />
+            </FrameLayout>
+
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -41,7 +54,7 @@
                     android:id="@+id/iv_contact1"
                     android:layout_width="@dimen/dp_25"
                     android:layout_height="@dimen/dp_25"
-                    android:src="@drawable/about_logo" />
+                    android:src="@drawable/wx_customer" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -76,7 +89,7 @@
                     android:id="@+id/iv_contact2"
                     android:layout_width="@dimen/dp_25"
                     android:layout_height="@dimen/dp_25"
-                    android:src="@drawable/about_logo" />
+                    android:src="@drawable/qq_customer" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -111,7 +124,7 @@
                     android:id="@+id/iv_contact3"
                     android:layout_width="@dimen/dp_25"
                     android:layout_height="@dimen/dp_25"
-                    android:src="@drawable/about_logo" />
+                    android:src="@drawable/email_customer" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -132,7 +145,6 @@
                     android:textColor="@color/color_434343"
                     android:textSize="@dimen/text_size_16" />
             </RelativeLayout>
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

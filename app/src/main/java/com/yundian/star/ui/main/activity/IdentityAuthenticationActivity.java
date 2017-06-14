@@ -20,6 +20,7 @@ import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
+import com.yundian.star.utils.ViewConcurrencyUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
@@ -47,7 +48,7 @@ public class IdentityAuthenticationActivity extends BaseActivity {
     @Bind(R.id.tv_disclaimer)
     TextView disclaimer;
     private CheckHelper checkHelper = new CheckHelper();
-    private boolean isCheck = false;
+    private boolean isCheck = true;
 
     @Override
     public int getLayoutId() {
@@ -75,6 +76,7 @@ public class IdentityAuthenticationActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_verification:
+                ViewConcurrencyUtils.preventConcurrency();  //防止并发
                 nextBtn();
                 break;
             case R.id.tv_disclaimer:

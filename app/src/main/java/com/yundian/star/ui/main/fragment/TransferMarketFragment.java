@@ -208,7 +208,7 @@ public class TransferMarketFragment extends BaseFragment {
                 double ask_buy_prices = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 LogUtils.loge("获取数值总价" + total_prices + "转换后的数据" + ask_buy_prices * buy_num);
                 NetworkAPIFactoryImpl.getInformationAPI().getAskToBuy(142/*SharePrefUtil.getInstance().getUserId()*/,
-                        /*SharePrefUtil.getInstance().getToken()*/"6902464177061903496", 1, "1001", 2, buy_num, ask_buy_prices,
+                        /*SharePrefUtil.getInstance().getToken()*/"6902464177061903496", 1, "1001",-1, buy_num, ask_buy_prices,
                         new OnAPIListener<AskToBuyReturnBeen>() {
                             @Override
                             public void onError(Throwable ex) {

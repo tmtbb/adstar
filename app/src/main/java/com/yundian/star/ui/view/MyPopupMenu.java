@@ -1,5 +1,6 @@
 package com.yundian.star.ui.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.yundian.star.R;
@@ -31,6 +33,7 @@ import java.util.List;
 public class MyPopupMenu extends PopupWindow {
 
     protected OnChildViewClickListener onChildViewClickListener;
+    private LinearLayout rootView;
 
     public void setOnChildViewClickListener(OnChildViewClickListener onChildViewClickListener) {
         this.onChildViewClickListener = onChildViewClickListener;
@@ -47,7 +50,7 @@ public class MyPopupMenu extends PopupWindow {
 
     protected Context context;
     private List<MyPopupMenuEntity> lists;
-    private LinearLayout rootLayout;
+    private ScrollView rootLayout;
 
 
     public MyPopupMenu(Context context, List<MyPopupMenuEntity> lists) {
@@ -65,9 +68,9 @@ public class MyPopupMenu extends PopupWindow {
     private void initData() {
         for (int i = 0; i < lists.size(); i++) {
             View itemView = View.inflate(context, R.layout.item_menu, null);
-            rootLayout.addView(itemView);
-            View view = rootLayout.getChildAt(i).findViewById(R.id.rootLayout);
-            TextView textView = (TextView) rootLayout.getChildAt(i).findViewById(R.id.text);
+            rootView.addView(itemView);
+            View view = rootView.getChildAt(i).findViewById(R.id.rootLayout);  //linearlayout
+            TextView textView = (TextView) rootView.getChildAt(i).findViewById(R.id.text);
             MyPopupMenuEntity entity = lists.get(i);
             String text = entity.getText();
             textView.setText(TextUtils.isEmpty(text) ? "" : text);
@@ -85,16 +88,18 @@ public class MyPopupMenu extends PopupWindow {
 
 
     private void initView() {
-        rootLayout = (LinearLayout) View.inflate(context, R.layout.ly_comm_menu, null);
+        rootLayout = (ScrollView) View.inflate(context, R.layout.ly_comm_menu, null);
         setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
-        setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        setHeight(DisplayUtil.getScreenHeight(context) / 2);
         setContentView(rootLayout);
+        rootView = (LinearLayout) rootLayout.findViewById(R.id.rootLayout);
 
         setFocusable(true);
         setOutsideTouchable(true);
         setBackgroundDrawable(new ColorDrawable(0x00000000));
         // popupWindow.setAnimationStyle(R.style.AnimBottom);
         int r = DisplayUtil.dip2px(5);
+
 
     }
 

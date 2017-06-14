@@ -36,6 +36,8 @@ public class SharePrefUtil {
 
     private static String UserInfo = "AdstarUser";
     private static String UserLoginInfo = "UserLoginInfo";
+    private static String LoginPhone = "LoginPhone";
+
 
     public void saveLoginUserInfo(LoginReturnInfo user) {
         sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
@@ -358,19 +360,23 @@ public class SharePrefUtil {
         sp.edit().remove(key).apply();
 
     }
+
     public String getBalance() {
         sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
         String balance = sp.getString("balance", "0");
         return balance;
     }
-    public void putBalance(double balance){
+
+    public void putBalance(double balance) {
         sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
         sp.edit().putString("balance", balance + "").apply();
     }
+
     public void putOrderStar(int count) {
         sp = context.getSharedPreferences(UserLoginInfo, MODE_PRIVATE);
         sp.edit().putInt("orderStar", count).apply();
     }
+
     public int getOrderStar() {
         sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
         int count = sp.getInt("orderStar", 0);
@@ -382,20 +388,37 @@ public class SharePrefUtil {
         int is_setpwd = sp.getInt("is_setpwd", 1);   //1 需要设置密码  0,已经设置过了
         return is_setpwd;
     }
-    public void putIsSetpwd(int is_setpwd){
+
+    public void putIsSetpwd(int is_setpwd) {
         sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
-        sp.edit().putInt("is_setpwd", is_setpwd ).apply();
+        sp.edit().putInt("is_setpwd", is_setpwd).apply();
     }
 
     /**
      * 保存资产信息  余额 / 市值  总资产等
+     *
      * @param bean
      */
     public void saveAssetInfo(AssetDetailsBean bean) {
         sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
         sp.edit().putString("balance", bean.getBalance() + "").apply();
-        sp.edit().putString("market_cap", bean.getMarket_cap()+"").apply();
-        sp.edit().putString("total_amt", bean.getTotal_amt()+"").apply();
-        sp.edit().putInt("is_setpwd", bean.getIs_setpwd() ).apply();
+        sp.edit().putString("market_cap", bean.getMarket_cap() + "").apply();
+        sp.edit().putString("total_amt", bean.getTotal_amt() + "").apply();
+        sp.edit().putInt("is_setpwd", bean.getIs_setpwd()).apply();
+
+        sp.edit().putString("nickName", bean.getNick_name()).apply();
+        sp.edit().putString("headurl", bean.getHead_url()).apply();
+    }
+
+    //退出登录后，再次登录保存的手机号码
+    public String getLoginPhone() {
+        sp = context.getSharedPreferences(LoginPhone, MODE_PRIVATE);
+        String is_setpwd = sp.getString("login_phone", "");   //1 需要设置密码  0,已经设置过了
+        return is_setpwd;
+    }
+
+    public void putLoginPhone(String phone) {
+        sp = context.getSharedPreferences(LoginPhone, MODE_PRIVATE);
+        sp.edit().putString("login_phone", phone).apply();
     }
 }

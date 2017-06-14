@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
+import com.yundian.star.been.AskToBuyReturnBeen;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.listener.OnAPIListener;
@@ -20,10 +21,12 @@ import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
+import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NumberBoubleButton;
 import com.yundian.star.widget.NumberButton;
 
 import java.lang.ref.WeakReference;
+import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -206,24 +209,27 @@ public class AskToBuyMarketFragment extends BaseFragment {
         tv_sure_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                //showPutPasswordDialog();
+
                 //showAlertDialog();
-//                BigDecimal bg = new BigDecimal(buy_price);
-//                double ask_buy_prices = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-//                LogUtils.loge("获取数值总价" + buy_price + "转换后的数据" + ask_buy_prices+"之前的"+"..."+buy_num);
-//                NetworkAPIFactoryImpl.getInformationAPI().getAskToBuy(142/*SharePrefUtil.getInstance().getUserId()*/,
-//                        /*SharePrefUtil.getInstance().getToken()*/"6902464177061903496", 1, "1001", 1, buy_num, ask_buy_prices,
-//                        new OnAPIListener<AskToBuyReturnBeen>() {
-//                            @Override
-//                            public void onError(Throwable ex) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onSuccess(AskToBuyReturnBeen askToBuyReturnBeen) {
-//                                LogUtils.loge("求购成功");
-//                                ToastUtils.showShort("挂单成功");
-//                            }
-//                        });
+                BigDecimal bg = new BigDecimal(buy_price);
+                double ask_buy_prices = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                LogUtils.loge("获取数值总价" + buy_price + "转换后的数据" + ask_buy_prices+"之前的"+"..."+buy_num);
+                NetworkAPIFactoryImpl.getInformationAPI().getAskToBuy(142/*SharePrefUtil.getInstance().getUserId()*/,
+                        /*SharePrefUtil.getInstance().getToken()*/"6902464177061903496", 1, "1001", 1, buy_num, ask_buy_prices,
+                        new OnAPIListener<AskToBuyReturnBeen>() {
+                            @Override
+                            public void onError(Throwable ex) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(AskToBuyReturnBeen askToBuyReturnBeen) {
+                                LogUtils.loge("求购成功");
+                                ToastUtils.showShort("挂单成功");
+                            }
+                        });
 
             }
         });
@@ -247,6 +253,7 @@ public class AskToBuyMarketFragment extends BaseFragment {
             }
         });
     }
+
 
     private static class MyHandler extends Handler {
         final private static int GRT_DATA = 111;
@@ -310,8 +317,9 @@ public class AskToBuyMarketFragment extends BaseFragment {
             myHandler.sendEmptyMessage(myHandler.GRT_DATA);
         }
     }
+
     private void showAlertDialog() {
-        final Dialog mDetailDialog = new Dialog(getActivity(),R.style.custom_dialog);
+        final Dialog mDetailDialog = new Dialog(getActivity(), R.style.custom_dialog);
         //获得dialog的window窗口
         Window window = mDetailDialog.getWindow();
         //设置dialog在屏幕底部
@@ -336,10 +344,10 @@ public class AskToBuyMarketFragment extends BaseFragment {
         TextView order_total = (TextView) mDetailDialog.findViewById(R.id.order_total);
         ImageView img_close = (ImageView) mDetailDialog.findViewById(R.id.img_close);
 
-        order_preice.setText(String.format(getString(R.string.buy_price),buy_price));
-        transfer_num.setText(String.format(getString(R.string.num_time),buy_num));
-        order_total.setText(String.format(getString(R.string.price_total),total_prices));
-        order_info.setText(name+" "+code);
+        order_preice.setText(String.format(getString(R.string.buy_price), buy_price));
+        transfer_num.setText(String.format(getString(R.string.num_time), buy_num));
+        order_total.setText(String.format(getString(R.string.price_total), total_prices));
+        order_info.setText(name + " " + code);
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -356,4 +364,6 @@ public class AskToBuyMarketFragment extends BaseFragment {
 
         mDetailDialog.show();
     }
+
+
 }

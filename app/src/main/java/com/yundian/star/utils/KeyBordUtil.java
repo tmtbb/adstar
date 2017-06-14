@@ -56,4 +56,12 @@ public class KeyBordUtil {
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 
+    /**
+     *不需要view的转换键盘
+     */
+    public static void transformKeyboard(Context activity){
+        InputMethodManager imm = (InputMethodManager) activity.
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+    }
 }

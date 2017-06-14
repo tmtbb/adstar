@@ -130,6 +130,16 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
         requestEntity(socketDataPacket, LoginReturnInfo.class, listener);
     }
 
+    @Override
+    public void isRegisted(String phone, OnAPIListener<RegisterReturnBeen> listener) {
+        LogUtils.loge("判断是否注册过");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("phone", phone);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.IsRegister,
+                SocketAPIConstant.ReqeutType.User, map);
+        requestEntity(socketDataPacket, RegisterReturnBeen.class, listener);
+    }
+
 //    @Override
 //    public void login(String phone, String password, String deviceId, OnAPIListener<LoginReturnEntity> listener) {
 //        LogUtil.d("开始登录");

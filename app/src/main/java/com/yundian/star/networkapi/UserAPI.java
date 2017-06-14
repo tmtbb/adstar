@@ -14,23 +14,33 @@ import com.yundian.star.listener.OnAPIListener;
  */
 
 public interface UserAPI {
-    void login(String phone, String password , OnAPIListener<LoginReturnInfo> listener);
-    void registerWangYi(String phone,String name, String password , OnAPIListener<RegisterReturnWangYiBeen> listener);
-//
+    void login(String phone, String password, OnAPIListener<LoginReturnInfo> listener);
+
+    void registerWangYi(String phone, String name, String password, OnAPIListener<RegisterReturnWangYiBeen> listener);
+
+    //
     void wxLogin(String openId, OnAPIListener<WXinLoginReturnBeen> listener);
-//
+
+    //
     void register(String phone, String password, long memberId, String agentId, String recommend, OnAPIListener<RegisterReturnBeen> listener);
-//
+
+    //
     void verifyCode(String phone, OnAPIListener<RegisterVerifyCodeBeen> listener);
-//
-    void resetPasswd(String phone, String pwd,OnAPIListener<Object> listener); //修改交易/用户密码
-//
+
+    //
+    void resetPasswd(String phone, String pwd, OnAPIListener<Object> listener); //修改交易/用户密码
+
+    //
 //    void test(int testID, OnAPIListener<Object> listener);
 //
 //    void loginWithToken(OnAPIListener<LoginReturnEntity> listener);
 //
 //    void balance(OnAPIListener<BalanceInfoEntity> listener);
 //
-        void bindNumber(String phone, String openid, String password,long timeStamp,String vToken, String vCode, long memberId, String agentId, String recommend, String nickname, String headerUrl, OnAPIListener<RegisterReturnBeen> listener);
+    void bindNumber(String phone, String openid, String password, long timeStamp, String vToken, String vCode, long memberId, String agentId, String recommend, String nickname, String headerUrl, OnAPIListener<RegisterReturnBeen> listener);
+
     void loginWithToken(OnAPIListener<LoginReturnInfo> listener);
+
+    //是否注册过
+    void isRegisted(String phone, OnAPIListener<RegisterReturnBeen> listener);
 }
