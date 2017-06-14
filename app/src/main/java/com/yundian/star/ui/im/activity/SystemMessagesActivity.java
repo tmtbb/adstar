@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.InputType;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -112,7 +111,7 @@ public class SystemMessagesActivity extends BaseActivity {
     private void showPasDialog() {
         payPwdEditText.setFocusable(true);
         payPwdEditText.requestFocus();
-        payPwdEditText.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER);
+        //payPwdEditText.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER);
         payPwdEditText.clearText();
         mPopWindow.showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
     }
@@ -182,7 +181,7 @@ public class SystemMessagesActivity extends BaseActivity {
         payPwdEditText.initStyle(R.drawable.edit_num_bg_red, 6, 0.33f, R.color.colorAccent, R.color.colorAccent, 20);
         payPwdEditText.setFocusable(true);
         payPwdEditText.requestFocus();
-        payPwdEditText.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER);
+        //payPwdEditText.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER);
         //payPwdEditText.setFocusableInTouchMode(true);
         payPwdEditText.setOnTextFinishListener(new PayPwdEditText.OnTextFinishListener() {
             @Override

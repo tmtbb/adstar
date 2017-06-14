@@ -16,6 +16,7 @@ import com.yundian.star.been.StarListbeen;
 import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.StarStarAchBeen;
 import com.yundian.star.been.TimeLineBeen;
+import com.yundian.star.been.TradingStatusBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.ui.main.model.NewsInforModel;
 
@@ -48,4 +49,5 @@ public interface InformationAPI {
     void getAddComment(String symbol,String fans_id,String nick_name,String comments,String head_url ,OnAPIListener<Object> listener);
     void getSrealtime(long id, String token, List<SrealSendBeen> symbolInfos , OnAPIListener<SrealSendReturnBeen> listener);
     void getAskToBuy(long id, String token,int sort ,String symbol,int buySell,int amount,double price,OnAPIListener<AskToBuyReturnBeen> listener);
+    void getTradingStatus(long id, String token,String symbol,OnAPIListener<TradingStatusBeen> listener);
 }

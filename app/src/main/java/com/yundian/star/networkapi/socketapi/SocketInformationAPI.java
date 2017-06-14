@@ -17,6 +17,7 @@ import com.yundian.star.been.StarListbeen;
 import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.StarStarAchBeen;
 import com.yundian.star.been.TimeLineBeen;
+import com.yundian.star.been.TradingStatusBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.InformationAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
@@ -272,6 +273,17 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.AskToBuy,
                 SocketAPIConstant.ReqeutType.BuyOrSell, map);
         requestEntity(socketDataPacket,AskToBuyReturnBeen.class,listener);
+    }
+
+    @Override
+    public void getTradingStatus(long id, String token, String symbol, OnAPIListener<TradingStatusBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("token", token);
+        map.put("symbol", symbol);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.TradingStatus,
+                SocketAPIConstant.ReqeutType.BuyOrSell, map);
+        requestEntity(socketDataPacket,TradingStatusBeen.class,listener);
     }
 
 }

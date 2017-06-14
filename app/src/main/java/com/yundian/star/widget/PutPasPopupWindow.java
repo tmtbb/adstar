@@ -74,7 +74,8 @@ public class PutPasPopupWindow extends PopupWindow {
     @Override
     public void showAtLocation(View parent, int gravity, int x, int y) {
         super.showAtLocation(parent, gravity, x, y);
-        showAnimator().start();
+        //showAnimator().start();
+        setWindowBackgroundAlpha(mShowAlpha);
     }
 
     @Override
@@ -98,13 +99,14 @@ public class PutPasPopupWindow extends PopupWindow {
     @Override
     public void dismiss() {
         super.dismiss();
-        dismissAnimator().start();
+        //dismissAnimator().start();
+        setWindowBackgroundAlpha(1f);
     }
 
     /**
      * 窗口显示，窗口背景透明度渐变动画
      */
-    private ValueAnimator showAnimator() {
+    private ValueAnimator  showAnimator() {
         ValueAnimator animator = ValueAnimator.ofFloat(1.0f, mShowAlpha);
         animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
 

@@ -1,9 +1,13 @@
 package com.yundian.star.ui.main.fragment;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -13,7 +17,21 @@ import android.widget.TextView;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
+import com.yundian.star.been.StarBuyActReferralInfo;
+import com.yundian.star.been.TradingStatusBeen;
+import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.view.MySeekBar;
+import com.yundian.star.utils.ImageLoaderUtils;
+import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
+import com.yundian.star.utils.TimeUtil;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.lang.ref.WeakReference;
 
 import butterknife.Bind;
 
@@ -42,6 +60,13 @@ public class AuctionMarketFragment extends BaseFragment {
     private AutionTopFragment aution_buy;
     private AutionTopFragment aution_shell;
     private String code;
+    private String pic_url;
+    private boolean flag = true;
+    private int userId;
+    private String token;
+    private CountDownTimer timer;
+    private MyHandler1 myHandler;
+    private int secondTime = 0 ;
 
 
     @Override
@@ -59,8 +84,41 @@ public class AuctionMarketFragment extends BaseFragment {
         if (getArguments()!=null){
             code = getArguments().getString(AppConstant.STAR_CODE);
         }
+        if (flag) {
+            EventBus.getDefault().register(this); // EventBus注册广播()
+            flag = false;//更改标记,使其不会再进行多次注册
+        }
+        userId = SharePrefUtil.getInstance().getUserId();
+        token = SharePrefUtil.getInstance().getToken();
+        myHandler = new MyHandler1(this);
+        LogUtils.loge("走一次了");
         initListener();
+        //initData();
     }
+
+    private void initData() {
+        NetworkAPIFactoryImpl.getInformationAPI().getTradingStatus(userId, token, "1001", new OnAPIListener<TradingStatusBeen>() {
+            @Override
+            public void onError(Throwable ex) {
+
+            }
+
+            @Override
+            public void onSuccess(TradingStatusBeen tradingStatusBeen) {
+                if (tradingStatusBeen!=null){
+                    if (tradingStatusBeen.isStatus()){
+                        secondTime = tradingStatusBeen.getRemainingTime();
+                        myHandler.sendEmptyMessage(myHandler.GRT_DATA);
+                        //startTime(tradingStatusBeen.getRemainingTime());
+                    }else {
+                        tv_residue_time.setText("未开始");
+                    }
+                }
+                LogUtils.loge(tradingStatusBeen.toString());
+            }
+        });
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -129,4 +187,99 @@ public class AuctionMarketFragment extends BaseFragment {
                 break;
         }
     }
+    //接收消息
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void ReciveEventBus(StarBuyActReferralInfo eventBusMessage) {
+        if (eventBusMessage!=null&&!TextUtils.isEmpty(eventBusMessage.getPic_url())){
+            if (TextUtils.isEmpty(pic_url)&&iv_src!=null){
+                pic_url = eventBusMessage.getPic_url();
+                ImageLoaderUtils.display(getActivity(),iv_src, pic_url);
+            }
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        EventBus.getDefault().removeAllStickyEvents();
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
+    }
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        LogUtils.loge("setUserVisibleHint>>");
+        if (isVisibleToUser) {
+            startRefresh();
+        } else {
+            stopRefresh();
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+
+    @Override
+    public void onResume() {
+        setUserVisibleHint(getUserVisibleHint());
+        LogUtils.loge("刷新onResume");
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        LogUtils.loge("停止onPause");
+        stopRefresh();
+        super.onPause();
+    }
+
+    private void stopRefresh() {
+        if (myHandler != null) {
+            myHandler.removeCallbacksAndMessages(myHandler.GRT_DATA);
+            myHandler = null ;
+            LogUtils.loge("停止刷新stopRefresh");
+        }
+    }
+
+    private void startRefresh() {
+        if (myHandler != null) {
+            LogUtils.loge("刷新startRefresh");
+            myHandler.removeCallbacksAndMessages(myHandler.GRT_DATA);
+            initData();
+        }else {
+            myHandler.removeCallbacksAndMessages(myHandler.GRT_DATA);
+            myHandler = new MyHandler1(this);
+            initData();
+        }
+
+    }
+
+    private void refreshTime() {
+        if (tv_residue_time!=null&&secondTime>=0&&myHandler!=null){
+            tv_residue_time.setText(TimeUtil.getHourMinuteSecond(secondTime*1000));
+            secondTime--;
+            myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 1000);
+        }else if (tv_residue_time!=null&&secondTime<0){
+            tv_residue_time.setText("未开始");
+        }
+    }
+
+    private static class MyHandler1 extends Handler {
+        final private static int GRT_DATA = 112;
+        private final WeakReference<AuctionMarketFragment> mFragment;
+
+        public MyHandler1(AuctionMarketFragment mfragment) {
+            mFragment = new WeakReference<AuctionMarketFragment>(mfragment);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            AuctionMarketFragment fragment = mFragment.get();
+            if (fragment != null) {
+                switch (msg.what) {
+                    case GRT_DATA:
+                        fragment.refreshTime();
+                        break;
+                }
+            }
+        }
+    }
+
 }
