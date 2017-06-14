@@ -14,13 +14,11 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <!--<com.yundian.star.ui.view.MyProgressView-->
-            <!--android:layout_width="40dp"-->
-            <!--android:layout_height="40dp" />-->
         <ImageView
-            android:scaleType="fitXY"
-            android:layout_width="@dimen/dp_40"
-            android:layout_height="@dimen/dp_40"
+            android:id="@+id/iv_toast_icon"
+            android:scaleType="centerCrop"
+            android:layout_width="@dimen/dp_35"
+            android:layout_height="@dimen/dp_35"
             android:src="@drawable/toast_show_success"/>
 
         <TextView

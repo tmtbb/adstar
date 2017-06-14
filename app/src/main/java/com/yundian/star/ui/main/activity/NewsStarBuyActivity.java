@@ -3,17 +3,16 @@ package com.yundian.star.ui.main.activity;
 import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
@@ -25,6 +24,8 @@ import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.StarBuyAchAdapter;
 import com.yundian.star.ui.main.adapter.StarBuyExcAdapter;
 import com.yundian.star.utils.ImageLoaderUtils;
+import com.yundian.star.ui.view.ShareControlerView;
+import com.yundian.star.utils.AdViewpagerUtil;
 import com.yundian.star.utils.ListViewUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.widget.MyListView;
@@ -46,25 +47,30 @@ public class NewsStarBuyActivity extends BaseActivity {
     @Bind(R.id.nl_title)
     NormalTitleBar nl_title;
     @Bind(R.id.tv_1)
-    TextView tv_1 ;
+    TextView tv_1;
     @Bind(R.id.tv_2)
-    TextView tv_2 ;
+    TextView tv_2;
     @Bind(R.id.tv_3)
-    TextView tv_3 ;
+    TextView tv_3;
     @Bind(R.id.tv_4)
-    TextView tv_4 ;
+    TextView tv_4;
     @Bind(R.id.tv_5)
-    TextView tv_5 ;
+    TextView tv_5;
     @Bind(R.id.tv_6)
-    TextView tv_6 ;
+    TextView tv_6;
     @Bind(R.id.ll_new_buy_expeience)
-    LinearLayout ll_new_buy_expeience ;
+    LinearLayout ll_new_buy_expeience;
     @Bind(R.id.ll_new_buy_achievement)
-    LinearLayout ll_new_buy_achievement ;
+    LinearLayout ll_new_buy_achievement;
     @Bind(R.id.scroll_view)
-    ScrollView scroll_view ;
+    ScrollView scroll_view;
     @Bind(R.id.tv_mesure)
     TextView tv_mesure;
+    @Bind(R.id.root_view)
+    FrameLayout rootView;
+
+    private String[] adList;
+    private AdViewpagerUtil adViewpagerUtil;
     @Bind(R.id.img_adv)
     ImageView img_adv;
     private String weibo_index_id;
@@ -87,7 +93,7 @@ public class NewsStarBuyActivity extends BaseActivity {
         nl_title.setRightImagSrc(R.drawable.share);
         Intent intent = getIntent();
         code = intent.getStringExtra(AppConstant.STAR_CODE);
-        LogUtils.loge("明星求购页面code"+code);
+        LogUtils.loge("明星求购页面code" + code);
         gitData();
         getStarExperience();
         getStarAch();
@@ -110,14 +116,17 @@ public class NewsStarBuyActivity extends BaseActivity {
     }
 
     private void share() {
-        UMImage thumb =  new UMImage(this, R.drawable.welcome_bg);
-        //检测安装微信没
-        new ShareAction(NewsStarBuyActivity.this).withText(getString(R.string.app_name))
-                .setDisplayList(SHARE_MEDIA.WEIXIN_CIRCLE,SHARE_MEDIA.QZONE,SHARE_MEDIA.SINA,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.QQ)
-                .setCallback(umShareListener)
-                .withMedia(thumb)
-                .open();
+        ShareControlerView controlerView = new ShareControlerView(this, mContext, umShareListener);
+        String webUrl = "https://mobile.umeng.com/";
+        String title = "This is web title";
+        String describe = "描述描述";
+        String text = "文本";
+        controlerView.setText(text);
+        controlerView.setWebUrl(webUrl);
+        controlerView.setDescribe(describe);
+        controlerView.setTitle(title);
 
+        controlerView.showShareView(rootView);
     }
 
     private void getStarAch() {
@@ -129,7 +138,7 @@ public class NewsStarBuyActivity extends BaseActivity {
 
             @Override
             public void onSuccess(StarStarAchBeen o) {
-                if (o.getResult()==1&&o.getList()!=null){
+                if (o.getResult() == 1 && o.getList() != null) {
                     initAch(o);
                 }
             }
@@ -139,14 +148,14 @@ public class NewsStarBuyActivity extends BaseActivity {
     private void initAch(StarStarAchBeen o) {
         StarBuyAchAdapter buyAchAdapter = new StarBuyAchAdapter(NewsStarBuyActivity.this, o.getList());
         ll_new_buy_achievement.setVisibility(View.VISIBLE);
-        MyListView listExpView2 = (MyListView)ll_new_buy_achievement.findViewById(R.id.listview_buy);
-        TextView textAch = (TextView)ll_new_buy_achievement.findViewById(R.id.tv_content);
+        MyListView listExpView2 = (MyListView) ll_new_buy_achievement.findViewById(R.id.listview_buy);
+        TextView textAch = (TextView) ll_new_buy_achievement.findViewById(R.id.tv_content);
         textAch.setText(getString(R.string.oneself_intro_achievement));
         listExpView2.setAdapter(buyAchAdapter);
         int high = ListViewUtil.setListViewHeightBasedOnChildren(listExpView2);
         ViewGroup.LayoutParams layoutParams = tv_mesure.getLayoutParams();
-        LogUtils.loge(high+"最后一个listview高度");
-        layoutParams.height = high ;
+        LogUtils.loge(high + "最后一个listview高度");
+        layoutParams.height = high;
         tv_mesure.setLayoutParams(layoutParams);
     }
 
@@ -159,9 +168,9 @@ public class NewsStarBuyActivity extends BaseActivity {
 
             @Override
             public void onSuccess(StarExperienceBeen o) {
-               if (o.getResult()==1&&o.getList()!=null){
+                if (o.getResult() == 1 && o.getList() != null) {
                     initExp(o);
-               }
+                }
             }
         });
     }
@@ -169,7 +178,7 @@ public class NewsStarBuyActivity extends BaseActivity {
     private void initExp(StarExperienceBeen o) {
         StarBuyExcAdapter buyExcAndAchAdapter = new StarBuyExcAdapter(NewsStarBuyActivity.this, o.getList());
         ll_new_buy_expeience.setVisibility(View.VISIBLE);
-        MyListView listExpView1 = (MyListView)ll_new_buy_expeience.findViewById(R.id.listview_buy);
+        MyListView listExpView1 = (MyListView) ll_new_buy_expeience.findViewById(R.id.listview_buy);
         listExpView1.setAdapter(buyExcAndAchAdapter);
         ListViewUtil.setListViewHeightBasedOnChildren(listExpView1);
     }
@@ -184,7 +193,7 @@ public class NewsStarBuyActivity extends BaseActivity {
 
             @Override
             public void onSuccess(StarBuyActReferralInfo info) {
-               initData(info);
+                initData(info);
             }
         });
     }

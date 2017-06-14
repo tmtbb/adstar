@@ -14,6 +14,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.yundian.star.R;
 import com.yundian.star.app.Constant;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.been.RegisterReturnBeen;
 import com.yundian.star.been.RegisterVerifyCodeBeen;
 import com.yundian.star.been.RequestResultBean;
 import com.yundian.star.helper.CheckHelper;
@@ -79,7 +80,7 @@ public class ResetPayPwdActivity extends BaseActivity {
                     ToastUtils.showShort("网络连接失败,请检查网络");
                     return;
                 }
-                getCode(msgEditText, view, phoneEditText);
+                judgeRegister(); //判断有没有注册,然后获取验证码
             }
         });
 
@@ -171,23 +172,26 @@ public class ResetPayPwdActivity extends BaseActivity {
         }
     }
 
-    private void getCode(final WPEditText msgEditText, View view, WPEditText phoneEditText) {
+    private void getCode() {
         LogUtils.logd("请求网络获取短信验证码------------------------------");
         CheckException exception = new CheckException();
         String phoneEdit = phoneEditText.getEditTextString();
         if (new CheckHelper().checkMobile(phoneEdit, exception)) {
             //Utils.closeSoftKeyboard(view);
+            startProgressDialog();
             NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit, new OnAPIListener<RegisterVerifyCodeBeen>() {
                 @Override
                 public void onError(Throwable ex) {
                     ex.printStackTrace();
+                    stopProgressDialog();
                     LogUtils.logd("验证码请求网络错误------------------" + ((NetworkAPIException) ex).getErrorCode());
                 }
 
                 @Override
                 public void onSuccess(RegisterVerifyCodeBeen o) {
                     verifyCodeBeen = o;
-                    new CountUtil((TextView) msgEditText.getRightText()).start();   //收到回调才开启计时
+                    stopProgressDialog();
+                    new CountUtil(msgEditText.getRightText()).start();   //收到回调才开启计时
                     LogUtils.logd("获取到--注册短信验证码,时间戳是:" + o.toString());
                 }
             });
@@ -236,5 +240,34 @@ public class ResetPayPwdActivity extends BaseActivity {
             return;
         }
         exitNow = System.currentTimeMillis();
+    }
+
+    private void judgeRegister() {
+        startProgressDialog();
+        CheckException exception = new CheckException();
+        String phoneEdit = phoneEditText.getEditTextString();
+        if (new CheckHelper().checkMobile(phoneEdit, exception)) {
+            NetworkAPIFactoryImpl.getUserAPI().isRegisted(phoneEdit, new OnAPIListener<RegisterReturnBeen>() {
+                @Override
+                public void onError(Throwable ex) {
+                    stopProgressDialog();
+                    LogUtils.loge("错误--------------");
+                    ToastUtils.showShort("网络异常,请检查网络连接");
+                }
+
+                @Override
+                public void onSuccess(RegisterReturnBeen registerReturnBeen) {
+                    stopProgressDialog();
+                    if (registerReturnBeen.getResult() == 1) {
+                        getCode();  //已经注册,获取验证码
+                    } else if (registerReturnBeen.getResult() == 0) {
+                        ToastUtils.showShort("手机号码未注册,请先注册");
+                    }
+
+                }
+            });
+        } else {
+            ToastUtils.showShort(exception.getErrorMsg());
+        }
     }
 }

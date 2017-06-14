@@ -25,8 +25,8 @@
     <string name="retrieve_password_2">点击找回</string>
     <string name="butten_register">注册</string>
     <string name="butten_loging">登录</string>
-    <string name="butten_reset_psd">重置密码</string>
-    <string name="again_reset_psd">重新输入重置密码</string>
+    <string name="butten_reset_psd">重置登录密码</string>
+    <string name="again_reset_psd">重新输入登录密码</string>
     <string name="check_famous_address_book">查看名人通讯录</string>
     <string name="famous_address_book">名人通讯录</string>
     <string name="diff_answer">分答</string>
@@ -284,6 +284,8 @@
     <string name="meet_rule">TIPS：履约过程中产生的相关费用由用户承担明星出行的安保费通讯费、交通费、住宿费、餐饮费、服化费等必要开支。确定约见即表示您已阅读并同意《%1$s》</string>
 
 
+    <string name="error_msg_news">当前还没有相关记录</string>
+    <string name="input_pay_pwd">请输入支付密码</string>
 
 
     <!-- session -->

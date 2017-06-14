@@ -28,6 +28,7 @@ import com.yundian.star.utils.CountUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.MD5Util;
 import com.yundian.star.utils.ToastUtils;
+import com.yundian.star.utils.ViewConcurrencyUtils;
 import com.yundian.star.widget.CheckException;
 import com.yundian.star.widget.WPEditText;
 
@@ -36,17 +37,18 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+
 /**
  * Created by Administrator on 2017/5/9.
  */
 
 public class RegisterUserActivity extends BaseActivity {
     @Bind(R.id.userNameEditText)
-    WPEditText userNameEditText ;
+    WPEditText userNameEditText;
     @Bind(R.id.msgEditText)
-    WPEditText msgEditText ;
+    WPEditText msgEditText;
     @Bind(R.id.passwordEditText)
-    WPEditText passwordEditText ;
+    WPEditText passwordEditText;
     @Bind(R.id.registerButton)
     Button registerButton;
     @Bind(R.id.tv_retrieve_password)
@@ -61,7 +63,7 @@ public class RegisterUserActivity extends BaseActivity {
     private String phone;
     private String pwd;
     private String vCode;
-    private RegisterVerifyCodeBeen verifyCodeBeen ;
+    private RegisterVerifyCodeBeen verifyCodeBeen;
     private boolean isWXBind = false;
     private WXUserInfoEntity wxUserInfo;
 
@@ -78,20 +80,20 @@ public class RegisterUserActivity extends BaseActivity {
     @Override
     public void initView() {
         Intent intent = getIntent();
-        wxUserInfo = (WXUserInfoEntity)intent.getParcelableExtra("wxBind");
-        if (wxUserInfo !=null){
+        wxUserInfo = (WXUserInfoEntity) intent.getParcelableExtra("wxBind");
+        if (wxUserInfo != null) {
             registerButton.setText("微信绑定");
             isWXBind = true;
             wxLogin.setVisibility(View.GONE);
             threeLogin.setVisibility(View.GONE);
-        }else {
+        } else {
             wxLogin.setVisibility(View.VISIBLE);
             threeLogin.setVisibility(View.VISIBLE);
         }
         WindowManager.LayoutParams p = getWindow().getAttributes();// 获取对话框当前的参值
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
-        p.width = (int)(size.x*0.85);
+        p.width = (int) (size.x * 0.85);
         getWindow().setAttributes(p); // 设置生效
         userNameEditText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         checkHelper.checkButtonState(registerButton, userNameEditText, msgEditText, passwordEditText);
@@ -103,37 +105,40 @@ public class RegisterUserActivity extends BaseActivity {
                     ToastUtils.showShort("网络连接失败,请检查网络");
                     return;
                 }
-                getCode(msgEditText,view, userNameEditText);
+                //判断是否注册过
+                JudgeRegister();
+
             }
         });
     }
 
     @OnClick(R.id.registerButton)
     public void registerButton() {
+        ViewConcurrencyUtils.preventConcurrency();  //防止并发
                 /*String loader = "正在注册...";
                 if (isBind) {
                     loader = "正在绑定...";
                 }
                 showLoader(loader);*/
-                CheckException exception = new CheckException();
-                phone = userNameEditText.getEditTextString();
-                pwd = passwordEditText.getEditTextString();
-                vCode = msgEditText.getEditTextString();
+        CheckException exception = new CheckException();
+        phone = userNameEditText.getEditTextString();
+        pwd = passwordEditText.getEditTextString();
+        vCode = msgEditText.getEditTextString();
 
-                if (checkHelper.checkMobile(phone, exception) && checkHelper.checkPassword(pwd, exception)
-                        && checkHelper.checkVerifyCode(vCode, exception)) {
-                    if (isWXBind){
-                        wxBindInfo();
-                    }else {
-                        register();
-                    }
-                } else {
-                    ToastUtils.showShort(exception.getErrorMsg());
-                }
+        if (checkHelper.checkMobile(phone, exception) && checkHelper.checkPassword(pwd, exception)
+                && checkHelper.checkVerifyCode(vCode, exception)) {
+            if (isWXBind) {
+                wxBindInfo();
+            } else {
+                register();
+            }
+        } else {
+            ToastUtils.showShort(exception.getErrorMsg());
+        }
     }
 
     private void wxBindInfo() {
-        if (!verifyCode()){
+        if (!verifyCode()) {
             return;
         }
         NetworkAPIFactoryImpl.getUserAPI().bindNumber(userNameEditText.getEditTextString(), wxUserInfo.getOpenid()
@@ -151,58 +156,60 @@ public class RegisterUserActivity extends BaseActivity {
                             ToastUtils.showShort("用户已经注册,请直接登录");
                             startActivity(LoginActivity.class);
                             finish();
-                            overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
+                            overridePendingTransition(R.anim.activity_open_down_in, R.anim.activity_off_top_out);
                         } else if (registerReturnBeen.getResult() == 1) {
-                            ToastUtils.showShort("注册成功");
+                            ToastUtils.showShort("绑定成功");
                             /*//loginGetUserInfo(newPwd);  //登录请求数据
                             finish();
                             overridePendingTransition(0,R.anim.activity_off_top_out);*/
 
                             startActivity(LoginActivity.class);
                             finish();
-                            overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
+                            overridePendingTransition(R.anim.activity_open_down_in, R.anim.activity_off_top_out);
                         }
                     }
                 });
     }
 
     @OnClick(R.id.tv_retrieve_password)
-    public void retrievePassword(){
+    public void retrievePassword() {
+        ViewConcurrencyUtils.preventConcurrency();  //防止并发
         startActivity(ResetUserPwdActivity.class);
     }
 
     @OnClick(R.id.registerText)
     public void doingLoging() {
+        ViewConcurrencyUtils.preventConcurrency();  //防止并发
         startActivity(LoginActivity.class);
         finish();
-        overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
+        overridePendingTransition(R.anim.activity_open_down_in, R.anim.activity_off_top_out);
     }
 
     private boolean verifyCode() {
         //本地校验验证码   MD5(yd1742653sd + code_time + rand_code + phone)
-        if (verifyCodeBeen==null|| TextUtils.isEmpty(verifyCodeBeen.getVToken())){
+        if (verifyCodeBeen == null || TextUtils.isEmpty(verifyCodeBeen.getVToken())) {
             ToastUtils.showShort("无效验证码");
             return false;
         }
 
         //本地校验验证码   MD5(yd1742653sd + code_time + rand_code + phone)
-        if (!verifyCodeBeen.getVToken().equals(MD5Util.MD5("yd1742653sd" + verifyCodeBeen.getTimeStamp() + vCode+userNameEditText.getEditTextString()))) {
+        if (!verifyCodeBeen.getVToken().equals(MD5Util.MD5("yd1742653sd" + verifyCodeBeen.getTimeStamp() + vCode + userNameEditText.getEditTextString()))) {
             ToastUtils.showShort("验证码错误,请重新输入");
             return false;
-        }else {
-            return true ;
+        } else {
+            return true;
         }
     }
 
 
     private void register() {
-        if (!verifyCode()){
+        if (!verifyCode()) {
             return;
         }
         NetworkAPIFactoryImpl.getUserAPI().register(userNameEditText.getEditTextString(), MD5Util.MD5(passwordEditText.getEditTextString()), -1, "-1", "-1", new OnAPIListener<RegisterReturnBeen>() {
             @Override
             public void onError(Throwable ex) {
-                LogUtils.logd("注册请求网络失败"+ex.toString());
+                LogUtils.logd("注册请求网络失败" + ex.toString());
             }
 
             @Override
@@ -224,35 +231,34 @@ public class RegisterUserActivity extends BaseActivity {
                     ToastUtils.showShort("用户已经注册,请直接登录");
                     startActivity(LoginActivity.class);
                     finish();
-                    overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
+                    overridePendingTransition(R.anim.activity_open_down_in, R.anim.activity_off_top_out);
                 } else if (registerReturnBeen.getResult() == 1) {
                     ToastUtils.showShort("注册成功,请登录");
 //                            loginGetUserInfo(newPwd);  //登录请求数据
                     startActivity(LoginActivity.class);
                     finish();
-                    overridePendingTransition(R.anim.activity_open_down_in,R.anim.activity_off_top_out);
+                    overridePendingTransition(R.anim.activity_open_down_in, R.anim.activity_off_top_out);
                 }
             }
         });
     }
-
-    private void getCode(final WPEditText msgEditText,View view, WPEditText phoneEditText) {
+    private void getCode() {
         LogUtils.logd("请求网络获取短信验证码------------------------------");
         CheckException exception = new CheckException();
-        String phoneEdit = phoneEditText.getEditTextString();
+        String phoneEdit = userNameEditText.getEditTextString();
         if (new CheckHelper().checkMobile(phoneEdit, exception)) {
             //Utils.closeSoftKeyboard(view);
-            NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit, new OnAPIListener<RegisterVerifyCodeBeen>()  {
+            NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit, new OnAPIListener<RegisterVerifyCodeBeen>() {
                 @Override
                 public void onError(Throwable ex) {
                     ex.printStackTrace();
-                    LogUtils.logd("验证码请求网络错误------------------"+((NetworkAPIException) ex).getErrorCode());
+                    LogUtils.logd("验证码请求网络错误------------------" + ((NetworkAPIException) ex).getErrorCode());
                 }
 
                 @Override
                 public void onSuccess(RegisterVerifyCodeBeen o) {
-                    verifyCodeBeen = o ;
-                    new CountUtil((TextView) msgEditText.getRightText()).start();   //收到回调才开启计时
+                    verifyCodeBeen = o;
+                    new CountUtil(msgEditText.getRightText()).start();   //收到回调才开启计时
                     LogUtils.logd("获取到--注册短信验证码,时间戳是:" + o.toString());
                 }
             });
@@ -264,25 +270,27 @@ public class RegisterUserActivity extends BaseActivity {
     @Override
     public void finish() {
         super.finish();
-        overridePendingTransition(0,R.anim.activity_off_top_out);
+        overridePendingTransition(0, R.anim.activity_off_top_out);
     }
-    private long exitNow;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode==KeyEvent.KEYCODE_BACK){
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
             close();
             return false;
         }
         return super.onKeyDown(keyCode, event);
     }
+
     @OnClick(R.id.close)
-    public void close(){
+    public void close() {
         EventBus.getDefault().postSticky(new EventBusMessage(2));  //登录取消消息
         finish();
     }
 
     @OnClick(R.id.tv_weixin_login)
     public void weixinLogin() {
+        ViewConcurrencyUtils.preventConcurrency();  //防止并发
         if (!AppApplication.api.isWXAppInstalled()) {
             ToastUtils.showShort("您还未安装微信客户端");
             return;
@@ -293,5 +301,34 @@ public class RegisterUserActivity extends BaseActivity {
         req.state = "wechat_sdk_demo_test";
         AppApplication.api.sendReq(req);
 
+    }
+
+    private void JudgeRegister() {
+        startProgressDialog();
+        CheckException exception = new CheckException();
+        String phoneEdit = userNameEditText.getEditTextString();
+        if (new CheckHelper().checkMobile(phoneEdit, exception)) {
+            NetworkAPIFactoryImpl.getUserAPI().isRegisted(phoneEdit, new OnAPIListener<RegisterReturnBeen>() {
+                @Override
+                public void onError(Throwable ex) {
+                    stopProgressDialog();
+                    LogUtils.loge("错误--------------");
+                    ToastUtils.showShort("网络异常,请检查网络连接");
+                }
+
+                @Override
+                public void onSuccess(RegisterReturnBeen registerReturnBeen) {
+                    stopProgressDialog();
+                    if (registerReturnBeen.getResult() == 1) {
+                        ToastUtils.showShort("手机号码已注册,请直接登录");
+                    } else if (registerReturnBeen.getResult() == 0) {
+                        getCode();
+                    }
+
+                }
+            });
+        } else {
+            ToastUtils.showShort(exception.getErrorMsg());
+        }
     }
 }

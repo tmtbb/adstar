@@ -3,7 +3,8 @@
 
 <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@drawable/actionbar_dark_back_icon"
+    android:layout_width="9dp"
+    android:layout_height="16dp"
+    android:scaleType="center"
+    android:src="@drawable/arrow_right"
     tools:showIn="@layout/fragment_user_info" />

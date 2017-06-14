@@ -2,7 +2,6 @@ package com.yundian.star.ui.main.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -21,7 +20,6 @@ import com.yundian.star.utils.FormatUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
-import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import java.io.File;
@@ -104,8 +102,40 @@ public class UserSettingActivity extends BaseActivity {
                 break;
             case R.id.ll_user_phone:
                 break;
+            case R.id.ll_user_pet_name:
+                //修改昵称
+//                resetNikeName();
+                break;
         }
     }
+
+//    private void resetNikeName() {
+//            LayoutInflater inflater = LayoutInflater.from(this);
+//            View dialogLayout = inflater.inflate(R.layout.dialog_user_referee, null);
+//            final EditText edtInput = (EditText) dialogLayout.findViewById(R.id.et_input_referee);
+//            final AlertDialog.Builder builder = new AlertDialog.Builder(this)
+//                    .setCancelable(false)
+//                    .setView(dialogLayout)
+//                    .setPositiveButton("确认",
+//                            new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int whichButton) {
+//                                    if (TextUtils.isEmpty(edtInput.getText().toString().trim())) {
+//                                        ToastUtils.showShort(getResources().getString(R.string.dialog_input_tip));
+//                                    } else {
+//                                        SharePrefUtil.getInstance().putUserReferee(edtInput.getText().toString().trim());
+//                                        myReferee.setText(String.format(getString(R.string.dialog_title_referee2), edtInput.getText().toString().trim()));
+//                                        dialog.dismiss();
+//                                    }
+//                                }
+//                            })
+//                    .setNegativeButton("取消",
+//                            new DialogInterface.OnClickListener() {
+//                                public void onClick(DialogInterface dialog, int whichButton) {
+//                                    dialog.dismiss();
+//                                }
+//                            });
+//            builder.show();
+//    }
 
     /**
      * 打开图片选择器
