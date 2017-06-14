@@ -13,7 +13,7 @@ import com.yundian.star.R;
  */
 
 public class
-PayDialog extends BaseDialog{
+PayDialog extends BaseDialog {
 
     private PayPwdEditText payPwdEditText;
 
