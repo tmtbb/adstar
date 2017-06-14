@@ -25,7 +25,6 @@ import com.yundian.star.networkapi.NetworkAPIException;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
 import com.yundian.star.utils.CountUtil;
-import com.yundian.star.utils.FormatUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.MD5Util;
 import com.yundian.star.utils.ToastUtils;
@@ -38,7 +37,6 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-import static com.yundian.star.R.id.phoneEditText;
 
 /**
  * Created by Administrator on 2017/5/9.

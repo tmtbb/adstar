@@ -89,7 +89,7 @@ public class LoginActivity extends BaseActivity {
         getWindow().setAttributes(p); // 设置生效
         userNameEditText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         checkHelper.checkButtonState(loginButton, userNameEditText, passwordEditText);
-        String phoneNum = SharePrefUtil.getInstance().getPhoneNum();
+        String phoneNum = SharePrefUtil.getInstance().getLoginPhone();
         if (!TextUtils.isEmpty(phoneNum)) {
             userNameEditText.getEditText().setText(phoneNum);
         }

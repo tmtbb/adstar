@@ -4,12 +4,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.been.RegisterReturnBeen;
 import com.yundian.star.been.RegisterVerifyCodeBeen;
 import com.yundian.star.helper.CheckHelper;
 import com.yundian.star.listener.OnAPIListener;
@@ -83,7 +83,7 @@ public class ResetUserPwdActivity extends BaseActivity {
                     ToastUtils.showShort("网络连接失败,请检查网络");
                     return;
                 }
-                getCode(msgEditText, view, phoneEditText);
+                judgeRegister();  //首先判断用户有没有注册
             }
         });
         nt_title.setOnBackListener(new View.OnClickListener() {
@@ -151,7 +151,7 @@ public class ResetUserPwdActivity extends BaseActivity {
                 });
     }
 
-    private void getCode(final WPEditText msgEditText, View view, WPEditText phoneEditText) {
+    private void getCode() {
         LogUtils.logd("请求网络获取短信验证码------------------------------");
         CheckException exception = new CheckException();
         String phoneEdit = phoneEditText.getEditTextString();
@@ -176,4 +176,32 @@ public class ResetUserPwdActivity extends BaseActivity {
         }
     }
 
+    private void judgeRegister() {
+        startProgressDialog();
+        CheckException exception = new CheckException();
+        String phoneEdit = phoneEditText.getEditTextString();
+        if (new CheckHelper().checkMobile(phoneEdit, exception)) {
+            NetworkAPIFactoryImpl.getUserAPI().isRegisted(phoneEdit, new OnAPIListener<RegisterReturnBeen>() {
+                @Override
+                public void onError(Throwable ex) {
+                    stopProgressDialog();
+                    LogUtils.loge("错误--------------");
+                    ToastUtils.showShort("网络异常,请检查网络连接");
+                }
+
+                @Override
+                public void onSuccess(RegisterReturnBeen registerReturnBeen) {
+                    stopProgressDialog();
+                    if (registerReturnBeen.getResult() == 1) {
+                        getCode();  //已经注册,获取验证码
+                    } else if (registerReturnBeen.getResult() == 0) {
+                        ToastUtils.showShort("手机号码未注册,请先注册");
+                    }
+
+                }
+            });
+        } else {
+            ToastUtils.showShort(exception.getErrorMsg());
+        }
+    }
 }

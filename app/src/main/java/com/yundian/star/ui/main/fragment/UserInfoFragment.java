@@ -93,12 +93,12 @@ public class UserInfoFragment extends BaseFragment {
     }
 
     private void initData() {
-        String referee = SharePrefUtil.getInstance().getUserReferee();
-        if (referee == null) {
-            myReferee.setText(getString(R.string.my_referee));
-        } else {
-            myReferee.setText(String.format(getString(R.string.dialog_title_referee2), referee));
-        }
+//        String referee = SharePrefUtil.getInstance().getUserReferee();
+//        if (referee == null) {
+//            myReferee.setText(getString(R.string.my_referee));
+//        } else {
+//            myReferee.setText(String.format(getString(R.string.dialog_title_referee2), referee));
+//        }
         String userPhotoUrl = SharePrefUtil.getInstance().getUserPhotoUrl();
         if (TextUtils.isEmpty(userPhotoUrl)) {
             headImage.setImageResource(R.drawable.user_default_head);
@@ -185,7 +185,7 @@ public class UserInfoFragment extends BaseFragment {
         switch (eventBusMessage.Message) {
             case 1:  //成功
                 LogUtils.loge("用户登录成功了，请刷新数据----------");
-                initData();
+
                 requestBalance();
                 requestIdentity();
                 break;
@@ -215,6 +215,7 @@ public class UserInfoFragment extends BaseFragment {
                 LogUtils.loge("余额请求成功:" + bean.toString());
                 userTotalAssets.setText(bean.getBalance() + "");
                 SharePrefUtil.getInstance().saveAssetInfo(bean);
+                initData();
             }
 
             @Override
@@ -228,11 +229,10 @@ public class UserInfoFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         if (flag) {
-            EventBus.getDefault().register(this); // EventBus注册广播()
+            EventBus.getDefault().register(this); // EventBus注册广播()  界面可见注册广播
             flag = false;//更改标记,使其不会再进行多次注册
         }
-        if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getPhoneNum())) {
-            initData();
+        if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getPhoneNum())) {   //如果登陆后,界面可见需要刷新数据
             requestBalance();
         }
     }

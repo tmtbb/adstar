@@ -81,7 +81,7 @@ public interface DealAPI {
 //    void unBindCard(long bankCardId, String verCode, OnAPIListener<Object> listener);//解绑操作
 //
 //    void rechargeList(int startPos, int count, OnAPIListener<List<RechargeRecordItemEntity>> listener);//解绑操作
-    void moneyList(int status, int count, int startPos, OnAPIListener<List<MoneyDetailListBean>> listener);//资金明细
+    void moneyList(String time,int status, int count, int startPos, OnAPIListener<List<MoneyDetailListBean>> listener);//资金明细
 
     void bookingStarList(int startPos, int count, OnAPIListener<List<BookingStarListBean>> listener);//预约明星列表
 

@@ -1,8 +1,12 @@
 package com.yundian.star.ui.main.activity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.PopupWindow;
 
 import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
@@ -29,6 +33,7 @@ import java.util.List;
 
 import butterknife.Bind;
 
+import static com.igexin.push.core.g.ac;
 import static com.yundian.star.ui.wangyi.DemoCache.clear;
 import static com.yundian.star.ui.wangyi.DemoCache.getContext;
 
@@ -52,6 +57,7 @@ public class MoneyBagDetailActivity extends BaseActivity {
     private static int mCurrentCounter = 1;
     private List<MoneyDetailListBean> loadList = new ArrayList<>();
     private List<MoneyDetailListBean> refreshList = new ArrayList<>();
+    private String time = "";
 
     @Override
     public int getLayoutId() {
@@ -72,13 +78,16 @@ public class MoneyBagDetailActivity extends BaseActivity {
         requestMoneyDetailData(false, 1, 10);
     }
 
+
     private void requestMoneyDetailData(final boolean isLoadMore, int start, int count) {
-        NetworkAPIFactoryImpl.getDealAPI().moneyList(0, count, start, new OnAPIListener<List<MoneyDetailListBean>>() {
+        NetworkAPIFactoryImpl.getDealAPI().moneyList(time, 0, count, start, new OnAPIListener<List<MoneyDetailListBean>>() {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.logd("钱包详情请求失败----");
-//                    lrv.setNoMore(true);
-                if (lrv != null){
+                ToastUtils.showShort("当前月份暂无数据");
+                if (lrv != null) {
+                    refreshList.clear();
+                    moneyBagDetailAdapter.clear();
                     lrv.refreshComplete(REQUEST_COUNT);
                 }
             }
@@ -144,27 +153,43 @@ public class MoneyBagDetailActivity extends BaseActivity {
 
     private void initPopupMenu() {
         setData();
+        popupMenu = new MyPopupMenu(getContext(), lists);
         ntTitle.setOnRightImagListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                popupMenu = new MyPopupMenu(getContext(), lists);
-                popupMenu.setOnChildViewClickListener(new OnChildViewClickListener() {
-                    @Override
-                    public void onChildViewClick(View childView, int action, Object obj) {
-                        ToastUtils.showShort("子控件被点击了");
-                    }
-                });
+                // 设置背景颜色变暗
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 0.7f;
+                getWindow().setAttributes(lp);
 
                 popupMenu.showAsDropDown(ntTitle.getRightImage(), 0, 0);
+            }
+        });
+        popupMenu.setOnChildViewClickListener(new OnChildViewClickListener() {
+            @Override
+            public void onChildViewClick(View childView, int action, Object obj) {
+                time = action + 1 + "";
+                requestMoneyDetailData(false, 1, 10);
+            }
+        });
+
+
+        popupMenu.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                LogUtils.loge("关闭----------------");
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 1f;
+                getWindow().setAttributes(lp);
             }
         });
     }
 
     private void setData() {
         lists = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 12; i++) {
             MyPopupMenuEntity entity = new MyPopupMenuEntity();
-            entity.setText("日期" + i);
+            entity.setText(i + 1 + "月");
             lists.add(entity);
         }
     }
@@ -182,7 +207,7 @@ public class MoneyBagDetailActivity extends BaseActivity {
             @Override
             public void onLoadMore() {
                 LogUtils.logd("上拉加载更多----起始位置:");
-                requestMoneyDetailData(true, mCurrentCounter+1, REQUEST_COUNT);
+                requestMoneyDetailData(true, mCurrentCounter + 1, REQUEST_COUNT);
             }
         });
 
@@ -192,7 +217,7 @@ public class MoneyBagDetailActivity extends BaseActivity {
 //                ToastUtils.showShort("当前被点击:" + position);
                 preventConcurrency();
                 Bundle bundle = new Bundle();
-                bundle.putParcelable("dealDetail",refreshList.get(position));
+                bundle.putParcelable("dealDetail", refreshList.get(position));
                 startActivity(BillingDetailsActivity.class, bundle);
             }
         });

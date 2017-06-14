@@ -176,6 +176,7 @@
                 android:background="@color/main_bg_color"
                 android:padding="@dimen/dp_15"
                 android:text="@string/my_referee"
+                android:visibility="invisible"
                 android:textColor="@color/color_434343"
                 android:textSize="@dimen/text_size_14" />
 
