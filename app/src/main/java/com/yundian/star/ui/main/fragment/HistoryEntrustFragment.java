@@ -2,6 +2,7 @@ package com.yundian.star.ui.main.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -43,6 +44,8 @@ public class HistoryEntrustFragment extends BaseFragment {
     TextView tv_start_time ;
     @Bind(R.id.tv_end_time)
     TextView tv_end_time ;
+    @Bind(R.id.parent_view)
+    FrameLayout parentView;
 
 
 
@@ -125,6 +128,7 @@ public class HistoryEntrustFragment extends BaseFragment {
             public void onSuccess(FansHotBuyReturnBeen fansHotBuyReturnBeen) {
                 if (fansHotBuyReturnBeen.getList()==null){
                     lrv.setNoMore(true);
+                    showErrorView(parentView,R.drawable.error_view_news,getResources().getString(R.string.empty_view_history));
                     return;
                 }
                 if (isLoadMore){

@@ -1,6 +1,7 @@
 package com.yundian.star.ui.main.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.FrameLayout;
 
 import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
@@ -26,6 +27,8 @@ import butterknife.Bind;
 public class TodayBuyFragment extends BaseFragment{
     @Bind(R.id.lrv)
     LRecyclerView lrv;
+    @Bind(R.id.parent_view)
+    FrameLayout parentView;
     private static int mCurrentCounter = 1;
     private static final int REQUEST_COUNT = 10;
     private ArrayList<FansHotBuyReturnBeen.ListBean> list = new ArrayList<>();
@@ -84,6 +87,7 @@ public class TodayBuyFragment extends BaseFragment{
             public void onSuccess(FansHotBuyReturnBeen fansHotBuyReturnBeen) {
                 if (fansHotBuyReturnBeen.getList()==null){
                     lrv.setNoMore(true);
+                    showErrorView(parentView,R.drawable.error_view_news,getResources().getString(R.string.empty_view_history));
                     return;
                 }
                 if (isLoadMore){

@@ -70,7 +70,7 @@ public class SocketAPIRequestManage {
                 int statusCode = socketAPIResponse.statusCode();
                 if( statusCode == 0 ) {
                     socketAPIRequest.onSuccess(socketAPIResponse);
-                    LogUtils.loge("服务器发送数据接收口Handler+jsonResponse:"+socketAPIResponse.jsonObject());
+                    LogUtils.loge("服务器接受:"+socketDataPacket.getOperateCode()+"----jsonResponse:"+socketAPIResponse.jsonObject());
                 }
                 else {
                     socketAPIRequest.onErrorCode(statusCode);

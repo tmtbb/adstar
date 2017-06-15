@@ -80,10 +80,16 @@
         android:background="@color/color_cccccc"
         >
     </View>
-    <com.github.jdsjlzx.recyclerview.LRecyclerView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/lrv"
-        >
-    </com.github.jdsjlzx.recyclerview.LRecyclerView>
+        android:id="@+id/parent_view">
+        <com.github.jdsjlzx.recyclerview.LRecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/lrv"
+            >
+        </com.github.jdsjlzx.recyclerview.LRecyclerView>
+    </FrameLayout>
+
 </LinearLayout>

@@ -36,9 +36,15 @@
 //    protected void init(Context context, AttributeSet attrs) {
 //        this.context = context;
 //        if (layoutId() != 0) {
+//
+//          View  rootView= LayoutInflater.from(context).inflate(layoutId(), this, true);
+//            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.MATCH_PARENT,
+//                    FrameLayout.LayoutParams.MATCH_PARENT);//定义框架布局器参数
+//            addView(rootView,params);
+//
+//
 ////            FrameLayout layout= new FrameLayout(this);//定义框架布局器
-//            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
-//                    ViewGroup.LayoutParams.FILL_PARENT);//定义框架布局器参数
+//
 ////            FrameLayout.LayoutParams tparams=new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
 ////                    ViewGroup.LayoutParams.WRAP_CONTENT);//定义显示组件参数
 ////            TextView txtview = new TextView(this);//定义组件
@@ -55,9 +61,9 @@
 ////            setContentView(layout,params);//向屏幕上添加布局显示器
 //
 //
-//            View rootView = LayoutInflater.from(context).inflate(layoutId(), this, true);
-//            LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-//            this.addView(rootView, params);
+////            View rootView = LayoutInflater.from(context).inflate(layoutId(), this, true);
+////            LayoutParams layoutParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+////            this.addView(rootView, params);
 ////            if (rootView != null)
 ////                x.view().inject(this, rootView);
 //

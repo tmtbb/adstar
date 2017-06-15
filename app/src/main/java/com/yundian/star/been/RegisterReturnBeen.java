@@ -13,6 +13,7 @@ public class RegisterReturnBeen {
 
     private int result;
     private int uid;
+    private long amount;  //持有明星数
 
     public int getResult() {
         return result;
@@ -28,6 +29,14 @@ public class RegisterReturnBeen {
 
     public void setUid(int uid) {
         this.uid = uid;
+    }
+
+    public long getAmount() {
+        return amount;
+    }
+
+    public void setAmount(long amount) {
+        this.amount = amount;
     }
 
     @Override

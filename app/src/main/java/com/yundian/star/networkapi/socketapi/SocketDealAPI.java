@@ -7,6 +7,7 @@ import com.yundian.star.been.BookingStarListBean;
 import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.been.MoneyDetailListBean;
 import com.yundian.star.been.RequestResultBean;
+import com.yundian.star.been.StatServiceListBean;
 import com.yundian.star.been.WXPayReturnEntity;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.DealAPI;
@@ -16,6 +17,8 @@ import com.yundian.star.utils.SharePrefUtil;
 
 import java.util.HashMap;
 import java.util.List;
+
+import static com.yundian.star.R.string.nickname;
 
 /**
  * Created by yaowang on 2017/2/20.
@@ -263,6 +266,44 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.IdentityInfo,
                 SocketAPIConstant.ReqeutType.User, map);
         requestEntity(socketDataPacket,IdentityInfoBean.class,listener);
+    }
+
+    @Override
+    public void nikeName(String nickname, OnAPIListener<RequestResultBean> listener) {
+        LogUtils.loge("设置昵称--------");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("uid", SharePrefUtil.getInstance().getUserId());
+        map.put("token", SharePrefUtil.getInstance().getToken());
+        map.put("nickname", nickname);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.NikeName,
+                SocketAPIConstant.ReqeutType.User, map);
+        requestEntity(socketDataPacket,RequestResultBean.class,listener);
+    }
+
+    @Override
+    public void starMeet(String starcode, long mid, String city_name, String appoint_time, int meet_type, String comment, OnAPIListener<RequestResultBean> listener) {
+        LogUtils.loge("设置开始约见--------");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("uid", SharePrefUtil.getInstance().getUserId());
+        map.put("mid", mid);
+        map.put("starcode", starcode);
+        map.put("city_name", city_name);
+        map.put("appoint_time", appoint_time);
+        map.put("meet_type", meet_type);
+        map.put("comment", comment);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarMeet,
+                SocketAPIConstant.ReqeutType.NewInfos, map);
+        requestEntity(socketDataPacket,RequestResultBean.class,listener);
+    }
+
+    @Override
+    public void statServiceList(String starcode, OnAPIListener<StatServiceListBean> listener) {
+        LogUtils.loge("明星类型列表--------");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("starcode", "1001");
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarType,
+                SocketAPIConstant.ReqeutType.NewInfos, map);
+        requestEntity(socketDataPacket,StatServiceListBean.class,listener);
     }
 
 //    @Override

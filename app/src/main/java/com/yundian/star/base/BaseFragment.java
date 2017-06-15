@@ -4,16 +4,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.yundian.star.R;
+import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.TUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.LoadingDialog;
 
 import butterknife.ButterKnife;
+
+import static com.yundian.star.R.id.root;
+import static com.yundian.star.R.raw.msg;
 
 /**
  * des:基类fragment
@@ -52,10 +61,13 @@ import butterknife.ButterKnife;
 //    public void initView() {
 //    }
 //}
-public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel> extends Fragment {
+public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel> extends Fragment {
     protected View rootView;
     public T mPresenter;
     public E mModel;
+    private LinearLayout errorView;
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -63,18 +75,21 @@ public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel
             rootView = inflater.inflate(getLayoutResource(), container, false);
         ButterKnife.bind(this, rootView);
         mPresenter = TUtil.getT(this, 0);
-        mModel= TUtil.getT(this,1);
-        if(mPresenter!=null){
-            mPresenter.mContext=this.getActivity();
+        mModel = TUtil.getT(this, 1);
+        if (mPresenter != null) {
+            mPresenter.mContext = this.getActivity();
         }
         initPresenter();
         initView();
         return rootView;
     }
+
     //获取布局文件
     protected abstract int getLayoutResource();
+
     //简单页面无需mvp就不用管此方法即可,完美兼容各种实际场景的变通
     public abstract void initPresenter();
+
     //初始化view
     protected abstract void initView();
 
@@ -117,7 +132,6 @@ public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel
         }
         startActivity(intent);
     }
-
 
 
     /**
@@ -174,18 +188,18 @@ public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel
 
 
     public void showToastWithImg(String text, int res) {
-        ToastUtils.showToastWithImg(text,res);
+        ToastUtils.showToastWithImg(text, res);
     }
 
     /**
      * 网络访问错误提醒
      */
     public void showNetErrorTip() {
-        ToastUtils.showToastWithImg(getText(R.string.net_error).toString(),R.drawable.ic_wifi_off);
+        ToastUtils.showToastWithImg(getText(R.string.net_error).toString(), R.drawable.ic_wifi_off);
     }
 
     public void showNetErrorTip(String error) {
-        ToastUtils.showToastWithImg(error,R.drawable.ic_wifi_off);
+        ToastUtils.showToastWithImg(error, R.drawable.ic_wifi_off);
     }
 
     @Override
@@ -196,6 +210,50 @@ public abstract  class BaseFragment<T extends BasePresenter, E extends BaseModel
             mPresenter.onDestroy();
     }
 
+    /**
+     * 加载失败view  空白页
+     * <p>
+     * 根布局  标题栏以下
+     *
+     * @param msg 错误信息
+     */
+    public void showErrorView(FrameLayout parentView, int drawableId, String msg) {
+        try {
+            if (errorView != null && parentView != null) {
+//                parent.removeView(errorView);
+                parentView.removeView(errorView);
+                errorView = null;
+            }
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT,Gravity.CENTER);
+            LayoutInflater inflater3 = LayoutInflater.from(getActivity());
+            errorView = (LinearLayout) inflater3.inflate(R.layout.layout_error_view, null);
+            errorView.setLayoutParams(lp);
+            TextView errorMsg = (TextView) errorView.findViewById(R.id.tv_error_msg);
+            ImageView errorImg = (ImageView) errorView.findViewById(R.id.iv_error_icon);
+            errorImg.setImageResource(drawableId);
+            errorMsg.setText(msg);
+
+            if (parentView != null) {
+                parentView.addView(errorView);
+                LogUtils.loge("添加view----------------");
+            }
+            errorView.setVisibility(View.VISIBLE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 关闭空白页
+     */
+    public void closeErrorView() {
+        if (errorView != null) {
+            LogUtils.loge("关闭页面-----------------");
+            errorView.setVisibility(View.GONE);
+        }
+    }
 
 
 }

@@ -23,7 +23,7 @@ import butterknife.Bind;
 
 public class AutionTopFragment extends BaseFragment {
     @Bind(R.id.lrv)
-    LRecyclerView lrv ;
+    LRecyclerView lrv;
 
     private static final int REQUEST_COUNT = 10;
 
@@ -48,22 +48,22 @@ public class AutionTopFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        if (getArguments()!=null){
+        if (getArguments() != null) {
             code = getArguments().getString(AppConstant.STAR_CODE);
             hotType = getArguments().getInt(AppConstant.AUCTION_TYPE);
 
         }
         initAdapter();
-        getData(false,1,REQUEST_COUNT);
+        getData(false, 1, REQUEST_COUNT);
     }
 
-    private void getData(final boolean isLoadMore,int start ,int end ) {
-        if (hotType==1){
-            if (isLoadMore){
+    private void getData(final boolean isLoadMore, int start, int end) {
+        if (hotType == 1) {
+            if (isLoadMore) {
                 loadList.clear();
                 moNiData(isLoadMore);
                 loadMoreData();
-            }else {
+            } else {
                 list.clear();
                 moNiData(isLoadMore);
                 showData();
@@ -91,12 +91,12 @@ public class AutionTopFragment extends BaseFragment {
                     }
                 }
             });*/
-        }else {
-            if (isLoadMore){
+        } else {
+            if (isLoadMore) {
                 loadList.clear();
                 moNiData(isLoadMore);
                 loadMoreData();
-            }else {
+            } else {
                 list.clear();
                 moNiData(isLoadMore);
                 showData();
@@ -139,13 +139,13 @@ public class AutionTopFragment extends BaseFragment {
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getData(true,mCurrentCounter+1,mCurrentCounter+REQUEST_COUNT);
+                getData(true, mCurrentCounter + 1, mCurrentCounter + REQUEST_COUNT);
             }
         });
     }
 
     public void showData() {
-        mCurrentCounter =list.size();
+        mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         autionTopAdapter.addAll(list);
         lrv.refresh();
@@ -161,14 +161,15 @@ public class AutionTopFragment extends BaseFragment {
             lrv.refreshComplete(REQUEST_COUNT);
         }
     }
-    private void moNiData(boolean isLoadMore){
-        for (int i =0;i<10;i++){
+
+    private void moNiData(boolean isLoadMore) {
+        for (int i = 0; i < 10; i++) {
             FansHotBuyReturnBeen.ListBean listBean = new FansHotBuyReturnBeen.ListBean();
-            listBean.setName("哈哈"+i);
+            listBean.setName("哈哈" + i);
             listBean.setPrice(i);
-            if (isLoadMore){
+            if (isLoadMore) {
                 loadList.add(listBean);
-            }else {
+            } else {
                 list.add(listBean);
             }
         }

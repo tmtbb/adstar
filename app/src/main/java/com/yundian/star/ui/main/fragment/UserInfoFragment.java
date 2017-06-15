@@ -1,6 +1,9 @@
 package com.yundian.star.ui.main.fragment;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -18,6 +21,7 @@ import com.yundian.star.been.AssetDetailsBean;
 import com.yundian.star.been.EventBusMessage;
 
 import com.yundian.star.been.IdentityInfoBean;
+import com.yundian.star.been.RegisterReturnBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 
@@ -40,7 +44,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-
 
 /**
  * Created by Administrator on 2017/5/5.
@@ -188,6 +191,7 @@ public class UserInfoFragment extends BaseFragment {
 
                 requestBalance();
                 requestIdentity();
+                requestStarCount();
                 break;
         }
     }
@@ -235,6 +239,7 @@ public class UserInfoFragment extends BaseFragment {
         if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getPhoneNum())) {   //如果登陆后,界面可见需要刷新数据
             requestBalance();
         }
+        requestStarCount();
     }
 
 //    @Override
@@ -249,5 +254,19 @@ public class UserInfoFragment extends BaseFragment {
         super.onDestroy();
         EventBus.getDefault().removeAllStickyEvents();
         EventBus.getDefault().unregister(this);
+    }
+
+    private void requestStarCount() {
+        NetworkAPIFactoryImpl.getUserAPI().starCount(new OnAPIListener<RegisterReturnBeen>() {
+            @Override
+            public void onError(Throwable ex) {
+            }
+
+            @Override
+            public void onSuccess(RegisterReturnBeen registerReturnBeen) {
+                LogUtils.loge("明星数量:" + registerReturnBeen.toString());
+                userOrderStar.setText(registerReturnBeen.getAmount() + "");
+            }
+        });
     }
 }

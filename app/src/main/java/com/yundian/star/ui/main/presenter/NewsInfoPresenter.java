@@ -29,13 +29,16 @@ public class NewsInfoPresenter extends NewInfoContract.Presenter {
                     mView.initDatas(o.getList());
                 }
                 LogUtils.logd(o.toString());
+                LogUtils.loge("----------------请求成功----");
                 mView.stopLoading();
             }
 
             @Override
             public void onError(Throwable ex) {
                 LogUtils.logd(ex.toString());
-                mView.stopLoading();
+//                mView.stopLoading();
+                LogUtils.loge("----------------请求错诶");
+                mView.showErrorTip(ex.getMessage());
             }
         });
     }

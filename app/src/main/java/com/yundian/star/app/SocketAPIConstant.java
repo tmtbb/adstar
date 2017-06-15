@@ -81,6 +81,10 @@ public interface SocketAPIConstant {
         Short Srealtime = 4001;
         Short AskToBuy = 5001;
         Short IsRegister = 3029;
+        Short NikeName = 3031;
+        Short StartCount = 10023;
+        Short StarType = 10019;
+        Short StarMeet = 10021;
 
 
     }
