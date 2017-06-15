@@ -11,7 +11,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
@@ -19,14 +18,16 @@ import com.yundian.star.R;
 import com.yundian.star.app.Constant;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.StarMailListBeen;
+import com.yundian.star.been.SystemMessageBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
-import com.yundian.star.ui.im.adapter.BookStarComAdapter;
 import com.yundian.star.ui.main.activity.ResetPayPwdActivity;
+import com.yundian.star.ui.main.adapter.SystemMessageAdapter;
 import com.yundian.star.ui.view.PayPwdEditText;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.SoftKeyBoardListener;
+import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 import com.yundian.star.widget.PutPasPopupWindow;
 
@@ -47,10 +48,10 @@ public class SystemMessagesActivity extends BaseActivity {
 
     private static int mCurrentCounter = 1;
     private static final int REQUEST_COUNT = 10;
-    private ArrayList<StarMailListBeen.DepositsinfoBean> list = new ArrayList<>();
-    private ArrayList<StarMailListBeen.DepositsinfoBean> loadList = new ArrayList<>();
+    private ArrayList<SystemMessageBeen> list = new ArrayList<>();
+    private ArrayList<SystemMessageBeen> loadList = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
-    private BookStarComAdapter starCommBookAdapter;
+    private SystemMessageAdapter systemMessageAdapter;
     private PutPasPopupWindow mPopWindow;
     private View contentView;
     private PayPwdEditText payPwdEditText;
@@ -97,15 +98,21 @@ public class SystemMessagesActivity extends BaseActivity {
             }
         });
 
-        lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
+//        lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                //KeyBordUtil.showSoftKeyboard(payPwdEditText);
+//
+//            }
+//        });
+        systemMessageAdapter.setOnImgClickLitener(new SystemMessageAdapter.OnImgClickLitener() {
             @Override
-            public void onItemClick(View view, int position) {
-                //KeyBordUtil.showSoftKeyboard(payPwdEditText);
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+            public void onImgClick(View view, int position) {
+                //InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                //imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                ToastUtils.showShort("position"+position);
             }
         });
-
     }
 
     private void showPasDialog() {
@@ -117,8 +124,8 @@ public class SystemMessagesActivity extends BaseActivity {
     }
 
     private void initAdapter() {
-        starCommBookAdapter = new BookStarComAdapter(this);
-        lRecyclerViewAdapter = new LRecyclerViewAdapter(starCommBookAdapter);
+        systemMessageAdapter = new SystemMessageAdapter(this,list);
+        lRecyclerViewAdapter = new LRecyclerViewAdapter(systemMessageAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
         lrv.setLayoutManager(new LinearLayoutManager(this));
         lrv.setPullRefreshEnabled(false);
@@ -134,9 +141,9 @@ public class SystemMessagesActivity extends BaseActivity {
 
     private void getData(final boolean isLoadMore, int start, int end) {
 
-        for (int i = 0; i < 5; i++) {
-            StarMailListBeen.DepositsinfoBean bean = new StarMailListBeen.DepositsinfoBean();
-            bean.setStarname("哈哈" + i);
+        for (long i = 0; i < 5; i++) {
+            SystemMessageBeen bean = new SystemMessageBeen();
+            bean.setPositionId(i);
             list.add(bean);
         }
         showData();
@@ -157,7 +164,7 @@ public class SystemMessagesActivity extends BaseActivity {
     public void showData() {
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
-        starCommBookAdapter.addAll(list);
+        //systemMessageAdapter.addAll(list);
         lrv.refresh();
     }
 
@@ -166,7 +173,7 @@ public class SystemMessagesActivity extends BaseActivity {
             lrv.setNoMore(true);
         } else {
             list.addAll(loadList);
-            starCommBookAdapter.addAll(loadList);
+            systemMessageAdapter.addAll(loadList);
             mCurrentCounter += loadList.size();
             lrv.refreshComplete(REQUEST_COUNT);
         }

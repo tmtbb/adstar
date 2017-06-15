@@ -290,6 +290,7 @@
     <string name="order_total">订单总价:</string>
     <string name="transfer_num">转让数量:</string>
     <string name="sure">确认</string>
+    <string name="onclick_check">点击查看</string>
 
 
     <string name="error_msg_news">当前还没有相关记录</string>

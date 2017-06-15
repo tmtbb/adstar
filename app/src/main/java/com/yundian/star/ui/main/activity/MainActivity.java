@@ -220,7 +220,7 @@ public class MainActivity extends BaseActivity {
                 transaction.commitAllowingStateLoss();
                 break;
             case 2:
-                CheckLoginUtil.checkLogin(this);
+                //CheckLoginUtil.checkLogin(this);
                 transaction.hide(marketFragment);
                 transaction.hide(newsInfoFragment);
                 transaction.hide(userInfoFragment);
