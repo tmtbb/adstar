@@ -8,6 +8,7 @@ import com.yundian.star.been.CommentMarketBeen;
 import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
+import com.yundian.star.been.ResultBeen;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
@@ -15,6 +16,7 @@ import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.been.StarListbeen;
 import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.StarStarAchBeen;
+import com.yundian.star.been.SureOrder;
 import com.yundian.star.been.TimeLineBeen;
 import com.yundian.star.been.TradingStatusBeen;
 import com.yundian.star.listener.OnAPIListener;
@@ -50,4 +52,7 @@ public interface InformationAPI {
     void getSrealtime(long id, String token, List<SrealSendBeen> symbolInfos , OnAPIListener<SrealSendReturnBeen> listener);
     void getAskToBuy(long id, String token,int sort ,String symbol,int buySell,int amount,double price,OnAPIListener<AskToBuyReturnBeen> listener);
     void getTradingStatus(long id, String token,String symbol,OnAPIListener<TradingStatusBeen> listener);
+    void cancelOrder(long id, String token,long orderId,OnAPIListener<Object> listener);
+    void checkPayPas(long id, String token,String paypwd,OnAPIListener<ResultBeen> listener);
+    void sureOrder(long id, String token,long orderId,long positionId,OnAPIListener<SureOrder> listener);
 }

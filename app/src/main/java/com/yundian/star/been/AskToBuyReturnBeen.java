@@ -1,10 +1,13 @@
 package com.yundian.star.been;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Administrator on 2017/6/9.
  */
 
-public class AskToBuyReturnBeen {
+public class AskToBuyReturnBeen implements Parcelable {
 
     /**
      * amount : 600
@@ -79,4 +82,45 @@ public class AskToBuyReturnBeen {
     public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(this.amount);
+        dest.writeInt(this.buySell);
+        dest.writeInt(this.id);
+        dest.writeDouble(this.openPrice);
+        dest.writeLong(this.positionId);
+        dest.writeInt(this.positionTime);
+        dest.writeString(this.symbol);
+    }
+
+    public AskToBuyReturnBeen() {
+    }
+
+    protected AskToBuyReturnBeen(Parcel in) {
+        this.amount = in.readInt();
+        this.buySell = in.readInt();
+        this.id = in.readInt();
+        this.openPrice = in.readDouble();
+        this.positionId = in.readLong();
+        this.positionTime = in.readInt();
+        this.symbol = in.readString();
+    }
+
+    public static final Parcelable.Creator<AskToBuyReturnBeen> CREATOR = new Parcelable.Creator<AskToBuyReturnBeen>() {
+        @Override
+        public AskToBuyReturnBeen createFromParcel(Parcel source) {
+            return new AskToBuyReturnBeen(source);
+        }
+
+        @Override
+        public AskToBuyReturnBeen[] newArray(int size) {
+            return new AskToBuyReturnBeen[size];
+        }
+    };
 }

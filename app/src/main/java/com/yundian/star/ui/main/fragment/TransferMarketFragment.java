@@ -21,6 +21,8 @@ import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NumberBoubleButton;
 import com.yundian.star.widget.NumberButton;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -31,6 +33,7 @@ import butterknife.Bind;
 
 /**
  * Created by Administrator on 2017/5/24.
+ * 转让
  */
 
 public class TransferMarketFragment extends BaseFragment {
@@ -203,6 +206,9 @@ public class TransferMarketFragment extends BaseFragment {
         tv_sure_trans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                if (!JudgeIdentityUtils.isIdentityed(getActivity())) {
+//                    return;
+//                }
                 LogUtils.loge("获取数值" + total_prices);
                 BigDecimal bg = new BigDecimal(buy_price);
                 double ask_buy_prices = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -219,6 +225,7 @@ public class TransferMarketFragment extends BaseFragment {
                             public void onSuccess(AskToBuyReturnBeen askToBuyReturnBeen) {
                                 LogUtils.loge("转让成功");
                                 ToastUtils.showShort("挂单成功");
+                                EventBus.getDefault().postSticky(askToBuyReturnBeen);
                             }
                         });
             }

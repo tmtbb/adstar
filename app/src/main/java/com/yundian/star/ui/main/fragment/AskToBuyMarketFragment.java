@@ -1,12 +1,8 @@
 package com.yundian.star.ui.main.fragment;
 
-import android.app.Dialog;
 import android.os.Handler;
 import android.os.Message;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -24,6 +20,8 @@ import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NumberBoubleButton;
 import com.yundian.star.widget.NumberButton;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
@@ -209,9 +207,10 @@ public class AskToBuyMarketFragment extends BaseFragment {
         tv_sure_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+//                if (!JudgeIdentityUtils.isIdentityed(getActivity())) {
+//                    return;
+//                }
                 //showPutPasswordDialog();
-
                 //showAlertDialog();
                 BigDecimal bg = new BigDecimal(buy_price);
                 double ask_buy_prices = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -228,6 +227,7 @@ public class AskToBuyMarketFragment extends BaseFragment {
                             public void onSuccess(AskToBuyReturnBeen askToBuyReturnBeen) {
                                 LogUtils.loge("求购成功");
                                 ToastUtils.showShort("挂单成功");
+                                EventBus.getDefault().postSticky(askToBuyReturnBeen);
                             }
                         });
 
@@ -318,52 +318,7 @@ public class AskToBuyMarketFragment extends BaseFragment {
         }
     }
 
-    private void showAlertDialog() {
-        final Dialog mDetailDialog = new Dialog(getActivity(), R.style.custom_dialog);
-        //获得dialog的window窗口
-        Window window = mDetailDialog.getWindow();
-        //设置dialog在屏幕底部
-        window.setGravity(Gravity.BOTTOM);
-        //设置dialog弹出时的动画效果，从屏幕底部向上弹出
-        window.setWindowAnimations(R.style.dialogStyle);
-        window.getDecorView().setPadding(0, 0, 0, 0);
-        //获得window窗口的属性
-        android.view.WindowManager.LayoutParams lp = window.getAttributes();
-        //设置窗口宽度为充满全屏
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        //设置窗口高度为包裹内容
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        //将设置好的属性set回去
-        window.setAttributes(lp);
-        mDetailDialog.setContentView((R.layout.dialog_order_sure));
-        TextView tv_state = (TextView) mDetailDialog.findViewById(R.id.tv_state);
-        TextView tv_sure = (TextView) mDetailDialog.findViewById(R.id.tv_sure);
-        TextView order_info = (TextView) mDetailDialog.findViewById(R.id.order_info);
-        TextView order_preice = (TextView) mDetailDialog.findViewById(R.id.order_preice);
-        TextView transfer_num = (TextView) mDetailDialog.findViewById(R.id.transfer_num);
-        TextView order_total = (TextView) mDetailDialog.findViewById(R.id.order_total);
-        ImageView img_close = (ImageView) mDetailDialog.findViewById(R.id.img_close);
 
-        order_preice.setText(String.format(getString(R.string.buy_price), buy_price));
-        transfer_num.setText(String.format(getString(R.string.num_time), buy_num));
-        order_total.setText(String.format(getString(R.string.price_total), total_prices));
-        order_info.setText(name + " " + code);
-        tv_sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDetailDialog.dismiss();
-
-            }
-        });
-        img_close.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDetailDialog.dismiss();
-            }
-        });
-
-        mDetailDialog.show();
-    }
 
 
 }

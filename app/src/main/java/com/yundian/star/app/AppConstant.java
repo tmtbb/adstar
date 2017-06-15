@@ -12,6 +12,7 @@ public class AppConstant {
     public static final String STAR_WID="STAR_WID";
     public static final String STAR_HEAD_URL="STAR_HEAD_URL";
     public static final String MATCH_SUCESS_INFO="MATCH_SUCESS_INFO";
+    public static final String MATCH_SUCESS_ORDER_INFO="MATCH_SUCESS_ORDER_INFO";
     public static final String HOME_CURRENT_TAB_POSITION="HOME_CURRENT_TAB_POSITION";
     public static final String MENU_SHOW_HIDE="MENU_SHOW_HIDE";
     public static final String AUCTION_TYPE="AUCTION_TYPE";

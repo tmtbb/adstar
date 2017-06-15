@@ -82,6 +82,9 @@ public interface SocketAPIConstant {
         Short AskToBuy = 5001;
         Short IsRegister = 3029;
         Short TradingStatus = 5005;
+        Short CancelOrder = 5009;
+        Short CheckPayPas = 7011;
+        Short SureOrder = 5007;
 
 
     }

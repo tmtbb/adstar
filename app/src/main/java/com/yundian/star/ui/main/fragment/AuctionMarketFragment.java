@@ -31,6 +31,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.ref.WeakReference;
+
 import butterknife.Bind;
 
 import static com.yundian.star.R.id.rb_1;
@@ -64,6 +66,7 @@ public class AuctionMarketFragment extends BaseFragment {
     private String token;
     private CountDownTimer timer;
     private int secondTime = 0;
+    private MyHandler1 myHandler;
 
 
     @Override
@@ -87,7 +90,9 @@ public class AuctionMarketFragment extends BaseFragment {
         }
         userId = SharePrefUtil.getInstance().getUserId();
         token = SharePrefUtil.getInstance().getToken();
-        //myHandler = new MyHandler1(this);
+        if (myHandler == null) {
+            myHandler = new MyHandler1(this);
+        }
         LogUtils.loge("走一次了");
         initListener();
         //initData();
@@ -106,7 +111,7 @@ public class AuctionMarketFragment extends BaseFragment {
                     if (tradingStatusBeen.isStatus()) {
                         startSunTime = true;
                         secondTime = tradingStatusBeen.getRemainingTime();
-                        myHandler.sendEmptyMessage(GRT_DATA);
+                        myHandler.sendEmptyMessage(myHandler.GRT_DATA);
                         //startTime(tradingStatusBeen.getRemainingTime());
                     } else {
                         tv_residue_time.setText("未开始");
@@ -256,7 +261,7 @@ public class AuctionMarketFragment extends BaseFragment {
             initData();
         } else {
             LogUtils.loge("刷新startRefresh,handler=null");
-            myHandler = new Handler() {
+            /*myHandler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
                     switch (msg.what) {
@@ -265,7 +270,8 @@ public class AuctionMarketFragment extends BaseFragment {
                             break;
                     }
                 }
-            };
+            };*/
+            myHandler = new MyHandler1(this);
             myHandler.removeCallbacksAndMessages(null);
             initData();
         }
@@ -275,15 +281,16 @@ public class AuctionMarketFragment extends BaseFragment {
         if (tv_residue_time != null && secondTime >= 0 && myHandler != null && startSunTime) {
             tv_residue_time.setText(TimeUtil.getHourMinuteSecond(secondTime * 1000));
             secondTime--;
-            myHandler.sendEmptyMessageDelayed(GRT_DATA, 1 * 1000);
+            myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 1000);
         } else if (tv_residue_time != null && secondTime < 0) {
             tv_residue_time.setText("未开始");
         }
     }
 
     private boolean startSunTime = false;
-    final private static int GRT_DATA = 112;
-    private Handler myHandler = new Handler() {
+
+    //final private static int GRT_DATA = 112;
+    /*private Handler myHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
@@ -292,8 +299,8 @@ public class AuctionMarketFragment extends BaseFragment {
                     break;
             }
         }
-    };
-    /*private static class MyHandler1 extends Handler {
+    };*/
+    private static class MyHandler1 extends Handler {
         final private static int GRT_DATA = 112;
         private final WeakReference<AuctionMarketFragment> mFragment;
 
@@ -312,6 +319,6 @@ public class AuctionMarketFragment extends BaseFragment {
                 }
             }
         }
-    }*/
+    }
 
 }
