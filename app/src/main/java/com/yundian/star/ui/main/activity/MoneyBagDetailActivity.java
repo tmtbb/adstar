@@ -1,9 +1,7 @@
 package com.yundian.star.ui.main.activity;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.PopupMenu;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
@@ -16,7 +14,6 @@ import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
-import com.yundian.star.been.BookingStarListBean;
 import com.yundian.star.been.MoneyDetailListBean;
 import com.yundian.star.been.MyPopupMenuEntity;
 import com.yundian.star.listener.OnAPIListener;
@@ -33,8 +30,6 @@ import java.util.List;
 
 import butterknife.Bind;
 
-import static com.igexin.push.core.g.ac;
-import static com.yundian.star.ui.wangyi.DemoCache.clear;
 import static com.yundian.star.ui.wangyi.DemoCache.getContext;
 
 /**

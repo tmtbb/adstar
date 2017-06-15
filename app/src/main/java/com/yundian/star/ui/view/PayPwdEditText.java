@@ -141,6 +141,7 @@ public class PayPwdEditText extends RelativeLayout {
                 linearLayout.addView(view, params2);
             }
         }
+        setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER);
     }
 
     /**

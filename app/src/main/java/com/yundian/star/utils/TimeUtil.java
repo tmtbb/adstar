@@ -1081,4 +1081,10 @@ public class TimeUtil {
         SimpleDateFormat format = new SimpleDateFormat("EEEE");
         return format.format(new Date(time));
     }
+
+    //毫秒转化为时间
+    public static String getHourMinuteSecond(long time) {
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+        return format.format(new Date(time));
+    }
 }

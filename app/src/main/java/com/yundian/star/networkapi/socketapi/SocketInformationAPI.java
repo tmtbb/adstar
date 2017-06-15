@@ -9,6 +9,7 @@ import com.yundian.star.been.CommentMarketBeen;
 import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
+import com.yundian.star.been.ResultBeen;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
@@ -16,7 +17,9 @@ import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.been.StarListbeen;
 import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.StarStarAchBeen;
+import com.yundian.star.been.SureOrder;
 import com.yundian.star.been.TimeLineBeen;
+import com.yundian.star.been.TradingStatusBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.InformationAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
@@ -272,6 +275,51 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.AskToBuy,
                 SocketAPIConstant.ReqeutType.BuyOrSell, map);
         requestEntity(socketDataPacket,AskToBuyReturnBeen.class,listener);
+    }
+
+    @Override
+    public void getTradingStatus(long id, String token, String symbol, OnAPIListener<TradingStatusBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("token", token);
+        map.put("symbol", symbol);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.TradingStatus,
+                SocketAPIConstant.ReqeutType.BuyOrSell, map);
+        requestEntity(socketDataPacket,TradingStatusBeen.class,listener);
+    }
+
+    @Override
+    public void cancelOrder(long id, String token, long orderId, OnAPIListener<Object> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("token", token);
+        map.put("orderId", orderId);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.CancelOrder,
+                SocketAPIConstant.ReqeutType.BuyOrSell, map);
+        requestJsonObject(socketDataPacket,listener);
+    }
+
+    @Override
+    public void checkPayPas(long id, String token, String paypwd, OnAPIListener<ResultBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("uid", id);
+        map.put("token", token);
+        map.put("paypwd", paypwd);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.CheckPayPas,
+                SocketAPIConstant.ReqeutType.Pay, map);
+        requestEntity(socketDataPacket,ResultBeen.class,listener);
+    }
+
+    @Override
+    public void sureOrder(long id, String token, long orderId, long positionId, OnAPIListener<SureOrder> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("token", token);
+        map.put("orderId", orderId);
+        map.put("positionId", positionId);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.SureOrder,
+                SocketAPIConstant.ReqeutType.BuyOrSell, map);
+        requestEntity(socketDataPacket,SureOrder.class,listener);
     }
 
 }

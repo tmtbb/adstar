@@ -53,7 +53,7 @@ import butterknife.Bind;
 public class MainActivity extends BaseActivity {
     @Bind(R.id.tab_bottom_layout)
     CommonTabLayout tabLayout ;
-    private String[] mTitles = {"资讯", "行情","分答","我的"};
+    private String[] mTitles = {"资讯", "行情","星聊","我的"};
     private int[] mIconUnselectIds = {
             R.drawable.message_no_ok,R.drawable.market_no_ok,R.drawable.differ_answer_no_ok,R.drawable.me_no_ok};
     private int[] mIconSelectIds = {
@@ -220,7 +220,7 @@ public class MainActivity extends BaseActivity {
                 transaction.commitAllowingStateLoss();
                 break;
             case 2:
-                CheckLoginUtil.checkLogin(this);
+                //CheckLoginUtil.checkLogin(this);
                 transaction.hide(marketFragment);
                 transaction.hide(newsInfoFragment);
                 transaction.hide(userInfoFragment);

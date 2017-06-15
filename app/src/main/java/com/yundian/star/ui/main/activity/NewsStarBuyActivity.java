@@ -125,7 +125,6 @@ public class NewsStarBuyActivity extends BaseActivity {
         controlerView.setWebUrl(webUrl);
         controlerView.setDescribe(describe);
         controlerView.setTitle(title);
-
         controlerView.showShareView(rootView);
     }
 
