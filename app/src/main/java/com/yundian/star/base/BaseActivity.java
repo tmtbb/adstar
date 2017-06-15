@@ -28,11 +28,16 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.baseapp.AppManager;
+import com.yundian.star.been.MatchSucessReturnBeen;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIRequestManage;
+import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIResponse;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
+import com.yundian.star.ui.im.activity.SystemMessagesActivity;
+import com.yundian.star.utils.LogUtils;
 import com.yundian.star.ui.main.activity.GeneralSettingsActivity;
 import com.yundian.star.ui.main.activity.MainActivity;
 import com.yundian.star.utils.LogUtils;
@@ -103,6 +108,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         this.initPresenter();
         this.initView();
         notificationTest();
+        matchSucessListener();
     }
 
     /**
@@ -350,7 +356,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     }
 
 
-    private void showAlertDialog() {
+    private void showAlertDialog(final MatchSucessReturnBeen matchSucessReturnBeen) {
         final Dialog mPopWindowHistory = new Dialog(this, R.style.myDialog);
         mPopWindowHistory.setContentView(R.layout.mach_sucess_choose);
         TextView tvSure = (TextView) mPopWindowHistory.findViewById(R.id.btn_sure);
@@ -358,8 +364,9 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
             @Override
             public void onClick(View v) {
                 mPopWindowHistory.dismiss();
-                Intent intent = new Intent(BaseActivity.this, MainActivity.class);
-                intent.putExtra(AppConstant.MATCH_SUCESS_INFO, 1);
+                Intent intent = new Intent(BaseActivity.this, SystemMessagesActivity.class);
+                //intent.putExtra(AppConstant.MATCH_SUCESS_INFO, 1);
+                intent.putExtra(AppConstant.MATCH_SUCESS_ORDER_INFO,matchSucessReturnBeen);
                 startActivity(intent);
             }
         });
@@ -373,15 +380,19 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         mPopWindowHistory.show();
     }
 
-    private void matchSucessListener() {
+     private void matchSucessListener() {
         SocketAPIRequestManage.getInstance().setOnMatchSucessListener(new SocketAPIRequestManage.OnMatchSucessListener() {
             @Override
             public void onMatchListener(SocketDataPacket socketDataPacket) {
+                LogUtils.loge("撮合成功");
+                SocketAPIResponse socketAPIResponse = new SocketAPIResponse(socketDataPacket);
+                final MatchSucessReturnBeen matchSucessReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), MatchSucessReturnBeen.class);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        showAlertDialog(matchSucessReturnBeen);
 //                        showAlertDialog();
-                        mNotificationManager.notify(100, mBuilder.build());
+                     //   mNotificationManager.notify(100, mBuilder.build());
                     }
                 });
             }

@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.yundian.star.R;
 import com.yundian.star.app.Constant;
 import com.yundian.star.ui.main.activity.ResetPayPwdActivity;

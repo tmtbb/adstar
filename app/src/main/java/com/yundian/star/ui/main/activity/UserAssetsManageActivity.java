@@ -3,7 +3,6 @@ package com.yundian.star.ui.main.activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.yundian.star.R;
-import com.yundian.star.app.Constant;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.ui.view.PayDialog;
 import com.yundian.star.utils.JudgeIdentityUtils;

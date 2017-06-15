@@ -85,6 +85,10 @@ public interface SocketAPIConstant {
         Short StartCount = 10023;
         Short StarType = 10019;
         Short StarMeet = 10021;
+        Short TradingStatus = 5005;
+        Short CancelOrder = 5009;
+        Short CheckPayPas = 7011;
+        Short SureOrder = 5007;
 
 
     }

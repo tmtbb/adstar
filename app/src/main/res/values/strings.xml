@@ -29,7 +29,7 @@
     <string name="again_reset_psd">重新输入登录密码</string>
     <string name="check_famous_address_book">查看名人通讯录</string>
     <string name="famous_address_book">名人通讯录</string>
-    <string name="diff_answer">分答</string>
+    <string name="diff_answer">星聊</string>
     <string name="ming_xing">明星</string>
     <string name="number_80004">8004</string>
     <string name="search_hint">搜索发行人代码或名称</string>
@@ -152,6 +152,7 @@
     <string name="price_limit">涨跌幅</string>
     <string name="star_hot">明星热度</string>
     <string name="star_price_time_share">￥%s</string>
+    <string name="price_total">￥%.2f</string>
     <string name="star_price_time_share_limit">%1$s/%2$s</string>
 
     <string name="readed">已读</string>
@@ -280,8 +281,18 @@
     <string name="need_consume">即将消耗:</string>
     <string name="sure_meet">确定约见</string>
     <string name="meet_start">约见名人</string>
+    <string name="order_details">订单详情</string>
     <string name="meet_content">请输入您对此次约见的其他要求200字以内...</string>
     <string name="meet_rule">TIPS：履约过程中产生的相关费用由用户承担明星出行的安保费通讯费、交通费、住宿费、餐饮费、服化费等必要开支。确定约见即表示您已阅读并同意《%1$s》</string>
+    <string name="order_state">订单状态:</string>
+    <string name="order_info">订单信息:</string>
+    <string name="order_preice">订单价格:</string>
+    <string name="order_total">订单总价:</string>
+    <string name="transfer_num">转让数量:</string>
+    <string name="sure">确认</string>
+    <string name="onclick_check">点击查看</string>
+    <string name="sure_pay">确认支付该订单？</string>
+    <string name="cancel_order">取消订单</string>
 
 
     <string name="empty_view_history">当前还没有相关记录</string>

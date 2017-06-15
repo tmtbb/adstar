@@ -63,7 +63,7 @@ public class SocketAPIRequestManage {
             if( socketAPIRequest != null && socketAPIRequest.getListener() != null ) {
                 socketAPIRequestHashMap.remove(socketDataPacket.getSessionId());
                 SocketAPIResponse socketAPIResponse = new SocketAPIResponse(socketDataPacket);
-                if (socketDataPacket.getOperateCode()==5030&&sucessListener!=null){
+                if (socketDataPacket.getOperateCode()==5101&&sucessListener!=null){
                     sucessListener.onMatchListener(socketDataPacket);
                 }
                 LogUtils.loge("服务器发送数据接收口getOperateCode:"+socketDataPacket.getOperateCode());
@@ -103,7 +103,6 @@ public class SocketAPIRequestManage {
 
     private synchronized void checkReqeustTimeout() {
         for (HashMap.Entry<Long, SocketAPIRequest> entry : socketAPIRequestHashMap.entrySet()) {
-
             if( entry.getValue().isReqeustTimeout() ) {
                 socketAPIRequestHashMap.remove(entry.getKey());
                 entry.getValue().onErrorCode(NetworkAPIException.SOCKET_REQEUST_TIMEOUT);

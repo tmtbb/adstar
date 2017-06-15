@@ -21,6 +21,8 @@ import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NumberBoubleButton;
 import com.yundian.star.widget.NumberButton;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -28,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+
 
 /**
  * Created by Administrator on 2017/5/24.
@@ -204,10 +207,15 @@ public class AskToBuyMarketFragment extends BaseFragment {
         tv_sure_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                if (!JudgeIdentityUtils.isIdentityed(getActivity())) {
+//                    return;
+//                }
+                //showPutPasswordDialog();
+                //showAlertDialog();
                 BigDecimal bg = new BigDecimal(buy_price);
                 double ask_buy_prices = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 LogUtils.loge("获取数值总价" + buy_price + "转换后的数据" + ask_buy_prices+"之前的"+"..."+buy_num);
-                NetworkAPIFactoryImpl.getInformationAPI().getAskToBuy(142/*SharePrefUtil.getInstance().getUserId()*/,
+                NetworkAPIFactoryImpl.getInformationAPI().getAskToBuy(152/*SharePrefUtil.getInstance().getUserId()*/,
                         /*SharePrefUtil.getInstance().getToken()*/"6902464177061903496", 1, "1001", 1, buy_num, ask_buy_prices,
                         new OnAPIListener<AskToBuyReturnBeen>() {
                             @Override
@@ -219,8 +227,10 @@ public class AskToBuyMarketFragment extends BaseFragment {
                             public void onSuccess(AskToBuyReturnBeen askToBuyReturnBeen) {
                                 LogUtils.loge("求购成功");
                                 ToastUtils.showShort("挂单成功");
+                                EventBus.getDefault().postSticky(askToBuyReturnBeen);
                             }
                         });
+
             }
         });
 
@@ -243,6 +253,7 @@ public class AskToBuyMarketFragment extends BaseFragment {
             }
         });
     }
+
 
     private static class MyHandler extends Handler {
         final private static int GRT_DATA = 111;
@@ -306,4 +317,8 @@ public class AskToBuyMarketFragment extends BaseFragment {
             myHandler.sendEmptyMessage(myHandler.GRT_DATA);
         }
     }
+
+
+
+
 }

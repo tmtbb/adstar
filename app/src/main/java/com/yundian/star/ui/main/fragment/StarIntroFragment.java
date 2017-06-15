@@ -22,6 +22,8 @@ import com.yundian.star.utils.ListViewUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.widget.MyListView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.Bind;
 
 /**
@@ -96,6 +98,7 @@ public class StarIntroFragment extends BaseFragment {
     }
 
     private void initData(StarBuyActReferralInfo info) {
+        EventBus.getDefault().postSticky(info);  //发送个人信息界面
         tv_1.setText(String.format(getString(R.string.intro_nationality),info.getNationality()));
         tv_2.setText(String.format(getString(R.string.intro_nation),info.getNation()));
         tv_3.setText(String.format(getString(R.string.intro_work),info.getWork()));

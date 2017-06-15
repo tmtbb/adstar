@@ -1,10 +1,13 @@
 package com.yundian.star.been;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Administrator on 2017/5/19.
  */
 
-public class StarBuyActReferralInfo {
+public class StarBuyActReferralInfo implements Parcelable {
 
     /**
      * birth : 11
@@ -169,4 +172,63 @@ public class StarBuyActReferralInfo {
     public void setWork(String work) {
         this.work = work;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.birth);
+        dest.writeString(this.colleage);
+        dest.writeString(this.constellaction);
+        dest.writeInt(this.gender);
+        dest.writeString(this.head_url);
+        dest.writeString(this.introduction);
+        dest.writeString(this.name);
+        dest.writeString(this.nation);
+        dest.writeString(this.nationality);
+        dest.writeInt(this.owntimes);
+        dest.writeString(this.pic_url);
+        dest.writeInt(this.result);
+        dest.writeInt(this.star_vip);
+        dest.writeString(this.symbol);
+        dest.writeString(this.weibo_index_id);
+        dest.writeString(this.work);
+    }
+
+    public StarBuyActReferralInfo() {
+    }
+
+    protected StarBuyActReferralInfo(Parcel in) {
+        this.birth = in.readString();
+        this.colleage = in.readString();
+        this.constellaction = in.readString();
+        this.gender = in.readInt();
+        this.head_url = in.readString();
+        this.introduction = in.readString();
+        this.name = in.readString();
+        this.nation = in.readString();
+        this.nationality = in.readString();
+        this.owntimes = in.readInt();
+        this.pic_url = in.readString();
+        this.result = in.readInt();
+        this.star_vip = in.readInt();
+        this.symbol = in.readString();
+        this.weibo_index_id = in.readString();
+        this.work = in.readString();
+    }
+
+    public static final Parcelable.Creator<StarBuyActReferralInfo> CREATOR = new Parcelable.Creator<StarBuyActReferralInfo>() {
+        @Override
+        public StarBuyActReferralInfo createFromParcel(Parcel source) {
+            return new StarBuyActReferralInfo(source);
+        }
+
+        @Override
+        public StarBuyActReferralInfo[] newArray(int size) {
+            return new StarBuyActReferralInfo[size];
+        }
+    };
 }

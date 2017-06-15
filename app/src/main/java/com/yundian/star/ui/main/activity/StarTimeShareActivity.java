@@ -48,6 +48,7 @@ public class StarTimeShareActivity extends BaseActivity {
     private String wid;
     private String head_url;
 
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_star_time_share;
@@ -56,6 +57,11 @@ public class StarTimeShareActivity extends BaseActivity {
     @Override
     public void initPresenter() {
 
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -198,4 +204,8 @@ public class StarTimeShareActivity extends BaseActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }
