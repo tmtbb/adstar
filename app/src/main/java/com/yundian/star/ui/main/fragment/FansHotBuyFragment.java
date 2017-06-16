@@ -10,18 +10,23 @@ import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
-import com.yundian.star.been.FansHotBuyReturnBeen;
+import com.yundian.star.been.FansTopListBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.FansHotBuyAdapter;
+import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
 
 import java.util.ArrayList;
 
 import butterknife.Bind;
 
+import static io.netty.handler.codec.http.HttpMethod.HEAD;
+
 
 /**
  * Created by Administrator on 2017/5/22.
+ * 粉丝排行榜
  */
 
 public class FansHotBuyFragment extends BaseFragment {
@@ -35,8 +40,8 @@ public class FansHotBuyFragment extends BaseFragment {
 
     private LRecyclerViewAdapter lRecyclerViewAdapter;
 
-    private ArrayList<FansHotBuyReturnBeen.ListBean> list = new ArrayList<>();
-    private ArrayList<FansHotBuyReturnBeen.ListBean> loadList = new ArrayList<>();
+    private ArrayList<FansTopListBeen.OrdersListBean> list = new ArrayList<>();
+    private ArrayList<FansTopListBeen.OrdersListBean> loadList = new ArrayList<>();
     private static int mCurrentCounter = 1;
     private FansHotBuyAdapter fansHotBuyAdapter;
     private int hotType;
@@ -64,67 +69,40 @@ public class FansHotBuyFragment extends BaseFragment {
     }
 
     private void getData(final boolean isLoadMore,int start ,int end ) {
-        if (hotType==1){
-            NetworkAPIFactoryImpl.getInformationAPI().getSeekList(code, start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
+        LogUtils.loge("粉丝排行榜code"+code);
+            NetworkAPIFactoryImpl.getInformationAPI().oederFansList(SharePrefUtil.getInstance().getUserId(),
+                    SharePrefUtil.getInstance().getToken(),"1001",0, start, end, new OnAPIListener<FansTopListBeen>() {
                 @Override
                 public void onError(Throwable ex) {
-                    if (lrv != null) {
-                        lrv.setNoMore(true);
-                        list.clear();
-                        fansHotBuyAdapter.clear();
-                        lrv.refreshComplete(REQUEST_COUNT);
-                    }
-                    showErrorView(parentView, R.drawable.error_view_comment, getResources().getString(R.string.empty_view_comment));
-                }
-
-                @Override
-                public void onSuccess(FansHotBuyReturnBeen fansHotBuyReturnBeen) {
-                    if (fansHotBuyReturnBeen.getList()==null){
+                    if (lrv!=null){
                         lrv.setNoMore(true);
                         return;
                     }
-                    if (isLoadMore){
-                        closeErrorView();
-                        loadList.clear();
-                        loadList = fansHotBuyReturnBeen.getList();
-                        loadMoreData();
-                    }else {
-                        list.clear();
-                        list = fansHotBuyReturnBeen.getList();
-                        showData();
-                    }
-                }
-            });
-        }else {
-            NetworkAPIFactoryImpl.getInformationAPI().getTransferList(code, start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
-                @Override
-                public void onError(Throwable ex) {
-
+                    LogUtils.loge("粉丝排行榜错误"+ex.toString());
                 }
 
                 @Override
-                public void onSuccess(FansHotBuyReturnBeen fansHotBuyReturnBeen) {
-                    if (fansHotBuyReturnBeen.getList()==null){
+                public void onSuccess(FansTopListBeen fansTopListBeen) {
+                    LogUtils.loge("粉丝排行榜"+fansTopListBeen.toString());
+                    if (fansTopListBeen.getOrdersList()==null){
                         lrv.setNoMore(true);
                         return;
                     }
                     if (isLoadMore){
                         loadList.clear();
-                        loadList = fansHotBuyReturnBeen.getList();
+                        loadList = fansTopListBeen.getOrdersList();
                         loadMoreData();
                     }else {
                         list.clear();
-                        list = fansHotBuyReturnBeen.getList();
+                        list = fansTopListBeen.getOrdersList();
                         showData();
                     }
                 }
             });
-        }
-
     }
 
     private void initAdapter() {
-        fansHotBuyAdapter = new FansHotBuyAdapter(getActivity());
+        fansHotBuyAdapter = new FansHotBuyAdapter(getActivity(),hotType);
         lRecyclerViewAdapter = new LRecyclerViewAdapter(fansHotBuyAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
         lrv.setLayoutManager(new LinearLayoutManager(getContext()));

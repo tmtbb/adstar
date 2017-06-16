@@ -17,29 +17,22 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
-import android.view.View;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.yundian.star.R;
-import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.baseapp.AppManager;
 import com.yundian.star.been.MatchSucessReturnBeen;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIRequestManage;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIResponse;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.ui.im.activity.SystemMessagesActivity;
-import com.yundian.star.utils.LogUtils;
-import com.yundian.star.ui.main.activity.GeneralSettingsActivity;
-import com.yundian.star.ui.main.activity.MainActivity;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.TUtil;
 import com.yundian.star.utils.ToastUtils;
@@ -366,7 +359,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                 mPopWindowHistory.dismiss();
                 Intent intent = new Intent(BaseActivity.this, SystemMessagesActivity.class);
                 //intent.putExtra(AppConstant.MATCH_SUCESS_INFO, 1);
-                intent.putExtra(AppConstant.MATCH_SUCESS_ORDER_INFO,matchSucessReturnBeen);
+                //intent.putExtra(AppConstant.MATCH_SUCESS_ORDER_INFO,matchSucessReturnBeen);
                 startActivity(intent);
             }
         });
@@ -390,9 +383,22 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        showAlertDialog(matchSucessReturnBeen);
+                        String s1 = null;
+                        TextView textView = new TextView(mContext);
+                        textView.setText("点击查看");
+                        textView.setTextColor(getResources().getColor(R.color.color_8D0809));
+                        if (matchSucessReturnBeen.getBuySell()==1){
+                            s1 = "求购成功";
+
+                        }else {
+                            s1 = "转让成功";
+                        }
+                        //showAlertDialog(matchSucessReturnBeen);
+                        String s = "撮合成功提醒:"+"("+matchSucessReturnBeen.getSymbol()+")"+
+                                s1+",请到系统消息中查看,"+textView+"。";
+                        mBuilder.setContentText(s);
 //                        showAlertDialog();
-                     //   mNotificationManager.notify(100, mBuilder.build());
+                        mNotificationManager.notify(100, mBuilder.build());
                     }
                 });
             }
@@ -406,7 +412,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         mBuilder = new NotificationCompat.Builder(this);
         Notification notification = mBuilder.build();
         mBuilder.build().defaults = Notification.DEFAULT_ALL;
-        mBuilder.setContentTitle("测试标题")//设置通知栏标题
+        mBuilder.setContentTitle("交易")//设置通知栏标题
                 .setContentText("测试内容")   // /<span style="font-family: Arial;">/设置通知栏显示内容</span>
                 .setContentIntent(getDefalutIntent(Notification.FLAG_AUTO_CANCEL)) //设置通知栏点击意图
 //                .setFullScreenIntent(getDefalutIntent(Notification.FLAG_AUTO_CANCEL), true)
@@ -424,7 +430,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     }
 
     public PendingIntent getDefalutIntent(int flags) {
-        Intent intent = new Intent(this, GeneralSettingsActivity.class);
+        Intent intent = new Intent(this, SystemMessagesActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intent, flags);
         return pendingIntent;
     }
