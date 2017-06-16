@@ -8,6 +8,8 @@ import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RadioButton;
@@ -34,8 +36,11 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.lang.ref.WeakReference;
 
 import butterknife.Bind;
+import butterknife.OnClick;
 
+import static android.R.attr.button;
 import static com.yundian.star.R.id.rb_1;
+import static com.yundian.star.utils.ViewConcurrencyUtils.preventConcurrency;
 
 
 /**
@@ -57,6 +62,10 @@ public class AuctionMarketFragment extends BaseFragment {
     MySeekBar seekBar;
     @Bind(R.id.fl_auction_content)
     FrameLayout fl_auction_content;
+    @Bind(R.id.radio_group)
+    RadioGroup radioGroup;
+    @Bind(R.id.rb_1)
+    RadioButton radioButton1;
     private AutionTopFragment aution_buy;
     private AutionTopFragment aution_shell;
     private String code;
@@ -81,21 +90,8 @@ public class AuctionMarketFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        if (getArguments() != null) {
-            code = getArguments().getString(AppConstant.STAR_CODE);
-        }
-        if (flag) {
-            EventBus.getDefault().register(this); // EventBus注册广播()
-            flag = false;//更改标记,使其不会再进行多次注册
-        }
-        userId = SharePrefUtil.getInstance().getUserId();
-        token = SharePrefUtil.getInstance().getToken();
-        if (myHandler == null) {
-            myHandler = new MyHandler1(this);
-        }
-        LogUtils.loge("走一次了");
+//        initData();
         initListener();
-        //initData();
     }
 
     private void initData() {
@@ -125,7 +121,22 @@ public class AuctionMarketFragment extends BaseFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            code = getArguments().getString(AppConstant.STAR_CODE);
+        }
+        if (flag) {
+            EventBus.getDefault().register(this); // EventBus注册广播()
+            flag = false;//更改标记,使其不会再进行多次注册
+        }
+        userId = SharePrefUtil.getInstance().getUserId();
+        token = SharePrefUtil.getInstance().getToken();
+        if (myHandler == null) {
+            myHandler = new MyHandler1(this);
+        }
+        LogUtils.loge("走一次了");
+
         initFragment(savedInstanceState);
+
     }
 
     private void initFragment(Bundle savedInstanceState) {
@@ -148,27 +159,23 @@ public class AuctionMarketFragment extends BaseFragment {
             aution_shell = (AutionTopFragment) getChildFragmentManager().findFragmentByTag("AutionShell");
         }
         transaction.commit();
+
     }
 
     private void initListener() {
-        RadioGroup radioGroup = (RadioGroup) rootView.findViewById(R.id.radio_group);
-        RadioButton button = (RadioButton) radioGroup.findViewById(R.id.rb_1);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
+        radioGroup.check(radioButton1.getId());
+    }
 
-                switch (group.getId()) {
-                    case rb_1:
-                        SwitchTo(0);
-                        break;
-                    case R.id.rb_2:
-                        SwitchTo(1);
-                        break;
-                }
-
-            }
-        });
-        radioGroup.check(button.getId());
+    @OnClick({R.id.rb_1, R.id.rb_2})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.rb_1:
+                SwitchTo(0);
+                break;
+            case R.id.rb_2:  //选择充值方式
+                SwitchTo(1);
+                break;
+        }
     }
 
     /**

@@ -36,7 +36,6 @@ public interface SocketAPIConstant {
         Short CurrentPrice = 4001;
         Short KChart = 4005;
         Short Position = 5003;
-        Short History = 6001;
         Short Balance = 3007;
         Short MoneyDetail = 6003;
         Short WXPay = 7033;
@@ -89,6 +88,11 @@ public interface SocketAPIConstant {
         Short CancelOrder = 5009;
         Short CheckPayPas = 7011;
         Short SureOrder = 5007;
+        Short TodayEntrust = 6001;
+        Short HistoryEntrust = 6005;
+        Short TodayDeal = 6007;
+        Short HistoryDeal = 6009;
+        Short Fans = 6011;
 
 
     }

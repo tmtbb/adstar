@@ -9,13 +9,18 @@ import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
+import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.FansHotBuyReturnBeen;
+import com.yundian.star.been.TodayDealReturnBean;
+import com.yundian.star.been.TodayEntrustReturnBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.TodayBuyAdapter;
+import com.yundian.star.utils.LogUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -24,15 +29,15 @@ import butterknife.Bind;
  * 当日成交
  */
 
-public class TodayBuyFragment extends BaseFragment{
+public class TodayBuyFragment extends BaseFragment {
     @Bind(R.id.lrv)
     LRecyclerView lrv;
     @Bind(R.id.parent_view)
     FrameLayout parentView;
     private static int mCurrentCounter = 1;
     private static final int REQUEST_COUNT = 10;
-    private ArrayList<FansHotBuyReturnBeen.ListBean> list = new ArrayList<>();
-    private ArrayList<FansHotBuyReturnBeen.ListBean> loadList = new ArrayList<>();
+    private List<TodayDealReturnBean> list = new ArrayList<>();
+    private List<TodayDealReturnBean> loadList = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private TodayBuyAdapter todayBuyAdapter;
 
@@ -50,7 +55,7 @@ public class TodayBuyFragment extends BaseFragment{
     @Override
     protected void initView() {
         initAdapter();
-        //getData(false,1,REQUEST_COUNT);
+        getData(false, 1);
     }
 
     private void initAdapter() {
@@ -71,43 +76,54 @@ public class TodayBuyFragment extends BaseFragment{
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getData(true,mCurrentCounter+1,mCurrentCounter+REQUEST_COUNT);
+                getData(true, mCurrentCounter + 1);
             }
         });
     }
 
-    private void getData(final boolean isLoadMore,int start ,int end ) {
-        NetworkAPIFactoryImpl.getInformationAPI().getSeekList("1001", start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
+    private void getData(final boolean isLoadMore, int start) {
+        NetworkAPIFactoryImpl.getInformationAPI().todayDeal(2, start, REQUEST_COUNT, AppConstant.TODAY_DEAL_OPCODE, new OnAPIListener<List<TodayDealReturnBean>>() {
             @Override
             public void onError(Throwable ex) {
-
+                if (lrv != null) {
+                    lrv.setNoMore(true);
+                    if (!isLoadMore) {
+                        list.clear();
+                        todayBuyAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                        showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+                    }
+                }
             }
 
             @Override
-            public void onSuccess(FansHotBuyReturnBeen fansHotBuyReturnBeen) {
-                if (fansHotBuyReturnBeen.getList()==null){
+            public void onSuccess(List<TodayDealReturnBean> todayEntrustReturnBeen) {
+                if (todayEntrustReturnBeen == null) {
                     lrv.setNoMore(true);
-                    showErrorView(parentView,R.drawable.error_view_news,getResources().getString(R.string.empty_view_history));
                     return;
                 }
-                if (isLoadMore){
+                if (isLoadMore) {
+                    closeErrorView();
                     loadList.clear();
-                    loadList = fansHotBuyReturnBeen.getList();
+                    loadList = todayEntrustReturnBeen;
                     loadMoreData();
-                }else {
+                } else {
                     list.clear();
-                    list = fansHotBuyReturnBeen.getList();
+                    list = todayEntrustReturnBeen;
                     showData();
                 }
             }
         });
-
-
     }
 
     public void showData() {
-        mCurrentCounter =list.size();
-        lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
+        if (list.size() == 0) {
+            showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+        } else {
+            closeErrorView();
+        }
+        mCurrentCounter = list.size();
+        lRecyclerViewAdapter.notifyDataSetChanged();
         todayBuyAdapter.addAll(list);
         lrv.refresh();
     }

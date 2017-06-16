@@ -1,6 +1,7 @@
 package com.yundian.star.ui.main.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.FrameLayout;
 
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
@@ -9,32 +10,39 @@ import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
-import com.yundian.star.been.FansHotBuyReturnBeen;
+import com.yundian.star.been.FansEntrustReturnBean;
+import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.AutionTopAdapter;
+import com.yundian.star.utils.LogUtils;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 
 /**
  * Created by Administrator on 2017/6/12.
- * 拍卖排行榜
+ * 拍卖排行榜  mai
  */
 
 public class AutionTopFragment extends BaseFragment {
     @Bind(R.id.lrv)
     LRecyclerView lrv;
+    @Bind(R.id.parent_view)
+    FrameLayout parentView;
 
     private static final int REQUEST_COUNT = 10;
-
     private LRecyclerViewAdapter lRecyclerViewAdapter;
-
-    private ArrayList<FansHotBuyReturnBeen.ListBean> list = new ArrayList<>();
-    private ArrayList<FansHotBuyReturnBeen.ListBean> loadList = new ArrayList<>();
+    private List<FansEntrustReturnBean.PositionsListBean> list = new ArrayList<>();
+    private List<FansEntrustReturnBean.PositionsListBean> loadList = new ArrayList<>();
     private static int mCurrentCounter = 1;
     private AutionTopAdapter autionTopAdapter;
     private int hotType;
     private String code;
+
+    String symbol = "1001";
+    int buySell = 0;
 
     @Override
     protected int getLayoutResource() {
@@ -51,80 +59,53 @@ public class AutionTopFragment extends BaseFragment {
         if (getArguments() != null) {
             code = getArguments().getString(AppConstant.STAR_CODE);
             hotType = getArguments().getInt(AppConstant.AUCTION_TYPE);
-
+        }
+        if (hotType == 1) {
+            buySell = 1;  //mai
+        } else {
+            buySell = -1;
         }
         initAdapter();
-        getData(false, 1, REQUEST_COUNT);
+        getData(false, 1);
     }
 
-    private void getData(final boolean isLoadMore, int start, int end) {
-        if (hotType == 1) {
-            if (isLoadMore) {
-                loadList.clear();
-                moNiData(isLoadMore);
-                loadMoreData();
-            } else {
-                list.clear();
-                moNiData(isLoadMore);
-                showData();
-            }
-            /*NetworkAPIFactoryImpl.getInformationAPI().getSeekList(code, start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
-                @Override
-                public void onError(Throwable ex) {
 
-                }
+    private void getData(final boolean isLoadMore, int start) {
 
-                @Override
-                public void onSuccess(FansHotBuyReturnBeen fansHotBuyReturnBeen) {
-                    if (fansHotBuyReturnBeen.getList()==null){
-                        lrv.setNoMore(true);
-                        return;
-                    }
-                    if (isLoadMore){
-                        loadList.clear();
-                        loadList = fansHotBuyReturnBeen.getList();
-                        loadMoreData();
-                    }else {
+        NetworkAPIFactoryImpl.getInformationAPI().fansRntrust(symbol, buySell, start, REQUEST_COUNT, new OnAPIListener<FansEntrustReturnBean>() {
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.loge("粉丝热度失败------------------------------------------");
+                if (lrv != null) {
+                    lrv.setNoMore(true);
+                    if (!isLoadMore) {
                         list.clear();
-                        list = fansHotBuyReturnBeen.getList();
-                        showData();
+                        autionTopAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                        showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
                     }
                 }
-            });*/
-        } else {
-            if (isLoadMore) {
-                loadList.clear();
-                moNiData(isLoadMore);
-                loadMoreData();
-            } else {
-                list.clear();
-                moNiData(isLoadMore);
-                showData();
             }
-            /*NetworkAPIFactoryImpl.getInformationAPI().getTransferList(code, start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
-                @Override
-                public void onError(Throwable ex) {
 
+            @Override
+            public void onSuccess(FansEntrustReturnBean bean) {
+                LogUtils.loge("粉丝热度成功------------------------------------------");
+                if (bean == null) {
+                    lrv.setNoMore(true);
+                    return;
                 }
-
-                @Override
-                public void onSuccess(FansHotBuyReturnBeen fansHotBuyReturnBeen) {
-                    if (fansHotBuyReturnBeen.getList()==null){
-                        lrv.setNoMore(true);
-                        return;
-                    }
-                    if (isLoadMore){
-                        loadList.clear();
-                        loadList = fansHotBuyReturnBeen.getList();
-                        loadMoreData();
-                    }else {
-                        list.clear();
-                        list = fansHotBuyReturnBeen.getList();
-                        showData();
-                    }
+                if (isLoadMore) {
+                    closeErrorView();
+                    loadList.clear();
+                    loadList = bean.getPositionsList();
+                    loadMoreData();
+                } else {
+                    list.clear();
+                    list = bean.getPositionsList();
+                    showData();
                 }
-            });*/
-        }
+            }
+        });
 
     }
 
@@ -139,14 +120,19 @@ public class AutionTopFragment extends BaseFragment {
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getData(true, mCurrentCounter + 1, mCurrentCounter + REQUEST_COUNT);
+                getData(true, mCurrentCounter + 1);
             }
         });
     }
 
     public void showData() {
+        if (list.size() == 0) {
+            showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+        } else {
+            closeErrorView();
+        }
         mCurrentCounter = list.size();
-        lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
+        lRecyclerViewAdapter.notifyDataSetChanged();
         autionTopAdapter.addAll(list);
         lrv.refresh();
     }
@@ -162,16 +148,4 @@ public class AutionTopFragment extends BaseFragment {
         }
     }
 
-    private void moNiData(boolean isLoadMore) {
-        for (int i = 0; i < 10; i++) {
-            FansHotBuyReturnBeen.ListBean listBean = new FansHotBuyReturnBeen.ListBean();
-            listBean.setName("哈哈" + i);
-            listBean.setPrice(i);
-            if (isLoadMore) {
-                loadList.add(listBean);
-            } else {
-                list.add(listBean);
-            }
-        }
-    }
 }

@@ -219,14 +219,18 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
      */
     public void showErrorView(FrameLayout parentView, int drawableId, String msg) {
         try {
-            if (errorView != null && parentView != null) {
+        if (parentView == null) {
+            return;
+        }
+            if (errorView != null ) {
 //                parent.removeView(errorView);
                 parentView.removeView(errorView);
                 errorView = null;
             }
+
             LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT,Gravity.CENTER);
-            LayoutInflater inflater3 = LayoutInflater.from(getActivity());
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER);
+            LayoutInflater inflater3 = LayoutInflater.from(parentView.getContext());
             errorView = (LinearLayout) inflater3.inflate(R.layout.layout_error_view, null);
             errorView.setLayoutParams(lp);
             TextView errorMsg = (TextView) errorView.findViewById(R.id.tv_error_msg);
