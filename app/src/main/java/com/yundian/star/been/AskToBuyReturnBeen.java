@@ -123,4 +123,17 @@ public class AskToBuyReturnBeen implements Parcelable {
             return new AskToBuyReturnBeen[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "AskToBuyReturnBeen{" +
+                "amount=" + amount +
+                ", buySell=" + buySell +
+                ", id=" + id +
+                ", openPrice=" + openPrice +
+                ", positionId=" + positionId +
+                ", positionTime=" + positionTime +
+                ", symbol='" + symbol + '\'' +
+                '}';
+    }
 }

@@ -85,6 +85,10 @@ public interface SocketAPIConstant {
         Short CancelOrder = 5009;
         Short CheckPayPas = 7011;
         Short SureOrder = 5007;
+        Short TheDayOrder = 6007;
+        Short HistoryOrder = 6009;
+        Short HistoryEntur = 6005;
+        Short OrderFansList = 6015;
 
 
     }

@@ -225,7 +225,7 @@ public class AskToBuyMarketFragment extends BaseFragment {
 
                             @Override
                             public void onSuccess(AskToBuyReturnBeen askToBuyReturnBeen) {
-                                LogUtils.loge("求购成功");
+                                LogUtils.loge("求购成功"+askToBuyReturnBeen.toString());
                                 ToastUtils.showShort("挂单成功");
                                 EventBus.getDefault().postSticky(askToBuyReturnBeen);
                             }

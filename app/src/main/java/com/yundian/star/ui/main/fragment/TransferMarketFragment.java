@@ -223,7 +223,7 @@ public class TransferMarketFragment extends BaseFragment {
 
                             @Override
                             public void onSuccess(AskToBuyReturnBeen askToBuyReturnBeen) {
-                                LogUtils.loge("转让成功");
+                                LogUtils.loge("转让成功"+askToBuyReturnBeen.toString());
                                 ToastUtils.showShort("挂单成功");
                                 EventBus.getDefault().postSticky(askToBuyReturnBeen);
                             }

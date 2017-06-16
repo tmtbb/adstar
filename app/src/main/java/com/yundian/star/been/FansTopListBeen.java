@@ -1,20 +1,20 @@
 package com.yundian.star.been;
 
-import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2017/6/16.
  */
 
-public class FansHotBuyFragment {
+public class FansTopListBeen {
 
-    private List<OrdersListBean> ordersList;
+    private ArrayList<OrdersListBean> ordersList;
 
-    public List<OrdersListBean> getOrdersList() {
+    public ArrayList<OrdersListBean> getOrdersList() {
         return ordersList;
     }
 
-    public void setOrdersList(List<OrdersListBean> ordersList) {
+    public void setOrdersList(ArrayList<OrdersListBean> ordersList) {
         this.ordersList = ordersList;
     }
 
@@ -97,6 +97,16 @@ public class FansHotBuyFragment {
             public void setUid(int uid) {
                 this.uid = uid;
             }
+
+            @Override
+            public String toString() {
+                return "BuyUserBean{" +
+                        "gender=" + gender +
+                        ", headUrl='" + headUrl + '\'' +
+                        ", nickname='" + nickname + '\'' +
+                        ", uid=" + uid +
+                        '}';
+            }
         }
 
         public static class SellUserBean {
@@ -142,6 +152,16 @@ public class FansHotBuyFragment {
 
             public void setUid(int uid) {
                 this.uid = uid;
+            }
+
+            @Override
+            public String toString() {
+                return "SellUserBean{" +
+                        "gender=" + gender +
+                        ", headUrl='" + headUrl + '\'' +
+                        ", nickname='" + nickname + '\'' +
+                        ", uid=" + uid +
+                        '}';
             }
         }
 
@@ -277,5 +297,12 @@ public class FansHotBuyFragment {
                         '}';
             }
         }
+    }
+
+    @Override
+    public String toString() {
+        return "FansTopListBeen{" +
+                "ordersList=" + ordersList +
+                '}';
     }
 }

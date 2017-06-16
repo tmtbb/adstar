@@ -6,9 +6,12 @@ import com.yundian.star.base.SearchReturnbeen;
 import com.yundian.star.been.AdvBeen;
 import com.yundian.star.been.AskToBuyReturnBeen;
 import com.yundian.star.been.CommentMarketBeen;
+import com.yundian.star.been.EntrustReturnBeen;
 import com.yundian.star.been.FansHotBuyReturnBeen;
+import com.yundian.star.been.FansTopListBeen;
 import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
+import com.yundian.star.been.OrderReturnBeen;
 import com.yundian.star.been.ResultBeen;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
@@ -320,6 +323,58 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.SureOrder,
                 SocketAPIConstant.ReqeutType.BuyOrSell, map);
         requestEntity(socketDataPacket,SureOrder.class,listener);
+    }
+
+    @Override
+    public void theDayOrder(long id, String token, int status, int start, int count, OnAPIListener<OrderReturnBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("token", token);
+        map.put("status", status);
+        map.put("start", start);
+        map.put("count", count);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.TheDayOrder,
+                SocketAPIConstant.ReqeutType.History, map);
+        requestEntity(socketDataPacket,OrderReturnBeen.class,listener);
+    }
+
+    @Override
+    public void historyOrder(long id, String token, int status, int start, int count, OnAPIListener<OrderReturnBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("token", token);
+        map.put("status", status);
+        map.put("start", start);
+        map.put("count", count);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.HistoryOrder,
+                SocketAPIConstant.ReqeutType.History, map);
+        requestEntity(socketDataPacket,OrderReturnBeen.class,listener);
+    }
+
+    @Override
+    public void historyEntrust(long id, String token, int start, int count, OnAPIListener<EntrustReturnBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("token", token);
+        map.put("start", start);
+        map.put("count", count);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.HistoryEntur,
+                SocketAPIConstant.ReqeutType.History, map);
+        requestEntity(socketDataPacket,EntrustReturnBeen.class,listener);
+    }
+
+    @Override
+    public void oederFansList(long id, String token, String symbol, int buySell, int start, int count, OnAPIListener<FansTopListBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("token", token);
+        map.put("symbol", symbol);
+        map.put("buySell", buySell);
+        map.put("start", start);
+        map.put("count", count);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.OrderFansList,
+                SocketAPIConstant.ReqeutType.History, map);
+        requestEntity(socketDataPacket,FansTopListBeen.class,listener);
     }
 
 }
