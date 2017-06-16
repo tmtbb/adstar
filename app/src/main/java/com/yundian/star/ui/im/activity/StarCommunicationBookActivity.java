@@ -3,6 +3,7 @@ package com.yundian.star.ui.im.activity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
@@ -26,6 +27,7 @@ import com.yundian.star.ui.im.adapter.BookStarComAdapter;
 import com.yundian.star.ui.wangyi.session.activity.P2PMessageActivity;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
+import com.yundian.star.utils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,8 @@ public class StarCommunicationBookActivity extends BaseActivity {
     TextView tv_title;
     @Bind(R.id.tab_new_msg_label)
     DropFake tab_new_msg_label;
+    @Bind(R.id.parent_view)
+    FrameLayout parentView;
 
 
     private static int mCurrentCounter = 1;
@@ -69,7 +73,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
         checkunReadMsg();
         tv_title.setText(R.string.famous_address_book);
         initAdapter();
-        getData(false,0,REQUEST_COUNT);
+        getData(false,1,REQUEST_COUNT);
         initListener();
     }
 
@@ -119,9 +123,13 @@ public class StarCommunicationBookActivity extends BaseActivity {
             @Override
             public void onError(Throwable ex) {
                 if (lrv!=null){
+                    list.clear();
+                    starCommBookAdapter.clear();
+//                    lrv.refreshComplete(REQUEST_COUNT);
                     lrv.setNoMore(true);
-                }
 
+                }
+                showErrorView(parentView,R.drawable.error_view_contact, getResources().getString(R.string.empty_view_contacts));
             }
 
             @Override
@@ -129,8 +137,10 @@ public class StarCommunicationBookActivity extends BaseActivity {
                 LogUtils.loge(starMailListBeen.toString());
                 if (starMailListBeen.getDepositsinfo()==null){
                     lrv.setNoMore(true);
+                    showErrorView(parentView,R.drawable.error_view_contact, getResources().getString(R.string.empty_view_contacts));
                     return;
                 }
+                closeErrorView();
                 if (isLoadMore){
                     loadList.clear();
                     loadList = starMailListBeen.getDepositsinfo();
@@ -200,5 +210,11 @@ public class StarCommunicationBookActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         registerObservers(false);
+    }
+
+    @Override
+    public void clickImg() {
+        super.clickImg();
+        ToastUtils.showShort("点击了错误图片!");
     }
 }

@@ -169,6 +169,9 @@ public class KChartFragment extends BaseFragment {
     }
 
     public void loadChartData(ArrayList<TimeLineBeen.PriceinfoBean> currentTimeLineEntities) {
+        if (tv_change==null||tv_preice==null){
+            return;
+        }
         if (currentTimeLineEntities.get(0).getChange()>=0){
             tv_change.setBackgroundResource(R.drawable.bg_red_radius);
             tv_preice.setTextColor(getContext().getResources().getColor(R.color.color_CB4232));

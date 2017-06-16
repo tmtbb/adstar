@@ -389,7 +389,6 @@ public class SystemMessagesActivity extends BaseActivity {
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LogUtils.loge("订单确认");
                 //KeyBordUtil.showSoftKeyboard(payPwdEditText);
                 mDetailDialog.dismiss();
                 showPass(ordersListBean);

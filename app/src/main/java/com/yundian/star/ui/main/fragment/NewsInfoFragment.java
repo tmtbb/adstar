@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -56,7 +57,9 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     @Bind(R.id.tv_time_h)
     TextView tv_time_h;
     @Bind(R.id.imageView2)
-    ImageView imageView2 ;
+    ImageView imageView2;
+    @Bind(R.id.parent_view)
+    FrameLayout parentView;
     //    @Bind(R.id.loadingTip)
 //    LoadingTip loadingTip ;
     private ArrayList<NewsInforModel.ListBean> arrayList = new ArrayList<>();
@@ -164,9 +167,9 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
                         } else {
                             tv_am_pm.setText(getString(R.string.AM));
                         }
-                        if (hour>=6&&hour<18){
+                        if (hour >= 6 && hour < 18) {
                             imageView2.setImageDrawable(getResources().getDrawable(R.drawable.news_day));
-                        }else {
+                        } else {
                             imageView2.setImageDrawable(getResources().getDrawable(R.drawable.news_night));
                         }
                         String stringByFormat = TimeUtil.formatDateYMD(listBean.getTimes());
@@ -188,12 +191,19 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
     @Override
     public void stopLoading() {
-
+        closeErrorView();
     }
 
     @Override
     public void showErrorTip(String msg) {
-
+        if (lrv != null) {
+            arrayList.clear();
+            newsInfoAdapter.clear();
+            lrv.refreshComplete(REQUEST_COUNT);
+        }
+        //显示空白页
+        LogUtils.loge("检测到需要显示空白页----------------------");
+        showErrorView(parentView,R.drawable.error_view_banner, "没有更多数据");
     }
 
     @Override

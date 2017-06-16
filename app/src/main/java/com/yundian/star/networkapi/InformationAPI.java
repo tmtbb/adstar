@@ -6,6 +6,7 @@ import com.yundian.star.been.AdvBeen;
 import com.yundian.star.been.AskToBuyReturnBeen;
 import com.yundian.star.been.CommentMarketBeen;
 import com.yundian.star.been.EntrustReturnBeen;
+import com.yundian.star.been.FansEntrustReturnBean;
 import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.been.FansTopListBeen;
 import com.yundian.star.been.MarketTypeBeen;
@@ -21,6 +22,8 @@ import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.StarStarAchBeen;
 import com.yundian.star.been.SureOrder;
 import com.yundian.star.been.TimeLineBeen;
+import com.yundian.star.been.TodayDealReturnBean;
+import com.yundian.star.been.TodayEntrustReturnBean;
 import com.yundian.star.been.TradingStatusBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.ui.main.model.NewsInforModel;
@@ -58,8 +61,14 @@ public interface InformationAPI {
     void cancelOrder(long id, String token,long orderId,OnAPIListener<Object> listener);
     void checkPayPas(long id, String token,String paypwd,OnAPIListener<ResultBeen> listener);
     void sureOrder(long id, String token,long orderId,long positionId,OnAPIListener<SureOrder> listener);
+
     void theDayOrder(long id, String token,int status,int start,int count,OnAPIListener<OrderReturnBeen> listener);
     void historyOrder(long id, String token,int status,int start,int count,OnAPIListener<OrderReturnBeen> listener);
     void historyEntrust(long id, String token,int start,int count,OnAPIListener<EntrustReturnBeen> listener);
     void oederFansList(long id, String token,String symbol,int buySell,int start,int count,OnAPIListener<FansTopListBeen> listener);
+
+    void todayEntrust(int start,int count,Short opcode,OnAPIListener<List<TodayEntrustReturnBean>> listener);
+    void todayDeal(int status,int start,int count,Short opcode,OnAPIListener<List<TodayDealReturnBean>> listener);
+    void fansRntrust(String symbol,int buySell, int start,int count,OnAPIListener<FansEntrustReturnBean> listener);
+
 }

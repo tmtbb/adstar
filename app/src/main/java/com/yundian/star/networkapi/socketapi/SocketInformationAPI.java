@@ -7,6 +7,7 @@ import com.yundian.star.been.AdvBeen;
 import com.yundian.star.been.AskToBuyReturnBeen;
 import com.yundian.star.been.CommentMarketBeen;
 import com.yundian.star.been.EntrustReturnBeen;
+import com.yundian.star.been.FansEntrustReturnBean;
 import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.been.FansTopListBeen;
 import com.yundian.star.been.MarketTypeBeen;
@@ -22,6 +23,8 @@ import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.StarStarAchBeen;
 import com.yundian.star.been.SureOrder;
 import com.yundian.star.been.TimeLineBeen;
+import com.yundian.star.been.TodayDealReturnBean;
+import com.yundian.star.been.TodayEntrustReturnBean;
 import com.yundian.star.been.TradingStatusBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.InformationAPI;
@@ -35,6 +38,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
+
+import static android.R.attr.id;
 
 /**
  * Created by ysl.
@@ -52,7 +57,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("all", all);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.NewInfo,
                 SocketAPIConstant.ReqeutType.NewInfos, map);
-        requestEntity(socketDataPacket,NewsInforModel.class,listener);
+        requestEntity(socketDataPacket, NewsInforModel.class, listener);
     }
 
     @Override
@@ -62,22 +67,22 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("all", all);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Banner,
                 SocketAPIConstant.ReqeutType.NewInfos, map);
-        requestEntity(socketDataPacket,AdvBeen.class,listener);
+        requestEntity(socketDataPacket, AdvBeen.class, listener);
     }
 
     @Override
-    public void searchStar(long id,String token ,String message, OnAPIListener<SearchReturnbeen> listener) {
+    public void searchStar(long id, String token, String message, OnAPIListener<SearchReturnbeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("id", id);
         map.put("token", token);
         map.put("message", message);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.SearchStar,
                 SocketAPIConstant.ReqeutType.Search, map);
-        requestEntity(socketDataPacket,SearchReturnbeen.class,listener);
+        requestEntity(socketDataPacket, SearchReturnbeen.class, listener);
     }
 
     @Override
-    public void getOptionsStarList(String phone, int startnum, int endnum,int sorttype, OnAPIListener<OptionsStarListBeen> listener) {
+    public void getOptionsStarList(String phone, int startnum, int endnum, int sorttype, OnAPIListener<OptionsStarListBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("phone", phone);
         map.put("startnum", startnum);
@@ -85,7 +90,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("sorttype", sorttype);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.OptionStarList,
                 SocketAPIConstant.ReqeutType.SearchStar, map);
-        requestEntity(socketDataPacket,OptionsStarListBeen.class,listener);
+        requestEntity(socketDataPacket, OptionsStarListBeen.class, listener);
     }
 
     @Override
@@ -94,11 +99,11 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("phone", phone);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.MarketType,
                 SocketAPIConstant.ReqeutType.SearchStar, map);
-        requestEntity(socketDataPacket,MarketTypeBeen.class,listener);
+        requestEntity(socketDataPacket, MarketTypeBeen.class, listener);
     }
 
     @Override
-    public void getStarList(long id,String token,int sort, int aType, int start, int count, OnAPIListener<StarListbeen> listener) {
+    public void getStarList(long id, String token, int sort, int aType, int start, int count, OnAPIListener<StarListbeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("id", id);
         map.put("token", token);
@@ -108,7 +113,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("count", count);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarList,
                 SocketAPIConstant.ReqeutType.Time, map);
-        requestEntity(socketDataPacket,StarListbeen.class,listener);
+        requestEntity(socketDataPacket, StarListbeen.class, listener);
     }
 
 
@@ -118,7 +123,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("code", code);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarBrief,
                 SocketAPIConstant.ReqeutType.SearchStar, map);
-        requestEntity(socketDataPacket,StarBuyActReferralInfo.class,listener);
+        requestEntity(socketDataPacket, StarBuyActReferralInfo.class, listener);
     }
 
     @Override
@@ -127,15 +132,16 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("code", code);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarExperience,
                 SocketAPIConstant.ReqeutType.SearchStar, map);
-        requestEntity(socketDataPacket,StarExperienceBeen.class,listener);
+        requestEntity(socketDataPacket, StarExperienceBeen.class, listener);
     }
+
     @Override
     public void getStarachive(String code, OnAPIListener<StarStarAchBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("code", code);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Starachive,
                 SocketAPIConstant.ReqeutType.SearchStar, map);
-        requestEntity(socketDataPacket,StarStarAchBeen.class,listener);
+        requestEntity(socketDataPacket, StarStarAchBeen.class, listener);
     }
 
     @Override
@@ -146,7 +152,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("endnum", endnum);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.SeekLike,
                 SocketAPIConstant.ReqeutType.SearchStar, map);
-        requestEntity(socketDataPacket,FansHotBuyReturnBeen.class,listener);
+        requestEntity(socketDataPacket, FansHotBuyReturnBeen.class, listener);
     }
 
     @Override
@@ -157,7 +163,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("endnum", endnum);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.TransferList,
                 SocketAPIConstant.ReqeutType.SearchStar, map);
-        requestEntity(socketDataPacket,FansHotBuyReturnBeen.class,listener);
+        requestEntity(socketDataPacket, FansHotBuyReturnBeen.class, listener);
     }
 
     @Override
@@ -166,11 +172,11 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("starcode", starcode);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.FansComments,
                 SocketAPIConstant.ReqeutType.NewInfos, map);
-        requestJsonObject(socketDataPacket,listener);
+        requestJsonObject(socketDataPacket, listener);
     }
 
     @Override
-    public void getStarmaillist(long id, String token,String status, int startPos, int count, OnAPIListener<StarMailListBeen> listener) {
+    public void getStarmaillist(long id, String token, String status, int startPos, int count, OnAPIListener<StarMailListBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("id", id);
         map.put("token", token);
@@ -179,11 +185,11 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("count", count);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Starmaillist,
                 SocketAPIConstant.ReqeutType.History, map);
-        requestEntity(socketDataPacket,StarMailListBeen.class,listener);
+        requestEntity(socketDataPacket, StarMailListBeen.class, listener);
     }
 
     @Override
-    public void addFriend(String accid, String faccid, String msg,int type, OnAPIListener<Object> listener) {
+    public void addFriend(String accid, String faccid, String msg, int type, OnAPIListener<Object> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("accid", accid);
         map.put("faccid", faccid);
@@ -191,7 +197,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("type", type);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.AddFriend,
                 SocketAPIConstant.ReqeutType.Wangyi, map);
-        requestJsonObject(socketDataPacket,listener);
+        requestJsonObject(socketDataPacket, listener);
     }
 
     @Override
@@ -201,7 +207,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("starcode", starcode);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.ReduceTime,
                 SocketAPIConstant.ReqeutType.Wangyi, map);
-        requestJsonObject(socketDataPacket,listener);
+        requestJsonObject(socketDataPacket, listener);
     }
 
     @Override
@@ -213,7 +219,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("count", count);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Inquiry,
                 SocketAPIConstant.ReqeutType.Inquirylist, map);
-        requestEntity(socketDataPacket,CommentMarketBeen.class,listener);
+        requestEntity(socketDataPacket, CommentMarketBeen.class, listener);
     }
 
     @Override
@@ -225,7 +231,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("aType", aType);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.TimeLine,
                 SocketAPIConstant.ReqeutType.Time, map);
-        requestEntity(socketDataPacket,TimeLineBeen.class,listener);
+        requestEntity(socketDataPacket, TimeLineBeen.class, listener);
     }
 
 
@@ -239,7 +245,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("head_url", head_url);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.AddComment,
                 SocketAPIConstant.ReqeutType.Inquirylist, map);
-        requestJsonObject(socketDataPacket,listener);
+        requestJsonObject(socketDataPacket, listener);
     }
 
     @Override
@@ -262,7 +268,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         //LogUtils.loge(symbolInfos+"。。。HashMap"+json.toString()+"MAP....."+map.toString());
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Srealtime,
                 SocketAPIConstant.ReqeutType.Time, map);
-        requestEntity(socketDataPacket, SrealSendReturnBeen.class,listener);
+        requestEntity(socketDataPacket, SrealSendReturnBeen.class, listener);
     }
 
     @Override
@@ -277,7 +283,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("price", price);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.AskToBuy,
                 SocketAPIConstant.ReqeutType.BuyOrSell, map);
-        requestEntity(socketDataPacket,AskToBuyReturnBeen.class,listener);
+        requestEntity(socketDataPacket, AskToBuyReturnBeen.class, listener);
     }
 
     @Override
@@ -288,7 +294,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("symbol", symbol);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.TradingStatus,
                 SocketAPIConstant.ReqeutType.BuyOrSell, map);
-        requestEntity(socketDataPacket,TradingStatusBeen.class,listener);
+        requestEntity(socketDataPacket, TradingStatusBeen.class, listener);
     }
 
     @Override
@@ -299,7 +305,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("orderId", orderId);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.CancelOrder,
                 SocketAPIConstant.ReqeutType.BuyOrSell, map);
-        requestJsonObject(socketDataPacket,listener);
+        requestJsonObject(socketDataPacket, listener);
     }
 
     @Override
@@ -310,7 +316,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("paypwd", paypwd);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.CheckPayPas,
                 SocketAPIConstant.ReqeutType.Pay, map);
-        requestEntity(socketDataPacket,ResultBeen.class,listener);
+        requestEntity(socketDataPacket, ResultBeen.class, listener);
     }
 
     @Override
@@ -322,7 +328,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("positionId", positionId);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.SureOrder,
                 SocketAPIConstant.ReqeutType.BuyOrSell, map);
-        requestEntity(socketDataPacket,SureOrder.class,listener);
+        requestEntity(socketDataPacket, SureOrder.class, listener);
     }
 
     @Override
@@ -375,6 +381,45 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.OrderFansList,
                 SocketAPIConstant.ReqeutType.History, map);
         requestEntity(socketDataPacket,FansTopListBeen.class,listener);
+    }
+
+    public void todayEntrust(int start, int count,Short opcode, OnAPIListener<List<TodayEntrustReturnBean>> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", 142);
+        map.put("token", "adc28ac69625652b46d5c00b");
+        map.put("start", start);
+        map.put("count", count);
+//        map.put("status", status);
+        SocketDataPacket socketDataPacket = socketDataPacket(opcode,
+                SocketAPIConstant.ReqeutType.History, map);
+        requestEntitys(socketDataPacket, "positionsList", TodayEntrustReturnBean.class, listener);
+    }
+
+    @Override
+    public void todayDeal(int status,int start, int count,Short opcode, OnAPIListener<List<TodayDealReturnBean>> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", 142);
+        map.put("token", "adc28ac69625652b46d5c00b");
+        map.put("start", start);
+        map.put("count", count);
+        map.put("status", status);
+        SocketDataPacket socketDataPacket = socketDataPacket(opcode,
+                SocketAPIConstant.ReqeutType.History, map);
+        requestEntitys(socketDataPacket, "ordersList", TodayDealReturnBean.class, listener);
+    }
+
+    @Override
+    public void fansRntrust(String symbol, int buySell, int start, int count, OnAPIListener<FansEntrustReturnBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", 142);
+        map.put("token", "adc28ac69625652b46d5c00b");
+        map.put("start", start);
+        map.put("count", count);
+        map.put("symbol", symbol);
+        map.put("buySell", buySell);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Fans,
+                SocketAPIConstant.ReqeutType.History, map);
+      requestEntity(socketDataPacket,FansEntrustReturnBean.class,listener);
     }
 
 }

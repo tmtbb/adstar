@@ -1,6 +1,7 @@
 package com.yundian.star.ui.main.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.FrameLayout;
 
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 
+import static io.netty.handler.codec.http.HttpMethod.HEAD;
+
 
 /**
  * Created by Administrator on 2017/5/22.
@@ -30,6 +33,8 @@ public class FansHotBuyFragment extends BaseFragment {
 
     @Bind(R.id.lrv)
     LRecyclerView lrv ;
+    @Bind(R.id.parent_view)
+    FrameLayout parentView;
 
     private static final int REQUEST_COUNT = 10;
 
@@ -113,6 +118,11 @@ public class FansHotBuyFragment extends BaseFragment {
     }
 
     public void showData() {
+        if (list.size() == 0){
+            showErrorView(parentView, R.drawable.error_view_comment, getResources().getString(R.string.empty_view_comment));
+        }else{
+            closeErrorView();
+        }
         mCurrentCounter =list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         fansHotBuyAdapter.addAll(list);

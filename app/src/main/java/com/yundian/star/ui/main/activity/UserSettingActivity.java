@@ -1,9 +1,13 @@
 package com.yundian.star.ui.main.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,6 +17,7 @@ import com.netease.nim.uikit.session.constant.Extras;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.IdentityInfoBean;
+import com.yundian.star.been.RequestResultBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.view.RoundImageView;
@@ -20,6 +25,7 @@ import com.yundian.star.utils.FormatUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
+import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import java.io.File;
@@ -94,7 +100,7 @@ public class UserSettingActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.headImage, R.id.ll_user_phone})
+    @OnClick({R.id.headImage, R.id.ll_user_phone, R.id.ll_user_pet_name})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.headImage:
@@ -104,38 +110,62 @@ public class UserSettingActivity extends BaseActivity {
                 break;
             case R.id.ll_user_pet_name:
                 //修改昵称
-//                resetNikeName();
+                resetNikeName();
                 break;
         }
     }
 
-//    private void resetNikeName() {
-//            LayoutInflater inflater = LayoutInflater.from(this);
-//            View dialogLayout = inflater.inflate(R.layout.dialog_user_referee, null);
-//            final EditText edtInput = (EditText) dialogLayout.findViewById(R.id.et_input_referee);
-//            final AlertDialog.Builder builder = new AlertDialog.Builder(this)
-//                    .setCancelable(false)
-//                    .setView(dialogLayout)
-//                    .setPositiveButton("确认",
-//                            new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int whichButton) {
-//                                    if (TextUtils.isEmpty(edtInput.getText().toString().trim())) {
-//                                        ToastUtils.showShort(getResources().getString(R.string.dialog_input_tip));
-//                                    } else {
-//                                        SharePrefUtil.getInstance().putUserReferee(edtInput.getText().toString().trim());
-//                                        myReferee.setText(String.format(getString(R.string.dialog_title_referee2), edtInput.getText().toString().trim()));
-//                                        dialog.dismiss();
-//                                    }
-//                                }
-//                            })
-//                    .setNegativeButton("取消",
-//                            new DialogInterface.OnClickListener() {
-//                                public void onClick(DialogInterface dialog, int whichButton) {
+    private void resetNikeName() {
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View dialogLayout = inflater.inflate(R.layout.dialog_user_referee, null);
+        final EditText edtInput = (EditText) dialogLayout.findViewById(R.id.et_input_referee);
+        TextView title = (TextView) dialogLayout.findViewById(R.id.dialog_title);
+        title.setText("请输入昵称");
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setView(dialogLayout)
+                .setPositiveButton("确认",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                if (TextUtils.isEmpty(edtInput.getText().toString().trim())) {
+                                    ToastUtils.showShort(getResources().getString(R.string.dialog_input_tip));
+                                } else {
+                                    //接入昵称
+                                    String nikeName = edtInput.getText().toString().trim();
+                                    saveNikeName(nikeName);
+//                                    SharePrefUtil.getInstance().putUserNickName(edtInput.getText().toString().trim());
+//                                    myReferee.setText(String.format(getString(R.string.dialog_title_referee2), edtInput.getText().toString().trim()));
 //                                    dialog.dismiss();
-//                                }
-//                            });
-//            builder.show();
-//    }
+                                }
+                            }
+                        })
+                .setNegativeButton("取消",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                dialog.dismiss();
+                            }
+                        });
+        builder.show();
+    }
+
+    private void saveNikeName(final String nikeName) {
+        NetworkAPIFactoryImpl.getDealAPI().nikeName(nikeName, new OnAPIListener<RequestResultBean>() {
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.loge("设置昵称失败----");
+                startProgressDialog("修改失败");
+            }
+
+            @Override
+            public void onSuccess(RequestResultBean resultBean) {
+                if (resultBean.getResult() == 1) {
+                    startProgressDialog("修改成功");
+                    SharePrefUtil.getInstance().putUserNickName(nikeName);
+                    tvUserPetName.setText(nikeName);
+                }
+            }
+        });
+    }
 
     /**
      * 打开图片选择器

@@ -36,7 +36,6 @@ public interface SocketAPIConstant {
         Short CurrentPrice = 4001;
         Short KChart = 4005;
         Short Position = 5003;
-        Short History = 6001;
         Short Balance = 3007;
         Short MoneyDetail = 6003;
         Short WXPay = 7033;
@@ -81,14 +80,26 @@ public interface SocketAPIConstant {
         Short Srealtime = 4001;
         Short AskToBuy = 5001;
         Short IsRegister = 3029;
+        Short NikeName = 3031;
+        Short StartCount = 10023;
+        Short StarType = 10019;
+        Short StarMeet = 10021;
         Short TradingStatus = 5005;
         Short CancelOrder = 5009;
         Short CheckPayPas = 7011;
         Short SureOrder = 5007;
+
         Short TheDayOrder = 6007;
         Short HistoryOrder = 6009;
         Short HistoryEntur = 6005;
         Short OrderFansList = 6015;
+
+        Short TodayEntrust = 6001;
+        Short HistoryEntrust = 6005;
+        Short TodayDeal = 6007;
+        Short HistoryDeal = 6009;
+        Short Fans = 6011;
+
 
 
     }

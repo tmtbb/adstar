@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.yundian.star.R;
 import com.yundian.star.been.MeetTypeBeen;
+import com.yundian.star.been.StatServiceListBean;
+import com.yundian.star.utils.ImageLoaderUtils;
 
 import java.util.List;
 
@@ -20,8 +22,8 @@ import java.util.List;
 
 public class MeetTypeAdapter extends BaseAdapter {
     private Context mContext;
-    private List<MeetTypeBeen> list;
-    public MeetTypeAdapter(Context context, List<MeetTypeBeen> list) {
+    private List<StatServiceListBean.ListBean> list;
+    public MeetTypeAdapter(Context context, List<StatServiceListBean.ListBean> list) {
         this.mContext = context;
         this.list = list ;
     }
@@ -54,8 +56,9 @@ public class MeetTypeAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.tv_content.setText("录制节目");
-        viewHolder.itemImg.setBackgroundResource(R.drawable.sort_nomal);
+        viewHolder.tv_content.setText(list.get(position).getName());
+        ImageLoaderUtils.display(mContext,viewHolder.itemImg,list.get(position).getUrl1());
+//        viewHolder.itemImg.setBackgroundResource(R.drawable.sort_nomal);
         return convertView;
     }
     class ViewHolder {

@@ -39,7 +39,7 @@
             android:layout_height="@dimen/dp_50"
             android:layout_marginRight="@dimen/dp_8"
             android:scaleType="centerCrop"
-            android:src="@drawable/welcome_bg"
+            android:src="@drawable/user_default_head"
             app:roundHeight="25dp"
             app:roundWidth="25dp" />
 

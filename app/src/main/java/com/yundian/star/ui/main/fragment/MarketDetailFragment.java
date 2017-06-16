@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -26,6 +27,7 @@ import com.yundian.star.utils.SharePrefUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -43,6 +45,8 @@ public class MarketDetailFragment extends BaseFragment {
     ImageView iv_select;
     @Bind(R.id.lrv)
     LRecyclerView lrv;
+    @Bind(R.id.parent_view)
+    FrameLayout parentView;
     MarketDetailAdapter marketDetailAdapter;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private static int mCurrentCounter = 0;
@@ -89,6 +93,7 @@ public class MarketDetailFragment extends BaseFragment {
 
     private void getData(final boolean isLoadMore, int start, int count) {
         if (marketDetailType == 0) {
+            showEmptyView(marketDetailType);
             /*NetworkAPIFactoryImpl.getInformationAPI().getOptionsStarList(*//*SharePrefUtil.getInstance().getPhoneNum()*//*1770640+"",start,end,ORDER, new OnAPIListener<OptionsStarListBeen>() {
                 @Override
                 public void onError(Throwable ex) {
@@ -116,14 +121,16 @@ public class MarketDetailFragment extends BaseFragment {
             NetworkAPIFactoryImpl.getInformationAPI().getStarList(SharePrefUtil.getInstance().getUserId(), SharePrefUtil.getInstance().getToken(), sortType, 5, start, count, new OnAPIListener<StarListbeen>() {
                 @Override
                 public void onError(Throwable ex) {
-
+                    showEmptyView(marketDetailType);
                 }
 
                 @Override
                 public void onSuccess(StarListbeen sarListbeen) {
                     LogUtils.loge("行情每个页面请求数据返回的retult:" + sarListbeen);
+                    closeErrorView();
                     if (sarListbeen.getSymbol_info() == null) {
                         lrv.setNoMore(true);
+                        showErrorView(parentView, R.drawable.error_view_contact, getResources().getString(R.string.empty_view_contacts));
                         return;
                     }
                     list.clear();
@@ -196,8 +203,8 @@ public class MarketDetailFragment extends BaseFragment {
             if (fragment != null) {
                 switch (msg.what) {
                     case GRT_DATA:
-                        fragment.refresh();
-                        fragment.myHandler.sendEmptyMessageDelayed(GRT_DATA, 3 * 1000);
+//                        fragment.refresh();
+//                        fragment.myHandler.sendEmptyMessageDelayed(GRT_DATA, 3 * 1000);
                         break;
                 }
             }
@@ -248,6 +255,23 @@ public class MarketDetailFragment extends BaseFragment {
             myHandler.removeMessages(myHandler.GRT_DATA);
             myHandler.sendEmptyMessage(myHandler.GRT_DATA);
         }
+    }
+
+    private void showEmptyView(int type) {
+        if (lrv != null) {
+            list.clear();
+            marketDetailAdapter.clear();
+            lrv.refreshComplete(REQUEST_COUNT);
+        }
+        LogUtils.loge("请求错误,加载空白图-------------");
+//        lrv.setVisibility(View.GONE);
+        String des = "";
+        if (type == 0) {
+            des = getResources().getString(R.string.empty_view_price);
+        } else {
+            des = getResources().getString(R.string.empty_view_contacts);
+        }
+        showErrorView(parentView, R.drawable.error_view_contact, des);
     }
 
 }

@@ -96,14 +96,14 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.ll_recharge:
                 ToastUtils.showShort("充值");
-                if (JudgeIdentityUtils.isIdentityed(this)) {
+//                if (JudgeIdentityUtils.isIdentityed(this)) {
                     startActivity(RechargeActivity.class);
-                }
+//                }
                 break;
             case R.id.ll_user_fudai:
                 LogUtils.loge("点击福袋；；");
 //                showErrorView(parentView,"sssss");
-                payDialog.show();
+//                payDialog.show();
                 break;
         }
     }
