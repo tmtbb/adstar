@@ -92,7 +92,7 @@ public class AutionTopFragment extends BaseFragment {
                 }
             });*/
         }else {
-            if (isLoadMore){
+            /*if (isLoadMore){
                 loadList.clear();
                 moNiData(isLoadMore);
                 loadMoreData();
@@ -100,7 +100,7 @@ public class AutionTopFragment extends BaseFragment {
                 list.clear();
                 moNiData(isLoadMore);
                 showData();
-            }
+            }*/
             /*NetworkAPIFactoryImpl.getInformationAPI().getTransferList(code, start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
                 @Override
                 public void onError(Throwable ex) {

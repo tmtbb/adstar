@@ -21,37 +21,33 @@ public class OrderReturnBeen {
     public static class OrdersListBean {
         /**
          * amount : 600
+         * buyHandle : 0
          * buyUid : 142
          * closeTime : 0
          * grossProfit : 0
          * handle : 0
          * openCharge : 0
-         * openTime : 1497534596
-         * orderId : 2780106683066493484
-         * positionId : 6782924867725266886
+         * openPrice : 10.51
+         * openTime : 1497585743
+         * orderId : 1736498499577977000
+         * positionId : 8632189052509148000
+         * sellHandler : 0
          * sellUid : 142
          * symbol : 1001
          */
 
         private int amount;
+        private int buyHandle;
         private int buyUid;
         private int closeTime;
         private int grossProfit;
         private int handle;
         private int openCharge;
-        private int openTime;
         private double openPrice;
-
-        public double getOpenPrice() {
-            return openPrice;
-        }
-
-        public void setOpenPrice(double openPrice) {
-            this.openPrice = openPrice;
-        }
-
+        private int openTime;
         private long orderId;
         private long positionId;
+        private int sellHandler;
         private int sellUid;
         private String symbol;
 
@@ -61,6 +57,14 @@ public class OrderReturnBeen {
 
         public void setAmount(int amount) {
             this.amount = amount;
+        }
+
+        public int getBuyHandle() {
+            return buyHandle;
+        }
+
+        public void setBuyHandle(int buyHandle) {
+            this.buyHandle = buyHandle;
         }
 
         public int getBuyUid() {
@@ -103,6 +107,14 @@ public class OrderReturnBeen {
             this.openCharge = openCharge;
         }
 
+        public double getOpenPrice() {
+            return openPrice;
+        }
+
+        public void setOpenPrice(double openPrice) {
+            this.openPrice = openPrice;
+        }
+
         public int getOpenTime() {
             return openTime;
         }
@@ -127,6 +139,14 @@ public class OrderReturnBeen {
             this.positionId = positionId;
         }
 
+        public int getSellHandler() {
+            return sellHandler;
+        }
+
+        public void setSellHandler(int sellHandler) {
+            this.sellHandler = sellHandler;
+        }
+
         public int getSellUid() {
             return sellUid;
         }
@@ -147,14 +167,17 @@ public class OrderReturnBeen {
         public String toString() {
             return "OrdersListBean{" +
                     "amount=" + amount +
+                    ", buyHandle=" + buyHandle +
                     ", buyUid=" + buyUid +
                     ", closeTime=" + closeTime +
                     ", grossProfit=" + grossProfit +
                     ", handle=" + handle +
                     ", openCharge=" + openCharge +
+                    ", openPrice=" + openPrice +
                     ", openTime=" + openTime +
                     ", orderId=" + orderId +
                     ", positionId=" + positionId +
+                    ", sellHandler=" + sellHandler +
                     ", sellUid=" + sellUid +
                     ", symbol='" + symbol + '\'' +
                     '}';

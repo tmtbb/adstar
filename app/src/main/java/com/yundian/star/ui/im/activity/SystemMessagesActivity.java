@@ -15,6 +15,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
@@ -24,10 +26,9 @@ import com.yundian.star.app.Constant;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.AskToBuyReturnBeen;
 import com.yundian.star.been.MatchSucessReturnBeen;
+import com.yundian.star.been.OrderReturnBeen;
 import com.yundian.star.been.ResultBeen;
-import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.SureOrder;
-import com.yundian.star.been.SystemMessageBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.ResetPayPwdActivity;
@@ -36,12 +37,9 @@ import com.yundian.star.ui.view.PayPwdEditText;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.SoftKeyBoardListener;
+import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 import com.yundian.star.widget.PutPasPopupWindow;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 
@@ -62,8 +60,8 @@ public class SystemMessagesActivity extends BaseActivity {
 
     private static int mCurrentCounter = 1;
     private static final int REQUEST_COUNT = 10;
-    private ArrayList<SystemMessageBeen> list = new ArrayList<>();
-    private ArrayList<SystemMessageBeen> loadList = new ArrayList<>();
+    private ArrayList<OrderReturnBeen.OrdersListBean> list = new ArrayList<>();
+    private ArrayList<OrderReturnBeen.OrdersListBean> loadList = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private SystemMessageAdapter systemMessageAdapter;
     private PutPasPopupWindow mPopWindow;
@@ -72,6 +70,7 @@ public class SystemMessagesActivity extends BaseActivity {
     private boolean flag = true;
     private MatchSucessReturnBeen matchSucessReturnBeen;
     private AskToBuyReturnBeen toBuyReturnBeen;
+    private long userId;
 
     @Override
     public int getLayoutId() {
@@ -86,15 +85,12 @@ public class SystemMessagesActivity extends BaseActivity {
     @Override
     public void initView() {
         matchSucessReturnBeen = getIntent().getParcelableExtra(AppConstant.MATCH_SUCESS_ORDER_INFO);
-        if (flag) {
-            EventBus.getDefault().register(this); // EventBus注册广播()
-            flag = false;//更改标记,使其不会再进行多次注册
-        }
         nt_title.setBackVisibility(true);
         nt_title.setTitleText(R.string.systen_news);
         initAdapter();
-        getData(false, 0, REQUEST_COUNT);
+        getData(false, 1, REQUEST_COUNT);
         initListener();
+        userId = SharePrefUtil.getInstance().getUserId();
     }
 
     private void initListener() {
@@ -116,6 +112,7 @@ public class SystemMessagesActivity extends BaseActivity {
 
             @Override
             public void keyBoardHide(int height) {
+                currentBean = null;
                 mPopWindow.dismiss();
             }
         });
@@ -131,7 +128,7 @@ public class SystemMessagesActivity extends BaseActivity {
             @Override
             public void onImgClick(View view, int position) {
                 //ToastUtils.showShort("position"+position);
-                showAlertDialog();
+                showDialogs(position);
             }
         });
     }
@@ -147,11 +144,10 @@ public class SystemMessagesActivity extends BaseActivity {
     }
 
     private void initAdapter() {
-        systemMessageAdapter = new SystemMessageAdapter(this,list);
+        systemMessageAdapter = new SystemMessageAdapter(this,list,SharePrefUtil.getInstance().getUserId());
         lRecyclerViewAdapter = new LRecyclerViewAdapter(systemMessageAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
         lrv.setLayoutManager(new LinearLayoutManager(this));
-        lrv.setPullRefreshEnabled(false);
         lrv.setNoMore(false);
         lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
         /*lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -160,35 +156,59 @@ public class SystemMessagesActivity extends BaseActivity {
                 getData(true,mCurrentCounter+1,mCurrentCounter+REQUEST_COUNT);
             }
         });*/
-    }
-
-    private void getData(final boolean isLoadMore, int start, int end) {
-
-        for (long i = 0; i < 5; i++) {
-            SystemMessageBeen bean = new SystemMessageBeen();
-            bean.setPositionId(i);
-            list.add(bean);
-        }
-        showData();
-        NetworkAPIFactoryImpl.getInformationAPI().getStarmaillist(SharePrefUtil.getInstance().getUserId(), SharePrefUtil.getInstance().getToken(), "123", start, end, new OnAPIListener<StarMailListBeen>() {
+        lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
-            public void onError(Throwable ex) {
-
-            }
-
-            @Override
-            public void onSuccess(StarMailListBeen starMailListBeen) {
-                LogUtils.loge(starMailListBeen.toString());
+            public void onLoadMore() {
+                getData(true, mCurrentCounter + 1, REQUEST_COUNT);
             }
         });
+        lrv.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData(false, 1, REQUEST_COUNT);
+            }
+        });
+    }
+
+    private void getData(final boolean isLoadMore, int start, int count) {
+        NetworkAPIFactoryImpl.getInformationAPI().historyOrder(142/*SharePrefUtil.getInstance().getUserId()*/,
+                "adc28ac69625652b46d5c00b"/*SharePrefUtil.getInstance().getToken()*/, 3, start, count, new OnAPIListener<OrderReturnBeen>() {
+                    @Override
+                    public void onError(Throwable ex) {
+                        if (lrv != null) {
+                            lrv.setNoMore(true);
+                        }
+                        LogUtils.loge("当日订单返回错误码" + ex.toString());
+                    }
+
+                    @Override
+                    public void onSuccess(OrderReturnBeen orderReturnBeen) {
+                        LogUtils.loge("当日订单" + orderReturnBeen.toString());
+                        if (orderReturnBeen.getOrdersList() == null || orderReturnBeen.getOrdersList().size() == 0) {
+                            lrv.setNoMore(true);
+                            return;
+                        }
+                        if (isLoadMore) {
+                            loadList.clear();
+                            loadList = orderReturnBeen.getOrdersList();
+                            loadMoreData();
+                        } else {
+                            list.clear();
+                            list = orderReturnBeen.getOrdersList();
+                            showData();
+                        }
+                    }
+                });
+
 
     }
 
     public void showData() {
+        systemMessageAdapter.clear();
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
-        //systemMessageAdapter.addAll(list);
-        lrv.refresh();
+        systemMessageAdapter.addAll(list);
+        lrv.refreshComplete(REQUEST_COUNT);
     }
 
     private void loadMoreData() {
@@ -201,7 +221,6 @@ public class SystemMessagesActivity extends BaseActivity {
             lrv.refreshComplete(REQUEST_COUNT);
         }
     }
-
     private void intPutPasswordDialog() {
         mPopWindow = new PutPasPopupWindow(this);
         mPopWindow.setContentView(contentView);
@@ -218,23 +237,27 @@ public class SystemMessagesActivity extends BaseActivity {
             public void onFinish(String str) {//密码输入完后的回调
 //                Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
                 //校验支付密码
-                LogUtils.loge("密码输入完成");
                 NetworkAPIFactoryImpl.getInformationAPI().checkPayPas(800/*SharePrefUtil.getInstance().getUserId()*/,
                         "weqwe21321sewqe"/*SharePrefUtil.getInstance().getToken()*/, "83b4ef5aas457hddg90cda974200"/*MD5Util.MD5(str);*/, new OnAPIListener<ResultBeen>() {
                             @Override
                             public void onError(Throwable ex) {
+                                LogUtils.loge("密码输入失败");
                                 //支付密码确定接口有待验证
+                                //currentBean = null;
+                                //mPopWindow.dismiss();
                                 sureOrder();
                             }
 
                             @Override
                             public void onSuccess(ResultBeen resultBeen) {
+                                LogUtils.loge("密码输入正确");
                                 if (resultBeen!=null){
                                     if (resultBeen.getResult()==1){
 
                                     }else if (resultBeen.getResult()==0){
 
                                     }
+                                    //currentBean = null;
                                 }
                             }
                         });
@@ -261,6 +284,7 @@ public class SystemMessagesActivity extends BaseActivity {
         img_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                currentBean = null;
                 mPopWindow.dismiss();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(payPwdEditText.getWindowToken(), 0);
@@ -269,39 +293,32 @@ public class SystemMessagesActivity extends BaseActivity {
     }
 
     private void sureOrder() {
+        if (currentBean==null){
+            ToastUtils.showShort("订单支付失败");
+            return;
+        }
         NetworkAPIFactoryImpl.getInformationAPI().sureOrder(142/*SharePrefUtil.getInstance().getUserId()*/,
-                "6902464177061903496"/*SharePrefUtil.getInstance().getToken()*/, matchSucessReturnBeen.getOrderId(), toBuyReturnBeen.getPositionId(), new OnAPIListener<SureOrder>() {
+                "6902464177061903496"/*SharePrefUtil.getInstance().getToken()*/, currentBean.getOrderId(), currentBean.getPositionId(), new OnAPIListener<SureOrder>() {
                     @Override
                     public void onError(Throwable ex) {
-
+                        LogUtils.loge("订单确认失败"+ex.toString());
+                        currentBean=null ;
                     }
 
                     @Override
                     public void onSuccess(SureOrder sureOrder) {
                         LogUtils.loge("订单确认成功"+sureOrder.toString());
+                        currentBean=null ;
                     }
                 });
     }
 
     @Override
     protected void onDestroy() {
-        EventBus.getDefault().removeAllStickyEvents();
-        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
-    //接收消息
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void ReciveMessageEventBus(AskToBuyReturnBeen askToBuyReturnBeen) {
-        toBuyReturnBeen = askToBuyReturnBeen;
-        long positionId = toBuyReturnBeen.getPositionId();
-        SystemMessageBeen systemMessageBeen = new SystemMessageBeen();
-        systemMessageBeen.setPositionId(positionId);
-        list.add(systemMessageBeen);
-        lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
-        //systemMessageAdapter.addAll(list);
-        lrv.refresh();
-    }
-    private void showAlertDialog() {
+
+    private void showDialogs(final int position) {
         final Dialog mPopWindowHistory = new Dialog(this, R.style.myDialog);
         mPopWindowHistory.setContentView(R.layout.dialog_sure_order);
         TextView tvSure = (TextView) mPopWindowHistory.findViewById(R.id.btn_sure);
@@ -309,7 +326,7 @@ public class SystemMessagesActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mPopWindowHistory.dismiss();
-                showOrderInfoDialog();
+                showOrderInfoDialog(position);
             }
         });
         TextView btn_cancel = (TextView) mPopWindowHistory.findViewById(R.id.btn_cancel);
@@ -318,7 +335,7 @@ public class SystemMessagesActivity extends BaseActivity {
             public void onClick(View v) {
                 mPopWindowHistory.dismiss();
                 NetworkAPIFactoryImpl.getInformationAPI().cancelOrder(SharePrefUtil.getInstance().getUserId()
-                        , SharePrefUtil.getInstance().getToken(), matchSucessReturnBeen.getOrderId(), new OnAPIListener<Object>() {
+                        , SharePrefUtil.getInstance().getToken(),list.get(position).getOrderId(), new OnAPIListener<Object>() {
                             @Override
                             public void onError(Throwable ex) {
 
@@ -335,7 +352,7 @@ public class SystemMessagesActivity extends BaseActivity {
     }
 
     //订单详情接口
-    private void showOrderInfoDialog() {
+     private void showOrderInfoDialog(int position) {
         final Dialog mDetailDialog = new Dialog(this, R.style.custom_dialog);
         //获得dialog的window窗口
         Window window = mDetailDialog.getWindow();
@@ -360,17 +377,22 @@ public class SystemMessagesActivity extends BaseActivity {
         TextView transfer_num = (TextView) mDetailDialog.findViewById(R.id.transfer_num);
         TextView order_total = (TextView) mDetailDialog.findViewById(R.id.order_total);
         ImageView img_close = (ImageView) mDetailDialog.findViewById(R.id.img_close);
-
-        order_preice.setText(String.format(getString(buy_price), matchSucessReturnBeen.getOpenPrice()));
-        transfer_num.setText(String.format(getString(R.string.num_time), matchSucessReturnBeen.getAmount()));
-        order_total.setText(String.format(getString(R.string.price_total), matchSucessReturnBeen.getOpenPrice()*matchSucessReturnBeen.getAmount()));
+         final OrderReturnBeen.OrdersListBean ordersListBean = list.get(position);
+        if (/*userId*/124==ordersListBean.getBuyUid()){
+            tv_state.setText(R.string.ask_to_buy);
+        }else {
+            tv_state.setText(R.string.transfer);
+        }
+        order_preice.setText(String.format(getString(buy_price), ordersListBean.getOpenPrice()));
+        transfer_num.setText(String.format(getString(R.string.num_time), ordersListBean.getAmount()));
+        order_total.setText(String.format(getString(R.string.price_total), ordersListBean.getOpenPrice()*ordersListBean.getAmount()));
         tv_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LogUtils.loge("订单确认");
                 //KeyBordUtil.showSoftKeyboard(payPwdEditText);
                 mDetailDialog.dismiss();
-                showPass();
+                showPass(ordersListBean);
             }
         });
         img_close.setOnClickListener(new View.OnClickListener() {
@@ -384,7 +406,9 @@ public class SystemMessagesActivity extends BaseActivity {
         mDetailDialog.show();
     }
 
-    private void showPass() {
+    private OrderReturnBeen.OrdersListBean currentBean = null ;
+    private void showPass(OrderReturnBeen.OrdersListBean bean) {
+        currentBean = bean;
         new Handler().postDelayed(runnable,100);
         //v.postDelayed(runnable,200);
     }

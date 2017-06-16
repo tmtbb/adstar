@@ -119,7 +119,6 @@ public class AlreadyBoughtFragment extends BaseFragment {
         lRecyclerViewAdapter.notifyDataSetChanged();
         alreadyBoughtAdapter.addAll(list);
         LogUtils.loge("当前刷新list:" + list.toString());
-        lrv.refresh();
         lrv.refreshComplete(REQUEST_COUNT);
     }
 

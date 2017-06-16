@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.yundian.star.R;
-import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.baseapp.AppManager;
 import com.yundian.star.been.MatchSucessReturnBeen;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIRequestManage;
@@ -330,7 +329,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                 mPopWindowHistory.dismiss();
                 Intent intent = new Intent(BaseActivity.this, SystemMessagesActivity.class);
                 //intent.putExtra(AppConstant.MATCH_SUCESS_INFO, 1);
-                intent.putExtra(AppConstant.MATCH_SUCESS_ORDER_INFO,matchSucessReturnBeen);
+                //intent.putExtra(AppConstant.MATCH_SUCESS_ORDER_INFO,matchSucessReturnBeen);
                 startActivity(intent);
             }
         });

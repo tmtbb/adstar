@@ -21,8 +21,6 @@ import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NumberBoubleButton;
 import com.yundian.star.widget.NumberButton;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -225,7 +223,6 @@ public class TransferMarketFragment extends BaseFragment {
                             public void onSuccess(AskToBuyReturnBeen askToBuyReturnBeen) {
                                 LogUtils.loge("转让成功"+askToBuyReturnBeen.toString());
                                 ToastUtils.showShort("挂单成功");
-                                EventBus.getDefault().postSticky(askToBuyReturnBeen);
                             }
                         });
             }
