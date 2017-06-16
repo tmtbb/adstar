@@ -43,6 +43,7 @@ import com.yundian.star.R;
 import com.yundian.star.base.baseapp.BaseApplication;
 import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.LoginReturnInfo;
+import com.yundian.star.greendao.GreenDaoManager;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.Host;
 import com.yundian.star.networkapi.NetworkAPIConfig;
@@ -92,6 +93,7 @@ public class AppApplication extends BaseApplication {
         registerToWx();   //注册微信
         UMShareAPI.get(this);//初始化友盟
         Config.DEBUG = true;
+        GreenDaoManager.getInstance();
     }
 
     private void initWangYiIM() {

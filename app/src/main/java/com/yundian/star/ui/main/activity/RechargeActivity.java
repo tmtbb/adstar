@@ -299,7 +299,8 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
     private void requestAliPay() {
         ToastUtils.showShort("请求支付宝支付");
-        final String orderInfo = "app_id=2017060807450365&biz_content={\"out_trade_no\":\"20170525191212\",\"product_code\":\"QUICK_MSECURITY_PAY\",\"total_amount\":\"1000\",\"subject\":\"a goods\"}&charset=utf-8&method=alipay.trade.app.pay&notify_url=http://139.224.34.22/cgi-bin/flight/router/v1/get_server.fcgi&sign=CKDcR4LAc/ePEWxEF/IX2DXPW27cotoO7xbd5nMQ3MXTn7ZLW+CzAT6pkoEQBxDx4QJ3C09ntbv5/2Nj90+cw9GiJQQ23Qkf5Xq1ZjO7HpzY45q34Wv9LqnNN4WrXEZMJGjwFqbJ7Y4epSo4W7xqacklhO0CFU0G0JTNGxwfVRc=&sign_type=RSA&timestamp=2017-06-16 14:09:52&version=1.0";   // 订单信息   请求服务端返回payinfo
+        final String orderInfo =
+                "app_id=2017060807450365&biz_content=%7B%22out_trade_no%22%3A%2220170525191212%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22total_amount%22%3A%220.01%22%2C%22subject%22%3A%22a%20goods%22%7D&charset=utf-8&method=alipay.trade.app.pay&sign=ssYQ3c3jOlaROhOnKPoFS%2FbV%2BU25lyKLchzwRw%2F%2Fj%2FMpdh5UFMI3QBPJOLKBaGjYaucaJid9Z%2BpPQelo2ZwNl4n1YOSPmGn4gSzO7%2FhU3R46mxA58phIdbbrkTjYiXrMBqWwsxATOr8zRPQaNeBPJUv06XAEmkz91rl5hHKCa0k%3D&sign_type=RSA&timestamp=2017-06-16%2015%3A14%3A41&version=1.0";   // 订单信息   请求服务端返回payinfo
         Runnable payRunnable = new Runnable() {
             @Override
             public void run() {
