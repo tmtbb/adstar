@@ -8,22 +8,23 @@ import android.os.Parcelable;
  */
 
 public class MatchSucessReturnBeen implements Parcelable {
+
     /**
-     * amount : 600
-     * buyUid : 142
-     * openPositionTime : 1497505224
-     * openPrice : 0.01
-     * orderId : 6726153502960405765
-     * sellUid : 142
+     * amount : 80
+     * buySell : 2
+     * id : 142
+     * openPrice : 22.1
+     * positionId : 4596320529293132300
+     * positionTime : 1497340525
      * symbol : 1001
      */
 
     private int amount;
-    private int buyUid;
-    private int openPositionTime;
+    private int buySell;
+    private int id;
     private double openPrice;
-    private long orderId;
-    private int sellUid;
+    private long positionId;
+    private int positionTime;
     private String symbol;
 
     public int getAmount() {
@@ -34,20 +35,20 @@ public class MatchSucessReturnBeen implements Parcelable {
         this.amount = amount;
     }
 
-    public int getBuyUid() {
-        return buyUid;
+    public int getBuySell() {
+        return buySell;
     }
 
-    public void setBuyUid(int buyUid) {
-        this.buyUid = buyUid;
+    public void setBuySell(int buySell) {
+        this.buySell = buySell;
     }
 
-    public int getOpenPositionTime() {
-        return openPositionTime;
+    public int getId() {
+        return id;
     }
 
-    public void setOpenPositionTime(int openPositionTime) {
-        this.openPositionTime = openPositionTime;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public double getOpenPrice() {
@@ -58,20 +59,20 @@ public class MatchSucessReturnBeen implements Parcelable {
         this.openPrice = openPrice;
     }
 
-    public long getOrderId() {
-        return orderId;
+    public long getPositionId() {
+        return positionId;
     }
 
-    public void setOrderId(long orderId) {
-        this.orderId = orderId;
+    public void setPositionId(long positionId) {
+        this.positionId = positionId;
     }
 
-    public int getSellUid() {
-        return sellUid;
+    public int getPositionTime() {
+        return positionTime;
     }
 
-    public void setSellUid(int sellUid) {
-        this.sellUid = sellUid;
+    public void setPositionTime(int positionTime) {
+        this.positionTime = positionTime;
     }
 
     public String getSymbol() {
@@ -90,11 +91,11 @@ public class MatchSucessReturnBeen implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(this.amount);
-        dest.writeInt(this.buyUid);
-        dest.writeInt(this.openPositionTime);
+        dest.writeInt(this.buySell);
+        dest.writeInt(this.id);
         dest.writeDouble(this.openPrice);
-        dest.writeLong(this.orderId);
-        dest.writeInt(this.sellUid);
+        dest.writeLong(this.positionId);
+        dest.writeInt(this.positionTime);
         dest.writeString(this.symbol);
     }
 
@@ -103,11 +104,11 @@ public class MatchSucessReturnBeen implements Parcelable {
 
     protected MatchSucessReturnBeen(Parcel in) {
         this.amount = in.readInt();
-        this.buyUid = in.readInt();
-        this.openPositionTime = in.readInt();
+        this.buySell = in.readInt();
+        this.id = in.readInt();
         this.openPrice = in.readDouble();
-        this.orderId = in.readLong();
-        this.sellUid = in.readInt();
+        this.positionId = in.readLong();
+        this.positionTime = in.readInt();
         this.symbol = in.readString();
     }
 

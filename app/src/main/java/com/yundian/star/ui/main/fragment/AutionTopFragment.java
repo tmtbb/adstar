@@ -21,6 +21,8 @@ import java.util.List;
 
 import butterknife.Bind;
 
+import static io.netty.handler.codec.http.HttpMethod.HEAD;
+
 /**
  * Created by Administrator on 2017/6/12.
  * 拍卖排行榜  mai
@@ -85,7 +87,10 @@ public class AutionTopFragment extends BaseFragment {
                         showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
                     }
                 }
+
+
             }
+
 
             @Override
             public void onSuccess(FansEntrustReturnBean bean) {

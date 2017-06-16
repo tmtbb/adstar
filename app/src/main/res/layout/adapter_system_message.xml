@@ -30,18 +30,26 @@
             android:id="@+id/tv_content"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="匹配消息"
+            android:text="@string/name_code"
             android:textSize="@dimen/fontSize_14sp"
             android:textColor="@color/color_434343"
+            android:layout_marginRight="10dp"
             />
         <TextView
             android:id="@+id/tv_check"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/onclick_check"
             android:textSize="@dimen/fontSize_14sp"
             android:textColor="@color/color_FB9938"
             />
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:textSize="@dimen/fontSize_14sp"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </LinearLayout>

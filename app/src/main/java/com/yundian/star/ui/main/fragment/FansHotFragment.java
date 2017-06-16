@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
+import com.yundian.star.utils.LogUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -46,14 +47,16 @@ public class FansHotFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        if (getArguments()!=null){
-            code = getArguments().getString(AppConstant.STAR_CODE);
-        }
+
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments()!=null){
+            code = getArguments().getString(AppConstant.STAR_CODE);
+            LogUtils.loge("粉丝热度榜code"+code);
+        }
         initFragment(savedInstanceState);
     }
 
@@ -70,10 +73,10 @@ public class FansHotFragment extends BaseFragment {
             bundle2.putInt(AppConstant.FANS_HOT_TYPE,2);
             transferFragment = new FansHotBuyFragment();
             transferFragment.setArguments(bundle2);
-            transaction.add(R.id.fl_fans_hot_content, hotBuyFragment,"FansHotBuyFragment");
+            transaction.add(R.id.fl_fans_hot_content, hotBuyFragment,"FansTopListBeen");
             transaction.add(R.id.fl_fans_hot_content, transferFragment,"FansHotTransferFragment");
         }else {
-            hotBuyFragment = (FansHotBuyFragment) getChildFragmentManager().findFragmentByTag("FansHotBuyFragment");
+            hotBuyFragment = (FansHotBuyFragment) getChildFragmentManager().findFragmentByTag("FansTopListBeen");
             transferFragment = (FansHotBuyFragment) getChildFragmentManager().findFragmentByTag("FansHotTransferFragment");
         }
         transaction.commit();
