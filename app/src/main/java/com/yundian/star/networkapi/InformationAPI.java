@@ -17,6 +17,7 @@ import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
 import com.yundian.star.been.StarExperienceBeen;
+import com.yundian.star.been.StarInfoReturnBean;
 import com.yundian.star.been.StarListbeen;
 import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.StarStarAchBeen;
@@ -71,4 +72,5 @@ public interface InformationAPI {
     void todayDeal(int status,int start,int count,Short opcode,OnAPIListener<List<TodayDealReturnBean>> listener);
     void fansRntrust(String symbol,int buySell, int start,int count,OnAPIListener<FansEntrustReturnBean> listener);
 
+    void starInfo(String phone,String code, int all,OnAPIListener<StarInfoReturnBean> listener);
 }

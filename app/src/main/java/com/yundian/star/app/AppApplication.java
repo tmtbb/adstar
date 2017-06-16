@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Environment;
 import android.text.TextUtils;
@@ -43,6 +44,9 @@ import com.yundian.star.R;
 import com.yundian.star.base.baseapp.BaseApplication;
 import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.LoginReturnInfo;
+import com.yundian.star.greendao.GreenDaoManager;
+import com.yundian.star.greendao.gen.DaoMaster;
+import com.yundian.star.greendao.gen.DaoSession;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.Host;
 import com.yundian.star.networkapi.NetworkAPIConfig;
@@ -92,6 +96,7 @@ public class AppApplication extends BaseApplication {
         registerToWx();   //注册微信
         UMShareAPI.get(this);//初始化友盟
         Config.DEBUG = true;
+        setupDatabase();
     }
 
     private void initWangYiIM() {
@@ -432,7 +437,18 @@ public class AppApplication extends BaseApplication {
         });
     }
 
+    private static DaoSession daoSession;
+    /**
+     * 配置数据库
+     */
+    private void setupDatabase() {
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "star.db", null);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        DaoMaster daoMaster = new DaoMaster(db);
+        daoSession = daoMaster.newSession();
+    }
 
-
-
+    public static DaoSession getDaoInstant() {
+        return daoSession;
+    }
 }

@@ -18,6 +18,7 @@ import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
 import com.yundian.star.been.StarExperienceBeen;
+import com.yundian.star.been.StarInfoReturnBean;
 import com.yundian.star.been.StarListbeen;
 import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.StarStarAchBeen;
@@ -30,6 +31,7 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.InformationAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.ui.main.model.NewsInforModel;
+import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 
 import org.json.JSONArray;
@@ -422,4 +424,16 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
       requestEntity(socketDataPacket,FansEntrustReturnBean.class,listener);
     }
 
+
+    @Override
+    public void starInfo(String phone, String code, int all, OnAPIListener<StarInfoReturnBean> listener) {
+        LogUtils.loge("明星信息------------");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("phone", phone);
+        map.put("code", code);
+        map.put("all", all);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarInfo,
+                SocketAPIConstant.ReqeutType.NewInfos, map);
+        requestEntity(socketDataPacket,StarInfoReturnBean.class,listener);
+    }
 }
