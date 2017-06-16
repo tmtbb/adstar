@@ -27,7 +27,6 @@ import com.yundian.star.utils.SharePrefUtil;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -269,7 +268,7 @@ public class MarketDetailFragment extends BaseFragment {
         if (type == 0) {
             des = getResources().getString(R.string.empty_view_price);
         } else {
-            des = getResources().getString(R.string.empty_view_contacts);
+            des = getActivity().getResources().getString(R.string.empty_view_contacts);
         }
         showErrorView(parentView, R.drawable.error_view_contact, des);
     }

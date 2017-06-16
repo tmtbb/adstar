@@ -119,6 +119,9 @@ public class TransferMarketFragment extends BaseFragment {
     }
 
     private void refresh(SrealSendReturnBeen been) {
+        if (been==null||tv_current_price==null){
+            return;
+        }
         SrealSendReturnBeen.PriceinfoBean priceinfoBean = been.getPriceinfo().get(0);
         tv_current_price.setText(String.format("%.2f", priceinfoBean.getCurrentPrice()));
         if (priceinfoBean.getChange() >= 0) {
@@ -211,7 +214,7 @@ public class TransferMarketFragment extends BaseFragment {
                 BigDecimal bg = new BigDecimal(buy_price);
                 double ask_buy_prices = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 LogUtils.loge("获取数值总价" + total_prices + "转换后的数据" + ask_buy_prices * buy_num);
-                NetworkAPIFactoryImpl.getInformationAPI().getAskToBuy(152/*SharePrefUtil.getInstance().getUserId()*/,
+                NetworkAPIFactoryImpl.getInformationAPI().getAskToBuy(142/*SharePrefUtil.getInstance().getUserId()*/,
                         /*SharePrefUtil.getInstance().getToken()*/"6902464177061903496", 1, "1001",-1, buy_num, ask_buy_prices,
                         new OnAPIListener<AskToBuyReturnBeen>() {
                             @Override

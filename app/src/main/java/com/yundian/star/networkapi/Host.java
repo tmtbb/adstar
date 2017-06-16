@@ -62,9 +62,10 @@ public enum Host {
     }
 
     public static short getSocketServerPort() {
-        //return (short) 16006 ;
-        return (short) 16105 ;
+        return (short) 16006 ;
+        //return (short) 16105 ;
         //return (short) 16115 ;
+        //return (short) 16008 ;
 
 //        return (short) 16001;
 //        return (short) 17002;

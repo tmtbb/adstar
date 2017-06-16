@@ -30,7 +30,8 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
     public SystemMessageAdapter(Context context , ArrayList<OrderReturnBeen.OrdersListBean> list,long id) {
         this.listData = list;
         this.mContext = context ;
-        this.uid=id;
+        //this.uid=id;
+        this.uid=142;
     }
 
     @Override
