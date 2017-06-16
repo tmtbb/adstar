@@ -2,6 +2,7 @@ package com.yundian.star.ui.main.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -11,8 +12,11 @@ import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
+import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.FansHotBuyReturnBeen;
+import com.yundian.star.been.TodayDealReturnBean;
+import com.yundian.star.been.TodayEntrustReturnBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.HistoryBuyAdapter;
@@ -22,11 +26,13 @@ import com.yundian.star.utils.timeselectutils.DatePicker;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
+ * 历史交易
  * Created by Administrator on 2017/5/25.
  */
 
@@ -35,19 +41,21 @@ public class HistoryBuyFragment extends BaseFragment {
     @Bind(R.id.lrv)
     LRecyclerView lrv;
     @Bind(R.id.ll_start_time)
-    LinearLayout ll_start_time ;
+    LinearLayout ll_start_time;
     @Bind(R.id.ll_end_time)
-    LinearLayout ll_end_time ;
+    LinearLayout ll_end_time;
     @Bind(R.id.tv_start_time)
-    TextView tv_start_time ;
+    TextView tv_start_time;
     @Bind(R.id.tv_end_time)
-    TextView tv_end_time ;
+    TextView tv_end_time;
+    @Bind(R.id.parent_view)
+    FrameLayout parentView;
 
 
     private static int mCurrentCounter = 1;
     private static final int REQUEST_COUNT = 10;
-    private ArrayList<FansHotBuyReturnBeen.ListBean> list = new ArrayList<>();
-    private ArrayList<FansHotBuyReturnBeen.ListBean> loadList = new ArrayList<>();
+    private List<TodayDealReturnBean> list = new ArrayList<>();
+    private List<TodayDealReturnBean> loadList = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private int end_year;
     private int end_month;
@@ -74,18 +82,18 @@ public class HistoryBuyFragment extends BaseFragment {
     protected void initView() {
         initAdapter();
         getDateTime();
-        //getData(false,1,REQUEST_COUNT);
+        getData(false, 1);
     }
 
     private void getDateTime() {
         Calendar c = Calendar.getInstance();
         current_end_year = c.get(Calendar.YEAR);
-        current_end_month = c.get(Calendar.MONTH)+1;
+        current_end_month = c.get(Calendar.MONTH) + 1;
         current_end_day = c.get(Calendar.DAY_OF_MONTH);
-        end_year = current_end_year ;
-        end_month = current_end_month ;
-        end_day = current_end_day ;
-        tv_end_time.setText(end_year+"-"+end_month+"-"+end_day);
+        end_year = current_end_year;
+        end_month = current_end_month;
+        end_day = current_end_day;
+        tv_end_time.setText(end_year + "-" + end_month + "-" + end_day);
     }
 
     private void initAdapter() {
@@ -106,42 +114,54 @@ public class HistoryBuyFragment extends BaseFragment {
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getData(true,mCurrentCounter+1,mCurrentCounter+REQUEST_COUNT);
+                getData(true, mCurrentCounter + 1);
             }
         });
     }
 
-    private void getData(final boolean isLoadMore,int start ,int end ) {
-        NetworkAPIFactoryImpl.getInformationAPI().getSeekList("1001", start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
+    private void getData(final boolean isLoadMore, int start) {
+        NetworkAPIFactoryImpl.getInformationAPI().todayDeal(3, start, REQUEST_COUNT, AppConstant.HISTORY_DEAL_OPCODE, new OnAPIListener<List<TodayDealReturnBean>>() {
             @Override
             public void onError(Throwable ex) {
-
+                if (lrv != null) {
+                    lrv.setNoMore(true);
+                    if (!isLoadMore) {
+                        list.clear();
+                        historyBuyAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                        showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+                    }
+                }
             }
 
             @Override
-            public void onSuccess(FansHotBuyReturnBeen fansHotBuyReturnBeen) {
-                if (fansHotBuyReturnBeen.getList()==null){
+            public void onSuccess(List<TodayDealReturnBean> todayEntrustReturnBeen) {
+                if (todayEntrustReturnBeen == null) {
                     lrv.setNoMore(true);
                     return;
                 }
-                if (isLoadMore){
+                if (isLoadMore) {
+                    closeErrorView();
                     loadList.clear();
-                    loadList = fansHotBuyReturnBeen.getList();
+                    loadList = todayEntrustReturnBeen;
                     loadMoreData();
-                }else {
+                } else {
                     list.clear();
-                    list = fansHotBuyReturnBeen.getList();
+                    list = todayEntrustReturnBeen;
                     showData();
                 }
             }
         });
-
-
     }
 
     public void showData() {
-        mCurrentCounter =list.size();
-        lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
+        if (list.size() == 0) {
+            showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+        } else {
+            closeErrorView();
+        }
+        mCurrentCounter = list.size();
+        lRecyclerViewAdapter.notifyDataSetChanged();
         historyBuyAdapter.addAll(list);
         lrv.refresh();
     }
@@ -157,13 +177,13 @@ public class HistoryBuyFragment extends BaseFragment {
         }
     }
 
-    @OnClick({R.id.ll_start_time,R.id.ll_end_time})
-    public void OnTimeSelectClick(View v){
-        switch (v.getId()){
+    @OnClick({R.id.ll_start_time, R.id.ll_end_time})
+    public void OnTimeSelectClick(View v) {
+        switch (v.getId()) {
             case R.id.ll_start_time:
                 onYearMonthStartTime();
                 break;
-            case  R.id.ll_end_time :
+            case R.id.ll_end_time:
                 onYearMonthEndTime();
                 break;
 

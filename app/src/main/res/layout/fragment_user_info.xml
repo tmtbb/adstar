@@ -92,7 +92,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="120dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/welcome_bg"
+                    android:src="@drawable/user_default_head"
                     app:roundHeight="38dp"
                     app:roundWidth="38dp" />
 

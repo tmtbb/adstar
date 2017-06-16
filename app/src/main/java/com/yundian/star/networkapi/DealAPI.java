@@ -6,6 +6,7 @@ import com.yundian.star.been.BookingStarListBean;
 import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.been.MoneyDetailListBean;
 import com.yundian.star.been.RequestResultBean;
+import com.yundian.star.been.StatServiceListBean;
 import com.yundian.star.been.WXPayReturnEntity;
 import com.yundian.star.listener.OnAPIListener;
 
@@ -91,4 +92,7 @@ public interface DealAPI {
     void test(String title, double price ,OnAPIListener<Object> listener);//预约明星列表
     void balance(OnAPIListener<AssetDetailsBean> listener);//余额
     void identity(OnAPIListener<IdentityInfoBean> listener);//身份
+    void nikeName(String nickname,OnAPIListener<RequestResultBean> listener);//身份
+    void starMeet(String starcode,long mid,String city_name,String appoint_time,int meet_type,String comment,OnAPIListener<RequestResultBean> listener);
+    void statServiceList(String starcode,OnAPIListener<StatServiceListBean> listener);
 }

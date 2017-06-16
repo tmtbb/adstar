@@ -39,10 +39,9 @@
         <View
             android:layout_width="0.5dp"
             android:layout_height="match_parent"
-            android:background="@color/color_e5e5e5"
-            android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
-            ></View>
+            android:layout_marginTop="15dp"
+            android:background="@color/color_e5e5e5"></View>
 
         <LinearLayout
             android:id="@+id/ll_end_time"
@@ -117,8 +116,14 @@
 
     </LinearLayout>
 
-    <com.github.jdsjlzx.recyclerview.LRecyclerView
-        android:id="@+id/lrv"
+    <FrameLayout
+        android:id="@id/parent_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.github.jdsjlzx.recyclerview.LRecyclerView>
+        android:layout_height="match_parent">
+
+        <com.github.jdsjlzx.recyclerview.LRecyclerView
+            android:id="@+id/lrv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 </LinearLayout>

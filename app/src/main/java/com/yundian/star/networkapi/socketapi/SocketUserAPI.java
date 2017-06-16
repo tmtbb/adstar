@@ -13,9 +13,12 @@ import com.yundian.star.networkapi.UserAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
 
 import java.util.HashMap;
+
+import static com.igexin.push.core.g.S;
 
 /**
  * Created by yaowang on 2017/2/20.
@@ -137,6 +140,17 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
         map.put("phone", phone);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.IsRegister,
                 SocketAPIConstant.ReqeutType.User, map);
+        requestEntity(socketDataPacket, RegisterReturnBeen.class, listener);
+    }
+
+    @Override
+    public void starCount( OnAPIListener<RegisterReturnBeen> listener) {
+        LogUtils.loge("持有明星数---");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("uid", SharePrefUtil.getInstance().getUserId());
+//        map.put("token", SharePrefUtil.getInstance().getToken());
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StartCount,
+                SocketAPIConstant.ReqeutType.NewInfos, map);
         requestEntity(socketDataPacket, RegisterReturnBeen.class, listener);
     }
 

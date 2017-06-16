@@ -5,17 +5,25 @@ package com.yundian.star.base;
  */
 
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
+import android.view.View;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -29,6 +37,9 @@ import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIRequestManag
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIResponse;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.ui.im.activity.SystemMessagesActivity;
+import com.yundian.star.utils.LogUtils;
+import com.yundian.star.ui.main.activity.GeneralSettingsActivity;
+import com.yundian.star.ui.main.activity.MainActivity;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.TUtil;
 import com.yundian.star.utils.ToastUtils;
@@ -76,7 +87,9 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     public Context mContext;
     private boolean isConfigChange = false;
     protected View rootView;
-    private View errorView;
+    private LinearLayout errorView;
+    private NotificationManager mNotificationManager;
+    private NotificationCompat.Builder mBuilder;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,6 +107,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         }
         this.initPresenter();
         this.initView();
+        notificationTest();
         matchSucessListener();
     }
 
@@ -289,34 +303,56 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     }
 
     /**
-     * 加载失败view
+     * 加载失败view  空白页
+     * <p>
+     * 根布局  标题栏以下
      *
-     * @param parent 根布局  标题栏以下
-     * @param msg    错误信息
+     * @param msg 错误信息
      */
-    public void showErrorView(ViewGroup parent, String msg) {
-        if (parent == null) {
-            return;
+    public void showErrorView(FrameLayout parentView, int drawableId, String msg) {
+        try {
+            if (errorView != null && parentView != null) {
+                parentView.removeView(errorView);
+                errorView = null;
+            }
+            LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, Gravity.CENTER);
+            LayoutInflater inflater3 = LayoutInflater.from(this);
+            errorView = (LinearLayout) inflater3.inflate(R.layout.layout_error_view, null);
+            errorView.setLayoutParams(lp);
+            TextView errorMsg = (TextView) errorView.findViewById(R.id.tv_error_msg);
+            ImageView errorImg = (ImageView) errorView.findViewById(R.id.iv_error_icon);
+            errorImg.setImageResource(drawableId);
+            errorMsg.setText(msg);
+            errorImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickImg();
+                }
+            });
+            if (parentView != null) {
+                parentView.addView(errorView);
+                LogUtils.loge("添加view----------------");
+            }
+            errorView.setVisibility(View.VISIBLE);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-        LayoutInflater inflater3 = LayoutInflater.from(mContext);
-        errorView = inflater3.inflate(R.layout.layout_error_view, null);
-        TextView errorMsg = (TextView) errorView.findViewById(R.id.tv_error_msg);
-        errorMsg.setText(msg);
-        errorView.setLayoutParams(lp);
-        if (rootView != null) {
-            ((FrameLayout) rootView.getParent()).addView(errorView);
-        }
-        parent.setVisibility(View.INVISIBLE);
-        errorView.setVisibility(View.VISIBLE);
+
     }
 
-    public void closeErrorView(ViewGroup parent) {
+    /**
+     * 关闭空白页
+     */
+    public void closeErrorView() {
         if (errorView != null) {
+            LogUtils.loge("关闭页面-----------------");
             errorView.setVisibility(View.GONE);
         }
-        parent.setVisibility(View.VISIBLE);
+    }
+
+    public void clickImg() {
+
     }
 
 
@@ -355,11 +391,41 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                     @Override
                     public void run() {
                         showAlertDialog(matchSucessReturnBeen);
+//                        showAlertDialog();
+                     //   mNotificationManager.notify(100, mBuilder.build());
                     }
                 });
             }
         });
 
 
+    }
+
+    private void notificationTest() {
+        mNotificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
+        mBuilder = new NotificationCompat.Builder(this);
+        Notification notification = mBuilder.build();
+        mBuilder.build().defaults = Notification.DEFAULT_ALL;
+        mBuilder.setContentTitle("测试标题")//设置通知栏标题
+                .setContentText("测试内容")   // /<span style="font-family: Arial;">/设置通知栏显示内容</span>
+                .setContentIntent(getDefalutIntent(Notification.FLAG_AUTO_CANCEL)) //设置通知栏点击意图
+//                .setFullScreenIntent(getDefalutIntent(Notification.FLAG_AUTO_CANCEL), true)
+//  .setNumber(10) //设置通知集合的数量
+                .setTicker("测试通知来啦") //通知首次出现在通知栏，带上升动画效果的
+                .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示，一般是系统获取到的时间
+                .setPriority(Notification.PRIORITY_MAX) //设置该通知优先级
+                //  .setAutoCancel(true)//设置这个标志当用户单击面板就可以让通知将自动取消
+                .setOngoing(false)//ture，设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)
+                .setDefaults(Notification.DEFAULT_VIBRATE)//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合
+                //Notification.DEFAULT_ALL  Notification.DEFAULT_SOUND 添加声音 // requires VIBRATE permission
+                .setVisibility(Notification.VISIBILITY_PRIVATE)
+                .setSmallIcon(R.mipmap.ic_launcher);//设置通知小ICON
+
+    }
+
+    public PendingIntent getDefalutIntent(int flags) {
+        Intent intent = new Intent(this, GeneralSettingsActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intent, flags);
+        return pendingIntent;
     }
 }

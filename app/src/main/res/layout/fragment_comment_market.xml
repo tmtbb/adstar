@@ -2,30 +2,35 @@
 <android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_fafafa"
-    >
+    android:background="@color/color_fafafa">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-        <com.github.jdsjlzx.recyclerview.LRecyclerView
-            android:id="@+id/lrv"
+
+        <FrameLayout
+            android:id="@+id/parent_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="14dp"
-            android:layout_marginBottom="50dp"
-            android:background="@color/color_fafafa"
-            >
-        </com.github.jdsjlzx.recyclerview.LRecyclerView>
+            android:layout_height="wrap_content">
+
+            <com.github.jdsjlzx.recyclerview.LRecyclerView
+                android:id="@+id/lrv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="50dp"
+                android:layout_marginTop="14dp"
+                android:background="@color/color_fafafa" />
+        </FrameLayout>
+
         <TextView
             android:id="@+id/tv_add_comment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="添加评论"
-            android:textSize="@dimen/fontSize_24sp"
             android:layout_gravity="center"
             android:gravity="center"
-            />
+            android:text="添加评论"
+            android:textSize="@dimen/fontSize_24sp" />
     </LinearLayout>
 
 </android.support.v4.widget.NestedScrollView>

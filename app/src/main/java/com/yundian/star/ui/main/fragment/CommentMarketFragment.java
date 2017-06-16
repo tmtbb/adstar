@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
@@ -35,9 +36,11 @@ import butterknife.OnClick;
 
 public class CommentMarketFragment extends BaseFragment {
     @Bind(R.id.lrv)
-    LRecyclerView lrv ;
+    LRecyclerView lrv;
     @Bind(R.id.tv_add_comment)
-    TextView tv_add_comment ;
+    TextView tv_add_comment;
+    @Bind(R.id.parent_view)
+    FrameLayout parentView;
     private static final int REQUEST_COUNT = 10;
     private static int mCurrentCounter = 0;
     private String code;
@@ -58,12 +61,12 @@ public class CommentMarketFragment extends BaseFragment {
 
     @Override
     protected void initView() {
-        if (getArguments()!=null){
+        if (getArguments() != null) {
             code = getArguments().getString(AppConstant.STAR_CODE);
-            LogUtils.loge("明星code"+code);
+            LogUtils.loge("明星code" + code);
         }
         initAdapter();
-        getData(false,1,REQUEST_COUNT);
+        getData(false, 1, REQUEST_COUNT);
         initListener();
     }
 
@@ -79,16 +82,16 @@ public class CommentMarketFragment extends BaseFragment {
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getData(true,mCurrentCounter+1,REQUEST_COUNT);
+                getData(true, mCurrentCounter + 1, REQUEST_COUNT);
             }
         });
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 boolean login = CheckLoginUtil.checkLogin(getActivity());
-                if (login){
-                    Intent intent = new Intent(getActivity(),AddUserCommentActivity.class);
-                    intent.putExtra(AppConstant.STAR_CODE,code);
+                if (login) {
+                    Intent intent = new Intent(getActivity(), AddUserCommentActivity.class);
+                    intent.putExtra(AppConstant.STAR_CODE, code);
                     getActivity().startActivity(intent);
                 }
 
@@ -115,27 +118,33 @@ public class CommentMarketFragment extends BaseFragment {
         lRecyclerViewAdapter.addHeaderView(header);
     }
 
-    private void getData(final boolean isLoadMore,int start ,int count) {
+    private void getData(final boolean isLoadMore, int start, int count) {
         NetworkAPIFactoryImpl.getInformationAPI().inquiry(code, start, count, new OnAPIListener<CommentMarketBeen>() {
             @Override
             public void onError(Throwable ex) {
-                if (lrv!=null){
+                if (lrv != null) {
                     lrv.setNoMore(true);
+                    list.clear();
+                    commentMarketAdapter.clear();
+                    lrv.refreshComplete(REQUEST_COUNT);
                 }
+                showErrorView(parentView, R.drawable.error_view_comment,"当前还没有相关数据");
             }
 
             @Override
             public void onSuccess(CommentMarketBeen been) {
-                LogUtils.loge("评论"+been.toString());
-                if (been.getCommentsinfo()==null){
+                LogUtils.loge("评论" + been.toString());
+                if (been.getCommentsinfo() == null) {
                     lrv.setNoMore(true);
                     return;
                 }
-                if (isLoadMore){
+
+                if (isLoadMore) {
+                    closeErrorView();
                     loadList.clear();
                     loadList = been.getCommentsinfo();
                     loadMoreData();
-                }else {
+                } else {
                     list.clear();
                     list = been.getCommentsinfo();
                     showData();
@@ -146,23 +155,26 @@ public class CommentMarketFragment extends BaseFragment {
     }
 
     @OnClick(R.id.tv_add_comment)
-    public void OnclickAddComment(){
+    public void OnclickAddComment() {
         Intent intent = new Intent(getActivity(), AddUserCommentActivity.class);
-        intent.putExtra(AppConstant.STAR_CODE,code);
+        intent.putExtra(AppConstant.STAR_CODE, code);
         getActivity().startActivity(intent);
     }
 
     public void showData() {
-        if (list.size()==0){
+        if (list.size() == 0) {
+            showErrorView(parentView, R.drawable.error_view_comment, "当前还没有相关数据");
             tv_add_comment.setVisibility(View.VISIBLE);
-        }else {
+        } else {
+            closeErrorView();
             tv_add_comment.setVisibility(View.GONE);
         }
-        mCurrentCounter =list.size();
+        mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         commentMarketAdapter.addAll(list);
         lrv.refreshComplete(REQUEST_COUNT);
     }
+
     private void loadMoreData() {
         if (loadList == null || list.size() == 0) {
             lrv.setNoMore(true);

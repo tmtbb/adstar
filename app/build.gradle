@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'io.fabric'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 def getGitVersion() {
     try {
@@ -116,4 +117,5 @@ dependencies {
     //fabric
     compile project(':qAMasterSDK')
     compile 'com.getui:sdk:2.10.2.0'
+    compile 'org.greenrobot:greendao:3.2.2' // add library
 }

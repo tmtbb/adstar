@@ -50,4 +50,10 @@ public class AppConstant {
     public static final String NEWS_IMG_RES = "news_img_res";
     public static final String TRANSITION_ANIMATION_NEWS_PHOTOS = "transition_animation_news_photos";
 
+
+    public static final Short TODAY_ENTRUST_OPCODE = SocketAPIConstant.OperateCode.TodayEntrust;
+    public static final Short HISTORY_ENTRUST_OPCODE =  SocketAPIConstant.OperateCode.HistoryEntrust;
+    public static final Short HISTORY_DEAL_OPCODE = SocketAPIConstant.OperateCode.HistoryDeal;
+    public static final Short TODAY_DEAL_OPCODE = SocketAPIConstant.OperateCode.TodayDeal;
+
 }

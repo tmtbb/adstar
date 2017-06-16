@@ -43,4 +43,5 @@ public interface UserAPI {
 
     //是否注册过
     void isRegisted(String phone, OnAPIListener<RegisterReturnBeen> listener);
+    void starCount( OnAPIListener<RegisterReturnBeen> listener);
 }

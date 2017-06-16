@@ -1,6 +1,7 @@
 package com.yundian.star.ui.main.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.FrameLayout;
 
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
@@ -27,6 +28,8 @@ public class FansHotBuyFragment extends BaseFragment {
 
     @Bind(R.id.lrv)
     LRecyclerView lrv ;
+    @Bind(R.id.parent_view)
+    FrameLayout parentView;
 
     private static final int REQUEST_COUNT = 10;
 
@@ -65,7 +68,13 @@ public class FansHotBuyFragment extends BaseFragment {
             NetworkAPIFactoryImpl.getInformationAPI().getSeekList(code, start, end, new OnAPIListener<FansHotBuyReturnBeen>() {
                 @Override
                 public void onError(Throwable ex) {
-
+                    if (lrv != null) {
+                        lrv.setNoMore(true);
+                        list.clear();
+                        fansHotBuyAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                    }
+                    showErrorView(parentView, R.drawable.error_view_comment, getResources().getString(R.string.empty_view_comment));
                 }
 
                 @Override
@@ -75,6 +84,7 @@ public class FansHotBuyFragment extends BaseFragment {
                         return;
                     }
                     if (isLoadMore){
+                        closeErrorView();
                         loadList.clear();
                         loadList = fansHotBuyReturnBeen.getList();
                         loadMoreData();
@@ -130,6 +140,11 @@ public class FansHotBuyFragment extends BaseFragment {
     }
 
     public void showData() {
+        if (list.size() == 0){
+            showErrorView(parentView, R.drawable.error_view_comment, getResources().getString(R.string.empty_view_comment));
+        }else{
+            closeErrorView();
+        }
         mCurrentCounter =list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         fansHotBuyAdapter.addAll(list);
