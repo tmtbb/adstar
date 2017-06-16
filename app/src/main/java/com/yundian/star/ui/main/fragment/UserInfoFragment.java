@@ -22,7 +22,11 @@ import com.yundian.star.been.EventBusMessage;
 
 import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.been.RegisterReturnBeen;
+import com.yundian.star.been.StarInfoBean;
 import com.yundian.star.been.StarInfoReturnBean;
+import com.yundian.star.greendao.GreenDaoManager;
+import com.yundian.star.greendao.StarInfo;
+import com.yundian.star.greendao.gen.StarInfoDao;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 
@@ -47,6 +51,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 import static com.netease.cosine.core.Cosine.test;
+
 
 /**
  * Created by Administrator on 2017/5/5.
@@ -78,6 +83,7 @@ public class UserInfoFragment extends BaseFragment {
     @Bind(R.id.btn_my_referee)
     Button myReferee;
     private boolean flag = true;
+
 
     @Override
     protected int getLayoutResource() {
@@ -275,7 +281,7 @@ public class UserInfoFragment extends BaseFragment {
     }
 
     private void testStar() {
-        NetworkAPIFactoryImpl.getInformationAPI().starInfo("17682310986", "", 1, new OnAPIListener<StarInfoReturnBean>() {
+        NetworkAPIFactoryImpl.getInformationAPI().starInfo("123123", "123", 1, new OnAPIListener<StarInfoReturnBean>() {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.loge("明星列表失败---------------");
@@ -284,8 +290,11 @@ public class UserInfoFragment extends BaseFragment {
             @Override
             public void onSuccess(StarInfoReturnBean starInfoReturnBean) {
                 LogUtils.loge("明星列表成功---------");
-
-
+                if (starInfoReturnBean.getResult() == 1) {
+                   GreenDaoManager.getInstance().saveNoteLists(starInfoReturnBean.getList());
+                }
+//                starInfoDao.insertInTx(starInfoReturnBean.getList());
+                LogUtils.loge("插入成功");
             }
         });
     }

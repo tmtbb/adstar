@@ -3,6 +3,8 @@ package com.yundian.star.been;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.yundian.star.greendao.StarInfo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +14,7 @@ import java.util.List;
 
 public class StarInfoReturnBean implements Parcelable {
     private int result;
-    private List<StarInfoBean> list;
+    private List<StarInfo> list;
 
     public int getResult() {
         return result;
@@ -22,11 +24,11 @@ public class StarInfoReturnBean implements Parcelable {
         this.result = result;
     }
 
-    public List<StarInfoBean> getList() {
+    public List<StarInfo> getList() {
         return list;
     }
 
-    public void setList(List<StarInfoBean> list) {
+    public void setList(List<StarInfo> list) {
         this.list = list;
     }
 
@@ -46,8 +48,8 @@ public class StarInfoReturnBean implements Parcelable {
 
     protected StarInfoReturnBean(Parcel in) {
         this.result = in.readInt();
-        this.list = new ArrayList<StarInfoBean>();
-        in.readList(this.list, StarInfoBean.class.getClassLoader());
+        this.list = new ArrayList<StarInfo>();
+        in.readList(this.list, StarInfo.class.getClassLoader());
     }
 
     public static final Creator<StarInfoReturnBean> CREATOR = new Creator<StarInfoReturnBean>() {
