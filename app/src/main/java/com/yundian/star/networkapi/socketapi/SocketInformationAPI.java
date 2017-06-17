@@ -5,11 +5,13 @@ import com.yundian.star.app.SocketAPIConstant;
 import com.yundian.star.base.SearchReturnbeen;
 import com.yundian.star.been.AdvBeen;
 import com.yundian.star.been.AskToBuyReturnBeen;
+import com.yundian.star.been.BuyShellReutrnBeen;
 import com.yundian.star.been.CommentMarketBeen;
 import com.yundian.star.been.EntrustReturnBeen;
 import com.yundian.star.been.FansEntrustReturnBean;
 import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.been.FansTopListBeen;
+import com.yundian.star.been.HaveStarTimeBeen;
 import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
 import com.yundian.star.been.OrderReturnBeen;
@@ -18,9 +20,11 @@ import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
 import com.yundian.star.been.StarExperienceBeen;
+import com.yundian.star.been.StarInfoReturnBean;
 import com.yundian.star.been.StarListbeen;
 import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.StarStarAchBeen;
+import com.yundian.star.been.StartShellTimeBeen;
 import com.yundian.star.been.SureOrder;
 import com.yundian.star.been.TimeLineBeen;
 import com.yundian.star.been.TodayDealReturnBean;
@@ -38,8 +42,6 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
-
-import static android.R.attr.id;
 
 /**
  * Created by ysl.
@@ -420,6 +422,48 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Fans,
                 SocketAPIConstant.ReqeutType.History, map);
       requestEntity(socketDataPacket,FansEntrustReturnBean.class,listener);
+    }
+
+
+    @Override
+    public void starInfo(String phone, String code, int all, OnAPIListener<StarInfoReturnBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("phone", phone);
+        map.put("code", code);
+        map.put("all", all);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarInfo,
+                SocketAPIConstant.ReqeutType.NewInfos, map);
+        requestEntity(socketDataPacket,StarInfoReturnBean.class,listener);
+    }
+
+    @Override
+    public void getHaveStarTime(long uid, String starcode, OnAPIListener<HaveStarTimeBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("uid", uid);
+        map.put("starcode", starcode);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.HaveStarTime,
+                SocketAPIConstant.ReqeutType.NewInfos, map);
+        requestEntity(socketDataPacket,HaveStarTimeBeen.class,listener);
+    }
+
+    @Override
+    public void getStarShellTime(String starcode, OnAPIListener<StartShellTimeBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("starcode", starcode);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarShellTime,
+                SocketAPIConstant.ReqeutType.NewInfos, map);
+        requestEntity(socketDataPacket,StartShellTimeBeen.class,listener);
+    }
+
+    @Override
+    public void getBuyShellData(long id, String token, String symbol, OnAPIListener<BuyShellReutrnBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("token", token);
+        map.put("symbol", symbol);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.BuyShellCom,
+                SocketAPIConstant.ReqeutType.History, map);
+        requestEntity(socketDataPacket,BuyShellReutrnBeen.class,listener);
     }
 
 }

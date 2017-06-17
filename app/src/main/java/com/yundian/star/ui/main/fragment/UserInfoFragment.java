@@ -1,9 +1,6 @@
 package com.yundian.star.ui.main.fragment;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.DialogInterface;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,15 +13,14 @@ import android.widget.TextView;
 
 import com.yundian.star.R;
 import com.yundian.star.base.BaseFragment;
-
 import com.yundian.star.been.AssetDetailsBean;
 import com.yundian.star.been.EventBusMessage;
-
 import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.been.RegisterReturnBeen;
+import com.yundian.star.been.StarInfoReturnBean;
+import com.yundian.star.greendao.GreenDaoManager;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
-
 import com.yundian.star.ui.main.activity.BookingStarActivity;
 import com.yundian.star.ui.main.activity.CustomerServiceActivity;
 import com.yundian.star.ui.main.activity.GeneralSettingsActivity;
@@ -32,7 +28,6 @@ import com.yundian.star.ui.main.activity.UserAssetsManageActivity;
 import com.yundian.star.ui.main.activity.UserSettingActivity;
 import com.yundian.star.ui.view.RoundImageView;
 import com.yundian.star.utils.ImageLoaderUtils;
-
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
@@ -44,6 +39,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+
 
 /**
  * Created by Administrator on 2017/5/5.
@@ -76,6 +72,7 @@ public class UserInfoFragment extends BaseFragment {
     Button myReferee;
     private boolean flag = true;
 
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_user_info;
@@ -93,6 +90,7 @@ public class UserInfoFragment extends BaseFragment {
 //            LogUtils.loge("---登陆成功了,更新数据和请求余额");
 //            requestBalance();
 //        }
+        testStar();
     }
 
     private void initData() {
@@ -266,6 +264,25 @@ public class UserInfoFragment extends BaseFragment {
             public void onSuccess(RegisterReturnBeen registerReturnBeen) {
                 LogUtils.loge("明星数量:" + registerReturnBeen.toString());
                 userOrderStar.setText(registerReturnBeen.getAmount() + "");
+            }
+        });
+    }
+
+    private void testStar() {
+        NetworkAPIFactoryImpl.getInformationAPI().starInfo("123123", "123", 1, new OnAPIListener<StarInfoReturnBean>() {
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.loge("明星列表失败---------------");
+            }
+
+            @Override
+            public void onSuccess(StarInfoReturnBean starInfoReturnBean) {
+                LogUtils.loge("明星列表成功---------");
+                if (starInfoReturnBean.getResult() == 1) {
+                   GreenDaoManager.getInstance().saveNoteLists(starInfoReturnBean.getList());
+                }
+//                starInfoDao.insertInTx(starInfoReturnBean.getList());
+                LogUtils.loge("插入成功");
             }
         });
     }

@@ -4,11 +4,13 @@ package com.yundian.star.networkapi;
 import com.yundian.star.base.SearchReturnbeen;
 import com.yundian.star.been.AdvBeen;
 import com.yundian.star.been.AskToBuyReturnBeen;
+import com.yundian.star.been.BuyShellReutrnBeen;
 import com.yundian.star.been.CommentMarketBeen;
 import com.yundian.star.been.EntrustReturnBeen;
 import com.yundian.star.been.FansEntrustReturnBean;
 import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.been.FansTopListBeen;
+import com.yundian.star.been.HaveStarTimeBeen;
 import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
 import com.yundian.star.been.OrderReturnBeen;
@@ -17,9 +19,11 @@ import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
 import com.yundian.star.been.StarExperienceBeen;
+import com.yundian.star.been.StarInfoReturnBean;
 import com.yundian.star.been.StarListbeen;
 import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.been.StarStarAchBeen;
+import com.yundian.star.been.StartShellTimeBeen;
 import com.yundian.star.been.SureOrder;
 import com.yundian.star.been.TimeLineBeen;
 import com.yundian.star.been.TodayDealReturnBean;
@@ -71,4 +75,8 @@ public interface InformationAPI {
     void todayDeal(int status,int start,int count,Short opcode,OnAPIListener<List<TodayDealReturnBean>> listener);
     void fansRntrust(String symbol,int buySell, int start,int count,OnAPIListener<FansEntrustReturnBean> listener);
 
+    void starInfo(String phone,String code, int all,OnAPIListener<StarInfoReturnBean> listener);
+    void getHaveStarTime(long uid,String starcode,OnAPIListener<HaveStarTimeBeen> listener);
+    void getStarShellTime(String starcode,OnAPIListener<StartShellTimeBeen> listener);
+    void getBuyShellData(long id, String token,String symbol,OnAPIListener<BuyShellReutrnBeen> listener);
 }

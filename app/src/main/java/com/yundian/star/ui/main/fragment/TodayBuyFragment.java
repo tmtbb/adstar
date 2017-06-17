@@ -11,13 +11,10 @@ import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
-import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.been.TodayDealReturnBean;
-import com.yundian.star.been.TodayEntrustReturnBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.TodayBuyAdapter;
-import com.yundian.star.utils.LogUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -119,6 +116,7 @@ public class TodayBuyFragment extends BaseFragment {
     public void showData() {
         if (list.size() == 0) {
             showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+            return;
         } else {
             closeErrorView();
         }

@@ -54,9 +54,11 @@
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:background="@drawable/radi_button_bg"
+        android:weightSum="3"
         >
 
         <RadioButton
+            android:layout_marginLeft="20dp"
             android:id="@+id/rb_1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -79,6 +81,7 @@
             android:text="@string/transfer" />
 
         <RadioButton
+            android:layout_marginRight="20dp"
             android:id="@+id/rb_3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -88,7 +91,7 @@
             android:gravity="center"
             android:textColor="@color/color_8C0808"
             android:text="@string/fans_meet_and_greet" />
-        <RadioButton
+        <!--<RadioButton
             android:textColor="@color/color_8C0808"
             android:id="@+id/rb_4"
             android:layout_width="0dp"
@@ -97,7 +100,7 @@
             android:button="@null"
             android:drawableTop="@drawable/optional_icon"
             android:gravity="center"
-            android:text="@string/optional" />
+            android:text="@string/optional" />-->
 
     </RadioGroup>
 </android.support.design.widget.CoordinatorLayout>

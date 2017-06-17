@@ -99,6 +99,10 @@ public interface SocketAPIConstant {
         Short TodayDeal = 6007;
         Short HistoryDeal = 6009;
         Short Fans = 6011;
+        Short StarInfo = 10001;
+        Short HaveStarTime = 10025;
+        Short StarShellTime = 10027;
+        Short BuyShellCom = 6017;
 
 
 

@@ -1,6 +1,7 @@
 package com.yundian.star.ui.main.fragment;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.FrameLayout;
 
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
@@ -9,11 +10,12 @@ import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseFragment;
-import com.yundian.star.been.OrderReturnBeen;
+import com.yundian.star.been.StarMailListBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.AlreadyBoughtAdapter;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
 
 import java.util.ArrayList;
 
@@ -27,12 +29,14 @@ import butterknife.Bind;
 public class AlreadyBoughtFragment extends BaseFragment {
     @Bind(R.id.lrv)
     LRecyclerView lrv;
+    @Bind(R.id.parent_view)
+    FrameLayout parentView;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private AlreadyBoughtAdapter alreadyBoughtAdapter;
     private static int mCurrentCounter = 1;
     private static final int REQUEST_COUNT = 10;
-    private ArrayList<OrderReturnBeen.OrdersListBean> list = new ArrayList<>();
-    private ArrayList<OrderReturnBeen.OrdersListBean> loadList = new ArrayList<>();
+    private ArrayList<StarMailListBeen.DepositsinfoBean> list = new ArrayList<>();
+    private ArrayList<StarMailListBeen.DepositsinfoBean> loadList = new ArrayList<>();
 
 
     @Override
@@ -81,39 +85,78 @@ public class AlreadyBoughtFragment extends BaseFragment {
 
 
     private void getHistoryOrderData(final boolean isLoadMore, int start, int count) {
-        NetworkAPIFactoryImpl.getInformationAPI().historyOrder(142/*SharePrefUtil.getInstance().getUserId()*/,
-                "adc28ac69625652b46d5c00b"/*SharePrefUtil.getInstance().getToken()*/, 3, start, count, new OnAPIListener<OrderReturnBeen>() {
-                    @Override
-                    public void onError(Throwable ex) {
-                        if (lrv != null) {
-                            lrv.setNoMore(true);
-                        }
-                        LogUtils.loge("当日订单返回错误码" + ex.toString());
+//        NetworkAPIFactoryImpl.getInformationAPI().historyOrder(142/*SharePrefUtil.getInstance().getUserId()*/,
+//                "adc28ac69625652b46d5c00b"/*SharePrefUtil.getInstance().getToken()*/, 3, start, count, new OnAPIListener<OrderReturnBeen>() {
+//                    @Override
+//                    public void onError(Throwable ex) {
+//                        if (lrv != null) {
+//                            lrv.setNoMore(true);
+//                        }
+//                        LogUtils.loge("当日订单返回错误码" + ex.toString());
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(OrderReturnBeen orderReturnBeen) {
+//                        LogUtils.loge("当日订单" + orderReturnBeen.toString());
+//                        if (orderReturnBeen.getOrdersList() == null || orderReturnBeen.getOrdersList().size() == 0) {
+//                            lrv.setNoMore(true);
+//                            return;
+//                        }
+//                        if (isLoadMore) {
+//                            loadList.clear();
+//                            loadList = orderReturnBeen.getOrdersList();
+//                            loadMoreData();
+//                        } else {
+//                            list.clear();
+//                            list = orderReturnBeen.getOrdersList();
+//                            showData();
+//                        }
+//                    }
+//                });
+        NetworkAPIFactoryImpl.getInformationAPI().getStarmaillist(SharePrefUtil.getInstance().getUserId(), SharePrefUtil.getInstance().getToken(),"123", start, REQUEST_COUNT, new OnAPIListener<StarMailListBeen>() {
+            @Override
+            public void onError(Throwable ex) {
+                if (lrv!=null){
+                    lrv.setNoMore(true);
+                    if (!isLoadMore) {
+                        list.clear();
+                        alreadyBoughtAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                        showErrorView(parentView, R.drawable.error_view_comment, getResources().getString(R.string.empty_order_info));
                     }
+                }
+            }
 
-                    @Override
-                    public void onSuccess(OrderReturnBeen orderReturnBeen) {
-                        LogUtils.loge("当日订单" + orderReturnBeen.toString());
-                        if (orderReturnBeen.getOrdersList() == null || orderReturnBeen.getOrdersList().size() == 0) {
-                            lrv.setNoMore(true);
-                            return;
-                        }
-                        if (isLoadMore) {
-                            loadList.clear();
-                            loadList = orderReturnBeen.getOrdersList();
-                            loadMoreData();
-                        } else {
-                            list.clear();
-                            list = orderReturnBeen.getOrdersList();
-                            showData();
-                        }
-                    }
-                });
+            @Override
+            public void onSuccess(StarMailListBeen starMailListBeen) {
+                LogUtils.loge(starMailListBeen.toString());
+                if (starMailListBeen.getDepositsinfo()==null||starMailListBeen.getDepositsinfo()==null){
+                    lrv.setNoMore(true);
+                    return;
+                }
+                if (isLoadMore){
+                    closeErrorView();
+                    loadList.clear();
+                    loadList = starMailListBeen.getDepositsinfo();
+                    loadMoreData();
+                }else {
+                    list.clear();
+                    list = starMailListBeen.getDepositsinfo();
+                    showData();
+                }
+            }
+        });
 
     }
 
 
     public void showData() {
+        if (list.size() == 0){
+            showErrorView(parentView, R.drawable.error_view_comment, getActivity().getResources().getString(R.string.empty_view_comment));
+            return;
+        }else{
+            closeErrorView();
+        }
         alreadyBoughtAdapter.clear();
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();

@@ -10,6 +10,7 @@ import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.AskToBuyReturnBeen;
+import com.yundian.star.been.HaveStarTimeBeen;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.listener.OnAPIListener;
@@ -55,6 +56,8 @@ public class TransferMarketFragment extends BaseFragment {
     TextView tv_content_limit;
     @Bind(R.id.tv_total)
     TextView tv_total;
+    @Bind(R.id.tv_have_star_time)
+    TextView tv_have_star_time;
     private double buy_price = 0.01;
     private int buy_num = 600;
     private double total_prices = 0;
@@ -88,9 +91,26 @@ public class TransferMarketFragment extends BaseFragment {
             ImageLoaderUtils.display(getContext(), img_head, head_url);
             tv_name_code.setText(String.format(getContext().getResources().getString(R.string.name_code), name, code));
         }
+        getHaveCodeTime();
         getData();
         initListener();
         myHandler = new MyHandler2(this);
+    }
+
+    private void getHaveCodeTime() {
+        NetworkAPIFactoryImpl.getInformationAPI().getHaveStarTime(SharePrefUtil.getInstance().getUserId(),
+                code, new OnAPIListener<HaveStarTimeBeen>() {
+                    @Override
+                    public void onError(Throwable ex) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(HaveStarTimeBeen haveStarTimeBeen) {
+                        LogUtils.loge("持有时间"+haveStarTimeBeen.toString());
+                        tv_have_star_time.setText(String.valueOf(haveStarTimeBeen.getStar_time()));
+                    }
+                });
     }
 
     private void getData() {

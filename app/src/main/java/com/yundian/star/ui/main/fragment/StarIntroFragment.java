@@ -92,6 +92,9 @@ public class StarIntroFragment extends BaseFragment {
 
             @Override
             public void onSuccess(StarBuyActReferralInfo info) {
+                if (info==null){
+                    return;
+                }
                 initData(info);
             }
         });

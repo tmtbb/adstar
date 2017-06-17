@@ -3,8 +3,9 @@ package com.yundian.star.ui.main.fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
@@ -25,10 +26,14 @@ public class FansHotFragment extends BaseFragment {
     FrameLayout fl_fans_hot_content ;
 
     @Bind(R.id.rl_buy)
-    RelativeLayout rl_buy ;
+    FrameLayout rl_buy ;
+    @Bind(R.id.img_1)
+    ImageView img_1 ;
+    @Bind(R.id.img_2)
+    ImageView img_2 ;
 
     @Bind(R.id.rl_transfer)
-    RelativeLayout rl_transfer;
+    FrameLayout rl_transfer;
 
     private FansHotBuyFragment hotBuyFragment;
     private FansHotBuyFragment transferFragment;
@@ -47,7 +52,11 @@ public class FansHotFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initListener();
+    }
 
+    private void initListener() {
+        buyHotOnclick();
     }
 
     @Override
@@ -80,11 +89,12 @@ public class FansHotFragment extends BaseFragment {
             transferFragment = (FansHotBuyFragment) getChildFragmentManager().findFragmentByTag("FansHotTransferFragment");
         }
         transaction.commit();
-        buyHotOnclick();
     }
 
     @OnClick(R.id.rl_buy)
     public void buyHotOnclick(){
+        img_1.setVisibility(View.VISIBLE);
+        img_2.setVisibility(View.GONE);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.show(hotBuyFragment);
         transaction.hide(transferFragment);
@@ -93,6 +103,8 @@ public class FansHotFragment extends BaseFragment {
 
     @OnClick(R.id.rl_transfer)
     public void transferHotOnclick(){
+        img_1.setVisibility(View.GONE);
+        img_2.setVisibility(View.VISIBLE);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.show(transferFragment);
         transaction.hide(hotBuyFragment);

@@ -170,7 +170,7 @@ public class SystemMessagesActivity extends BaseActivity {
     }
 
     private void getData(final boolean isLoadMore, int start, int count) {
-        NetworkAPIFactoryImpl.getInformationAPI().historyOrder(142/*SharePrefUtil.getInstance().getUserId()*/,
+        NetworkAPIFactoryImpl.getInformationAPI().historyOrder(152/*SharePrefUtil.getInstance().getUserId()*/,
                 "adc28ac69625652b46d5c00b"/*SharePrefUtil.getInstance().getToken()*/, 3, start, count, new OnAPIListener<OrderReturnBeen>() {
                     @Override
                     public void onError(Throwable ex) {
@@ -296,7 +296,7 @@ public class SystemMessagesActivity extends BaseActivity {
             ToastUtils.showShort("订单支付失败");
             return;
         }
-        NetworkAPIFactoryImpl.getInformationAPI().sureOrder(142/*SharePrefUtil.getInstance().getUserId()*/,
+        NetworkAPIFactoryImpl.getInformationAPI().sureOrder(152/*SharePrefUtil.getInstance().getUserId()*/,
                 "6902464177061903496"/*SharePrefUtil.getInstance().getToken()*/, currentBean.getOrderId(), currentBean.getPositionId(), new OnAPIListener<SureOrder>() {
                     @Override
                     public void onError(Throwable ex) {

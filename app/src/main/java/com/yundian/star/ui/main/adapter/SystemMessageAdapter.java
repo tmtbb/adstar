@@ -71,6 +71,8 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
                     viewHolder.tv_status.setText("匹配中");
                 }else if (bean.getHandle()==-2){
                     viewHolder.tv_status.setText("订单异常");
+                }else {
+                    viewHolder.tv_status.setText("取消");
                 }
             }else {
                 viewHolder.tv_check.setVisibility(View.GONE);
@@ -101,6 +103,8 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
                     viewHolder.tv_status.setText("匹配中");
                 }else if (bean.getHandle()==-2){
                     viewHolder.tv_status.setText("订单异常");
+                }else {
+                    viewHolder.tv_status.setText("取消");
                 }
             }else {
                 viewHolder.tv_check.setVisibility(View.GONE);

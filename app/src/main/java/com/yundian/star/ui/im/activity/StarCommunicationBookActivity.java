@@ -135,7 +135,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
             @Override
             public void onSuccess(StarMailListBeen starMailListBeen) {
                 LogUtils.loge(starMailListBeen.toString());
-                if (starMailListBeen.getDepositsinfo()==null){
+                if (starMailListBeen.getDepositsinfo()==null||starMailListBeen.getDepositsinfo()==null||starMailListBeen.getDepositsinfo().size()==0){
                     lrv.setNoMore(true);
                     showErrorView(parentView,R.drawable.error_view_contact, getResources().getString(R.string.empty_view_contacts));
                     return;
