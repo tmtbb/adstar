@@ -29,11 +29,13 @@ import com.alibaba.fastjson.JSON;
 import com.yundian.star.R;
 import com.yundian.star.base.baseapp.AppManager;
 import com.yundian.star.been.MatchSucessReturnBeen;
+import com.yundian.star.been.OrderSucReturnBeen;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIRequestManage;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIResponse;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.ui.im.activity.SystemMessagesActivity;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.TUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.utils.daynightmodeutils.ChangeModeController;
@@ -377,30 +379,65 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         SocketAPIRequestManage.getInstance().setOnMatchSucessListener(new SocketAPIRequestManage.OnMatchSucessListener() {
             @Override
             public void onMatchListener(SocketDataPacket socketDataPacket) {
-                LogUtils.loge("撮合成功");
                 SocketAPIResponse socketAPIResponse = new SocketAPIResponse(socketDataPacket);
-                final MatchSucessReturnBeen matchSucessReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), MatchSucessReturnBeen.class);
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        String s1 = null;
-                        TextView textView = new TextView(mContext);
-                        textView.setText("点击查看");
-                        textView.setTextColor(getResources().getColor(R.color.color_8D0809));
-                        if (matchSucessReturnBeen.getBuySell()==1){
-                            s1 = "求购成功";
 
-                        }else {
-                            s1 = "转让成功";
+                if (socketDataPacket.getOperateCode()==5101){
+                    LogUtils.loge("撮合成功");
+                    final MatchSucessReturnBeen matchSucessReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), MatchSucessReturnBeen.class);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String s1 = null;
+                            TextView textView = new TextView(mContext);
+                            textView.setText("点击查看");
+                            textView.setTextColor(getResources().getColor(R.color.color_8D0809));
+                            if (matchSucessReturnBeen.getBuyUid()== SharePrefUtil.getInstance().getUserId()){
+                                s1 = "求购成功";
+
+                            }else {
+                                s1 = "转让成功";
+                            }
+                            //showAlertDialog(matchSucessReturnBeen);
+                            String s = "撮合成功提醒:"+"("+matchSucessReturnBeen.getSymbol()+")"+
+                                    s1+",请到系统消息中查看,"+textView+"。";
+                            mBuilder.setContentText(s);
+                            //                        showAlertDialog();
+                            mNotificationManager.notify(100, mBuilder.build());
                         }
-                        //showAlertDialog(matchSucessReturnBeen);
-                        String s = "撮合成功提醒:"+"("+matchSucessReturnBeen.getSymbol()+")"+
-                                s1+",请到系统消息中查看,"+textView+"。";
-                        mBuilder.setContentText(s);
-//                        showAlertDialog();
-                        mNotificationManager.notify(100, mBuilder.build());
-                    }
-                });
+                    });
+                }else {
+                    TextView textView = new TextView(mContext);
+                    textView.setText("点击查看");
+                    textView.setTextColor(getResources().getColor(R.color.color_8D0809));
+                    final OrderSucReturnBeen orderSucReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), OrderSucReturnBeen.class);
+                    String s = "交易成功提醒:请到系统消息中查看,"+textView+"。";
+                    mBuilder.setContentText(s);
+                    //                        showAlertDialog();
+                    mNotificationManager.notify(100, mBuilder.build());
+                    /*runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            String s1 = null;
+                            TextView textView = new TextView(mContext);
+                            textView.setText("点击查看");
+                            textView.setTextColor(getResources().getColor(R.color.color_8D0809));
+                            if (matchSucessReturnBeen.getBuyUid()== SharePrefUtil.getInstance().getUserId()){
+                                s1 = "求购成功";
+
+                            }else {
+                                s1 = "转让成功";
+                            }
+                            //showAlertDialog(matchSucessReturnBeen);
+                            String s = "撮合成功提醒:"+"("+matchSucessReturnBeen.getSymbol()+")"+
+                                    s1+",请到系统消息中查看,"+textView+"。";
+                            mBuilder.setContentText(s);
+                        }
+                    });*/
+
+                }
+
+
+
             }
         });
 

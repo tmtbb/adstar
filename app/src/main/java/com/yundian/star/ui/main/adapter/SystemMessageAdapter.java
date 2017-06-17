@@ -30,7 +30,8 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
     public SystemMessageAdapter(Context context , ArrayList<OrderReturnBeen.OrdersListBean> list,long id) {
         this.listData = list;
         this.mContext = context ;
-        this.uid=152;
+        //this.uid=id;
+        this.uid=142;
     }
 
     @Override
@@ -70,6 +71,8 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
                     viewHolder.tv_status.setText("匹配中");
                 }else if (bean.getHandle()==-2){
                     viewHolder.tv_status.setText("订单异常");
+                }else {
+                    viewHolder.tv_status.setText("取消");
                 }
             }else {
                 viewHolder.tv_check.setVisibility(View.GONE);
@@ -100,6 +103,8 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
                     viewHolder.tv_status.setText("匹配中");
                 }else if (bean.getHandle()==-2){
                     viewHolder.tv_status.setText("订单异常");
+                }else {
+                    viewHolder.tv_status.setText("取消");
                 }
             }else {
                 viewHolder.tv_check.setVisibility(View.GONE);

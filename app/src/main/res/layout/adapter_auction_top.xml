@@ -14,7 +14,7 @@
         android:layout_height="52dp"
         android:src="@drawable/ic_home_normal"
         android:id="@+id/iv_icon"
-        android:layout_marginLeft="16dp" />
+        />
     <TextView
         android:id="@+id/tv_name"
         android:layout_width="wrap_content"

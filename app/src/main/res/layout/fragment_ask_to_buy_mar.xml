@@ -44,6 +44,7 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/at_present_have"
@@ -51,6 +52,8 @@
                     android:textSize="@dimen/fontSize_14sp" />
 
                 <TextView
+                    android:layout_gravity="center"
+                    android:id="@+id/tv_have_star_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="2dp"
@@ -60,6 +63,7 @@
                     android:textSize="@dimen/fontSize_20sp" />
 
                 <TextView
+                    android:layout_gravity="center"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/second"
@@ -221,7 +225,6 @@
         android:layout_height="wrap_content"
         android:textColor="@color/font_999999"
         android:textSize="@dimen/fontSize_14sp"
-        android:text="不能高于1000"
         android:layout_below="@+id/linearLayout3"
         android:layout_marginTop="30dp"
         android:layout_alignLeft="@+id/ll_1"

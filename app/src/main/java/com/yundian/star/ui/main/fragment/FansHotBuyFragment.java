@@ -21,8 +21,6 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 
-import static io.netty.handler.codec.http.HttpMethod.HEAD;
-
 
 /**
  * Created by Administrator on 2017/5/22.
@@ -76,6 +74,12 @@ public class FansHotBuyFragment extends BaseFragment {
                 public void onError(Throwable ex) {
                     if (lrv!=null){
                         lrv.setNoMore(true);
+                        if (!isLoadMore) {
+                            list.clear();
+                            fansHotBuyAdapter.clear();
+                            lrv.refreshComplete(REQUEST_COUNT);
+                            showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+                        }
                         return;
                     }
                     LogUtils.loge("粉丝排行榜错误"+ex.toString());
@@ -84,11 +88,12 @@ public class FansHotBuyFragment extends BaseFragment {
                 @Override
                 public void onSuccess(FansTopListBeen fansTopListBeen) {
                     LogUtils.loge("粉丝排行榜"+fansTopListBeen.toString());
-                    if (fansTopListBeen.getOrdersList()==null){
+                    if (fansTopListBeen==null||fansTopListBeen.getOrdersList()==null){
                         lrv.setNoMore(true);
                         return;
                     }
                     if (isLoadMore){
+                        closeErrorView();
                         loadList.clear();
                         loadList = fansTopListBeen.getOrdersList();
                         loadMoreData();
@@ -119,7 +124,8 @@ public class FansHotBuyFragment extends BaseFragment {
 
     public void showData() {
         if (list.size() == 0){
-            showErrorView(parentView, R.drawable.error_view_comment, getResources().getString(R.string.empty_view_comment));
+            showErrorView(parentView, R.drawable.error_view_comment, getActivity().getResources().getString(R.string.empty_order_info));
+            return;
         }else{
             closeErrorView();
         }

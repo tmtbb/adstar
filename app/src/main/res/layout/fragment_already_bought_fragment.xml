@@ -57,7 +57,7 @@
                 android:textSize="@dimen/fontSize_24sp" />
         </LinearLayout>
     </LinearLayout>-->
-    <LinearLayout
+    <!--<LinearLayout
         android:layout_marginTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -100,9 +100,50 @@
             android:text="@string/profit_and_loss"
             />
 
-    </LinearLayout>
-    <com.github.jdsjlzx.recyclerview.LRecyclerView
-        android:id="@+id/lrv"
+    </LinearLayout>-->
+    <LinearLayout
+        android:layout_marginTop="15dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></com.github.jdsjlzx.recyclerview.LRecyclerView>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@color/font_999999"
+            android:textSize="@dimen/fontSize_11sp"
+            android:text="@string/ming_xing"
+            />
+        <TextView
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@color/font_999999"
+            android:textSize="@dimen/fontSize_11sp"
+            android:text="代码"
+            />
+        <TextView
+            android:gravity="center"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:textColor="@color/font_999999"
+            android:textSize="@dimen/fontSize_11sp"
+            android:text="持有时间(秒)"
+            />
+
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/parent_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.github.jdsjlzx.recyclerview.LRecyclerView
+            android:id="@+id/lrv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 </LinearLayout>

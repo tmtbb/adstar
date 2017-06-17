@@ -1,9 +1,6 @@
 package com.yundian.star.ui.main.fragment;
 
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.content.DialogInterface;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,20 +13,14 @@ import android.widget.TextView;
 
 import com.yundian.star.R;
 import com.yundian.star.base.BaseFragment;
-
 import com.yundian.star.been.AssetDetailsBean;
 import com.yundian.star.been.EventBusMessage;
-
 import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.been.RegisterReturnBeen;
-import com.yundian.star.been.StarInfoBean;
 import com.yundian.star.been.StarInfoReturnBean;
 import com.yundian.star.greendao.GreenDaoManager;
-import com.yundian.star.greendao.StarInfo;
-import com.yundian.star.greendao.gen.StarInfoDao;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
-
 import com.yundian.star.ui.main.activity.BookingStarActivity;
 import com.yundian.star.ui.main.activity.CustomerServiceActivity;
 import com.yundian.star.ui.main.activity.GeneralSettingsActivity;
@@ -37,7 +28,6 @@ import com.yundian.star.ui.main.activity.UserAssetsManageActivity;
 import com.yundian.star.ui.main.activity.UserSettingActivity;
 import com.yundian.star.ui.view.RoundImageView;
 import com.yundian.star.utils.ImageLoaderUtils;
-
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
@@ -49,8 +39,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-
-import static com.netease.cosine.core.Cosine.test;
 
 
 /**

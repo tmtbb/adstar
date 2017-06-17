@@ -4,11 +4,9 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
-import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -19,8 +17,13 @@ import android.widget.TextView;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
+import com.yundian.star.been.BuyShellReutrnBeen;
+import com.yundian.star.been.HaveStarTimeBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
+import com.yundian.star.been.StartShellTimeBeen;
 import com.yundian.star.been.TradingStatusBeen;
+import com.yundian.star.greendao.GreenDaoManager;
+import com.yundian.star.greendao.StarInfo;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.view.MySeekBar;
@@ -34,13 +37,10 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-
-import static android.R.attr.button;
-import static com.yundian.star.R.id.rb_1;
-import static com.yundian.star.utils.ViewConcurrencyUtils.preventConcurrency;
 
 
 /**
@@ -58,8 +58,16 @@ public class AuctionMarketFragment extends BaseFragment {
     TextView tv_have_name;
     @Bind(R.id.tv_have_time)
     TextView tv_have_time;
+    @Bind(R.id.tv_total_second)
+    TextView tv_total_second;
+    @Bind(R.id.tv_shell_out)
+    TextView tv_shell_out;
+    @Bind(R.id.tv_buy_in)
+    TextView tv_buy_in;
     @Bind(R.id.seekBar)
     MySeekBar seekBar;
+    @Bind(R.id.press)
+    MySeekBar press;
     @Bind(R.id.fl_auction_content)
     FrameLayout fl_auction_content;
     @Bind(R.id.radio_group)
@@ -90,8 +98,19 @@ public class AuctionMarketFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initName();
 //        initData();
         initListener();
+    }
+
+    private void initName() {
+        List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(code);
+        if (starInfos.size()!=0){
+            StarInfo starInfo = starInfos.get(0);
+            tv_have_name.setText(String.format(getString(R.string.auction_have_time),starInfo.getName(),starInfo.getCode()));
+        }
+        getHaveCodeTime();
+        getStartHaveTime();
     }
 
     private void initData() {
@@ -163,7 +182,7 @@ public class AuctionMarketFragment extends BaseFragment {
     }
 
     private void initListener() {
-        radioGroup.check(radioButton1.getId());
+        onViewClicked(radioButton1);
     }
 
     @OnClick({R.id.rb_1, R.id.rb_2})
@@ -283,15 +302,46 @@ public class AuctionMarketFragment extends BaseFragment {
             initData();
         }
     }
-
+    private int cycleTime = 0 ;
     private void refreshTime() {
         if (tv_residue_time != null && secondTime >= 0 && myHandler != null && startSunTime) {
             tv_residue_time.setText(TimeUtil.getHourMinuteSecond(secondTime * 1000));
             secondTime--;
+            if (cycleTime==3){
+                cycleTime=0;
+            }
+            if (cycleTime==0){
+                getBuyShellData();
+            }
+            cycleTime++;
+
             myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 1000);
         } else if (tv_residue_time != null && secondTime < 0) {
             tv_residue_time.setText("未开始");
         }
+    }
+
+    private void getBuyShellData() {
+        NetworkAPIFactoryImpl.getInformationAPI().getBuyShellData(SharePrefUtil.getInstance().getUserId(),
+                SharePrefUtil.getInstance().getToken(),code, new OnAPIListener<BuyShellReutrnBeen>() {
+                    @Override
+                    public void onError(Throwable ex) {
+                        LogUtils.loge("买卖比例错误"+ex.toString());
+                    }
+
+                    @Override
+                    public void onSuccess(BuyShellReutrnBeen buyShellReutrnBeen) {
+                        LogUtils.loge("买卖比例"+buyShellReutrnBeen.toString());
+                        if ((buyShellReutrnBeen.getBuyCount() + buyShellReutrnBeen.getSellCount())!=0){
+                            int i = 100*buyShellReutrnBeen.getBuyCount()/(buyShellReutrnBeen.getBuyCount() + buyShellReutrnBeen.getSellCount());
+                            LogUtils.loge("比例"+i+"..."+buyShellReutrnBeen.getBuyCount()+"..."+buyShellReutrnBeen.getSellCount()+"...." +
+                                    "..."+(buyShellReutrnBeen.getBuyCount() + buyShellReutrnBeen.getSellCount()));
+                            press.setProgress(i);
+                          tv_buy_in.setText(String.format(getActivity().getString(R.string.buy_in),buyShellReutrnBeen.getBuyCount()*10));
+                          tv_shell_out.setText(String.format(getActivity().getString(R.string.shell_out),buyShellReutrnBeen.getSellCount()*10));
+                        }
+                    }
+                });
     }
 
     private boolean startSunTime = false;
@@ -327,5 +377,36 @@ public class AuctionMarketFragment extends BaseFragment {
             }
         }
     }
+    private void getHaveCodeTime() {
+        NetworkAPIFactoryImpl.getInformationAPI().getHaveStarTime(SharePrefUtil.getInstance().getUserId(),
+                code, new OnAPIListener<HaveStarTimeBeen>() {
+                    @Override
+                    public void onError(Throwable ex) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(HaveStarTimeBeen haveStarTimeBeen) {
+                        LogUtils.loge("持有时间"+haveStarTimeBeen.toString());
+                        tv_have_time.setText(String.format(getString(R.string.num_time),haveStarTimeBeen.getStar_time()));
+                    }
+                });
+    }
+    //总流通时间
+    private void getStartHaveTime() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarShellTime("143", new OnAPIListener<StartShellTimeBeen>() {
+            @Override
+            public void onError(Throwable ex) {
+
+            }
+
+            @Override
+            public void onSuccess(StartShellTimeBeen startShellTimeBeen) {
+                LogUtils.loge("明星流通时间"+startShellTimeBeen.toString());
+                tv_total_second.setText(String.valueOf(startShellTimeBeen.getStar_time())+"秒");
+            }
+        });
+    }
+
 
 }

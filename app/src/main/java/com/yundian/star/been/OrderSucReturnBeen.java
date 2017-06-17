@@ -1,13 +1,11 @@
 package com.yundian.star.been;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 /**
- * Created by Administrator on 2017/6/10.
+ * Created by Administrator on 2017/6/16.
  */
 
-public class MatchSucessReturnBeen implements Parcelable {
+public class OrderSucReturnBeen {
+
     /**
      * orderId : 4596320529293132300
      * buyUid : 142
@@ -81,45 +79,4 @@ public class MatchSucessReturnBeen implements Parcelable {
     public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(this.orderId);
-        dest.writeInt(this.buyUid);
-        dest.writeInt(this.sellUid);
-        dest.writeInt(this.amount);
-        dest.writeInt(this.openPositionTime);
-        dest.writeDouble(this.openPrice);
-        dest.writeString(this.symbol);
-    }
-
-    public MatchSucessReturnBeen() {
-    }
-
-    protected MatchSucessReturnBeen(Parcel in) {
-        this.orderId = in.readLong();
-        this.buyUid = in.readInt();
-        this.sellUid = in.readInt();
-        this.amount = in.readInt();
-        this.openPositionTime = in.readInt();
-        this.openPrice = in.readDouble();
-        this.symbol = in.readString();
-    }
-
-    public static final Parcelable.Creator<MatchSucessReturnBeen> CREATOR = new Parcelable.Creator<MatchSucessReturnBeen>() {
-        @Override
-        public MatchSucessReturnBeen createFromParcel(Parcel source) {
-            return new MatchSucessReturnBeen(source);
-        }
-
-        @Override
-        public MatchSucessReturnBeen[] newArray(int size) {
-            return new MatchSucessReturnBeen[size];
-        }
-    };
 }
