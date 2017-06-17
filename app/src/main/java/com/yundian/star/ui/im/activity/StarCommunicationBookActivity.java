@@ -7,6 +7,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
+import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
@@ -73,7 +75,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
         checkunReadMsg();
         tv_title.setText(R.string.famous_address_book);
         initAdapter();
-        getData(false,1,REQUEST_COUNT);
+        getData(false, 1, REQUEST_COUNT);
         initListener();
     }
 
@@ -89,7 +91,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
             public void onItemClick(View view, int position) {
 
                 SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
-                P2PMessageActivity.start(StarCommunicationBookActivity.this, list.get(position).getFaccid(),list.get(position).getStarcode(), customization, null);
+                P2PMessageActivity.start(StarCommunicationBookActivity.this, list.get(position).getFaccid(), list.get(position).getStarcode(), customization, null);
                 //SessionHelper.startP2PSession(StarCommunicationBookActivity.this,list.get(position).getFaccid());
             }
         });
@@ -100,18 +102,23 @@ public class StarCommunicationBookActivity extends BaseActivity {
         lRecyclerViewAdapter = new LRecyclerViewAdapter(starCommBookAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
         lrv.setLayoutManager(new LinearLayoutManager(this));
-        lrv.setPullRefreshEnabled(false);
         lrv.setNoMore(false);
         lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
-        /*lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
+        lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getData(true,mCurrentCounter+1,mCurrentCounter+REQUEST_COUNT);
+                getData(true, mCurrentCounter + 1, REQUEST_COUNT);
             }
-        });*/
+        });
+        lrv.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData(false, 1, REQUEST_COUNT);
+            }
+        });
     }
 
-    private void getData(final boolean isLoadMore,int start ,int end ) {
+    private void getData(final boolean isLoadMore, int start, int end) {
 
             /*for (int i =0 ;i<5;i++){
                 BookingStarListBean.ListBean bean = new BookingStarListBean.ListBean();
@@ -119,33 +126,33 @@ public class StarCommunicationBookActivity extends BaseActivity {
                 list.add(bean);
             }
             showData();*/
-        NetworkAPIFactoryImpl.getInformationAPI().getStarmaillist(SharePrefUtil.getInstance().getUserId(), SharePrefUtil.getInstance().getToken(),"123", start, REQUEST_COUNT, new OnAPIListener<StarMailListBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarmaillist(SharePrefUtil.getInstance().getUserId(), SharePrefUtil.getInstance().getToken(), "123", start, REQUEST_COUNT, new OnAPIListener<StarMailListBeen>() {
             @Override
             public void onError(Throwable ex) {
-                if (lrv!=null){
-                    list.clear();
-                    starCommBookAdapter.clear();
-//                    lrv.refreshComplete(REQUEST_COUNT);
+                if (lrv != null) {
                     lrv.setNoMore(true);
-
+                    if (!isLoadMore) {
+                        list.clear();
+                        starCommBookAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                        showErrorView(parentView, R.drawable.error_view_contact, getResources().getString(R.string.empty_view_contacts));
+                    }
                 }
-                showErrorView(parentView,R.drawable.error_view_contact, getResources().getString(R.string.empty_view_contacts));
             }
 
             @Override
             public void onSuccess(StarMailListBeen starMailListBeen) {
                 LogUtils.loge(starMailListBeen.toString());
-                if (starMailListBeen.getDepositsinfo()==null||starMailListBeen.getDepositsinfo()==null||starMailListBeen.getDepositsinfo().size()==0){
+                if (starMailListBeen.getDepositsinfo() == null) {
                     lrv.setNoMore(true);
-                    showErrorView(parentView,R.drawable.error_view_contact, getResources().getString(R.string.empty_view_contacts));
                     return;
                 }
-                closeErrorView();
-                if (isLoadMore){
+                if (isLoadMore) {
+                    closeErrorView();
                     loadList.clear();
                     loadList = starMailListBeen.getDepositsinfo();
                     loadMoreData();
-                }else {
+                } else {
                     list.clear();
                     list = starMailListBeen.getDepositsinfo();
                     showData();
@@ -156,10 +163,17 @@ public class StarCommunicationBookActivity extends BaseActivity {
     }
 
     public void showData() {
-        mCurrentCounter =list.size();
+        if (list.size() == 0) {
+            showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+            return;
+        } else {
+            closeErrorView();
+        }
+        starCommBookAdapter.clear();
+        mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         starCommBookAdapter.addAll(list);
-        lrv.refresh();
+        lrv.refreshComplete(REQUEST_COUNT);
     }
 
     private void loadMoreData() {
@@ -175,14 +189,14 @@ public class StarCommunicationBookActivity extends BaseActivity {
 
     private void checkunReadMsg() {
         int unreadNum = NIMClient.getService(MsgService.class).getTotalUnreadCount();
-        if (unreadNum>0){
+        if (unreadNum > 0) {
             tab_new_msg_label.setVisibility(View.VISIBLE);
-            if (unreadNum>99){
+            if (unreadNum > 99) {
                 tab_new_msg_label.setText("99+");
-            }else {
+            } else {
                 tab_new_msg_label.setText(String.valueOf(unreadNum));
             }
-        }else {
+        } else {
             tab_new_msg_label.setVisibility(View.GONE);
         }
     }
@@ -192,6 +206,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         registerObservers(true);
     }
+
     /**
      * ********************** 收消息，处理状态变化 ************************
      */
@@ -199,6 +214,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
         MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
         service.observeRecentContact(messageObserver, register);
     }
+
     Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
         @Override
         public void onEvent(List<RecentContact> recentContacts) {

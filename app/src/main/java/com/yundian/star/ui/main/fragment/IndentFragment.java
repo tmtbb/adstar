@@ -86,6 +86,11 @@ public class IndentFragment extends BaseFragment {
                     public void onError(Throwable ex) {
                         if (lrv != null) {
                             lrv.setNoMore(true);
+                            if (!isLoadMore) {
+                                list.clear();
+                                indentAdapter.clear();
+                                lrv.refreshComplete(REQUEST_COUNT);
+                            }
                         }
                         //LogUtils.loge("当日委托返回错误码" + ex.toString());
                     }
@@ -93,8 +98,9 @@ public class IndentFragment extends BaseFragment {
                     @Override
                     public void onSuccess(EntrustReturnBeen entrustReturnBeen) {
                         LogUtils.loge("当日委托" + entrustReturnBeen.toString());
-                        if (entrustReturnBeen.getPositionsList() == null || entrustReturnBeen.getPositionsList().size() == 0) {
+                        if (entrustReturnBeen==null||entrustReturnBeen.getPositionsList() == null || entrustReturnBeen.getPositionsList().size() == 0) {
                             lrv.setNoMore(true);
+                            lrv.refreshComplete(REQUEST_COUNT);
                             return;
                         }
                         if (isLoadMore) {

@@ -388,8 +388,8 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
 
     public void todayEntrust(int start, int count,Short opcode, OnAPIListener<List<TodayEntrustReturnBean>> listener) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("id", 142);
-        map.put("token", "adc28ac69625652b46d5c00b");
+        map.put("id", SharePrefUtil.getInstance().getUserId());
+        map.put("token", SharePrefUtil.getInstance().getToken());
         map.put("start", start);
         map.put("count", count);
 //        map.put("status", status);
@@ -401,8 +401,8 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     @Override
     public void todayDeal(int status,int start, int count,Short opcode, OnAPIListener<List<TodayDealReturnBean>> listener) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("id", 142);
-        map.put("token", "adc28ac69625652b46d5c00b");
+        map.put("id", SharePrefUtil.getInstance().getUserId());
+        map.put("token", SharePrefUtil.getInstance().getToken());
         map.put("start", start);
         map.put("count", count);
         map.put("status", status);
@@ -414,8 +414,8 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     @Override
     public void fansRntrust(String symbol, int buySell, int start, int count, OnAPIListener<FansEntrustReturnBean> listener) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("id", 142);
-        map.put("token", "adc28ac69625652b46d5c00b");
+        map.put("id", SharePrefUtil.getInstance().getUserId());
+        map.put("token", SharePrefUtil.getInstance().getToken());
         map.put("start", start);
         map.put("count", count);
         map.put("symbol", symbol);

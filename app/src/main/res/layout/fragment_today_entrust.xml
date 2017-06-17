@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/font_999999"
             android:textSize="@dimen/fontSize_11sp"
-            android:text="@string/deal_time"
+            android:text="@string/delegation_time"
             />
         <TextView
             android:gravity="center"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/font_999999"
             android:textSize="@dimen/fontSize_11sp"
-            android:text="@string/volume_of_transaction"
+            android:text="@string/state"
             />
 
     </LinearLayout>

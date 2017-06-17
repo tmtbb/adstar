@@ -193,12 +193,61 @@ public class CheckHelper {
         return true;
     }
 
-    public void checkIdentityCard(EditText editText, Context context) {
+//    public void checkIdentityCard(EditText editText, Context context) {
+//        editText.addTextChangedListener(new NoChineseTextWatcher(editText, context));
+//    }
+
+//    public class NoChineseTextWatcher implements TextWatcher {
+//        final String reg = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";//正则表达式，非中文
+//        private boolean isNotMatch = false;
+//        private EditText editText;
+//        private Context context;
+//
+//        public NoChineseTextWatcher(EditText editText, Context context) {
+//            this.editText = editText;
+//            this.context = context;
+//        }
+//
+//        @Override
+//        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//
+//        }
+//
+//        @Override
+//        public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//        }
+//
+//        @Override
+//        public void afterTextChanged(Editable s) {
+//            String str = s.toString();
+//            if (!TextUtils.isEmpty(str)) {
+//                char[] chars = str.toCharArray();
+//                for (int i = 0; i < str.length(); i++) {
+//                    String aChar = String.valueOf(chars[i]);
+//                    if ( !Pattern.matches(reg, aChar)){
+//                        isNotMatch = true;
+//                    }else{
+//                        isNotMatch = false;
+//                    }
+//
+//                }
+//                if (!isNotMatch) {
+//                    ToastUtils.showShort("请输入正确的身份证号码");
+//                    editText.setText("");
+//                    isNotMatch = true;
+//                }
+//            } else {
+//                isNotMatch = false;
+//            }
+//        }
+//    }
+    public void checkPwdInPutType(EditText editText, Context context) {
         editText.addTextChangedListener(new NoChineseTextWatcher(editText, context));
     }
 
     public class NoChineseTextWatcher implements TextWatcher {
-        final String reg = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$";//正则表达式，非中文
+        final String reg = "[^[\u4E00-\u9FA5]]";//正则表达式，非中文
         private boolean isNotMatch = false;
         private EditText editText;
         private Context context;
@@ -225,17 +274,14 @@ public class CheckHelper {
                 char[] chars = str.toCharArray();
                 for (int i = 0; i < str.length(); i++) {
                     String aChar = String.valueOf(chars[i]);
-                    if ( !Pattern.matches(reg, aChar)){
+                    if (!aChar.matches(reg)) {
                         isNotMatch = true;
-                    }else{
-                        isNotMatch = false;
                     }
-
                 }
-                if (!isNotMatch) {
-                    ToastUtils.showShort("请输入正确的身份证号码");
+                if (isNotMatch) {
+                    ToastUtils.showShort("密码不能设置中文，请重新设置！");
                     editText.setText("");
-                    isNotMatch = true;
+                    isNotMatch = false;
                 }
             } else {
                 isNotMatch = false;

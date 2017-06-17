@@ -1,6 +1,5 @@
 package com.yundian.star.ui.view;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.text.TextUtils;

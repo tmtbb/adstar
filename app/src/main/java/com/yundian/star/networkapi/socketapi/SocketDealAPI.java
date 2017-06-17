@@ -2,6 +2,7 @@ package com.yundian.star.networkapi.socketapi;
 
 
 import com.yundian.star.app.SocketAPIConstant;
+import com.yundian.star.been.AliPayReturnBean;
 import com.yundian.star.been.AssetDetailsBean;
 import com.yundian.star.been.BookingStarListBean;
 import com.yundian.star.been.IdentityInfoBean;
@@ -164,7 +165,7 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
     public void weixinPay(String title, double price, OnAPIListener<WXPayReturnEntity> listener) {
         LogUtils.logd("请求微信支付");
         HashMap<String, Object> map = new HashMap<>();
-        map.put("id", 120);
+        map.put("id", SharePrefUtil.getInstance().getUserId());
         map.put("title", title);
         map.put("price", price);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.WXPay,
@@ -178,8 +179,8 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
         HashMap<String, Object> map = new HashMap<>();
 //        map.put("id", SharePrefUtil.getInstance().getUserId());
 //        map.put("token", SharePrefUtil.getInstance().getToken());
-        map.put("id", 120);
-        map.put("token", "deef1f3d463139a1c50d366c63b22687");   //临时写死
+        map.put("id", SharePrefUtil.getInstance().getUserId());
+        map.put("vToken", SharePrefUtil.getInstance().getToken()); //临时写死
         map.put("status", 0); //(1:处理中,2:成功,3:失败),不传则查所有状态
         map.put("count", count);
         map.put("startPos", startPos);
@@ -300,10 +301,23 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
     public void statServiceList(String starcode, OnAPIListener<StatServiceListBean> listener) {
         LogUtils.loge("明星类型列表--------");
         HashMap<String, Object> map = new HashMap<>();
-        map.put("starcode", "1001");
+        map.put("starcode", starcode);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarType,
                 SocketAPIConstant.ReqeutType.NewInfos, map);
         requestEntity(socketDataPacket,StatServiceListBean.class,listener);
+    }
+
+    @Override
+    public void alipay(String title, double price, OnAPIListener<AliPayReturnBean> listener) {
+        LogUtils.loge("支付宝----------");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", SharePrefUtil.getInstance().getUserId());
+        map.put("token", SharePrefUtil.getInstance().getToken());
+        map.put("title", title);
+        map.put("price", price);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.ALiPay,
+                SocketAPIConstant.ReqeutType.Pay, map);
+        requestEntity(socketDataPacket,AliPayReturnBean.class,listener);
     }
 
 //    @Override

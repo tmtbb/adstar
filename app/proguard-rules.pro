@@ -251,4 +251,15 @@ public <methods>;
     -dontwarn com.igexin.**
     -keep class com.igexin.** { *; }
     -keep class org.json.** { *; }
+    #greendao
+    #greendao3.2.0,此是针对3.2.0，如果是之前的，可能需要更换下包名
+ -keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
+ public static java.lang.String TABLENAME;
+ }
+ -keep class **$Properties
+
+ # If you do not use SQLCipher:
+ -dontwarn org.greenrobot.greendao.database.**
+ # If you do not use Rx:
+ -dontwarn rx.**
 

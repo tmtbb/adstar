@@ -161,6 +161,7 @@
         android:layout_below="@id/ll_main"
         android:layout_marginTop="29dp"
         android:gravity="center"
+        android:visibility="gone"
         android:orientation="horizontal">
 
         <TextView

@@ -219,10 +219,10 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
      */
     public void showErrorView(FrameLayout parentView, int drawableId, String msg) {
         try {
-        if (parentView == null) {
-            return;
-        }
-            if (errorView != null ) {
+            if (parentView == null) {
+                return;
+            }
+            if (errorView != null) {
 //                parent.removeView(errorView);
                 parentView.removeView(errorView);
                 errorView = null;
@@ -258,6 +258,4 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
             errorView.setVisibility(View.GONE);
         }
     }
-
-
 }

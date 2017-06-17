@@ -66,6 +66,13 @@ public class MarketDetailFragment extends BaseFragment {
     private boolean isPrepared;
 
     public void showData() {
+        if (list.size() == 0) {
+            showErrorView(parentView, R.drawable.error_view_contact, getActivity().getResources().getString(R.string.empty_view_contacts));
+            return;
+        } else {
+            closeErrorView();
+        }
+
         marketDetailAdapter.clear();
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
@@ -144,7 +151,6 @@ public class MarketDetailFragment extends BaseFragment {
                 @Override
                 public void onSuccess(StarListbeen sarListbeen) {
                     LogUtils.loge("行情每个页面请求数据返回的retult:" + sarListbeen);
-                    closeErrorView();
                     if (sarListbeen.getSymbol_info() == null) {
                         lrv.setNoMore(true);
                         showErrorView(parentView, R.drawable.error_view_contact, "");
@@ -222,8 +228,8 @@ public class MarketDetailFragment extends BaseFragment {
             if (fragment != null) {
                 switch (msg.what) {
                     case GRT_DATA:
-//                        fragment.refresh();
-//                        fragment.myHandler.sendEmptyMessageDelayed(GRT_DATA, 3 * 1000);
+                        fragment.refresh();
+                        fragment.myHandler.sendEmptyMessageDelayed(GRT_DATA, 3 * 1000);
                         break;
                 }
             }
@@ -233,6 +239,11 @@ public class MarketDetailFragment extends BaseFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         LogUtils.loge("onHiddenChanged>> .....");
+        if (!hidden) {
+            startRefresh();
+        } else {
+            stopRefresh();
+        }
         super.onHiddenChanged(hidden);
     }
 
@@ -249,7 +260,7 @@ public class MarketDetailFragment extends BaseFragment {
 
     @Override
     public void onResume() {
-        setUserVisibleHint(getUserVisibleHint());
+        onHiddenChanged(true);
         LogUtils.loge("刷新行情明星列表onResume");
         super.onResume();
     }
@@ -263,7 +274,7 @@ public class MarketDetailFragment extends BaseFragment {
 
     private void stopRefresh() {
         if (myHandler != null) {
-            myHandler.removeMessages(myHandler.GRT_DATA);
+            myHandler.removeCallbacksAndMessages(null);
             LogUtils.loge("停止刷新stopRefresh");
         }
     }
@@ -271,7 +282,7 @@ public class MarketDetailFragment extends BaseFragment {
     private void startRefresh() {
         if (myHandler != null) {
             LogUtils.loge("刷新行情明星列表startRefresh");
-            myHandler.removeMessages(myHandler.GRT_DATA);
+            myHandler.removeCallbacksAndMessages(null);
             myHandler.sendEmptyMessage(myHandler.GRT_DATA);
         }
     }

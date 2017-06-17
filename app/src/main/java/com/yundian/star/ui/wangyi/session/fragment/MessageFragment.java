@@ -151,7 +151,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
      */
     // 是否允许发送消息
     protected boolean isAllowSendMessage(final IMMessage message) {
-        NetworkAPIFactoryImpl.getInformationAPI().reduceTime(SharePrefUtil.getInstance().getPhoneNum(), sessionId,1, new OnAPIListener<Object>() {
+        NetworkAPIFactoryImpl.getInformationAPI().reduceTime(SharePrefUtil.getInstance().getPhoneNum(), starCode,1, new OnAPIListener<Object>() {
             @Override
             public void onError(Throwable ex) {
 

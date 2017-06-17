@@ -124,11 +124,13 @@ public class CommentMarketFragment extends BaseFragment {
             public void onError(Throwable ex) {
                 if (lrv != null) {
                     lrv.setNoMore(true);
-                    list.clear();
-                    commentMarketAdapter.clear();
-                    lrv.refreshComplete(REQUEST_COUNT);
+                    if (!isLoadMore) {
+                        list.clear();
+                        commentMarketAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                        showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+                    }
                 }
-                showErrorView(parentView, R.drawable.error_view_comment,"当前还没有相关数据");
             }
 
             @Override
@@ -165,6 +167,7 @@ public class CommentMarketFragment extends BaseFragment {
         if (list.size() == 0) {
             showErrorView(parentView, R.drawable.error_view_comment, "当前还没有相关数据");
             tv_add_comment.setVisibility(View.VISIBLE);
+            return;
         } else {
             closeErrorView();
             tv_add_comment.setVisibility(View.GONE);

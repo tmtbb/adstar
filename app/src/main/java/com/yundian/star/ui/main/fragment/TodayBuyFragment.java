@@ -52,7 +52,7 @@ public class TodayBuyFragment extends BaseFragment {
     @Override
     protected void initView() {
         initAdapter();
-        getData(false, 1);
+        getData(false, 0);
     }
 
     private void initAdapter() {
@@ -73,7 +73,7 @@ public class TodayBuyFragment extends BaseFragment {
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getData(true, mCurrentCounter + 1);
+                getData(true, mCurrentCounter);
             }
         });
     }
