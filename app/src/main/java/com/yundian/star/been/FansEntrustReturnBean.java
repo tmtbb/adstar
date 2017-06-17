@@ -142,6 +142,21 @@ public class FansEntrustReturnBean implements Parcelable {
             public void setSymbol(String symbol) {
                 this.symbol = symbol;
             }
+
+            @Override
+            public String toString() {
+                return "TradesBean{" +
+                        "amount=" + amount +
+                        ", buySell=" + buySell +
+                        ", handle=" + handle +
+                        ", id=" + id +
+                        ", openCharge=" + openCharge +
+                        ", openPrice=" + openPrice +
+                        ", positionId=" + positionId +
+                        ", positionTime=" + positionTime +
+                        ", symbol='" + symbol + '\'' +
+                        '}';
+            }
         }
 
         public static class UserBean {
@@ -188,6 +203,16 @@ public class FansEntrustReturnBean implements Parcelable {
             public void setUid(int uid) {
                 this.uid = uid;
             }
+
+            @Override
+            public String toString() {
+                return "UserBean{" +
+                        "gender=" + gender +
+                        ", headUrl='" + headUrl + '\'' +
+                        ", nickname='" + nickname + '\'' +
+                        ", uid=" + uid +
+                        '}';
+            }
         }
     }
 
@@ -220,4 +245,11 @@ public class FansEntrustReturnBean implements Parcelable {
             return new FansEntrustReturnBean[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "FansEntrustReturnBean{" +
+                "positionsList=" + positionsList +
+                '}';
+    }
 }

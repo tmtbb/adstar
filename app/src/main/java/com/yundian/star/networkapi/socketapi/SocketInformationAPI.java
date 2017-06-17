@@ -34,6 +34,7 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.InformationAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.ui.main.model.NewsInforModel;
+import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 
 import org.json.JSONArray;
@@ -420,6 +421,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("count", count);
         map.put("symbol", symbol);
         map.put("buySell", buySell);
+        LogUtils.loge("拍卖榜数据入参"+map.toString());
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Fans,
                 SocketAPIConstant.ReqeutType.History, map);
       requestEntity(socketDataPacket,FansEntrustReturnBean.class,listener);

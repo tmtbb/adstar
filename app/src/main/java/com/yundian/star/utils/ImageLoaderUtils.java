@@ -30,7 +30,6 @@ public class ImageLoaderUtils {
         Glide.with(context).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
-                .placeholder(R.drawable.edit_cursor)
                 .error(R.drawable.ic_empty_picture)
                 .crossFade().into(imageView);
     }

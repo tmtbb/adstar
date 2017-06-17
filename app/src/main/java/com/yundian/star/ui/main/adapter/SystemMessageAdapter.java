@@ -9,10 +9,13 @@ import android.widget.TextView;
 
 import com.yundian.star.R;
 import com.yundian.star.been.OrderReturnBeen;
+import com.yundian.star.greendao.GreenDaoManager;
+import com.yundian.star.greendao.StarInfo;
 import com.yundian.star.utils.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -45,7 +48,11 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
         OrderReturnBeen.OrdersListBean bean = listData.get(position);
         ViewHolder viewHolder = (ViewHolder)holder;
         viewHolder.tv_time.setText(TimeUtil.formatData(TimeUtil.dateFormatYMDHM, bean.getOpenTime()));
-        //viewHolder.tv_content.setText(String.valueOf(listData.get(position).getPositionId()));
+        List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(listData.get(position).getSymbol());
+        if (starInfos.size()!=0){
+            StarInfo starInfo = starInfos.get(0);
+            viewHolder.tv_content.setText(String.format(mContext.getString(R.string.auction_have_time),starInfo.getName(),starInfo.getCode()));
+        }
         if (bean.getBuyUid()==uid){
             if (bean.getBuyHandle()==0){
                 viewHolder.tv_check.setVisibility(View.VISIBLE);

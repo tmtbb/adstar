@@ -40,8 +40,6 @@ public class AutionTopFragment extends BaseFragment {
     private AutionTopAdapter autionTopAdapter;
     private int hotType;
     private String code;
-
-    String symbol = "1001";
     int buySell = 0;
 
     @Override
@@ -72,7 +70,7 @@ public class AutionTopFragment extends BaseFragment {
 
     private void getData(final boolean isLoadMore, int start) {
 
-        NetworkAPIFactoryImpl.getInformationAPI().fansRntrust(symbol, buySell, start, REQUEST_COUNT, new OnAPIListener<FansEntrustReturnBean>() {
+        NetworkAPIFactoryImpl.getInformationAPI().fansRntrust(code, buySell, start, REQUEST_COUNT, new OnAPIListener<FansEntrustReturnBean>() {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.loge("粉丝热度失败------------------------------------------");
@@ -89,7 +87,7 @@ public class AutionTopFragment extends BaseFragment {
 
             @Override
             public void onSuccess(FansEntrustReturnBean bean) {
-                LogUtils.loge("粉丝热度成功------------------------------------------");
+                LogUtils.loge("粉丝热度成功-------"+bean.toString());
                 if (bean == null||bean.getPositionsList()==null||bean.getPositionsList().size()==0) {
                     lrv.setNoMore(true);
                     return;

@@ -86,4 +86,14 @@ public class UserinfoBean implements Parcelable {
             return new UserinfoBean[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "UserinfoBean{" +
+                "balance=" + balance +
+                ", id=" + id +
+                ", phone='" + phone + '\'' +
+                ", type=" + type +
+                '}';
+    }
 }

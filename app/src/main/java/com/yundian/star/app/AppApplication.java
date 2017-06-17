@@ -44,7 +44,6 @@ import com.yundian.star.R;
 import com.yundian.star.base.baseapp.BaseApplication;
 import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.LoginReturnInfo;
-import com.yundian.star.greendao.GreenDaoManager;
 import com.yundian.star.greendao.gen.DaoMaster;
 import com.yundian.star.greendao.gen.DaoSession;
 import com.yundian.star.listener.OnAPIListener;
@@ -404,8 +403,9 @@ public class AppApplication extends BaseApplication {
 
                 @Override
                 public void onSuccess(LoginReturnInfo loginReturnEntity) {
-                    LogUtils.loge("------------------登录成功，保存信息");
-                    SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
+                    LogUtils.loge("------------------登录成功，保存信息"+loginReturnEntity.toString());
+                    //服务器问题,先token登录不保存信息
+                    //SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
                     EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
                 }
             });
@@ -423,7 +423,8 @@ public class AppApplication extends BaseApplication {
             @Override
             public void onSuccess() {
                 LogUtils.logd("检测到连接成功-------------------");
-                judgeIsLogin();
+                //token交易暂时关闭
+                //judgeIsLogin();
             }
 
             @Override

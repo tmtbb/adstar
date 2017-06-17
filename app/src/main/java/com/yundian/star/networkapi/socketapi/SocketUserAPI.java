@@ -8,7 +8,6 @@ import com.yundian.star.been.RegisterReturnWangYiBeen;
 import com.yundian.star.been.RegisterVerifyCodeBeen;
 import com.yundian.star.been.WXinLoginReturnBeen;
 import com.yundian.star.listener.OnAPIListener;
-import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.networkapi.UserAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
@@ -17,8 +16,6 @@ import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
 
 import java.util.HashMap;
-
-import static com.igexin.push.core.g.S;
 
 /**
  * Created by yaowang on 2017/2/20.
@@ -126,8 +123,8 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
     public void loginWithToken(OnAPIListener<LoginReturnInfo> listener) {
         LogUtils.loge("用token登录");
         HashMap<String, Object> map = new HashMap<>();
-        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-        map.put("token", NetworkAPIFactoryImpl.getConfig().getUserToken());
+        map.put("id", SharePrefUtil.getInstance().getUserId());
+        map.put("token", SharePrefUtil.getInstance().getToken());
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Token,
                 SocketAPIConstant.ReqeutType.User, map);
         requestEntity(socketDataPacket, LoginReturnInfo.class, listener);

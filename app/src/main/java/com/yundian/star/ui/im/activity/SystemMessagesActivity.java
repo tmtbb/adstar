@@ -247,6 +247,7 @@ public class SystemMessagesActivity extends BaseActivity {
                         SharePrefUtil.getInstance().getToken(),MD5Util.MD5(str), new OnAPIListener<ResultBeen>() {
                             @Override
                             public void onError(Throwable ex) {
+                                ToastUtils.showShort("密码错误");
                                 LogUtils.loge("密码输入失败");
                                 //支付密码确定接口有待验证
                                 currentBean = null;
@@ -256,11 +257,13 @@ public class SystemMessagesActivity extends BaseActivity {
                             @Override
                             public void onSuccess(ResultBeen resultBeen) {
                                 LogUtils.loge("密码输入正确");
+                                LogUtils.loge("密码输入正确"+resultBeen.toString());
+                                ToastUtils.showShort("支付完成");
                                 if (resultBeen!=null){
                                     if (resultBeen.getResult()==1){
                                         sureOrder();
                                     }else if (resultBeen.getResult()==0){
-
+                                        ToastUtils.showShort("密码错误");
                                     }
                                     currentBean = null;
                                     mPopWindow.dismiss();
