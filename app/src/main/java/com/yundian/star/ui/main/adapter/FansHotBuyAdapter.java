@@ -37,10 +37,10 @@ public class FansHotBuyAdapter extends ListBaseAdapter<FansTopListBeen.OrdersLis
         TextView tv_time = holder.getView(R.id.tv_time);
         TextView tv_buy_price = holder.getView(R.id.tv_buy_price);
         if (hotTypes==1){
-            ImageLoaderUtils.display(mContext,iv_icon,ordersListBean.getBuy_user().getHeadUrl());
+            ImageLoaderUtils.displayRound(mContext,iv_icon,ordersListBean.getBuy_user().getHeadUrl());
             tv_name.setText(ordersListBean.getBuy_user().getNickname());
         }else {
-            ImageLoaderUtils.display(mContext,iv_icon,ordersListBean.getSell_user().getHeadUrl());
+            ImageLoaderUtils.displayRound(mContext,iv_icon,ordersListBean.getSell_user().getHeadUrl());
             tv_name.setText(ordersListBean.getSell_user().getNickname());
         }
         if (position==0){

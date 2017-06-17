@@ -112,7 +112,6 @@ public class SystemMessagesActivity extends BaseActivity {
 
             @Override
             public void keyBoardHide(int height) {
-                currentBean = null;
                 mPopWindow.dismiss();
             }
         });
@@ -284,7 +283,7 @@ public class SystemMessagesActivity extends BaseActivity {
         img_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                currentBean = null;
+                //currentBean = null;
                 mPopWindow.dismiss();
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(payPwdEditText.getWindowToken(), 0);

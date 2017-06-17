@@ -32,7 +32,7 @@ import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.TabEntity;
 import com.yundian.star.ui.im.fragment.DifferAnswerFragment;
-import com.yundian.star.ui.main.fragment.MarketFragment;
+import com.yundian.star.ui.main.fragment.MarketDetailFragment;
 import com.yundian.star.ui.main.fragment.NewsInfoFragment;
 import com.yundian.star.ui.main.fragment.UserInfoFragment;
 import com.yundian.star.ui.wangyi.chatroom.helper.ChatRoomHelper;
@@ -60,7 +60,8 @@ public class MainActivity extends BaseActivity {
             R.drawable.message_ok,R.drawable.market_ok, R.drawable.differ_answer_ok,R.drawable.me_ok};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private NewsInfoFragment newsInfoFragment;
-    private MarketFragment marketFragment;
+    //private MarketFragment marketFragment;
+    private MarketDetailFragment marketFragment;
     private DifferAnswerFragment differAnswerFragment;
     private UserInfoFragment userInfoFragment;
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
@@ -136,13 +137,15 @@ public class MainActivity extends BaseActivity {
         int currentTabPosition = 0;
         if (savedInstanceState != null) {
             newsInfoFragment = (NewsInfoFragment) getSupportFragmentManager().findFragmentByTag("NewsInfoFragment");
-            marketFragment = (MarketFragment) getSupportFragmentManager().findFragmentByTag("MarketFragment");
+            //marketFragment = (MarketFragment) getSupportFragmentManager().findFragmentByTag("MarketFragment");
+            marketFragment = (MarketDetailFragment) getSupportFragmentManager().findFragmentByTag("MarketFragment");
+
             differAnswerFragment = (DifferAnswerFragment) getSupportFragmentManager().findFragmentByTag("DifferAnswerFragment");
             userInfoFragment = (UserInfoFragment) getSupportFragmentManager().findFragmentByTag("UserInfoFragment");
             currentTabPosition = savedInstanceState.getInt(AppConstant.HOME_CURRENT_TAB_POSITION);
         } else {
             newsInfoFragment = new NewsInfoFragment();
-            marketFragment = new MarketFragment();
+            marketFragment = new MarketDetailFragment();
             differAnswerFragment = new DifferAnswerFragment();
             userInfoFragment = new UserInfoFragment();
             transaction.add(R.id.fl_main, newsInfoFragment, "NewsInfoFragment");

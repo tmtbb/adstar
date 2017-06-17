@@ -3,21 +3,28 @@ package com.yundian.star.ui.main.activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.been.AssetDetailsBean;
+import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.view.PayDialog;
 import com.yundian.star.utils.JudgeIdentityUtils;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -34,6 +41,12 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
     LinearLayout fudai;
     @Bind(R.id.parent_view)
     LinearLayout parentView;
+    @Bind(R.id.star_money)
+    TextView starMoney;
+    @Bind(R.id.hold_money)
+    TextView holdMoney;
+    @Bind(R.id.user_money)
+    TextView userMoney;
     private PopupWindow popupWindow;
     private PayDialog payDialog;
 
@@ -96,9 +109,9 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.ll_recharge:
                 ToastUtils.showShort("充值");
-//                if (JudgeIdentityUtils.isIdentityed(this)) {
+                if (JudgeIdentityUtils.isIdentityed(this)) {
                     startActivity(RechargeActivity.class);
-//                }
+                }
                 break;
             case R.id.ll_user_fudai:
                 LogUtils.loge("点击福袋；；");
@@ -121,6 +134,29 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
                 popupWindow.dismiss();
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        requestBalance();
+    }
+
+    private void requestBalance() {
+        NetworkAPIFactoryImpl.getDealAPI().balance(new OnAPIListener<AssetDetailsBean>() {
+            @Override
+            public void onSuccess(AssetDetailsBean bean) {
+                starMoney.setText(bean.getBalance() + "");
+                holdMoney.setText(bean.getBalance() + "");
+                userMoney.setText(bean.getBalance() + "");
+                SharePrefUtil.getInstance().saveAssetInfo(bean);
+            }
+
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.loge("余额请求失败:" + ex.getMessage());
+            }
+        });
     }
 
 }

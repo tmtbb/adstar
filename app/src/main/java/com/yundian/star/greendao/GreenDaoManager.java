@@ -43,6 +43,16 @@ public class GreenDaoManager {
         }
         return null;
     }
+    /**
+     * 根据明星code,取出用户信息
+     * @return 用户信息
+     */
+    public static List<StarInfo> queryLove(String codes) {
+        return starInfoDao.queryBuilder().where(StarInfoDao.Properties.Code.eq(codes)).list();
+    }
+
+
+
 
     /**
      * 取出所有数据
@@ -143,13 +153,13 @@ public class GreenDaoManager {
         starInfoDao.delete(user);
     }
 
-    /**
-     * 根据明星code,取出用户信息
-     *
-     * @return 用户信息
-     */
-    public  List<StarInfo> queryLove(String codes) {
-        return starInfoDao.queryBuilder().where(StarInfoDao.Properties.Code.eq(codes)).list();
-    }
+//    /**
+//     * 根据明星code,取出用户信息
+//     *
+//     * @return 用户信息
+//     */
+//    public  List<StarInfo> queryLove(String codes) {
+//        return starInfoDao.queryBuilder().where(StarInfoDao.Properties.Code.eq(codes)).list();
+//    }
 
 }

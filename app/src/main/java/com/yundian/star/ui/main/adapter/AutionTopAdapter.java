@@ -1,7 +1,6 @@
 package com.yundian.star.ui.main.adapter;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -9,7 +8,6 @@ import com.yundian.star.R;
 import com.yundian.star.base.ListBaseAdapter;
 import com.yundian.star.base.SuperViewHolder;
 import com.yundian.star.been.FansEntrustReturnBean;
-import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.TimeUtil;
 
@@ -36,7 +34,7 @@ public class AutionTopAdapter extends ListBaseAdapter<FansEntrustReturnBean.Posi
         TextView tv_name = holder.getView(R.id.tv_name);
         TextView tv_time = holder.getView(R.id.tv_time);
         TextView tv_buy_price = holder.getView(R.id.tv_buy_price);
-        ImageLoaderUtils.display(mContext, iv_icon, bean.getUser().getHeadUrl());
+        ImageLoaderUtils.displayRound(mContext, iv_icon, bean.getUser().getHeadUrl());
         tv_name.setText(bean.getUser().getNickname());
         tv_time.setText(TimeUtil.getDateAndTime(bean.getTrades().getPositionTime() * 1000));
 

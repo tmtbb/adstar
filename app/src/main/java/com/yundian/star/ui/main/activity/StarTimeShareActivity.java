@@ -101,7 +101,7 @@ public class StarTimeShareActivity extends BaseActivity {
         });
     }
 
-    @OnClick({ R.id.rb_1, R.id.rb_2, R.id.rb_3,R.id.rb_4})
+    @OnClick({ R.id.rb_1, R.id.rb_2, R.id.rb_3/*,R.id.rb_4*/})
     public void onRadioButtenClick(View view){
         /*if (!CheckLoginUtil.checkLogin(this)){
             return;
@@ -134,8 +134,8 @@ public class StarTimeShareActivity extends BaseActivity {
                 intent3.putExtra(AppConstant.STAR_HEAD_URL,head_url);
                 startActivity(intent3);
                 break;
-            case R.id.rb_4:
-                break;
+            /*case R.id.rb_4:
+                break;*/
         }
     }
 

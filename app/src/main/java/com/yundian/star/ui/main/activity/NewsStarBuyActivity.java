@@ -19,13 +19,14 @@ import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.StarBuyActReferralInfo;
 import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.been.StarStarAchBeen;
+import com.yundian.star.been.StartShellTimeBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.StarBuyAchAdapter;
 import com.yundian.star.ui.main.adapter.StarBuyExcAdapter;
-import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.ui.view.ShareControlerView;
 import com.yundian.star.utils.AdViewpagerUtil;
+import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.ListViewUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.widget.MyListView;
@@ -66,6 +67,8 @@ public class NewsStarBuyActivity extends BaseActivity {
     ScrollView scroll_view;
     @Bind(R.id.tv_mesure)
     TextView tv_mesure;
+    @Bind(R.id.tv_shell_time)
+    TextView tv_shell_time;
     @Bind(R.id.root_view)
     FrameLayout rootView;
 
@@ -193,6 +196,18 @@ public class NewsStarBuyActivity extends BaseActivity {
             @Override
             public void onSuccess(StarBuyActReferralInfo info) {
                 initData(info);
+            }
+        });
+        NetworkAPIFactoryImpl.getInformationAPI().getStarShellTime("143", new OnAPIListener<StartShellTimeBeen>() {
+            @Override
+            public void onError(Throwable ex) {
+
+            }
+
+            @Override
+            public void onSuccess(StartShellTimeBeen startShellTimeBeen) {
+                LogUtils.loge("明星流通时间"+startShellTimeBeen.toString());
+                tv_shell_time.setText(String.valueOf(startShellTimeBeen.getStar_time())+"秒");
             }
         });
     }

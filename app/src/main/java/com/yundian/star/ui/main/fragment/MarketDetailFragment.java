@@ -20,14 +20,15 @@ import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.StarListbeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
+import com.yundian.star.ui.main.activity.SearchActivity;
 import com.yundian.star.ui.main.activity.StarTimeShareActivity;
 import com.yundian.star.ui.main.adapter.MarketDetailAdapter;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
+import com.yundian.star.widget.NormalTitleBar;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -39,6 +40,8 @@ import butterknife.OnClick;
  */
 
 public class MarketDetailFragment extends BaseFragment {
+    @Bind(R.id.nt_title)
+    NormalTitleBar nt_title;
     @Bind(R.id.ll_select_order)
     LinearLayout ll_select_order;
     @Bind(R.id.iv_select)
@@ -57,7 +60,7 @@ public class MarketDetailFragment extends BaseFragment {
     private int ORDER = 0;
     private ArrayList<StarListbeen.SymbolInfoBean> list = new ArrayList<>();
     private String marketDetailName;
-    private int marketDetailType;
+    private int marketDetailType = 1;
     private MyHandler myHandler;
     private boolean isPrepared;
 
@@ -89,6 +92,10 @@ public class MarketDetailFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        nt_title.setBackVisibility(false);
+        nt_title.setTitleText(R.string.star_hot);
+        nt_title.setRightImagSrc(R.drawable.search);
+        nt_title.setRightImagVisibility(true);
         if (getArguments() != null) {
             marketDetailName = getArguments().getString(AppConstant.MARKET_DETAIL_NAME);
             marketDetailType = getArguments().getInt(AppConstant.MARKET_DETAIL_TYPE);
@@ -96,6 +103,15 @@ public class MarketDetailFragment extends BaseFragment {
         initAdpter();
         getData(false, 1, REQUEST_COUNT);
         myHandler = new MyHandler(this);
+        initListener();
+    }
+    private void initListener() {
+        nt_title.getRightImage().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(SearchActivity.class);
+            }
+        });
     }
 
     private void getData(final boolean isLoadMore, int start, int count) {

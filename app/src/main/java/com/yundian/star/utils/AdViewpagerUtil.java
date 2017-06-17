@@ -189,7 +189,7 @@ public class AdViewpagerUtil {
                 if (i < length - 2) {
                     final int index = i;
                     final String url = urls[i];
-                    ImageLoaderUtils.display(context, mImageViews[i + 1], url);
+                    ImageLoaderUtils.displayWithDefaultImg(context, mImageViews[i + 1], url);
                     mImageViews[i + 1].setOnClickListener(new View.OnClickListener() {
 
                         @Override
