@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
@@ -21,6 +23,7 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.GridViewPageAdapter;
 import com.yundian.star.ui.main.adapter.MeetTypeAdapter;
+import com.yundian.star.ui.view.ShareControlerView;
 import com.yundian.star.utils.DisplayUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.LogUtils;
@@ -103,6 +106,7 @@ public class MeetStarActivity extends BaseActivity {
         getDateTime();
 //        getMeetType();
         getMeetInfo();
+        initListener();
     }
 
     private void getMeetInfo() {
@@ -292,16 +296,62 @@ public class MeetStarActivity extends BaseActivity {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.loge("约见失败-------------");
-                ToastUtils.showStatusView("约见失败",false);
+                ToastUtils.showStatusView("约见失败", false);
             }
 
             @Override
             public void onSuccess(RequestResultBean resultBean) {
                 LogUtils.loge("约见成功------------------------------");
-                if (resultBean.getResult() == 1){
-                    ToastUtils.showStatusView("约见成功",true);
+                if (resultBean.getResult() == 1) {
+                    ToastUtils.showStatusView("约见成功", true);
                 }
             }
         });
     }
+
+    private void initListener() {
+        nl_title.setOnRightImagListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                share();
+            }
+        });
+    }
+
+    private void share() {
+        ShareControlerView controlerView = new ShareControlerView(this, mContext, umShareListener);
+        String webUrl = "https://mobile.umeng.com/";
+        String title = "This is web title";
+        String describe = "描述描述";
+        String text = "文本";
+        controlerView.setText(text);
+        controlerView.setWebUrl(webUrl);
+        controlerView.setDescribe(describe);
+        controlerView.setTitle(title);
+
+        controlerView.showShareView(rootView);
+    }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            //分享开始的回调
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            ToastUtils.showShort("分享成功啦");
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            ToastUtils.showShort("分享失败了");
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            ToastUtils.showShort("分享取消了");
+        }
+    };
 }

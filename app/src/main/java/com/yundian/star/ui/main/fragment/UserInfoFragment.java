@@ -19,6 +19,7 @@ import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.been.RegisterReturnBeen;
 import com.yundian.star.been.StarInfoReturnBean;
 import com.yundian.star.greendao.GreenDaoManager;
+import com.yundian.star.greendao.StarInfo;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.BookingStarActivity;
@@ -36,6 +37,8 @@ import com.yundian.star.utils.ViewConcurrencyUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -269,7 +272,7 @@ public class UserInfoFragment extends BaseFragment {
     }
 
     private void testStar() {
-        NetworkAPIFactoryImpl.getInformationAPI().starInfo("123123", "123", 1, new OnAPIListener<StarInfoReturnBean>() {
+        NetworkAPIFactoryImpl.getInformationAPI().starInfo("17682310986", "123", 1, new OnAPIListener<StarInfoReturnBean>() {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.loge("明星列表失败---------------");
@@ -279,10 +282,13 @@ public class UserInfoFragment extends BaseFragment {
             public void onSuccess(StarInfoReturnBean starInfoReturnBean) {
                 LogUtils.loge("明星列表成功---------");
                 if (starInfoReturnBean.getResult() == 1) {
-                   GreenDaoManager.getInstance().saveNoteLists(starInfoReturnBean.getList());
+                    GreenDaoManager.getInstance().saveNoteLists(starInfoReturnBean.getList());
                 }
-//                starInfoDao.insertInTx(starInfoReturnBean.getList());
                 LogUtils.loge("插入成功");
+//                List<StarInfo> starInfos = GreenDaoManager.getInstance().loadAllNote();
+//                for (int i = 0; i < starInfos.size(); i++) {
+//                    LogUtils.loge("查询的数据为:"+starInfos.get(i).getName()+"索引:"+i+"价格:"+starInfos.get(i).getPrice());
+//                }
             }
         });
     }

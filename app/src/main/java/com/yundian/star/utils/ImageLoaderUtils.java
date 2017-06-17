@@ -98,4 +98,16 @@ public class ImageLoaderUtils {
                 .centerCrop().transform(new GlideRoundTransformUtil(context)).into(imageView);
     }
 
+    public static void displayWithDefaultImg(Context context, ImageView imageView, String url) {
+        if (imageView == null) {
+            throw new IllegalArgumentException("argument error");
+        }
+        Glide.with(context).load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .centerCrop()
+                .placeholder(R.drawable.edit_cursor)
+                .error(R.drawable.error_view_news)
+                .crossFade().into(imageView);
+    }
+
 }

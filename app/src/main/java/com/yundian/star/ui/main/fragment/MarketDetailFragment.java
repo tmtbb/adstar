@@ -65,6 +65,13 @@ public class MarketDetailFragment extends BaseFragment {
     private boolean isPrepared;
 
     public void showData() {
+        if (list.size() == 0) {
+            showErrorView(parentView, R.drawable.error_view_contact, getActivity().getResources().getString(R.string.empty_view_contacts));
+            return;
+        } else {
+            closeErrorView();
+        }
+
         marketDetailAdapter.clear();
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
@@ -143,10 +150,8 @@ public class MarketDetailFragment extends BaseFragment {
                 @Override
                 public void onSuccess(StarListbeen sarListbeen) {
                     LogUtils.loge("行情每个页面请求数据返回的retult:" + sarListbeen);
-                    closeErrorView();
                     if (sarListbeen.getSymbol_info() == null) {
                         lrv.setNoMore(true);
-                        showErrorView(parentView, R.drawable.error_view_contact, getResources().getString(R.string.empty_view_contacts));
                         return;
                     }
                     list.clear();
@@ -283,7 +288,7 @@ public class MarketDetailFragment extends BaseFragment {
 //        lrv.setVisibility(View.GONE);
         String des = "";
         if (type == 0) {
-            des = getResources().getString(R.string.empty_view_price);
+            des = getActivity().getResources().getString(R.string.empty_view_price);
         } else {
             des = getActivity().getResources().getString(R.string.empty_view_contacts);
         }

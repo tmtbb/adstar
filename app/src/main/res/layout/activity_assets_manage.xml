@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_fafafa"
-    android:orientation="vertical"
-    android:id="@+id/parent_view">
+    android:orientation="vertical">
 
     <com.yundian.star.widget.NormalTitleBar
         android:id="@+id/nt_title"
@@ -27,11 +27,11 @@
             android:textSize="@dimen/text_size_14" />
 
         <TextView
+            android:id="@+id/star_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="@dimen/dp_26"
-            android:text="9999.00"
             android:textColor="@color/main_bg_color"
             android:textSize="@dimen/text_size_40" />
     </LinearLayout>
@@ -59,6 +59,7 @@
                 android:textSize="@dimen/text_size_14" />
 
             <TextView
+                android:id="@+id/hold_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_18"
@@ -84,6 +85,7 @@
                 android:textSize="@dimen/text_size_14" />
 
             <TextView
+                android:id="@+id/user_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_18"
@@ -116,7 +118,8 @@
 
     <LinearLayout
         android:id="@+id/ll_user_fudai"
-        style="@style/user_info_setting_style">
+        style="@style/user_info_setting_style"
+        android:visibility="gone">
 
         <ImageView
             android:layout_width="@dimen/dp_22"
@@ -132,6 +135,8 @@
 
     </LinearLayout>
 
-    <include layout="@layout/ll_interval_line" />
+    <include
+        layout="@layout/ll_interval_line"
+        android:visibility="gone" />
 
 </LinearLayout>

@@ -97,7 +97,7 @@ public class RegisterUserActivity extends BaseActivity {
         getWindow().setAttributes(p); // 设置生效
         userNameEditText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         checkHelper.checkButtonState(registerButton, userNameEditText, msgEditText, passwordEditText);
-        //checkHelper.checkVerificationCode(msgEditText.getRightText(), passwordEditText);
+        checkHelper.checkPwdInPutType(passwordEditText.getEditText(), this);  //密码不能输入中文
         msgEditText.getRightText().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

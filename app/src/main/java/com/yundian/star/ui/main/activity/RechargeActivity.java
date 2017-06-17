@@ -17,6 +17,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -34,9 +35,11 @@ import com.yundian.star.R;
 import com.yundian.star.alipay.PayResult;
 import com.yundian.star.app.AppApplication;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.been.AliPayReturnBean;
 import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.WXPayReturnEntity;
 import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.listener.OnChildViewClickListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.view.CustomerRadioGroup;
 import com.yundian.star.ui.view.RoundImageView;
@@ -202,6 +205,15 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 }
             }
         });
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                LogUtils.loge("关闭----------------");
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 1f;
+                getWindow().setAttributes(lp);
+            }
+        });
     }
 
     private RadioButton getCheckedRadioButton() {
@@ -230,6 +242,10 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 applyRecharge();
                 break;
             case R.id.ll_user_recharge_type:  //选择充值方式
+                // 设置背景颜色变暗
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 0.7f;
+                getWindow().setAttributes(lp);
                 popupWindow.showAtLocation(findViewById(R.id.ll_recharge_ui), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 break;
         }
@@ -243,7 +259,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         }
 
         if (isAliPay) {
-            requestAliPay();
+            requestAliPay(title, price);
         } else {
             requestWXPay(title, price);
         }
@@ -297,24 +313,36 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         }
     }
 
-    private void requestAliPay() {
-        ToastUtils.showShort("请求支付宝支付");
-        final String orderInfo =
-                "app_id=2017060807450365&biz_content=%7B%22out_trade_no%22%3A%2220170525191212%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22total_amount%22%3A%220.01%22%2C%22subject%22%3A%22a%20goods%22%7D&charset=utf-8&method=alipay.trade.app.pay&sign=ssYQ3c3jOlaROhOnKPoFS%2FbV%2BU25lyKLchzwRw%2F%2Fj%2FMpdh5UFMI3QBPJOLKBaGjYaucaJid9Z%2BpPQelo2ZwNl4n1YOSPmGn4gSzO7%2FhU3R46mxA58phIdbbrkTjYiXrMBqWwsxATOr8zRPQaNeBPJUv06XAEmkz91rl5hHKCa0k%3D&sign_type=RSA&timestamp=2017-06-16%2015%3A14%3A41&version=1.0";   // 订单信息   请求服务端返回payinfo
-        Runnable payRunnable = new Runnable() {
-            @Override
-            public void run() {
-                PayTask alipay = new PayTask(RechargeActivity.this);
-                String result = alipay.pay(orderInfo, true);
-                Message msg = new Message();
-                msg.what = SDK_PAY_FLAG;
-                msg.obj = result;
-                mHandler.sendMessage(msg);
-            }
-        };
+    private void requestAliPay(String title, double price) {
 
-        Thread payThread = new Thread(payRunnable);    // 必须异步调用
-        payThread.start();
+        NetworkAPIFactoryImpl.getDealAPI().alipay(title, price, new OnAPIListener<AliPayReturnBean>() {
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.loge("支付宝请求失败---------------------");
+            }
+
+            @Override
+            public void onSuccess(AliPayReturnBean bean) {
+                LogUtils.loge("支付宝请求成功---------:" + bean.getOrderinfo());
+                final String orderInfo = bean.getOrderinfo();   // 订单信息   请求服务端返回payinfo
+
+                Runnable payRunnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        PayTask alipay = new PayTask(RechargeActivity.this);
+//                        String result = alipay.payV2(orderInfo, true);
+                        Map<String, String> result = alipay.payV2(orderInfo, true);
+                        Message msg = new Message();
+                        msg.what = SDK_PAY_FLAG;
+                        msg.obj = result;
+                        mHandler.sendMessage(msg);
+                    }
+                };
+
+                Thread payThread = new Thread(payRunnable);    // 必须异步调用
+                payThread.start();
+            }
+        });
     }
 
     private Handler mHandler = new Handler() {
@@ -322,6 +350,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case SDK_PAY_FLAG: {
+                    LogUtils.loge("收到支付回调--------------------------------------------------");
                     @SuppressWarnings("unchecked")
                     PayResult payResult = new PayResult((Map<String, String>) msg.obj);
                     /**
@@ -391,7 +420,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 //                LogUtils.logd("支付成功,更新余额,进入充值列表");
                 break;
             case -2:  //取消支付
-             //   showDialogTip();
+                //   showDialogTip();
 //                ToastUtils.showShort("用户取消支付:" + eventBusMessage.Message);
                 break;
 //            default:
@@ -425,6 +454,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
+
     /**
      * 防止并发
      */

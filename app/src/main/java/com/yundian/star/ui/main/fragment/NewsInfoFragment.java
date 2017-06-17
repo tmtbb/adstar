@@ -168,9 +168,9 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
                             tv_am_pm.setText(getString(R.string.AM));
                         }
                         if (hour >= 6 && hour < 18) {
-                            imageView2.setImageDrawable(getResources().getDrawable(R.drawable.news_day));
+                            imageView2.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.news_day));
                         } else {
-                            imageView2.setImageDrawable(getResources().getDrawable(R.drawable.news_night));
+                            imageView2.setImageDrawable(getActivity().getResources().getDrawable(R.drawable.news_night));
                         }
                         String stringByFormat = TimeUtil.formatDateYMD(listBean.getTimes());
                         tv_time.setText(stringByFormat);
