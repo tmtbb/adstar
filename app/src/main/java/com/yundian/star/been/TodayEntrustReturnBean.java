@@ -30,6 +30,15 @@ public class TodayEntrustReturnBean implements Parcelable {
     private long positionId;
     private long positionTime;
     private String symbol;
+    private long rtAmount;
+
+    public long getRtAmount() {
+        return rtAmount;
+    }
+
+    public void setRtAmount(long rtAmount) {
+        this.rtAmount = rtAmount;
+    }
 
     public long getAmount() {
         return amount;
@@ -135,6 +144,7 @@ public class TodayEntrustReturnBean implements Parcelable {
         this.positionId = in.readLong();
         this.positionTime = in.readLong();
         this.symbol = in.readString();
+        this.rtAmount = in.readLong();
     }
 
     public static final Creator<TodayEntrustReturnBean> CREATOR = new Creator<TodayEntrustReturnBean>() {

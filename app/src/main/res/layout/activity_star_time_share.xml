@@ -97,7 +97,8 @@
             android:button="@null"
             android:drawableTop="@drawable/optional_icon"
             android:gravity="center"
-            android:text="@string/optional" />
+            android:text="@string/optional"
+            android:visibility="gone"/>
 
     </RadioGroup>
 </android.support.design.widget.CoordinatorLayout>

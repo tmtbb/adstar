@@ -47,6 +47,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 
@@ -295,6 +297,11 @@ public class UserInfoFragment extends BaseFragment {
                 }
 //                starInfoDao.insertInTx(starInfoReturnBean.getList());
                 LogUtils.loge("插入成功");
+                List<StarInfo> starInfos = GreenDaoManager.getInstance().loadAllNote();
+
+                for (int i = 0; i < starInfos.size(); i++) {
+                    LogUtils.loge("查询的数据为:"+starInfos.get(i).getName()+"索引:"+i+"价格:"+starInfos.get(i).getPrice());
+                }
             }
         });
     }

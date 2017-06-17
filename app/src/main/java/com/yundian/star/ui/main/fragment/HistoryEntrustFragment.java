@@ -154,6 +154,7 @@ public class HistoryEntrustFragment extends BaseFragment {
     public void showData() {
         if (list.size() == 0) {
             showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+            return;
         } else {
             closeErrorView();
         }

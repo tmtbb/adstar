@@ -401,7 +401,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     public void todayDeal(int status,int start, int count,Short opcode, OnAPIListener<List<TodayDealReturnBean>> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("id", 142);
-        map.put("token", "adc28ac69625652b46d5c00b");
+        map.put("token", "6902464177061903496");
         map.put("start", start);
         map.put("count", count);
         map.put("status", status);

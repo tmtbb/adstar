@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
+    android:background="@drawable/splash_view1"
     android:orientation="vertical">
 
     <ImageView
@@ -10,8 +10,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:src="@drawable/ic_multiport_detail" />
+        android:layout_gravity="center" />
 
     <TextView
         android:id="@+id/tv_name"
@@ -20,6 +19,5 @@
         android:layout_below="@+id/iv_logo"
         android:layout_centerInParent="true"
         android:padding="10dp"
-        android:text="@string/app_name"
         android:textColor="@color/gray_deep" />
 </RelativeLayout>

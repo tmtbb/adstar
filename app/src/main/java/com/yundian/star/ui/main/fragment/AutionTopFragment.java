@@ -87,10 +87,7 @@ public class AutionTopFragment extends BaseFragment {
                         showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
                     }
                 }
-
-
             }
-
 
             @Override
             public void onSuccess(FansEntrustReturnBean bean) {
@@ -131,8 +128,9 @@ public class AutionTopFragment extends BaseFragment {
     }
 
     public void showData() {
-        if (list.size() == 0) {
+        if (list != null && list.size() == 0) {
             showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+            return;
         } else {
             closeErrorView();
         }

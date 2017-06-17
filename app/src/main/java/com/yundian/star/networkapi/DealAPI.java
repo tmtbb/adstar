@@ -1,6 +1,7 @@
 package com.yundian.star.networkapi;
 
 
+import com.yundian.star.been.AliPayReturnBean;
 import com.yundian.star.been.AssetDetailsBean;
 import com.yundian.star.been.BookingStarListBean;
 import com.yundian.star.been.IdentityInfoBean;
@@ -95,4 +96,5 @@ public interface DealAPI {
     void nikeName(String nickname,OnAPIListener<RequestResultBean> listener);//身份
     void starMeet(String starcode,long mid,String city_name,String appoint_time,int meet_type,String comment,OnAPIListener<RequestResultBean> listener);
     void statServiceList(String starcode,OnAPIListener<StatServiceListBean> listener);
+    void alipay(String title,double price,OnAPIListener<AliPayReturnBean> listener);
 }

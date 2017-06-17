@@ -99,11 +99,23 @@ public class GreenDaoManager {
             public void run() {
                 for (int i = 0; i < list.size(); i++) {
                     StarInfo user = list.get(i);
-                    starInfoDao.insertOrReplace(user);
+                    cacheUserInfo(user);  //根据code判断数据库中是否存在老数据,如果存在,把老数据的ID赋值给新数据
                 }
             }
         });
+    }
 
+    /**
+     * 判断缓存用户信息
+     *
+     * @param starInfo
+     */
+    public void cacheUserInfo(StarInfo starInfo) {
+        List<StarInfo> oldInfos = queryLove(starInfo.getCode());
+        if (oldInfos != null && oldInfos.size() > 0) {
+            starInfo.setId(oldInfos.get(0).getId());
+        }
+        starInfoDao.insertOrReplace(starInfo);
     }
 
     /**
@@ -130,4 +142,14 @@ public class GreenDaoManager {
     public void deleteNote(StarInfo user) {
         starInfoDao.delete(user);
     }
+
+    /**
+     * 根据明星code,取出用户信息
+     *
+     * @return 用户信息
+     */
+    public  List<StarInfo> queryLove(String codes) {
+        return starInfoDao.queryBuilder().where(StarInfoDao.Properties.Code.eq(codes)).list();
+    }
+
 }

@@ -2,6 +2,7 @@ package com.yundian.star.networkapi.socketapi;
 
 
 import com.yundian.star.app.SocketAPIConstant;
+import com.yundian.star.been.AliPayReturnBean;
 import com.yundian.star.been.AssetDetailsBean;
 import com.yundian.star.been.BookingStarListBean;
 import com.yundian.star.been.IdentityInfoBean;
@@ -304,6 +305,19 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarType,
                 SocketAPIConstant.ReqeutType.NewInfos, map);
         requestEntity(socketDataPacket,StatServiceListBean.class,listener);
+    }
+
+    @Override
+    public void alipay(String title, double price, OnAPIListener<AliPayReturnBean> listener) {
+        LogUtils.loge("支付宝----------");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", SharePrefUtil.getInstance().getUserId());
+        map.put("token", SharePrefUtil.getInstance().getToken());
+        map.put("title", title);
+        map.put("price", price);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.ALiPay,
+                SocketAPIConstant.ReqeutType.Pay, map);
+        requestEntity(socketDataPacket,AliPayReturnBean.class,listener);
     }
 
 //    @Override

@@ -112,12 +112,12 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_money_detail:
-                ToastUtils.showShort("钱包明细");
+//                ToastUtils.showShort("钱包明细");
                 startActivity(MoneyBagDetailActivity.class);
                 popupWindow.dismiss();
                 break;
             case R.id.tv_bank_info:
-                ToastUtils.showShort("银行卡");
+//                ToastUtils.showShort("银行卡");
                 popupWindow.dismiss();
                 break;
         }

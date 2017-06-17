@@ -104,7 +104,7 @@ public class UserSettingActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.headImage:
-                showSelector(R.string.user_info, 100);
+//                showSelector(R.string.user_info, 100);
                 break;
             case R.id.ll_user_phone:
                 break;
@@ -213,15 +213,22 @@ public class UserSettingActivity extends BaseActivity {
             public void onError(Throwable ex) {
                 LogUtils.loge("实名信息失败-----------");
                 tvUserCardNumber.setText("未实名认证");
+                tvUserRealName.setText("未实名认证");
             }
 
             @Override
             public void onSuccess(IdentityInfoBean identityInfoBean) {
                 LogUtils.loge("实名信息成功-----------" + identityInfoBean.toString());
-                tvUserRealName.setText(identityInfoBean.getRealname());
-                tvUserCardNumber.setText(FormatUtil.formatCard(identityInfoBean.getId_card()));
-                SharePrefUtil.getInstance().setRealName(identityInfoBean.getRealname());
-                SharePrefUtil.getInstance().setIdnum(identityInfoBean.getId_card());
+                if (identityInfoBean != null){
+                    tvUserRealName.setText(identityInfoBean.getRealname());
+                    tvUserCardNumber.setText(FormatUtil.formatCard(identityInfoBean.getId_card()));
+                    SharePrefUtil.getInstance().setRealName(identityInfoBean.getRealname());
+                    SharePrefUtil.getInstance().setIdnum(identityInfoBean.getId_card());
+                }else{
+                    tvUserCardNumber.setText("未实名认证");
+                    tvUserRealName.setText("未实名认证");
+                }
+
             }
         });
     }
