@@ -7,13 +7,17 @@ package com.yundian.star.been;
 public class BuyShellReutrnBeen {
 
     /**
-     * buyCount : 9
-     * sellCount : 8
-     * symbol : 1001
+     * buyCount : 0
+     * buyTime : 0
+     * sellCount : 0
+     * sellTime : 0
+     * symbol : 1009
      */
 
     private int buyCount;
+    private int buyTime;
     private int sellCount;
+    private int sellTime;
     private String symbol;
 
     public int getBuyCount() {
@@ -24,12 +28,28 @@ public class BuyShellReutrnBeen {
         this.buyCount = buyCount;
     }
 
+    public int getBuyTime() {
+        return buyTime;
+    }
+
+    public void setBuyTime(int buyTime) {
+        this.buyTime = buyTime;
+    }
+
     public int getSellCount() {
         return sellCount;
     }
 
     public void setSellCount(int sellCount) {
         this.sellCount = sellCount;
+    }
+
+    public int getSellTime() {
+        return sellTime;
+    }
+
+    public void setSellTime(int sellTime) {
+        this.sellTime = sellTime;
     }
 
     public String getSymbol() {
@@ -44,7 +64,9 @@ public class BuyShellReutrnBeen {
     public String toString() {
         return "BuyShellReutrnBeen{" +
                 "buyCount=" + buyCount +
+                ", buyTime=" + buyTime +
                 ", sellCount=" + sellCount +
+                ", sellTime=" + sellTime +
                 ", symbol='" + symbol + '\'' +
                 '}';
     }

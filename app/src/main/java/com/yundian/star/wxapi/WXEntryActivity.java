@@ -226,9 +226,9 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                             SharePrefUtil.getInstance().putUserNickName(entity2.getNickname());
                         }
                         LogUtils.logd("登录成功" + info.getUserinfo().getPhone());
-
+                        String name = "星享"+info.getUserinfo().getPhone().substring(8,info.getUserinfo().getPhone().length());
                         //网易云注册
-                        NetworkAPIFactoryImpl.getUserAPI().registerWangYi(info.getUserinfo().getPhone(), info.getUserinfo().getPhone(), info.getUserinfo().getPhone(), new OnAPIListener<RegisterReturnWangYiBeen>() {
+                        NetworkAPIFactoryImpl.getUserAPI().registerWangYi(info.getUserinfo().getPhone(), name, info.getUserinfo().getPhone(), new OnAPIListener<RegisterReturnWangYiBeen>() {
                             @Override
                             public void onError(Throwable ex) {
                                 LogUtils.logd("网易云注册失败" + ex.toString());

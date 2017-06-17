@@ -46,7 +46,7 @@ public class FansHotBuyAdapter extends ListBaseAdapter<FansTopListBeen.OrdersLis
         if (position==0){
             iv_tro.setBackgroundResource(R.drawable.trophy_icon);
         }else {
-            iv_tro.setText(String.valueOf(position+1));
+            iv_tro.setText(String.format("%.2d",position+1));
         }
         String formatData = TimeUtil.formatData(TimeUtil.dateFormatYMDHMS, ordersListBean.getTrades().getOpenTime());
         tv_time.setText(formatData.substring(5));

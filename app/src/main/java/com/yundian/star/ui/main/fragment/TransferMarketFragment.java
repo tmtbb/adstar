@@ -16,6 +16,7 @@ import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.utils.ImageLoaderUtils;
+import com.yundian.star.utils.JudgeIdentityUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
@@ -227,15 +228,15 @@ public class TransferMarketFragment extends BaseFragment {
         tv_sure_trans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (!JudgeIdentityUtils.isIdentityed(getActivity())) {
-//                    return;
-//                }
+                if (!JudgeIdentityUtils.isIdentityed(getActivity())) {
+                    return;
+                }
                 LogUtils.loge("获取数值" + total_prices);
                 BigDecimal bg = new BigDecimal(buy_price);
                 double ask_buy_prices = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 LogUtils.loge("获取数值总价" + total_prices + "转换后的数据" + ask_buy_prices * buy_num);
-                NetworkAPIFactoryImpl.getInformationAPI().getAskToBuy(142/*SharePrefUtil.getInstance().getUserId()*/,
-                        /*SharePrefUtil.getInstance().getToken()*/"6902464177061903496", 1, "1001",-1, buy_num, ask_buy_prices,
+                NetworkAPIFactoryImpl.getInformationAPI().getAskToBuy(SharePrefUtil.getInstance().getUserId(),
+                        SharePrefUtil.getInstance().getToken(), 1, code,-1, buy_num, ask_buy_prices,
                         new OnAPIListener<AskToBuyReturnBeen>() {
                             @Override
                             public void onError(Throwable ex) {

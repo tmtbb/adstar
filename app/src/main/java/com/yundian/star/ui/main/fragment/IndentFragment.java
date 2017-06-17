@@ -15,6 +15,7 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.IndentAdapter;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
 
 import java.util.ArrayList;
 
@@ -79,8 +80,8 @@ public class IndentFragment extends BaseFragment {
     }
 
     private void getData(final boolean isLoadMore, int start, int count) {
-        NetworkAPIFactoryImpl.getInformationAPI().historyEntrust(142/*SharePrefUtil.getInstance().getUserId()*/,
-                "adc28ac69625652b46d5c00b"/*SharePrefUtil.getInstance().getToken()*/,start, count, new OnAPIListener<EntrustReturnBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().historyEntrust(SharePrefUtil.getInstance().getUserId(),
+                SharePrefUtil.getInstance().getToken(),start, count, new OnAPIListener<EntrustReturnBeen>() {
                     @Override
                     public void onError(Throwable ex) {
                         if (lrv != null) {

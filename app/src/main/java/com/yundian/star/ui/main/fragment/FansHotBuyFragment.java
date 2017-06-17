@@ -69,7 +69,7 @@ public class FansHotBuyFragment extends BaseFragment {
     private void getData(final boolean isLoadMore,int start ,int end ) {
         LogUtils.loge("粉丝排行榜code"+code);
             NetworkAPIFactoryImpl.getInformationAPI().oederFansList(SharePrefUtil.getInstance().getUserId(),
-                    SharePrefUtil.getInstance().getToken(),"1001",0, start, end, new OnAPIListener<FansTopListBeen>() {
+                    SharePrefUtil.getInstance().getToken(),code,0, start, end, new OnAPIListener<FansTopListBeen>() {
                 @Override
                 public void onError(Throwable ex) {
                     if (lrv!=null){

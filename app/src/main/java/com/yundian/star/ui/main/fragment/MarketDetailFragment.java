@@ -23,6 +23,7 @@ import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.SearchActivity;
 import com.yundian.star.ui.main.activity.StarTimeShareActivity;
 import com.yundian.star.ui.main.adapter.MarketDetailAdapter;
+import com.yundian.star.utils.CheckLoginUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.widget.NormalTitleBar;
@@ -146,7 +147,7 @@ public class MarketDetailFragment extends BaseFragment {
                     closeErrorView();
                     if (sarListbeen.getSymbol_info() == null) {
                         lrv.setNoMore(true);
-                        showErrorView(parentView, R.drawable.error_view_contact, getResources().getString(R.string.empty_view_contacts));
+                        showErrorView(parentView, R.drawable.error_view_contact, "");
                         return;
                     }
                     list.clear();
@@ -171,14 +172,16 @@ public class MarketDetailFragment extends BaseFragment {
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                LogUtils.logd(position + "");
-                StarListbeen.SymbolInfoBean infoBean = list.get(position);
-                Intent intent = new Intent(getActivity(), StarTimeShareActivity.class);
-                intent.putExtra(AppConstant.STAR_CODE, infoBean.getSymbol());
-                intent.putExtra(AppConstant.STAR_NAME, infoBean.getName());
-                intent.putExtra(AppConstant.STAR_WID, infoBean.getWid());
-                intent.putExtra(AppConstant.STAR_HEAD_URL, infoBean.getPic());
-                startActivity(intent);
+                if (CheckLoginUtil.checkLogin(getActivity())){
+                    LogUtils.logd(position + "");
+                    StarListbeen.SymbolInfoBean infoBean = list.get(position);
+                    Intent intent = new Intent(getActivity(), StarTimeShareActivity.class);
+                    intent.putExtra(AppConstant.STAR_CODE, infoBean.getSymbol());
+                    intent.putExtra(AppConstant.STAR_NAME, infoBean.getName());
+                    intent.putExtra(AppConstant.STAR_WID, infoBean.getWid());
+                    intent.putExtra(AppConstant.STAR_HEAD_URL, infoBean.getPic());
+                    startActivity(intent);
+                }
             }
         });
         lrv.setOnRefreshListener(new OnRefreshListener() {
@@ -283,9 +286,9 @@ public class MarketDetailFragment extends BaseFragment {
 //        lrv.setVisibility(View.GONE);
         String des = "";
         if (type == 0) {
-            des = getResources().getString(R.string.empty_view_price);
+            des = getActivity().getResources().getString(R.string.empty_view_price);
         } else {
-            des = getActivity().getResources().getString(R.string.empty_view_contacts);
+            des = "";
         }
         showErrorView(parentView, R.drawable.error_view_contact, des);
     }

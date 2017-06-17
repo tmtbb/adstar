@@ -198,7 +198,7 @@ public class NewsStarBuyActivity extends BaseActivity {
                 initData(info);
             }
         });
-        NetworkAPIFactoryImpl.getInformationAPI().getStarShellTime("143", new OnAPIListener<StartShellTimeBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarShellTime(code, new OnAPIListener<StartShellTimeBeen>() {
             @Override
             public void onError(Throwable ex) {
 

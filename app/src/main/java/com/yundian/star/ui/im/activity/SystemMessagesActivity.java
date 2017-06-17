@@ -35,6 +35,7 @@ import com.yundian.star.ui.main.activity.ResetPayPwdActivity;
 import com.yundian.star.ui.main.adapter.SystemMessageAdapter;
 import com.yundian.star.ui.view.PayPwdEditText;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.MD5Util;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.SoftKeyBoardListener;
 import com.yundian.star.utils.ToastUtils;
@@ -170,8 +171,8 @@ public class SystemMessagesActivity extends BaseActivity {
     }
 
     private void getData(final boolean isLoadMore, int start, int count) {
-        NetworkAPIFactoryImpl.getInformationAPI().historyOrder(152/*SharePrefUtil.getInstance().getUserId()*/,
-                "adc28ac69625652b46d5c00b"/*SharePrefUtil.getInstance().getToken()*/, 3, start, count, new OnAPIListener<OrderReturnBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().historyOrder(SharePrefUtil.getInstance().getUserId(),
+                SharePrefUtil.getInstance().getToken(), 3, start, count, new OnAPIListener<OrderReturnBeen>() {
                     @Override
                     public void onError(Throwable ex) {
                         if (lrv != null) {
@@ -236,15 +237,14 @@ public class SystemMessagesActivity extends BaseActivity {
             public void onFinish(String str) {//密码输入完后的回调
 //                Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
                 //校验支付密码
-                NetworkAPIFactoryImpl.getInformationAPI().checkPayPas(800/*SharePrefUtil.getInstance().getUserId()*/,
-                        "weqwe21321sewqe"/*SharePrefUtil.getInstance().getToken()*/, "83b4ef5aas457hddg90cda974200"/*MD5Util.MD5(str);*/, new OnAPIListener<ResultBeen>() {
+                NetworkAPIFactoryImpl.getInformationAPI().checkPayPas(SharePrefUtil.getInstance().getUserId(),
+                        SharePrefUtil.getInstance().getToken(),MD5Util.MD5(str), new OnAPIListener<ResultBeen>() {
                             @Override
                             public void onError(Throwable ex) {
                                 LogUtils.loge("密码输入失败");
                                 //支付密码确定接口有待验证
-                                //currentBean = null;
-                                //mPopWindow.dismiss();
-                                sureOrder();
+                                currentBean = null;
+                                mPopWindow.dismiss();
                             }
 
                             @Override
@@ -252,11 +252,13 @@ public class SystemMessagesActivity extends BaseActivity {
                                 LogUtils.loge("密码输入正确");
                                 if (resultBeen!=null){
                                     if (resultBeen.getResult()==1){
-
+                                        sureOrder();
                                     }else if (resultBeen.getResult()==0){
 
                                     }
-                                    //currentBean = null;
+                                    currentBean = null;
+                                    mPopWindow.dismiss();
+                                    getData(false, 1, REQUEST_COUNT);
                                 }
                             }
                         });
@@ -296,8 +298,8 @@ public class SystemMessagesActivity extends BaseActivity {
             ToastUtils.showShort("订单支付失败");
             return;
         }
-        NetworkAPIFactoryImpl.getInformationAPI().sureOrder(152/*SharePrefUtil.getInstance().getUserId()*/,
-                "6902464177061903496"/*SharePrefUtil.getInstance().getToken()*/, currentBean.getOrderId(), currentBean.getPositionId(), new OnAPIListener<SureOrder>() {
+        NetworkAPIFactoryImpl.getInformationAPI().sureOrder(SharePrefUtil.getInstance().getUserId(),
+                SharePrefUtil.getInstance().getToken(), currentBean.getOrderId(), currentBean.getPositionId(), new OnAPIListener<SureOrder>() {
                     @Override
                     public void onError(Throwable ex) {
                         LogUtils.loge("订单确认失败"+ex.toString());

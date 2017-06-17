@@ -114,7 +114,7 @@ public class AuctionMarketFragment extends BaseFragment {
     }
 
     private void initData() {
-        NetworkAPIFactoryImpl.getInformationAPI().getTradingStatus(userId, token, "1001", new OnAPIListener<TradingStatusBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().getTradingStatus(userId, token, code, new OnAPIListener<TradingStatusBeen>() {
             @Override
             public void onError(Throwable ex) {
 
@@ -340,6 +340,16 @@ public class AuctionMarketFragment extends BaseFragment {
                           tv_buy_in.setText(String.format(getActivity().getString(R.string.buy_in),buyShellReutrnBeen.getBuyCount()*10));
                           tv_shell_out.setText(String.format(getActivity().getString(R.string.shell_out),buyShellReutrnBeen.getSellCount()*10));
                         }
+                        if (buyShellReutrnBeen.getSellTime()!=0&&totalTime!=0){
+                            int pressData = 100 ;
+                            if (buyShellReutrnBeen.getSellTime()>totalTime){
+                                pressData = pressData*(totalTime/buyShellReutrnBeen.getSellTime()) ;
+                            }else {
+                                pressData = pressData*(buyShellReutrnBeen.getSellTime()/totalTime) ;
+                            }
+
+                            seekBar.setProgress(pressData);
+                        }
                     }
                 });
     }
@@ -392,9 +402,10 @@ public class AuctionMarketFragment extends BaseFragment {
                     }
                 });
     }
+    private int totalTime =0 ;
     //总流通时间
     private void getStartHaveTime() {
-        NetworkAPIFactoryImpl.getInformationAPI().getStarShellTime("143", new OnAPIListener<StartShellTimeBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarShellTime(code, new OnAPIListener<StartShellTimeBeen>() {
             @Override
             public void onError(Throwable ex) {
 
@@ -402,6 +413,7 @@ public class AuctionMarketFragment extends BaseFragment {
 
             @Override
             public void onSuccess(StartShellTimeBeen startShellTimeBeen) {
+                totalTime = startShellTimeBeen.getStar_time();
                 LogUtils.loge("明星流通时间"+startShellTimeBeen.toString());
                 tv_total_second.setText(String.valueOf(startShellTimeBeen.getStar_time())+"秒");
             }

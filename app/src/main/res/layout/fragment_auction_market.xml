@@ -57,7 +57,7 @@
                 android:id="@+id/tv_have_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/auction_have_time"
+                android:text="@string/have_empy_time"
                 android:textColor="@color/color_white_ffffffff"
                 android:textSize="@dimen/fontSize_16sp" />
 
@@ -66,11 +66,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="23dp"
-                android:text="@string/num_time"
+                android:text="0秒"
                 android:textColor="@color/color_white_ffffffff"
                 android:textSize="@dimen/fontSize_24sp" />
-
-
         </LinearLayout>
 
         <com.yundian.star.ui.view.MySeekBar
@@ -81,7 +79,7 @@
             android:max="100"
             android:maxHeight="16dp"
             android:minHeight="16dp"
-            android:progress="30"
+            android:progress="50"
             android:focusable="false"
             android:progressDrawable="@drawable/bg_progress_miao_auction"
             android:splitTrack="false"
@@ -96,7 +94,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/fontSize_14sp"
             android:textColor="@color/font_333333"
-            android:text="@string/total_second"
+            android:text="@string/total_second_enmpy"
             />
         <com.yundian.star.ui.view.MySeekBar
             android:thumb="@null"

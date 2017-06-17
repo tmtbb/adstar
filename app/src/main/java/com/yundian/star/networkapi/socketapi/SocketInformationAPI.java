@@ -203,10 +203,11 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
-    public void reduceTime(String phone, String starcode, OnAPIListener<Object> listener) {
+    public void reduceTime(String phone,String starcode,long deduct_amount, OnAPIListener<Object> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("phone", phone);
         map.put("starcode", starcode);
+        map.put("deduct_amount", deduct_amount);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.ReduceTime,
                 SocketAPIConstant.ReqeutType.Wangyi, map);
         requestJsonObject(socketDataPacket, listener);
