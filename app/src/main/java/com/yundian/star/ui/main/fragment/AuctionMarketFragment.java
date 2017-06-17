@@ -182,7 +182,7 @@ public class AuctionMarketFragment extends BaseFragment {
     }
 
     private void initListener() {
-        radioGroup.check(radioButton1.getId());
+        onViewClicked(radioButton1);
     }
 
     @OnClick({R.id.rb_1, R.id.rb_2})
