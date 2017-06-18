@@ -272,7 +272,7 @@
     <string name="open_pay_des">需要开通支付才能进行充值等相关操作。开通支付后，可以在求购、转让、约见、分答功能中使用钱包消费。</string>
     <string name="make_sure">确定</string>
     <string name="total_second">总计：%1$d秒</string>
-    <string name="total_second_enmpy">总计:100000秒</string>
+    <string name="total_second_enmpy">总计:0秒</string>
     <string name="buy_in">买入：%1$d人</string>
     <string name="buy">买入</string>
     <string name="shell">卖出</string>

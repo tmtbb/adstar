@@ -212,9 +212,9 @@ public class SystemMessagesActivity extends BaseActivity {
     public void showData() {
         systemMessageAdapter.clear();
         mCurrentCounter = list.size();
-        lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         systemMessageAdapter.addAll(list);
         lrv.refreshComplete(REQUEST_COUNT);
+        lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
     }
 
     private void loadMoreData() {
@@ -264,10 +264,9 @@ public class SystemMessagesActivity extends BaseActivity {
                                         sureOrder();
                                     }else if (resultBeen.getResult()==0){
                                         ToastUtils.showShort("密码错误");
+                                        currentBean = null;
                                     }
-                                    currentBean = null;
                                     mPopWindow.dismiss();
-                                    getData(false, 1, REQUEST_COUNT);
                                 }
                             }
                         });
@@ -311,6 +310,8 @@ public class SystemMessagesActivity extends BaseActivity {
                 SharePrefUtil.getInstance().getToken(), currentBean.getOrderId(), currentBean.getPositionId(), new OnAPIListener<SureOrder>() {
                     @Override
                     public void onError(Throwable ex) {
+                        getData(false, 1, REQUEST_COUNT);
+                        ToastUtils.showLong("订单确认失败");
                         LogUtils.loge("订单确认失败"+ex.toString());
                         currentBean=null ;
                     }
@@ -318,7 +319,10 @@ public class SystemMessagesActivity extends BaseActivity {
                     @Override
                     public void onSuccess(SureOrder sureOrder) {
                         LogUtils.loge("订单确认成功"+sureOrder.toString());
+                        ToastUtils.showLong("订单确认成功");
                         currentBean=null ;
+                        new Handler().postDelayed(runnable2,300);
+
                     }
                 });
     }
@@ -348,12 +352,20 @@ public class SystemMessagesActivity extends BaseActivity {
                         , SharePrefUtil.getInstance().getToken(),list.get(position).getOrderId(), new OnAPIListener<Object>() {
                             @Override
                             public void onError(Throwable ex) {
-
+                                LogUtils.loge("取消订单失败"+ex.toString());
+                                getData(false, 1, REQUEST_COUNT);
+                                LogUtils.loge("取消订单失败");
+                                ToastUtils.showLong("取消订单失败");
+                                currentBean=null ;
                             }
 
                             @Override
                             public void onSuccess(Object o) {
                                 LogUtils.loge("取消订单"+o.toString());
+                                getData(false, 1, REQUEST_COUNT);
+                                LogUtils.loge("取消订单成功");
+                                ToastUtils.showLong("取消订单成功");
+                                currentBean=null ;
                             }
                         });
             }
@@ -428,6 +440,13 @@ public class SystemMessagesActivity extends BaseActivity {
             LogUtils.loge("吊起键盘");
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    };
+    private Runnable runnable2 = new Runnable() {
+        @Override
+        public void run() {
+            LogUtils.loge("刷新");
+            getData(false, 1, REQUEST_COUNT);
         }
     };
 }

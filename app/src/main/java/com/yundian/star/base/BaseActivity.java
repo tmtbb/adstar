@@ -288,7 +288,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SocketAPIRequestManage.getInstance().unboundOnMatchSucessListener();
+        //SocketAPIRequestManage.getInstance().unboundOnMatchSucessListener();
         if (mPresenter != null)
             mPresenter.onDestroy();
         if (!isConfigChange) {
@@ -392,25 +392,27 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                             textView.setText("点击查看");
                             textView.setTextColor(getResources().getColor(R.color.color_8D0809));
                             if (matchSucessReturnBeen.getBuyUid()== SharePrefUtil.getInstance().getUserId()){
-                                s1 = "求购成功";
+                                s1 = "求购信息";
 
                             }else {
-                                s1 = "转让成功";
+                                s1 = "转让信息";
                             }
                             //showAlertDialog(matchSucessReturnBeen);
                             String s = "撮合成功提醒:"+"("+matchSucessReturnBeen.getSymbol()+")"+
-                                    s1+",请到系统消息中查看,"+textView+"。";
+                                    s1+",请到系统消息中查看,点击查看。";
                             mBuilder.setContentText(s);
                             //                        showAlertDialog();
                             mNotificationManager.notify(100, mBuilder.build());
                         }
                     });
                 }else {
-                    TextView textView = new TextView(mContext);
-                    textView.setText("点击查看");
-                    textView.setTextColor(getResources().getColor(R.color.color_8D0809));
+                    String s = null;
                     final OrderSucReturnBeen orderSucReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), OrderSucReturnBeen.class);
-                    String s = "交易成功提醒:请到系统消息中查看,"+textView+"。";
+                    if (orderSucReturnBeen.getResult()==-1){
+                        s = "交易取消";
+                    }else if (orderSucReturnBeen.getResult()==-1){
+                        s = "交易成功，请在系统消息内查看";
+                    }
                     mBuilder.setContentText(s);
                     //                        showAlertDialog();
                     mNotificationManager.notify(100, mBuilder.build());
