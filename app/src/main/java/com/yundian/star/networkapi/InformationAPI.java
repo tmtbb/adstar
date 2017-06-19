@@ -55,7 +55,7 @@ public interface InformationAPI {
     void getFansComments(String starcode,OnAPIListener<Object> listener);
     void getStarmaillist(long id ,String token,String status,int startPos,int count,OnAPIListener<StarMailListBeen> listener);
     void addFriend(String accid,String faccid,String msg,int type,OnAPIListener<Object> listener);
-    void reduceTime(String phone,String starcode,OnAPIListener<Object> listener);
+    void reduceTime(String phone,String starcode,long deduct_amount,OnAPIListener<Object> listener);
     void inquiry(String symbol,int startPos,int count ,OnAPIListener<CommentMarketBeen> listener);
     void getTimeLine(long id,String token,String symbol ,int aType,OnAPIListener<TimeLineBeen> listener);
     void getAddComment(String symbol,String fans_id,String nick_name,String comments,String head_url ,OnAPIListener<Object> listener);

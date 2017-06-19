@@ -15,6 +15,7 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.IndentAdapter;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
 
 import java.util.ArrayList;
 
@@ -79,12 +80,17 @@ public class IndentFragment extends BaseFragment {
     }
 
     private void getData(final boolean isLoadMore, int start, int count) {
-        NetworkAPIFactoryImpl.getInformationAPI().historyEntrust(142/*SharePrefUtil.getInstance().getUserId()*/,
-                "adc28ac69625652b46d5c00b"/*SharePrefUtil.getInstance().getToken()*/,start, count, new OnAPIListener<EntrustReturnBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().historyEntrust(SharePrefUtil.getInstance().getUserId(),
+                SharePrefUtil.getInstance().getToken(),start, count, new OnAPIListener<EntrustReturnBeen>() {
                     @Override
                     public void onError(Throwable ex) {
                         if (lrv != null) {
                             lrv.setNoMore(true);
+                            if (!isLoadMore) {
+                                list.clear();
+                                indentAdapter.clear();
+                                lrv.refreshComplete(REQUEST_COUNT);
+                            }
                         }
                         //LogUtils.loge("当日委托返回错误码" + ex.toString());
                     }
@@ -92,8 +98,9 @@ public class IndentFragment extends BaseFragment {
                     @Override
                     public void onSuccess(EntrustReturnBeen entrustReturnBeen) {
                         LogUtils.loge("当日委托" + entrustReturnBeen.toString());
-                        if (entrustReturnBeen.getPositionsList() == null || entrustReturnBeen.getPositionsList().size() == 0) {
+                        if (entrustReturnBeen==null||entrustReturnBeen.getPositionsList() == null || entrustReturnBeen.getPositionsList().size() == 0) {
                             lrv.setNoMore(true);
+                            lrv.refreshComplete(REQUEST_COUNT);
                             return;
                         }
                         if (isLoadMore) {

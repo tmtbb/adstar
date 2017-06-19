@@ -35,6 +35,7 @@ import com.yundian.star.ui.main.activity.ResetPayPwdActivity;
 import com.yundian.star.ui.main.adapter.SystemMessageAdapter;
 import com.yundian.star.ui.view.PayPwdEditText;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.MD5Util;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.SoftKeyBoardListener;
 import com.yundian.star.utils.ToastUtils;
@@ -170,12 +171,17 @@ public class SystemMessagesActivity extends BaseActivity {
     }
 
     private void getData(final boolean isLoadMore, int start, int count) {
-        NetworkAPIFactoryImpl.getInformationAPI().historyOrder(152/*SharePrefUtil.getInstance().getUserId()*/,
-                "adc28ac69625652b46d5c00b"/*SharePrefUtil.getInstance().getToken()*/, 3, start, count, new OnAPIListener<OrderReturnBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().historyOrder(SharePrefUtil.getInstance().getUserId(),
+                SharePrefUtil.getInstance().getToken(), 3, start, count, new OnAPIListener<OrderReturnBeen>() {
                     @Override
                     public void onError(Throwable ex) {
                         if (lrv != null) {
                             lrv.setNoMore(true);
+                            if (!isLoadMore) {
+                                list.clear();
+                                systemMessageAdapter.clear();
+                                lrv.refreshComplete(REQUEST_COUNT);
+                            }
                         }
                         LogUtils.loge("当日订单返回错误码" + ex.toString());
                     }
@@ -183,7 +189,8 @@ public class SystemMessagesActivity extends BaseActivity {
                     @Override
                     public void onSuccess(OrderReturnBeen orderReturnBeen) {
                         LogUtils.loge("当日订单" + orderReturnBeen.toString());
-                        if (orderReturnBeen.getOrdersList() == null || orderReturnBeen.getOrdersList().size() == 0) {
+                        if (orderReturnBeen==null||orderReturnBeen.getOrdersList() == null || orderReturnBeen.getOrdersList().size() == 0) {
+                            lrv.refreshComplete(REQUEST_COUNT);
                             lrv.setNoMore(true);
                             return;
                         }
@@ -205,9 +212,9 @@ public class SystemMessagesActivity extends BaseActivity {
     public void showData() {
         systemMessageAdapter.clear();
         mCurrentCounter = list.size();
-        lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         systemMessageAdapter.addAll(list);
         lrv.refreshComplete(REQUEST_COUNT);
+        lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
     }
 
     private void loadMoreData() {
@@ -236,27 +243,30 @@ public class SystemMessagesActivity extends BaseActivity {
             public void onFinish(String str) {//密码输入完后的回调
 //                Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
                 //校验支付密码
-                NetworkAPIFactoryImpl.getInformationAPI().checkPayPas(800/*SharePrefUtil.getInstance().getUserId()*/,
-                        "weqwe21321sewqe"/*SharePrefUtil.getInstance().getToken()*/, "83b4ef5aas457hddg90cda974200"/*MD5Util.MD5(str);*/, new OnAPIListener<ResultBeen>() {
+                NetworkAPIFactoryImpl.getInformationAPI().checkPayPas(SharePrefUtil.getInstance().getUserId(),
+                        SharePrefUtil.getInstance().getToken(),MD5Util.MD5(str), new OnAPIListener<ResultBeen>() {
                             @Override
                             public void onError(Throwable ex) {
+                                ToastUtils.showShort("密码错误");
                                 LogUtils.loge("密码输入失败");
                                 //支付密码确定接口有待验证
-                                //currentBean = null;
-                                //mPopWindow.dismiss();
-                                sureOrder();
+                                currentBean = null;
+                                mPopWindow.dismiss();
                             }
 
                             @Override
                             public void onSuccess(ResultBeen resultBeen) {
                                 LogUtils.loge("密码输入正确");
+                                LogUtils.loge("密码输入正确"+resultBeen.toString());
+                                ToastUtils.showShort("支付完成");
                                 if (resultBeen!=null){
                                     if (resultBeen.getResult()==1){
-
+                                        sureOrder();
                                     }else if (resultBeen.getResult()==0){
-
+                                        ToastUtils.showShort("密码错误");
+                                        currentBean = null;
                                     }
-                                    //currentBean = null;
+                                    mPopWindow.dismiss();
                                 }
                             }
                         });
@@ -296,10 +306,12 @@ public class SystemMessagesActivity extends BaseActivity {
             ToastUtils.showShort("订单支付失败");
             return;
         }
-        NetworkAPIFactoryImpl.getInformationAPI().sureOrder(152/*SharePrefUtil.getInstance().getUserId()*/,
-                "6902464177061903496"/*SharePrefUtil.getInstance().getToken()*/, currentBean.getOrderId(), currentBean.getPositionId(), new OnAPIListener<SureOrder>() {
+        NetworkAPIFactoryImpl.getInformationAPI().sureOrder(SharePrefUtil.getInstance().getUserId(),
+                SharePrefUtil.getInstance().getToken(), currentBean.getOrderId(), currentBean.getPositionId(), new OnAPIListener<SureOrder>() {
                     @Override
                     public void onError(Throwable ex) {
+                        getData(false, 1, REQUEST_COUNT);
+                        ToastUtils.showLong("订单确认失败");
                         LogUtils.loge("订单确认失败"+ex.toString());
                         currentBean=null ;
                     }
@@ -307,7 +319,10 @@ public class SystemMessagesActivity extends BaseActivity {
                     @Override
                     public void onSuccess(SureOrder sureOrder) {
                         LogUtils.loge("订单确认成功"+sureOrder.toString());
+                        ToastUtils.showLong("订单确认成功");
                         currentBean=null ;
+                        new Handler().postDelayed(runnable2,300);
+
                     }
                 });
     }
@@ -337,12 +352,20 @@ public class SystemMessagesActivity extends BaseActivity {
                         , SharePrefUtil.getInstance().getToken(),list.get(position).getOrderId(), new OnAPIListener<Object>() {
                             @Override
                             public void onError(Throwable ex) {
-
+                                LogUtils.loge("取消订单失败"+ex.toString());
+                                getData(false, 1, REQUEST_COUNT);
+                                LogUtils.loge("取消订单失败");
+                                ToastUtils.showLong("取消订单失败");
+                                currentBean=null ;
                             }
 
                             @Override
                             public void onSuccess(Object o) {
                                 LogUtils.loge("取消订单"+o.toString());
+                                getData(false, 1, REQUEST_COUNT);
+                                LogUtils.loge("取消订单成功");
+                                ToastUtils.showLong("取消订单成功");
+                                currentBean=null ;
                             }
                         });
             }
@@ -417,6 +440,13 @@ public class SystemMessagesActivity extends BaseActivity {
             LogUtils.loge("吊起键盘");
             InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    };
+    private Runnable runnable2 = new Runnable() {
+        @Override
+        public void run() {
+            LogUtils.loge("刷新");
+            getData(false, 1, REQUEST_COUNT);
         }
     };
 }

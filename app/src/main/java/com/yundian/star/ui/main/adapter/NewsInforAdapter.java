@@ -28,7 +28,7 @@ public class NewsInforAdapter extends ListBaseAdapter<NewsInforModel.ListBean> {
         NewsInforModel.ListBean item = mDataList.get(position);
         TextView titleText = holder.getView(R.id.tv_name);
         ImageView showpic_url = holder.getView(R.id.showpic_url);
-        ImageLoaderUtils.displaySmallPhoto(mContext,showpic_url,item.getShowpic_url());
+        ImageLoaderUtils.display(mContext,showpic_url,item.getShowpic_url());
         titleText.setText(item.getSubject_name());
     }
 }

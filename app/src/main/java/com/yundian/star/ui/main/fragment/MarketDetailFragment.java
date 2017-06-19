@@ -23,6 +23,7 @@ import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.SearchActivity;
 import com.yundian.star.ui.main.activity.StarTimeShareActivity;
 import com.yundian.star.ui.main.adapter.MarketDetailAdapter;
+import com.yundian.star.utils.CheckLoginUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.widget.NormalTitleBar;
@@ -152,6 +153,7 @@ public class MarketDetailFragment extends BaseFragment {
                     LogUtils.loge("行情每个页面请求数据返回的retult:" + sarListbeen);
                     if (sarListbeen.getSymbol_info() == null) {
                         lrv.setNoMore(true);
+                        showErrorView(parentView, R.drawable.error_view_contact, "");
                         return;
                     }
                     list.clear();
@@ -176,14 +178,16 @@ public class MarketDetailFragment extends BaseFragment {
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                LogUtils.logd(position + "");
-                StarListbeen.SymbolInfoBean infoBean = list.get(position);
-                Intent intent = new Intent(getActivity(), StarTimeShareActivity.class);
-                intent.putExtra(AppConstant.STAR_CODE, infoBean.getSymbol());
-                intent.putExtra(AppConstant.STAR_NAME, infoBean.getName());
-                intent.putExtra(AppConstant.STAR_WID, infoBean.getWid());
-                intent.putExtra(AppConstant.STAR_HEAD_URL, infoBean.getPic());
-                startActivity(intent);
+                if (CheckLoginUtil.checkLogin(getActivity())){
+                    LogUtils.logd(position + "");
+                    StarListbeen.SymbolInfoBean infoBean = list.get(position);
+                    Intent intent = new Intent(getActivity(), StarTimeShareActivity.class);
+                    intent.putExtra(AppConstant.STAR_CODE, infoBean.getSymbol());
+                    intent.putExtra(AppConstant.STAR_NAME, infoBean.getName());
+                    intent.putExtra(AppConstant.STAR_WID, infoBean.getWid());
+                    intent.putExtra(AppConstant.STAR_HEAD_URL, infoBean.getPic());
+                    startActivity(intent);
+                }
             }
         });
         lrv.setOnRefreshListener(new OnRefreshListener() {
@@ -224,8 +228,8 @@ public class MarketDetailFragment extends BaseFragment {
             if (fragment != null) {
                 switch (msg.what) {
                     case GRT_DATA:
-//                        fragment.refresh();
-//                        fragment.myHandler.sendEmptyMessageDelayed(GRT_DATA, 3 * 1000);
+                        fragment.refresh();
+                        fragment.myHandler.sendEmptyMessageDelayed(GRT_DATA, 3 * 1000);
                         break;
                 }
             }
@@ -235,6 +239,11 @@ public class MarketDetailFragment extends BaseFragment {
     @Override
     public void onHiddenChanged(boolean hidden) {
         LogUtils.loge("onHiddenChanged>> .....");
+        if (!hidden) {
+            startRefresh();
+        } else {
+            stopRefresh();
+        }
         super.onHiddenChanged(hidden);
     }
 
@@ -251,7 +260,7 @@ public class MarketDetailFragment extends BaseFragment {
 
     @Override
     public void onResume() {
-        setUserVisibleHint(getUserVisibleHint());
+        onHiddenChanged(true);
         LogUtils.loge("刷新行情明星列表onResume");
         super.onResume();
     }
@@ -265,7 +274,7 @@ public class MarketDetailFragment extends BaseFragment {
 
     private void stopRefresh() {
         if (myHandler != null) {
-            myHandler.removeMessages(myHandler.GRT_DATA);
+            myHandler.removeCallbacksAndMessages(null);
             LogUtils.loge("停止刷新stopRefresh");
         }
     }
@@ -273,7 +282,7 @@ public class MarketDetailFragment extends BaseFragment {
     private void startRefresh() {
         if (myHandler != null) {
             LogUtils.loge("刷新行情明星列表startRefresh");
-            myHandler.removeMessages(myHandler.GRT_DATA);
+            myHandler.removeCallbacksAndMessages(null);
             myHandler.sendEmptyMessage(myHandler.GRT_DATA);
         }
     }
@@ -290,7 +299,7 @@ public class MarketDetailFragment extends BaseFragment {
         if (type == 0) {
             des = getActivity().getResources().getString(R.string.empty_view_price);
         } else {
-            des = getActivity().getResources().getString(R.string.empty_view_contacts);
+            des = "";
         }
         showErrorView(parentView, R.drawable.error_view_contact, des);
     }

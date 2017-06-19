@@ -34,6 +34,7 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.InformationAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.ui.main.model.NewsInforModel;
+import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 
 import org.json.JSONArray;
@@ -203,10 +204,11 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
-    public void reduceTime(String phone, String starcode, OnAPIListener<Object> listener) {
+    public void reduceTime(String phone,String starcode,long deduct_amount, OnAPIListener<Object> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("phone", phone);
         map.put("starcode", starcode);
+        map.put("deduct_amount", deduct_amount);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.ReduceTime,
                 SocketAPIConstant.ReqeutType.Wangyi, map);
         requestJsonObject(socketDataPacket, listener);
@@ -419,6 +421,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("count", count);
         map.put("symbol", symbol);
         map.put("buySell", buySell);
+        LogUtils.loge("拍卖榜数据入参"+map.toString());
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Fans,
                 SocketAPIConstant.ReqeutType.History, map);
       requestEntity(socketDataPacket,FansEntrustReturnBean.class,listener);

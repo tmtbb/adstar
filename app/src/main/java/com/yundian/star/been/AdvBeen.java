@@ -9,7 +9,7 @@ import java.util.List;
 public class AdvBeen {
 
     /**
-     * list : [{"code":"111","name":"云","pic_url":"http://pic27.nipic.com/20130320/3822951_105204803000_2.jpg","type":1},{"code":"222","name":"科技","pic_url":"http://pic27.nipic.com/20130320/3822951_105204803000_2.jpg","type":2},{"code":"333","name":"啊","pic_url":"http://pic27.nipic.com/20130320/3822951_105204803000_2.jpg","type":1},{"code":"444","name":"啊啊","pic_url":"http://pic27.nipic.com/20130320/3822951_105204803000_2.jpg","type":1}]
+     * list : [{"code":"1001","name":"林志玲","pic_url":"http://news.xinhuanet.com/fashion/2015-02/14/1114366926_14238179822181n.jpg"},{"code":"1008","name":"迪丽热巴","pic_url":"http://news.xinhuanet.com/fashion/2015-02/14/1114366926_14238179822181n.jpg"},{"code":"1018","name":"angelababy ","pic_url":"http://news.xinhuanet.com/fashion/2015-02/14/1114366926_14238179822181n.jpg"},{"code":"1016","name":"李沁","pic_url":"http://news.xinhuanet.com/fashion/2015-02/14/1114366926_14238179822181n.jpg"},{"code":"1017","name":"黄渤","pic_url":"http://news.xinhuanet.com/fashion/2015-02/14/1114366926_14238179822181n.jpg"}]
      * result : 1
      */
 
@@ -34,16 +34,14 @@ public class AdvBeen {
 
     public static class ListBean {
         /**
-         * code : 111
-         * name : 云
-         * pic_url : http://pic27.nipic.com/20130320/3822951_105204803000_2.jpg
-         * type : 1
+         * code : 1001
+         * name : 林志玲
+         * pic_url : http://news.xinhuanet.com/fashion/2015-02/14/1114366926_14238179822181n.jpg
          */
 
         private String code;
         private String name;
         private String pic_url;
-        private int type;
 
         public String getCode() {
             return code;
@@ -68,31 +66,5 @@ public class AdvBeen {
         public void setPic_url(String pic_url) {
             this.pic_url = pic_url;
         }
-
-        public int getType() {
-            return type;
-        }
-
-        public void setType(int type) {
-            this.type = type;
-        }
-
-        @Override
-        public String toString() {
-            return "ListBean{" +
-                    "code='" + code + '\'' +
-                    ", name='" + name + '\'' +
-                    ", pic_url='" + pic_url + '\'' +
-                    ", type=" + type +
-                    '}';
-        }
-    }
-
-    @Override
-    public String toString() {
-        return "AdvBeen{" +
-                "result=" + result +
-                ", list=" + list +
-                '}';
     }
 }

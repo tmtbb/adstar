@@ -211,9 +211,11 @@ public class UserSettingActivity extends BaseActivity {
         NetworkAPIFactoryImpl.getDealAPI().identity(new OnAPIListener<IdentityInfoBean>() {
             @Override
             public void onError(Throwable ex) {
-                LogUtils.loge("实名信息失败-----------");
-                tvUserCardNumber.setText("未实名认证");
-                tvUserRealName.setText("未实名认证");
+                if (tvUserCardNumber!=null||tvUserRealName!=null){
+                    LogUtils.loge("实名信息失败-----------");
+                    tvUserCardNumber.setText("未实名认证");
+                    tvUserRealName.setText("未实名认证");
+                }
             }
 
             @Override

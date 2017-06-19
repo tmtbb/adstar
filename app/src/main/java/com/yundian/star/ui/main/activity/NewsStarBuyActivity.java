@@ -26,6 +26,7 @@ import com.yundian.star.ui.main.adapter.StarBuyAchAdapter;
 import com.yundian.star.ui.main.adapter.StarBuyExcAdapter;
 import com.yundian.star.ui.view.ShareControlerView;
 import com.yundian.star.utils.AdViewpagerUtil;
+import com.yundian.star.utils.CheckLoginUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.ListViewUtil;
 import com.yundian.star.utils.LogUtils;
@@ -198,15 +199,15 @@ public class NewsStarBuyActivity extends BaseActivity {
                 initData(info);
             }
         });
-        NetworkAPIFactoryImpl.getInformationAPI().getStarShellTime("143", new OnAPIListener<StartShellTimeBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarShellTime(code, new OnAPIListener<StartShellTimeBeen>() {
             @Override
             public void onError(Throwable ex) {
-
+                LogUtils.loge("明星总时间"+ex.toString());
             }
 
             @Override
             public void onSuccess(StartShellTimeBeen startShellTimeBeen) {
-                LogUtils.loge("明星流通时间"+startShellTimeBeen.toString());
+                LogUtils.loge("明星总时间"+startShellTimeBeen.toString());
                 tv_shell_time.setText(String.valueOf(startShellTimeBeen.getStar_time())+"秒");
             }
         });
@@ -234,12 +235,14 @@ public class NewsStarBuyActivity extends BaseActivity {
 
     @OnClick(R.id.tv_to_buy)
     public void toBuy(){
-        Intent intent = new Intent(this,StarTimeShareActivity.class);
-        intent.putExtra(AppConstant.STAR_CODE,code);
-        intent.putExtra(AppConstant.STAR_NAME,name);
-        intent.putExtra(AppConstant.STAR_WID,weibo_index_id);
-        intent.putExtra(AppConstant.STAR_HEAD_URL,head_url);
-        startActivity(intent);
+        if (CheckLoginUtil.checkLogin(this)){
+            Intent intent = new Intent(this,StarTimeShareActivity.class);
+            intent.putExtra(AppConstant.STAR_CODE,code);
+            intent.putExtra(AppConstant.STAR_NAME,name);
+            intent.putExtra(AppConstant.STAR_WID,weibo_index_id);
+            intent.putExtra(AppConstant.STAR_HEAD_URL,head_url);
+            startActivity(intent);
+        }
     }
     //生命周期控制
     @Override

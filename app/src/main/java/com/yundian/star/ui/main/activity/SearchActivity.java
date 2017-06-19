@@ -19,6 +19,7 @@ import com.yundian.star.base.SearchReturnbeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.SearchListAdapter;
+import com.yundian.star.utils.CheckLoginUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.widget.NormalTitleBar;
@@ -82,13 +83,15 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         recyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                SearchReturnbeen.StarsinfoBean starsinfoBean = list.get(position);
-                Intent intent = new Intent(SearchActivity.this,StarTimeShareActivity.class);
-                intent.putExtra(AppConstant.STAR_CODE, starsinfoBean.getSymbol());
-                intent.putExtra(AppConstant.STAR_NAME, starsinfoBean.getName());
-                intent.putExtra(AppConstant.STAR_WID, starsinfoBean.getWid());
-                intent.putExtra(AppConstant.STAR_HEAD_URL, starsinfoBean.getPic());
-                startActivity(intent);
+                if (CheckLoginUtil.checkLogin(SearchActivity.this)){
+                    SearchReturnbeen.StarsinfoBean starsinfoBean = list.get(position);
+                    Intent intent = new Intent(SearchActivity.this,StarTimeShareActivity.class);
+                    intent.putExtra(AppConstant.STAR_CODE, starsinfoBean.getSymbol());
+                    intent.putExtra(AppConstant.STAR_NAME, starsinfoBean.getName());
+                    intent.putExtra(AppConstant.STAR_WID, starsinfoBean.getWid());
+                    intent.putExtra(AppConstant.STAR_HEAD_URL, starsinfoBean.getPic());
+                    startActivity(intent);
+                }
             }
         });
     }

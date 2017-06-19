@@ -9,7 +9,6 @@ import com.yundian.star.base.ListBaseAdapter;
 import com.yundian.star.base.SuperViewHolder;
 import com.yundian.star.been.StarListbeen;
 import com.yundian.star.utils.ImageLoaderUtils;
-import com.yundian.star.utils.LogUtils;
 
 import java.text.DecimalFormat;
 
@@ -40,7 +39,6 @@ public class MarketDetailAdapter extends ListBaseAdapter<StarListbeen.SymbolInfo
         tv_name.setText(item.getName());
         tv_code.setText(item.getSymbol());
         tv_price.setText(String.format("%.2f",item.getCurrentPrice()));
-        LogUtils.loge("指数"+item.getChange());
         if (item.getChange()>=0){
             tv_updown.setBackgroundResource(R.drawable.bg_red_radius);
             tv_price.setTextColor(mContext.getResources().getColor(R.color.color_CB4232));

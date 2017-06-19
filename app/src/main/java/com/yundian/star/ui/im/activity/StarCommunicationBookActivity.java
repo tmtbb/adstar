@@ -7,6 +7,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
+import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
@@ -100,15 +102,20 @@ public class StarCommunicationBookActivity extends BaseActivity {
         lRecyclerViewAdapter = new LRecyclerViewAdapter(starCommBookAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
         lrv.setLayoutManager(new LinearLayoutManager(this));
-        lrv.setPullRefreshEnabled(false);
         lrv.setNoMore(false);
         lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
-        /*lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
+        lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getData(true,mCurrentCounter+1,mCurrentCounter+REQUEST_COUNT);
+                getData(true, mCurrentCounter + 1, REQUEST_COUNT);
             }
-        });*/
+        });
+        lrv.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData(false, 1, REQUEST_COUNT);
+            }
+        });
     }
 
     private void getData(final boolean isLoadMore, int start, int end) {
@@ -162,10 +169,11 @@ public class StarCommunicationBookActivity extends BaseActivity {
         } else {
             closeErrorView();
         }
+        starCommBookAdapter.clear();
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         starCommBookAdapter.addAll(list);
-        lrv.refresh();
+        lrv.refreshComplete(REQUEST_COUNT);
     }
 
     private void loadMoreData() {

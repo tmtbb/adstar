@@ -30,7 +30,6 @@ public class ImageLoaderUtils {
         Glide.with(context).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
-                .placeholder(R.drawable.edit_cursor)
                 .error(R.drawable.ic_empty_picture)
                 .crossFade().into(imageView);
     }
@@ -98,7 +97,7 @@ public class ImageLoaderUtils {
                 .centerCrop().transform(new GlideRoundTransformUtil(context)).into(imageView);
     }
 
-    public static void displayWithDefaultImg(Context context, ImageView imageView, String url) {
+    public static void displayWithDefaultImg(Context context, ImageView imageView, String url,int resurce) {
         if (imageView == null) {
             throw new IllegalArgumentException("argument error");
         }
@@ -106,7 +105,7 @@ public class ImageLoaderUtils {
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .centerCrop()
                 .placeholder(R.drawable.edit_cursor)
-                .error(R.drawable.error_view_news)
+                .error(resurce)
                 .crossFade().into(imageView);
     }
 
