@@ -14,9 +14,7 @@ import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
-import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.been.TodayDealReturnBean;
-import com.yundian.star.been.TodayEntrustReturnBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.HistoryBuyAdapter;
@@ -164,7 +162,9 @@ public class HistoryBuyFragment extends BaseFragment {
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();
         historyBuyAdapter.addAll(list);
-        lrv.refresh();
+        if (lrv != null){
+            lrv.refreshComplete(REQUEST_COUNT);
+        }
     }
 
     private void loadMoreData() {
@@ -265,6 +265,4 @@ public class HistoryBuyFragment extends BaseFragment {
         });
         picker.show();
     }
-
-
 }

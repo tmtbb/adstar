@@ -433,5 +433,4 @@ public class Utils {
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 //		}
     }
-
 }

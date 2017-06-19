@@ -1,6 +1,7 @@
 package com.yundian.star.ui.main.fragment;
 
 import android.content.DialogInterface;
+import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -19,7 +20,6 @@ import com.yundian.star.been.IdentityInfoBean;
 import com.yundian.star.been.RegisterReturnBeen;
 import com.yundian.star.been.StarInfoReturnBean;
 import com.yundian.star.greendao.GreenDaoManager;
-import com.yundian.star.greendao.StarInfo;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.BookingStarActivity;
@@ -32,16 +32,17 @@ import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
+import com.yundian.star.utils.Utils;
 import com.yundian.star.utils.ViewConcurrencyUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.OnClick;
+
+import static android.R.attr.versionName;
 
 
 /**
@@ -73,6 +74,8 @@ public class UserInfoFragment extends BaseFragment {
     LinearLayout generalSettings;
     @Bind(R.id.btn_my_referee)
     Button myReferee;
+    @Bind(R.id.tv_version)
+    TextView version;
     private boolean flag = true;
 
 
@@ -94,6 +97,15 @@ public class UserInfoFragment extends BaseFragment {
 //            requestBalance();
 //        }
         testStar();
+
+
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                String versionName = SharePrefUtil.getInstance().getVersion();
+                version.setText(versionName);
+            }
+        }, 1000);
     }
 
     private void initData() {

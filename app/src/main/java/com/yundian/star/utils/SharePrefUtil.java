@@ -421,4 +421,13 @@ public class SharePrefUtil {
         sp = context.getSharedPreferences(LoginPhone, MODE_PRIVATE);
         sp.edit().putString("login_phone", phone).apply();
     }
+    public String getVersion() {
+        sp = context.getSharedPreferences(UserLoginInfo, MODE_PRIVATE);
+        return sp.getString("version", "");
+    }
+
+    public void setVersion(String versionName) {
+        sp = context.getSharedPreferences(UserLoginInfo, MODE_PRIVATE);
+        sp.edit().putString("version", versionName).apply();
+    }
 }

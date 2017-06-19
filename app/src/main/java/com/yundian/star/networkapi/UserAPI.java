@@ -1,6 +1,7 @@
 package com.yundian.star.networkapi;
 
 
+import com.yundian.star.been.CheckUpdateInfoEntity;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnBeen;
 import com.yundian.star.been.RegisterReturnWangYiBeen;
@@ -44,4 +45,5 @@ public interface UserAPI {
     //是否注册过
     void isRegisted(String phone, OnAPIListener<RegisterReturnBeen> listener);
     void starCount( OnAPIListener<RegisterReturnBeen> listener);
+    void update(OnAPIListener<CheckUpdateInfoEntity> listener);
 }

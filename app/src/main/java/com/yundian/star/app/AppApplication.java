@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Environment;
@@ -40,8 +42,10 @@ import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 import com.yundian.star.BuildConfig;
+
 import com.yundian.star.R;
 import com.yundian.star.base.baseapp.BaseApplication;
+import com.yundian.star.been.CheckUpdateInfoEntity;
 import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.greendao.gen.DaoMaster;
@@ -425,6 +429,7 @@ public class AppApplication extends BaseApplication {
                 LogUtils.logd("检测到连接成功-------------------");
                 //token交易暂时关闭
                 //judgeIsLogin();
+                checkUpdate();
             }
 
             @Override
@@ -451,5 +456,43 @@ public class AppApplication extends BaseApplication {
 
     public static DaoSession getDaoInstant() {
         return daoSession;
+    }
+
+    private void checkUpdate() {
+        LogUtils.loge("检查更新----------");
+        NetworkAPIFactoryImpl.getUserAPI().update(new OnAPIListener<CheckUpdateInfoEntity>() {
+            @Override
+            public void onError(Throwable ex) {
+                ex.printStackTrace();
+                LogUtils.loge("检查更新失败-------------");
+            }
+
+            @Override
+            public void onSuccess(CheckUpdateInfoEntity checkUpdateInfoEntity) {
+                SharePrefUtil.getInstance().setVersion( checkUpdateInfoEntity.getNewAppVersionName());
+                LogUtils.loge("checkUpdateInfoEntity:" + checkUpdateInfoEntity.toString());
+                if (checkUpdateInfoEntity != null && checkUpdateInfoEntity.getNewAppVersionCode() > getVersionCode()) {
+                    EventBusMessage msg = new EventBusMessage(-11);
+                    msg.setCheckUpdateInfoEntity(checkUpdateInfoEntity);  //发送广播
+                    EventBus.getDefault().postSticky(msg);
+
+                } else {
+                    LogUtils.loge("--最新版本");
+                }
+            }
+        });
+    }
+    /**
+     * 获取当前应用版本号
+     */
+    private int getVersionCode() {
+        try {
+            PackageManager packageManager = getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(getPackageName(), 0);
+            return packageInfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return -1;
+        }
     }
 }
