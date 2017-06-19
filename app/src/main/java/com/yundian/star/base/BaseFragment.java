@@ -21,9 +21,6 @@ import com.yundian.star.widget.LoadingDialog;
 
 import butterknife.ButterKnife;
 
-import static com.yundian.star.R.id.root;
-import static com.yundian.star.R.raw.msg;
-
 /**
  * des:基类fragment
  * Created by ysl
@@ -253,7 +250,7 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
      * 关闭空白页
      */
     public void closeErrorView() {
-        if (errorView != null) {
+        if (errorView != null&&errorView.getVisibility()==View.VISIBLE) {
             LogUtils.loge("关闭页面-----------------");
             errorView.setVisibility(View.GONE);
         }

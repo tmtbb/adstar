@@ -400,7 +400,7 @@ public class SystemMessagesActivity extends BaseActivity {
         TextView order_total = (TextView) mDetailDialog.findViewById(R.id.order_total);
         ImageView img_close = (ImageView) mDetailDialog.findViewById(R.id.img_close);
          final OrderReturnBeen.OrdersListBean ordersListBean = list.get(position);
-        if (/*userId*/124==ordersListBean.getBuyUid()){
+        if (userId==ordersListBean.getBuyUid()){
             tv_state.setText(R.string.ask_to_buy);
         }else {
             tv_state.setText(R.string.transfer);

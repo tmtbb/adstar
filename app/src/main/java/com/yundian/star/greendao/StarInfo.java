@@ -19,6 +19,7 @@ public class StarInfo {
     private String phone;
     private String pic_url;
     private double price;
+
     @Generated(hash = 699608577)
     public StarInfo(Long id, String accid, String brief, String code, int gender,
             String name, String phone, String pic_url, double price) {
