@@ -18,11 +18,11 @@ public class StarInfo {
     private String name;
     private String phone;
     private String pic_url;
+    private String pic1;
     private double price;
-
-    @Generated(hash = 699608577)
+    @Generated(hash = 1073765957)
     public StarInfo(Long id, String accid, String brief, String code, int gender,
-            String name, String phone, String pic_url, double price) {
+            String name, String phone, String pic_url, String pic1, double price) {
         this.id = id;
         this.accid = accid;
         this.brief = brief;
@@ -31,6 +31,7 @@ public class StarInfo {
         this.name = name;
         this.phone = phone;
         this.pic_url = pic_url;
+        this.pic1 = pic1;
         this.price = price;
     }
     @Generated(hash = 859816840)
@@ -84,12 +85,16 @@ public class StarInfo {
     public void setPic_url(String pic_url) {
         this.pic_url = pic_url;
     }
+    public String getPic1() {
+        return this.pic1;
+    }
+    public void setPic1(String pic1) {
+        this.pic1 = pic1;
+    }
     public double getPrice() {
         return this.price;
     }
     public void setPrice(double price) {
         this.price = price;
     }
-
-
 }

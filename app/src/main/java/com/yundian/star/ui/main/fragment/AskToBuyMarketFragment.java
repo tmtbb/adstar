@@ -2,6 +2,7 @@ package com.yundian.star.ui.main.fragment;
 
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -243,8 +244,10 @@ public class AskToBuyMarketFragment extends BaseFragment {
 
                             @Override
                             public void onSuccess(AskToBuyReturnBeen askToBuyReturnBeen) {
-                                LogUtils.loge("求购成功"+askToBuyReturnBeen.toString());
-                                ToastUtils.showShort("挂单成功");
+                                if (!TextUtils.isEmpty(askToBuyReturnBeen.getSymbol())){
+                                    ToastUtils.showShort("挂单成功");
+                                    LogUtils.loge("求购成功"+askToBuyReturnBeen.toString());
+                                }
                             }
                         });
 

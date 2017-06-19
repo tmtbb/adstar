@@ -111,7 +111,7 @@ public class KChartFragment extends BaseFragment {
             @Override
             public void onSuccess(TimeLineBeen timeLineBeen) {
                 //LogUtils.loge("分时图" + timeLineBeen.toString());
-                if (timeLineBeen.getPriceinfo()==null){
+                if (timeLineBeen.getPriceinfo()==null||timeLineBeen.getPriceinfo().size()==0){
                     return;
                 }
                 loadChartData(timeLineBeen.getPriceinfo());
@@ -126,7 +126,7 @@ public class KChartFragment extends BaseFragment {
         colorDivide = getActivity().getResources().getColor(R.color.color_fafafa);//分割线
         colorText = getActivity().getResources().getColor(R.color.color_7fcb4232);
         colorLine = getActivity().getResources().getColor(R.color.color_CB4232);//条目
-
+        mChart.setNoDataTextDescription("没有对应的分时数据");
         mChart.setDescription("");//描述信息
         mChart.setDrawGridBackground(false); //是否显示表格颜色
         mChart.setBackgroundColor(colorHomeBg);

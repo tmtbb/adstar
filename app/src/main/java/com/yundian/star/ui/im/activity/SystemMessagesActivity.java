@@ -191,7 +191,6 @@ public class SystemMessagesActivity extends BaseActivity {
                         LogUtils.loge("当日订单" + orderReturnBeen.toString());
                         if (orderReturnBeen==null||orderReturnBeen.getOrdersList() == null || orderReturnBeen.getOrdersList().size() == 0) {
                             lrv.refreshComplete(REQUEST_COUNT);
-                            lrv.setNoMore(true);
                             return;
                         }
                         if (isLoadMore) {
@@ -318,8 +317,14 @@ public class SystemMessagesActivity extends BaseActivity {
 
                     @Override
                     public void onSuccess(SureOrder sureOrder) {
+                        if (sureOrder.getStatus()==1){
+                            ToastUtils.showLong("确认成功");
+                        }else if (sureOrder.getStatus()==2){
+                            ToastUtils.showLong("双方确认成功");
+                        } else if (sureOrder.getStatus()==3){
+                            ToastUtils.showLong("交易完成");
+                        }
                         LogUtils.loge("订单确认成功"+sureOrder.toString());
-                        ToastUtils.showLong("订单确认成功");
                         currentBean=null ;
                         new Handler().postDelayed(runnable2,300);
 

@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -19,7 +18,6 @@ import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.BuyShellReutrnBeen;
 import com.yundian.star.been.HaveStarTimeBeen;
-import com.yundian.star.been.StarBuyActReferralInfo;
 import com.yundian.star.been.StartShellTimeBeen;
 import com.yundian.star.been.TradingStatusBeen;
 import com.yundian.star.greendao.GreenDaoManager;
@@ -31,10 +29,6 @@ import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.TimeUtil;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -78,7 +72,6 @@ public class AuctionMarketFragment extends BaseFragment {
     private AutionTopFragment aution_shell;
     private String code;
     private String pic_url;
-    private boolean flag = true;
     private int userId;
     private String token;
     private CountDownTimer timer;
@@ -101,6 +94,11 @@ public class AuctionMarketFragment extends BaseFragment {
         initName();
 //        initData();
         initListener();
+        List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(code);
+        if (starInfos.size()!=0){
+            StarInfo starInfo = starInfos.get(0);
+            ImageLoaderUtils.displayWithDefaultImg(getActivity(),iv_src,starInfo.getPic1(),R.drawable.infos_news_defolat);
+        }
     }
 
     private void initName() {
@@ -142,10 +140,6 @@ public class AuctionMarketFragment extends BaseFragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             code = getArguments().getString(AppConstant.STAR_CODE);
-        }
-        if (flag) {
-            EventBus.getDefault().register(this); // EventBus注册广播()
-            flag = false;//更改标记,使其不会再进行多次注册
         }
         userId = SharePrefUtil.getInstance().getUserId();
         token = SharePrefUtil.getInstance().getToken();
@@ -218,21 +212,9 @@ public class AuctionMarketFragment extends BaseFragment {
         }
     }
 
-    //接收消息
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void ReciveEventBus(StarBuyActReferralInfo eventBusMessage) {
-        if (eventBusMessage != null && !TextUtils.isEmpty(eventBusMessage.getPic_url())) {
-            if (TextUtils.isEmpty(pic_url) && iv_src != null) {
-                pic_url = eventBusMessage.getPic_url();
-                ImageLoaderUtils.display(getActivity(), iv_src, pic_url);
-            }
-        }
-    }
 
     @Override
     public void onDestroy() {
-        EventBus.getDefault().removeAllStickyEvents();
-        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -337,8 +319,8 @@ public class AuctionMarketFragment extends BaseFragment {
                             LogUtils.loge("比例"+i+"..."+buyShellReutrnBeen.getBuyCount()+"..."+buyShellReutrnBeen.getSellCount()+"...." +
                                     "..."+(buyShellReutrnBeen.getBuyCount() + buyShellReutrnBeen.getSellCount()));
                             press.setProgress(i);
-                          tv_buy_in.setText(String.format(getActivity().getString(R.string.buy_in),buyShellReutrnBeen.getBuyCount()*10));
-                          tv_shell_out.setText(String.format(getActivity().getString(R.string.shell_out),buyShellReutrnBeen.getSellCount()*10));
+                          tv_buy_in.setText(String.format(getActivity().getString(R.string.buy_in),buyShellReutrnBeen.getBuyCount()));
+                          tv_shell_out.setText(String.format(getActivity().getString(R.string.shell_out),buyShellReutrnBeen.getSellCount()));
                         }
                         if (buyShellReutrnBeen.getSellTime()!=0&&totalTime!=0){
                             int pressData = 100 ;

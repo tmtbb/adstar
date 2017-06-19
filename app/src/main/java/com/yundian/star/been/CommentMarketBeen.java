@@ -96,5 +96,25 @@ public class CommentMarketBeen {
         public void setStar_code(String star_code) {
             this.star_code = star_code;
         }
+
+        @Override
+        public String toString() {
+            return "CommentsinfoBean{" +
+                    "cms_time=" + cms_time +
+                    ", comments='" + comments + '\'' +
+                    ", fans_id='" + fans_id + '\'' +
+                    ", head_url='" + head_url + '\'' +
+                    ", nick_name='" + nick_name + '\'' +
+                    ", star_code='" + star_code + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "CommentMarketBeen{" +
+                "total_count=" + total_count +
+                ", commentsinfo=" + commentsinfo +
+                '}';
     }
 }

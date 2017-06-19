@@ -406,6 +406,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                         }
                     });
                 }else {
+                    LogUtils.loge("交易回调"+socketAPIResponse.jsonObject().toString());
                     String s = null;
                     final OrderSucReturnBeen orderSucReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), OrderSucReturnBeen.class);
                     if (orderSucReturnBeen.getResult()==-1){
