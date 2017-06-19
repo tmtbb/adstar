@@ -14,10 +14,10 @@ android {
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.yundian.star"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "0.01"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "GIT_REVISION", "\"${getGitVersion()}\""
         buildConfigField "String", "BUILD_DATE", "\"${new Date().toLocaleString()}\"";
@@ -28,9 +28,9 @@ android {
         multiDexEnabled true
 
         manifestPlaceholders = [
-                GETUI_APP_ID : "DfosxEx3QE9YpPMWr39BJ4",
-                GETUI_APP_KEY : "ysA6H8Vmci7ctI5fvWHBD9",
-                GETUI_APP_SECRET : "bKuqlpTu0r5wVbbsHOPGn",
+                GETUI_APP_ID : "j6hP8vFv4Q8juUqTmnPPy6",
+                GETUI_APP_KEY : "5Tb2US9CEg8RsqqYlamnP1",
+                GETUI_APP_SECRET : "4DXXxrRirbAhqYJor3THd",
                 PACKAGE_NAME : applicationId
         ]
 
@@ -124,4 +124,5 @@ dependencies {
     compile project(':qAMasterSDK')
     compile 'com.getui:sdk:2.10.2.0'
     compile 'org.greenrobot:greendao:3.2.2' // add library
+    compile 'com.qiangxi.checkupdatelibrary:checkupdatelibrary:1.1.2@aar'
 }

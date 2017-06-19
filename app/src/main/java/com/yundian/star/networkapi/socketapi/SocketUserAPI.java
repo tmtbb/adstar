@@ -2,6 +2,7 @@ package com.yundian.star.networkapi.socketapi;
 
 import com.yundian.star.app.AppApplication;
 import com.yundian.star.app.SocketAPIConstant;
+import com.yundian.star.been.CheckUpdateInfoEntity;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnBeen;
 import com.yundian.star.been.RegisterReturnWangYiBeen;
@@ -151,6 +152,14 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
         requestEntity(socketDataPacket, RegisterReturnBeen.class, listener);
     }
 
+    @Override
+    public void update(OnAPIListener<CheckUpdateInfoEntity> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("ttype", 1);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Update,
+                SocketAPIConstant.ReqeutType.User, map);
+        requestEntity(socketDataPacket, CheckUpdateInfoEntity.class, listener);
+    }
 //    @Override
 //    public void login(String phone, String password, String deviceId, OnAPIListener<LoginReturnEntity> listener) {
 //        LogUtil.d("开始登录");

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -26,15 +27,19 @@ import com.netease.nimlib.sdk.mixpush.MixPushService;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
+
+import com.qiangxi.checkupdatelibrary.dialog.UpdateDialog;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.been.CheckUpdateInfoEntity;
 import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.TabEntity;
 import com.yundian.star.ui.im.fragment.DifferAnswerFragment;
 import com.yundian.star.ui.main.fragment.MarketDetailFragment;
 import com.yundian.star.ui.main.fragment.NewsInfoFragment;
 import com.yundian.star.ui.main.fragment.UserInfoFragment;
+import com.yundian.star.ui.view.ForceUpdateDialog;
 import com.yundian.star.ui.wangyi.chatroom.helper.ChatRoomHelper;
 import com.yundian.star.ui.wangyi.config.preference.UserPreferences;
 import com.yundian.star.utils.CheckLoginUtil;
@@ -49,15 +54,18 @@ import java.util.List;
 
 import butterknife.Bind;
 
+import static com.qiangxi.checkupdatelibrary.dialog.ForceUpdateDialog.FORCE_UPDATE_DIALOG_PERMISSION_REQUEST_CODE;
+import static com.qiangxi.checkupdatelibrary.dialog.UpdateDialog.UPDATE_DIALOG_PERMISSION_REQUEST_CODE;
+
 
 public class MainActivity extends BaseActivity {
     @Bind(R.id.tab_bottom_layout)
-    CommonTabLayout tabLayout ;
-    private String[] mTitles = {"资讯", "行情","星聊","我的"};
+    CommonTabLayout tabLayout;
+    private String[] mTitles = {"资讯", "行情", "星聊", "我的"};
     private int[] mIconUnselectIds = {
-            R.drawable.message_no_ok,R.drawable.market_no_ok,R.drawable.differ_answer_no_ok,R.drawable.me_no_ok};
+            R.drawable.message_no_ok, R.drawable.market_no_ok, R.drawable.differ_answer_no_ok, R.drawable.me_no_ok};
     private int[] mIconSelectIds = {
-            R.drawable.message_ok,R.drawable.market_ok, R.drawable.differ_answer_ok,R.drawable.me_ok};
+            R.drawable.message_ok, R.drawable.market_ok, R.drawable.differ_answer_ok, R.drawable.me_ok};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private NewsInfoFragment newsInfoFragment;
     //private MarketFragment marketFragment;
@@ -68,11 +76,11 @@ public class MainActivity extends BaseActivity {
     public static int CHECHK_LOGIN = 0;
     private boolean flag = true;
 
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what){
-                case 0 :
+            switch (msg.what) {
+                case 0:
                     break;
             }
         }
@@ -99,14 +107,14 @@ public class MainActivity extends BaseActivity {
     public void initView() {
         initTab();
         checkunReadMsg();
-        handler.postDelayed(runnablePermission,1000);
+        handler.postDelayed(runnablePermission, 1000);
     }
 
     private void checkunReadMsg() {
         int unreadNum = NIMClient.getService(MsgService.class).getTotalUnreadCount();
-        if (unreadNum>0){
+        if (unreadNum > 0) {
             tabLayout.showDot(2);
-        }else {
+        } else {
             tabLayout.hideMsg(2);
         }
     }
@@ -124,12 +132,11 @@ public class MainActivity extends BaseActivity {
         }
         Intent intent = getIntent();
         match_info = intent.getIntExtra(AppConstant.MATCH_SUCESS_INFO, 0);
-        if (match_info==1){
+        if (match_info == 1) {
             SwitchTo(2);
             tabLayout.setCurrentTab(2);
         }
     }
-
 
 
     private void initFragment(Bundle savedInstanceState) {
@@ -160,9 +167,10 @@ public class MainActivity extends BaseActivity {
 
     /**
      * 入口
+     *
      * @param activity
      */
-    public static void startAction(Activity activity){
+    public static void startAction(Activity activity) {
         Intent intent = new Intent(activity, MainActivity.class);
         activity.startActivity(intent);
         activity.overridePendingTransition(R.anim.fade_in,
@@ -201,6 +209,7 @@ public class MainActivity extends BaseActivity {
         // 聊天室初始化
         ChatRoomHelper.init();
     }
+
     /**
      * 切换
      */
@@ -242,6 +251,7 @@ public class MainActivity extends BaseActivity {
                 break;
         }
     }
+
     /**
      * 初始化tab
      */
@@ -256,6 +266,7 @@ public class MainActivity extends BaseActivity {
             public void onTabSelect(int position) {
                 SwitchTo(position);
             }
+
             @Override
             public void onTabReselect(int position) {
             }
@@ -289,6 +300,14 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
+
+        LogUtils.loge("走到此处------------------");
+        if (requestCode == UPDATE_DIALOG_PERMISSION_REQUEST_CODE) {
+            LogUtils.loge("强制更新-------------");
+            mUpdateDialog.download();
+        } else if (requestCode == FORCE_UPDATE_DIALOG_PERMISSION_REQUEST_CODE) {
+            mForceUpdateDialog.download();
+        }
     }
 
     @OnMPermissionGranted(BASIC_PERMISSION_REQUEST_CODE)
@@ -328,6 +347,7 @@ public class MainActivity extends BaseActivity {
         MsgServiceObserve service = NIMClient.getService(MsgServiceObserve.class);
         service.observeRecentContact(messageObserver, register);
     }
+
     Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
         @Override
         public void onEvent(List<RecentContact> recentContacts) {
@@ -345,12 +365,55 @@ public class MainActivity extends BaseActivity {
 
     //接收消息
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void ReciveMessageEventBus(EventBusMessage eventBusMessage) {
+    public void ReciveMessageEventBus(final EventBusMessage eventBusMessage) {
         switch (eventBusMessage.Message) {
             case 2:  //登录取消
                 SwitchTo(0);
                 tabLayout.setCurrentTab(0);
                 break;
+            case -11:
+                if (eventBusMessage.getCheckUpdateInfoEntity().getIsForceUpdate() == 0) {
+                    forceUpdateDialog(eventBusMessage.getCheckUpdateInfoEntity());
+                } else {  //非强制更新
+                    updateDialog(eventBusMessage.getCheckUpdateInfoEntity());
+                }
+                break;
         }
+    }
+
+    private UpdateDialog mUpdateDialog;
+    private ForceUpdateDialog mForceUpdateDialog;
+
+    /**
+     * 强制更新
+     */
+    public void forceUpdateDialog(CheckUpdateInfoEntity mCheckUpdateInfo) {
+        mForceUpdateDialog = new ForceUpdateDialog(MainActivity.this);
+        mForceUpdateDialog.setAppSize(mCheckUpdateInfo.getNewAppSize())
+                .setDownloadUrl(mCheckUpdateInfo.getNewAppUrl())
+                .setTitle(mCheckUpdateInfo.getAppName() + "有更新啦")
+                .setReleaseTime(mCheckUpdateInfo.getNewAppReleaseTime())
+                .setVersionName(mCheckUpdateInfo.getNewAppVersionName())
+                .setUpdateDesc(mCheckUpdateInfo.getNewAppUpdateDesc())
+                .setFileName(getResources().getString(R.string.app_name))
+                .setFilePath(Environment.getExternalStorageDirectory().getPath() + "/XingXiang").show();
+    }
+
+    /**
+     * 非强制更新
+     */
+    public void updateDialog(CheckUpdateInfoEntity mCheckUpdateInfo) {
+        mUpdateDialog = new UpdateDialog(this);
+        mUpdateDialog.setAppSize(mCheckUpdateInfo.getNewAppSize())
+                .setDownloadUrl(mCheckUpdateInfo.getNewAppUrl())
+                .setTitle(mCheckUpdateInfo.getAppName() + "有更新啦")
+                .setReleaseTime(mCheckUpdateInfo.getNewAppReleaseTime())
+                .setVersionName(mCheckUpdateInfo.getNewAppVersionName())
+                .setUpdateDesc(mCheckUpdateInfo.getNewAppUpdateDesc())
+                .setFileName(getResources().getString(R.string.app_name))
+                .setFilePath(Environment.getExternalStorageDirectory().getPath() + "/XingXiang")
+                .setShowProgress(true)
+                .setIconResId(R.mipmap.ic_launcher)
+                .setAppName(mCheckUpdateInfo.getAppName()).show();
     }
 }
