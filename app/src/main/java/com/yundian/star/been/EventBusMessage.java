@@ -9,4 +9,21 @@ public class EventBusMessage {
     public EventBusMessage(int message) {
         Message = message;
     }
+    public  CheckUpdateInfoEntity checkUpdateInfoEntity;
+
+    public int getMessage() {
+        return Message;
+    }
+
+    public void setMessage(int message) {
+        Message = message;
+    }
+
+    public CheckUpdateInfoEntity getCheckUpdateInfoEntity() {
+        return checkUpdateInfoEntity;
+    }
+
+    public void setCheckUpdateInfoEntity(CheckUpdateInfoEntity checkUpdateInfoEntity) {
+        this.checkUpdateInfoEntity = checkUpdateInfoEntity;
+    }
 }

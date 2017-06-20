@@ -701,7 +701,17 @@
             android:process=":pushservice"></service>
         <service android:name=".service.DemoIntentService" />
         <!-- 个推SDK配置结束 -->
-
+        <!--update-->
+        <!--<provider-->
+            <!--android:name="android.support.v4.content.FileProvider"-->
+            <!--android:authorities="com.yundian.star"-->
+            <!--android:exported="false"-->
+            <!--android:grantUriPermissions="true">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+                <!--android:resource="@xml/checkupdatelibrary_uri_grant"/>-->
+        <!--</provider>-->
+        <service android:name="com.qiangxi.checkupdatelibrary.service.DownloadService"/>
     </application>
 
 </manifest>

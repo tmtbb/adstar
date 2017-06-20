@@ -35,7 +35,7 @@ public class MarketDetailAdapter extends ListBaseAdapter<StarListbeen.SymbolInfo
         TextView tv_code = holder.getView(R.id.tv_code);
         TextView tv_price = holder.getView(R.id.tv_price);
         TextView tv_updown = holder.getView(R.id.tv_updown);
-        ImageLoaderUtils.display(mContext,imageView,item.getPic());
+        ImageLoaderUtils.displaySmallPhoto(mContext,imageView,item.getPic());
         tv_name.setText(item.getName());
         tv_code.setText(item.getSymbol());
         tv_price.setText(String.format("%.2f",item.getCurrentPrice()));

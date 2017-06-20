@@ -162,7 +162,9 @@ public class HistoryBuyFragment extends BaseFragment {
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();
         historyBuyAdapter.addAll(list);
-        lrv.refresh();
+        if (lrv != null){
+            lrv.refreshComplete(REQUEST_COUNT);
+        }
     }
 
     private void loadMoreData() {
@@ -263,6 +265,4 @@ public class HistoryBuyFragment extends BaseFragment {
         });
         picker.show();
     }
-
-
 }

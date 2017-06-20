@@ -45,15 +45,41 @@ public class ImageLoaderUtils {
                 .error(R.drawable.ic_empty_picture)
                 .crossFade().into(imageView);
     }
+
+    /**
+     * 小方图，专用头像
+     * @param context
+     * @param imageView
+     * @param url
+     */
     public static void displaySmallPhoto(Context context, ImageView imageView, String url) {
         if (imageView == null) {
             throw new IllegalArgumentException("argument error");
         }
-        Glide.with(context).load(url).asBitmap()
+        Glide.with(context).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.ic_image_loading)
                 .error(R.drawable.ic_empty_picture)
-                .thumbnail(0.5f)
+                .centerCrop()
+                .crossFade()
+                .into(imageView);
+    }
+
+    /**
+     * 小圆图,专用头像
+     * @param context
+     * @param imageView
+     * @param url
+     */
+    public static void displaySmallPhotoRound(Context context, ImageView imageView, String url) {
+        if (imageView == null) {
+            throw new IllegalArgumentException("argument error");
+        }
+        Glide.with(context).load(url)
+                .transform(new GlideRoundTransformUtil(context))
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(R.drawable.user_default_head)
+                .centerCrop()
+                .crossFade()
                 .into(imageView);
     }
     public static void displayBigPhoto(Context context, ImageView imageView, String url) {

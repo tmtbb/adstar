@@ -117,7 +117,7 @@ public class TodayEntrustFragment extends BaseFragment {
     }
 
     public void showData() {
-        if (list.size() == 0) {
+        if (list==null||list.size() == 0) {
             showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
             return;
         } else {
@@ -126,7 +126,7 @@ public class TodayEntrustFragment extends BaseFragment {
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();
         todayEntrustAdapter.addAll(list);
-        lrv.refresh();
+        lrv.refreshComplete(REQUEST_COUNT);
     }
 
     private void loadMoreData() {
