@@ -8,6 +8,7 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIRequestManage;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIResponse;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
+import com.yundian.star.utils.ResultCodeUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +37,7 @@ public class SocketBaseAPI {
 
             @Override
             public void onSuccess(SocketAPIResponse socketAPIResponse) {
+                ResultCodeUtil.showEeorMsg(socketAPIResponse);
                 SocketBaseAPI.this.onSuccess(listener,socketAPIResponse.jsonObject());
             }
         });
@@ -80,6 +82,7 @@ public class SocketBaseAPI {
             public void onSuccess(SocketAPIResponse socketAPIResponse) {
                 if( listener != null ) {
                     //LogUtils.loge("解析"+socketAPIResponse.jsonObject().toString());
+                    ResultCodeUtil.showEeorMsg(socketAPIResponse);
                     Object object = JSON.parseObject(socketAPIResponse.jsonObject().toString(),cls);
                     SocketBaseAPI.this.onSuccess(listener,object);
 
@@ -106,6 +109,7 @@ public class SocketBaseAPI {
             public void onSuccess(SocketAPIResponse socketAPIResponse) {
                 if( listener != null ) {
                     try {
+                        ResultCodeUtil.showEeorMsg(socketAPIResponse);
                         JSONArray jsonArray = socketAPIResponse.jsonObject().getJSONArray(listName);
                         List list = JSON.parseArray(jsonArray.toString(), cls);
                         SocketBaseAPI.this.onSuccess(listener,list);

@@ -1,12 +1,12 @@
 package com.yundian.star.ui.main.activity;
 
 import android.content.Intent;
+import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,7 +65,7 @@ public class NewsStarBuyActivity extends BaseActivity {
     @Bind(R.id.ll_new_buy_achievement)
     LinearLayout ll_new_buy_achievement;
     @Bind(R.id.scroll_view)
-    ScrollView scroll_view;
+    NestedScrollView scroll_view;
     @Bind(R.id.tv_mesure)
     TextView tv_mesure;
     @Bind(R.id.tv_shell_time)

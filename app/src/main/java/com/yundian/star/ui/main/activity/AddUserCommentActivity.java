@@ -17,12 +17,15 @@ import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.CommentMarketBeen;
+import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.CommentMarketAdapter;
 import com.yundian.star.utils.KeyBordUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -80,6 +83,7 @@ public class AddUserCommentActivity extends BaseActivity {
                         et_add_comment.setText("");
                         KeyBordUtil.hideSoftKeyboard(et_add_comment);
                         et_add_comment.clearFocus();
+                        LogUtils.loge("添加成功");
                     }
 
                     @Override
@@ -172,5 +176,11 @@ public class AddUserCommentActivity extends BaseActivity {
             mCurrentCounter += loadList.size();
             lrv.refreshComplete(loadList.size());
         }
+    }
+
+    @Override
+    public void finish() {
+        EventBus.getDefault().postSticky(new EventBusMessage(111));
+        super.finish();
     }
 }

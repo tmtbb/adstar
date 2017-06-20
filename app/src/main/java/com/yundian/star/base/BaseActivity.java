@@ -406,11 +406,12 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                         }
                     });
                 }else {
+                    LogUtils.loge("交易回调"+socketAPIResponse.jsonObject().toString());
                     String s = null;
                     final OrderSucReturnBeen orderSucReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), OrderSucReturnBeen.class);
                     if (orderSucReturnBeen.getResult()==-1){
                         s = "交易取消";
-                    }else if (orderSucReturnBeen.getResult()==-1){
+                    }else if (orderSucReturnBeen.getResult()==1){
                         s = "交易成功，请在系统消息内查看";
                     }
                     mBuilder.setContentText(s);

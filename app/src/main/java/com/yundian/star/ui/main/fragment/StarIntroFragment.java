@@ -22,8 +22,6 @@ import com.yundian.star.utils.ListViewUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.widget.MyListView;
 
-import org.greenrobot.eventbus.EventBus;
-
 import butterknife.Bind;
 
 /**
@@ -101,14 +99,13 @@ public class StarIntroFragment extends BaseFragment {
     }
 
     private void initData(StarBuyActReferralInfo info) {
-        EventBus.getDefault().postSticky(info);  //发送个人信息界面
         tv_1.setText(String.format(getString(R.string.intro_nationality),info.getNationality()));
         tv_2.setText(String.format(getString(R.string.intro_nation),info.getNation()));
         tv_3.setText(String.format(getString(R.string.intro_work),info.getWork()));
         tv_4.setText(String.format(getString(R.string.intro_constellation),info.getConstellaction()));
         tv_5.setText(String.format(getString(R.string.intro_birth_day),info.getBirth()));
         tv_6.setText(String.format(getString(R.string.intro_colleage),info.getColleage()));
-        ImageLoaderUtils.display(getActivity(),img_adv,info.getPic_url());
+        ImageLoaderUtils.displayWithDefaultImg(getActivity(),img_adv,info.getPic_url(),R.drawable.infos_news_defolat);
     }
     private void getStarExperience() {
         NetworkAPIFactoryImpl.getInformationAPI().getStarExperience(code, new OnAPIListener<StarExperienceBeen>() {

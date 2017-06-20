@@ -122,6 +122,7 @@ public class CommentMarketFragment extends BaseFragment {
         NetworkAPIFactoryImpl.getInformationAPI().inquiry(code, start, count, new OnAPIListener<CommentMarketBeen>() {
             @Override
             public void onError(Throwable ex) {
+                LogUtils.loge("刷新评论onError");
                 if (lrv != null) {
                     lrv.setNoMore(true);
                     if (!isLoadMore) {
@@ -136,11 +137,11 @@ public class CommentMarketFragment extends BaseFragment {
             @Override
             public void onSuccess(CommentMarketBeen been) {
                 LogUtils.loge("评论" + been.toString());
+                LogUtils.loge("刷新评论onSuccess"+been.toString());
                 if (been.getCommentsinfo() == null) {
-                    lrv.setNoMore(true);
+                    lrv.refreshComplete(REQUEST_COUNT);
                     return;
                 }
-
                 if (isLoadMore) {
                     closeErrorView();
                     loadList.clear();
@@ -160,7 +161,7 @@ public class CommentMarketFragment extends BaseFragment {
     public void OnclickAddComment() {
         Intent intent = new Intent(getActivity(), AddUserCommentActivity.class);
         intent.putExtra(AppConstant.STAR_CODE, code);
-        getActivity().startActivity(intent);
+        getActivity().startActivityForResult(intent,1);
     }
 
     public void showData() {
@@ -172,6 +173,7 @@ public class CommentMarketFragment extends BaseFragment {
             closeErrorView();
             tv_add_comment.setVisibility(View.GONE);
         }
+        commentMarketAdapter.clear();
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         commentMarketAdapter.addAll(list);
@@ -188,4 +190,22 @@ public class CommentMarketFragment extends BaseFragment {
             lrv.refreshComplete(loadList.size());
         }
     }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser && isVisible()) {
+            getData(false, 1, REQUEST_COUNT);
+        }
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+
+    @Override
+    public void onResume() {
+        setUserVisibleHint(getUserVisibleHint());
+        LogUtils.loge("刷新onResume");
+        super.onResume();
+    }
+
 }

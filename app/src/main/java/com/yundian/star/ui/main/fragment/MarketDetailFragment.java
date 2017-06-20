@@ -238,7 +238,7 @@ public class MarketDetailFragment extends BaseFragment {
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        LogUtils.loge("onHiddenChanged>> .....");
+        LogUtils.loge("onHiddenChanged>> ....."+hidden);
         if (!hidden) {
             startRefresh();
         } else {
@@ -260,7 +260,7 @@ public class MarketDetailFragment extends BaseFragment {
 
     @Override
     public void onResume() {
-        onHiddenChanged(true);
+        onHiddenChanged(false);
         LogUtils.loge("刷新行情明星列表onResume");
         super.onResume();
     }

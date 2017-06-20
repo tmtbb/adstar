@@ -131,7 +131,7 @@
         <activity
             android:name=".ui.main.activity.BuyTransferIndentActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:windowSoftInputMode="stateHidden|adjustPan"></activity>
+            android:windowSoftInputMode="stateHidden|adjustResize"></activity>
         <activity android:name=".ui.im.activity.SystemMessagesActivity"
             android:launchMode="singleTask"
             ></activity>
@@ -175,7 +175,7 @@
         <!--友盟sdk-->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="593223ab07fe6566f5001e1d"></meta-data>
+            android:value="5944e976c62dca4b80001e50"></meta-data>
 
         <!-- APP key, 可以在这里设置，也可以在 SDKOptions 中提供。
             如果 SDKOptions 中提供了，取 SDKOptions 中的值。 -->

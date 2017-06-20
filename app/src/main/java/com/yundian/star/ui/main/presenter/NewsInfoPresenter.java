@@ -38,7 +38,9 @@ public class NewsInfoPresenter extends NewInfoContract.Presenter {
                 LogUtils.logd(ex.toString());
 //                mView.stopLoading();
                 LogUtils.loge("----------------请求错诶");
-                mView.showErrorTip(ex.getMessage());
+                if (!isMoreData){
+                    mView.showErrorTip(ex.getMessage());
+                }
             }
         });
     }
