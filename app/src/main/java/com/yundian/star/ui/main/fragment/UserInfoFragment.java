@@ -32,7 +32,6 @@ import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
-import com.yundian.star.utils.Utils;
 import com.yundian.star.utils.ViewConcurrencyUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -41,8 +40,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-
-import static android.R.attr.versionName;
 
 
 /**
@@ -201,7 +198,6 @@ public class UserInfoFragment extends BaseFragment {
         switch (eventBusMessage.Message) {
             case 1:  //成功
                 LogUtils.loge("用户登录成功了，请刷新数据----------");
-
                 requestBalance();
                 requestIdentity();
                 requestStarCount();
