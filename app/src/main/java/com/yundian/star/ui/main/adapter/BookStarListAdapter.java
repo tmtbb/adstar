@@ -10,11 +10,7 @@ import com.yundian.star.R;
 import com.yundian.star.base.ListBaseAdapter;
 import com.yundian.star.base.SuperViewHolder;
 import com.yundian.star.been.BookingStarListBean;
-import com.yundian.star.ui.im.activity.StarCommunicationBookActivity;
 import com.yundian.star.ui.wangyi.session.activity.P2PMessageActivity;
-import com.yundian.star.utils.ToastUtils;
-
-import static android.R.id.list;
 
 /**
  * Created by sll on 2017/5/24.
@@ -48,7 +44,6 @@ public class BookStarListAdapter extends ListBaseAdapter<BookingStarListBean> {
         talk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.showShort("聊一聊");
                 SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
                 P2PMessageActivity.start(mContext, item.getFaccid(),item.getStarcode(), customization, null);
             }
