@@ -34,6 +34,7 @@ import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.ResetPayPwdActivity;
 import com.yundian.star.ui.main.adapter.SystemMessageAdapter;
 import com.yundian.star.ui.view.PayPwdEditText;
+import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.MD5Util;
 import com.yundian.star.utils.SharePrefUtil;
@@ -128,8 +129,9 @@ public class SystemMessagesActivity extends BaseActivity {
             @Override
             public void onImgClick(View view, int position) {
                 //ToastUtils.showShort("position"+position);
-                //if (JudgeIdentityUtils)
-                showDialogs(position);
+                if (JudgeIsSetPayPwd.isSetPwd(SystemMessagesActivity.this)){
+                    showDialogs(position);
+                }
             }
         });
     }
