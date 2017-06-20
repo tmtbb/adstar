@@ -17,7 +17,6 @@ import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.utils.ImageLoaderUtils;
-import com.yundian.star.utils.JudgeIdentityUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
@@ -226,9 +225,9 @@ public class AskToBuyMarketFragment extends BaseFragment {
         tv_sure_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!JudgeIdentityUtils.isIdentityed(getActivity())) {
-                    return;
-                }
+//                if (!JudgeIdentityUtils.isIdentityed(getActivity())) {
+//                    return;
+//                }
                 //showPutPasswordDialog();
                 //showAlertDialog();
                 BigDecimal bg = new BigDecimal(buy_price);
