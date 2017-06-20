@@ -26,6 +26,7 @@ import com.yundian.star.app.Constant;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.AskToBuyReturnBeen;
 import com.yundian.star.been.MatchSucessReturnBeen;
+import com.yundian.star.been.OrderCancelReturnBeen;
 import com.yundian.star.been.OrderReturnBeen;
 import com.yundian.star.been.ResultBeen;
 import com.yundian.star.been.SureOrder;
@@ -354,7 +355,7 @@ public class SystemMessagesActivity extends BaseActivity {
             public void onClick(View v) {
                 mPopWindowHistory.dismiss();
                 NetworkAPIFactoryImpl.getInformationAPI().cancelOrder(SharePrefUtil.getInstance().getUserId()
-                        , SharePrefUtil.getInstance().getToken(),list.get(position).getOrderId(), new OnAPIListener<Object>() {
+                        , SharePrefUtil.getInstance().getToken(),list.get(position).getOrderId(), new OnAPIListener<OrderCancelReturnBeen>() {
                             @Override
                             public void onError(Throwable ex) {
                                 LogUtils.loge("取消订单失败"+ex.toString());
@@ -365,11 +366,13 @@ public class SystemMessagesActivity extends BaseActivity {
                             }
 
                             @Override
-                            public void onSuccess(Object o) {
-                                LogUtils.loge("取消订单"+o.toString());
-                                getData(false, 1, REQUEST_COUNT);
-                                LogUtils.loge("取消订单成功");
-                                ToastUtils.showLong("取消订单成功");
+                            public void onSuccess(OrderCancelReturnBeen returnBeen) {
+                                if (returnBeen!=null){
+                                    LogUtils.loge("取消订单"+returnBeen.toString());
+                                    getData(false, 1, REQUEST_COUNT);
+                                    LogUtils.loge("取消订单成功");
+                                    ToastUtils.showLong("取消订单成功");
+                                }
                                 currentBean=null ;
                             }
                         });

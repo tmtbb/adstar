@@ -34,7 +34,9 @@ import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIRequestManag
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIResponse;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.ui.im.activity.SystemMessagesActivity;
+import com.yundian.star.utils.ErrorCodeUtil;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.ResultCodeUtil;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.TUtil;
 import com.yundian.star.utils.ToastUtils;
@@ -104,7 +106,9 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         this.initView();
         notificationTest();
         matchSucessListener();
+        initRetultInfo();
     }
+
 
     /**
      * 设置layout前配置
@@ -474,5 +478,31 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         Intent intent = new Intent(this, SystemMessagesActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intent, flags);
         return pendingIntent;
+    }
+
+    private void initRetultInfo() {
+        SocketAPIRequestManage.getInstance().setOnCallBackListener(new SocketAPIRequestManage.OnCallBack() {
+            @Override
+            public void onSucessListener(final SocketAPIResponse socketAPIResponse) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ResultCodeUtil.showEeorMsg(socketAPIResponse);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onErrorListener(final int statusCode) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ErrorCodeUtil.showEeorMsg(statusCode);
+                    }
+                });
+
+            }
+        });
     }
 }

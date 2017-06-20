@@ -72,11 +72,11 @@ public class StarCommunicationBookActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        checkunReadMsg();
         tv_title.setText(R.string.famous_address_book);
         initAdapter();
         getData(false, 1, REQUEST_COUNT);
         initListener();
+        checkunReadMsg();
     }
 
     private void initListener() {
@@ -188,6 +188,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
     }
 
     private void checkunReadMsg() {
+        //网易云模块可能需要检测下登录
         int unreadNum = NIMClient.getService(MsgService.class).getTotalUnreadCount();
         if (unreadNum > 0) {
             tab_new_msg_label.setVisibility(View.VISIBLE);

@@ -73,15 +73,26 @@ public class SocketAPIRequestManage {
                 LogUtils.loge("服务器发送数据接收口getOperateCode:"+socketDataPacket.getOperateCode());
                 int statusCode = socketAPIResponse.statusCode();
                 if( statusCode == 0 ) {
+                    onCallBack.onSucessListener(socketAPIResponse);
                     socketAPIRequest.onSuccess(socketAPIResponse);
                     LogUtils.loge("服务器接受:"+socketDataPacket.getOperateCode()+"----jsonResponse:"+socketAPIResponse.jsonObject());
                 }
                 else {
+                    onCallBack.onErrorListener(statusCode);
                     socketAPIRequest.onErrorCode(statusCode);
                 }
             }
         }
     }
+    private OnCallBack onCallBack ;
+    public interface OnCallBack{
+        void onSucessListener(SocketAPIResponse socketAPIResponse);
+        void onErrorListener(int statusCode);
+    }
+    public void setOnCallBackListener(OnCallBack callBack){
+        this.onCallBack = callBack ;
+    }
+
     private OnMatchSucessListener sucessListener ;
     //收到消息接口回调
     public interface OnMatchSucessListener{
