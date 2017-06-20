@@ -79,7 +79,7 @@
             android:max="100"
             android:maxHeight="16dp"
             android:minHeight="16dp"
-            android:progress="50"
+            android:progress="0"
             android:focusable="false"
             android:progressDrawable="@drawable/bg_progress_miao_auction"
             android:splitTrack="false"

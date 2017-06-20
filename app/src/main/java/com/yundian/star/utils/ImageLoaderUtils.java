@@ -58,8 +58,8 @@ public class ImageLoaderUtils {
         }
         Glide.with(context).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.user_default_head)
-                .error(R.drawable.user_default_head)
+                .placeholder(R.drawable.star_default_icon)
+                .error(R.drawable.star_default_icon)
                 .centerCrop()
                 .crossFade()
                 .into(imageView);

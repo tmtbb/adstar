@@ -17,6 +17,7 @@ import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.utils.ImageLoaderUtils;
+import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
@@ -228,9 +229,9 @@ public class TransferMarketFragment extends BaseFragment {
         tv_sure_trans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (!JudgeIdentityUtils.isIdentityed(getActivity())) {
-//                    return;
-//                }
+                if (!JudgeIsSetPayPwd.isSetPwd(getActivity())) {
+                    return;
+                }
                 LogUtils.loge("获取数值" + total_prices);
                 BigDecimal bg = new BigDecimal(buy_price);
                 double ask_buy_prices = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();

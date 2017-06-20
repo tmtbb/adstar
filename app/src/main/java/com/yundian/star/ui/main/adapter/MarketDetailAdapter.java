@@ -47,7 +47,7 @@ public class MarketDetailAdapter extends ListBaseAdapter<StarListbeen.SymbolInfo
             tv_price.setTextColor(mContext.getResources().getColor(R.color.color_18B03F));
         }
         DecimalFormat format = new DecimalFormat("0.00%");
-        String updown = format.format(item.getChange()/100);
+        String updown = format.format(item.getPchg());
         tv_updown.setText(updown);
     }
 }

@@ -39,7 +39,7 @@ public class BookStarComAdapter extends ListBaseAdapter<StarMailListBeen.Deposit
             List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(listBean.getStarcode());
             if (starInfos!=null&&starInfos.size()!=0){
                 StarInfo starInfo = starInfos.get(0);
-                ImageLoaderUtils.display(mContext,iv_star_head,starInfo.getPic_url());
+                ImageLoaderUtils.displaySmallPhoto(mContext,iv_star_head,starInfo.getPic_url());
                 tv_star_name.setText(starInfo.getName());
             }else {
                 tv_star_name.setText(listBean.getStarname());
