@@ -21,22 +21,23 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 
+import static com.yundian.star.R.id.lrv;
+
 /**
  * Created by Administrator on 2017/5/24.
  * 已购
  */
 
 public class AlreadyBoughtFragment extends BaseFragment {
-    @Bind(R.id.lrv)
-    LRecyclerView lrv;
-    @Bind(R.id.parent_view)
-    FrameLayout parentView;
+
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private AlreadyBoughtAdapter alreadyBoughtAdapter;
     private static int mCurrentCounter = 1;
     private static final int REQUEST_COUNT = 10;
     private ArrayList<StarMailListBeen.DepositsinfoBean> list = new ArrayList<>();
     private ArrayList<StarMailListBeen.DepositsinfoBean> loadList = new ArrayList<>();
+    private LRecyclerView lrv;
+    private FrameLayout parentView;
 
 
     @Override
@@ -51,8 +52,14 @@ public class AlreadyBoughtFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initData();
         initAdapter();
         getHistoryOrderData(false, 1, REQUEST_COUNT);
+    }
+
+    private void initData() {
+        lrv = (LRecyclerView) rootView.findViewById(R.id.lrv);
+        parentView = (FrameLayout) rootView.findViewById(R.id.parent_view);
     }
 
 

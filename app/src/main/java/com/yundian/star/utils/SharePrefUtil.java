@@ -65,6 +65,10 @@ public class SharePrefUtil {
         String token = sp.getString("token", "");
         return token;
     }
+    public void setToken(String token){
+        sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
+        sp.edit().putString("token", token).apply();
+    }
 
 
     /**

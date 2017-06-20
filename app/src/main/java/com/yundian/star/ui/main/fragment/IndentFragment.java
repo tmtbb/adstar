@@ -21,20 +21,22 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 
+import static com.yundian.star.R.id.lrv;
+
 /**
  * Created by Administrator on 2017/5/24.
  * 订单信息
  */
 
 public class IndentFragment extends BaseFragment {
-    @Bind(R.id.lrv)
-    LRecyclerView lrv ;
+
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private IndentAdapter indentAdapter;
     private static int mCurrentCounter = 1;
     private static final int REQUEST_COUNT = 10;
     private ArrayList<EntrustReturnBeen.PositionsListBean> list = new ArrayList<>();
     private ArrayList<EntrustReturnBeen.PositionsListBean> loadList = new ArrayList<>();
+    private LRecyclerView lrv;
 
     @Override
     protected int getLayoutResource() {
@@ -48,12 +50,17 @@ public class IndentFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initData();
         initAdapter();
-        getData(false,1,REQUEST_COUNT);
+        getData(false, 1, REQUEST_COUNT);
+    }
+
+    private void initData() {
+        lrv = (LRecyclerView) rootView.findViewById(R.id.lrv);
     }
 
     private void initAdapter() {
-        indentAdapter= new IndentAdapter(getActivity());
+        indentAdapter = new IndentAdapter(getActivity());
         lRecyclerViewAdapter = new LRecyclerViewAdapter(indentAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
         lrv.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -81,7 +88,7 @@ public class IndentFragment extends BaseFragment {
 
     private void getData(final boolean isLoadMore, int start, int count) {
         NetworkAPIFactoryImpl.getInformationAPI().historyEntrust(SharePrefUtil.getInstance().getUserId(),
-                SharePrefUtil.getInstance().getToken(),start, count, new OnAPIListener<EntrustReturnBeen>() {
+                SharePrefUtil.getInstance().getToken(), start, count, new OnAPIListener<EntrustReturnBeen>() {
                     @Override
                     public void onError(Throwable ex) {
                         if (lrv != null) {
@@ -98,7 +105,7 @@ public class IndentFragment extends BaseFragment {
                     @Override
                     public void onSuccess(EntrustReturnBeen entrustReturnBeen) {
                         LogUtils.loge("当日委托" + entrustReturnBeen.toString());
-                        if (entrustReturnBeen==null||entrustReturnBeen.getPositionsList() == null || entrustReturnBeen.getPositionsList().size() == 0) {
+                        if (entrustReturnBeen == null || entrustReturnBeen.getPositionsList() == null || entrustReturnBeen.getPositionsList().size() == 0) {
                             lrv.setNoMore(true);
                             lrv.refreshComplete(REQUEST_COUNT);
                             return;

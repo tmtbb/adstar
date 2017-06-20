@@ -24,6 +24,7 @@ import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnWangYiBeen;
 import com.yundian.star.helper.CheckHelper;
 import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIException;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.wangyi.DemoCache;
 import com.yundian.star.ui.wangyi.config.preference.Preferences;

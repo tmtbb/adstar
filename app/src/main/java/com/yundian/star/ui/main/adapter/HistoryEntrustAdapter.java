@@ -46,14 +46,14 @@ public class HistoryEntrustAdapter extends ListBaseAdapter<TodayEntrustReturnBea
         if (starInfos != null && starInfos.size() > 0) {
             name.setText(starInfos.get(0).getName());
         }
-        price.setText(bean.getOpenPrice() + "");
+        price.setText(bean.getOpenPrice()*bean.getAmount()+"");
         tv_entrust_num.setText(bean.getRtAmount() + "");
         tv_bargain_num.setText(bean.getAmount() + "");
         tv_code.setText(bean.getSymbol());
-        if (bean.getHandle() == 3) {
-            tv_content_ing.setText("购买");
+        if (bean.getBuySell() == -1) {
+            tv_content_ing.setText("转让");
         } else {
-            tv_content_ing.setText("委托");
+            tv_content_ing.setText("求购");
         }
 
         tv_content_ed.setText(BuyHandleStatuUtils.getHandleStatu(bean.getHandle()));

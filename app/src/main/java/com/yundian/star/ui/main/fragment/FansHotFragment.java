@@ -22,22 +22,16 @@ import butterknife.OnClick;
 
 public class FansHotFragment extends BaseFragment {
 
-    @Bind(R.id.fl_fans_hot_content)
-    FrameLayout fl_fans_hot_content ;
 
-    @Bind(R.id.rl_buy)
-    FrameLayout rl_buy ;
-    @Bind(R.id.img_1)
-    ImageView img_1 ;
-    @Bind(R.id.img_2)
-    ImageView img_2 ;
-
-    @Bind(R.id.rl_transfer)
-    FrameLayout rl_transfer;
 
     private FansHotBuyFragment hotBuyFragment;
     private FansHotBuyFragment transferFragment;
     private String code;
+    private FrameLayout fl_fans_hot_content;
+    private FrameLayout rl_buy;
+    private ImageView img_1;
+    private ImageView img_2;
+    private FrameLayout rl_transfer;
 
 
     @Override
@@ -52,7 +46,17 @@ public class FansHotFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initData();
         initListener();
+    }
+
+    private void initData() {
+        fl_fans_hot_content = (FrameLayout) rootView.findViewById(R.id.fl_fans_hot_content);
+        rl_buy = (FrameLayout) rootView.findViewById(R.id.rl_buy);
+        img_1 = (ImageView) rootView.findViewById(R.id.img_1);
+        img_2 = (ImageView) rootView.findViewById(R.id.img_2);
+        rl_transfer = (FrameLayout) rootView.findViewById(R.id.rl_transfer);
+
     }
 
     private void initListener() {

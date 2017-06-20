@@ -20,9 +20,10 @@ public class StarInfo {
     private String pic_url;
     private String pic1;
     private double price;
-    @Generated(hash = 1073765957)
+    @Generated(hash = 296456460)
     public StarInfo(Long id, String accid, String brief, String code, int gender,
-            String name, String phone, String pic_url, String pic1, double price) {
+            String name, String phone, String pic_url, String pic1, double price,
+            double newPrice) {
         this.id = id;
         this.accid = accid;
         this.brief = brief;
@@ -97,5 +98,4 @@ public class StarInfo {
     public void setPrice(double price) {
         this.price = price;
     }
-
 }

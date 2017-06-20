@@ -50,6 +50,7 @@ import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.greendao.gen.DaoMaster;
 import com.yundian.star.greendao.gen.DaoSession;
+import com.yundian.star.greendao.update.MySQLiteOpenHelper;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.Host;
 import com.yundian.star.networkapi.NetworkAPIConfig;
@@ -410,6 +411,9 @@ public class AppApplication extends BaseApplication {
                     LogUtils.loge("------------------登录成功，保存信息"+loginReturnEntity.toString());
                     //服务器问题,先token登录不保存信息
                     //SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
+                    if (!TextUtils.isEmpty(loginReturnEntity.getToken())){
+                        SharePrefUtil.getInstance().setToken(loginReturnEntity.getToken());
+                    }
                     EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
                 }
             });
@@ -428,7 +432,7 @@ public class AppApplication extends BaseApplication {
             public void onSuccess() {
                 LogUtils.logd("检测到连接成功-------------------");
                 //token交易暂时关闭
-                //judgeIsLogin();
+                judgeIsLogin();
                // checkUpdate();
             }
 
@@ -448,9 +452,11 @@ public class AppApplication extends BaseApplication {
      * 配置数据库
      */
     private void setupDatabase() {
-//        DBOpenHelper helper = new DBOpenHelper(this, "star.db", null, DaoMaster.SCHEMA_VERSION);
 
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "star.db", null);
+        MySQLiteOpenHelper helper = new MySQLiteOpenHelper(this, "star.db",
+                null);
+
+//        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "star.db", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);
         daoSession = daoMaster.newSession();
