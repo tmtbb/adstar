@@ -429,7 +429,7 @@ public class AppApplication extends BaseApplication {
                 LogUtils.logd("检测到连接成功-------------------");
                 //token交易暂时关闭
                 //judgeIsLogin();
-                checkUpdate();
+               // checkUpdate();
             }
 
             @Override

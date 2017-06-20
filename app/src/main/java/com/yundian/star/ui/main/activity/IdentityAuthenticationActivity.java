@@ -1,9 +1,7 @@
 package com.yundian.star.ui.main.activity;
 
 import android.app.Dialog;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -25,8 +23,6 @@ import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-
-import static com.umeng.socialize.utils.DeviceConfig.context;
 
 /**
  * 身份认证
@@ -103,7 +99,7 @@ public class IdentityAuthenticationActivity extends BaseActivity {
                         LogUtils.logd("实名认证请求成功:" + resultBean.toString());
                         if (resultBean.getResult() == 0) {
                             ToastUtils.showShort("实名认证成功");
-                            showIdentityDialog();  //提示开通支付
+//                            showIdentityDialog();  //提示开通支付
                             SharePrefUtil.getInstance().setRealName(etInputName.getText().toString().trim());
                             SharePrefUtil.getInstance().setIdnum(etInputCard.getText().toString().trim());
 //

@@ -144,7 +144,7 @@ public class SettingDealPwdActivity extends BaseActivity {
                     finish();
                     //关闭前面几个页面
 //                    AppManager.getAppManager().finishActivity(DisclaimerActivity.class);
-                    AppManager.getAppManager().finishActivity(IdentityAuthenticationActivity.class);
+//                    AppManager.getAppManager().finishActivity(IdentityAuthenticationActivity.class);
                 } else {
                     ToastUtils.showShort("设置交易密码失败");
                 }

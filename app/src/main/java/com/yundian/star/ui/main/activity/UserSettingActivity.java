@@ -153,13 +153,13 @@ public class UserSettingActivity extends BaseActivity {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.loge("设置昵称失败----");
-                startProgressDialog("修改失败");
+                ToastUtils.showStatusView("修改失败",false);
             }
 
             @Override
             public void onSuccess(RequestResultBean resultBean) {
                 if (resultBean.getResult() == 1) {
-                    startProgressDialog("修改成功");
+                    ToastUtils.showStatusView("修改成功", true);
                     SharePrefUtil.getInstance().putUserNickName(nikeName);
                     tvUserPetName.setText(nikeName);
                 }

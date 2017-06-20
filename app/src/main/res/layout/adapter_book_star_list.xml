@@ -12,8 +12,7 @@
         android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_40"
         android:layout_gravity="center_vertical"
-        android:layout_marginLeft="@dimen/dp_12"
-        android:src="@drawable/ic_home_normal" />
+        android:layout_marginLeft="@dimen/dp_12" />
 
     <TextView
         android:id="@+id/tv_star_name"
