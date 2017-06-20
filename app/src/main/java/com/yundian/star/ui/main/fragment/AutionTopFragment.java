@@ -21,16 +21,15 @@ import java.util.List;
 
 import butterknife.Bind;
 
+import static com.yundian.star.R.id.lrv;
+
 /**
  * Created by Administrator on 2017/6/12.
  * 拍卖排行榜  mai
  */
 
 public class AutionTopFragment extends BaseFragment {
-    @Bind(R.id.lrv)
-    LRecyclerView lrv;
-    @Bind(R.id.parent_view)
-    FrameLayout parentView;
+
 
     private static final int REQUEST_COUNT = 10;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
@@ -41,6 +40,8 @@ public class AutionTopFragment extends BaseFragment {
     private int hotType;
     private String code;
     int buySell = 0;
+    private LRecyclerView lrv;
+    private FrameLayout parentView;
 
     @Override
     protected int getLayoutResource() {
@@ -54,6 +55,7 @@ public class AutionTopFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initData();
         if (getArguments() != null) {
             code = getArguments().getString(AppConstant.STAR_CODE);
             hotType = getArguments().getInt(AppConstant.AUCTION_TYPE);
@@ -65,6 +67,11 @@ public class AutionTopFragment extends BaseFragment {
         }
         initAdapter();
         getData(false, 1);
+    }
+
+    private void initData() {
+        lrv = (LRecyclerView) rootView.findViewById(R.id.lrv);
+        parentView = (FrameLayout) rootView.findViewById(R.id.parent_view);
     }
 
 
@@ -87,8 +94,8 @@ public class AutionTopFragment extends BaseFragment {
 
             @Override
             public void onSuccess(FansEntrustReturnBean bean) {
-                LogUtils.loge("粉丝热度成功-------"+bean.toString());
-                if (bean == null||bean.getPositionsList()==null||bean.getPositionsList().size()==0) {
+                LogUtils.loge("粉丝热度成功-------" + bean.toString());
+                if (bean == null || bean.getPositionsList() == null || bean.getPositionsList().size() == 0) {
                     lrv.setNoMore(true);
                     return;
                 }

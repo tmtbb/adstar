@@ -9,13 +9,13 @@ public class BuyHandleStatuUtils {
         String buyStatus = "";
         switch (handle) {
             case 0:
-                buyStatus = "挂单中";
+                buyStatus = "委托中";
                 break;
             case 1:
                 buyStatus = "匹配中";
                 break;
             case 3:
-                buyStatus = "挂单完成";
+                buyStatus = "委托完成";
                 break;
             default:
                 buyStatus = "失败";

@@ -20,7 +20,6 @@
             android:text="刘德华"
             android:textColor="@color/color_666666"
             android:textSize="@dimen/fontSize_14sp"
-
             />
 
         <TextView

@@ -32,7 +32,7 @@
         android:layout_below="@id/tv_star_name"
         android:layout_marginTop="@dimen/dp_10"
         android:layout_toRightOf="@id/iv_star_head"
-        android:text="xxxx音乐人"
+        android:text="明星"
         android:textColor="@color/font_999999"
         android:textSize="@dimen/text_size_12" />
 
@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/tv_star_job"
-        android:layout_marginLeft="@dimen/dp_9"
+        android:layout_marginLeft="@dimen/dp_12"
         android:layout_toRightOf="@id/tv_star_job"
         android:background="@drawable/booking_star_status"
         android:padding="@dimen/dp_5"
@@ -59,7 +59,6 @@
         android:layout_toRightOf="@id/tv_star_job"
         android:background="@drawable/booking_star_status_refuse"
         android:padding="@dimen/dp_5"
-        android:text="@string/star_refuse"
         android:textColor="@color/color_fefefe"
         android:visibility="gone"
         android:textSize="@dimen/text_size_12" />

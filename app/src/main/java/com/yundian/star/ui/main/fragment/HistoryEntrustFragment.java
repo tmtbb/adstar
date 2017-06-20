@@ -29,6 +29,9 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+import static com.yundian.star.R.id.lrv;
+import static com.yundian.star.R.id.tv_end_time;
+
 /**
  * Created by Administrator on 2017/5/25.
  * 历史委托
@@ -36,18 +39,6 @@ import butterknife.OnClick;
 
 public class HistoryEntrustFragment extends BaseFragment {
 
-    @Bind(R.id.lrv)
-    LRecyclerView lrv;
-    @Bind(R.id.ll_start_time)
-    LinearLayout ll_start_time;
-    @Bind(R.id.ll_end_time)
-    LinearLayout ll_end_time;
-    @Bind(R.id.tv_start_time)
-    TextView tv_start_time;
-    @Bind(R.id.tv_end_time)
-    TextView tv_end_time;
-    @Bind(R.id.parent_view)
-    FrameLayout parentView;
 
     private static int mCurrentCounter = 1;
     private static final int REQUEST_COUNT = 10;
@@ -64,6 +55,12 @@ public class HistoryEntrustFragment extends BaseFragment {
     private int current_end_year;
     private int current_end_month;
     private int current_end_day;
+    private LRecyclerView lrv;
+    private LinearLayout ll_start_time;
+    private LinearLayout ll_end_time;
+    private TextView tv_start_time;
+    private TextView tv_end_time;
+    private FrameLayout parentView;
 
     @Override
     protected int getLayoutResource() {
@@ -77,9 +74,20 @@ public class HistoryEntrustFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initData();
         initAdapter();
         getDateTime();
         getData(false, 1);
+    }
+
+    private void initData() {
+        lrv = (LRecyclerView) rootView.findViewById(R.id.lrv);
+        ll_start_time = (LinearLayout) rootView.findViewById(R.id.ll_start_time);
+        ll_end_time = (LinearLayout) rootView.findViewById(R.id.ll_end_time);
+        tv_start_time = (TextView) rootView.findViewById(R.id.tv_start_time);
+        tv_end_time = (TextView) rootView.findViewById(R.id.tv_end_time);
+        parentView = (FrameLayout) rootView.findViewById(R.id.parent_view);
+
     }
 
     private void getDateTime() {
@@ -122,7 +130,7 @@ public class HistoryEntrustFragment extends BaseFragment {
             public void onError(Throwable ex) {
                 if (lrv != null) {
                     lrv.setNoMore(true);
-                    if (!isLoadMore){
+                    if (!isLoadMore) {
                         list.clear();
                         historyEntrustAdapter.clear();
                         lrv.refreshComplete(REQUEST_COUNT);

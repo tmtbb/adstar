@@ -42,14 +42,15 @@ import java.util.List;
 
 import butterknife.Bind;
 
+import static com.yundian.star.R.id.lrv;
+
 /**
  * Created by Administrator on 2017/5/8.
  * 资讯主页
  */
 
 public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforModel> implements NewInfoContract.View {
-    @Bind(R.id.lrv)
-    LRecyclerView lrv;
+
     @Bind(R.id.rl_time)
     RelativeLayout rl_time;
     @Bind(R.id.tv_time)
@@ -84,6 +85,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     private View header;
     private RelativeLayout rl_adroot;
     private List<AdvBeen.ListBean> listData;
+    private LRecyclerView lrv;
 
     @Override
     protected int getLayoutResource() {
@@ -97,9 +99,14 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
     @Override
     protected void initView() {
+        initData();
         initAdpter();
         mPresenter.getAdvertisement("1", 1);
         mPresenter.getData(false, "1", "1", 1, REQUEST_COUNT, 1);
+    }
+
+    private void initData() {
+        lrv = (LRecyclerView) rootView.findViewById(R.id.lrv);
     }
 
     private void initAdpter() {

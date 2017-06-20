@@ -153,7 +153,7 @@ public class UserSettingActivity extends BaseActivity {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.loge("设置昵称失败----");
-                ToastUtils.showStatusView("修改失败",false);
+                ToastUtils.showStatusView("修改失败", false);
             }
 
             @Override
@@ -211,7 +211,7 @@ public class UserSettingActivity extends BaseActivity {
         NetworkAPIFactoryImpl.getDealAPI().identity(new OnAPIListener<IdentityInfoBean>() {
             @Override
             public void onError(Throwable ex) {
-                if (tvUserCardNumber!=null||tvUserRealName!=null){
+                if (tvUserCardNumber != null || tvUserRealName != null) {
                     LogUtils.loge("实名信息失败-----------");
                     tvUserCardNumber.setText("未实名认证");
                     tvUserRealName.setText("未实名认证");
@@ -221,16 +221,17 @@ public class UserSettingActivity extends BaseActivity {
             @Override
             public void onSuccess(IdentityInfoBean identityInfoBean) {
                 LogUtils.loge("实名信息成功-----------" + identityInfoBean.toString());
-                if (identityInfoBean != null){
+                if (identityInfoBean != null
+                        && !TextUtils.isEmpty(identityInfoBean.getId_card())
+                        && !TextUtils.isEmpty(identityInfoBean.getRealname())) {
                     tvUserRealName.setText(identityInfoBean.getRealname());
                     tvUserCardNumber.setText(FormatUtil.formatCard(identityInfoBean.getId_card()));
                     SharePrefUtil.getInstance().setRealName(identityInfoBean.getRealname());
                     SharePrefUtil.getInstance().setIdnum(identityInfoBean.getId_card());
-                }else{
+                } else {
                     tvUserCardNumber.setText("未实名认证");
                     tvUserRealName.setText("未实名认证");
                 }
-
             }
         });
     }

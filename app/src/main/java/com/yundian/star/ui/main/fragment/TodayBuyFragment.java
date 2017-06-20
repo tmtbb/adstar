@@ -27,10 +27,8 @@ import butterknife.Bind;
  */
 
 public class TodayBuyFragment extends BaseFragment {
-    @Bind(R.id.lrv)
-    LRecyclerView lrv;
-    @Bind(R.id.parent_view)
-    FrameLayout parentView;
+    private FrameLayout parentView;
+    private LRecyclerView lrv;
     private static int mCurrentCounter = 1;
     private static final int REQUEST_COUNT = 10;
     private List<TodayDealReturnBean> list = new ArrayList<>();
@@ -51,8 +49,14 @@ public class TodayBuyFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initData();
         initAdapter();
         getData(false, 0);
+    }
+
+    private void initData() {
+        parentView = (FrameLayout) rootView.findViewById(R.id.parent_view);
+        lrv = (LRecyclerView) rootView.findViewById(R.id.lrv);
     }
 
     private void initAdapter() {

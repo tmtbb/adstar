@@ -42,12 +42,17 @@ public class BookStarListAdapter extends ListBaseAdapter<BookingStarListBean> {
         TextView talk = holder.getView(R.id.have_talk);
         ImageView iv_star_head = holder.getView(R.id.iv_star_head);
         nameText.setText(item.getStarname());
-        if (item.getAppoint() == 1) {
+        if (item.getAppoint() == 1) {  //1-已约见,2,已拒绝,3-已完成
             bookinged.setVisibility(View.VISIBLE);
             refuse.setVisibility(View.GONE);
-        } else {
+        } else if (item.getAppoint() == 2){
             bookinged.setVisibility(View.GONE);
             refuse.setVisibility(View.VISIBLE);
+            refuse.setText("已拒绝");
+        }else if (item.getAppoint() == 3){
+            bookinged.setVisibility(View.GONE);
+            refuse.setVisibility(View.VISIBLE);
+            refuse.setText("已完成");
         }
         talk.setOnClickListener(new View.OnClickListener() {
             @Override
