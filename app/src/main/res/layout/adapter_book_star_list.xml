@@ -59,7 +59,6 @@
         android:layout_toRightOf="@id/tv_star_job"
         android:background="@drawable/booking_star_status_refuse"
         android:padding="@dimen/dp_5"
-        android:text="@string/star_refuse"
         android:textColor="@color/color_fefefe"
         android:visibility="gone"
         android:textSize="@dimen/text_size_12" />

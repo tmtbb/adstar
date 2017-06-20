@@ -448,6 +448,8 @@ public class AppApplication extends BaseApplication {
      * 配置数据库
      */
     private void setupDatabase() {
+//        DBOpenHelper helper = new DBOpenHelper(this, "star.db", null, DaoMaster.SCHEMA_VERSION);
+
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, "star.db", null);
         SQLiteDatabase db = helper.getWritableDatabase();
         DaoMaster daoMaster = new DaoMaster(db);

@@ -11,7 +11,7 @@ public class BookingStarListBean implements Parcelable {
 
     private long uid;
     private long ownseconds;
-    private int appoint;   //1 约见
+    private int appoint;   //1-已约见,2,已拒绝,3-已完成
     private String starcode;
     private String starname;
     private String faccid;
