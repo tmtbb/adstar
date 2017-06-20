@@ -467,6 +467,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                 .setVisibility(Notification.VISIBILITY_PRIVATE)
                 .setSmallIcon(R.mipmap.ic_launcher);//设置通知小ICON
 
+
     }
 
     public PendingIntent getDefalutIntent(int flags) {

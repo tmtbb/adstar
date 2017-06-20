@@ -128,6 +128,7 @@ public class SystemMessagesActivity extends BaseActivity {
             @Override
             public void onImgClick(View view, int position) {
                 //ToastUtils.showShort("position"+position);
+                //if (JudgeIdentityUtils)
                 showDialogs(position);
             }
         });

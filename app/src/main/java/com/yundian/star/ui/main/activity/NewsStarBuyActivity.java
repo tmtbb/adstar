@@ -97,6 +97,8 @@ public class NewsStarBuyActivity extends BaseActivity {
         nl_title.setRightImagSrc(R.drawable.share);
         Intent intent = getIntent();
         code = intent.getStringExtra(AppConstant.STAR_CODE);
+        name = intent.getStringExtra(AppConstant.STAR_NAME);
+        nl_title.setTitleText(String.format(getString(R.string.name_code),name,code));
         LogUtils.loge("明星求购页面code" + code);
         gitData();
         getStarExperience();
@@ -216,9 +218,6 @@ public class NewsStarBuyActivity extends BaseActivity {
     private void initData(StarBuyActReferralInfo info) {
         weibo_index_id = info.getWeibo_index_id();
         head_url = info.getHead_url();
-        name = info.getName();
-        nl_title.setTitleText(info.getName());
-
         tv_1.setText(String.format(getString(R.string.intro_nationality),info.getNationality()));
         tv_2.setText(String.format(getString(R.string.intro_nation),info.getNation()));
         tv_3.setText(String.format(getString(R.string.intro_work),info.getWork()));

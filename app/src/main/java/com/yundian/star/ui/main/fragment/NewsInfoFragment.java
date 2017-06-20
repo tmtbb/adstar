@@ -273,6 +273,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
                 public void onItemClick(View v, int position, String url) {
                     Intent intent = new Intent(getActivity(), NewsStarBuyActivity.class);
                     intent.putExtra(AppConstant.STAR_CODE, o.getList().get(position).getCode());
+                    intent.putExtra(AppConstant.STAR_NAME, o.getList().get(position).getName());
                     LogUtils.loge("首页资讯轮播图明星code" + o.getList().get(position).getCode());
                     startActivity(intent);
                 }

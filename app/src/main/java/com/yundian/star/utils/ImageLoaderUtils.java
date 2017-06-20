@@ -58,7 +58,8 @@ public class ImageLoaderUtils {
         }
         Glide.with(context).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .error(R.drawable.ic_empty_picture)
+                .placeholder(R.drawable.user_default_head)
+                .error(R.drawable.user_default_head)
                 .centerCrop()
                 .crossFade()
                 .into(imageView);
@@ -75,11 +76,12 @@ public class ImageLoaderUtils {
             throw new IllegalArgumentException("argument error");
         }
         Glide.with(context).load(url)
-                .transform(new GlideRoundTransformUtil(context))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.user_default_head)
                 .error(R.drawable.user_default_head)
                 .centerCrop()
                 .crossFade()
+                .transform(new GlideRoundTransformUtil(context))
                 .into(imageView);
     }
     public static void displayBigPhoto(Context context, ImageView imageView, String url) {
