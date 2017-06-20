@@ -22,6 +22,7 @@ import java.util.List;
 
 import butterknife.Bind;
 
+import static com.yundian.star.R.id.lrv;
 import static com.yundian.star.R.id.parent_view;
 
 /**
@@ -31,16 +32,14 @@ import static com.yundian.star.R.id.parent_view;
 
 public class TodayEntrustFragment extends BaseFragment {
 
-    @Bind(R.id.lrv)
-    LRecyclerView lrv;
-    @Bind(parent_view)
-    FrameLayout parentView;
     private static int mCurrentCounter = 1;
     private static final int REQUEST_COUNT = 10;
     private List<TodayEntrustReturnBean> list = new ArrayList<>();
     private List<TodayEntrustReturnBean> loadList = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private TodayEntrustAdapter todayEntrustAdapter;
+    private FrameLayout parentView;
+    private LRecyclerView lrv;
 
     @Override
     protected int getLayoutResource() {
@@ -54,8 +53,14 @@ public class TodayEntrustFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initData();
         initAdapter();
         getData(false, 1);
+    }
+
+    private void initData() {
+        parentView = (FrameLayout) rootView.findViewById(R.id.parent_view);
+        lrv = (LRecyclerView) rootView.findViewById(R.id.lrv);
     }
 
     private void initAdapter() {
@@ -117,7 +122,7 @@ public class TodayEntrustFragment extends BaseFragment {
     }
 
     public void showData() {
-        if (list==null||list.size() == 0) {
+        if (list == null || list.size() == 0) {
             showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
             return;
         } else {

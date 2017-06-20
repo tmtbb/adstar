@@ -34,6 +34,8 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+import static com.yundian.star.R.id.lrv;
+
 
 /**
  * Created by Administrator on 2017/5/15.
@@ -47,8 +49,7 @@ public class MarketDetailFragment extends BaseFragment {
     LinearLayout ll_select_order;
     @Bind(R.id.iv_select)
     ImageView iv_select;
-    @Bind(R.id.lrv)
-    LRecyclerView lrv;
+
     @Bind(R.id.parent_view)
     FrameLayout parentView;
     MarketDetailAdapter marketDetailAdapter;
@@ -64,6 +65,7 @@ public class MarketDetailFragment extends BaseFragment {
     private int marketDetailType = 1;
     private MyHandler myHandler;
     private boolean isPrepared;
+    private LRecyclerView lrv;
 
     public void showData() {
         if (list.size() == 0) {
@@ -93,6 +95,7 @@ public class MarketDetailFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initData();
         nt_title.setBackVisibility(false);
         nt_title.setTitleText(R.string.star_hot);
         nt_title.setRightImagSrc(R.drawable.search);
@@ -106,6 +109,11 @@ public class MarketDetailFragment extends BaseFragment {
         myHandler = new MyHandler(this);
         initListener();
     }
+
+    private void initData() {
+        lrv = (LRecyclerView) rootView.findViewById(R.id.lrv);
+    }
+
     private void initListener() {
         nt_title.getRightImage().setOnClickListener(new View.OnClickListener() {
             @Override

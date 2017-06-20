@@ -21,6 +21,8 @@ import java.util.ArrayList;
 
 import butterknife.Bind;
 
+import static com.yundian.star.R.id.lrv;
+
 
 /**
  * Created by Administrator on 2017/5/22.
@@ -28,11 +30,6 @@ import butterknife.Bind;
  */
 
 public class FansHotBuyFragment extends BaseFragment {
-
-    @Bind(R.id.lrv)
-    LRecyclerView lrv ;
-    @Bind(R.id.parent_view)
-    FrameLayout parentView;
 
     private static final int REQUEST_COUNT = 10;
 
@@ -44,6 +41,8 @@ public class FansHotBuyFragment extends BaseFragment {
     private FansHotBuyAdapter fansHotBuyAdapter;
     private int hotType;
     private String code;
+    private LRecyclerView lrv;
+    private FrameLayout parentView;
 
     @Override
     protected int getLayoutResource() {
@@ -57,6 +56,7 @@ public class FansHotBuyFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initData();
         if (getArguments()!=null){
             code = getArguments().getString(AppConstant.STAR_CODE);
             hotType = getArguments().getInt(AppConstant.FANS_HOT_TYPE);
@@ -64,6 +64,11 @@ public class FansHotBuyFragment extends BaseFragment {
         }
         initAdapter();
         getData(false,1,REQUEST_COUNT);
+    }
+
+    private void initData() {
+        lrv = (LRecyclerView) rootView.findViewById(R.id.lrv);
+        parentView = (FrameLayout) rootView.findViewById(R.id.parent_view);
     }
 
     private void getData(final boolean isLoadMore,int start ,int end ) {

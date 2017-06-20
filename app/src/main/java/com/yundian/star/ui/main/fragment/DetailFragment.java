@@ -17,19 +17,16 @@ import butterknife.OnClick;
  */
 
 public class DetailFragment extends BaseFragment {
-    @Bind(R.id.tv_1)
-    TextView tv_1;
-    @Bind(R.id.tv_2)
-    TextView tv_2;
-    @Bind(R.id.tv_3)
-    TextView tv_3;
-    @Bind(R.id.tv_4)
-    TextView tv_4;
+
     private int currentType = 0;
     private TodayBuyFragment todayBuyFragment;
     private TodayEntrustFragment entrustFragment;
     private HistoryEntrustFragment historyEntrustFragment;
     private HistoryBuyFragment historyBuyFragment;
+    private TextView tv_1;
+    private TextView tv_2;
+    private TextView tv_3;
+    private TextView tv_4;
 
     @Override
     protected int getLayoutResource() {
@@ -43,8 +40,16 @@ public class DetailFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initData();
         initFragment();
         switchTo(1);
+    }
+
+    private void initData() {
+        tv_1 = (TextView) rootView.findViewById(R.id.tv_1);
+        tv_2 = (TextView) rootView.findViewById(R.id.tv_2);
+        tv_3 = (TextView) rootView.findViewById(R.id.tv_3);
+        tv_4 = (TextView) rootView.findViewById(R.id.tv_4);
     }
 
     private void initFragment() {

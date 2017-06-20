@@ -17,6 +17,7 @@ import com.yundian.star.ui.main.fragment.CommentMarketFragment;
 import com.yundian.star.ui.main.fragment.FansHotFragment;
 import com.yundian.star.ui.main.fragment.KChartFragment;
 import com.yundian.star.ui.main.fragment.StarIntroFragment;
+import com.yundian.star.utils.JudgeIdentityUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import java.util.ArrayList;
@@ -126,13 +127,16 @@ public class StarTimeShareActivity extends BaseActivity {
                 startActivity(intent2);
                 break;
             case R.id.rb_3:
-                Intent intent3 = new Intent(this,MeetStarActivity.class);
-                intent3.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE,1);
-                intent3.putExtra(AppConstant.STAR_WID,wid);
-                intent3.putExtra(AppConstant.STAR_NAME,name);
-                intent3.putExtra(AppConstant.STAR_CODE,code);
-                intent3.putExtra(AppConstant.STAR_HEAD_URL,head_url);
-                startActivity(intent3);
+                if (JudgeIdentityUtils.isIdentityed(this)){
+                    Intent intent3 = new Intent(this,MeetStarActivity.class);
+                    intent3.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE,1);
+                    intent3.putExtra(AppConstant.STAR_WID,wid);
+                    intent3.putExtra(AppConstant.STAR_NAME,name);
+                    intent3.putExtra(AppConstant.STAR_CODE,code);
+                    intent3.putExtra(AppConstant.STAR_HEAD_URL,head_url);
+                    startActivity(intent3);
+                }
+
                 break;
             /*case R.id.rb_4:
                 break;*/

@@ -35,12 +35,7 @@ import butterknife.OnClick;
  */
 
 public class CommentMarketFragment extends BaseFragment {
-    @Bind(R.id.lrv)
-    LRecyclerView lrv;
-    @Bind(R.id.tv_add_comment)
-    TextView tv_add_comment;
-    @Bind(R.id.parent_view)
-    FrameLayout parentView;
+
     private static final int REQUEST_COUNT = 10;
     private static int mCurrentCounter = 0;
     private String code;
@@ -48,6 +43,9 @@ public class CommentMarketFragment extends BaseFragment {
     private ArrayList<CommentMarketBeen.CommentsinfoBean> loadList = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private CommentMarketAdapter commentMarketAdapter;
+    private LRecyclerView lrv;
+    private TextView tv_add_comment;
+    private FrameLayout parentView;
 
     @Override
     protected int getLayoutResource() {
@@ -61,6 +59,7 @@ public class CommentMarketFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initData();
         if (getArguments() != null) {
             code = getArguments().getString(AppConstant.STAR_CODE);
             LogUtils.loge("明星code" + code);
@@ -68,6 +67,12 @@ public class CommentMarketFragment extends BaseFragment {
         initAdapter();
         getData(false, 1, REQUEST_COUNT);
         initListener();
+    }
+
+    private void initData() {
+        lrv = (LRecyclerView) rootView.findViewById(R.id.lrv);
+        tv_add_comment = (TextView) rootView.findViewById(R.id.tv_add_comment);
+        parentView = (FrameLayout) rootView.findViewById(R.id.parent_view);
     }
 
     private void initListener() {

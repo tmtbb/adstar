@@ -6,6 +6,7 @@ import com.yundian.star.R;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.ui.im.activity.StarCommunicationBookActivity;
 import com.yundian.star.ui.im.activity.SystemMessagesActivity;
+import com.yundian.star.utils.JudgeIdentityUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
@@ -40,7 +41,9 @@ public class DifferAnswerFragment extends BaseFragment {
 
     @OnClick(R.id.ll_star_address_book)
     public void gotoAddressBook(){
-        startActivity(StarCommunicationBookActivity.class);
+        if (JudgeIdentityUtils.isIdentityed(getActivity())){
+            startActivity(StarCommunicationBookActivity.class);
+        }
     }
 
     @OnClick(R.id.ll_system_news)

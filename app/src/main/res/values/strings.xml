@@ -248,10 +248,10 @@
     <string name="name_and_code">名称/代码</string>
     <string name="delegation_and_deal">委托/成交</string>
     <string name="price">价格</string>
-    <string name="state">状态</string>
+    <string name="state">类型/状态</string>
     <string name="deal_time">成交时间</string>
     <string name="transaction_price_num">成交价/成交量</string>
-    <string name="volume_of_transaction">成交额</string>
+    <string name="volume_of_transaction">类型/成交额</string>
     <string name="on_that_day_transaction">当日成交</string>
     <string name="on_that_day_delegation">当日委托</string>
     <string name="history_delegation">历史委托</string>
