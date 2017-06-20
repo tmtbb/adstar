@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.github.jdsjlzx.ItemDecoration.DividerDecoration;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
@@ -43,6 +44,7 @@ import butterknife.Bind;
 
 /**
  * Created by Administrator on 2017/5/8.
+ * 资讯主页
  */
 
 public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforModel> implements NewInfoContract.View {
@@ -81,6 +83,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     private int adv_height;
     private View header;
     private RelativeLayout rl_adroot;
+    private List<AdvBeen.ListBean> listData;
 
     @Override
     protected int getLayoutResource() {
@@ -109,9 +112,23 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
                 .build();
         //mRecyclerView.setHasFixedSize(true);
         lrv.addItemDecoration(divider);
+        lrv.setNoMore(false);
+        //lrv.setArrowImageView();
         lrv.setLayoutManager(new LinearLayoutManager(getContext()));
-        lrv.setPullRefreshEnabled(false);
         lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
+        lrv.setArrowImageView(0);  //设置下拉刷新箭头
+        lrv.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (listData==null||listData.size()==0){
+                    mPresenter.getAdvertisement("1", 1);
+                }
+                mCurrentCounter = 1;
+                lrv.setNoMore(false);
+                mPresenter.getData(false, "1", "1", 1, REQUEST_COUNT, 1);
+                LogUtils.loge("刷新");
+            }
+        });
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
@@ -208,8 +225,11 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
     @Override
     public void initDatas(ArrayList<NewsInforModel.ListBean> list) {
-        if (list == null) {
+        if (list == null||list.size()==0) {
+            showErrorView(parentView,R.drawable.error_view_banner, "没有更多数据");
             return;
+        }else {
+            closeErrorView();
         }
         arrayList.clear();
         arrayList = list;
@@ -218,7 +238,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         //newsInfoAdapter.setDataList(arrayList);
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         newsInfoAdapter.addAll(list);
-        lrv.refresh();
+        lrv.refreshComplete(REQUEST_COUNT);
     }
 
     @Override
@@ -235,38 +255,37 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
     @Override
     public void initAdv(final AdvBeen o) {
-        if (o.getList() == null || o.getList().size() == 0) {
-            return;
-        }
-        final List<AdvBeen.ListBean> listData = o.getList();
-        String adList[] = new String[listData.size()];
-        for (int i = 0; i < listData.size(); i++) {
-            adList[i] = o.getList().get(i).getPic_url();
-        }
-        LogUtils.loge("首页资讯轮播图数据" + listData.toString());
-        //add a HeaderView
-        header = LayoutInflater.from(getContext()).inflate(R.layout.adv_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
-        rl_adroot = (RelativeLayout) header.findViewById(R.id.rl_adroot);
-        ViewPager viewpager = (ViewPager) header.findViewById(R.id.viewpager);
-        LinearLayout ly_dots = (LinearLayout) header.findViewById(R.id.ly_dots);
-        adViewpagerUtil = new AdViewpagerUtil(getActivity(), viewpager, ly_dots, adList);
-        adViewpagerUtil.setOnAdItemClickListener(new AdViewpagerUtil.OnAdItemClickListener() {
-            @Override
-            public void onItemClick(View v, int position, String url) {
-                Intent intent = new Intent(getActivity(), NewsStarBuyActivity.class);
-                intent.putExtra(AppConstant.STAR_CODE, o.getList().get(position).getCode());
-                LogUtils.loge("首页资讯轮播图明星code" + o.getList().get(position).getCode());
-                startActivity(intent);
+        listData = o.getList();
+        if (listData != null && listData.size() != 0) {
+            String adList[] = new String[listData.size()];
+            for (int i = 0; i < listData.size(); i++) {
+                adList[i] = o.getList().get(i).getPic_url();
             }
-        });
-        lRecyclerViewAdapter.addHeaderView(header);
-        rl_adroot.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                adv_height = rl_adroot.getHeight();
-                rl_adroot.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-            }
-        });
+            LogUtils.loge("首页资讯轮播图数据" + listData.toString());
+            //add a HeaderView
+            header = LayoutInflater.from(getContext()).inflate(R.layout.adv_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
+            rl_adroot = (RelativeLayout) header.findViewById(R.id.rl_adroot);
+            ViewPager viewpager = (ViewPager) header.findViewById(R.id.viewpager);
+            LinearLayout ly_dots = (LinearLayout) header.findViewById(R.id.ly_dots);
+            adViewpagerUtil = new AdViewpagerUtil(getActivity(), viewpager, ly_dots, adList);
+            adViewpagerUtil.setOnAdItemClickListener(new AdViewpagerUtil.OnAdItemClickListener() {
+                @Override
+                public void onItemClick(View v, int position, String url) {
+                    Intent intent = new Intent(getActivity(), NewsStarBuyActivity.class);
+                    intent.putExtra(AppConstant.STAR_CODE, o.getList().get(position).getCode());
+                    LogUtils.loge("首页资讯轮播图明星code" + o.getList().get(position).getCode());
+                    startActivity(intent);
+                }
+            });
+            lRecyclerViewAdapter.addHeaderView(header);
+            rl_adroot.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    adv_height = rl_adroot.getHeight();
+                    rl_adroot.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                }
+            });
+        }
     }
 
     //生命周期控制
@@ -292,6 +311,9 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (hidden == false) {
+            if (listData==null||listData.size()==0){
+                mPresenter.getAdvertisement("1", 1);
+            }
             mCurrentCounter = 1;
             lrv.setNoMore(false);
             mPresenter.getData(false, "1", "1", 1, REQUEST_COUNT, 1);

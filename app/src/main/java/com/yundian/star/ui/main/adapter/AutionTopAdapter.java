@@ -34,7 +34,7 @@ public class AutionTopAdapter extends ListBaseAdapter<FansEntrustReturnBean.Posi
         TextView tv_name = holder.getView(R.id.tv_name);
         TextView tv_time = holder.getView(R.id.tv_time);
         TextView tv_buy_price = holder.getView(R.id.tv_buy_price);
-        ImageLoaderUtils.displayRound(mContext, iv_icon, bean.getUser().getHeadUrl());
+        ImageLoaderUtils.displaySmallPhotoRound(mContext, iv_icon, bean.getUser().getHeadUrl());
         tv_name.setText(bean.getUser().getNickname());
         tv_time.setText(TimeUtil.getDateAndTime(bean.getTrades().getPositionTime() * 1000));
 

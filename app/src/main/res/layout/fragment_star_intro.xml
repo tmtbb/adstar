@@ -3,6 +3,7 @@
     android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
     android:scrollbars="none">
 
 
@@ -16,8 +17,11 @@
             android:id="@+id/adv_root"
             layout="@layout/adv_layout"></include>-->
         <ImageView
+            android:focusable="false"
+            android:clickable="false"
             android:id="@+id/img_adv"
             android:layout_width="match_parent"
+            android:scaleType="centerCrop"
             android:layout_height="160dp" />
 
         <LinearLayout
@@ -43,6 +47,8 @@
         </LinearLayout>
 
         <LinearLayout
+            android:focusable="false"
+            android:clickable="false"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="13dp"
@@ -104,11 +110,15 @@
         </LinearLayout>
 
         <include
+            android:focusable="false"
+            android:clickable="false"
             android:id="@+id/ll_new_buy_expeience"
             layout="@layout/newstar_buy_expeience"
             android:visibility="gone"></include>
 
         <include
+            android:focusable="false"
+            android:clickable="false"
             android:id="@+id/ll_new_buy_achievement"
             layout="@layout/newstar_buy_expeience"
             android:visibility="gone"></include>

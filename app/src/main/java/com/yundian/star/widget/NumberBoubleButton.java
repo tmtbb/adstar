@@ -105,38 +105,38 @@ public class NumberBoubleButton extends LinearLayout implements View.OnClickList
 
         mCount.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
 
-        mCount.setOnFocusChangeListener(new OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    // 此处为得到焦点时的处理内容
-                    isEditGetFocus = true;
-                } else {
-                    isEditGetFocus = false;
-                    // 此处为失去焦点时的处理内容
-                }
-            }
-        });
-        mCount.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isEditGetFocus) {
-                    //判断隐藏软键盘是否弹出
-                    if (myContext!=null){
-                        if (isSoftShowing()){
-                            return;
-                        }else {
-                            mCount.setFocusable(false);
-                            mCount.setEnabled(false);
-                            mCount.setFocusableInTouchMode(false);
-                            mCount.clearFocus();
-                            mCount.postDelayed(runnable, 90);
-                            LogUtils.loge("连续点击");
-                        }
-                    }
-                }
-            }
-        });
+//        mCount.setOnFocusChangeListener(new OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus) {
+//                    // 此处为得到焦点时的处理内容
+//                    isEditGetFocus = true;
+//                } else {
+//                    isEditGetFocus = false;
+//                    // 此处为失去焦点时的处理内容
+//                }
+//            }
+//        });
+//        mCount.setOnClickListener(new OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (isEditGetFocus) {
+//                    //判断隐藏软键盘是否弹出
+//                    if (myContext!=null){
+//                        if (isSoftShowing()){
+//                            return;
+//                        }else {
+//                            mCount.setFocusable(false);
+//                            mCount.setEnabled(false);
+//                            mCount.setFocusableInTouchMode(false);
+//                            mCount.clearFocus();
+//                            mCount.postDelayed(runnable, 90);
+//                            LogUtils.loge("连续点击");
+//                        }
+//                    }
+//                }
+//            }
+//        });
     }
     private boolean isSoftShowing() {
         //获取当前屏幕内容的高度

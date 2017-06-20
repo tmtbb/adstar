@@ -115,7 +115,7 @@ public class LoginActivity extends BaseActivity {
                         ToastUtils.showShort("用户不存在,请先注册");
                         return;
                     } else if (loginReturnInfo.getResult() == -302) {
-                        ToastUtils.showShort("账号或密错误");
+                        ToastUtils.showShort("账号或密码错误");
                         return;
                     } else if (loginReturnInfo.getResult() == -303) {
                         ToastUtils.showShort("登录信息失效，请重新登录");

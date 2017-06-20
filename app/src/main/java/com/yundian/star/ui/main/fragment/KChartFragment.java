@@ -49,7 +49,6 @@ public class KChartFragment extends BaseFragment {
     TextView tv_preice ;
     @Bind(R.id.tv_change)
     TextView tv_change ;
-
     private int colorHomeBg;
     private int colorDivide;
     private int colorText;
@@ -112,7 +111,7 @@ public class KChartFragment extends BaseFragment {
             @Override
             public void onSuccess(TimeLineBeen timeLineBeen) {
                 //LogUtils.loge("分时图" + timeLineBeen.toString());
-                if (timeLineBeen.getPriceinfo()==null){
+                if (timeLineBeen.getPriceinfo()==null||timeLineBeen.getPriceinfo().size()==0){
                     return;
                 }
                 loadChartData(timeLineBeen.getPriceinfo());
@@ -127,7 +126,7 @@ public class KChartFragment extends BaseFragment {
         colorDivide = getActivity().getResources().getColor(R.color.color_fafafa);//分割线
         colorText = getActivity().getResources().getColor(R.color.color_7fcb4232);
         colorLine = getActivity().getResources().getColor(R.color.color_CB4232);//条目
-
+        mChart.setNoDataTextDescription("没有对应的分时数据");
         mChart.setDescription("");//描述信息
         mChart.setDrawGridBackground(false); //是否显示表格颜色
         mChart.setBackgroundColor(colorHomeBg);
@@ -161,6 +160,7 @@ public class KChartFragment extends BaseFragment {
         rightAxis.setGridColor(colorLine);
         rightAxis.setTextColor(colorText);
         rightAxis.setDrawGridLines(false);
+        //rightAxis.setAxisMinValue(0);此方法虽然可以设置最小值为0，但是起点都会从0开始
         rightAxis.setStartAtZero(false);
         rightAxis.setDrawGridLines(true);
         YAxis leftAxis = mChart.getAxisLeft();
@@ -201,6 +201,10 @@ public class KChartFragment extends BaseFragment {
         ArrayList<Entry> yVals = new ArrayList<Entry>();
         for (int index = 0; index < itemcount; index++) {
             float currentPrice = (float) currentTimeLineEntities.get(index).getCurrentPrice();
+            //当价格小于0的时候设置为0
+            if (currentPrice<0){
+                currentPrice = 0;
+            }
             yVals.add(new Entry((currentPrice), index));
         }
         LineDataSet lineDataSet = generateLineDataSet(yVals, colorLine, "");

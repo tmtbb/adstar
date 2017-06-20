@@ -124,7 +124,6 @@ public class IndentFragment extends BaseFragment {
         lRecyclerViewAdapter.notifyDataSetChanged();
         indentAdapter.addAll(list);
         LogUtils.loge("当前刷新list:" + list.toString());
-        lrv.refresh();
         lrv.refreshComplete(REQUEST_COUNT);
     }
 

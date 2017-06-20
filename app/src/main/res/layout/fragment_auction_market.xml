@@ -159,6 +159,8 @@
                 android:layout_height="26dp"
                 android:button="@null"
                 android:text="@string/buy"
+                android:checked="true"
+                android:clickable="true"
                 android:background="@drawable/selector_auction"
                 />
             <RadioButton
