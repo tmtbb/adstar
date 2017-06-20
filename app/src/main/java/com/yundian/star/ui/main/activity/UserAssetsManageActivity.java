@@ -18,6 +18,7 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.view.PayDialog;
 import com.yundian.star.utils.JudgeIdentityUtils;
+import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
@@ -109,14 +110,16 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.ll_recharge:
                 ToastUtils.showShort("充值");
-                if (JudgeIdentityUtils.isIdentityed(this)) {
+//                if (JudgeIdentityUtils.isIdentityed(this)) {
+//                    startActivity(RechargeActivity.class);
+//                }
+
+                if (JudgeIsSetPayPwd.isSetPwd(this)){  //检验是否设置交易密码
                     startActivity(RechargeActivity.class);
                 }
                 break;
             case R.id.ll_user_fudai:
                 LogUtils.loge("点击福袋；；");
-//                showErrorView(parentView,"sssss");
-//                payDialog.show();
                 break;
         }
     }
@@ -125,12 +128,10 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_money_detail:
-//                ToastUtils.showShort("钱包明细");
                 startActivity(MoneyBagDetailActivity.class);
                 popupWindow.dismiss();
                 break;
             case R.id.tv_bank_info:
-//                ToastUtils.showShort("银行卡");
                 popupWindow.dismiss();
                 break;
         }
