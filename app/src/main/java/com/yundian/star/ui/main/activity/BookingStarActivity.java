@@ -7,7 +7,6 @@ import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
-import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.BookingStarListBean;
@@ -136,6 +135,4 @@ public class BookingStarActivity extends BaseActivity {
             lrv.refreshComplete(loadList.size());
         }
     }
-
-
 }
