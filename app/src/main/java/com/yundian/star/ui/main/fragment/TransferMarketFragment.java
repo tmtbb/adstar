@@ -11,7 +11,6 @@ import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.AskToBuyReturnBeen;
-import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.HaveStarTimeBeen;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.SrealSendBeen;
@@ -24,8 +23,6 @@ import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NumberBoubleButton;
 import com.yundian.star.widget.NumberButton;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
@@ -362,7 +359,6 @@ public class TransferMarketFragment extends BaseFragment {
                     if (!TextUtils.isEmpty(loginReturnEntity.getToken())){
                         SharePrefUtil.getInstance().setToken(loginReturnEntity.getToken());
                     }
-                    EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
                 }
             });
         }

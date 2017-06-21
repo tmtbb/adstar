@@ -11,11 +11,11 @@ import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.AskToBuyReturnBeen;
-import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.HaveStarTimeBeen;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
+import com.yundian.star.been.StartShellTimeBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.utils.ImageLoaderUtils;
@@ -24,8 +24,6 @@ import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NumberBoubleButton;
 import com.yundian.star.widget.NumberButton;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
@@ -98,6 +96,7 @@ public class AskToBuyMarketFragment extends BaseFragment {
             tv_name_code.setText(String.format(getContext().getResources().getString(R.string.name_code), name, code));
         }
         getHaveCodeTime();
+        getStarTotalTime();
         getData();
         initListener();
         myHandler = new MyHandler(this);
@@ -117,6 +116,21 @@ public class AskToBuyMarketFragment extends BaseFragment {
                         tv_have_star_time.setText(String.valueOf(haveStarTimeBeen.getStar_time()));
                     }
                 });
+    }
+    private int starTotalTime = 0;
+    private void getStarTotalTime() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarShellTime(code, new OnAPIListener<StartShellTimeBeen>() {
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.loge("明星总时间"+ex.toString());
+            }
+
+            @Override
+            public void onSuccess(StartShellTimeBeen startShellTimeBeen) {
+                LogUtils.loge("明星总时间"+startShellTimeBeen.toString());
+                starTotalTime = startShellTimeBeen.getStar_time();
+            }
+        });
     }
 
     private void getData() {
@@ -233,6 +247,10 @@ public class AskToBuyMarketFragment extends BaseFragment {
 //                if (!JudgeIsSetPayPwd.isSetPwd(getActivity())) {
 //                    return;
 //                }
+                if (buy_num>starTotalTime){
+                    ToastUtils.showShort("超过明星发行总数量");
+                    return;
+                }
                 judgeIsLogin();
                 //showPutPasswordDialog();
                 //showAlertDialog();
@@ -362,7 +380,6 @@ public class AskToBuyMarketFragment extends BaseFragment {
                     if (!TextUtils.isEmpty(loginReturnEntity.getToken())) {
                         SharePrefUtil.getInstance().setToken(loginReturnEntity.getToken());
                     }
-                    EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
                 }
             });
         }
