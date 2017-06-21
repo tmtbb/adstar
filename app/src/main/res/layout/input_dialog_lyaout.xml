@@ -5,9 +5,10 @@
     android:background="@color/color_7b000000"
     >
     <RelativeLayout
+        android:id="@+id/rl_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
+        android:layout_gravity="center"
         >
         <RelativeLayout
             android:layout_width="match_parent"

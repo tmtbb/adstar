@@ -70,11 +70,11 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
                 }else if (bean.getHandle()==1){
                     viewHolder.tv_status.setText("已确认");
                 }else if (bean.getHandle()==0){
-                    viewHolder.tv_status.setText("匹配中");
+                    viewHolder.tv_status.setText("订单生成");
                 }else if (bean.getHandle()==-2){
-                    viewHolder.tv_status.setText("订单异常");
-                }else {
-                    viewHolder.tv_status.setText("取消");
+                    viewHolder.tv_status.setText("转让方时间不足");
+                }else if (bean.getHandle()==-3){
+                    viewHolder.tv_status.setText("求购金币不足");
                 }
             }else if (bean.getHandle()==-1){
                 viewHolder.tv_check.setVisibility(View.GONE);
@@ -105,11 +105,11 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
                 }else if (bean.getHandle()==1){
                     viewHolder.tv_status.setText("已确认");
                 }else if (bean.getHandle()==0){
-                    viewHolder.tv_status.setText("匹配中");
+                    viewHolder.tv_status.setText("订单生成");
                 }else if (bean.getHandle()==-2){
-                    viewHolder.tv_status.setText("订单异常");
-                }else {
-                    viewHolder.tv_status.setText("取消");
+                    viewHolder.tv_status.setText("转让方时间不足");
+                }else if (bean.getHandle()==-3){
+                    viewHolder.tv_status.setText("求购金币不足");
                 }
             }else if (bean.getHandle()==-1){
                 viewHolder.tv_check.setVisibility(View.GONE);
