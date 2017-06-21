@@ -177,7 +177,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
                     int firstItemPosition = linearManager.findFirstVisibleItemPosition();
                     LogUtils.loge(firstItemPosition + "....");
                     if (linearManager.findFirstVisibleItemPosition() >= 2) {
-                        full(true);
+//                        full(true);
                         rl_time.setVisibility(View.VISIBLE);
                         NewsInforModel.ListBean listBean = arrayList.get(firstItemPosition - 2);
                         long time = System.currentTimeMillis();
@@ -200,7 +200,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
                         tv_time.setText(stringByFormat);
                         tv_time_h.setText(hour + ":" + m);
                     } else {
-                        full(false);
+//                        full(false);
                         rl_time.setVisibility(View.GONE);
                     }
                 }
@@ -340,10 +340,10 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
     private void full(boolean enable) {
         if (enable) {
-            WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
-            lp.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
-            getActivity().getWindow().setAttributes(lp);
-            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+//            WindowManager.LayoutParams lp = getActivity().getWindow().getAttributes();
+//            lp.flags |= WindowManager.LayoutParams.FLAG_FULLSCREEN;
+//            getActivity().getWindow().setAttributes(lp);
+//            getActivity().getWindow().addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
         } else {
             WindowManager.LayoutParams attr = getActivity().getWindow().getAttributes();
             attr.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);

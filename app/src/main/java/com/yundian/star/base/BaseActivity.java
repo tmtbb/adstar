@@ -437,6 +437,10 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         mNotificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
         mBuilder = new NotificationCompat.Builder(this);
         Notification notification = mBuilder.build();
+        notification.defaults |= Notification.DEFAULT_SOUND;
+        notification.defaults |= Notification.DEFAULT_VIBRATE;
+        notification.defaults |= Notification.DEFAULT_LIGHTS;
+
         mBuilder.build().defaults = Notification.DEFAULT_ALL;
         mBuilder.setContentTitle("交易")//设置通知栏标题
                 .setContentText("测试内容")   // /<span style="font-family: Arial;">/设置通知栏显示内容</span>
