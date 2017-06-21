@@ -180,7 +180,7 @@ public class KChartFragment extends BaseFragment {
             tv_preice.setTextColor(getContext().getResources().getColor(R.color.color_18B03F));
         }
         DecimalFormat format = new DecimalFormat("0.00%");
-        String updown = format.format(currentTimeLineEntities.get(0).getPchg()/100);
+        String updown = format.format(currentTimeLineEntities.get(0).getPchg());
         tv_change.setText(String.format(getContext().getResources().getString(R.string.star_price_time_share_limit),
                 String.format("%.2f",currentTimeLineEntities.get(0).getChange()),updown));
         tv_preice.setText(String.format(getString(R.string.star_price_time_share),String.format("%.2f", currentTimeLineEntities.get(0).getCurrentPrice())));

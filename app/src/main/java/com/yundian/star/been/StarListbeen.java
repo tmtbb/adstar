@@ -22,6 +22,7 @@ public class StarListbeen {
     }
 
     public static class SymbolInfoBean implements Parcelable {
+
         /**
          * change : -0.125903
          * currentPrice : 47.8624
@@ -31,6 +32,7 @@ public class StarListbeen {
          * symbol : 1015
          * sysTime : 1496367122
          * wid : 1011730077315
+
          */
 
         private double change;
@@ -41,6 +43,7 @@ public class StarListbeen {
         private String symbol;
         private int sysTime;
         private String wid;
+        private float pchg;
 
         public double getChange() {
             return change;
@@ -106,6 +109,29 @@ public class StarListbeen {
             this.wid = wid;
         }
 
+        public float getPchg() {
+            return pchg;
+        }
+
+        public void setPchg(float pchg) {
+            this.pchg = pchg;
+        }
+
+        @Override
+        public String toString() {
+            return "SymbolInfoBean{" +
+                    "change=" + change +
+                    ", currentPrice=" + currentPrice +
+                    ", name='" + name + '\'' +
+                    ", pic='" + pic + '\'' +
+                    ", priceTime=" + priceTime +
+                    ", symbol='" + symbol + '\'' +
+                    ", sysTime=" + sysTime +
+                    ", wid='" + wid + '\'' +
+                    ", pchg=" + pchg +
+                    '}';
+        }
+
         @Override
         public int describeContents() {
             return 0;
@@ -121,6 +147,7 @@ public class StarListbeen {
             dest.writeString(this.symbol);
             dest.writeInt(this.sysTime);
             dest.writeString(this.wid);
+            dest.writeFloat(this.pchg);
         }
 
         public SymbolInfoBean() {
@@ -135,6 +162,7 @@ public class StarListbeen {
             this.symbol = in.readString();
             this.sysTime = in.readInt();
             this.wid = in.readString();
+            this.pchg = in.readFloat();
         }
 
         public static final Parcelable.Creator<SymbolInfoBean> CREATOR = new Parcelable.Creator<SymbolInfoBean>() {
@@ -148,19 +176,12 @@ public class StarListbeen {
                 return new SymbolInfoBean[size];
             }
         };
+    }
 
-        @Override
-        public String toString() {
-            return "SymbolInfoBean{" +
-                    "change=" + change +
-                    ", currentPrice=" + currentPrice +
-                    ", name='" + name + '\'' +
-                    ", pic='" + pic + '\'' +
-                    ", priceTime=" + priceTime +
-                    ", symbol='" + symbol + '\'' +
-                    ", sysTime=" + sysTime +
-                    ", wid='" + wid + '\'' +
-                    '}';
-        }
+    @Override
+    public String toString() {
+        return "StarListbeen{" +
+                "symbol_info=" + symbol_info +
+                '}';
     }
 }

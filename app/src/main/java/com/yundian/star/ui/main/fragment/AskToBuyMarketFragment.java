@@ -12,8 +12,10 @@ import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.AskToBuyReturnBeen;
 import com.yundian.star.been.HaveStarTimeBeen;
+import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
+import com.yundian.star.been.StartShellTimeBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.utils.ImageLoaderUtils;
@@ -94,10 +96,12 @@ public class AskToBuyMarketFragment extends BaseFragment {
             tv_name_code.setText(String.format(getContext().getResources().getString(R.string.name_code), name, code));
         }
         getHaveCodeTime();
+        getStarTotalTime();
         getData();
         initListener();
         myHandler = new MyHandler(this);
     }
+
     private void getHaveCodeTime() {
         NetworkAPIFactoryImpl.getInformationAPI().getHaveStarTime(SharePrefUtil.getInstance().getUserId(),
                 code, new OnAPIListener<HaveStarTimeBeen>() {
@@ -108,10 +112,25 @@ public class AskToBuyMarketFragment extends BaseFragment {
 
                     @Override
                     public void onSuccess(HaveStarTimeBeen haveStarTimeBeen) {
-                        LogUtils.loge("持有时间"+haveStarTimeBeen.toString());
+                        LogUtils.loge("持有时间" + haveStarTimeBeen.toString());
                         tv_have_star_time.setText(String.valueOf(haveStarTimeBeen.getStar_time()));
                     }
                 });
+    }
+    private int starTotalTime = 0;
+    private void getStarTotalTime() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarShellTime(code, new OnAPIListener<StartShellTimeBeen>() {
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.loge("明星总时间"+ex.toString());
+            }
+
+            @Override
+            public void onSuccess(StartShellTimeBeen startShellTimeBeen) {
+                LogUtils.loge("明星总时间"+startShellTimeBeen.toString());
+                starTotalTime = startShellTimeBeen.getStar_time();
+            }
+        });
     }
 
     private void getData() {
@@ -225,14 +244,19 @@ public class AskToBuyMarketFragment extends BaseFragment {
         tv_sure_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if (!JudgeIdentityUtils.isIdentityed(getActivity())) {
+//                if (!JudgeIsSetPayPwd.isSetPwd(getActivity())) {
 //                    return;
 //                }
+                if (buy_num>starTotalTime){
+                    ToastUtils.showShort("超过明星发行总数量");
+                    return;
+                }
+                judgeIsLogin();
                 //showPutPasswordDialog();
                 //showAlertDialog();
                 BigDecimal bg = new BigDecimal(buy_price);
                 double ask_buy_prices = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                LogUtils.loge("获取数值总价" + buy_price + "转换后的数据" + ask_buy_prices+"之前的"+"..."+buy_num);
+                LogUtils.loge("获取数值总价" + buy_price + "转换后的数据" + ask_buy_prices + "之前的" + "..." + buy_num);
                 NetworkAPIFactoryImpl.getInformationAPI().getAskToBuy(SharePrefUtil.getInstance().getUserId(),
                         SharePrefUtil.getInstance().getToken(), 1, code, 1, buy_num, ask_buy_prices,
                         new OnAPIListener<AskToBuyReturnBeen>() {
@@ -243,9 +267,9 @@ public class AskToBuyMarketFragment extends BaseFragment {
 
                             @Override
                             public void onSuccess(AskToBuyReturnBeen askToBuyReturnBeen) {
-                                if (!TextUtils.isEmpty(askToBuyReturnBeen.getSymbol())){
+                                if (!TextUtils.isEmpty(askToBuyReturnBeen.getSymbol())) {
                                     ToastUtils.showShort("挂单成功");
-                                    LogUtils.loge("求购成功"+askToBuyReturnBeen.toString());
+                                    LogUtils.loge("求购成功" + askToBuyReturnBeen.toString());
                                 }
                             }
                         });
@@ -337,7 +361,29 @@ public class AskToBuyMarketFragment extends BaseFragment {
         }
     }
 
+    private void judgeIsLogin() {
+        if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getToken())) {
+            LogUtils.loge("已经登录,开始校验token");
+            NetworkAPIFactoryImpl.getUserAPI().loginWithToken(new OnAPIListener<LoginReturnInfo>() {
+                @Override
+                public void onError(Throwable ex) {
+                    ex.printStackTrace();
+                    LogUtils.loge("-----------登录失败.token已经失效");
+                    //logout();
+                }
 
+                @Override
+                public void onSuccess(LoginReturnInfo loginReturnEntity) {
+                    LogUtils.loge("------------------登录成功，保存信息" + loginReturnEntity.toString());
+                    //服务器问题,先token登录不保存信息
+                    //SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
+                    if (!TextUtils.isEmpty(loginReturnEntity.getToken())) {
+                        SharePrefUtil.getInstance().setToken(loginReturnEntity.getToken());
+                    }
+                }
+            });
+        }
+    }
 
 
 }

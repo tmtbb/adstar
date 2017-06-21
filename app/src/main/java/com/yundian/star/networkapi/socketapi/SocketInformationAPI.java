@@ -14,6 +14,7 @@ import com.yundian.star.been.FansTopListBeen;
 import com.yundian.star.been.HaveStarTimeBeen;
 import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
+import com.yundian.star.been.OrderCancelReturnBeen;
 import com.yundian.star.been.OrderReturnBeen;
 import com.yundian.star.been.ResultBeen;
 import com.yundian.star.been.SrealSendBeen;
@@ -302,14 +303,14 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
-    public void cancelOrder(long id, String token, long orderId, OnAPIListener<Object> listener) {
+    public void cancelOrder(long id, String token, long orderId, OnAPIListener<OrderCancelReturnBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("id", id);
         map.put("token", token);
         map.put("orderId", orderId);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.CancelOrder,
                 SocketAPIConstant.ReqeutType.BuyOrSell, map);
-        requestJsonObject(socketDataPacket, listener);
+        requestEntity(socketDataPacket,OrderCancelReturnBeen.class, listener);
     }
 
     @Override

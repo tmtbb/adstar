@@ -11,6 +11,7 @@
         android:id="@+id/iv_star_head"
         android:layout_width="@dimen/dp_40"
         android:layout_height="@dimen/dp_40"
+        android:src="@drawable/star_default_icon"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="@dimen/dp_12" />
 
