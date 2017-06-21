@@ -55,7 +55,7 @@ public enum Host {
 //    }
 
     public static String getSocketServerIp() {
-          return "139.224.34.22";
+          return "dapi.star.smartdata-x.com";
 //        return "61.147.114.87";
 //        return "139.224.34.22";
 //        return "61.147.114.78";

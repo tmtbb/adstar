@@ -29,4 +29,12 @@ public class OrderSucReturnBeen {
     public void setResult(int result) {
         this.result = result;
     }
+
+    @Override
+    public String toString() {
+        return "OrderSucReturnBeen{" +
+                "orderId=" + orderId +
+                ", result=" + result +
+                '}';
+    }
 }

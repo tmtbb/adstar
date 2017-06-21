@@ -1,9 +1,6 @@
 package com.yundian.star.ui.im.activity;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
@@ -11,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,22 +18,19 @@ import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
-import com.yundian.star.app.Constant;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.AskToBuyReturnBeen;
 import com.yundian.star.been.MatchSucessReturnBeen;
 import com.yundian.star.been.OrderCancelReturnBeen;
 import com.yundian.star.been.OrderReturnBeen;
-import com.yundian.star.been.ResultBeen;
 import com.yundian.star.been.SureOrder;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
-import com.yundian.star.ui.main.activity.ResetPayPwdActivity;
 import com.yundian.star.ui.main.adapter.SystemMessageAdapter;
+import com.yundian.star.ui.view.PayDialog;
 import com.yundian.star.ui.view.PayPwdEditText;
 import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.utils.LogUtils;
-import com.yundian.star.utils.MD5Util;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.SoftKeyBoardListener;
 import com.yundian.star.utils.ToastUtils;
@@ -74,6 +67,7 @@ public class SystemMessagesActivity extends BaseActivity {
     private MatchSucessReturnBeen matchSucessReturnBeen;
     private AskToBuyReturnBeen toBuyReturnBeen;
     private long userId;
+    private PayDialog payDialog;
 
     @Override
     public int getLayoutId() {
@@ -98,7 +92,19 @@ public class SystemMessagesActivity extends BaseActivity {
 
     private void initListener() {
         contentView = LayoutInflater.from(this).inflate(R.layout.input_dialog_lyaout, null);
-        intPutPasswordDialog();
+        //intPutPasswordDialog();
+        payDialog = new PayDialog(this);
+        payDialog.setCheckPasCallBake(new PayDialog.checkPasCallBake() {
+            @Override
+            public void checkSuccess(OrderReturnBeen.OrdersListBean ordersListBean) {
+                sureOrder(ordersListBean);
+            }
+
+            @Override
+            public void checkError() {
+
+            }
+        });
         nt_title.setOnBackListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,23 +115,15 @@ public class SystemMessagesActivity extends BaseActivity {
         SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
             @Override
             public void keyBoardShow(int height) {
-                //showAlertDialog();
-                showPasDialog();
+                payDialog.setLayoutHigh(height);
             }
 
             @Override
             public void keyBoardHide(int height) {
-                mPopWindow.dismiss();
+                payDialog.dismiss();
             }
         });
 
-//        lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, int position) {
-//                //KeyBordUtil.showSoftKeyboard(payPwdEditText);
-//
-//            }
-//        });
         systemMessageAdapter.setOnImgClickLitener(new SystemMessageAdapter.OnImgClickLitener() {
             @Override
             public void onImgClick(View view, int position) {
@@ -138,15 +136,6 @@ public class SystemMessagesActivity extends BaseActivity {
         });
     }
 
-    private void showPasDialog() {
-        payPwdEditText.setFocusable(true);
-        payPwdEditText.requestFocus();
-        //payPwdEditText.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER);
-        payPwdEditText.clearText();
-        mPopWindow.showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
-        //KeyBordUtil.showSoftKeyboard(payPwdEditText);
-        //payPwdEditText.postDelayed(runnable,300);
-    }
 
     private void initAdapter() {
         systemMessageAdapter = new SystemMessageAdapter(this,list,SharePrefUtil.getInstance().getUserId());
@@ -231,93 +220,15 @@ public class SystemMessagesActivity extends BaseActivity {
             lrv.refreshComplete(REQUEST_COUNT);
         }
     }
-    private void intPutPasswordDialog() {
-        mPopWindow = new PutPasPopupWindow(this);
-        mPopWindow.setContentView(contentView);
-        payPwdEditText = (PayPwdEditText) contentView.findViewById(R.id.ppet);
-        TextView resetPwd = (TextView) contentView.findViewById(R.id.tv_reset_pwd);
-        ImageView img_view = (ImageView) contentView.findViewById(R.id.img_view);
-        payPwdEditText.initStyle(R.drawable.edit_num_bg_red, 6, 0.33f, R.color.colorAccent, R.color.colorAccent, 20);
-        payPwdEditText.setFocusable(true);
-        payPwdEditText.requestFocus();
-        //payPwdEditText.setInputType(InputType.TYPE_NUMBER_VARIATION_PASSWORD | InputType.TYPE_CLASS_NUMBER);
-        //payPwdEditText.setFocusableInTouchMode(true);
-        payPwdEditText.setOnTextFinishListener(new PayPwdEditText.OnTextFinishListener() {
-            @Override
-            public void onFinish(String str) {//密码输入完后的回调
-//                Toast.makeText(context, str, Toast.LENGTH_SHORT).show();
-                //校验支付密码
-                NetworkAPIFactoryImpl.getInformationAPI().checkPayPas(SharePrefUtil.getInstance().getUserId(),
-                        SharePrefUtil.getInstance().getToken(),MD5Util.MD5(str), new OnAPIListener<ResultBeen>() {
-                            @Override
-                            public void onError(Throwable ex) {
-                                ToastUtils.showShort("密码错误");
-                                LogUtils.loge("密码输入失败");
-                                //支付密码确定接口有待验证
-                                currentBean = null;
-                                mPopWindow.dismiss();
-                            }
 
-                            @Override
-                            public void onSuccess(ResultBeen resultBeen) {
-                                LogUtils.loge("密码输入正确");
-                                LogUtils.loge("密码输入正确"+resultBeen.toString());
-                                ToastUtils.showShort("支付完成");
-                                if (resultBeen!=null){
-                                    if (resultBeen.getResult()==1){
-                                        sureOrder();
-                                    }else if (resultBeen.getResult()==0){
-                                        ToastUtils.showShort("密码错误");
-                                        currentBean = null;
-                                    }
-                                    mPopWindow.dismiss();
-                                }
-                            }
-                        });
-            }
-
-            @Override
-            public void onChange(String str) {
-
-            }
-        });
-        resetPwd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LogUtils.loge("重新设置交易密码---------------------");
-                Bundle bundle4 = new Bundle();
-                bundle4.putString("resetPwd", Constant.PAY_PWD);
-                Intent intent = new Intent(SystemMessagesActivity.this, ResetPayPwdActivity.class);
-                intent.putExtras(bundle4);
-                startActivity(intent);
-                payPwdEditText.clearText();
-            }
-        });
-
-        img_view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //currentBean = null;
-                mPopWindow.dismiss();
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(payPwdEditText.getWindowToken(), 0);
-            }
-        });
-    }
-
-    private void sureOrder() {
-        if (currentBean==null){
-            ToastUtils.showShort("订单支付失败");
-            return;
-        }
+    private void sureOrder(OrderReturnBeen.OrdersListBean ordersListBean) {
         NetworkAPIFactoryImpl.getInformationAPI().sureOrder(SharePrefUtil.getInstance().getUserId(),
-                SharePrefUtil.getInstance().getToken(), currentBean.getOrderId(), currentBean.getPositionId(), new OnAPIListener<SureOrder>() {
+                SharePrefUtil.getInstance().getToken(), ordersListBean.getOrderId(), ordersListBean.getPositionId(), new OnAPIListener<SureOrder>() {
                     @Override
                     public void onError(Throwable ex) {
                         getData(false, 1, REQUEST_COUNT);
                         ToastUtils.showLong("订单确认失败");
                         LogUtils.loge("订单确认失败"+ex.toString());
-                        currentBean=null ;
                     }
 
                     @Override
@@ -330,7 +241,6 @@ public class SystemMessagesActivity extends BaseActivity {
                             ToastUtils.showLong("交易完成");
                         }
                         LogUtils.loge("订单确认成功"+sureOrder.toString());
-                        currentBean=null ;
                         new Handler().postDelayed(runnable2,300);
 
                     }
@@ -342,6 +252,7 @@ public class SystemMessagesActivity extends BaseActivity {
         super.onDestroy();
     }
 
+    //订单确认取消弹窗
     private void showDialogs(final int position) {
         final Dialog mPopWindowHistory = new Dialog(this, R.style.myDialog);
         mPopWindowHistory.setContentView(R.layout.dialog_sure_order);
@@ -366,7 +277,6 @@ public class SystemMessagesActivity extends BaseActivity {
                                 getData(false, 1, REQUEST_COUNT);
                                 LogUtils.loge("取消订单失败");
                                 ToastUtils.showLong("取消订单失败");
-                                currentBean=null ;
                             }
 
                             @Override
@@ -378,7 +288,6 @@ public class SystemMessagesActivity extends BaseActivity {
                                     LogUtils.loge("取消订单成功");
                                     ToastUtils.showLong("取消订单成功");
                                 }
-                                currentBean=null ;
                             }
                         });
             }
@@ -426,7 +335,8 @@ public class SystemMessagesActivity extends BaseActivity {
             public void onClick(View v) {
                 //KeyBordUtil.showSoftKeyboard(payPwdEditText);
                 mDetailDialog.dismiss();
-                showPass(ordersListBean);
+                payDialog.setOrdersListBean(ordersListBean);
+                payDialog.show();
             }
         });
         img_close.setOnClickListener(new View.OnClickListener() {
@@ -440,21 +350,6 @@ public class SystemMessagesActivity extends BaseActivity {
         mDetailDialog.show();
     }
 
-    private OrderReturnBeen.OrdersListBean currentBean = null ;
-    private void showPass(OrderReturnBeen.OrdersListBean bean) {
-        currentBean = bean;
-        new Handler().postDelayed(runnable,100);
-        //v.postDelayed(runnable,200);
-    }
-
-    private Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            LogUtils.loge("吊起键盘");
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-        }
-    };
     private Runnable runnable2 = new Runnable() {
         @Override
         public void run() {

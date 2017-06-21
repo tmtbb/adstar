@@ -161,13 +161,16 @@ public class AskToBuyMarketFragment extends BaseFragment {
     private void refresh(SrealSendReturnBeen been) {
         SrealSendReturnBeen.PriceinfoBean priceinfoBean = been.getPriceinfo().get(0);
         tv_current_price.setText(String.format("%.2f", priceinfoBean.getCurrentPrice()));
-        if (priceinfoBean.getChange() >= 0) {
+        if (priceinfoBean.getPchg()> 0) {
             tv_up_down_money.setTextColor(getContext().getResources().getColor(R.color.color_CB4232));
             tv_up_down_range.setTextColor(getContext().getResources().getColor(R.color.color_CB4232));
 
-        } else {
+        } else if (priceinfoBean.getPchg()<0){
             tv_up_down_money.setTextColor(getContext().getResources().getColor(R.color.color_18B03F));
             tv_up_down_range.setTextColor(getContext().getResources().getColor(R.color.color_18B03F));
+        }else if (priceinfoBean.getPchg()==0){
+            tv_up_down_money.setTextColor(getContext().getResources().getColor(R.color.color_black_333333));
+            tv_up_down_range.setTextColor(getContext().getResources().getColor(R.color.color_black_333333));
         }
         DecimalFormat format = new DecimalFormat("0.00%");
         String updown = format.format(priceinfoBean.getPchg() / 100);
