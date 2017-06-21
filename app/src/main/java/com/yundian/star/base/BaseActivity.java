@@ -412,30 +412,16 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                     if (orderSucReturnBeen.getResult()==-1){
                         s = "交易取消";
                     }else if (orderSucReturnBeen.getResult()==1){
-                        s = "交易成功，请在系统消息内查看";
+                        s = "转让方持有时间不足";
+                    }else if (orderSucReturnBeen.getResult()==2){
+                        s = "求购方金币不足";
+                    }else if (orderSucReturnBeen.getResult()==0){
+                        s = "扣费成功";
                     }
+                    LogUtils.loge("交易成功，失败返回"+s+"...."+orderSucReturnBeen.toString());
                     mBuilder.setContentText(s);
                     //                        showAlertDialog();
                     mNotificationManager.notify(100, mBuilder.build());
-                    /*runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            String s1 = null;
-                            TextView textView = new TextView(mContext);
-                            textView.setText("点击查看");
-                            textView.setTextColor(getResources().getColor(R.color.color_8D0809));
-                            if (matchSucessReturnBeen.getBuyUid()== SharePrefUtil.getInstance().getUserId()){
-                                s1 = "求购成功";
-
-                            }else {
-                                s1 = "转让成功";
-                            }
-                            //showAlertDialog(matchSucessReturnBeen);
-                            String s = "撮合成功提醒:"+"("+matchSucessReturnBeen.getSymbol()+")"+
-                                    s1+",请到系统消息中查看,"+textView+"。";
-                            mBuilder.setContentText(s);
-                        }
-                    });*/
 
                 }
 

@@ -30,11 +30,13 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.GridViewPageAdapter;
 import com.yundian.star.ui.main.adapter.MeetTypeAdapter;
+import com.yundian.star.ui.view.PayDialog;
 import com.yundian.star.ui.view.ShareControlerView;
 import com.yundian.star.utils.DisplayUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SoftKeyBoardListener;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.utils.timeselectutils.AddressPickTask;
 import com.yundian.star.utils.timeselectutils.City;
@@ -52,6 +54,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 import static android.R.id.list;
+import static com.igexin.push.core.g.P;
 import static com.yundian.star.R.id.tv_content;
 import static com.yundian.star.R.id.tv_star_name;
 import static com.yundian.star.R.string.buy_price;
@@ -104,6 +107,7 @@ public class MeetStarActivity extends BaseActivity {
     private TextView order_info;
     private String price = "";
     private TextView order_total;
+    private PayDialog payDialog;
 
     @Override
     public int getLayoutId() {
@@ -160,9 +164,9 @@ public class MeetStarActivity extends BaseActivity {
         name = intent.getStringExtra(AppConstant.STAR_NAME);
 
         List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(code);
-        if (starInfos!=null&&starInfos.size()!=0){
+        if (starInfos != null && starInfos.size() != 0) {
             StarInfo starInfo = starInfos.get(0);
-            ImageLoaderUtils.displaySmallPhoto(mContext,starBg,starInfo.getPic1());
+            ImageLoaderUtils.displaySmallPhoto(mContext, starBg, starInfo.getPic1());
         }
     }
 
@@ -310,7 +314,7 @@ public class MeetStarActivity extends BaseActivity {
             TextView textView = (TextView) view.findViewById(tv_content);
             textView.setTextColor(mContext.getResources().getColor(R.color.color_CB4232));
             price = lists.get(selectPager).get(selectPosition).getPrice();
-            orderPrice.setText(String.format( getString(R.string.num_time_text),price));
+            orderPrice.setText(String.format(getString(R.string.num_time_text), price));
         }
     };
 
@@ -342,6 +346,35 @@ public class MeetStarActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 share();
+            }
+        });
+        payDialog = new PayDialog(this);
+        payDialog.setCheckPasCallBake(new PayDialog.checkPasCallBake() {
+            @Override
+            public void checkSuccess(OrderReturnBeen.OrdersListBean ordersListBean) {
+
+            }
+
+            @Override
+            public void checkError() {
+
+            }
+
+            @Override
+            public void checkSuccessPwd() {
+                //密码正确
+                makeSureToMeet();
+            }
+        });
+        SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
+            @Override
+            public void keyBoardShow(int height) {
+                payDialog.setLayoutHigh(height);
+            }
+
+            @Override
+            public void keyBoardHide(int height) {
+                payDialog.dismiss();
             }
         });
     }
@@ -388,7 +421,7 @@ public class MeetStarActivity extends BaseActivity {
 
         tv_state.setText("约见");
         order_info.setText(lists.get(selectPager).get(selectPosition).getName());
-        order_total.setText(String.format(getString(R.string.num_time_text),price));
+        order_total.setText(String.format(getString(R.string.num_time_text), price));
         mDetailDialog.show();
     }
 
@@ -418,9 +451,8 @@ public class MeetStarActivity extends BaseActivity {
             public void onClick(View v) {
                 //KeyBordUtil.showSoftKeyboard(payPwdEditText);
                 mDetailDialog.dismiss();
-                if (JudgeIsSetPayPwd.isSetPwd(MeetStarActivity.this)){
-                   inputDealPwd();
-                    makeSureToMeet();
+                if (JudgeIsSetPayPwd.isSetPwd(MeetStarActivity.this)) {
+                    inputDealPwd();
                 }
 
             }
@@ -436,6 +468,6 @@ public class MeetStarActivity extends BaseActivity {
     }
 
     private void inputDealPwd() {
-
+        payDialog.show();
     }
 }

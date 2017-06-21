@@ -39,12 +39,15 @@ public class MarketDetailAdapter extends ListBaseAdapter<StarListbeen.SymbolInfo
         tv_name.setText(item.getName());
         tv_code.setText(item.getSymbol());
         tv_price.setText(String.format("%.2f",item.getCurrentPrice()));
-        if (item.getChange()>=0){
+        if (item.getPchg()>0){
             tv_updown.setBackgroundResource(R.drawable.bg_red_radius);
             tv_price.setTextColor(mContext.getResources().getColor(R.color.color_CB4232));
-        }else {
+        }else if(item.getPchg()<0) {
             tv_updown.setBackgroundResource(R.drawable.bg_green_radius);
             tv_price.setTextColor(mContext.getResources().getColor(R.color.color_18B03F));
+        }else if (item.getPchg()==0){
+            tv_updown.setBackgroundResource(R.drawable.bg_green_black);
+            tv_price.setTextColor(mContext.getResources().getColor(R.color.color_black_333333));
         }
         DecimalFormat format = new DecimalFormat("0.00%");
         String updown = format.format(item.getPchg());
