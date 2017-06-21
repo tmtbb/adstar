@@ -20,11 +20,19 @@
             android:layout_width="match_parent"
             android:layout_height="180dp">
 
+            <ImageView
+                android:id="@+id/iv_star_bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/user_bg_icon" />
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="70dp"
                 android:layout_gravity="bottom|left"
                 android:layout_marginBottom="20dp"
+                android:background="@color/white_alpha_half"
                 android:gravity="center_vertical">
 
                 <ImageView
@@ -55,7 +63,6 @@
                     android:layout_below="@id/textView6"
                     android:layout_marginTop="9dp"
                     android:text="@string/ming_xing"
-                    android:textColor="@color/color_f4f4f4"
                     android:textSize="@dimen/fontSize_12sp" />
             </RelativeLayout>
         </FrameLayout>
@@ -229,10 +236,10 @@
                     android:textSize="@dimen/fontSize_18sp" />
 
                 <TextView
+                    android:id="@+id/order_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="6dp"
-                    android:text="10000秒"
                     android:textColor="@color/color_FB9938"
                     android:textSize="@dimen/fontSize_18sp" />
             </LinearLayout>

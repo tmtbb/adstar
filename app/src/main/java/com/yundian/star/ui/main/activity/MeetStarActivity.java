@@ -1,9 +1,13 @@
 package com.yundian.star.ui.main.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -17,8 +21,11 @@ import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.MeetTypeBeen;
+import com.yundian.star.been.OrderReturnBeen;
 import com.yundian.star.been.RequestResultBean;
 import com.yundian.star.been.StatServiceListBean;
+import com.yundian.star.greendao.GreenDaoManager;
+import com.yundian.star.greendao.StarInfo;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.GridViewPageAdapter;
@@ -26,6 +33,7 @@ import com.yundian.star.ui.main.adapter.MeetTypeAdapter;
 import com.yundian.star.ui.view.ShareControlerView;
 import com.yundian.star.utils.DisplayUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
+import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.utils.timeselectutils.AddressPickTask;
@@ -45,6 +53,8 @@ import butterknife.OnClick;
 
 import static android.R.id.list;
 import static com.yundian.star.R.id.tv_content;
+import static com.yundian.star.R.id.tv_star_name;
+import static com.yundian.star.R.string.buy_price;
 import static io.netty.util.concurrent.FastThreadLocal.size;
 
 /**
@@ -71,6 +81,10 @@ public class MeetStarActivity extends BaseActivity {
     TextView sureToMeet;
     @Bind(R.id.comment)
     EditText comment;
+    @Bind(R.id.order_price)
+    TextView orderPrice;
+    @Bind(R.id.iv_star_bg)
+    ImageView starBg;
     private int current_end_year;
     private int current_end_month;
     private int current_end_day;
@@ -85,6 +99,11 @@ public class MeetStarActivity extends BaseActivity {
     private String name;
     private List<StatServiceListBean.ListBean> typeList;
     private List<List<StatServiceListBean.ListBean>> lists;
+    private Dialog mDetailDialog;
+    private TextView tv_state;
+    private TextView order_info;
+    private String price = "";
+    private TextView order_total;
 
     @Override
     public int getLayoutId() {
@@ -107,6 +126,7 @@ public class MeetStarActivity extends BaseActivity {
 //        getMeetType();
         getMeetInfo();
         initListener();
+        initPopWindow();
     }
 
     private void getMeetInfo() {
@@ -138,6 +158,12 @@ public class MeetStarActivity extends BaseActivity {
         code = intent.getStringExtra(AppConstant.STAR_CODE);
         head_url = intent.getStringExtra(AppConstant.STAR_HEAD_URL);
         name = intent.getStringExtra(AppConstant.STAR_NAME);
+
+        List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(code);
+        if (starInfos!=null&&starInfos.size()!=0){
+            StarInfo starInfo = starInfos.get(0);
+            ImageLoaderUtils.displaySmallPhoto(mContext,starBg,starInfo.getPic1());
+        }
     }
 
     private void getDateTime() {
@@ -198,7 +224,12 @@ public class MeetStarActivity extends BaseActivity {
 
     @OnClick({R.id.tv_to_buy})
     public void setSureToMeet(View v) {
-        makeSureToMeet();
+        if (selectPosition < 0) {
+            ToastUtils.showShort("请选择一个约见类型");
+            return;
+        }
+        showOrderInfoDialog();
+//        makeSureToMeet();
     }
 
     //地理位置选择器
@@ -278,15 +309,12 @@ public class MeetStarActivity extends BaseActivity {
             LogUtils.loge("当前的position:" + selectPosition);
             TextView textView = (TextView) view.findViewById(tv_content);
             textView.setTextColor(mContext.getResources().getColor(R.color.color_CB4232));
+            price = lists.get(selectPager).get(selectPosition).getPrice();
+            orderPrice.setText(String.format( getString(R.string.num_time_text),price));
         }
     };
 
     private void makeSureToMeet() {
-
-        if (selectPosition < 0) {
-            ToastUtils.showShort("请选择一个约见类型");
-            return;
-        }
         long mid = Long.parseLong(lists.get(selectPager).get(selectPosition).getMid());
         String city = textView4.getText().toString();
         String time = textView9.getText().toString();
@@ -354,4 +382,60 @@ public class MeetStarActivity extends BaseActivity {
             ToastUtils.showShort("分享取消了");
         }
     };
+
+    //订单详情接口
+    private void showOrderInfoDialog() {
+
+        tv_state.setText("约见");
+        order_info.setText(lists.get(selectPager).get(selectPosition).getName());
+        order_total.setText(String.format(getString(R.string.num_time_text),price));
+        mDetailDialog.show();
+    }
+
+    private void initPopWindow() {
+        mDetailDialog = new Dialog(this, R.style.custom_dialog);
+        Window window = mDetailDialog.getWindow();
+        window.setGravity(Gravity.BOTTOM);
+        window.setWindowAnimations(R.style.dialogStyle);
+        window.getDecorView().setPadding(0, 0, 0, 0);
+        android.view.WindowManager.LayoutParams lp = window.getAttributes();
+        //设置窗口宽度为充满全屏
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        //设置窗口高度为包裹内容
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+        //将设置好的属性set回去
+        window.setAttributes(lp);
+        mDetailDialog.setContentView((R.layout.dialog_order_info));
+        tv_state = (TextView) mDetailDialog.findViewById(R.id.tv_state);
+        TextView tv_sure = (TextView) mDetailDialog.findViewById(R.id.tv_sure);
+        order_info = (TextView) mDetailDialog.findViewById(R.id.order_info);
+
+        order_total = (TextView) mDetailDialog.findViewById(R.id.order_total);
+        ImageView img_close = (ImageView) mDetailDialog.findViewById(R.id.img_close);
+
+        tv_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //KeyBordUtil.showSoftKeyboard(payPwdEditText);
+                mDetailDialog.dismiss();
+                if (JudgeIsSetPayPwd.isSetPwd(MeetStarActivity.this)){
+                   inputDealPwd();
+                    makeSureToMeet();
+                }
+
+            }
+        });
+        img_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDetailDialog.dismiss();
+
+            }
+        });
+
+    }
+
+    private void inputDealPwd() {
+
+    }
 }
