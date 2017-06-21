@@ -16,7 +16,7 @@ android {
         applicationId "com.yundian.star"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 1
+        versionCode 20170619
         versionName "0.01"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "GIT_REVISION", "\"${getGitVersion()}\""

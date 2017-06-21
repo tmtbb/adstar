@@ -91,6 +91,7 @@ public class AppApplication extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
+        LogUtils.loge("-----------------------------------------------AppApplication.onCreate");
         Fabric.with(this, new Crashlytics());
         //初始化logger
         LogUtils.logInit(BuildConfig.LOG_DEBUG);
@@ -397,26 +398,29 @@ public class AppApplication extends BaseApplication {
 
     private void judgeIsLogin() {
         if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getToken())) {
-            LogUtils.loge("已经登录,开始校验token");
+            LogUtils.loge("已经登录,开始校验token---------------------------------");
             NetworkAPIFactoryImpl.getUserAPI().loginWithToken(new OnAPIListener<LoginReturnInfo>() {
                 @Override
                 public void onError(Throwable ex) {
                     ex.printStackTrace();
-                    LogUtils.loge("-----------登录失败.token已经失效");
+                    LogUtils.loge("----------------------登录失败.token已经失效");
                     logout();
                 }
 
                 @Override
                 public void onSuccess(LoginReturnInfo loginReturnEntity) {
-                    LogUtils.loge("------------------登录成功，保存信息"+loginReturnEntity.toString());
+                    LogUtils.loge("------------------======token登录成功，保存信息"+loginReturnEntity.toString());
                     //服务器问题,先token登录不保存信息
                     //SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
                     if (!TextUtils.isEmpty(loginReturnEntity.getToken())){
-                        SharePrefUtil.getInstance().setToken(loginReturnEntity.getToken());
+//                        SharePrefUtil.getInstance().setToken(loginReturnEntity.getToken());
+                        SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
                     }
                     EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
                 }
             });
+        }else{
+            LogUtils.logd("token为空-------------------");
         }
     }
 

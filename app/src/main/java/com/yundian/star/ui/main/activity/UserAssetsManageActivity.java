@@ -1,9 +1,14 @@
 package com.yundian.star.ui.main.activity;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
+import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,8 +21,8 @@ import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.AssetDetailsBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
+import com.yundian.star.ui.im.activity.SystemMessagesActivity;
 import com.yundian.star.ui.view.PayDialog;
-import com.yundian.star.utils.JudgeIdentityUtils;
 import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
@@ -25,7 +30,6 @@ import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -120,6 +124,7 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
                 break;
             case R.id.ll_user_fudai:
                 LogUtils.loge("点击福袋；；");
+              //  testNotify();
                 break;
         }
     }
@@ -160,4 +165,37 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
         });
     }
 
+    private NotificationManager mNotificationManager;
+    private NotificationCompat.Builder builder;
+    private void testNotify(){
+
+
+        mNotificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
+        builder = new NotificationCompat.Builder(this);
+//        Notification notification = builder.build();
+        builder.build().defaults = Notification.DEFAULT_ALL;
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+           ToastUtils.showShort("此类通知在Android 5.0以上版本才会有横幅有效！");
+        }
+        //为了版本兼容  选择V7包下的NotificationCompat进行构造
+        builder.setContentTitle("横幅通知");
+        builder.setContentText("请在设置通知管理中开启消息横幅提醒权限");
+        builder.setDefaults(NotificationCompat.DEFAULT_ALL);
+        builder.setSmallIcon(R.drawable.head_icon_1);
+        builder.setPriority(Notification.PRIORITY_MAX); //设置该通知优先级
+//        builder.setLargeIcon(R.drawable.fans_top_icon);
+        Intent intent = new Intent(this, SystemMessagesActivity.class);
+        PendingIntent pIntent = PendingIntent.getActivity(this, 1, intent, 0);
+        builder.setContentIntent(pIntent);
+        builder.setFullScreenIntent(pIntent, true);
+        builder.setAutoCancel(true);
+        Notification notification = builder.build();
+
+        notification.defaults |= Notification.DEFAULT_SOUND;
+        notification.defaults |= Notification.DEFAULT_VIBRATE;
+        notification.defaults |= Notification.DEFAULT_LIGHTS;
+
+        mNotificationManager.notify(100, notification);
+    }
 }

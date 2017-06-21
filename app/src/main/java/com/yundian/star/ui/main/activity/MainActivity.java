@@ -286,7 +286,8 @@ public class MainActivity extends BaseActivity {
             Manifest.permission.RECORD_AUDIO,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.CHANGE_NETWORK_STATE
+            Manifest.permission.CHANGE_NETWORK_STATE,
+            Manifest.permission.SYSTEM_ALERT_WINDOW
     };
 
     private void requestBasicPermission() {

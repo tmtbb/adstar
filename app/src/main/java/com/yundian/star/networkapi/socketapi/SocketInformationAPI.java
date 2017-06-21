@@ -108,8 +108,8 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     @Override
     public void getStarList(long id, String token, int sort, int aType, int start, int count, OnAPIListener<StarListbeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("id", id);
-        map.put("token", token);
+        map.put("id", 146);
+        map.put("token", "93c64c3206f4c478bc9ad1faad85f0d7");
         map.put("sort", sort);
         map.put("aType", aType);
         map.put("start", start);
