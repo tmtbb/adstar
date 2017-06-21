@@ -35,6 +35,7 @@ import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.ResetPayPwdActivity;
 import com.yundian.star.ui.main.adapter.SystemMessageAdapter;
 import com.yundian.star.ui.view.PayPwdEditText;
+import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.MD5Util;
 import com.yundian.star.utils.SharePrefUtil;
@@ -129,6 +130,9 @@ public class SystemMessagesActivity extends BaseActivity {
             @Override
             public void onImgClick(View view, int position) {
                 //ToastUtils.showShort("position"+position);
+                if (!JudgeIsSetPayPwd.isSetPwd(SystemMessagesActivity.this)) {
+                    return;
+                }
                     showDialogs(position);
             }
         });
@@ -367,7 +371,8 @@ public class SystemMessagesActivity extends BaseActivity {
 
                             @Override
                             public void onSuccess(OrderCancelReturnBeen returnBeen) {
-                                if (returnBeen!=null){
+                                LogUtils.loge("取消订单"+returnBeen.toString());
+                                if (returnBeen!=null&&returnBeen.getOrderId()!=0){
                                     LogUtils.loge("取消订单"+returnBeen.toString());
                                     getData(false, 1, REQUEST_COUNT);
                                     LogUtils.loge("取消订单成功");

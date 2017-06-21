@@ -11,18 +11,21 @@ import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.AskToBuyReturnBeen;
+import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.HaveStarTimeBeen;
+import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.utils.ImageLoaderUtils;
-import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NumberBoubleButton;
 import com.yundian.star.widget.NumberButton;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
@@ -99,6 +102,7 @@ public class AskToBuyMarketFragment extends BaseFragment {
         initListener();
         myHandler = new MyHandler(this);
     }
+
     private void getHaveCodeTime() {
         NetworkAPIFactoryImpl.getInformationAPI().getHaveStarTime(SharePrefUtil.getInstance().getUserId(),
                 code, new OnAPIListener<HaveStarTimeBeen>() {
@@ -109,7 +113,7 @@ public class AskToBuyMarketFragment extends BaseFragment {
 
                     @Override
                     public void onSuccess(HaveStarTimeBeen haveStarTimeBeen) {
-                        LogUtils.loge("持有时间"+haveStarTimeBeen.toString());
+                        LogUtils.loge("持有时间" + haveStarTimeBeen.toString());
                         tv_have_star_time.setText(String.valueOf(haveStarTimeBeen.getStar_time()));
                     }
                 });
@@ -226,14 +230,15 @@ public class AskToBuyMarketFragment extends BaseFragment {
         tv_sure_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!JudgeIsSetPayPwd.isSetPwd(getActivity())) {
-                    return;
-                }
+//                if (!JudgeIsSetPayPwd.isSetPwd(getActivity())) {
+//                    return;
+//                }
+                judgeIsLogin();
                 //showPutPasswordDialog();
                 //showAlertDialog();
                 BigDecimal bg = new BigDecimal(buy_price);
                 double ask_buy_prices = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-                LogUtils.loge("获取数值总价" + buy_price + "转换后的数据" + ask_buy_prices+"之前的"+"..."+buy_num);
+                LogUtils.loge("获取数值总价" + buy_price + "转换后的数据" + ask_buy_prices + "之前的" + "..." + buy_num);
                 NetworkAPIFactoryImpl.getInformationAPI().getAskToBuy(SharePrefUtil.getInstance().getUserId(),
                         SharePrefUtil.getInstance().getToken(), 1, code, 1, buy_num, ask_buy_prices,
                         new OnAPIListener<AskToBuyReturnBeen>() {
@@ -244,9 +249,9 @@ public class AskToBuyMarketFragment extends BaseFragment {
 
                             @Override
                             public void onSuccess(AskToBuyReturnBeen askToBuyReturnBeen) {
-                                if (!TextUtils.isEmpty(askToBuyReturnBeen.getSymbol())){
+                                if (!TextUtils.isEmpty(askToBuyReturnBeen.getSymbol())) {
                                     ToastUtils.showShort("挂单成功");
-                                    LogUtils.loge("求购成功"+askToBuyReturnBeen.toString());
+                                    LogUtils.loge("求购成功" + askToBuyReturnBeen.toString());
                                 }
                             }
                         });
@@ -338,7 +343,30 @@ public class AskToBuyMarketFragment extends BaseFragment {
         }
     }
 
+    private void judgeIsLogin() {
+        if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getToken())) {
+            LogUtils.loge("已经登录,开始校验token");
+            NetworkAPIFactoryImpl.getUserAPI().loginWithToken(new OnAPIListener<LoginReturnInfo>() {
+                @Override
+                public void onError(Throwable ex) {
+                    ex.printStackTrace();
+                    LogUtils.loge("-----------登录失败.token已经失效");
+                    //logout();
+                }
 
+                @Override
+                public void onSuccess(LoginReturnInfo loginReturnEntity) {
+                    LogUtils.loge("------------------登录成功，保存信息" + loginReturnEntity.toString());
+                    //服务器问题,先token登录不保存信息
+                    //SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
+                    if (!TextUtils.isEmpty(loginReturnEntity.getToken())) {
+                        SharePrefUtil.getInstance().setToken(loginReturnEntity.getToken());
+                    }
+                    EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
+                }
+            });
+        }
+    }
 
 
 }

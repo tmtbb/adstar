@@ -11,18 +11,21 @@ import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.AskToBuyReturnBeen;
+import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.HaveStarTimeBeen;
+import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.utils.ImageLoaderUtils;
-import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NumberBoubleButton;
 import com.yundian.star.widget.NumberButton;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
@@ -229,9 +232,10 @@ public class TransferMarketFragment extends BaseFragment {
         tv_sure_trans.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!JudgeIsSetPayPwd.isSetPwd(getActivity())) {
-                    return;
-                }
+//                if (!JudgeIsSetPayPwd.isSetPwd(getActivity())) {
+//                    return;
+//                }
+                judgeIsLogin();
                 LogUtils.loge("获取数值" + total_prices);
                 BigDecimal bg = new BigDecimal(buy_price);
                 double ask_buy_prices = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
@@ -336,6 +340,31 @@ public class TransferMarketFragment extends BaseFragment {
             LogUtils.loge("刷新实时报价2startRefresh");
             myHandler.removeMessages(myHandler.GRT_DATA_2);
             myHandler.sendEmptyMessage(myHandler.GRT_DATA_2);
+        }
+    }
+
+    private void judgeIsLogin() {
+        if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getToken())) {
+            LogUtils.loge("已经登录,开始校验token");
+            NetworkAPIFactoryImpl.getUserAPI().loginWithToken(new OnAPIListener<LoginReturnInfo>() {
+                @Override
+                public void onError(Throwable ex) {
+                    ex.printStackTrace();
+                    LogUtils.loge("-----------登录失败.token已经失效");
+                    //logout();
+                }
+
+                @Override
+                public void onSuccess(LoginReturnInfo loginReturnEntity) {
+                    LogUtils.loge("------------------登录成功，保存信息"+loginReturnEntity.toString());
+                    //服务器问题,先token登录不保存信息
+                    //SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
+                    if (!TextUtils.isEmpty(loginReturnEntity.getToken())){
+                        SharePrefUtil.getInstance().setToken(loginReturnEntity.getToken());
+                    }
+                    EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
+                }
+            });
         }
     }
 }

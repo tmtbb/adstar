@@ -34,9 +34,7 @@ import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIRequestManag
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIResponse;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.ui.im.activity.SystemMessagesActivity;
-import com.yundian.star.utils.ErrorCodeUtil;
 import com.yundian.star.utils.LogUtils;
-import com.yundian.star.utils.ResultCodeUtil;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.TUtil;
 import com.yundian.star.utils.ToastUtils;
@@ -106,7 +104,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         this.initView();
         notificationTest();
         matchSucessListener();
-        initRetultInfo();
     }
 
 
@@ -410,7 +407,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                         }
                     });
                 }else {
-                    LogUtils.loge("交易回调"+socketAPIResponse.jsonObject().toString());
                     String s = null;
                     final OrderSucReturnBeen orderSucReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), OrderSucReturnBeen.class);
                     if (orderSucReturnBeen.getResult()==-1){
@@ -480,29 +476,4 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         return pendingIntent;
     }
 
-    private void initRetultInfo() {
-        SocketAPIRequestManage.getInstance().setOnCallBackListener(new SocketAPIRequestManage.OnCallBack() {
-            @Override
-            public void onSucessListener(final SocketAPIResponse socketAPIResponse) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ResultCodeUtil.showEeorMsg(socketAPIResponse);
-                    }
-                });
-
-            }
-
-            @Override
-            public void onErrorListener(final int statusCode) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ErrorCodeUtil.showEeorMsg(statusCode);
-                    }
-                });
-
-            }
-        });
-    }
 }

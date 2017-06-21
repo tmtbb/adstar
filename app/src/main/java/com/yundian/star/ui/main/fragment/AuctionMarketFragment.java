@@ -287,7 +287,7 @@ public class AuctionMarketFragment extends BaseFragment {
     private int cycleTime = 0 ;
     private void refreshTime() {
         if (tv_residue_time != null && secondTime >= 0 && myHandler != null && startSunTime) {
-            tv_residue_time.setText(TimeUtil.getHourMinuteSecond(secondTime * 1000));
+            tv_residue_time.setText(TimeUtil.getHMS(secondTime*1000));
             secondTime--;
             if (cycleTime==3){
                 cycleTime=0;

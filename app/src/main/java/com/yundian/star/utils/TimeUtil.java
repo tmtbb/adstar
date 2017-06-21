@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+import java.util.TimeZone;
 
 /**
  * 描述：日期处理类.
@@ -1128,5 +1129,14 @@ public class TimeUtil {
     public static String getDate(long time) {
         SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd");
         return format.format(new Date(time));
+    }
+
+    //定义默认时区为0的，将毫秒转为HH:mm:ss
+    public static String getHMS(long time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss" , Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getTimeZone("GMT+0"));
+        Date date = new Date(time);
+        sdf.format(date);
+        return sdf.format(date);
     }
 }

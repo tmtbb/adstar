@@ -20,7 +20,6 @@ public class ResultCodeUtil {
 //            return;
 //        }
         //0,1这种不确定的不要在此工具类中显示
-        LogUtils.loge("错误码" + socketAPIResponse.jsonObject().toString());
         int result = -1111;
         try {
             result = socketAPIResponse.jsonObject().getInt("result");

@@ -19,10 +19,6 @@ import com.yundian.star.utils.SharePrefUtil;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
-
-import static com.yundian.star.R.id.lrv;
-
 /**
  * Created by Administrator on 2017/5/24.
  * 已购
