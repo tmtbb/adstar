@@ -32,7 +32,7 @@ public class CommentMarketAdapter extends ListBaseAdapter<CommentMarketBeen.Comm
         TextView tv_name = holder.getView(R.id.tv_name);
         TextView tv_time = holder.getView(R.id.tv_time);
         TextView tv_content = holder.getView(R.id.tv_content);
-        ImageLoaderUtils.display(mContext,iv_src,commentsinfoBean.getHead_url());
+        ImageLoaderUtils.displaySmallPhoto(mContext,iv_src,commentsinfoBean.getHead_url());
         tv_name.setText(commentsinfoBean.getNick_name());
         tv_time.setText(TimeUtil.formatData(TimeUtil.dateFormatYMD,commentsinfoBean.getCms_time()));
         tv_content.setText(commentsinfoBean.getComments());

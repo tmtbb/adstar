@@ -42,7 +42,6 @@ import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 import com.yundian.star.BuildConfig;
-
 import com.yundian.star.R;
 import com.yundian.star.base.baseapp.BaseApplication;
 import com.yundian.star.been.CheckUpdateInfoEntity;

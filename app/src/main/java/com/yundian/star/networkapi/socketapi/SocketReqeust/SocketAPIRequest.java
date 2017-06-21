@@ -3,7 +3,6 @@ package com.yundian.star.networkapi.socketapi.SocketReqeust;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIException;
 import com.yundian.star.networkapi.socketapi.SocketAPIFactoryImpl;
-import com.yundian.star.utils.ErrorCodeUtil;
 import com.yundian.star.utils.LogUtils;
 
 import java.util.Date;
@@ -47,7 +46,6 @@ public class SocketAPIRequest {
 
 
     public void  onErrorCode(int errorCode) {
-        ErrorCodeUtil.showEeorMsg(errorCode);
         LogUtils.logd("-------------------------errorCode:"+errorCode);
         onError(new NetworkAPIException(errorCode,"error"));
 

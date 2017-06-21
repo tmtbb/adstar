@@ -33,7 +33,7 @@ public class TimeLineBeen {
         private int closedYesterdayPrice;
         private double currentPrice;
         private int openingTodayPrice;
-        private int pchg;
+        private float pchg;
         private int priceTime;
         private String symbol;
 
@@ -69,11 +69,11 @@ public class TimeLineBeen {
             this.openingTodayPrice = openingTodayPrice;
         }
 
-        public int getPchg() {
+        public float getPchg() {
             return pchg;
         }
 
-        public void setPchg(int pchg) {
+        public void setPchg(float pchg) {
             this.pchg = pchg;
         }
 
