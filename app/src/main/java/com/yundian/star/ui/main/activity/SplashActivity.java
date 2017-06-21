@@ -41,8 +41,8 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        Bugout.init(this, "1664ea921dcbe122834e440f7f584e2e", "yingyongbao");
-        initBugOut();
+        //Bugout.init(this, "1664ea921dcbe122834e440f7f584e2e", "yingyongbao");
+        //initBugOut();
         initGeTui();
         PropertyValuesHolder alpha = PropertyValuesHolder.ofFloat("alpha", 0.3f, 1f);
         PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 0.3f, 1f);

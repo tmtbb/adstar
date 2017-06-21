@@ -12,7 +12,6 @@ import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.AskToBuyReturnBeen;
 import com.yundian.star.been.HaveStarTimeBeen;
-import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StartShellTimeBeen;
@@ -254,7 +253,7 @@ public class AskToBuyMarketFragment extends BaseFragment {
                     ToastUtils.showShort("超过明星发行总数量");
                     return;
                 }
-                judgeIsLogin();
+                //judgeIsLogin();
                 //showPutPasswordDialog();
                 //showAlertDialog();
                 BigDecimal bg = new BigDecimal(buy_price);
@@ -364,29 +363,29 @@ public class AskToBuyMarketFragment extends BaseFragment {
         }
     }
 
-    private void judgeIsLogin() {
-        if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getToken())) {
-            LogUtils.loge("已经登录,开始校验token");
-            NetworkAPIFactoryImpl.getUserAPI().loginWithToken(new OnAPIListener<LoginReturnInfo>() {
-                @Override
-                public void onError(Throwable ex) {
-                    ex.printStackTrace();
-                    LogUtils.loge("-----------登录失败.token已经失效");
-                    //logout();
-                }
-
-                @Override
-                public void onSuccess(LoginReturnInfo loginReturnEntity) {
-                    LogUtils.loge("------------------登录成功，保存信息" + loginReturnEntity.toString());
-                    //服务器问题,先token登录不保存信息
-                    //SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
-                    if (!TextUtils.isEmpty(loginReturnEntity.getToken())) {
-                        SharePrefUtil.getInstance().setToken(loginReturnEntity.getToken());
-                    }
-                }
-            });
-        }
-    }
+//    private void judgeIsLogin() {
+//        if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getToken())) {
+//            LogUtils.loge("已经登录,开始校验token");
+//            NetworkAPIFactoryImpl.getUserAPI().loginWithToken(new OnAPIListener<LoginReturnInfo>() {
+//                @Override
+//                public void onError(Throwable ex) {
+//                    ex.printStackTrace();
+//                    LogUtils.loge("-----------登录失败.token已经失效");
+//                    //logout();
+//                }
+//
+//                @Override
+//                public void onSuccess(LoginReturnInfo loginReturnEntity) {
+//                    LogUtils.loge("------------------登录成功，保存信息" + loginReturnEntity.toString());
+//                    //服务器问题,先token登录不保存信息
+//                    //SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
+//                    if (!TextUtils.isEmpty(loginReturnEntity.getToken())) {
+//                        SharePrefUtil.getInstance().setToken(loginReturnEntity.getToken());
+//                    }
+//                }
+//            });
+//        }
+//    }
 
 
 }

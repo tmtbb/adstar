@@ -411,9 +411,9 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                     final OrderSucReturnBeen orderSucReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), OrderSucReturnBeen.class);
                     if (orderSucReturnBeen.getResult()==-1){
                         s = "交易取消";
-                    }else if (orderSucReturnBeen.getResult()==1){
+                    }else if (orderSucReturnBeen.getResult()==-2){
                         s = "转让方持有时间不足";
-                    }else if (orderSucReturnBeen.getResult()==2){
+                    }else if (orderSucReturnBeen.getResult()==-3){
                         s = "求购方金币不足";
                     }else if (orderSucReturnBeen.getResult()==0){
                         s = "扣费成功";
