@@ -180,7 +180,7 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
 //        map.put("id", SharePrefUtil.getInstance().getUserId());
 //        map.put("token", SharePrefUtil.getInstance().getToken());
         map.put("id", SharePrefUtil.getInstance().getUserId());
-        map.put("vToken", SharePrefUtil.getInstance().getToken()); //临时写死
+        map.put("token", SharePrefUtil.getInstance().getToken()); //临时写死
         map.put("status", 0); //(1:处理中,2:成功,3:失败),不传则查所有状态
         map.put("count", count);
         map.put("startPos", startPos);

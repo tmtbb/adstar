@@ -303,7 +303,8 @@
     <string name="empty_view_price">添加明星，就可以实时跟踪您关心的行情。</string>
     <string name="empty_view_contacts">当前还没有相关通讯录</string>
     <string name="empty_order_info">暂无订单信息</string>
-
+    <string name="order_type">订单类型</string>
+    <string name="num_time_text">%s秒</string>
 
     <!-- session -->
     <string name="input_panel_guess">猜 拳</string>

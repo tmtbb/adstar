@@ -71,7 +71,9 @@ public class PayDialog extends BaseDialog {
                                 ToastUtils.showShort("密码错误");
                                 LogUtils.loge("密码输入失败");
                                 //支付密码确定接口有待验证
-                                checkPasCallBake.checkError();
+                                if (checkPasCallBake != null){
+                                    checkPasCallBake.checkError();
+                                }
                                 dismiss();
                             }
 
@@ -79,10 +81,13 @@ public class PayDialog extends BaseDialog {
                             public void onSuccess(ResultBeen resultBeen) {
                                 LogUtils.loge("密码输入正确");
                                 LogUtils.loge("密码输入正确"+resultBeen.toString());
-                                ToastUtils.showShort("支付完成");
+                               // ToastUtils.showShort("支付完成");
                                 if (resultBeen!=null){
                                     if (resultBeen.getResult()==1){
-                                        checkPasCallBake.checkSuccess(ordersListBean);
+                                        if (checkPasCallBake != null){
+                                            checkPasCallBake.checkSuccess(ordersListBean);
+                                            checkPasCallBake.checkSuccessPwd();
+                                        }
                                     }else if (resultBeen.getResult()==0){
                                         ToastUtils.showShort("密码错误");
                                     }
@@ -162,6 +167,7 @@ public class PayDialog extends BaseDialog {
     public interface checkPasCallBake{
         void checkSuccess(OrderReturnBeen.OrdersListBean ordersListBean);
         void checkError();
+        void checkSuccessPwd();
 
     }
     private checkPasCallBake checkPasCallBake ;

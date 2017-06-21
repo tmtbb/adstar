@@ -26,7 +26,7 @@
             android:layout_height="@dimen/dp_40"
             android:layout_marginRight="@dimen/dp_8"
             android:scaleType="centerCrop"
-            android:src="@drawable/welcome_bg"
+            android:src="@drawable/user_default_head"
             app:roundHeight="20dp"
             app:roundWidth="20dp" />
 
@@ -56,11 +56,11 @@
         android:gravity="center"
         android:paddingBottom="@dimen/dp_25"
         android:paddingTop="@dimen/dp_19"
-        android:text="充值成功"
         android:textColor="@color/color_666666"
         android:textSize="@dimen/dp_12" />
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_service_recharge"
         style="@style/user_info_setting_style">
 
@@ -74,10 +74,12 @@
             android:text="0.000" />
     </LinearLayout>
 
-    <include layout="@layout/ll_interval_line" />
+    <include layout="@layout/ll_interval_line"
+        android:visibility="gone"/>
 
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/ll_bank_info"
         style="@style/user_info_setting_style">
 
@@ -88,11 +90,11 @@
 
         <TextView
             android:id="@+id/tv_detail_bank_info"
-            style="@style/user_setting_hint_style"
-            android:text="招商银行--庆春支行" />
+            style="@style/user_setting_hint_style" />
     </LinearLayout>
 
-    <include layout="@layout/ll_interval_line" />
+    <include layout="@layout/ll_interval_line"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:id="@+id/ll_setup_time"
@@ -105,7 +107,7 @@
         <TextView
             android:id="@+id/tv_detail_setup_time"
             style="@style/user_setting_hint_style"
-            android:text="20170202" />
+            android:text="" />
     </LinearLayout>
 
     <include layout="@layout/ll_interval_line" />

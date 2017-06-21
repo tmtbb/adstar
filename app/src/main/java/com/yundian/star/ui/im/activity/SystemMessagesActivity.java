@@ -104,6 +104,11 @@ public class SystemMessagesActivity extends BaseActivity {
             public void checkError() {
 
             }
+
+            @Override
+            public void checkSuccessPwd() {
+
+            }
         });
         nt_title.setOnBackListener(new View.OnClickListener() {
             @Override
