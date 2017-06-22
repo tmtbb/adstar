@@ -301,6 +301,7 @@
     <string name="input_broker_id">请输入零售商ID（经纪人）</string>
     <string name="input_id_tips">TIPS：请从您的经纪人或者推荐人那里获 取相对应的ID，请至少填写一个以上的ID 信息</string>
     <string name="enter_star">进入星享</string>
+    <string name="delegation">委托</string>
 
 
     <string name="empty_view_history">当前还没有相关记录</string>

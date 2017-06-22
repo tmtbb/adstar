@@ -14,6 +14,7 @@ import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.ui.wangyi.config.preference.Preferences;
 import com.yundian.star.ui.wangyi.login.LogoutHelper;
 import com.yundian.star.utils.DataCleanManagerTtil;
+import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.widget.NormalTitleBar;
 
@@ -95,15 +96,19 @@ public class GeneralSettingsActivity extends BaseActivity {
                 showAlertDialog();
                 break;
             case R.id.ll_setting_reset_login_pwd:
-                Bundle bundle3 = new Bundle();
-                bundle3.putString("resetPwd", Constant.USER_PWD);
-                startActivity(ResetPayPwdActivity.class, bundle3);
+                judgePayPwd(Constant.USER_PWD);
                 break;
             case R.id.ll_setting_reset_pay_pwd:
-                Bundle bundle4 = new Bundle();
-                bundle4.putString("resetPwd", Constant.PAY_PWD);
-                startActivity(ResetPayPwdActivity.class, bundle4);
+                judgePayPwd(Constant.PAY_PWD);
                 break;
+        }
+    }
+
+    private void judgePayPwd(String type) {
+        if (JudgeIsSetPayPwd.isSetPwd(this)) {
+            Bundle bundle = new Bundle();
+            bundle.putString("resetPwd", type);
+            startActivity(ResetPayPwdActivity.class, bundle);
         }
     }
 

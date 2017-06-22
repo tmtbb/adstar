@@ -74,6 +74,9 @@ public class RegisterUserActivity extends BaseActivity {
     private WPEditText areaBrokerId;
     private WPEditText brokerId;
     private Button enterStar;
+    private long userMenberId;
+    private String agentId;
+    private String recommend;
 
     @Override
     public int getLayoutId() {
@@ -150,7 +153,8 @@ public class RegisterUserActivity extends BaseActivity {
         }
         NetworkAPIFactoryImpl.getUserAPI().bindNumber(userNameEditText.getEditTextString(), wxUserInfo.getOpenid()
                 , MD5Util.MD5(passwordEditText.getEditTextString()), verifyCodeBeen.getTimeStamp(), verifyCodeBeen.getVToken(), vCode,
-                -1, "-1", "-1", wxUserInfo.getNickname(), wxUserInfo.getHeadimgurl(), new OnAPIListener<RegisterReturnBeen>() {
+                userMenberId , agentId,recommend
+              , wxUserInfo.getNickname(), wxUserInfo.getHeadimgurl(), new OnAPIListener<RegisterReturnBeen>() {
                     @Override
                     public void onError(Throwable ex) {
                         LogUtils.logd("微信绑定失败!");
@@ -213,7 +217,9 @@ public class RegisterUserActivity extends BaseActivity {
         if (!verifyCode()) {
             return;
         }
-        NetworkAPIFactoryImpl.getUserAPI().register(userNameEditText.getEditTextString(), MD5Util.MD5(passwordEditText.getEditTextString()), -1, "-1", "-1", new OnAPIListener<RegisterReturnBeen>() {
+        NetworkAPIFactoryImpl.getUserAPI().register(userNameEditText.getEditTextString(),
+                MD5Util.MD5(passwordEditText.getEditTextString()),userMenberId , agentId,recommend,
+                new OnAPIListener<RegisterReturnBeen>() {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.logd("注册请求网络失败" + ex.toString());
@@ -365,6 +371,9 @@ public class RegisterUserActivity extends BaseActivity {
             public void onClick(View v) {
                 LogUtils.logd("输入会员ID----------------------");
                 mDetailDialog.dismiss();
+                userMenberId = Long.parseLong(memberId.getEditTextString());
+                recommend   = areaBrokerId.getEditTextString();  //区域人  == 推荐人
+                agentId = brokerId.getEditTextString();   //经纪人
                 if (isWXBind) {
                     wxBindInfo();
                 } else {

@@ -381,7 +381,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
             @Override
             public void onMatchListener(SocketDataPacket socketDataPacket) {
                 SocketAPIResponse socketAPIResponse = new SocketAPIResponse(socketDataPacket);
-
+                LogUtils.loge("baseactivity接受回调成功------"+socketAPIResponse);
                 if (socketDataPacket.getOperateCode()==5101){
                     LogUtils.loge("撮合成功");
                     final MatchSucessReturnBeen matchSucessReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), MatchSucessReturnBeen.class);

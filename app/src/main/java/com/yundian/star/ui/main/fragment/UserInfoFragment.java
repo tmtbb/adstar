@@ -227,18 +227,23 @@ public class UserInfoFragment extends BaseFragment {
             }
         });
     }
-    private static boolean isSaveWangYi = false ;
+
+    private static boolean isSaveWangYi = false;
+
     private void requestBalance() {
         NetworkAPIFactoryImpl.getDealAPI().balance(new OnAPIListener<AssetDetailsBean>() {
             @Override
             public void onSuccess(AssetDetailsBean bean) {
                 LogUtils.loge("余额请求成功:" + bean.toString());
                 userTotalAssets.setText(bean.getBalance() + "");
+                if (!TextUtils.isEmpty(bean.getHead_url()) && !TextUtils.isEmpty(bean.getNick_name())) {
+                    SharePrefUtil.getInstance().saveAssetInfo(bean);
+                }
 
-                SharePrefUtil.getInstance().saveAssetInfo(bean);
-                if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getUserNickName())&&isSaveWangYi==false){
+               // SharePrefUtil.getInstance().saveAssetInfo(bean);
+                if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getUserNickName()) && isSaveWangYi == false) {
                     updateWangYiInfo();
-                    isSaveWangYi = true ;
+                    isSaveWangYi = true;
                 }
                 initData();
             }
@@ -249,18 +254,19 @@ public class UserInfoFragment extends BaseFragment {
             }
         });
     }
+
     //修改网易头像和昵称
     private void updateWangYiInfo() {
         Map<UserInfoFieldEnum, Object> fields = new HashMap<>(1);
         fields.put(UserInfoFieldEnum.Name, SharePrefUtil.getInstance().getUserNickName());
         fields.put(UserInfoFieldEnum.AVATAR, SharePrefUtil.getInstance().getUserPhotoUrl());
-        LogUtils.loge("网易云修改名字昵称"+SharePrefUtil.getInstance().getUserNickName()+
+        LogUtils.loge("网易云修改名字昵称" + SharePrefUtil.getInstance().getUserNickName() +
                 SharePrefUtil.getInstance().getUserPhotoUrl());
         NIMClient.getService(UserService.class).updateUserInfo(fields)
                 .setCallback(new RequestCallbackWrapper<Void>() {
                     @Override
                     public void onResult(int i, Void aVoid, Throwable throwable) {
-                        LogUtils.loge(i+"网易云修改名字昵称");
+                        LogUtils.loge(i + "网易云修改名字昵称");
                     }
                 });
     }
