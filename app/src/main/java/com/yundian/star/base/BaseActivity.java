@@ -403,7 +403,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                                     s1+",请到系统消息中查看,点击查看。";
                             mBuilder.setContentText(s);
                             //                        showAlertDialog();
-                            mNotificationManager.notify(100, mBuilder.build());
+                            mNotificationManager.notify(matchSucessReturnBeen.getOpenPositionTime(), mBuilder.build());
                         }
                     });
                 }else {

@@ -72,6 +72,7 @@ public class ResetPayPwdActivity extends BaseActivity {
         initData();
         checkHelper.checkButtonState(okButton, phoneEditText, msgEditText, pwdEditText1, pwdEditText2);
         checkHelper.checkVerificationCode(msgEditText.getRightText(), phoneEditText);
+        msgEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
         msgEditText.getRightText().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

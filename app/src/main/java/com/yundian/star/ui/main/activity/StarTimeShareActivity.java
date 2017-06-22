@@ -26,6 +26,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+import static com.yundian.star.R.id.tv_have_name;
+
 
 /**
  * Created by Administrator on 2017/5/20.
@@ -72,7 +74,7 @@ public class StarTimeShareActivity extends BaseActivity {
         wid = getIntent().getStringExtra(AppConstant.STAR_WID);
         head_url = getIntent().getStringExtra(AppConstant.STAR_HEAD_URL);
         nt_title.setBackVisibility(true);
-        nt_title.setTitleText(name);
+        nt_title.setTitleText(String.format(getString(R.string.name_code),name,code));
         initType();
         initListener();
         initTimeShare();

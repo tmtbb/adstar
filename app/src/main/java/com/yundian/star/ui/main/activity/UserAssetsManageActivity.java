@@ -124,7 +124,7 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
                 break;
             case R.id.ll_user_fudai:
                 LogUtils.loge("点击福袋；；");
-              //  testNotify();
+//                testNotify();
                 break;
         }
     }
@@ -166,36 +166,36 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
     }
 
     private NotificationManager mNotificationManager;
-    private NotificationCompat.Builder builder;
+    private NotificationCompat.Builder mBuilder;
     private void testNotify(){
-
-
         mNotificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
-        builder = new NotificationCompat.Builder(this);
-//        Notification notification = builder.build();
-        builder.build().defaults = Notification.DEFAULT_ALL;
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-           ToastUtils.showShort("此类通知在Android 5.0以上版本才会有横幅有效！");
-        }
-        //为了版本兼容  选择V7包下的NotificationCompat进行构造
-        builder.setContentTitle("横幅通知");
-        builder.setContentText("请在设置通知管理中开启消息横幅提醒权限");
-        builder.setDefaults(NotificationCompat.DEFAULT_ALL);
-        builder.setSmallIcon(R.drawable.head_icon_1);
-        builder.setPriority(Notification.PRIORITY_MAX); //设置该通知优先级
-//        builder.setLargeIcon(R.drawable.fans_top_icon);
-        Intent intent = new Intent(this, SystemMessagesActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(this, 1, intent, 0);
-        builder.setContentIntent(pIntent);
-        builder.setFullScreenIntent(pIntent, true);
-        builder.setAutoCancel(true);
-        Notification notification = builder.build();
-
+        mBuilder = new NotificationCompat.Builder(this);
+        Notification notification = mBuilder.build();
         notification.defaults |= Notification.DEFAULT_SOUND;
         notification.defaults |= Notification.DEFAULT_VIBRATE;
         notification.defaults |= Notification.DEFAULT_LIGHTS;
 
-        mNotificationManager.notify(100, notification);
+        mBuilder.build().defaults = Notification.DEFAULT_ALL;
+        mBuilder.setContentTitle("交易")//设置通知栏标题
+                .setContentText("测试内容")   // /<span style="font-family: Arial;">/设置通知栏显示内容</span>
+                .setContentIntent(getDefalutIntent(Notification.FLAG_AUTO_CANCEL)) //设置通知栏点击意图
+                .setFullScreenIntent(getDefalutIntent(Notification.FLAG_AUTO_CANCEL), false)
+//  .setNumber(10) //设置通知集合的数量
+                .setTicker("测试通知来啦") //通知首次出现在通知栏，带上升动画效果的
+                .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示，一般是系统获取到的时间
+                .setPriority(Notification.PRIORITY_MAX) //设置该通知优先级
+                //  .setAutoCancel(true)//设置这个标志当用户单击面板就可以让通知将自动取消
+                .setOngoing(false)//ture，设置他为一个正在进行的通知。他们通常是用来表示一个后台任务,用户积极参与(如播放音乐)或以某种方式正在等待,因此占用设备(如一个文件下载,同步操作,主动网络连接)
+                .setDefaults(Notification.DEFAULT_VIBRATE)//向通知添加声音、闪灯和振动效果的最简单、最一致的方式是使用当前的用户默认设置，使用defaults属性，可以组合
+                //Notification.DEFAULT_ALL  Notification.DEFAULT_SOUND 添加声音 // requires VIBRATE permission
+                .setVisibility(Notification.VISIBILITY_PRIVATE)
+                .setSmallIcon(R.mipmap.ic_launcher);//设置通知小ICON
+        mNotificationManager.notify(100, mBuilder.build());
+    }
+
+    public PendingIntent getDefalutIntent(int flags) {
+        Intent intent = new Intent(this, SystemMessagesActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intent, flags);
+        return pendingIntent;
     }
 }
