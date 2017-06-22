@@ -345,7 +345,7 @@ public class AppApplication extends BaseApplication {
         StatusBarNotificationConfig config = new StatusBarNotificationConfig();
         // 点击通知需要跳转到的界面
         config.notificationEntrance = StarCommunicationBookActivity.class;
-        config.notificationSmallIconId = R.drawable.ic_stat_notify_msg;
+        config.notificationSmallIconId = R.mipmap.ic_launcher;
         config.notificationColor = getResources().getColor(R.color.color_blue_3a9efb);
         // 通知铃声的uri字符串
         config.notificationSound = "android.resource://com.netease.nim.demo/raw/msg";
@@ -382,7 +382,7 @@ public class AppApplication extends BaseApplication {
     {
         //友盟分享对应appid.要修改成自己的
         PlatformConfig.setWeixin("wx9dc39aec13ee3158", "a12a88f2c4596b2726dd4ba7623bc27e");
-        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+        PlatformConfig.setQQZone("1106159779", "iYph54WUxtMM3Enu");
         PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
     }
 

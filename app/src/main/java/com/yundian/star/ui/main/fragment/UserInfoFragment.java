@@ -12,6 +12,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.uinfo.UserService;
+import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.AssetDetailsBean;
@@ -37,6 +41,9 @@ import com.yundian.star.utils.ViewConcurrencyUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -220,14 +227,19 @@ public class UserInfoFragment extends BaseFragment {
             }
         });
     }
-
+    private static boolean isSaveWangYi = false ;
     private void requestBalance() {
         NetworkAPIFactoryImpl.getDealAPI().balance(new OnAPIListener<AssetDetailsBean>() {
             @Override
             public void onSuccess(AssetDetailsBean bean) {
                 LogUtils.loge("余额请求成功:" + bean.toString());
                 userTotalAssets.setText(bean.getBalance() + "");
+
                 SharePrefUtil.getInstance().saveAssetInfo(bean);
+                if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getUserNickName())&&isSaveWangYi==false){
+                    updateWangYiInfo();
+                    isSaveWangYi = true ;
+                }
                 initData();
             }
 
@@ -236,6 +248,21 @@ public class UserInfoFragment extends BaseFragment {
                 LogUtils.loge("余额请求失败:" + ex.getMessage());
             }
         });
+    }
+    //修改网易头像和昵称
+    private void updateWangYiInfo() {
+        Map<UserInfoFieldEnum, Object> fields = new HashMap<>(1);
+        fields.put(UserInfoFieldEnum.Name, SharePrefUtil.getInstance().getUserNickName());
+        fields.put(UserInfoFieldEnum.AVATAR, SharePrefUtil.getInstance().getUserPhotoUrl());
+        LogUtils.loge("网易云修改名字昵称"+SharePrefUtil.getInstance().getUserNickName()+
+                SharePrefUtil.getInstance().getUserPhotoUrl());
+        NIMClient.getService(UserService.class).updateUserInfo(fields)
+                .setCallback(new RequestCallbackWrapper<Void>() {
+                    @Override
+                    public void onResult(int i, Void aVoid, Throwable throwable) {
+                        LogUtils.loge(i+"网易云修改名字昵称");
+                    }
+                });
     }
 
     @Override

@@ -145,6 +145,7 @@ public class KChartFragment extends BaseFragment {
         mChart.setExtraLeftOffset(-10);
         mChart.setExtraRightOffset(10);
         XAxis xAxis = mChart.getXAxis();
+
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawGridLines(true);
         xAxis.setGridColor(colorLine);
@@ -218,6 +219,8 @@ public class KChartFragment extends BaseFragment {
         refreshMarkerView();
         mChart.setData(combinedData);//当前屏幕会显示所有的数据
         //mChart.setVisibleXRange(30, 100);
+        mChart.setVisibleXRangeMaximum(xVals.size()>30?xVals.size():30);
+        LogUtils.loge("分时图x数量"+xVals.size());
         mChart.invalidate();
     }
 
