@@ -27,7 +27,6 @@ import com.netease.nimlib.sdk.mixpush.MixPushService;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
-
 import com.qiangxi.checkupdatelibrary.dialog.UpdateDialog;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
@@ -287,7 +286,7 @@ public class MainActivity extends BaseActivity {
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.CHANGE_NETWORK_STATE,
-            Manifest.permission.SYSTEM_ALERT_WINDOW
+            //Manifest.permission.SYSTEM_ALERT_WINDOW
     };
 
     private void requestBasicPermission() {

@@ -58,7 +58,7 @@ public class BookStarListAdapter extends ListBaseAdapter<BookingStarListBean> {
             @Override
             public void onClick(View v) {
                 SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
-                P2PMessageActivity.start(mContext, item.getFaccid(),item.getStarcode(), customization, null);
+                P2PMessageActivity.start(mContext, item.getFaccid(),item.getStarcode(),item.getStarname(), customization, null);
             }
         });
         List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(item.getStarcode());

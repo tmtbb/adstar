@@ -111,20 +111,20 @@ public class SplashActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         //* 注：回调 1
-        Bugout.onResume(this);
+        //Bugout.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         //* 注：回调 2
-        Bugout.onPause(this);
+        //Bugout.onPause(this);
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         //* 注：回调 3
-        Bugout.onDispatchTouchEvent(this, event);
+        //Bugout.onDispatchTouchEvent(this, event);
         return super.dispatchTouchEvent(event);
     }
 

@@ -14,6 +14,10 @@ import android.widget.TextView;
 
 import com.netease.nim.uikit.common.media.picker.PickImageHelper;
 import com.netease.nim.uikit.session.constant.Extras;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.uinfo.UserService;
+import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.IdentityInfoBean;
@@ -29,6 +33,8 @@ import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -161,6 +167,7 @@ public class UserSettingActivity extends BaseActivity {
                 if (resultBean.getResult() == 1) {
                     ToastUtils.showStatusView("修改成功", true);
                     SharePrefUtil.getInstance().putUserNickName(nikeName);
+                    updateWangYiInfo(nikeName);
                     tvUserPetName.setText(nikeName);
                 }
             }
@@ -205,6 +212,18 @@ public class UserSettingActivity extends BaseActivity {
         LogUtils.loge("获取到上传的图片的地址:" + path);
         SharePrefUtil.getInstance().putUserPhotoUrl(path);
         ImageLoaderUtils.display(mContext, headImage, path);
+    }
+    //修改网易头像和昵称
+    private void updateWangYiInfo(String nikeName) {
+        Map<UserInfoFieldEnum, Object> fields = new HashMap<>(1);
+        fields.put(UserInfoFieldEnum.Name, nikeName);
+        NIMClient.getService(UserService.class).updateUserInfo(fields)
+                .setCallback(new RequestCallbackWrapper<Void>() {
+                    @Override
+                    public void onResult(int i, Void aVoid, Throwable throwable) {
+
+                    }
+                });
     }
 
     private void requestIdentity() {
