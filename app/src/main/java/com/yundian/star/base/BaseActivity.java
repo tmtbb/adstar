@@ -30,7 +30,6 @@ import com.yundian.star.R;
 import com.yundian.star.base.baseapp.AppManager;
 import com.yundian.star.been.MatchSucessReturnBeen;
 import com.yundian.star.been.OrderSucReturnBeen;
-import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIRequestManage;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIResponse;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.ui.im.activity.SystemMessagesActivity;
@@ -41,6 +40,9 @@ import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.utils.daynightmodeutils.ChangeModeController;
 import com.yundian.star.widget.LoadingDialog;
 import com.yundian.star.widget.StatusBarCompat;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.ButterKnife;
 
@@ -93,6 +95,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         doBeforeSetcontentView();
         rootView = LayoutInflater.from(this).inflate(getLayoutId(), null);
         setContentView(rootView);
+        //matchSucessListener();
         ButterKnife.bind(this);
         mContext = this;
         mPresenter = TUtil.getT(this, 0);
@@ -100,10 +103,9 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         if (mPresenter != null) {
             mPresenter.mContext = this;
         }
+        notificationTest();
         this.initPresenter();
         this.initView();
-        notificationTest();
-        matchSucessListener();
     }
 
 
@@ -283,7 +285,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        isConfigChange = true;
+        //isConfigChange = true;
     }
 
     @Override
@@ -292,9 +294,9 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         //SocketAPIRequestManage.getInstance().unboundOnMatchSucessListener();
         if (mPresenter != null)
             mPresenter.onDestroy();
-        if (!isConfigChange) {
+        //if (!isConfigChange) {
             AppManager.getAppManager().finishActivity(this);
-        }
+        //}
         ButterKnife.unbind(this);
     }
 
@@ -376,61 +378,56 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         mPopWindowHistory.show();
     }
 
-     private void matchSucessListener() {
-        SocketAPIRequestManage.getInstance().setOnMatchSucessListener(new SocketAPIRequestManage.OnMatchSucessListener() {
-            @Override
-            public void onMatchListener(SocketDataPacket socketDataPacket) {
-                SocketAPIResponse socketAPIResponse = new SocketAPIResponse(socketDataPacket);
 
-                if (socketDataPacket.getOperateCode()==5101){
-                    LogUtils.loge("撮合成功");
-                    final MatchSucessReturnBeen matchSucessReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), MatchSucessReturnBeen.class);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            String s1 = null;
-                            TextView textView = new TextView(mContext);
-                            textView.setText("点击查看");
-                            textView.setTextColor(getResources().getColor(R.color.color_8D0809));
-                            if (matchSucessReturnBeen.getBuyUid()== SharePrefUtil.getInstance().getUserId()){
-                                s1 = "求购信息";
-
-                            }else {
-                                s1 = "转让信息";
-                            }
-                            //showAlertDialog(matchSucessReturnBeen);
-                            String s = "撮合成功提醒:"+"("+matchSucessReturnBeen.getSymbol()+")"+
-                                    s1+",请到系统消息中查看,点击查看。";
-                            mBuilder.setContentText(s);
-                            //                        showAlertDialog();
-                            mNotificationManager.notify(100, mBuilder.build());
+    //接收消息
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void ReciveMessagePush(SocketDataPacket socketDataPacket) {
+        SocketAPIResponse socketAPIResponse = new SocketAPIResponse(socketDataPacket);
+        switch (socketDataPacket.getOperateCode()) {
+            case 5101:  //登录取消
+                LogUtils.loge("撮合成功");
+                final MatchSucessReturnBeen matchSucessReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), MatchSucessReturnBeen.class);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String s1 = null;
+                        TextView textView = new TextView(mContext);
+                        textView.setText("点击查看");
+                        textView.setTextColor(getResources().getColor(R.color.color_8D0809));
+                        if (matchSucessReturnBeen.getBuyUid()== SharePrefUtil.getInstance().getUserId()){
+                            s1 = "求购信息";
+                        }else {
+                            s1 = "转让信息";
                         }
-                    });
-                }else {
-                    String s = null;
-                    final OrderSucReturnBeen orderSucReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), OrderSucReturnBeen.class);
-                    if (orderSucReturnBeen.getResult()==-1){
-                        s = "交易取消";
-                    }else if (orderSucReturnBeen.getResult()==-2){
-                        s = "转让方持有时间不足";
-                    }else if (orderSucReturnBeen.getResult()==-3){
-                        s = "求购方金币不足";
-                    }else if (orderSucReturnBeen.getResult()==0){
-                        s = "扣费成功";
+                        //showAlertDialog(matchSucessReturnBeen);
+                        String s = "撮合成功提醒:"+"("+matchSucessReturnBeen.getSymbol()+")"+
+                                s1+",请到系统消息中查看,点击查看。";
+                        mBuilder.setContentText(s);
+                        //                        showAlertDialog();
+                        mNotificationManager.notify(100, mBuilder.build());
                     }
-                    LogUtils.loge("交易成功，失败返回"+s+"...."+orderSucReturnBeen.toString());
-                    mBuilder.setContentText(s);
-                    //                        showAlertDialog();
-                    mNotificationManager.notify(100, mBuilder.build());
-
+                });
+                break;
+            case 5102:
+                String s = null;
+                final OrderSucReturnBeen orderSucReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), OrderSucReturnBeen.class);
+                if (orderSucReturnBeen.getResult()==-1){
+                    s = "交易取消";
+                }else if (orderSucReturnBeen.getResult()==-2){
+                    s = "转让方持有时间不足";
+                }else if (orderSucReturnBeen.getResult()==-3){
+                    s = "求购方金币不足";
+                }else if (orderSucReturnBeen.getResult()==0){
+                    s = "扣费成功";
+                }else if (orderSucReturnBeen.getResult()==2){
+                    s = "交易成功";
                 }
-
-
-
-            }
-        });
-
-
+                LogUtils.loge("交易成功，失败返回"+s+"...."+orderSucReturnBeen.toString());
+                mBuilder.setContentText(s);
+                //                        showAlertDialog();
+                mNotificationManager.notify(100, mBuilder.build());
+                break;
+        }
     }
 
     private void notificationTest() {
