@@ -42,6 +42,7 @@
             android:layout_height="wrap_content"
             android:text="@string/onclick_check"
             android:textSize="@dimen/fontSize_14sp"
+            android:paddingRight="20dp"
             android:textColor="@color/color_FB9938"
             />
         <TextView

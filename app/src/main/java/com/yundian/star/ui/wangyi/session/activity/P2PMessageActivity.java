@@ -39,10 +39,11 @@ public class P2PMessageActivity extends BaseMessageActivity {
 
     private boolean isResume = false;
 
-    public static void start(Context context, String contactId,String starcode, SessionCustomization customization, IMMessage anchor) {
+    public static void start(Context context, String contactId,String starcode,String starName, SessionCustomization customization, IMMessage anchor) {
         Intent intent = new Intent();
         intent.putExtra(Extras.EXTRA_ACCOUNT, contactId);
         intent.putExtra(Extras.EXTRA_STARCODE, starcode);
+        intent.putExtra(Extras.EXTRA_STARNAME, starName);
         intent.putExtra(Extras.EXTRA_CUSTOMIZATION, customization);
         if (anchor != null) {
             intent.putExtra(Extras.EXTRA_ANCHOR, anchor);
@@ -84,7 +85,8 @@ public class P2PMessageActivity extends BaseMessageActivity {
     private void requestBuddyInfo() {
         TextView viewById = (TextView) findViewById(R.id.text_name);
         ImageView back = (ImageView) findViewById(R.id.back);
-        viewById.setText(sessionId);
+        String starname = getIntent().getStringExtra(Extras.EXTRA_STARNAME);
+        viewById.setText(starname);
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

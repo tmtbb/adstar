@@ -91,7 +91,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
             public void onItemClick(View view, int position) {
 
                 SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
-                P2PMessageActivity.start(StarCommunicationBookActivity.this, list.get(position).getFaccid(), list.get(position).getStarcode(), customization, null);
+                P2PMessageActivity.start(StarCommunicationBookActivity.this, list.get(position).getFaccid(), list.get(position).getStarcode(),list.get(position).getStarname(), customization, null);
                 //SessionHelper.startP2PSession(StarCommunicationBookActivity.this,list.get(position).getFaccid());
             }
         });

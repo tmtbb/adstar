@@ -34,6 +34,18 @@ public class ResultCodeUtil {
                 case -101:
                     msg = "异常操作";
                     break;
+                case -301:
+                    msg = "用户已经存在";
+                    break;
+                case -302:
+                    msg = "密码错误";
+                    break;
+                case -303:
+                    msg = "登录失效";
+                    break;
+                case -304:
+                    msg = "用户已经注册";
+                    break;
 //            case -402:
 //                msg = "没有对应的分时数据";
 //                break;
@@ -73,6 +85,21 @@ public class ResultCodeUtil {
 //            case -604:
 //                msg = "没有交易数据";
 //                break;
+                case -801:
+                    msg = "没有绑定银行卡";
+                    break;
+                case -802:
+                    msg = "绑定银行卡失败";
+                    break;
+                case -803:
+                    msg = "银行卡不存在";
+                    break;
+                case -804:
+                    msg = "解除绑定银行卡失败";
+                    break;
+                case -907:
+                    msg = "用户明星时间不足";
+                    break;
 //            default:
 //                msg = "连接超时,请稍后重试";
 //                break;
