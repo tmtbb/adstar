@@ -1,5 +1,7 @@
 package com.yundian.star.ui.main.activity;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.text.TextUtils;
@@ -8,6 +10,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -66,6 +69,14 @@ public class RegisterUserActivity extends BaseActivity {
     private RegisterVerifyCodeBeen verifyCodeBeen;
     private boolean isWXBind = false;
     private WXUserInfoEntity wxUserInfo;
+    private static Dialog mDetailDialog;
+    private WPEditText memberId;
+    private WPEditText areaBrokerId;
+    private WPEditText brokerId;
+    private Button enterStar;
+    private long userMenberId;
+    private String agentId;
+    private String recommend;
 
     @Override
     public int getLayoutId() {
@@ -90,6 +101,8 @@ public class RegisterUserActivity extends BaseActivity {
             wxLogin.setVisibility(View.VISIBLE);
             threeLogin.setVisibility(View.VISIBLE);
         }
+
+        initIdDialog();
         WindowManager.LayoutParams p = getWindow().getAttributes();// 获取对话框当前的参值
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
@@ -98,6 +111,7 @@ public class RegisterUserActivity extends BaseActivity {
         userNameEditText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         checkHelper.checkButtonState(registerButton, userNameEditText, msgEditText, passwordEditText);
         checkHelper.checkPwdInPutType(passwordEditText.getEditText(), this);  //密码不能输入中文
+        msgEditText.setInputType(EditorInfo.TYPE_CLASS_NUMBER);
         msgEditText.getRightText().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,11 +141,7 @@ public class RegisterUserActivity extends BaseActivity {
 
         if (checkHelper.checkMobile(phone, exception) && checkHelper.checkPassword(pwd, exception)
                 && checkHelper.checkVerifyCode(vCode, exception)) {
-            if (isWXBind) {
-                wxBindInfo();
-            } else {
-                register();
-            }
+            mDetailDialog.show();
         } else {
             ToastUtils.showShort(exception.getErrorMsg());
         }
@@ -143,7 +153,8 @@ public class RegisterUserActivity extends BaseActivity {
         }
         NetworkAPIFactoryImpl.getUserAPI().bindNumber(userNameEditText.getEditTextString(), wxUserInfo.getOpenid()
                 , MD5Util.MD5(passwordEditText.getEditTextString()), verifyCodeBeen.getTimeStamp(), verifyCodeBeen.getVToken(), vCode,
-                -1, "-1", "-1", wxUserInfo.getNickname(), wxUserInfo.getHeadimgurl(), new OnAPIListener<RegisterReturnBeen>() {
+                userMenberId , agentId,recommend
+              , wxUserInfo.getNickname(), wxUserInfo.getHeadimgurl(), new OnAPIListener<RegisterReturnBeen>() {
                     @Override
                     public void onError(Throwable ex) {
                         LogUtils.logd("微信绑定失败!");
@@ -206,7 +217,9 @@ public class RegisterUserActivity extends BaseActivity {
         if (!verifyCode()) {
             return;
         }
-        NetworkAPIFactoryImpl.getUserAPI().register(userNameEditText.getEditTextString(), MD5Util.MD5(passwordEditText.getEditTextString()), -1, "-1", "-1", new OnAPIListener<RegisterReturnBeen>() {
+        NetworkAPIFactoryImpl.getUserAPI().register(userNameEditText.getEditTextString(),
+                MD5Util.MD5(passwordEditText.getEditTextString()),userMenberId , agentId,recommend,
+                new OnAPIListener<RegisterReturnBeen>() {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.logd("注册请求网络失败" + ex.toString());
@@ -242,6 +255,7 @@ public class RegisterUserActivity extends BaseActivity {
             }
         });
     }
+
     private void getCode() {
         LogUtils.logd("请求网络获取短信验证码------------------------------");
         CheckException exception = new CheckException();
@@ -330,5 +344,44 @@ public class RegisterUserActivity extends BaseActivity {
         } else {
             ToastUtils.showShort(exception.getErrorMsg());
         }
+    }
+
+    //
+    private void initIdDialog() {
+        mDetailDialog = new Dialog(this, R.style.custom_dialog);
+        mDetailDialog.setContentView(R.layout.dialog_input_id);
+        memberId = (WPEditText) mDetailDialog.findViewById(R.id.member_id);
+        areaBrokerId = (WPEditText) mDetailDialog.findViewById(R.id.area_broker_id);
+        brokerId = (WPEditText) mDetailDialog.findViewById(R.id.broker_id);
+        enterStar = (Button) mDetailDialog.findViewById(R.id.btn_enter_star);
+
+
+        ImageView closeImg = (ImageView) mDetailDialog.findViewById(R.id.iv_dialog_close);
+        closeImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDetailDialog.dismiss();
+            }
+        });
+        mDetailDialog.setCancelable(false);
+
+        checkHelper.checkButtonState(enterStar, memberId, areaBrokerId, brokerId);
+        enterStar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LogUtils.logd("输入会员ID----------------------");
+                mDetailDialog.dismiss();
+                userMenberId = Long.parseLong(memberId.getEditTextString());
+                recommend   = areaBrokerId.getEditTextString();  //区域人  == 推荐人
+                agentId = brokerId.getEditTextString();   //经纪人
+                if (isWXBind) {
+                    wxBindInfo();
+                } else {
+                    register();
+                }
+            }
+        });
+
+
     }
 }

@@ -17,6 +17,12 @@ public class BuyHandleStatuUtils {
             case 3:
                 buyStatus = "委托完成";
                 break;
+            case 2:
+                buyStatus = "委托完成";
+                break;
+//            case -1:
+//                buyStatus = "委托取消";
+//                break;
             default:
                 buyStatus = "失败";
                 break;

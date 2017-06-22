@@ -79,6 +79,7 @@ public class SocketAPIRequestManage {
             LogUtils.loge("移除前接收口getOperateCode:" + socketDataPacket.getOperateCode());
             if (socketDataPacket.getOperateCode() == 5101 || socketDataPacket.getOperateCode() == 5102) {
                 if (sucessListener != null) {
+                    LogUtils.loge("调用之前:"+socketDataPacket.getOperateCode()+"----------------------");
                     sucessListener.onMatchListener(socketDataPacket);
                 }
             }
