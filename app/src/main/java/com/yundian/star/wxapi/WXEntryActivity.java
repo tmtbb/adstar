@@ -22,6 +22,7 @@ import com.umeng.weixin.callback.WXCallbackActivity;
 import com.yundian.star.R;
 import com.yundian.star.app.AppApplication;
 import com.yundian.star.app.Constant;
+import com.yundian.star.base.baseapp.AppManager;
 import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.LoginReturnInfo;
 import com.yundian.star.been.RegisterReturnWangYiBeen;
@@ -30,6 +31,7 @@ import com.yundian.star.been.WXUserInfoEntity;
 import com.yundian.star.been.WXinLoginReturnBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
+import com.yundian.star.ui.main.activity.LoginActivity;
 import com.yundian.star.ui.main.activity.RegisterUserActivity;
 import com.yundian.star.ui.wangyi.DemoCache;
 import com.yundian.star.ui.wangyi.config.preference.Preferences;
@@ -204,8 +206,9 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
             @Override
             public void onError(Throwable ex) {
                 LogUtils.loge("微信登录失败,进入绑定手机号界面" + Thread.currentThread().getName());  //进入绑定手机号码页面
-                ToastUtils.showLong("请绑定手机号码");
-                EventBus.getDefault().postSticky(new EventBusMessage(-6));  //传递消息
+                ToastUtils.showLong("微信授权成功,请绑定手机号码");
+                //EventBus.getDefault().postSticky(new EventBusMessage(-6));  //传递消息
+                AppManager.getAppManager().finishActivity(LoginActivity.class);
                 Intent intent = new Intent(WXEntryActivity.this, RegisterUserActivity.class);
                 intent.putExtra("wxBind", entity2);
                 startActivity(intent);
@@ -246,10 +249,11 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                     }
                 } else {
                     LogUtils.loge("微信登录失败,进入绑定手机号界面");  //进入绑定手机号码页面
-                    ToastUtils.showLong("请绑定手机号码");
+                    ToastUtils.showLong("微信授权成功,请绑定手机号码");
                     Intent intent = new Intent(WXEntryActivity.this, RegisterUserActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-                    EventBus.getDefault().postSticky(new EventBusMessage(-6));  //传递消息
+                    AppManager.getAppManager().finishActivity(LoginActivity.class);
+                    //EventBus.getDefault().postSticky(new EventBusMessage(-6));  //传递消息
                     intent.putExtra("wxBind", entity2);
                     startActivity(intent);
                     WXEntryActivity.this.finish();
@@ -279,7 +283,8 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                 info.setUserinfo(loginReturnInfos.getUserinfo());
                 SharePrefUtil.getInstance().saveLoginUserInfo(info);
                 SharePrefUtil.getInstance().putLoginPhone(info.getUserinfo().getPhone());
-                EventBus.getDefault().postSticky(new EventBusMessage(-6));  //传递消息
+                //EventBus.getDefault().postSticky(new EventBusMessage(-6));  //传递消息
+                AppManager.getAppManager().finishActivity(LoginActivity.class);
                 EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
                 WXEntryActivity.this.finish();
             }

@@ -99,17 +99,17 @@ public class GeneralSettingsActivity extends BaseActivity {
                 judgePayPwd(Constant.USER_PWD);
                 break;
             case R.id.ll_setting_reset_pay_pwd:
-                judgePayPwd(Constant.PAY_PWD);
+                if (JudgeIsSetPayPwd.isSetPwd(this)) {
+                    judgePayPwd(Constant.PAY_PWD);
+                }
                 break;
         }
     }
 
     private void judgePayPwd(String type) {
-        if (JudgeIsSetPayPwd.isSetPwd(this)) {
             Bundle bundle = new Bundle();
             bundle.putString("resetPwd", type);
             startActivity(ResetPayPwdActivity.class, bundle);
-        }
     }
 
 

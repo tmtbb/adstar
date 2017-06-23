@@ -76,7 +76,7 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
                 }else if (bean.getHandle()==-3){
                     viewHolder.tv_status.setText("求购金币不足");
                 }else if (bean.getHandle()==-4){
-                    viewHolder.tv_status.setText("订单异常");
+                    viewHolder.tv_status.setText("交易失败");
                 }
             }else if (bean.getHandle()==-1){
                 viewHolder.tv_check.setVisibility(View.GONE);
@@ -113,7 +113,7 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
                 }else if (bean.getHandle()==-3){
                     viewHolder.tv_status.setText("求购金币不足");
                 }else if (bean.getHandle()==-4){
-                    viewHolder.tv_status.setText("订单异常");
+                    viewHolder.tv_status.setText("交易失败");
                 }
             }else if (bean.getHandle()==-1){
                 viewHolder.tv_check.setVisibility(View.GONE);

@@ -135,6 +135,7 @@ public class AlreadyBoughtFragment extends BaseFragment {
                 LogUtils.loge(starMailListBeen.toString());
                 if (starMailListBeen.getDepositsinfo()==null||starMailListBeen.getDepositsinfo()==null){
                     lrv.setNoMore(true);
+                    lrv.refreshComplete(REQUEST_COUNT);
                     return;
                 }
                 if (isLoadMore){

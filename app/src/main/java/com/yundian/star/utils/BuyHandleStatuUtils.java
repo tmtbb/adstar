@@ -12,19 +12,19 @@ public class BuyHandleStatuUtils {
                 buyStatus = "委托中";
                 break;
             case 1:
-                buyStatus = "匹配中";
-                break;
-            case 3:
-                buyStatus = "委托完成";
+                buyStatus = "委托中";
                 break;
             case 2:
-                buyStatus = "委托完成";
+                buyStatus = "委托成功";
                 break;
-//            case -1:
-//                buyStatus = "委托取消";
-//                break;
+            case -1:
+                buyStatus = "委托失败";
+                break;
+            case -2:
+                buyStatus = "委托失败";
+                break;
             default:
-                buyStatus = "失败";
+                buyStatus = "委托失败";
                 break;
         }
         return buyStatus;

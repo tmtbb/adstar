@@ -54,10 +54,10 @@ public class PayDialog extends BaseDialog {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.input_dialog_lyaout);
+        rl_content = (RelativeLayout) findViewById(R.id.rl_content);
         payPwdEditText = (PayPwdEditText) findViewById(R.id.ppet);
         resetPwd = (TextView) findViewById(R.id.tv_reset_pwd);
         img_view = (ImageView) findViewById(R.id.img_view);
-        rl_content = (RelativeLayout) findViewById(R.id.rl_content);
         payPwdEditText.initStyle(R.drawable.edit_num_bg_red, 6, 0.33f, R.color.colorAccent, R.color.colorAccent, 20);
         payPwdEditText.setOnTextFinishListener(new PayPwdEditText.OnTextFinishListener() {
             @Override
@@ -137,6 +137,9 @@ public class PayDialog extends BaseDialog {
     }
 
     public void setLayoutHigh(int v) {
+        if (rl_content==null){
+            rl_content = (RelativeLayout) findViewById(R.id.rl_content);
+        }
         LogUtils.loge("键盘高度"+v);
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams)rl_content.getLayoutParams();
         layoutParams.height = v ;

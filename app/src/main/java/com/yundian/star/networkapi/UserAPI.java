@@ -23,7 +23,7 @@ public interface UserAPI {
     void wxLogin(String openId, OnAPIListener<WXinLoginReturnBeen> listener);
 
     //
-    void register(String phone, String password, long memberId, String agentId, String recommend, OnAPIListener<RegisterReturnBeen> listener);
+    void register(String phone, String password, String memberId, String agentId, String recommend,String sub_agentId, OnAPIListener<RegisterReturnBeen> listener);
 
     //
     void verifyCode(String phone, OnAPIListener<RegisterVerifyCodeBeen> listener);
@@ -38,7 +38,7 @@ public interface UserAPI {
 //
 //    void balance(OnAPIListener<BalanceInfoEntity> listener);
 //
-    void bindNumber(String phone, String openid, String password, long timeStamp, String vToken, String vCode, long memberId, String agentId, String recommend, String nickname, String headerUrl, OnAPIListener<RegisterReturnBeen> listener);
+    void bindNumber(String phone, String openid, String password, long timeStamp, String vToken, String vCode, String memberId, String agentId, String recommend, String sub_agentId, String nickname, String headerUrl, OnAPIListener<RegisterReturnBeen> listener);
 
     void loginWithToken(OnAPIListener<LoginReturnInfo> listener);
 

@@ -81,7 +81,7 @@ public class BuyTransferIndentActivity extends BaseActivity {
     private void initType() {
         listType.add(getString(R.string.ask_to_buy));
         listType.add(getString(R.string.transfer));
-        listType.add(getString(R.string.bought));
+        listType.add(getString(R.string.bought_have));
         listType.add(getString(R.string.indent));
         listType.add(getString(R.string.detail));
         initFragment();

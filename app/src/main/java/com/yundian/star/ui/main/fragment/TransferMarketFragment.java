@@ -30,36 +30,12 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-
 /**
  * Created by Administrator on 2017/5/24.
  * 转让
  */
 
 public class TransferMarketFragment extends BaseFragment {
-    @Bind(R.id.but_buy_price)
-    NumberBoubleButton but_buy_price;
-    @Bind(R.id.but_buy_num)
-    NumberButton but_buy_num;
-    @Bind(R.id.tv_sure_trans)
-    TextView tv_sure_trans;
-    @Bind(R.id.img_head)
-    ImageView img_head;
-    @Bind(R.id.tv_name_code)
-    TextView tv_name_code;
-    @Bind(R.id.tv_current_price)
-    TextView tv_current_price;
-    @Bind(R.id.tv_up_down_money)
-    TextView tv_up_down_money;
-    @Bind(R.id.tv_up_down_range)
-    TextView tv_up_down_range;
-    @Bind(R.id.tv_content_limit)
-    TextView tv_content_limit;
-    @Bind(R.id.tv_total)
-    TextView tv_total;
-    @Bind(R.id.tv_have_star_time)
-    TextView tv_have_star_time;
     private double buy_price = 0.01;
     private int buy_num = 600;
     private double total_prices = 0;
@@ -72,6 +48,17 @@ public class TransferMarketFragment extends BaseFragment {
     private boolean isCanBuy = false;
     private MyHandler2 myHandler;
     private boolean isFirst = true;
+    private NumberBoubleButton but_buy_price;
+    private NumberButton but_buy_num;
+    private TextView tv_sure_trans;
+    private ImageView img_head;
+    private TextView tv_name_code;
+    private TextView tv_current_price;
+    private TextView tv_up_down_money;
+    private TextView tv_up_down_range;
+    private TextView tv_content_limit;
+    private TextView tv_total;
+    private TextView tv_have_star_time;
 
     @Override
     protected int getLayoutResource() {
@@ -85,6 +72,7 @@ public class TransferMarketFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initFindById();
         if (getArguments() != null) {
             code = getArguments().getString(AppConstant.STAR_CODE);
             head_url = getArguments().getString(AppConstant.STAR_HEAD_URL);
@@ -110,10 +98,24 @@ public class TransferMarketFragment extends BaseFragment {
 
                     @Override
                     public void onSuccess(HaveStarTimeBeen haveStarTimeBeen) {
-                        LogUtils.loge("持有时间"+haveStarTimeBeen.toString());
+                        LogUtils.loge("持有时间" + haveStarTimeBeen.toString());
                         tv_have_star_time.setText(String.valueOf(haveStarTimeBeen.getStar_time()));
                     }
                 });
+    }
+
+    private void initFindById() {
+        but_buy_price = (NumberBoubleButton) rootView.findViewById(R.id.but_buy_price);
+        but_buy_num = (NumberButton) rootView.findViewById(R.id.but_buy_num);
+        tv_sure_trans = (TextView) rootView.findViewById(R.id.tv_sure_trans);
+        img_head = (ImageView) rootView.findViewById(R.id.img_head);
+        tv_name_code = (TextView) rootView.findViewById(R.id.tv_name_code);
+        tv_current_price = (TextView) rootView.findViewById(R.id.tv_current_price);
+        tv_up_down_money = (TextView) rootView.findViewById(R.id.tv_up_down_money);
+        tv_up_down_range = (TextView) rootView.findViewById(R.id.tv_up_down_range);
+        tv_content_limit = (TextView) rootView.findViewById(R.id.tv_content_limit);
+        tv_total = (TextView) rootView.findViewById(R.id.tv_total);
+        tv_have_star_time = (TextView) rootView.findViewById(R.id.tv_have_star_time);
     }
 
     private void getData() {
@@ -142,7 +144,7 @@ public class TransferMarketFragment extends BaseFragment {
     }
 
     private void refresh(SrealSendReturnBeen been) {
-        if (been==null||tv_current_price==null){
+        if (been == null || tv_current_price == null) {
             return;
         }
         SrealSendReturnBeen.PriceinfoBean priceinfoBean = been.getPriceinfo().get(0);
@@ -151,10 +153,10 @@ public class TransferMarketFragment extends BaseFragment {
             tv_up_down_money.setTextColor(getContext().getResources().getColor(R.color.color_CB4232));
             tv_up_down_range.setTextColor(getContext().getResources().getColor(R.color.color_CB4232));
 
-        } else if (priceinfoBean.getPchg()<0){
+        } else if (priceinfoBean.getPchg() < 0) {
             tv_up_down_money.setTextColor(getContext().getResources().getColor(R.color.color_18B03F));
             tv_up_down_range.setTextColor(getContext().getResources().getColor(R.color.color_18B03F));
-        }else if (priceinfoBean.getPchg()==0){
+        } else if (priceinfoBean.getPchg() == 0) {
             tv_up_down_money.setTextColor(getContext().getResources().getColor(R.color.color_black_333333));
             tv_up_down_range.setTextColor(getContext().getResources().getColor(R.color.color_black_333333));
         }
@@ -237,7 +239,7 @@ public class TransferMarketFragment extends BaseFragment {
 //                    return;
 //                }
                 //judgeIsLogin();
-                if (buy_num>starTotalTime){
+                if (buy_num > starTotalTime) {
                     ToastUtils.showShort("超过明星发行总数量");
                     return;
                 }
@@ -246,7 +248,7 @@ public class TransferMarketFragment extends BaseFragment {
                 double ask_buy_prices = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 LogUtils.loge("获取数值总价" + total_prices + "转换后的数据" + ask_buy_prices * buy_num);
                 NetworkAPIFactoryImpl.getInformationAPI().getAskToBuy(SharePrefUtil.getInstance().getUserId(),
-                        SharePrefUtil.getInstance().getToken(), 1, code,-1, buy_num, ask_buy_prices,
+                        SharePrefUtil.getInstance().getToken(), 1, code, -1, buy_num, ask_buy_prices,
                         new OnAPIListener<AskToBuyReturnBeen>() {
                             @Override
                             public void onError(Throwable ex) {
@@ -255,10 +257,10 @@ public class TransferMarketFragment extends BaseFragment {
 
                             @Override
                             public void onSuccess(AskToBuyReturnBeen askToBuyReturnBeen) {
-                                LogUtils.loge("挂单"+askToBuyReturnBeen.toString());
-                                if (!TextUtils.isEmpty(askToBuyReturnBeen.getSymbol())){
+                                LogUtils.loge("挂单" + askToBuyReturnBeen.toString());
+                                if (!TextUtils.isEmpty(askToBuyReturnBeen.getSymbol())) {
                                     ToastUtils.showShort("挂单成功");
-                                    LogUtils.loge("转让成功"+askToBuyReturnBeen.toString());
+                                    LogUtils.loge("转让成功" + askToBuyReturnBeen.toString());
                                 }
                             }
                         });
@@ -348,7 +350,7 @@ public class TransferMarketFragment extends BaseFragment {
         }
     }
 
-//    private void judgeIsLogin() {
+    //    private void judgeIsLogin() {
 //        if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getToken())) {
 //            LogUtils.loge("已经登录,开始校验token");
 //            NetworkAPIFactoryImpl.getUserAPI().loginWithToken(new OnAPIListener<LoginReturnInfo>() {
@@ -372,16 +374,17 @@ public class TransferMarketFragment extends BaseFragment {
 //        }
 //    }
     private int starTotalTime = 0;
+
     private void getStarTotalTime() {
         NetworkAPIFactoryImpl.getInformationAPI().getStarShellTime(code, new OnAPIListener<StartShellTimeBeen>() {
             @Override
             public void onError(Throwable ex) {
-                LogUtils.loge("明星总时间"+ex.toString());
+                LogUtils.loge("明星总时间" + ex.toString());
             }
 
             @Override
             public void onSuccess(StartShellTimeBeen startShellTimeBeen) {
-                LogUtils.loge("明星总时间"+startShellTimeBeen.toString());
+                LogUtils.loge("明星总时间" + startShellTimeBeen.toString());
                 starTotalTime = startShellTimeBeen.getStar_time();
             }
         });

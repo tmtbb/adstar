@@ -232,6 +232,7 @@
     <string name="transfe_price">转让价格</string>
     <string name="transfe_num">转让数量</string>
     <string name="bought">已购</string>
+    <string name="bought_have">持有</string>
     <string name="indent">订单</string>
     <string name="detail">明细</string>
     <string name="total_prices">总价:</string>
@@ -302,6 +303,7 @@
     <string name="input_id_tips">TIPS：请从您的经纪人或者推荐人那里获 取相对应的ID，请至少填写一个以上的ID 信息</string>
     <string name="enter_star">进入星享</string>
     <string name="delegation">委托</string>
+    <string name="delegation_num">委托量</string>
 
 
     <string name="empty_view_history">当前还没有相关记录</string>

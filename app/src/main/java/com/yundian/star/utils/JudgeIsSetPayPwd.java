@@ -21,7 +21,8 @@ public class JudgeIsSetPayPwd {
         int isSetpwd = SharePrefUtil.getInstance().getIsSetpwd();
 
         if (isSetpwd == 1) {    //没有设置交易密码
-            LogUtils.loge("没有设置交易密码");
+            //LogUtils.loge("没有设置交易密码");
+            ToastUtils.showShort("您未设置交易密码，请设置！");
             showOpenPayDialog(context);
             return false;
         } else {

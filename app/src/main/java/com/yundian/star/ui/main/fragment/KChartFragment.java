@@ -42,7 +42,6 @@ import butterknife.Bind;
 public class KChartFragment extends BaseFragment {
     @Bind(R.id.chart)
     CombinedChart mChart;
-
     @Bind(R.id.imageView_head)
     ImageView imageView_head ;
     @Bind(R.id.tv_preice)
