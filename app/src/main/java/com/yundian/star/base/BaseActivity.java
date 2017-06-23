@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -43,6 +44,8 @@ import com.yundian.star.widget.StatusBarCompat;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.Random;
 
 import butterknife.ButterKnife;
 
@@ -378,7 +381,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         mPopWindowHistory.show();
     }
 
-
     //接收消息
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void ReciveMessagePush(SocketDataPacket socketDataPacket) {
@@ -404,7 +406,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                                 s1+",请到系统消息中查看,点击查看。";
                         mBuilder.setContentText(s);
                         //                        showAlertDialog();
-                        mNotificationManager.notify(100, mBuilder.build());
+                        mNotificationManager.notify(new Random().nextInt(Integer.MAX_VALUE), mBuilder.build());
                     }
                 });
                 break;
@@ -425,7 +427,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                 LogUtils.loge("交易成功，失败返回"+s+"...."+orderSucReturnBeen.toString());
                 mBuilder.setContentText(s);
                 //                        showAlertDialog();
-                mNotificationManager.notify(100, mBuilder.build());
+                mNotificationManager.notify(new Random().nextInt(Integer.MAX_VALUE), mBuilder.build());
                 break;
         }
     }

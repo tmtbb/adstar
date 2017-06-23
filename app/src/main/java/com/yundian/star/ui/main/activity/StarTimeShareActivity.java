@@ -26,6 +26,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+import static com.yundian.star.R.id.tv_have_name;
+
 
 /**
  * Created by Administrator on 2017/5/20.

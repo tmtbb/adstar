@@ -1,5 +1,6 @@
 package com.yundian.star.ui.main.activity;
 
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -65,6 +66,7 @@ public class ResetUserPwdActivity extends BaseActivity {
         nt_title.setTvLeftVisiable(true);
         nt_title.setTitleText(getString(R.string.butten_reset_psd));
         phoneEditText.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+        msgEditText.setInputType(InputType.TYPE_CLASS_NUMBER);
         //当验证码接口有了后才用下面的方法
         checkHelper.checkButtonState(okButton, phoneEditText, msgEditText, pwdEditText1, pwdEditText2);
         checkHelper.checkVerificationCode(msgEditText.getRightText(), phoneEditText);

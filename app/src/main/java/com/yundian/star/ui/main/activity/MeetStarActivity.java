@@ -369,12 +369,16 @@ public class MeetStarActivity extends BaseActivity {
         SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
             @Override
             public void keyBoardShow(int height) {
-                payDialog.setLayoutHigh(height);
+                if (payDialog != null){
+                    payDialog.setLayoutHigh(height);
+                }
             }
 
             @Override
             public void keyBoardHide(int height) {
-                payDialog.dismiss();
+                if (payDialog!= null){
+                    payDialog.dismiss();
+                }
             }
         });
     }

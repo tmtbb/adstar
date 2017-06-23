@@ -1,18 +1,24 @@
 package com.yundian.star.ui.main.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
+import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
+import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.session.SessionCustomization;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.BookingStarListBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.BookStarListAdapter;
+import com.yundian.star.ui.wangyi.session.activity.P2PMessageActivity;
+import com.yundian.star.utils.JudgeIdentityUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
@@ -111,6 +117,16 @@ public class BookingStarActivity extends BaseActivity {
             @Override
             public void onRefresh() {
                 getData(false, 1, 10);
+            }
+        });
+        lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                if (JudgeIdentityUtils.isIdentityed(BookingStarActivity.this)){
+                    BookingStarListBean listBean = list.get(position);
+                    SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
+                    P2PMessageActivity.start(mContext, listBean.getFaccid(),listBean.getStarcode(),listBean.getStarname(), customization, null);
+                }
             }
         });
     }

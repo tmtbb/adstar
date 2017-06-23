@@ -9,6 +9,7 @@ import com.yundian.star.base.SuperViewHolder;
 import com.yundian.star.been.EntrustReturnBeen;
 import com.yundian.star.greendao.GreenDaoManager;
 import com.yundian.star.greendao.StarInfo;
+import com.yundian.star.utils.BuyHandleStatuUtils;
 
 import java.util.List;
 
@@ -33,19 +34,23 @@ public class IndentAdapter extends ListBaseAdapter<EntrustReturnBeen.PositionsLi
         TextView tv_commission = holder.getView(R.id.tv_commission);
         TextView tv_name = holder.getView(R.id.tv_name);
         TextView tv_current_price = holder.getView(R.id.tv_current_price);
-        TextView tv_state = holder.getView(R.id.tv_state);
+        TextView tv_state1 = holder.getView(R.id.tv_state1);
+        TextView tv_state2 = holder.getView(R.id.tv_state2);
         List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(positionsListBean.getSymbol());
-        if (starInfos.size()!=0){
+        if (starInfos.size() != 0) {
             StarInfo starInfo = starInfos.get(0);
-            tv_name.setText(starInfo.getName());        }
+            tv_name.setText(starInfo.getName());
+        }
         tv_commission.setText(String.valueOf(positionsListBean.getAmount()));
         tv_code.setText(String.valueOf(positionsListBean.getSymbol()));
         tv_current_price.setText(String.valueOf(positionsListBean.getOpenPrice()));
-        if (positionsListBean.getBuySell()==1){
-            tv_state.setText("委托购买");
-        }else {
-            tv_state.setText("委托转让");
+
+        if (positionsListBean.getBuySell() == 1) {
+            tv_state1.setText("求购");
+        } else if (positionsListBean.getBuySell() == -1) {
+            tv_state1.setText("转让");
         }
+        tv_state2.setText(BuyHandleStatuUtils.getHandleStatu(positionsListBean.getHandle()));
 
 
     }

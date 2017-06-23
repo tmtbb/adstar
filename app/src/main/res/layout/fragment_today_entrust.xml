@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/font_999999"
             android:textSize="@dimen/fontSize_11sp"
-            android:text="@string/transaction_price_num"
+            android:text="@string/trust_price_num"
             />
         <TextView
             android:gravity="center"

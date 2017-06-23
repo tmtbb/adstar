@@ -266,7 +266,7 @@
     <string name="PM">PM</string>
     <string name="AM">AM</string>
     <string name="often_error">操作频繁，请稍后再试</string>
-
+    <string name="trust_price_num">委托量/成交量</string>
     <string name="open_pay">开通支付</string>
     <string name="open_pay_agree">我知道了</string>
     <string name="open_pay_des">需要开通支付才能进行充值等相关操作。开通支付后，可以在求购、转让、约见、分答功能中使用钱包消费。</string>
@@ -295,6 +295,13 @@
     <string name="sure_pay">确认支付该订单？</string>
     <string name="cancel_order">取消订单</string>
     <string name="have_empy_time">已持有:\t\t</string>
+    <string name="add_star">加入星享</string>
+    <string name="input_member_id">请输入区域总经销ID（会员机构）</string>
+    <string name="input_area_broker_id">请输入区域经销ID（区域经纪人）</string>
+    <string name="input_broker_id">请输入零售商ID（经纪人）</string>
+    <string name="input_id_tips">TIPS：请从您的经纪人或者推荐人那里获 取相对应的ID，请至少填写一个以上的ID 信息</string>
+    <string name="enter_star">进入星享</string>
+    <string name="delegation">委托</string>
 
 
     <string name="empty_view_history">当前还没有相关记录</string>
