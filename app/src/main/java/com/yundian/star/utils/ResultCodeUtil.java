@@ -2,8 +2,11 @@ package com.yundian.star.utils;
 
 import android.text.TextUtils;
 
+import com.yundian.star.app.AppConstant;
+import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIResponse;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 
 
@@ -33,6 +36,7 @@ public class ResultCodeUtil {
             switch (result) {
                 case -101:
                     msg = "异常操作";
+                    EventBus.getDefault().postSticky(new EventBusMessage(AppConstant.FREEZE_MOVEMENT));
                     break;
                 case -301:
                     msg = "用户已经存在";

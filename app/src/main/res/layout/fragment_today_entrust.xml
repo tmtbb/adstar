@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/font_999999"
             android:textSize="@dimen/fontSize_11sp"
-            android:text="@string/delegation_time"
+            android:text="@string/time"
             />
         <TextView
             android:gravity="center"
@@ -53,6 +53,7 @@
     <com.github.jdsjlzx.recyclerview.LRecyclerView
         android:id="@+id/lrv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        />
     </FrameLayout>
 </LinearLayout>

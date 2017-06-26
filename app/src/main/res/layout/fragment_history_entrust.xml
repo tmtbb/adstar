@@ -93,7 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/delegation_time"
+            android:text="@string/time"
             android:textColor="@color/font_999999"
             android:textSize="@dimen/fontSize_11sp" />
 
@@ -102,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/delegation_transaction_num"
+            android:text="@string/trust_price_num"
             android:textColor="@color/font_999999"
             android:textSize="@dimen/fontSize_11sp" />
 
@@ -125,6 +125,16 @@
         <com.github.jdsjlzx.recyclerview.LRecyclerView
             android:id="@+id/lrv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_gravity="bottom"
+            android:text="只显示最近7天的历史数据"
+            android:textColor="@color/font_333333"
+            android:gravity="center"
+            />
     </FrameLayout>
 </LinearLayout>

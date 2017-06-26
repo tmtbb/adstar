@@ -18,7 +18,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|clip_vertical"
-                android:text="您有一条匹配成功的消息"
+                android:text="您已在另一台设备上登录"
                 android:textColor="#333333"
                 android:textSize="17sp" />
         </RelativeLayout>
@@ -34,34 +34,13 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
             <TextView
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                android:id="@+id/btn_cancel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="取消"
-                android:textColor="#666666"
-                android:textSize="16sp" />
-
-            <View
-                android:layout_width="0.5dp"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="9dp"
-                android:background="#cccccc"
-
-                ></View>
-
-            <TextView
                 android:id="@+id/btn_sure"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="查看"
+                android:text="确定"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
                 android:textColor="#666666"

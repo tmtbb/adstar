@@ -24,6 +24,8 @@ import com.yundian.star.been.MatchSucessReturnBeen;
 import com.yundian.star.been.OrderCancelReturnBeen;
 import com.yundian.star.been.OrderReturnBeen;
 import com.yundian.star.been.SureOrder;
+import com.yundian.star.greendao.GreenDaoManager;
+import com.yundian.star.greendao.StarInfo;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.SystemMessageAdapter;
@@ -38,6 +40,7 @@ import com.yundian.star.widget.NormalTitleBar;
 import com.yundian.star.widget.PutPasPopupWindow;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 
@@ -332,7 +335,12 @@ public class SystemMessagesActivity extends BaseActivity {
         }else {
             tv_state.setText(R.string.transfer);
         }
-        order_preice.setText(String.format(getString(buy_price), ordersListBean.getOpenPrice()));
+         List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(ordersListBean.getSymbol());
+         if (starInfos.size()!=0){
+             StarInfo starInfo = starInfos.get(0);
+             order_info.setText(String.format(getString(R.string.name_code), starInfo.getName(),ordersListBean.getSymbol()));
+         }
+         order_preice.setText(String.format(getString(buy_price), ordersListBean.getOpenPrice()));
         transfer_num.setText(String.format(getString(R.string.num_time), ordersListBean.getAmount()));
         order_total.setText(String.format(getString(R.string.price_total), ordersListBean.getOpenPrice()*ordersListBean.getAmount()));
         tv_sure.setOnClickListener(new View.OnClickListener() {

@@ -11,6 +11,7 @@ import com.yundian.star.R;
 import com.yundian.star.app.Constant;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.EventBusMessage;
+import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
 import com.yundian.star.ui.wangyi.config.preference.Preferences;
 import com.yundian.star.ui.wangyi.login.LogoutHelper;
 import com.yundian.star.utils.DataCleanManagerTtil;
@@ -140,6 +141,8 @@ public class GeneralSettingsActivity extends BaseActivity {
         LogoutHelper.logout();
 //        DataCacheManager.clearDataCache();  //清空缓存
         EventBus.getDefault().postSticky(new EventBusMessage(2));  //登录取消消息
+        //关闭soket通道。让其重连，重新生成
+        SocketAPINettyBootstrap.getInstance().closeChannel();
         finish();
 //        startActivity(LoginActivity.class);
     }

@@ -56,4 +56,7 @@ public class AppConstant {
     public static final Short HISTORY_DEAL_OPCODE = SocketAPIConstant.OperateCode.HistoryDeal;
     public static final Short TODAY_DEAL_OPCODE = SocketAPIConstant.OperateCode.TodayDeal;
 
+    //冻结用户操作
+    public static final Short FREEZE_MOVEMENT = -1000;
+
 }

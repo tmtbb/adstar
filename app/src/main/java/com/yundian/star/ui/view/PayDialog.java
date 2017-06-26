@@ -138,7 +138,8 @@ public class PayDialog extends BaseDialog {
 
     public void setLayoutHigh(int v) {
         if (rl_content==null){
-            rl_content = (RelativeLayout) findViewById(R.id.rl_content);
+            return;
+            //rl_content = (RelativeLayout) findViewById(R.id.rl_content);
         }
         LogUtils.loge("键盘高度"+v);
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams)rl_content.getLayoutParams();

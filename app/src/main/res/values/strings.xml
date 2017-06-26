@@ -216,6 +216,7 @@
     <string name="no_name">匿名</string>
     <string name="buy_price">%.2f元/秒</string>
     <string name="remain_deal_time">剩余交易时间:</string>
+    <string name="time">时间</string>
     <string name="auction_have_time">已持有 %1$s (%2$s)</string>
     <string name="num_time">%d秒</string>
     <string name="comment">评价</string>
@@ -267,7 +268,7 @@
     <string name="PM">PM</string>
     <string name="AM">AM</string>
     <string name="often_error">操作频繁，请稍后再试</string>
-    <string name="trust_price_num">委托量/成交量</string>
+    <string name="trust_price_num">委托价/委托量</string>
     <string name="open_pay">开通支付</string>
     <string name="open_pay_agree">我知道了</string>
     <string name="open_pay_des">需要开通支付才能进行充值等相关操作。开通支付后，可以在求购、转让、约见、分答功能中使用钱包消费。</string>

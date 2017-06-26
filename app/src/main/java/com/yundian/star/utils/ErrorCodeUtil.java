@@ -2,7 +2,11 @@ package com.yundian.star.utils;
 
 import android.text.TextUtils;
 
+import com.yundian.star.app.AppConstant;
+import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
+
+import org.greenrobot.eventbus.EventBus;
 
 
 /**
@@ -21,6 +25,10 @@ public class ErrorCodeUtil {
         }
         String msg = "";
         switch (errorCode) {
+            case -101:
+                msg = "异常操作";
+                EventBus.getDefault().postSticky(new EventBusMessage(AppConstant.FREEZE_MOVEMENT));
+                break;
             case -300:
                 msg = "数据库错误";
                 break;

@@ -152,10 +152,10 @@ public class UserInfoFragment extends BaseFragment {
                 startActivity(UserAssetsManageActivity.class);
                 break;
             case R.id.ll_user_order_star:
+                ViewConcurrencyUtils.preventConcurrency();  //防止并发
                 if (JudgeIdentityUtils.isIdentityed(getActivity())){
-                    ViewConcurrencyUtils.preventConcurrency();  //防止并发
+                    startActivity(BookingStarActivity.class);
                 }
-                startActivity(BookingStarActivity.class);
                 break;
             case R.id.ll_customer_service:
                 ViewConcurrencyUtils.preventConcurrency();  //防止并发

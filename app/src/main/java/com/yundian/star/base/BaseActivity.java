@@ -9,16 +9,18 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
@@ -29,11 +31,17 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.yundian.star.R;
 import com.yundian.star.base.baseapp.AppManager;
+import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.MatchSucessReturnBeen;
 import com.yundian.star.been.OrderSucReturnBeen;
+import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIResponse;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.ui.im.activity.SystemMessagesActivity;
+import com.yundian.star.ui.main.activity.CustomerServiceActivity;
+import com.yundian.star.ui.main.activity.MainActivity;
+import com.yundian.star.ui.wangyi.config.preference.Preferences;
+import com.yundian.star.ui.wangyi.login.LogoutHelper;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.TUtil;
@@ -42,6 +50,7 @@ import com.yundian.star.utils.daynightmodeutils.ChangeModeController;
 import com.yundian.star.widget.LoadingDialog;
 import com.yundian.star.widget.StatusBarCompat;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -356,29 +365,36 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
 
     }
 
-
-    private void showAlertDialog(final MatchSucessReturnBeen matchSucessReturnBeen) {
-        final Dialog mPopWindowHistory = new Dialog(this, R.style.myDialog);
-        mPopWindowHistory.setContentView(R.layout.mach_sucess_choose);
-        TextView tvSure = (TextView) mPopWindowHistory.findViewById(R.id.btn_sure);
+    private static boolean isOpenDialog = false ;
+    private void showAlertDialog() {
+        if (isOpenDialog){
+            return;
+        }
+        isOpenDialog = true ;
+        final Dialog logOutDialog = new Dialog(this, R.style.myDialog);
+        logOutDialog.setCanceledOnTouchOutside(false);
+        logOutDialog.setContentView(R.layout.mach_sucess_choose);
+        TextView tvSure = (TextView) logOutDialog.findViewById(R.id.btn_sure);
         tvSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPopWindowHistory.dismiss();
-                Intent intent = new Intent(BaseActivity.this, SystemMessagesActivity.class);
-                //intent.putExtra(AppConstant.MATCH_SUCESS_INFO, 1);
-                //intent.putExtra(AppConstant.MATCH_SUCESS_ORDER_INFO,matchSucessReturnBeen);
-                startActivity(intent);
+                logOutDialog.dismiss();
+                isOpenDialog = false ;
+                logout();
             }
         });
-        TextView btn_cancel = (TextView) mPopWindowHistory.findViewById(R.id.btn_cancel);
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
+        logOutDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
-            public void onClick(View v) {
-                mPopWindowHistory.dismiss();
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK)
+                {
+                    return true;
+                }else {
+                    return false;
+                }
             }
         });
-        mPopWindowHistory.show();
+        logOutDialog.show();
     }
 
     //接收消息
@@ -429,6 +445,9 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                 //                        showAlertDialog();
                 mNotificationManager.notify(new Random().nextInt(Integer.MAX_VALUE), mBuilder.build());
                 break;
+            case 3040:
+                showAlertDialog();
+                break;
         }
     }
 
@@ -465,4 +484,42 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         return pendingIntent;
     }
 
+
+    //冻结操作入口
+    private boolean isFreezeMovement = false ;
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (isFreezeMovement){
+            Intent intent = new Intent(this, CustomerServiceActivity.class);
+            startActivity(intent);
+            return true;
+        }else {
+            return super.dispatchTouchEvent(ev);
+        }
+    }
+
+    private void logout() {
+        SharePrefUtil.getInstance().clearUserInfo();
+        SharePrefUtil.getInstance().clearUserLoginInfo();
+        Preferences.saveUserToken("");
+        LogoutHelper.logout();
+//        DataCacheManager.clearDataCache();  //清空缓存
+        EventBus.getDefault().postSticky(new EventBusMessage(2));  //登录取消消息
+        SocketAPINettyBootstrap.getInstance().closeChannel();
+        if (this instanceof MainActivity==false){
+            finish();
+        }
+//        startActivity(LoginActivity.class);
+    }
+
+
+    //接收消息
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void ReciveMessageBase(EventBusMessage eventBusMessage) {
+        switch (eventBusMessage.Message) {
+            case -1000:  //异常登录
+                isFreezeMovement = true ;
+                break;
+        }
+    }
 }
