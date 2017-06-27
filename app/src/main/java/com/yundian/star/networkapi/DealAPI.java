@@ -12,6 +12,7 @@ import com.yundian.star.been.WXPayReturnEntity;
 import com.yundian.star.listener.OnAPIListener;
 
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -97,4 +98,5 @@ public interface DealAPI {
     void starMeet(String starcode,long mid,String city_name,String appoint_time,int meet_type,String comment,OnAPIListener<RequestResultBean> listener);
     void statServiceList(String starcode,OnAPIListener<StatServiceListBean> listener);
     void alipay(String title,double price,OnAPIListener<AliPayReturnBean> listener);
+    void cancelPay(String rid,int payResult,OnAPIListener<Object> listener);
 }

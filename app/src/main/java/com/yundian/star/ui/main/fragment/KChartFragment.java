@@ -174,17 +174,17 @@ public class KChartFragment extends BaseFragment {
         }
         if (currentTimeLineEntities.get(0).getPchg()>0){
             tv_change.setBackgroundResource(R.drawable.bg_red_radius);
-            tv_preice.setTextColor(getContext().getResources().getColor(R.color.color_CB4232));
+            tv_preice.setTextColor(getActivity().getResources().getColor(R.color.color_CB4232));
         }else if (currentTimeLineEntities.get(0).getPchg()<0){
             tv_change.setBackgroundResource(R.drawable.bg_green_radius);
-            tv_preice.setTextColor(getContext().getResources().getColor(R.color.color_18B03F));
+            tv_preice.setTextColor(getActivity().getResources().getColor(R.color.color_18B03F));
         }else if (currentTimeLineEntities.get(0).getPchg()==0){
             tv_change.setBackgroundResource(R.drawable.bg_green_black);
-            tv_preice.setTextColor(getContext().getResources().getColor(R.color.color_black_333333));
+            tv_preice.setTextColor(getActivity().getResources().getColor(R.color.color_black_333333));
         }
         DecimalFormat format = new DecimalFormat("0.00%");
         String updown = format.format(currentTimeLineEntities.get(0).getPchg());
-        tv_change.setText(String.format(getContext().getResources().getString(R.string.star_price_time_share_limit),
+        tv_change.setText(String.format(getActivity().getResources().getString(R.string.star_price_time_share_limit),
                 String.format("%.2f",currentTimeLineEntities.get(0).getChange()),updown));
         tv_preice.setText(String.format(getString(R.string.star_price_time_share),String.format("%.2f", currentTimeLineEntities.get(0).getCurrentPrice())));
         mChart.resetTracking();

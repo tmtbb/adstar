@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import static com.yundian.star.R.string.nickname;
+import static com.yundian.star.R.string.price;
 
 /**
  * Created by yaowang on 2017/2/20.
@@ -319,6 +320,20 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
                 SocketAPIConstant.ReqeutType.Pay, map);
         requestEntity(socketDataPacket,AliPayReturnBean.class,listener);
     }
+
+    @Override
+    public void cancelPay(String  rid, int payResult, OnAPIListener<Object> listener) {
+        LogUtils.loge("取消支付----------");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", SharePrefUtil.getInstance().getUserId());
+        map.put("rid", rid);
+        map.put("payResult", payResult);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.CancelPay,
+                SocketAPIConstant.ReqeutType.Pay, map);
+//        requestEntity(socketDataPacket,RequestResultBean.class,listener);
+        requestJsonObject(socketDataPacket,listener);
+    }
+
 
 //    @Override
 //    public void unionPay(String title, double price, OnAPIListener<Object> listener) {
