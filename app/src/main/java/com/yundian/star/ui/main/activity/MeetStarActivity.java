@@ -3,6 +3,7 @@ package com.yundian.star.ui.main.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,6 +102,7 @@ public class MeetStarActivity extends BaseActivity {
     private String price = "";
     private TextView order_total;
     private PayDialog payDialog;
+    private String userComment;
 
     @Override
     public int getLayoutId() {
@@ -178,7 +180,7 @@ public class MeetStarActivity extends BaseActivity {
         picker.setCanceledOnTouchOutside(true);
         picker.setUseWeight(true);
         picker.setTopPadding(DisplayUtil.dip2px(20));
-        picker.setRangeStart(2017, 1, 1);
+        picker.setRangeStart(current_end_year, current_end_month, current_end_day);
         picker.setSelectedItem(current_end_year, current_end_month, current_end_day);
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
@@ -223,6 +225,10 @@ public class MeetStarActivity extends BaseActivity {
     public void setSureToMeet(View v) {
         if (selectPosition < 0) {
             ToastUtils.showShort("请选择一个约见类型");
+            return;
+        }
+        if (TextUtils.isEmpty(userComment)){
+            ToastUtils.showShort("请输入备注内容");
             return;
         }
         showOrderInfoDialog();
@@ -315,7 +321,7 @@ public class MeetStarActivity extends BaseActivity {
         long mid = Long.parseLong(lists.get(selectPager).get(selectPosition).getMid());
         String city = textView4.getText().toString();
         String time = textView9.getText().toString();
-        String userComment = comment.getText().toString().trim();
+        userComment = comment.getText().toString().trim();
 
         NetworkAPIFactoryImpl.getDealAPI().starMeet(code, mid, city, time, 1, userComment, new OnAPIListener<RequestResultBean>() {
             @Override
@@ -328,7 +334,8 @@ public class MeetStarActivity extends BaseActivity {
             public void onSuccess(RequestResultBean resultBean) {
                 LogUtils.loge("约见成功------------------------------");
                 if (resultBean.getResult() == 1) {
-                    ToastUtils.showStatusView("约见成功", true);
+                    ToastUtils.showShort("约见成功，请耐心等待，并保持手机通话畅通。");
+//                    ToastUtils.showStatusView("约见成功，请耐心等待，并保持手机通话畅通。", true);
                 }
             }
         });
