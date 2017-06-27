@@ -50,6 +50,9 @@ public class NewsInfoPresenter extends NewInfoContract.Presenter {
         NetworkAPIFactoryImpl.getInformationAPI().advInfo(code, all, new OnAPIListener<AdvBeen>() {
             @Override
             public void onSuccess(AdvBeen adv) {
+                if(adv==null||adv.getList()==null||adv.getList().size()==0){
+                    return;
+                }
                 mView.initAdv(adv);
             }
 

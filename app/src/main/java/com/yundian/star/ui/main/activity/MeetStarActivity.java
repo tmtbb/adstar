@@ -14,13 +14,11 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
-import com.yundian.star.been.MeetTypeBeen;
 import com.yundian.star.been.OrderReturnBeen;
 import com.yundian.star.been.RequestResultBean;
 import com.yundian.star.been.StatServiceListBean;
@@ -53,16 +51,11 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-import static android.R.id.list;
-import static com.igexin.push.core.g.P;
 import static com.yundian.star.R.id.tv_content;
-import static com.yundian.star.R.id.tv_star_name;
-import static com.yundian.star.R.string.buy_price;
-import static io.netty.util.concurrent.FastThreadLocal.size;
 
 /**
  * Created by Administrator on 2017/6/13.
- * 约见名人
+ * 粉丝见面会
  */
 
 public class MeetStarActivity extends BaseActivity {

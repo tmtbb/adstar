@@ -125,7 +125,7 @@ public class AlreadyBoughtFragment extends BaseFragment {
                         list.clear();
                         alreadyBoughtAdapter.clear();
                         lrv.refreshComplete(REQUEST_COUNT);
-                        showErrorView(parentView, R.drawable.error_view_comment, getResources().getString(R.string.empty_order_info));
+                        showErrorView(parentView, R.drawable.error_view_comment, getActivity().getResources().getString(R.string.empty_order_info));
                     }
                 }
             }

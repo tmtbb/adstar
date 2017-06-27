@@ -24,6 +24,14 @@ public class FansEntrustReturnBean implements Parcelable {
     }
 
     public static class PositionsListBean {
+        @Override
+        public String toString() {
+            return "PositionsListBean{" +
+                    "trades=" + trades +
+                    ", user=" + user +
+                    '}';
+        }
+
         /**
          * trades : {"amount":600,"buySell":-1,"handle":0,"id":152,"openCharge":0,"openPrice":33.33,"positionId":650467027314661200,"positionTime":1497522004,"symbol":"1001"}
          * user : {"gender":0,"headUrl":"","nickname":"","uid":0}
