@@ -37,10 +37,12 @@ import com.yundian.star.app.AppApplication;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.AliPayReturnBean;
 import com.yundian.star.been.EventBusMessage;
+import com.yundian.star.been.RequestResultBean;
 import com.yundian.star.been.WXPayReturnEntity;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.listener.OnChildViewClickListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
+import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
 import com.yundian.star.ui.view.CustomerRadioGroup;
 import com.yundian.star.ui.view.RoundImageView;
 import com.yundian.star.utils.LogUtils;
@@ -56,6 +58,7 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+import static com.yundian.star.R.id.btn_enter_star;
 import static com.yundian.star.R.id.iv_recharge_type;
 import static com.yundian.star.R.id.rb_recharge_money1;
 import static com.yundian.star.R.id.rb_recharge_money2;
@@ -119,6 +122,8 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     public static final String TARGET_ID = "";
     private static final int SDK_PAY_FLAG = 1;
     private static final int SDK_AUTH_FLAG = 2;
+    private String wxRid;
+    private String aLiRid;
 
     @Override
     public int getLayoutId() {
@@ -322,17 +327,17 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
             }
 
             @Override
-            public void onSuccess(AliPayReturnBean bean) {
+            public void onSuccess(final AliPayReturnBean bean) {
                 LogUtils.loge("支付宝请求成功---------:" + bean.getOrderinfo());
                 final String orderInfo = bean.getOrderinfo();   // 订单信息   请求服务端返回payinfo
-
+                aLiRid = bean.getRid();
                 Runnable payRunnable = new Runnable() {
                     @Override
                     public void run() {
                         PayTask alipay = new PayTask(RechargeActivity.this);
 //                        String result = alipay.payV2(orderInfo, true);
                         Map<String, String> result = alipay.payV2(orderInfo, true);
-                        Message msg = new Message();
+                        Message msg = Message.obtain();
                         msg.what = SDK_PAY_FLAG;
                         msg.obj = result;
                         mHandler.sendMessage(msg);
@@ -358,10 +363,14 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                      */
                     String resultInfo = payResult.getResult();// 同步返回需要验证的信息
                     String resultStatus = payResult.getResultStatus();
+                    LogUtils.loge("------------------------支付宝返回的resultStatus:"+resultStatus);
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(RechargeActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
+                    }else if(TextUtils.equals(resultStatus, "6001")){
+                        LogUtils.loge("支付取消----------------------------------");
+                        cancelPay(aLiRid);
                     } else {
                         // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         Toast.makeText(RechargeActivity.this, "支付失败", Toast.LENGTH_SHORT).show();
@@ -393,6 +402,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onSuccess(WXPayReturnEntity wxPayReturnEntity) {
                 LogUtils.logd("微信支付调用成功 :" + wxPayReturnEntity.toString());
+                wxRid = wxPayReturnEntity.getRid();
                 wxPayEntity = wxPayReturnEntity;
                 PayReq request = new PayReq();
                 request.appId = wxPayReturnEntity.getAppid();
@@ -419,8 +429,11 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 //                ToastUtils.showShort("支付成功:" + eventBusMessage.Message);       //1-成功 2-取消支付
 //                LogUtils.logd("支付成功,更新余额,进入充值列表");
                 break;
-            case -2:  //取消支付
+            case -2:  //取消支付   //需要发送广播
                 //   showDialogTip();
+                showDialogTip();
+                LogUtils.loge("接收到取消微信支付------------------------");
+                cancelPay(wxRid);
 //                ToastUtils.showShort("用户取消支付:" + eventBusMessage.Message);
                 break;
 //            default:
@@ -463,5 +476,20 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
             return;
         }
         exitNow = System.currentTimeMillis();
+    }
+
+    private void cancelPay(String payRid) {
+        NetworkAPIFactoryImpl.getDealAPI().cancelPay(payRid, 1, new OnAPIListener<Object>() {
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.loge("取消支付失败------------------------------");
+
+            }
+
+            @Override
+            public void onSuccess(Object resultBean) {
+                LogUtils.loge("取消支付成功------------------------------");
+            }
+        });
     }
 }

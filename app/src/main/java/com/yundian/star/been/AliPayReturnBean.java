@@ -9,6 +9,7 @@ import android.os.Parcelable;
 
 public class AliPayReturnBean implements Parcelable{
     private String orderinfo;
+    private String rid;
 
     public String getOrderinfo() {
         return orderinfo;
@@ -16,6 +17,14 @@ public class AliPayReturnBean implements Parcelable{
 
     public void setOrderinfo(String orderinfo) {
         this.orderinfo = orderinfo;
+    }
+
+    public String getRid() {
+        return rid;
+    }
+
+    public void setRid(String rid) {
+        this.rid = rid;
     }
 
     @Override
@@ -26,6 +35,7 @@ public class AliPayReturnBean implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(this.orderinfo);
+        dest.writeString(this.rid);
     }
 
     public AliPayReturnBean() {
@@ -33,6 +43,7 @@ public class AliPayReturnBean implements Parcelable{
 
     protected AliPayReturnBean(Parcel in) {
         this.orderinfo = in.readString();
+        this.rid = in.readString();
     }
 
     public static final Creator<AliPayReturnBean> CREATOR = new Creator<AliPayReturnBean>() {
