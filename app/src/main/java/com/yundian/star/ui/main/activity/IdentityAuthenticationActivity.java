@@ -92,6 +92,7 @@ public class IdentityAuthenticationActivity extends BaseActivity {
                     public void onError(Throwable ex) {
                         ex.printStackTrace();
                         LogUtils.logd("实名认证请求失败");
+                        ToastUtils.showShort("实名认证失败");
                     }
 
                     @Override
