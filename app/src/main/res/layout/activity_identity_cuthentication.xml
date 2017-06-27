@@ -27,7 +27,6 @@
                 android:src="@drawable/identity_verification" />
 
             <EditText
-                android:windowSoftInputMode="stateHidden|adjustResize"
                 android:id="@+id/et_input_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -44,8 +43,6 @@
                 android:textSize="@dimen/fontSize_15sp" />
 
             <EditText
-                android:windowSoftInputMode="stateHidden|adjustResize"
-
                 android:id="@+id/et_input_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
