@@ -1094,6 +1094,11 @@ public class TimeUtil {
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
         return format.format(new Date(time));
     }
+    //毫秒转化为YD
+    public static String getYD(long time) {
+        SimpleDateFormat format = new SimpleDateFormat("MM-dd");
+        return format.format(new Date(time));
+    }
 
     public static String getTime(long time) {
         SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm");

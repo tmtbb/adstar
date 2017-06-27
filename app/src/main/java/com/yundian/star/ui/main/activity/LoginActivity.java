@@ -37,10 +37,7 @@ import com.yundian.star.widget.CheckException;
 import com.yundian.star.widget.WPEditText;
 
 import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
-import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
@@ -49,22 +46,17 @@ import butterknife.OnClick;
  */
 
 public class LoginActivity extends BaseActivity {
-    @Bind(R.id.userNameEditText)
-    WPEditText userNameEditText;
-    @Bind(R.id.passwordEditText)
-    WPEditText passwordEditText;
-    @Bind(R.id.loginButton)
-    Button loginButton;
-    @Bind(R.id.registerText)
-    TextView registerText;
-    @Bind(R.id.tv_retrieve_password)
-    TextView tv_retrieve_password;
-    @Bind(R.id.tv_weixin_login)
-    TextView tv_weixin_login;
+
     private CheckHelper checkHelper = new CheckHelper();
     private AbortableFuture<LoginInfo> loginRequest;
     private long exitNow;
     boolean flag = true;
+    private WPEditText userNameEditText;
+    private WPEditText passwordEditText;
+    private Button loginButton;
+    private TextView registerText;
+    private TextView tv_retrieve_password;
+    private TextView tv_weixin_login;
 
     @Override
     public int getLayoutId() {
@@ -78,10 +70,11 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        if (flag) {
-            EventBus.getDefault().register(this); // EventBus注册广播()
-            flag = false;//更改标记,使其不会再进行多次注册
-        }
+        initFindById();
+  //      if (flag) {
+  //          EventBus.getDefault().register(this); // EventBus注册广播()
+  //          flag = false;//更改标记,使其不会再进行多次注册
+  //      }
         WindowManager.LayoutParams p = getWindow().getAttributes();// 获取对话框当前的参值
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
@@ -93,6 +86,15 @@ public class LoginActivity extends BaseActivity {
         if (!TextUtils.isEmpty(phoneNum)) {
             userNameEditText.getEditText().setText(phoneNum);
         }
+    }
+
+    private void initFindById() {
+        userNameEditText = (WPEditText)findViewById(R.id.userNameEditText);
+        passwordEditText = (WPEditText)findViewById(R.id.passwordEditText);
+        loginButton = (Button)findViewById(R.id.loginButton);
+        registerText = (TextView)findViewById(R.id.registerText);
+        tv_retrieve_password = (TextView)findViewById(R.id.tv_retrieve_password);
+        tv_weixin_login = (TextView)findViewById(R.id.tv_weixin_login);
     }
 
     @OnClick(R.id.loginButton)
@@ -246,21 +248,21 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void onDestroy() {
-        EventBus.getDefault().removeAllStickyEvents();
-        EventBus.getDefault().unregister(this);
+        //EventBus.getDefault().removeAllStickyEvents();
+        //EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
-    //接收消息
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-    public void ReciveMessageEventBus(EventBusMessage eventBusMessage) {
-        switch (eventBusMessage.Message) {
-            case -6:  //成功
-                LogUtils.loge("当前是接收到微信登录成功的消息,finish");
-                finish();
-                break;
-        }
-    }
+//    //接收消息
+//    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+//    public void ReciveMessageEventBus(EventBusMessage eventBusMessage) {
+//        switch (eventBusMessage.Message) {
+//            case -6:  //成功
+//                LogUtils.loge("当前是接收到微信登录成功的消息,finish");
+//                finish();
+//                break;
+//        }
+//    }
 
 
     @OnClick(R.id.close)

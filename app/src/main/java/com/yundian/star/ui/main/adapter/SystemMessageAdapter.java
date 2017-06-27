@@ -43,6 +43,7 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
         return holder;
     }
 
+
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         OrderReturnBeen.OrdersListBean bean = listData.get(position);
@@ -51,8 +52,9 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
         List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(listData.get(position).getSymbol());
         String ss = null ;
         if (bean.getBuyUid()==uid){
-            ss = "求购订单  " ;
+            ss = "求购," ;
             if (bean.getBuyHandle()==0&&bean.getHandle()!=-1){
+                ss = "求购,匹配成功。";
                 viewHolder.tv_check.setVisibility(View.VISIBLE);
                 viewHolder.tv_check.setText("未确认");
                 viewHolder.tv_status.setVisibility(View.GONE);
@@ -62,34 +64,33 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
                         mOnImgClickLitener.onImgClick(v,position);
                     }
                 });
-            }else if (bean.getBuyHandle()==1&&bean.getHandle()!=-1){
+            }else if (bean.getHandle()!=-1){
                 viewHolder.tv_check.setVisibility(View.GONE);
                 viewHolder.tv_status.setVisibility(View.VISIBLE);
                 if (bean.getHandle()==2){
-                    viewHolder.tv_status.setText("交易成功");
+                    viewHolder.tv_status.setText("交易完成。");
                 }else if (bean.getHandle()==1){
-                    viewHolder.tv_status.setText("已确认");
+                    viewHolder.tv_status.setText("已确认。");
                 }else if (bean.getHandle()==0){
                     viewHolder.tv_status.setText("订单生成");
                 }else if (bean.getHandle()==-2){
-                    viewHolder.tv_status.setText("转让方时间不足");
+                    ss = "求购时间，";
+                    viewHolder.tv_status.setText("对方时间不足。");
                 }else if (bean.getHandle()==-3){
-                    viewHolder.tv_status.setText("求购金币不足");
+                    ss = "求购时间，";
+                    viewHolder.tv_status.setText("您金额不足。");
                 }else if (bean.getHandle()==-4){
-                    viewHolder.tv_status.setText("订单异常");
+                    viewHolder.tv_status.setText("交易失败。");
                 }
             }else if (bean.getHandle()==-1){
                 viewHolder.tv_check.setVisibility(View.GONE);
                 viewHolder.tv_status.setVisibility(View.VISIBLE);
-                viewHolder.tv_status.setText("订单取消");
-            }else {
-                viewHolder.tv_check.setVisibility(View.GONE);
-                viewHolder.tv_status.setVisibility(View.VISIBLE);
-                viewHolder.tv_status.setText("订单取消");
+                viewHolder.tv_status.setText("取消订单。");
             }
         }else {
-            ss = "转让订单  " ;
+            ss = "转让，" ;
             if (bean.getSellHandler()==0&&bean.getHandle()!=-1){
+                ss = "转让,匹配成功。";
                 viewHolder.tv_check.setVisibility(View.VISIBLE);
                 viewHolder.tv_check.setText("未确认");
                 viewHolder.tv_status.setVisibility(View.GONE);
@@ -99,39 +100,34 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
                         mOnImgClickLitener.onImgClick(v,position);
                     }
                 });
-            }else if (bean.getSellHandler()==1&&bean.getHandle()!=-1){
+            }else if (bean.getHandle()!=-1){
                 viewHolder.tv_check.setVisibility(View.GONE);
                 viewHolder.tv_status.setVisibility(View.VISIBLE);
                 if (bean.getHandle()==2){
-                    viewHolder.tv_status.setText("交易成功");
+                    viewHolder.tv_status.setText("交易完成。");
                 }else if (bean.getHandle()==1){
-                    viewHolder.tv_status.setText("已确认");
+                    viewHolder.tv_status.setText("已确认。");
                 }else if (bean.getHandle()==0){
                     viewHolder.tv_status.setText("订单生成");
                 }else if (bean.getHandle()==-2){
-                    viewHolder.tv_status.setText("转让方时间不足");
+                    ss = "转让时间，";
+                    viewHolder.tv_status.setText("您时间不足。");
                 }else if (bean.getHandle()==-3){
-                    viewHolder.tv_status.setText("求购金币不足");
+                    ss = "转让时间，";
+                    viewHolder.tv_status.setText("对方金额不足。");
                 }else if (bean.getHandle()==-4){
-                    viewHolder.tv_status.setText("订单异常");
+                    viewHolder.tv_status.setText("交易失败。");
                 }
             }else if (bean.getHandle()==-1){
                 viewHolder.tv_check.setVisibility(View.GONE);
                 viewHolder.tv_status.setVisibility(View.VISIBLE);
-                viewHolder.tv_status.setText("订单取消");
-            }else {
-                viewHolder.tv_check.setVisibility(View.GONE);
-                viewHolder.tv_status.setVisibility(View.VISIBLE);
-                viewHolder.tv_status.setText("订单取消");
+                viewHolder.tv_status.setText("取消订单。");
             }
-
-
 
         }
         if (starInfos.size()!=0){
             StarInfo starInfo = starInfos.get(0);
-            viewHolder.tv_content.setText(ss+String.format(mContext.getString(R.string.name_code),starInfo.getName(),starInfo.getCode()));
-
+            viewHolder.tv_content.setText(String.format(mContext.getString(R.string.name_code),starInfo.getName(),starInfo.getCode())+ss);
         }
     }
 

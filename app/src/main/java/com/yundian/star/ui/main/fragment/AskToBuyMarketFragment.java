@@ -30,8 +30,6 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-
 
 /**
  * Created by Administrator on 2017/5/24.
@@ -39,28 +37,6 @@ import butterknife.Bind;
  */
 
 public class AskToBuyMarketFragment extends BaseFragment {
-    @Bind(R.id.but_buy_price)
-    NumberBoubleButton but_buy_price;
-    @Bind(R.id.but_buy_num)
-    NumberButton but_buy_num;
-    @Bind(R.id.tv_sure_buy)
-    TextView tv_sure_buy;
-    @Bind(R.id.img_head)
-    ImageView img_head;
-    @Bind(R.id.tv_name_code)
-    TextView tv_name_code;
-    @Bind(R.id.tv_current_price)
-    TextView tv_current_price;
-    @Bind(R.id.tv_up_down_money)
-    TextView tv_up_down_money;
-    @Bind(R.id.tv_up_down_range)
-    TextView tv_up_down_range;
-    @Bind(R.id.tv_content_limit)
-    TextView tv_content_limit;
-    @Bind(R.id.tv_total)
-    TextView tv_total;
-    @Bind(R.id.tv_have_star_time)
-    TextView tv_have_star_time;
     private double buy_price = 0.01;
     private int buy_num = 600;
     private double total_prices = 0;
@@ -73,6 +49,17 @@ public class AskToBuyMarketFragment extends BaseFragment {
     private boolean isCanBuy = false;
     private MyHandler myHandler;
     private boolean isFirst = true;
+    private NumberBoubleButton but_buy_price;
+    private NumberButton but_buy_num;
+    private TextView tv_sure_buy;
+    private ImageView img_head;
+    private TextView tv_name_code;
+    private TextView tv_current_price;
+    private TextView tv_up_down_money;
+    private TextView tv_up_down_range;
+    private TextView tv_content_limit;
+    private TextView tv_total;
+    private TextView tv_have_star_time;
 
     @Override
     protected int getLayoutResource() {
@@ -86,19 +73,34 @@ public class AskToBuyMarketFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initFindById();
         if (getArguments() != null) {
             code = getArguments().getString(AppConstant.STAR_CODE);
             head_url = getArguments().getString(AppConstant.STAR_HEAD_URL);
             wid = getArguments().getString(AppConstant.STAR_WID);
             name = getArguments().getString(AppConstant.STAR_NAME);
             ImageLoaderUtils.display(getContext(), img_head, head_url);
-            tv_name_code.setText(String.format(getContext().getResources().getString(R.string.name_code), name, code));
+            tv_name_code.setText(String.format(getActivity().getResources().getString(R.string.name_code), name, code));
         }
         getHaveCodeTime();
         getStarTotalTime();
         getData();
         initListener();
         myHandler = new MyHandler(this);
+    }
+
+    private void initFindById() {
+        but_buy_price = (NumberBoubleButton)rootView.findViewById(R.id.but_buy_price);
+        but_buy_num = (NumberButton)rootView.findViewById(R.id.but_buy_num);
+        tv_sure_buy = (TextView)rootView.findViewById(R.id.tv_sure_buy);
+        img_head = (ImageView)rootView.findViewById(R.id.img_head);
+        tv_name_code = (TextView)rootView.findViewById(R.id.tv_name_code);
+        tv_current_price = (TextView)rootView.findViewById(R.id.tv_current_price);
+        tv_up_down_money = (TextView)rootView.findViewById(R.id.tv_up_down_money);
+        tv_up_down_range = (TextView)rootView.findViewById(R.id.tv_up_down_range);
+        tv_content_limit = (TextView)rootView.findViewById(R.id.tv_content_limit);
+        tv_total = (TextView)rootView.findViewById(R.id.tv_total);
+        tv_have_star_time = (TextView)rootView.findViewById(R.id.tv_have_star_time);
     }
 
     private void getHaveCodeTime() {

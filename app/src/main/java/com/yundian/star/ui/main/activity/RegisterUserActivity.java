@@ -1,7 +1,6 @@
 package com.yundian.star.ui.main.activity;
 
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.text.TextUtils;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,6 +30,7 @@ import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstr
 import com.yundian.star.utils.CountUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.MD5Util;
+import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.utils.ViewConcurrencyUtils;
 import com.yundian.star.widget.CheckException;
@@ -70,11 +71,12 @@ public class RegisterUserActivity extends BaseActivity {
     private boolean isWXBind = false;
     private WXUserInfoEntity wxUserInfo;
     private static Dialog mDetailDialog;
-    private WPEditText memberId;
-    private WPEditText areaBrokerId;
-    private WPEditText brokerId;
+    private EditText memberId;
+    private EditText areaBrokerId;
+    private String sub_agentId;
+    private EditText brokerId;
     private Button enterStar;
-    private long userMenberId;
+    private String userMenberId;
     private String agentId;
     private String recommend;
 
@@ -138,22 +140,22 @@ public class RegisterUserActivity extends BaseActivity {
         phone = userNameEditText.getEditTextString();
         pwd = passwordEditText.getEditTextString();
         vCode = msgEditText.getEditTextString();
-
         if (checkHelper.checkMobile(phone, exception) && checkHelper.checkPassword(pwd, exception)
                 && checkHelper.checkVerifyCode(vCode, exception)) {
+            if (!verifyCode()) {
+                return;
+            }
             mDetailDialog.show();
+            //会员id
         } else {
             ToastUtils.showShort(exception.getErrorMsg());
         }
     }
 
     private void wxBindInfo() {
-        if (!verifyCode()) {
-            return;
-        }
         NetworkAPIFactoryImpl.getUserAPI().bindNumber(userNameEditText.getEditTextString(), wxUserInfo.getOpenid()
                 , MD5Util.MD5(passwordEditText.getEditTextString()), verifyCodeBeen.getTimeStamp(), verifyCodeBeen.getVToken(), vCode,
-                userMenberId , agentId,recommend
+                userMenberId , agentId,"",sub_agentId
               , wxUserInfo.getNickname(), wxUserInfo.getHeadimgurl(), new OnAPIListener<RegisterReturnBeen>() {
                     @Override
                     public void onError(Throwable ex) {
@@ -165,6 +167,7 @@ public class RegisterUserActivity extends BaseActivity {
                         LogUtils.logd("微信绑定成功" + registerReturnBeen.toString());
                         if (registerReturnBeen.getResult() == -301) {
                             ToastUtils.showShort("用户已经注册,请直接登录");
+                            SharePrefUtil.getInstance().putLoginPhone(userNameEditText.getEditTextString());
                             startActivity(LoginActivity.class);
                             finish();
                             overridePendingTransition(R.anim.activity_open_down_in, R.anim.activity_off_top_out);
@@ -173,7 +176,7 @@ public class RegisterUserActivity extends BaseActivity {
                             /*//loginGetUserInfo(newPwd);  //登录请求数据
                             finish();
                             overridePendingTransition(0,R.anim.activity_off_top_out);*/
-
+                            SharePrefUtil.getInstance().putLoginPhone(userNameEditText.getEditTextString());
                             startActivity(LoginActivity.class);
                             finish();
                             overridePendingTransition(R.anim.activity_open_down_in, R.anim.activity_off_top_out);
@@ -214,11 +217,8 @@ public class RegisterUserActivity extends BaseActivity {
 
 
     private void register() {
-        if (!verifyCode()) {
-            return;
-        }
         NetworkAPIFactoryImpl.getUserAPI().register(userNameEditText.getEditTextString(),
-                MD5Util.MD5(passwordEditText.getEditTextString()),userMenberId , agentId,recommend,
+                MD5Util.MD5(passwordEditText.getEditTextString()),userMenberId , agentId,"",sub_agentId,
                 new OnAPIListener<RegisterReturnBeen>() {
             @Override
             public void onError(Throwable ex) {
@@ -247,6 +247,7 @@ public class RegisterUserActivity extends BaseActivity {
                     overridePendingTransition(R.anim.activity_open_down_in, R.anim.activity_off_top_out);
                 } else if (registerReturnBeen.getResult() == 1) {
                     ToastUtils.showShort("注册成功,请登录");
+                    SharePrefUtil.getInstance().putLoginPhone(userNameEditText.getEditTextString());
 //                            loginGetUserInfo(newPwd);  //登录请求数据
                     startActivity(LoginActivity.class);
                     finish();
@@ -350,11 +351,10 @@ public class RegisterUserActivity extends BaseActivity {
     private void initIdDialog() {
         mDetailDialog = new Dialog(this, R.style.custom_dialog);
         mDetailDialog.setContentView(R.layout.dialog_input_id);
-        memberId = (WPEditText) mDetailDialog.findViewById(R.id.member_id);
-        areaBrokerId = (WPEditText) mDetailDialog.findViewById(R.id.area_broker_id);
-        brokerId = (WPEditText) mDetailDialog.findViewById(R.id.broker_id);
+        memberId = (EditText) mDetailDialog.findViewById(R.id.member_id);
+        areaBrokerId = (EditText) mDetailDialog.findViewById(R.id.area_broker_id);
+        brokerId = (EditText) mDetailDialog.findViewById(R.id.broker_id);
         enterStar = (Button) mDetailDialog.findViewById(R.id.btn_enter_star);
-
 
         ImageView closeImg = (ImageView) mDetailDialog.findViewById(R.id.iv_dialog_close);
         closeImg.setOnClickListener(new View.OnClickListener() {
@@ -364,16 +364,21 @@ public class RegisterUserActivity extends BaseActivity {
             }
         });
         mDetailDialog.setCancelable(false);
-
-        checkHelper.checkButtonState(enterStar, memberId, areaBrokerId, brokerId);
         enterStar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LogUtils.logd("输入会员ID----------------------");
+
+                if (TextUtils.isEmpty(memberId.getText().toString().trim())||
+                        TextUtils.isEmpty(areaBrokerId.getText().toString().trim())
+                        ||TextUtils.isEmpty(brokerId.getText().toString().trim())){
+                    ToastUtils.showShort("请填写全部数据");
+                    return;
+                }
+                userMenberId = memberId.getText().toString().trim();
+                agentId = areaBrokerId.getText().toString().trim();//区域。。经纪人
+                sub_agentId =brokerId.getText().toString().trim();  //经济人人  == 推荐人
                 mDetailDialog.dismiss();
-                userMenberId = Long.parseLong(memberId.getEditTextString());
-                recommend   = areaBrokerId.getEditTextString();  //区域人  == 推荐人
-                agentId = brokerId.getEditTextString();   //经纪人
                 if (isWXBind) {
                     wxBindInfo();
                 } else {

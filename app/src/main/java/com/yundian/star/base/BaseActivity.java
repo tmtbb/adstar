@@ -9,6 +9,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
@@ -17,7 +18,9 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.FrameLayout;
@@ -28,12 +31,17 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.yundian.star.R;
 import com.yundian.star.base.baseapp.AppManager;
+import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.MatchSucessReturnBeen;
 import com.yundian.star.been.OrderSucReturnBeen;
-import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIRequestManage;
+import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIResponse;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.ui.im.activity.SystemMessagesActivity;
+import com.yundian.star.ui.main.activity.CustomerServiceActivity;
+import com.yundian.star.ui.main.activity.MainActivity;
+import com.yundian.star.ui.wangyi.config.preference.Preferences;
+import com.yundian.star.ui.wangyi.login.LogoutHelper;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.TUtil;
@@ -41,6 +49,12 @@ import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.utils.daynightmodeutils.ChangeModeController;
 import com.yundian.star.widget.LoadingDialog;
 import com.yundian.star.widget.StatusBarCompat;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.Random;
 
 import butterknife.ButterKnife;
 
@@ -93,6 +107,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         doBeforeSetcontentView();
         rootView = LayoutInflater.from(this).inflate(getLayoutId(), null);
         setContentView(rootView);
+        //matchSucessListener();
         ButterKnife.bind(this);
         mContext = this;
         mPresenter = TUtil.getT(this, 0);
@@ -100,10 +115,9 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         if (mPresenter != null) {
             mPresenter.mContext = this;
         }
+        notificationTest();
         this.initPresenter();
         this.initView();
-        notificationTest();
-        matchSucessListener();
     }
 
 
@@ -283,7 +297,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        isConfigChange = true;
+        //isConfigChange = true;
     }
 
     @Override
@@ -292,9 +306,9 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         //SocketAPIRequestManage.getInstance().unboundOnMatchSucessListener();
         if (mPresenter != null)
             mPresenter.onDestroy();
-        if (!isConfigChange) {
+        //if (!isConfigChange) {
             AppManager.getAppManager().finishActivity(this);
-        }
+        //}
         ButterKnife.unbind(this);
     }
 
@@ -351,86 +365,90 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
 
     }
 
-
-    private void showAlertDialog(final MatchSucessReturnBeen matchSucessReturnBeen) {
-        final Dialog mPopWindowHistory = new Dialog(this, R.style.myDialog);
-        mPopWindowHistory.setContentView(R.layout.mach_sucess_choose);
-        TextView tvSure = (TextView) mPopWindowHistory.findViewById(R.id.btn_sure);
+    private static boolean isOpenDialog = false ;
+    private void showAlertDialog() {
+        if (isOpenDialog){
+            return;
+        }
+        isOpenDialog = true ;
+        final Dialog logOutDialog = new Dialog(this, R.style.myDialog);
+        logOutDialog.setCanceledOnTouchOutside(false);
+        logOutDialog.setContentView(R.layout.mach_sucess_choose);
+        TextView tvSure = (TextView) logOutDialog.findViewById(R.id.btn_sure);
         tvSure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mPopWindowHistory.dismiss();
-                Intent intent = new Intent(BaseActivity.this, SystemMessagesActivity.class);
-                //intent.putExtra(AppConstant.MATCH_SUCESS_INFO, 1);
-                //intent.putExtra(AppConstant.MATCH_SUCESS_ORDER_INFO,matchSucessReturnBeen);
-                startActivity(intent);
+                logOutDialog.dismiss();
+                isOpenDialog = false ;
+                logout();
             }
         });
-        TextView btn_cancel = (TextView) mPopWindowHistory.findViewById(R.id.btn_cancel);
-        btn_cancel.setOnClickListener(new View.OnClickListener() {
+        logOutDialog.setOnKeyListener(new DialogInterface.OnKeyListener() {
             @Override
-            public void onClick(View v) {
-                mPopWindowHistory.dismiss();
+            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK)
+                {
+                    return true;
+                }else {
+                    return false;
+                }
             }
         });
-        mPopWindowHistory.show();
+        logOutDialog.show();
     }
 
-     private void matchSucessListener() {
-        SocketAPIRequestManage.getInstance().setOnMatchSucessListener(new SocketAPIRequestManage.OnMatchSucessListener() {
-            @Override
-            public void onMatchListener(SocketDataPacket socketDataPacket) {
-                SocketAPIResponse socketAPIResponse = new SocketAPIResponse(socketDataPacket);
-                LogUtils.loge("baseactivity接受回调成功------"+socketAPIResponse);
-                if (socketDataPacket.getOperateCode()==5101){
-                    LogUtils.loge("撮合成功");
-                    final MatchSucessReturnBeen matchSucessReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), MatchSucessReturnBeen.class);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            String s1 = null;
-                            TextView textView = new TextView(mContext);
-                            textView.setText("点击查看");
-                            textView.setTextColor(getResources().getColor(R.color.color_8D0809));
-                            if (matchSucessReturnBeen.getBuyUid()== SharePrefUtil.getInstance().getUserId()){
-                                s1 = "求购信息";
-
-                            }else {
-                                s1 = "转让信息";
-                            }
-                            //showAlertDialog(matchSucessReturnBeen);
-                            String s = "撮合成功提醒:"+"("+matchSucessReturnBeen.getSymbol()+")"+
-                                    s1+",请到系统消息中查看,点击查看。";
-                            mBuilder.setContentText(s);
-                            //                        showAlertDialog();
-                            mNotificationManager.notify(matchSucessReturnBeen.getOpenPositionTime(), mBuilder.build());
+    //接收消息
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void ReciveMessagePush(SocketDataPacket socketDataPacket) {
+        SocketAPIResponse socketAPIResponse = new SocketAPIResponse(socketDataPacket);
+        switch (socketDataPacket.getOperateCode()) {
+            case 5101:  //登录取消
+                LogUtils.loge("撮合成功");
+                final MatchSucessReturnBeen matchSucessReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), MatchSucessReturnBeen.class);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String s1 = null;
+                        TextView textView = new TextView(mContext);
+                        textView.setText("点击查看");
+                        textView.setTextColor(getResources().getColor(R.color.color_8D0809));
+                        if (matchSucessReturnBeen.getBuyUid()== SharePrefUtil.getInstance().getUserId()){
+                            s1 = "求购信息";
+                        }else {
+                            s1 = "转让信息";
                         }
-                    });
-                }else {
-                    String s = null;
-                    final OrderSucReturnBeen orderSucReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), OrderSucReturnBeen.class);
-                    if (orderSucReturnBeen.getResult()==-1){
-                        s = "交易取消";
-                    }else if (orderSucReturnBeen.getResult()==-2){
-                        s = "转让方持有时间不足";
-                    }else if (orderSucReturnBeen.getResult()==-3){
-                        s = "求购方金币不足";
-                    }else if (orderSucReturnBeen.getResult()==0){
-                        s = "扣费成功";
+                        //showAlertDialog(matchSucessReturnBeen);
+                        String s = "撮合成功提醒:"+"("+matchSucessReturnBeen.getSymbol()+")"+
+                                s1+",请到系统消息中查看,点击查看。";
+                        mBuilder.setContentText(s);
+                        //                        showAlertDialog();
+                        mNotificationManager.notify(new Random().nextInt(Integer.MAX_VALUE), mBuilder.build());
                     }
-                    LogUtils.loge("交易成功，失败返回"+s+"...."+orderSucReturnBeen.toString());
-                    mBuilder.setContentText(s);
-                    //                        showAlertDialog();
-                    mNotificationManager.notify(100, mBuilder.build());
-
+                });
+                break;
+            case 5102:
+                String s = null;
+                final OrderSucReturnBeen orderSucReturnBeen = JSON.parseObject(socketAPIResponse.jsonObject().toString(), OrderSucReturnBeen.class);
+                if (orderSucReturnBeen.getResult()==-1){
+                    s = "交易取消";
+                }else if (orderSucReturnBeen.getResult()==-2){
+                    s = "转让方持有时间不足";
+                }else if (orderSucReturnBeen.getResult()==-3){
+                    s = "求购方金币不足";
+                }else if (orderSucReturnBeen.getResult()==0){
+                    s = "扣费成功";
+                }else if (orderSucReturnBeen.getResult()==2){
+                    s = "交易成功";
                 }
-
-
-
-            }
-        });
-
-
+                LogUtils.loge("交易成功，失败返回"+s+"...."+orderSucReturnBeen.toString());
+                mBuilder.setContentText(s);
+                //                        showAlertDialog();
+                mNotificationManager.notify(new Random().nextInt(Integer.MAX_VALUE), mBuilder.build());
+                break;
+            case 3040:
+                showAlertDialog();
+                break;
+        }
     }
 
     private void notificationTest() {
@@ -466,4 +484,42 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         return pendingIntent;
     }
 
+
+    //冻结操作入口
+    private boolean isFreezeMovement = false ;
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (isFreezeMovement){
+            Intent intent = new Intent(this, CustomerServiceActivity.class);
+            startActivity(intent);
+            return true;
+        }else {
+            return super.dispatchTouchEvent(ev);
+        }
+    }
+
+    private void logout() {
+        SharePrefUtil.getInstance().clearUserInfo();
+        SharePrefUtil.getInstance().clearUserLoginInfo();
+        Preferences.saveUserToken("");
+        LogoutHelper.logout();
+//        DataCacheManager.clearDataCache();  //清空缓存
+        EventBus.getDefault().postSticky(new EventBusMessage(2));  //登录取消消息
+        SocketAPINettyBootstrap.getInstance().closeChannel();
+        if (this instanceof MainActivity==false){
+            finish();
+        }
+//        startActivity(LoginActivity.class);
+    }
+
+
+    //接收消息
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void ReciveMessageBase(EventBusMessage eventBusMessage) {
+        switch (eventBusMessage.Message) {
+            case -1000:  //异常登录
+                isFreezeMovement = true ;
+                break;
+        }
+    }
 }

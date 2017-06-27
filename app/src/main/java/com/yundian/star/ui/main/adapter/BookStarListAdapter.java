@@ -5,18 +5,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.netease.nim.uikit.NimUIKit;
-import com.netease.nim.uikit.session.SessionCustomization;
 import com.yundian.star.R;
 import com.yundian.star.base.ListBaseAdapter;
 import com.yundian.star.base.SuperViewHolder;
 import com.yundian.star.been.BookingStarListBean;
 import com.yundian.star.greendao.GreenDaoManager;
 import com.yundian.star.greendao.StarInfo;
-import com.yundian.star.ui.wangyi.session.activity.P2PMessageActivity;
 import com.yundian.star.utils.ImageLoaderUtils;
 
 import java.util.List;
+
 import static com.yundian.star.R.id.tv_star_name;
 
 /**
@@ -54,13 +52,6 @@ public class BookStarListAdapter extends ListBaseAdapter<BookingStarListBean> {
             refuse.setVisibility(View.VISIBLE);
             refuse.setText("已完成");
         }
-        talk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
-                P2PMessageActivity.start(mContext, item.getFaccid(),item.getStarcode(),item.getStarname(), customization, null);
-            }
-        });
         List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(item.getStarcode());
         if (starInfos!=null&&starInfos.size()!=0){
             StarInfo starInfo = starInfos.get(0);

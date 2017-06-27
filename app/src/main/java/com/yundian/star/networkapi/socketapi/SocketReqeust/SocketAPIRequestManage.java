@@ -11,6 +11,8 @@ import com.yundian.star.utils.ErrorCodeUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.ResultCodeUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.HashMap;
 
 /**
@@ -77,7 +79,8 @@ public class SocketAPIRequestManage {
     public synchronized void notifyResponsePacket(SocketDataPacket socketDataPacket) {
         if (socketDataPacket != null) {
             LogUtils.loge("移除前接收口getOperateCode:" + socketDataPacket.getOperateCode());
-            if (socketDataPacket.getOperateCode() == 5101 || socketDataPacket.getOperateCode() == 5102) {
+            if (socketDataPacket.getOperateCode() == 5101 || socketDataPacket.getOperateCode() == 5102||socketDataPacket.getOperateCode()==3040) {
+                EventBus.getDefault().postSticky(socketDataPacket);
                 if (sucessListener != null) {
                     LogUtils.loge("调用之前:"+socketDataPacket.getOperateCode()+"----------------------");
                     sucessListener.onMatchListener(socketDataPacket);

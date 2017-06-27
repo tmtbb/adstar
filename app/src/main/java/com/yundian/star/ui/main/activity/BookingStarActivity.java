@@ -1,27 +1,28 @@
 package com.yundian.star.ui.main.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
+import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
-import com.yundian.star.R;
+import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.session.SessionCustomization;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.BookingStarListBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.BookStarListAdapter;
+import com.yundian.star.ui.wangyi.session.activity.P2PMessageActivity;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.widget.NormalTitleBar;
+import com.yundian.star.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.Bind;
-
-import static com.yundian.star.R.id.nt_title;
 
 /**
  * 预约的明星
@@ -30,10 +31,6 @@ import static com.yundian.star.R.id.nt_title;
 
 public class BookingStarActivity extends BaseActivity {
 
-    @Bind(nt_title)
-    NormalTitleBar ntTitle;
-    @Bind(R.id.lrv)
-    LRecyclerView lrv;
     private BookStarListAdapter bookStarListAdapter;
     private static final int TOTAL_COUNTER = 34;
     private static final int REQUEST_COUNT = 10;
@@ -41,6 +38,8 @@ public class BookingStarActivity extends BaseActivity {
     private static int mCurrentCounter = 1;
     private List<BookingStarListBean> list = new ArrayList<>();
     private List<BookingStarListBean> loadList = new ArrayList<>();
+    private LRecyclerView lrv;
+    private NormalTitleBar nt_title;
 
     @Override
     public int getLayoutId() {
@@ -53,10 +52,16 @@ public class BookingStarActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        ntTitle.setTitleText(getResources().getString(R.string.booking_star_list));
-        ntTitle.setBackVisibility(true);
+        initFindById();
         initAdapter();
         getData(false, 1, REQUEST_COUNT);
+    }
+
+    private void initFindById() {
+        nt_title = (NormalTitleBar)findViewById(R.id.nt_title);
+        lrv = (LRecyclerView)findViewById(R.id.lrv);
+        nt_title.setTitleText(getResources().getString(R.string.booking_star_list));
+        nt_title.setBackVisibility(true);
     }
 
     private void getData(final boolean isLoadMore, int start, int count) {
@@ -113,15 +118,25 @@ public class BookingStarActivity extends BaseActivity {
                 getData(false, 1, 10);
             }
         });
+        lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                    BookingStarListBean listBean = list.get(position);
+                    SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
+                    P2PMessageActivity.start(mContext, listBean.getFaccid(),listBean.getStarcode(),listBean.getStarname(), customization, null);
+            }
+        });
     }
 
     public void showData() {
+        if (lrv==null){
+            return;
+        }
         bookStarListAdapter.clear();
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();
         bookStarListAdapter.addAll(list);
         LogUtils.loge("当前刷新list:" + list.toString());
-        lrv.refresh();
         lrv.refreshComplete(REQUEST_COUNT);
     }
 

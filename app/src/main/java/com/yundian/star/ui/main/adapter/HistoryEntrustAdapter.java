@@ -41,14 +41,13 @@ public class HistoryEntrustAdapter extends ListBaseAdapter<TodayEntrustReturnBea
         TextView tv_content_ed = holder.getView(R.id.tv_content_ed);
 
         tv_time.setText(TimeUtil.getHourMinuteSecond(bean.getPositionTime() * 1000));
-        price.setText(bean.getOpenPrice() + "");
         List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(bean.getSymbol());
         if (starInfos != null && starInfos.size() > 0) {
             name.setText(starInfos.get(0).getName());
         }
-        price.setText(bean.getOpenPrice()*bean.getAmount()+"");
-        tv_entrust_num.setText(bean.getRtAmount() + "");
-        tv_bargain_num.setText(bean.getAmount() + "");
+        price.setText(TimeUtil.getYD(bean.getPositionTime() * 1000));
+        tv_entrust_num.setText(String.valueOf(bean.getOpenPrice()));
+        tv_bargain_num.setText(String.valueOf(bean.getAmount()));
         tv_code.setText(bean.getSymbol());
         if (bean.getBuySell() == -1) {
             tv_content_ing.setText("转让");

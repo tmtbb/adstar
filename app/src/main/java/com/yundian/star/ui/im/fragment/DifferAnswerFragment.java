@@ -7,6 +7,7 @@ import com.yundian.star.base.BaseFragment;
 import com.yundian.star.ui.im.activity.StarCommunicationBookActivity;
 import com.yundian.star.ui.im.activity.SystemMessagesActivity;
 import com.yundian.star.utils.JudgeIdentityUtils;
+import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
@@ -48,6 +49,9 @@ public class DifferAnswerFragment extends BaseFragment {
 
     @OnClick(R.id.ll_system_news)
     public void gotoSystemMessage(){
+        if (!JudgeIsSetPayPwd.isSetPwd(getActivity())) {
+            return;
+        }
         startActivity(SystemMessagesActivity.class);
     }
 

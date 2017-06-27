@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/font_999999"
             android:textSize="@dimen/fontSize_11sp"
-            android:text="@string/delegation"
+            android:text="@string/delegation_num"
             />
         <TextView
             android:gravity="center"

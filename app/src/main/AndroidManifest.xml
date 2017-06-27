@@ -572,6 +572,7 @@
         <activity
             android:name=".ui.main.activity.CustomerServiceActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.main.activity.GeneralSettingsActivity"
