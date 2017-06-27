@@ -50,8 +50,9 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
             if (resp.errCode == 0){
                 EventBus.getDefault().postSticky(new EventBusMessage(resp.errCode));  //支付成功,发送广播
             }else{
-                AppManager.getAppManager().finishActivity(RechargeActivity.class);
-                ToastUtils.showShort("您已取消本次充值");
+                EventBus.getDefault().postSticky(new EventBusMessage(resp.errCode));
+//                AppManager.getAppManager().finishActivity(RechargeActivity.class);
+//                ToastUtils.showShort("您已取消本次充值");
             }
             finish();
 

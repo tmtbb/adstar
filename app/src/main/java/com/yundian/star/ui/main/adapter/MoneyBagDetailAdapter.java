@@ -51,6 +51,9 @@ public class MoneyBagDetailAdapter extends ListBaseAdapter<MoneyDetailListBean> 
             case 3:
                 statusType = "失败";
                 break;
+            case 4:
+                statusType = "充值取消";
+                break;
 
         }
         status.setText(statusType);
