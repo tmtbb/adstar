@@ -163,8 +163,10 @@ public class PayDialog extends BaseDialog {
     @Override
     public void dismiss() {
         ordersListBean = null ;
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(payPwdEditText.getWindowToken(), 0);
+        if (payPwdEditText!=null){
+            InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(payPwdEditText.getWindowToken(), 0);
+        }
         super.dismiss();
     }
 

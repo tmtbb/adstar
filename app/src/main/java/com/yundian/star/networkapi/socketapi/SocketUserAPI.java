@@ -171,7 +171,7 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
         map.put("device_id", AppApplication.getAndroidId());
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.saveDevice,
                 SocketAPIConstant.ReqeutType.User, map);
-        requestEntity(socketDataPacket, LoginReturnInfo.class, listener);
+        requestJsonObject(socketDataPacket, listener);
     }
 //    @Override
 //    public void login(String phone, String password, String deviceId, OnAPIListener<LoginReturnEntity> listener) {
