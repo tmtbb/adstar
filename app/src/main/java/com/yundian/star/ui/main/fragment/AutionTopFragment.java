@@ -19,10 +19,6 @@ import com.yundian.star.utils.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-
-import static com.yundian.star.R.id.lrv;
-
 /**
  * Created by Administrator on 2017/6/12.
  * 拍卖排行榜  mai
@@ -76,7 +72,6 @@ public class AutionTopFragment extends BaseFragment {
 
 
     private void getData(final boolean isLoadMore, int start) {
-
         NetworkAPIFactoryImpl.getInformationAPI().fansRntrust(code, buySell, start, REQUEST_COUNT, new OnAPIListener<FansEntrustReturnBean>() {
             @Override
             public void onError(Throwable ex) {
@@ -137,10 +132,11 @@ public class AutionTopFragment extends BaseFragment {
         } else {
             closeErrorView();
         }
+        autionTopAdapter.clear();
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();
         autionTopAdapter.addAll(list);
-        lrv.refresh();
+        lrv.refreshComplete(REQUEST_COUNT);
     }
 
     private void loadMoreData() {
@@ -154,4 +150,30 @@ public class AutionTopFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        LogUtils.loge("AutionTopFragmentset_setUserVisibleHint"+isVisibleToUser);
+        super.setUserVisibleHint(isVisibleToUser);
+    }
+
+    @Override
+    public boolean getUserVisibleHint() {
+        LogUtils.loge("AutionTopFragmentset_getUserVisibleHint"+super.getUserVisibleHint());
+        return super.getUserVisibleHint();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        LogUtils.loge("AutionTopFragmentset_onHiddenChanged"+super.getUserVisibleHint());
+        super.onHiddenChanged(hidden);
+    }
+
+    @Override
+    public void onResume() {
+        if (getUserVisibleHint()){
+            getData(false, 1);
+        }
+        LogUtils.loge("AutionTopFragmentset_onResume"+getUserVisibleHint()+"....");
+        super.onResume();
+    }
 }
