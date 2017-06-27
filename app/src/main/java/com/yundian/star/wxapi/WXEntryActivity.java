@@ -272,6 +272,17 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
             @Override
             public void onSuccess(LoginInfo param) {
                 LogUtils.logd("网易云登录成功");
+                NetworkAPIFactoryImpl.getUserAPI().saveDevice(loginReturnInfos.getUserinfo().getId(), new OnAPIListener<Object>() {
+                    @Override
+                    public void onError(Throwable ex) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(Object o) {
+                        LogUtils.logd("上传设备id和类型成功:" + o.toString());
+                    }
+                });
                 DemoCache.setAccount(param.getAccount());
                 saveLoginInfo(param.getAccount(), param.getToken());
                 // 初始化消息提醒配置

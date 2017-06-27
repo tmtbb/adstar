@@ -408,6 +408,17 @@ public class AppApplication extends BaseApplication {
 
                 @Override
                 public void onSuccess(LoginReturnInfo loginReturnEntity) {
+                    NetworkAPIFactoryImpl.getUserAPI().saveDevice(loginReturnEntity.getUserinfo().getId(), new OnAPIListener<Object>() {
+                        @Override
+                        public void onError(Throwable ex) {
+
+                        }
+
+                        @Override
+                        public void onSuccess(Object o) {
+                            LogUtils.logd("上传设备id和类型成功:" + o.toString());
+                        }
+                    });
                     LogUtils.loge("------------------======token登录成功，保存信息"+loginReturnEntity.toString());
                     //服务器问题,先token登录不保存信息
                     //SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);

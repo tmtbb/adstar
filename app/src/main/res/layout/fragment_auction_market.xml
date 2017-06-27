@@ -179,6 +179,11 @@
             android:id="@+id/fl_auction_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></FrameLayout>
+        <com.github.jdsjlzx.recyclerview.LRecyclerView
+            android:id="@+id/lrv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
     </LinearLayout>
 
 
