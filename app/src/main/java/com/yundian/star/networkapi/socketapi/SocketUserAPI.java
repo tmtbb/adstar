@@ -162,6 +162,17 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
                 SocketAPIConstant.ReqeutType.User, map);
         requestEntity(socketDataPacket, CheckUpdateInfoEntity.class, listener);
     }
+
+    @Override
+    public void saveDevice(long uid, OnAPIListener<Object> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("uid", uid);
+        map.put("device_type", 1);
+        map.put("device_id", AppApplication.getAndroidId());
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.saveDevice,
+                SocketAPIConstant.ReqeutType.User, map);
+        requestEntity(socketDataPacket, LoginReturnInfo.class, listener);
+    }
 //    @Override
 //    public void login(String phone, String password, String deviceId, OnAPIListener<LoginReturnEntity> listener) {
 //        LogUtil.d("开始登录");

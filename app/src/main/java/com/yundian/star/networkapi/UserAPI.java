@@ -46,4 +46,5 @@ public interface UserAPI {
     void isRegisted(String phone, OnAPIListener<RegisterReturnBeen> listener);
     void starCount( OnAPIListener<RegisterReturnBeen> listener);
     void update(OnAPIListener<CheckUpdateInfoEntity> listener);
+    void saveDevice(long uid, OnAPIListener<Object> listener);
 }

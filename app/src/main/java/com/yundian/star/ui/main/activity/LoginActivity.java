@@ -158,6 +158,17 @@ public class LoginActivity extends BaseActivity {
         loginRequest = NimUIKit.doLogin(new LoginInfo(loginReturnInfos.getUserinfo().getPhone(), registerReturnWangYiBeen.getToken_value()), new RequestCallback<LoginInfo>() {
             @Override
             public void onSuccess(LoginInfo param) {
+                NetworkAPIFactoryImpl.getUserAPI().saveDevice(loginReturnInfos.getUserinfo().getId(), new OnAPIListener<Object>() {
+                    @Override
+                    public void onError(Throwable ex) {
+                        LogUtils.logd("上传设备id和类型失败:" + ex.toString());
+                    }
+
+                    @Override
+                    public void onSuccess(Object o) {
+                        LogUtils.logd("上传设备id和类型成功:" + o.toString());
+                    }
+                });
                 LogUtils.logd("网易云登录成功:" + param.toString());
                 ToastUtils.showStatusView("登陆成功", true);
                 DemoCache.setAccount(param.getAccount());
