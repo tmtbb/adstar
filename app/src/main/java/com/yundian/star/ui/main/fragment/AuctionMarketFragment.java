@@ -33,7 +33,6 @@ import com.yundian.star.utils.TimeUtil;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
-import butterknife.Bind;
 import butterknife.OnClick;
 
 
@@ -44,30 +43,6 @@ import butterknife.OnClick;
 
 public class AuctionMarketFragment extends BaseFragment {
 
-    @Bind(R.id.iv_src)
-    ImageView iv_src;
-    @Bind(R.id.tv_residue_time)
-    TextView tv_residue_time;
-    @Bind(R.id.tv_have_name)
-    TextView tv_have_name;
-    @Bind(R.id.tv_have_time)
-    TextView tv_have_time;
-    @Bind(R.id.tv_total_second)
-    TextView tv_total_second;
-    @Bind(R.id.tv_shell_out)
-    TextView tv_shell_out;
-    @Bind(R.id.tv_buy_in)
-    TextView tv_buy_in;
-    @Bind(R.id.seekBar)
-    MySeekBar seekBar;
-    @Bind(R.id.press)
-    MySeekBar press;
-    @Bind(R.id.fl_auction_content)
-    FrameLayout fl_auction_content;
-    @Bind(R.id.radio_group)
-    RadioGroup radioGroup;
-    @Bind(R.id.rb_1)
-    RadioButton radioButton1;
     private AutionTopFragment aution_buy;
     private AutionTopFragment aution_shell;
     private String code;
@@ -77,6 +52,18 @@ public class AuctionMarketFragment extends BaseFragment {
     private CountDownTimer timer;
     private int secondTime = 0;
     private MyHandler1 myHandler;
+    private TextView tv_residue_time;
+    private TextView tv_have_name;
+    private TextView tv_have_time;
+    private TextView tv_total_second;
+    private TextView tv_shell_out;
+    private TextView tv_buy_in;
+    private ImageView iv_src;
+    private MySeekBar seekBar;
+    private MySeekBar press;
+    private FrameLayout fl_auction_content;
+    private RadioGroup radioGroup;
+    private RadioButton radioButton1;
 
 
     @Override
@@ -91,6 +78,7 @@ public class AuctionMarketFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initFindById();
         initName();
 //        initData();
         initListener();
@@ -99,6 +87,21 @@ public class AuctionMarketFragment extends BaseFragment {
             StarInfo starInfo = starInfos.get(0);
             ImageLoaderUtils.displayWithDefaultImg(getActivity(),iv_src,starInfo.getPic1(),R.drawable.infos_news_defolat);
         }
+    }
+
+    private void initFindById() {
+        tv_residue_time = (TextView) rootView.findViewById(R.id.tv_residue_time);
+        tv_have_name = (TextView) rootView.findViewById(R.id.tv_have_name);
+        tv_have_time = (TextView) rootView.findViewById(R.id.tv_have_time);
+        tv_total_second = (TextView) rootView.findViewById(R.id.tv_total_second);
+        tv_shell_out = (TextView) rootView.findViewById(R.id.tv_shell_out);
+        tv_buy_in = (TextView) rootView.findViewById(R.id.tv_buy_in);
+        iv_src = (ImageView) rootView.findViewById(R.id.iv_src);
+        seekBar = (MySeekBar) rootView.findViewById(R.id.seekBar);
+        press = (MySeekBar) rootView.findViewById(R.id.press);
+        fl_auction_content = (FrameLayout) rootView.findViewById(R.id.fl_auction_content);
+        radioGroup = (RadioGroup) rootView.findViewById(R.id.radio_group);
+        radioButton1 = (RadioButton) rootView.findViewById(R.id.rb_1);
     }
 
     private void initName() {
@@ -124,7 +127,9 @@ public class AuctionMarketFragment extends BaseFragment {
                     if (tradingStatusBeen.isStatus()) {
                         startSunTime = true;
                         secondTime = tradingStatusBeen.getRemainingTime();
-                        myHandler.sendEmptyMessage(myHandler.GRT_DATA);
+                        if (myHandler!=null){
+                            myHandler.sendEmptyMessage(myHandler.GRT_DATA);
+                        }
                         //startTime(tradingStatusBeen.getRemainingTime());
                     } else {
                         tv_residue_time.setText("未开始");
@@ -296,8 +301,9 @@ public class AuctionMarketFragment extends BaseFragment {
                 getBuyShellData();
             }
             cycleTime++;
-
-            myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 1000);
+            if (myHandler!=null){
+                myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 1000);
+            }
         } else if (tv_residue_time != null && secondTime < 0) {
             tv_residue_time.setText("未开始");
         }

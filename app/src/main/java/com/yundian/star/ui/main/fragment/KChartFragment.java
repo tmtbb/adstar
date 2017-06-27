@@ -85,7 +85,7 @@ public class KChartFragment extends BaseFragment {
     }
 
     private void initListener() {
-        ImageLoaderUtils.display(getContext(),imageView_head,head_url);
+        ImageLoaderUtils.displaySmallPhoto(getContext(),imageView_head,head_url);
         mChart.setOnChartValueSelectedListener(new OnChartValueSelectedListener() {
             @Override
             public void onValueSelected(Entry entry, int i, Highlight highlight) {

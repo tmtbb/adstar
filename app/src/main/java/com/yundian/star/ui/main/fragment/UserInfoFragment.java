@@ -79,9 +79,9 @@ public class UserInfoFragment extends BaseFragment {
     LinearLayout generalSettings;
     @Bind(R.id.btn_my_referee)
     Button myReferee;
-    @Bind(R.id.tv_version)
-    TextView version;
+
     private boolean flag = true;
+    private TextView version;
 
 
     @Override
@@ -96,6 +96,7 @@ public class UserInfoFragment extends BaseFragment {
 
     @Override
     protected void initView() {
+        initFindById();
 //        if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getPhoneNum())) {
 //            initData();
 //            LogUtils.loge("---登陆成功了,更新数据和请求余额");
@@ -111,6 +112,10 @@ public class UserInfoFragment extends BaseFragment {
                 version.setText(versionName);
             }
         }, 1000);
+    }
+
+    private void initFindById() {
+        version = (TextView) rootView.findViewById(R.id.tv_version);
     }
 
     private void initData() {

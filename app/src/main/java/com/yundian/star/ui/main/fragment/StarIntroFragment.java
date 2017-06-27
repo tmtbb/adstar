@@ -22,37 +22,23 @@ import com.yundian.star.utils.ListViewUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.widget.MyListView;
 
-import butterknife.Bind;
-
 /**
  * Created by Administrator on 2017/5/20.
  */
 
 public class StarIntroFragment extends BaseFragment {
     private String code;
-    @Bind(R.id.tv_1)
-    TextView tv_1 ;
-    @Bind(R.id.tv_2)
-    TextView tv_2 ;
-    @Bind(R.id.tv_3)
-    TextView tv_3 ;
-    @Bind(R.id.tv_4)
-    TextView tv_4 ;
-    @Bind(R.id.tv_5)
-    TextView tv_5 ;
-    @Bind(R.id.tv_6)
-    TextView tv_6 ;
-    @Bind(R.id.ll_new_buy_expeience)
-    LinearLayout ll_new_buy_expeience ;
-    @Bind(R.id.ll_new_buy_achievement)
-    LinearLayout ll_new_buy_achievement ;
-    @Bind(R.id.scroll_view)
-    NestedScrollView scroll_view ;
-    @Bind(R.id.tv_mesure)
-    TextView tv_mesure;
-    @Bind(R.id.img_adv)
-    ImageView img_adv;
-
+    private TextView tv_1;
+    private TextView tv_2;
+    private TextView tv_4;
+    private TextView tv_3;
+    private TextView tv_5;
+    private TextView tv_6;
+    private TextView tv_mesure;
+    private LinearLayout ll_new_buy_expeience;
+    private LinearLayout ll_new_buy_achievement;
+    private NestedScrollView scroll_view;
+    private ImageView img_adv;
 
 
     @Override
@@ -75,9 +61,24 @@ public class StarIntroFragment extends BaseFragment {
             code = getArguments().getString(AppConstant.STAR_CODE);
             LogUtils.loge("明星code"+code);
         }
+        initFindById();
         gitData();
         getStarExperience();
         getStarAch();
+    }
+
+    private void initFindById() {
+        tv_1 = (TextView) rootView.findViewById(R.id.tv_1);
+        tv_2 = (TextView) rootView.findViewById(R.id.tv_2);
+        tv_4 = (TextView) rootView.findViewById(R.id.tv_4);
+        tv_3 = (TextView) rootView.findViewById(R.id.tv_3);
+        tv_5 = (TextView) rootView.findViewById(R.id.tv_5);
+        tv_6 = (TextView) rootView.findViewById(R.id.tv_6);
+        tv_mesure = (TextView) rootView.findViewById(R.id.tv_mesure);
+        ll_new_buy_expeience = (LinearLayout) rootView.findViewById(R.id.ll_new_buy_expeience);
+        ll_new_buy_achievement = (LinearLayout) rootView.findViewById(R.id.ll_new_buy_achievement);
+        scroll_view = (NestedScrollView) rootView.findViewById(R.id.scroll_view);
+        img_adv = (ImageView) rootView.findViewById(R.id.img_adv);
     }
 
 
