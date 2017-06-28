@@ -15,6 +15,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.netease.nimlib.jsbridge.util.LogUtil;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.yundian.star.R;
@@ -36,6 +37,7 @@ import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SoftKeyBoardListener;
+import com.yundian.star.utils.TimeUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.utils.timeselectutils.AddressPickTask;
 import com.yundian.star.utils.timeselectutils.City;
@@ -46,7 +48,6 @@ import com.yundian.star.widget.NormalTitleBar;
 import com.yundian.star.widget.indicator.PageIndicator;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
@@ -166,12 +167,12 @@ public class MeetStarActivity extends BaseActivity {
     }
 
     private void getDateTime() {
-        Calendar c = Calendar.getInstance();
-        current_end_year = c.get(Calendar.YEAR);
-        current_end_month = c.get(Calendar.MONTH) + 1;
-        current_end_day = c.get(Calendar.DAY_OF_MONTH);
+        String nextDay = TimeUtil.getNextDay(30);
+        LogUtil.e("获取当前时间"+nextDay);
+        current_end_year = Integer.valueOf(nextDay.substring(0, 4));
+        current_end_month =Integer.valueOf(nextDay.substring(5, 7));
+        current_end_day = Integer.valueOf(nextDay.substring(8, 10));
         textView9.setText(current_end_year + "-" + current_end_month + "-" + current_end_day);
-        ImageLoaderUtils.display(this, imageView3, head_url);
         textView6.setText(String.format(getString(R.string.name_code), name, code));
     }
 
@@ -180,8 +181,8 @@ public class MeetStarActivity extends BaseActivity {
         picker.setCanceledOnTouchOutside(true);
         picker.setUseWeight(true);
         picker.setTopPadding(DisplayUtil.dip2px(20));
-        picker.setRangeStart(current_end_year, current_end_month+1, current_end_day);
-        picker.setSelectedItem(current_end_year, current_end_month+1, current_end_day);
+        picker.setRangeStart(current_end_year, current_end_month, current_end_day);
+        picker.setSelectedItem(current_end_year, current_end_month, current_end_day);
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
             public void onDatePicked(String year, String month, String day) {
