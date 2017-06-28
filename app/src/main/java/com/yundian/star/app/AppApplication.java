@@ -454,6 +454,9 @@ public class AppApplication extends BaseApplication {
             public void onFailure(boolean tag) {
                 LogUtils.logd("检测到连接失败--------------");
                 if (tag) {
+                    if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getToken())) {
+                        logout();
+                    }
                     // connectionError();
                 }
 
