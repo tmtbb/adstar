@@ -170,7 +170,7 @@ public class MeetStarActivity extends BaseActivity {
         current_end_year = c.get(Calendar.YEAR);
         current_end_month = c.get(Calendar.MONTH) + 1;
         current_end_day = c.get(Calendar.DAY_OF_MONTH);
-        textView9.setText(current_end_year + "-" + current_end_month + "-" + current_end_day);
+        textView9.setText(current_end_year + "-" +( current_end_month+1) + "-" + current_end_day);
         ImageLoaderUtils.display(this, imageView3, head_url);
         textView6.setText(String.format(getString(R.string.name_code), name, code));
     }

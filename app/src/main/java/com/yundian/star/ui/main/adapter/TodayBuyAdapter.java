@@ -1,6 +1,7 @@
 package com.yundian.star.ui.main.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.yundian.star.R;
@@ -9,6 +10,7 @@ import com.yundian.star.base.SuperViewHolder;
 import com.yundian.star.been.TodayDealReturnBean;
 import com.yundian.star.greendao.GreenDaoManager;
 import com.yundian.star.greendao.StarInfo;
+import com.yundian.star.utils.NumberUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.TimeUtil;
 
@@ -56,6 +58,6 @@ public class TodayBuyAdapter extends ListBaseAdapter<TodayDealReturnBean> {
         }else{
             tv_buy_text.setText("转让");
         }
-        dealMoney.setText(bean.getAmount() * bean.getOpenPrice()+"");
+        dealMoney.setText(NumberUtils.halfAdjust2(bean.getAmount() * bean.getOpenPrice()));
     }
 }
