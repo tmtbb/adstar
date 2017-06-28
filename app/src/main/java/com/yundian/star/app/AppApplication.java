@@ -455,8 +455,8 @@ public class AppApplication extends BaseApplication {
                 LogUtils.logd("检测到连接失败--------------");
                 if (tag) {
                     // connectionError();
+                    //logout();
                 }
-
             }
         });
     }
@@ -497,7 +497,6 @@ public class AppApplication extends BaseApplication {
                     EventBusMessage msg = new EventBusMessage(-11);
                     msg.setCheckUpdateInfoEntity(checkUpdateInfoEntity);  //发送广播
                     EventBus.getDefault().postSticky(msg);
-
                 } else {
                     LogUtils.loge("--最新版本");
                 }
