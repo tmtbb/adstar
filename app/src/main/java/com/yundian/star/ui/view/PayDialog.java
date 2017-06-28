@@ -71,7 +71,7 @@ public class PayDialog extends BaseDialog {
                                 ToastUtils.showShort("密码错误");
                                 LogUtils.loge("密码输入失败");
                                 //支付密码确定接口有待验证
-                                if (checkPasCallBake != null){
+                                if (checkPasCallBake != null) {
                                     checkPasCallBake.checkError();
                                 }
                                 dismiss();
@@ -80,15 +80,15 @@ public class PayDialog extends BaseDialog {
                             @Override
                             public void onSuccess(ResultBeen resultBeen) {
                                 LogUtils.loge("密码输入正确");
-                                LogUtils.loge("密码输入正确"+resultBeen.toString());
-                               // ToastUtils.showShort("支付完成");
-                                if (resultBeen!=null){
-                                    if (resultBeen.getResult()==1){
-                                        if (checkPasCallBake != null){
+                                LogUtils.loge("密码输入正确" + resultBeen.toString());
+                                // ToastUtils.showShort("支付完成");
+                                if (resultBeen != null) {
+                                    if (resultBeen.getResult() == 1) {
+                                        if (checkPasCallBake != null) {
                                             checkPasCallBake.checkSuccess(ordersListBean);
                                             checkPasCallBake.checkSuccessPwd();
                                         }
-                                    }else if (resultBeen.getResult()==0){
+                                    } else if (resultBeen.getResult() == 0) {
                                         ToastUtils.showShort("密码错误");
                                     }
                                     dismiss();
@@ -137,13 +137,13 @@ public class PayDialog extends BaseDialog {
     }
 
     public void setLayoutHigh(int v) {
-        if (rl_content==null){
+        if (rl_content == null) {
             return;
             //rl_content = (RelativeLayout) findViewById(R.id.rl_content);
         }
-        LogUtils.loge("键盘高度"+v);
-        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams)rl_content.getLayoutParams();
-        layoutParams.height = v ;
+        LogUtils.loge("键盘高度" + v);
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) rl_content.getLayoutParams();
+        layoutParams.height = v;
         rl_content.setLayoutParams(layoutParams);
     }
 
@@ -162,21 +162,24 @@ public class PayDialog extends BaseDialog {
 
     @Override
     public void dismiss() {
-        ordersListBean = null ;
-        if (payPwdEditText!=null){
+        ordersListBean = null;
+        if (payPwdEditText != null && payPwdEditText.getWindowToken() != null) {
             InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(payPwdEditText.getWindowToken(), 0);
         }
         super.dismiss();
     }
 
-    public interface checkPasCallBake{
+    public interface checkPasCallBake {
         void checkSuccess(OrderReturnBeen.OrdersListBean ordersListBean);
+
         void checkError();
+
         void checkSuccessPwd();
 
     }
-    private checkPasCallBake checkPasCallBake ;
+
+    private checkPasCallBake checkPasCallBake;
 
     public void setCheckPasCallBake(PayDialog.checkPasCallBake checkPasCallBakes) {
         this.checkPasCallBake = checkPasCallBakes;

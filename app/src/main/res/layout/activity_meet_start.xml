@@ -198,6 +198,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@null"
                 android:gravity="top"
+                android:maxLength="200"
                 android:hint="@string/meet_content"
                 android:textColor="@color/font_999999"
                 android:textSize="@dimen/fontSize_12sp" />

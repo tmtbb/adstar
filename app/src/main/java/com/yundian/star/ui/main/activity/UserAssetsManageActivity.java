@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -155,7 +156,13 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
                 starMoney.setText(bean.getBalance() + "");
                 holdMoney.setText(bean.getBalance() + "");
                 userMoney.setText(bean.getBalance() + "");
-                SharePrefUtil.getInstance().saveAssetInfo(bean);
+                if ( bean.getIs_setpwd() != -100) {
+                    SharePrefUtil.getInstance().saveAssetInfo(bean);
+                }
+                if (!TextUtils.isEmpty(bean.getHead_url()) && !TextUtils.isEmpty(bean.getNick_name())){
+                    SharePrefUtil.getInstance().putUserNickName(bean.getNick_name());
+                    SharePrefUtil.getInstance().putUserPhotoUrl(bean.getHead_url());
+                }
             }
 
             @Override
