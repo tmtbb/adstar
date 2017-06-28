@@ -96,10 +96,14 @@ public class LoginActivity extends BaseActivity {
         tv_retrieve_password = (TextView)findViewById(R.id.tv_retrieve_password);
         tv_weixin_login = (TextView)findViewById(R.id.tv_weixin_login);
     }
-
+    private boolean isOnClicked = false ;
     @OnClick(R.id.loginButton)
     public void loging() {
-        ViewConcurrencyUtils.preventConcurrency();  //防止并发
+        if (isOnClicked){
+            return;
+        }
+        isOnClicked = true ;
+        //ViewConcurrencyUtils.preventConcurrency();  //防止并发
         CheckException exception = new CheckException();
         LogUtils.loge(MD5Util.MD5(passwordEditText.getEditTextString()));
         if (checkHelper.checkMobile(userNameEditText.getEditTextString(), exception)
@@ -107,12 +111,14 @@ public class LoginActivity extends BaseActivity {
             NetworkAPIFactoryImpl.getUserAPI().login(userNameEditText.getEditTextString(), MD5Util.MD5(passwordEditText.getEditTextString()), new OnAPIListener<LoginReturnInfo>() {
                 @Override
                 public void onError(Throwable ex) {
+                    isOnClicked = false ;
                     LogUtils.logd("登录失败_____" + ex.toString());
                     ToastUtils.showShort("登录失败");
                 }
 
                 @Override
                 public void onSuccess(final LoginReturnInfo loginReturnInfo) {
+                    isOnClicked = true ;
                     if (loginReturnInfo.getResult() == -301) {
                         ToastUtils.showShort("用户不存在,请先注册");
                         return;
@@ -146,6 +152,7 @@ public class LoginActivity extends BaseActivity {
                 }
             });
         } else {
+            isOnClicked = false ;
             showLongToast(exception.getErrorMsg());
         }
 

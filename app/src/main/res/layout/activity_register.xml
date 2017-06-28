@@ -45,11 +45,8 @@
             <TextView
                 android:id="@+id/close"
                 android:layout_marginTop="16dp"
-                android:paddingTop="16dp"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:paddingBottom="16dp"
-                android:paddingLeft="10dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:background="@drawable/close"
                 android:layout_alignParentRight="true"
                 />
