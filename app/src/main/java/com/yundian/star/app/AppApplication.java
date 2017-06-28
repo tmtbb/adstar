@@ -13,7 +13,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
+import com.netease.nim.uikit.LoginSyncDataStatusObserver;
 import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.cache.DataCacheManager;
+import com.netease.nim.uikit.common.ui.drop.DropManager;
 import com.netease.nim.uikit.contact.core.query.PinYin;
 import com.netease.nim.uikit.custom.DefalutUserInfoProvider;
 import com.netease.nim.uikit.session.viewholder.MsgViewHolderThumbBase;
@@ -61,6 +64,7 @@ import com.yundian.star.ui.wangyi.PrivatizationConfig;
 import com.yundian.star.ui.wangyi.avchat.AVChatProfile;
 import com.yundian.star.ui.wangyi.avchat.activity.AVChatActivity;
 import com.yundian.star.ui.wangyi.avchat.receiver.PhoneCallStateObserver;
+import com.yundian.star.ui.wangyi.chatroom.helper.ChatRoomHelper;
 import com.yundian.star.ui.wangyi.common.util.crash.AppCrashHandler;
 import com.yundian.star.ui.wangyi.common.util.sys.SystemUtil;
 import com.yundian.star.ui.wangyi.config.ExtraOptions;
@@ -94,9 +98,10 @@ public class AppApplication extends BaseApplication {
         Fabric.with(this, new Crashlytics());
         //初始化logger
         LogUtils.logInit(BuildConfig.LOG_DEBUG);
+        initWangYiIM();
         checkToken();
         initNetworkAPIConfig();
-        initWangYiIM();
+
         registerToWx();   //注册微信
         UMShareAPI.get(this);//初始化友盟
         Config.DEBUG = true;
@@ -392,6 +397,10 @@ public class AppApplication extends BaseApplication {
         SharePrefUtil.getInstance().clearUserLoginInfo();
         Preferences.saveUserToken("");
         LogoutHelper.logout();
+//      ChatRoomHelper.logout();
+//        DemoCache.clear();
+//        LoginSyncDataStatusObserver.getInstance().reset();
+//        DropManager.getInstance().destroy();
 //        DataCacheManager.clearDataCache();  //清空缓存
     }
 
@@ -454,6 +463,10 @@ public class AppApplication extends BaseApplication {
             public void onFailure(boolean tag) {
                 LogUtils.logd("检测到连接失败--------------");
                 if (tag) {
+                    if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getToken())) {
+                        LogUtils.logd("检测到连接失败----logout----------");
+                        logout();
+                    }
                     // connectionError();
                     //logout();
                 }

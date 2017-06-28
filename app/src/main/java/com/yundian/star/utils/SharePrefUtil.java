@@ -410,8 +410,8 @@ public class SharePrefUtil {
         sp.edit().putString("total_amt", bean.getTotal_amt() + "").apply();
         sp.edit().putInt("is_setpwd", bean.getIs_setpwd()).apply();
 
-        sp.edit().putString("nickName", bean.getNick_name()).apply();
-        sp.edit().putString("headurl", bean.getHead_url()).apply();
+//        sp.edit().putString("nickName", bean.getNick_name()).apply();
+//        sp.edit().putString("headurl", bean.getHead_url()).apply();
     }
 
     //退出登录后，再次登录保存的手机号码

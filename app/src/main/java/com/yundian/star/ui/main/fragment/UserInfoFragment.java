@@ -244,8 +244,12 @@ public class UserInfoFragment extends BaseFragment {
             public void onSuccess(AssetDetailsBean bean) {
                 LogUtils.loge("余额请求成功:" + bean.toString());
                 userTotalAssets.setText(bean.getBalance() + "");
-                if (!TextUtils.isEmpty(bean.getHead_url()) && !TextUtils.isEmpty(bean.getNick_name())&& bean.getIs_setpwd() != -100) {
+                if ( bean.getIs_setpwd() != -100) {
                     SharePrefUtil.getInstance().saveAssetInfo(bean);
+                }
+                if (!TextUtils.isEmpty(bean.getHead_url()) && !TextUtils.isEmpty(bean.getNick_name())){
+                    SharePrefUtil.getInstance().putUserNickName(bean.getNick_name());
+                    SharePrefUtil.getInstance().putUserPhotoUrl(bean.getHead_url());
                 }
 
                // SharePrefUtil.getInstance().saveAssetInfo(bean);

@@ -180,8 +180,8 @@ public class MeetStarActivity extends BaseActivity {
         picker.setCanceledOnTouchOutside(true);
         picker.setUseWeight(true);
         picker.setTopPadding(DisplayUtil.dip2px(20));
-        picker.setRangeStart(current_end_year, current_end_month, current_end_day);
-        picker.setSelectedItem(current_end_year, current_end_month, current_end_day);
+        picker.setRangeStart(current_end_year, current_end_month+1, current_end_day);
+        picker.setSelectedItem(current_end_year, current_end_month+1, current_end_day);
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
             public void onDatePicked(String year, String month, String day) {
@@ -227,6 +227,7 @@ public class MeetStarActivity extends BaseActivity {
             ToastUtils.showShort("请选择一个约见类型");
             return;
         }
+        userComment = comment.getText().toString().trim();
         if (TextUtils.isEmpty(userComment)){
             ToastUtils.showShort("请输入备注内容");
             return;
@@ -264,7 +265,9 @@ public class MeetStarActivity extends BaseActivity {
         List<StatServiceListBean.ListBean> listBeen;
         lists = new ArrayList<>();
 
-        int pagerCount = typeList.size() % 8;
+//        float pagerCount = (float)typeList.size() / 8;
+        int pagerCount = (int) Math.ceil((float) typeList.size() / 8);
+
         for (int i = 0; i < pagerCount; i++) {
             listBeen = new ArrayList<>();
             for (int j = 0; j < 8; j++) {
