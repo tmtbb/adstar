@@ -87,10 +87,10 @@ public class SystemMessagesActivity extends BaseActivity {
         matchSucessReturnBeen = getIntent().getParcelableExtra(AppConstant.MATCH_SUCESS_ORDER_INFO);
         nt_title.setBackVisibility(true);
         nt_title.setTitleText(R.string.systen_news);
+        userId = SharePrefUtil.getInstance().getUserId();
         initAdapter();
         getData(false, 1, REQUEST_COUNT);
         initListener();
-        userId = SharePrefUtil.getInstance().getUserId();
     }
 
     private void initListener() {
@@ -177,7 +177,7 @@ public class SystemMessagesActivity extends BaseActivity {
     }
 
     private void getData(final boolean isLoadMore, int start, int count) {
-        NetworkAPIFactoryImpl.getInformationAPI().historyOrder(SharePrefUtil.getInstance().getUserId(),
+        NetworkAPIFactoryImpl.getInformationAPI().historyOrder(userId,
                 SharePrefUtil.getInstance().getToken(), 3, start, count, new OnAPIListener<OrderReturnBeen>() {
                     @Override
                     public void onError(Throwable ex) {
@@ -217,9 +217,11 @@ public class SystemMessagesActivity extends BaseActivity {
     public void showData() {
         systemMessageAdapter.clear();
         mCurrentCounter = list.size();
-        systemMessageAdapter.addAll(list);
-        lrv.refreshComplete(REQUEST_COUNT);
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
+        systemMessageAdapter.addAll(list);
+        if (lrv != null){
+            lrv.refreshComplete(REQUEST_COUNT);
+        }
     }
 
     private void loadMoreData() {
@@ -234,7 +236,7 @@ public class SystemMessagesActivity extends BaseActivity {
     }
 
     private void sureOrder(OrderReturnBeen.OrdersListBean ordersListBean) {
-        NetworkAPIFactoryImpl.getInformationAPI().sureOrder(SharePrefUtil.getInstance().getUserId(),
+        NetworkAPIFactoryImpl.getInformationAPI().sureOrder(userId,
                 SharePrefUtil.getInstance().getToken(), ordersListBean.getOrderId(), ordersListBean.getPositionId(), new OnAPIListener<SureOrder>() {
                     @Override
                     public void onError(Throwable ex) {
@@ -281,7 +283,7 @@ public class SystemMessagesActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mPopWindowHistory.dismiss();
-                NetworkAPIFactoryImpl.getInformationAPI().cancelOrder(SharePrefUtil.getInstance().getUserId()
+                NetworkAPIFactoryImpl.getInformationAPI().cancelOrder(userId
                         , SharePrefUtil.getInstance().getToken(),list.get(position).getOrderId(), new OnAPIListener<OrderCancelReturnBeen>() {
                             @Override
                             public void onError(Throwable ex) {

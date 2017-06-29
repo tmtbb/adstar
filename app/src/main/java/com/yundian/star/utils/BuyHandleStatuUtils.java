@@ -29,4 +29,21 @@ public class BuyHandleStatuUtils {
         }
         return buyStatus;
     }
+
+    public static String getRechargeType(int type) {
+        String rechargeType = "";    //1.微信 2.银行卡
+        switch (type) {
+            case 1:
+                rechargeType = "微信";
+                break;
+            case 2:
+                rechargeType = "银行卡";
+                break;
+            case 0:
+                rechargeType = "支付宝";
+                break;
+        }
+
+        return rechargeType;
+    }
 }

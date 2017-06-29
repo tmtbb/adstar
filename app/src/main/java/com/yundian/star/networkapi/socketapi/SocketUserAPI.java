@@ -42,10 +42,12 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
     }
 
     @Override
-    public void registerWangYi(String phone, String name_value, String accid_value, OnAPIListener<RegisterReturnWangYiBeen> listener) {
+    public void registerWangYi(int user_type,String phone, String name_value, String accid_value, OnAPIListener<RegisterReturnWangYiBeen> listener) {
         isNetBreak();
         HashMap<String, Object> map = new HashMap<>();
         map.put("phone", phone);
+        map.put("uid", SharePrefUtil.getInstance().getUserId());
+        map.put("user_type ", user_type);
         map.put("name_value", name_value);
         map.put("accid_value", accid_value);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.WangYi,
