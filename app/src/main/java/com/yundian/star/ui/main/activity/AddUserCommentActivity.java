@@ -49,6 +49,7 @@ public class AddUserCommentActivity extends BaseActivity {
     private ArrayList<CommentMarketBeen.CommentsinfoBean> loadList = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private CommentMarketAdapter commentMarketAdapter;
+    private TextView tv_num;
 
 
     @Override
@@ -109,7 +110,7 @@ public class AddUserCommentActivity extends BaseActivity {
     private void initLrvHeadView() {
         //add a HeaderView
         View header = LayoutInflater.from(this).inflate(R.layout.head_comment_list, (ViewGroup)findViewById(android.R.id.content), false);
-        TextView tv_num = (TextView) header.findViewById(R.id.tv_num);
+        tv_num = (TextView) header.findViewById(R.id.tv_num);
         lRecyclerViewAdapter.addHeaderView(header);
     }
 
@@ -147,6 +148,7 @@ public class AddUserCommentActivity extends BaseActivity {
                     lrv.setNoMore(true);
                     return;
                 }
+                tv_num.setText(been.getTotal_count()+"");
                 if (isLoadMore){
                     loadList.clear();
                     loadList = been.getCommentsinfo();

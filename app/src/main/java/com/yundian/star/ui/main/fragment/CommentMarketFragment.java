@@ -46,6 +46,7 @@ public class CommentMarketFragment extends BaseFragment {
     private LRecyclerView lrv;
     private TextView tv_add_comment;
     private FrameLayout parentView;
+    private TextView tv_num;
 
     @Override
     protected int getLayoutResource() {
@@ -119,7 +120,7 @@ public class CommentMarketFragment extends BaseFragment {
     private void initLrvHeadView() {
         //add a HeaderView
         View header = LayoutInflater.from(getContext()).inflate(R.layout.head_comment_list, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
-        TextView tv_num = (TextView) header.findViewById(R.id.tv_num);
+        tv_num = (TextView) header.findViewById(R.id.tv_num);
         lRecyclerViewAdapter.addHeaderView(header);
     }
 
@@ -147,6 +148,7 @@ public class CommentMarketFragment extends BaseFragment {
                     lrv.refreshComplete(REQUEST_COUNT);
                     return;
                 }
+                tv_num.setText(been.getTotal_count()+"");
                 if (isLoadMore) {
                     closeErrorView();
                     loadList.clear();
