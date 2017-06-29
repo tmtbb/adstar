@@ -15,6 +15,15 @@ public class WXinLoginReturnBeen {
     private int result;
     private String token;
     private UserinfoBean userinfo;
+    private long token_time;
+
+    public long getToken_time() {
+        return token_time;
+    }
+
+    public void setToken_time(long token_time) {
+        this.token_time = token_time;
+    }
 
     public int getResult() {
         return result;
@@ -40,4 +49,13 @@ public class WXinLoginReturnBeen {
         this.userinfo = userinfo;
     }
 
+    @Override
+    public String toString() {
+        return "WXinLoginReturnBeen{" +
+                "result=" + result +
+                ", token='" + token + '\'' +
+                ", userinfo=" + userinfo +
+                ", token_time=" + token_time +
+                '}';
+    }
 }

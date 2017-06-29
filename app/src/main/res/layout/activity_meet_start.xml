@@ -1,261 +1,275 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <com.yundian.star.widget.NormalTitleBar
+        android:id="@+id/nl_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="top"></com.yundian.star.widget.NormalTitleBar>
+
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
+        android:layout_marginTop="48dp"
         android:orientation="vertical">
-
-        <com.yundian.star.widget.NormalTitleBar
-            android:id="@+id/nl_title"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"></com.yundian.star.widget.NormalTitleBar>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="180dp">
-
-            <ImageView
-                android:id="@+id/iv_star_bg"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@drawable/user_bg_icon" />
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="70dp"
-                android:layout_gravity="bottom|left"
-                android:layout_marginBottom="20dp"
-                android:background="@color/white_alpha_half"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:layout_marginLeft="12dp" />
-
-                <TextView
-                    android:id="@+id/textView6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@+id/imageView3"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginTop="6dp"
-                    android:layout_toEndOf="@+id/imageView3"
-                    android:layout_toRightOf="@+id/imageView3"
-                    android:text="@string/name_code"
-                    android:textColor="@color/color_010101"
-                    android:textSize="@dimen/fontSize_18sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignLeft="@id/textView6"
-                    android:layout_alignStart="@+id/textView6"
-                    android:layout_below="@id/textView6"
-                    android:layout_marginTop="9dp"
-                    android:text="@string/ming_xing"
-                    android:textSize="@dimen/fontSize_12sp" />
-            </RelativeLayout>
-        </FrameLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="210dp">
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="12dp"
-                android:layout_marginTop="20dp"></android.support.v4.view.ViewPager>
-
-            <com.yundian.star.widget.indicator.IconPageIndicator
-                android:id="@+id/pageindicator"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_marginBottom="15dp"
-                android:layout_marginTop="18dp" />
-
-        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="88dp"
-            android:layout_marginTop="16dp"
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:gravity="center_vertical">
-
-                <TextView
-                    android:id="@+id/textView7"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="26dp"
-                    android:text="@string/meet_city"
-                    android:textColor="@color/font_999999"
-                    android:textSize="@dimen/fontSize_14sp" />
+                android:layout_height="180dp">
 
                 <ImageView
-                    android:id="@+id/imageView4"
+                    android:id="@+id/iv_star_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/user_bg_icon" />
+
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/textView4"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:paddingLeft="6dp"
-                    android:paddingRight="16dp"
-                    android:src="@drawable/arrow_right" />
+                    android:layout_height="70dp"
+                    android:layout_gravity="bottom|left"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/white_alpha_half"
+                    android:gravity="center_vertical">
 
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/textView7"
-                    android:layout_alignBottom="@+id/textView7"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_toLeftOf="@+id/imageView4"
-                    android:layout_toStartOf="@+id/imageView4"
-                    android:text="上海"
-                    android:textColor="@color/color_black_333333"
-                    android:textSize="@dimen/fontSize_16sp" />
+                    <ImageView
+                        android:id="@+id/imageView3"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="12dp" />
 
-            </RelativeLayout>
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@+id/imageView3"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_toEndOf="@+id/imageView3"
+                        android:layout_toRightOf="@+id/imageView3"
+                        android:text="明星(1001)"
+                        android:textColor="@color/color_010101"
+                        android:textSize="@dimen/fontSize_18sp" />
 
-            <RelativeLayout
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@id/textView6"
+                        android:layout_alignStart="@+id/textView6"
+                        android:layout_below="@id/textView6"
+                        android:layout_marginTop="9dp"
+                        android:text="@string/ming_xing"
+                        android:textSize="@dimen/fontSize_12sp" />
+                </RelativeLayout>
+            </FrameLayout>
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:gravity="center_vertical">
+                android:layout_height="210dp">
 
-                <TextView
-                    android:id="@+id/textView8"
-                    android:layout_width="wrap_content"
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/view_pager"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="20dp"></android.support.v4.view.ViewPager>
+
+                <com.yundian.star.widget.indicator.IconPageIndicator
+                    android:id="@+id/pageindicator"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="26dp"
-                    android:text="@string/meet_date"
+                    android:layout_gravity="bottom"
+                    android:layout_marginBottom="15dp"
+                    android:layout_marginTop="18dp" />
+
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="88dp"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="26dp"
+                        android:text="@string/meet_city"
+                        android:textColor="@color/font_999999"
+                        android:textSize="@dimen/fontSize_14sp" />
+
+                    <ImageView
+                        android:id="@+id/imageView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textView4"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="6dp"
+                        android:paddingRight="16dp"
+                        android:src="@drawable/arrow_right" />
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/textView7"
+                        android:layout_alignBottom="@+id/textView7"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@+id/imageView4"
+                        android:layout_toStartOf="@+id/imageView4"
+                        android:text="上海"
+                        android:textColor="@color/color_black_333333"
+                        android:textSize="@dimen/fontSize_16sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/textView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="26dp"
+                        android:text="@string/meet_date"
+                        android:textColor="@color/font_999999"
+                        android:textSize="@dimen/fontSize_14sp" />
+
+                    <ImageView
+                        android:id="@+id/imageView8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@+id/textView9"
+                        android:layout_alignParentEnd="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:paddingLeft="6dp"
+                        android:paddingRight="16dp"
+                        android:src="@drawable/arrow_right" />
+
+                    <TextView
+                        android:id="@+id/textView9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBaseline="@+id/textView8"
+                        android:layout_alignBottom="@+id/textView8"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="10dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_toLeftOf="@+id/imageView8"
+                        android:layout_toStartOf="@+id/imageView8"
+                        android:text="2017-07-07"
+                        android:textColor="@color/color_black_333333"
+                        android:textSize="@dimen/fontSize_16sp" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp">
+
+                <EditText
+                    android:id="@+id/comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@null"
+                    android:gravity="top"
+                    android:hint="@string/meet_content"
+                    android:maxLength="200"
                     android:textColor="@color/font_999999"
-                    android:textSize="@dimen/fontSize_14sp" />
+                    android:textSize="@dimen/fontSize_12sp" />
 
-                <ImageView
-                    android:id="@+id/imageView8"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/textView9"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:paddingLeft="6dp"
-                    android:paddingRight="16dp"
-                    android:src="@drawable/arrow_right" />
+            </FrameLayout>
 
-                <TextView
-                    android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBaseline="@+id/textView8"
-                    android:layout_alignBottom="@+id/textView8"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_toLeftOf="@+id/imageView8"
-                    android:layout_toStartOf="@+id/imageView8"
-                    android:text="2017-07-07"
-                    android:textColor="@color/color_black_333333"
-                    android:textSize="@dimen/fontSize_16sp" />
-            </RelativeLayout>
-        </LinearLayout>
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="110dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp">
-
-            <EditText
-                android:id="@+id/comment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:layout_marginTop="20dp"
-                android:background="@null"
-                android:gravity="top"
-                android:maxLength="200"
-                android:hint="@string/meet_content"
+                android:layout_marginTop="18dp"
+                android:text="@string/meet_rule"
                 android:textColor="@color/font_999999"
                 android:textSize="@dimen/fontSize_12sp" />
 
-        </FrameLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginTop="18dp"
-            android:text="@string/meet_rule"
-            android:textColor="@color/font_999999"
-            android:textSize="@dimen/fontSize_12sp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_gravity="bottom"
-            android:layout_marginTop="14dp"
-            android:orientation="horizontal">
-
             <LinearLayout
-                android:layout_width="220dp"
-                android:layout_height="match_parent"
-                android:background="@drawable/bg_buy_button"
-                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="14dp"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/need_consume"
-                    android:textColor="@color/color_666666"
-                    android:textSize="@dimen/fontSize_18sp" />
+                <LinearLayout
+                    android:layout_width="220dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_buy_button"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/need_consume"
+                        android:textColor="@color/color_666666"
+                        android:textSize="@dimen/fontSize_18sp" />
+
+                    <TextView
+                        android:id="@+id/order_price"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:textColor="@color/color_FB9938"
+                        android:textSize="@dimen/fontSize_18sp" />
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/order_price"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="6dp"
-                    android:textColor="@color/color_FB9938"
-                    android:textSize="@dimen/fontSize_18sp" />
+                    android:id="@+id/tv_to_buy"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/buy_button"
+                    android:gravity="center"
+                    android:text="@string/sure_meet"
+                    android:textColor="@color/color_f4f4f4"
+                    android:textSize="@dimen/fontSize_16sp" />
+
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/tv_to_buy"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@drawable/buy_button"
-                android:gravity="center"
-                android:text="@string/sure_meet"
-                android:textColor="@color/color_f4f4f4"
-                android:textSize="@dimen/fontSize_16sp" />
-
         </LinearLayout>
-    </LinearLayout>
 
-</android.support.v4.widget.NestedScrollView>
+
+    </android.support.v4.widget.NestedScrollView>
+
+    <com.yundian.star.widget.PasswordView
+        android:id="@+id/passwordView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+</FrameLayout>

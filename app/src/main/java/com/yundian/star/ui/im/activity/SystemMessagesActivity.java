@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -29,14 +30,13 @@ import com.yundian.star.greendao.StarInfo;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.SystemMessageAdapter;
-import com.yundian.star.ui.view.PayDialog;
 import com.yundian.star.ui.view.PayPwdEditText;
 import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
-import com.yundian.star.utils.SoftKeyBoardListener;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
+import com.yundian.star.widget.PasswordView;
 import com.yundian.star.widget.PutPasPopupWindow;
 
 import java.util.ArrayList;
@@ -56,6 +56,8 @@ public class SystemMessagesActivity extends BaseActivity {
     LRecyclerView lrv;
     @Bind(R.id.nt_title)
     NormalTitleBar nt_title;
+    @Bind(R.id.passwordView)
+    PasswordView passwordView;
 
     private static int mCurrentCounter = 1;
     private static final int REQUEST_COUNT = 10;
@@ -70,7 +72,6 @@ public class SystemMessagesActivity extends BaseActivity {
     private MatchSucessReturnBeen matchSucessReturnBeen;
     private AskToBuyReturnBeen toBuyReturnBeen;
     private long userId;
-    private PayDialog payDialog;
 
     @Override
     public int getLayoutId() {
@@ -94,18 +95,16 @@ public class SystemMessagesActivity extends BaseActivity {
     }
 
     private void initListener() {
-        contentView = LayoutInflater.from(this).inflate(R.layout.input_dialog_lyaout, null);
-        //intPutPasswordDialog();
-        payDialog = new PayDialog(this);
-        payDialog.setCheckPasCallBake(new PayDialog.checkPasCallBake() {
+        passwordView.setOnFinishInput(new PasswordView.CheckPasCallBake() {
+
             @Override
             public void checkSuccess(OrderReturnBeen.OrdersListBean ordersListBean) {
                 sureOrder(ordersListBean);
+                passwordView.setVisibility(View.GONE);
             }
 
             @Override
             public void checkError() {
-
             }
 
             @Override
@@ -113,6 +112,8 @@ public class SystemMessagesActivity extends BaseActivity {
 
             }
         });
+        contentView = LayoutInflater.from(this).inflate(R.layout.input_dialog_lyaout, null);
+        //intPutPasswordDialog();
         nt_title.setOnBackListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,21 +121,6 @@ public class SystemMessagesActivity extends BaseActivity {
             }
         });
 
-        SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
-            @Override
-            public void keyBoardShow(int height) {
-                if (payDialog!=null){
-                    payDialog.setLayoutHigh(height);
-                }
-            }
-
-            @Override
-            public void keyBoardHide(int height) {
-                if (payDialog!=null){
-                    payDialog.dismiss();
-                }
-            }
-        });
 
         systemMessageAdapter.setOnImgClickLitener(new SystemMessageAdapter.OnImgClickLitener() {
             @Override
@@ -248,9 +234,9 @@ public class SystemMessagesActivity extends BaseActivity {
                     @Override
                     public void onSuccess(SureOrder sureOrder) {
                         if (sureOrder.getStatus()==1){
-                            ToastUtils.showLong("确认成功");
+                            ToastUtils.showLong("订单已确认，请查看。");
                         }else if (sureOrder.getStatus()==2){
-                            ToastUtils.showLong("双方确认成功");
+                            ToastUtils.showLong("订单已确认，请查看。");
                         } else if (sureOrder.getStatus()==3){
                             ToastUtils.showLong("交易完成");
                         }
@@ -354,15 +340,14 @@ public class SystemMessagesActivity extends BaseActivity {
             public void onClick(View v) {
                 //KeyBordUtil.showSoftKeyboard(payPwdEditText);
                 mDetailDialog.dismiss();
-                payDialog.setOrdersListBean(ordersListBean);
-                payDialog.show();
+                passwordView.setOrdersListBean(ordersListBean);
+                passwordView.setVisibility(View.VISIBLE);
             }
         });
         img_close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mDetailDialog.dismiss();
-
             }
         });
 
@@ -376,4 +361,18 @@ public class SystemMessagesActivity extends BaseActivity {
             getData(false, 1, REQUEST_COUNT);
         }
     };
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                if (passwordView.getVisibility()==View.VISIBLE){
+                    passwordView.setVisibility(View.GONE);
+                    return true;
+                }else {
+                    return super.onKeyDown(keyCode, event);
+                }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

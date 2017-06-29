@@ -96,10 +96,14 @@ public class LoginActivity extends BaseActivity {
         tv_retrieve_password = (TextView)findViewById(R.id.tv_retrieve_password);
         tv_weixin_login = (TextView)findViewById(R.id.tv_weixin_login);
     }
-
+    private boolean isOnClicked = false ;
     @OnClick(R.id.loginButton)
     public void loging() {
-        ViewConcurrencyUtils.preventConcurrency();  //防止并发
+        if (isOnClicked){
+            return;
+        }
+        isOnClicked = true ;
+        //ViewConcurrencyUtils.preventConcurrency();  //防止并发
         CheckException exception = new CheckException();
         LogUtils.loge(MD5Util.MD5(passwordEditText.getEditTextString()));
         if (checkHelper.checkMobile(userNameEditText.getEditTextString(), exception)
@@ -107,12 +111,14 @@ public class LoginActivity extends BaseActivity {
             NetworkAPIFactoryImpl.getUserAPI().login(userNameEditText.getEditTextString(), MD5Util.MD5(passwordEditText.getEditTextString()), new OnAPIListener<LoginReturnInfo>() {
                 @Override
                 public void onError(Throwable ex) {
+                    isOnClicked = false ;
                     LogUtils.logd("登录失败_____" + ex.toString());
                     ToastUtils.showShort("登录失败");
                 }
 
                 @Override
                 public void onSuccess(final LoginReturnInfo loginReturnInfo) {
+                    isOnClicked = false ;
                     if (loginReturnInfo.getResult() == -301) {
                         ToastUtils.showShort("用户不存在,请先注册");
                         return;
@@ -128,7 +134,7 @@ public class LoginActivity extends BaseActivity {
                     } else if (loginReturnInfo != null && loginReturnInfo.getUserinfo() != null) {
                         LogUtils.logd("登录成功" + loginReturnInfo.toString());
                         //网易云注册   usertype  : 0普通用户 1,明星
-                        NetworkAPIFactoryImpl.getUserAPI().registerWangYi(0,userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), new OnAPIListener<RegisterReturnWangYiBeen>() {
+                        NetworkAPIFactoryImpl.getUserAPI().registerWangYi(0,userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), loginReturnInfo.getUserinfo().getId(), new OnAPIListener<RegisterReturnWangYiBeen>() {
                             @Override
                             public void onError(Throwable ex) {
                                 LogUtils.logd("网易云注册失败" + ex.toString());
@@ -146,6 +152,7 @@ public class LoginActivity extends BaseActivity {
                 }
             });
         } else {
+            isOnClicked = false ;
             showLongToast(exception.getErrorMsg());
         }
 
@@ -178,6 +185,7 @@ public class LoginActivity extends BaseActivity {
                 // 构建缓存
                 DataCacheManager.buildDataCacheAsync();
                 SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnInfos);
+                SharePrefUtil.getInstance().putTokenTime(loginReturnInfos.getToken_time());
                 SharePrefUtil.getInstance().putLoginPhone(loginReturnInfos.getUserinfo().getPhone());
                 EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
                 LoginActivity.this.finish();

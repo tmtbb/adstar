@@ -26,7 +26,6 @@ import com.yundian.star.utils.LogUtils;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
 import butterknife.OnClick;
 
 /**

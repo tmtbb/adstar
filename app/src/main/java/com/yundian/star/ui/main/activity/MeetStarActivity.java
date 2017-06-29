@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
@@ -15,6 +16,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.netease.nimlib.jsbridge.util.LogUtil;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.yundian.star.R;
@@ -29,13 +31,12 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.GridViewPageAdapter;
 import com.yundian.star.ui.main.adapter.MeetTypeAdapter;
-import com.yundian.star.ui.view.PayDialog;
 import com.yundian.star.ui.view.ShareControlerView;
 import com.yundian.star.utils.DisplayUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.utils.LogUtils;
-import com.yundian.star.utils.SoftKeyBoardListener;
+import com.yundian.star.utils.TimeUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.utils.timeselectutils.AddressPickTask;
 import com.yundian.star.utils.timeselectutils.City;
@@ -43,10 +44,10 @@ import com.yundian.star.utils.timeselectutils.County;
 import com.yundian.star.utils.timeselectutils.DatePicker;
 import com.yundian.star.utils.timeselectutils.Province;
 import com.yundian.star.widget.NormalTitleBar;
+import com.yundian.star.widget.PasswordView;
 import com.yundian.star.widget.indicator.PageIndicator;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
@@ -82,6 +83,8 @@ public class MeetStarActivity extends BaseActivity {
     TextView orderPrice;
     @Bind(R.id.iv_star_bg)
     ImageView starBg;
+    @Bind(R.id.passwordView)
+    PasswordView passwordView;
     private int current_end_year;
     private int current_end_month;
     private int current_end_day;
@@ -101,7 +104,6 @@ public class MeetStarActivity extends BaseActivity {
     private TextView order_info;
     private String price = "";
     private TextView order_total;
-    private PayDialog payDialog;
     private String userComment;
 
     @Override
@@ -157,7 +159,7 @@ public class MeetStarActivity extends BaseActivity {
         code = intent.getStringExtra(AppConstant.STAR_CODE);
         head_url = intent.getStringExtra(AppConstant.STAR_HEAD_URL);
         name = intent.getStringExtra(AppConstant.STAR_NAME);
-
+        ImageLoaderUtils.displaySmallPhoto(this,imageView3,head_url);
         List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(code);
         if (starInfos != null && starInfos.size() != 0) {
             StarInfo starInfo = starInfos.get(0);
@@ -166,12 +168,12 @@ public class MeetStarActivity extends BaseActivity {
     }
 
     private void getDateTime() {
-        Calendar c = Calendar.getInstance();
-        current_end_year = c.get(Calendar.YEAR);
-        current_end_month = c.get(Calendar.MONTH) + 1;
-        current_end_day = c.get(Calendar.DAY_OF_MONTH);
-        textView9.setText(current_end_year + "-" +( current_end_month+1) + "-" + current_end_day);
-        ImageLoaderUtils.display(this, imageView3, head_url);
+        String nextDay = TimeUtil.getNextDay(30);
+        LogUtil.e("获取当前时间"+nextDay);
+        current_end_year = Integer.valueOf(nextDay.substring(0, 4));
+        current_end_month =Integer.valueOf(nextDay.substring(5, 7));
+        current_end_day = Integer.valueOf(nextDay.substring(8, 10));
+        textView9.setText(current_end_year + "-" + current_end_month + "-" + current_end_day);
         textView6.setText(String.format(getString(R.string.name_code), name, code));
     }
 
@@ -180,8 +182,8 @@ public class MeetStarActivity extends BaseActivity {
         picker.setCanceledOnTouchOutside(true);
         picker.setUseWeight(true);
         picker.setTopPadding(DisplayUtil.dip2px(20));
-        picker.setRangeStart(current_end_year, current_end_month+1, current_end_day);
-        picker.setSelectedItem(current_end_year, current_end_month+1, current_end_day);
+        picker.setRangeStart(current_end_year, current_end_month, current_end_day);
+        picker.setSelectedItem(current_end_year, current_end_month, current_end_day);
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
             @Override
             public void onDatePicked(String year, String month, String day) {
@@ -351,8 +353,7 @@ public class MeetStarActivity extends BaseActivity {
                 share();
             }
         });
-        payDialog = new PayDialog(this);
-        payDialog.setCheckPasCallBake(new PayDialog.checkPasCallBake() {
+        passwordView.setOnFinishInput(new PasswordView.CheckPasCallBake() {
             @Override
             public void checkSuccess(OrderReturnBeen.OrdersListBean ordersListBean) {
 
@@ -367,21 +368,6 @@ public class MeetStarActivity extends BaseActivity {
             public void checkSuccessPwd() {
                 //密码正确
                 makeSureToMeet();
-            }
-        });
-        SoftKeyBoardListener.setListener(this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
-            @Override
-            public void keyBoardShow(int height) {
-                if (payDialog != null){
-                    payDialog.setLayoutHigh(height);
-                }
-            }
-
-            @Override
-            public void keyBoardHide(int height) {
-                if (payDialog!= null){
-                    payDialog.dismiss();
-                }
             }
         });
     }
@@ -475,6 +461,21 @@ public class MeetStarActivity extends BaseActivity {
     }
 
     private void inputDealPwd() {
-        payDialog.show();
+        passwordView.setVisibility(View.VISIBLE);
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                if (passwordView.getVisibility()==View.VISIBLE){
+                    passwordView.setVisibility(View.GONE);
+                    return true;
+                }else {
+                    return super.onKeyDown(keyCode, event);
+                }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

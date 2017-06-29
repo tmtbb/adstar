@@ -13,10 +13,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.crashlytics.android.Crashlytics;
-import com.netease.nim.uikit.LoginSyncDataStatusObserver;
 import com.netease.nim.uikit.NimUIKit;
-import com.netease.nim.uikit.cache.DataCacheManager;
-import com.netease.nim.uikit.common.ui.drop.DropManager;
 import com.netease.nim.uikit.contact.core.query.PinYin;
 import com.netease.nim.uikit.custom.DefalutUserInfoProvider;
 import com.netease.nim.uikit.session.viewholder.MsgViewHolderThumbBase;
@@ -64,7 +61,6 @@ import com.yundian.star.ui.wangyi.PrivatizationConfig;
 import com.yundian.star.ui.wangyi.avchat.AVChatProfile;
 import com.yundian.star.ui.wangyi.avchat.activity.AVChatActivity;
 import com.yundian.star.ui.wangyi.avchat.receiver.PhoneCallStateObserver;
-import com.yundian.star.ui.wangyi.chatroom.helper.ChatRoomHelper;
 import com.yundian.star.ui.wangyi.common.util.crash.AppCrashHandler;
 import com.yundian.star.ui.wangyi.common.util.sys.SystemUtil;
 import com.yundian.star.ui.wangyi.config.ExtraOptions;
@@ -407,7 +403,7 @@ public class AppApplication extends BaseApplication {
     private void judgeIsLogin() {
         if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getToken())) {
             LogUtils.loge("已经登录,开始校验token---------------------------------");
-            NetworkAPIFactoryImpl.getUserAPI().loginWithToken(new OnAPIListener<LoginReturnInfo>() {
+            NetworkAPIFactoryImpl.getUserAPI().loginWithToken(SharePrefUtil.getInstance().getTokenTime(),new OnAPIListener<LoginReturnInfo>() {
                 @Override
                 public void onError(Throwable ex) {
                     ex.printStackTrace();
@@ -417,25 +413,31 @@ public class AppApplication extends BaseApplication {
 
                 @Override
                 public void onSuccess(LoginReturnInfo loginReturnEntity) {
-                    NetworkAPIFactoryImpl.getUserAPI().saveDevice(loginReturnEntity.getUserinfo().getId(), new OnAPIListener<Object>() {
-                        @Override
-                        public void onError(Throwable ex) {
-
-                        }
-
-                        @Override
-                        public void onSuccess(Object o) {
-                            LogUtils.logd("上传设备id和类型成功:" + o.toString());
-                        }
-                    });
                     LogUtils.loge("------------------======token登录成功，保存信息"+loginReturnEntity.toString());
-                    //服务器问题,先token登录不保存信息
-                    //SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
-                    if (!TextUtils.isEmpty(loginReturnEntity.getToken())){
+                    if (loginReturnEntity.getResult()==1){
+                        NetworkAPIFactoryImpl.getUserAPI().saveDevice(loginReturnEntity.getUserinfo().getId(), new OnAPIListener<Object>() {
+                            @Override
+                            public void onError(Throwable ex) {
+
+                            }
+
+                            @Override
+                            public void onSuccess(Object o) {
+                                LogUtils.logd("上传设备id和类型成功:" + o.toString());
+                            }
+                        });
+                        //服务器问题,先token登录不保存信息
+                        //SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
+                        if (!TextUtils.isEmpty(loginReturnEntity.getToken())){
 //                        SharePrefUtil.getInstance().setToken(loginReturnEntity.getToken());
-                        SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
+                            SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
+                        }
+                        EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
+                    }else {
+                        LogUtils.loge("----------------------登录失败.token已经失效");
+                        logout();
                     }
-                    EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
+
                 }
             });
         }else{
