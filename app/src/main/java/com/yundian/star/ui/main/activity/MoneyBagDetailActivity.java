@@ -30,6 +30,7 @@ import java.util.List;
 
 import butterknife.Bind;
 
+import static android.R.id.list;
 import static com.yundian.star.ui.wangyi.DemoCache.getContext;
 
 /**
@@ -78,13 +79,16 @@ public class MoneyBagDetailActivity extends BaseActivity {
         NetworkAPIFactoryImpl.getDealAPI().moneyList(time, 0, count, start, new OnAPIListener<List<MoneyDetailListBean>>() {
             @Override
             public void onError(Throwable ex) {
-                LogUtils.logd("钱包详情请求失败----");
-                ToastUtils.showShort("当前月份暂无数据");
                 if (lrv != null) {
-                    refreshList.clear();
-                    moneyBagDetailAdapter.clear();
-                    lrv.refreshComplete(REQUEST_COUNT);
+                    lrv.setNoMore(true);
+                    if (!isLoadMore) {
+                        refreshList.clear();
+                        moneyBagDetailAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                        ToastUtils.showShort("当前月份暂无数据");
+                    }
                 }
+                LogUtils.logd("钱包详情请求失败----");
             }
 
             @Override

@@ -101,10 +101,9 @@ public class IdentityAuthenticationActivity extends BaseActivity {
                         if (resultBean.getResult() == 0) {
                             ToastUtils.showShort("实名认证成功");
 //                            showIdentityDialog();  //提示开通支付
-                            finish();
                             SharePrefUtil.getInstance().setRealName(etInputName.getText().toString().trim());
                             SharePrefUtil.getInstance().setIdnum(etInputCard.getText().toString().trim());
-//
+                            finish();
                         } else {
                             ToastUtils.showShort("实名认证失败");
                         }
