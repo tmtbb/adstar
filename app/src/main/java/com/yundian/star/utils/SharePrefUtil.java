@@ -125,6 +125,11 @@ public class SharePrefUtil {
         int userId = sp.getInt("userId", 0);
         return userId;
     }
+    public long getTokenTime() {
+        sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
+        long tokenTime = sp.getLong("tokenTime", 0);
+        return tokenTime;
+    }
 
     public String getUserNickName() {
         sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
@@ -135,6 +140,10 @@ public class SharePrefUtil {
     public void putUserNickName(String nickName) {
         sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
         sp.edit().putString("nickName", nickName).apply();
+    }
+    public void putTokenTime(long tokenTime) {
+        sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
+        sp.edit().putLong("tokenTime", tokenTime).apply();
     }
 
     public int getUserSex() {

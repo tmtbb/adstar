@@ -234,9 +234,9 @@ public class SystemMessagesActivity extends BaseActivity {
                     @Override
                     public void onSuccess(SureOrder sureOrder) {
                         if (sureOrder.getStatus()==1){
-                            ToastUtils.showLong("确认成功");
+                            ToastUtils.showLong("订单已确认，请查看。");
                         }else if (sureOrder.getStatus()==2){
-                            ToastUtils.showLong("双方确认成功");
+                            ToastUtils.showLong("订单已确认，请查看。");
                         } else if (sureOrder.getStatus()==3){
                             ToastUtils.showLong("交易完成");
                         }

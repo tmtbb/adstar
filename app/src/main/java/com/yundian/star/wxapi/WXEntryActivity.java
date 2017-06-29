@@ -217,6 +217,7 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
 
             @Override
             public void onSuccess(final WXinLoginReturnBeen info) {
+                LogUtils.loge("微信登录接口返回数据" + info.toString());
                 int result = info.getResult();
                 if (result == 1) {
                     if (info.getUserinfo() == null || info.getUserinfo().getPhone() == null) {
@@ -231,7 +232,7 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                         LogUtils.logd("登录成功" + info.getUserinfo().getPhone());
                         String name = "星享"+info.getUserinfo().getPhone().substring(8,info.getUserinfo().getPhone().length());
                         //网易云注册    usertype  : 0普通用户 1,明星
-                        NetworkAPIFactoryImpl.getUserAPI().registerWangYi(0,info.getUserinfo().getPhone(), name, info.getUserinfo().getPhone(), new OnAPIListener<RegisterReturnWangYiBeen>() {
+                        NetworkAPIFactoryImpl.getUserAPI().registerWangYi(0,info.getUserinfo().getPhone(), name, info.getUserinfo().getId(), new OnAPIListener<RegisterReturnWangYiBeen>() {
                             @Override
                             public void onError(Throwable ex) {
                                 LogUtils.logd("网易云注册失败" + ex.toString());
@@ -292,7 +293,9 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                 LoginReturnInfo info = new LoginReturnInfo();
                 info.setToken(loginReturnInfos.getToken());
                 info.setUserinfo(loginReturnInfos.getUserinfo());
+                info.setToken_time(loginReturnInfos.getToken_time());
                 SharePrefUtil.getInstance().saveLoginUserInfo(info);
+                SharePrefUtil.getInstance().putTokenTime(info.getToken_time());
                 SharePrefUtil.getInstance().putLoginPhone(info.getUserinfo().getPhone());
                 //EventBus.getDefault().postSticky(new EventBusMessage(-6));  //传递消息
                 AppManager.getAppManager().finishActivity(LoginActivity.class);

@@ -17,7 +17,7 @@ import com.yundian.star.listener.OnAPIListener;
 public interface UserAPI {
     void login(String phone, String password, OnAPIListener<LoginReturnInfo> listener);
 
-    void registerWangYi(int user_type,String phone, String name, String password, OnAPIListener<RegisterReturnWangYiBeen> listener);
+    void registerWangYi(int user_type,String phone, String name, long uid, OnAPIListener<RegisterReturnWangYiBeen> listener);
 
     //
     void wxLogin(String openId, OnAPIListener<WXinLoginReturnBeen> listener);
@@ -40,7 +40,7 @@ public interface UserAPI {
 //
     void bindNumber(String phone, String openid, String password, long timeStamp, String vToken, String vCode, String memberId, String agentId, String recommend, String sub_agentId, String nickname, String headerUrl, OnAPIListener<RegisterReturnBeen> listener);
 
-    void loginWithToken(OnAPIListener<LoginReturnInfo> listener);
+    void loginWithToken(long token_time ,OnAPIListener<LoginReturnInfo> listener);
 
     //是否注册过
     void isRegisted(String phone, OnAPIListener<RegisterReturnBeen> listener);

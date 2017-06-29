@@ -403,7 +403,7 @@ public class AppApplication extends BaseApplication {
     private void judgeIsLogin() {
         if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getToken())) {
             LogUtils.loge("已经登录,开始校验token---------------------------------");
-            NetworkAPIFactoryImpl.getUserAPI().loginWithToken(new OnAPIListener<LoginReturnInfo>() {
+            NetworkAPIFactoryImpl.getUserAPI().loginWithToken(SharePrefUtil.getInstance().getTokenTime(),new OnAPIListener<LoginReturnInfo>() {
                 @Override
                 public void onError(Throwable ex) {
                     ex.printStackTrace();
@@ -433,6 +433,9 @@ public class AppApplication extends BaseApplication {
                             SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
                         }
                         EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
+                    }else {
+                        LogUtils.loge("----------------------登录失败.token已经失效");
+                        logout();
                     }
 
                 }

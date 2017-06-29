@@ -118,7 +118,7 @@ public class LoginActivity extends BaseActivity {
 
                 @Override
                 public void onSuccess(final LoginReturnInfo loginReturnInfo) {
-                    isOnClicked = true ;
+                    isOnClicked = false ;
                     if (loginReturnInfo.getResult() == -301) {
                         ToastUtils.showShort("用户不存在,请先注册");
                         return;
@@ -134,7 +134,7 @@ public class LoginActivity extends BaseActivity {
                     } else if (loginReturnInfo != null && loginReturnInfo.getUserinfo() != null) {
                         LogUtils.logd("登录成功" + loginReturnInfo.toString());
                         //网易云注册   usertype  : 0普通用户 1,明星
-                        NetworkAPIFactoryImpl.getUserAPI().registerWangYi(0,userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), new OnAPIListener<RegisterReturnWangYiBeen>() {
+                        NetworkAPIFactoryImpl.getUserAPI().registerWangYi(0,userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), loginReturnInfo.getUserinfo().getId(), new OnAPIListener<RegisterReturnWangYiBeen>() {
                             @Override
                             public void onError(Throwable ex) {
                                 LogUtils.logd("网易云注册失败" + ex.toString());
@@ -185,6 +185,7 @@ public class LoginActivity extends BaseActivity {
                 // 构建缓存
                 DataCacheManager.buildDataCacheAsync();
                 SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnInfos);
+                SharePrefUtil.getInstance().putTokenTime(loginReturnInfos.getToken_time());
                 SharePrefUtil.getInstance().putLoginPhone(loginReturnInfos.getUserinfo().getPhone());
                 EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
                 LoginActivity.this.finish();
