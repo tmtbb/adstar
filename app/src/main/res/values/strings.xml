@@ -118,6 +118,7 @@
     <string name="star_refuse">已拒绝</string>
     <string name="me_agree">我已同意</string>
     <string name="disclaimer_text">《免责声明》</string>
+    <string name="recharge_info">充值方式</string>
 
     <string name="title_activity_main">MainActivity</string>
     <string name="hello_world">Hello world!</string>
