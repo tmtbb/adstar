@@ -159,7 +159,7 @@ public class MeetStarActivity extends BaseActivity {
         code = intent.getStringExtra(AppConstant.STAR_CODE);
         head_url = intent.getStringExtra(AppConstant.STAR_HEAD_URL);
         name = intent.getStringExtra(AppConstant.STAR_NAME);
-
+        ImageLoaderUtils.displaySmallPhoto(this,imageView3,head_url);
         List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(code);
         if (starInfos != null && starInfos.size() != 0) {
             StarInfo starInfo = starInfos.get(0);
