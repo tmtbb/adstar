@@ -26,7 +26,7 @@ public class MoneyDetailListBean implements Parcelable {
     private String depositName;
     private int status;
     private int recharge_type;
-    private int transaction_id;  //star code
+    private String transaction_id;  //star code
 
     @Override
     public String toString() {
@@ -105,11 +105,11 @@ public class MoneyDetailListBean implements Parcelable {
         this.recharge_type = recharge_type;
     }
 
-    public int getTransaction_id() {
+    public String getTransaction_id() {
         return transaction_id;
     }
 
-    public void setTransaction_id(int transaction_id) {
+    public void setTransaction_id(String transaction_id) {
         this.transaction_id = transaction_id;
     }
 
@@ -128,7 +128,7 @@ public class MoneyDetailListBean implements Parcelable {
         dest.writeString(this.depositName);
         dest.writeInt(this.status);
         dest.writeInt(this.recharge_type);
-        dest.writeInt(this.transaction_id);
+        dest.writeString(this.transaction_id);
     }
 
     public MoneyDetailListBean() {
@@ -143,7 +143,7 @@ public class MoneyDetailListBean implements Parcelable {
         this.depositName = in.readString();
         this.status = in.readInt();
         this.recharge_type = in.readInt();
-        this.transaction_id = in.readInt();
+        this.transaction_id = in.readString();
     }
 
     public static final Creator<MoneyDetailListBean> CREATOR = new Creator<MoneyDetailListBean>() {

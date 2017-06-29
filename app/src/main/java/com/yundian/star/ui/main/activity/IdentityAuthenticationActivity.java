@@ -104,7 +104,6 @@ public class IdentityAuthenticationActivity extends BaseActivity {
                             SharePrefUtil.getInstance().setRealName(etInputName.getText().toString().trim());
                             SharePrefUtil.getInstance().setIdnum(etInputCard.getText().toString().trim());
                             finish();
-//
                         } else {
                             ToastUtils.showShort("实名认证失败");
                         }

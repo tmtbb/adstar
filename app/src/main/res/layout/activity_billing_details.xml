@@ -24,7 +24,6 @@
             android:id="@+id/headImage"
             android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40"
-            android:layout_marginRight="@dimen/dp_8"
             android:scaleType="centerCrop"
             android:src="@drawable/user_default_head"
             app:roundHeight="20dp"
@@ -79,22 +78,19 @@
 
 
     <LinearLayout
-        android:visibility="gone"
         android:id="@+id/ll_bank_info"
         style="@style/user_info_setting_style">
 
         <TextView
             android:id="@+id/tv_billing_bank_info"
-            style="@style/user_setting_text_style"
-            android:text="@string/money_bank_info" />
+            style="@style/user_setting_text_style" />
 
         <TextView
             android:id="@+id/tv_detail_bank_info"
             style="@style/user_setting_hint_style" />
     </LinearLayout>
 
-    <include layout="@layout/ll_interval_line"
-        android:visibility="gone"/>
+    <include layout="@layout/ll_interval_line" />
 
     <LinearLayout
         android:id="@+id/ll_setup_time"

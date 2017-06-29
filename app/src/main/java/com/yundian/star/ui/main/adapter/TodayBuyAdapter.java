@@ -2,8 +2,10 @@ package com.yundian.star.ui.main.adapter;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.netease.nim.uikit.team.adapter.TeamMemberListAdapter;
 import com.yundian.star.R;
 import com.yundian.star.base.ListBaseAdapter;
 import com.yundian.star.base.SuperViewHolder;
@@ -48,9 +50,9 @@ public class TodayBuyAdapter extends ListBaseAdapter<TodayDealReturnBean> {
         if (starInfos != null && starInfos.size() > 0) {
             name.setText(starInfos.get(0).getName());
         }
-        price.setText(bean.getOpenPrice() + "");
+        price.setText(String.valueOf(bean.getOpenPrice()));
         tv_code.setText(bean.getSymbol());
-        number.setText(bean.getAmount()+"");
+        number.setText(String.valueOf(bean.getAmount()));
 
         int userId = SharePrefUtil.getInstance().getUserId();
         if (bean.getBuyUid() == userId){
