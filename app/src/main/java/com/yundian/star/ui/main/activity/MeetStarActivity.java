@@ -427,7 +427,7 @@ public class MeetStarActivity extends BaseActivity {
     private void showOrderInfoDialog() {
 
         tv_state.setText("约见");
-        order_info.setText(lists.get(selectPager).get(selectPosition).getName());
+        order_info.setText(String.format(getString(R.string.name_code), name, code));
         order_total.setText(String.format(getString(R.string.num_time_text), price));
         mDetailDialog.show();
     }

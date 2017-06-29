@@ -17,7 +17,7 @@ import com.yundian.star.listener.OnAPIListener;
 public interface UserAPI {
     void login(String phone, String password, OnAPIListener<LoginReturnInfo> listener);
 
-    void registerWangYi(String phone, String name, String password, OnAPIListener<RegisterReturnWangYiBeen> listener);
+    void registerWangYi(int user_type,String phone, String name, String password, OnAPIListener<RegisterReturnWangYiBeen> listener);
 
     //
     void wxLogin(String openId, OnAPIListener<WXinLoginReturnBeen> listener);
