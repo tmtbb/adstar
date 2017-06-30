@@ -101,7 +101,7 @@ public class UserSettingActivity extends BaseActivity {
         if (TextUtils.isEmpty(userPhotoUrl)) {
             headImage.setImageResource(R.drawable.user_default_head);
         } else {
-            ImageLoaderUtils.display(mContext, headImage, userPhotoUrl);
+            ImageLoaderUtils.displaySmallPhotoRound(mContext, headImage, userPhotoUrl);
         }
     }
 
@@ -211,7 +211,7 @@ public class UserSettingActivity extends BaseActivity {
         }
         LogUtils.loge("获取到上传的图片的地址:" + path);
         SharePrefUtil.getInstance().putUserPhotoUrl(path);
-        ImageLoaderUtils.display(mContext, headImage, path);
+        ImageLoaderUtils.displaySmallPhotoRound(mContext, headImage, path);
     }
     //修改网易头像和昵称
     private void updateWangYiInfo(String nikeName) {
