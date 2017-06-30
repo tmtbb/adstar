@@ -47,10 +47,10 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
     LinearLayout parentView;
     @Bind(R.id.star_money)
     TextView starMoney;
-    @Bind(R.id.hold_money)
-    TextView holdMoney;
-    @Bind(R.id.user_money)
-    TextView userMoney;
+//    @Bind(R.id.hold_money)
+//    TextView holdMoney;
+//    @Bind(R.id.user_money)
+//    TextView userMoney;
     private PopupWindow popupWindow;
     private PayDialog payDialog;
 
@@ -152,8 +152,8 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
             @Override
             public void onSuccess(AssetDetailsBean bean) {
                 starMoney.setText(bean.getBalance() + "");
-                holdMoney.setText(bean.getBalance() + "");
-                userMoney.setText(bean.getBalance() + "");
+                //holdMoney.setText(bean.getBalance() + "");
+                //userMoney.setText(bean.getBalance() + "");
                 if ( bean.getIs_setpwd() != -100) {
                     SharePrefUtil.getInstance().saveAssetInfo(bean);
                 }
