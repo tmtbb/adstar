@@ -15,6 +15,7 @@ import com.netease.nim.uikit.R;
 import com.netease.nim.uikit.cache.FriendDataCache;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nim.uikit.session.constant.Extras;
+import com.yundian.star.ui.main.activity.CommonWebActivity;
 import com.yundian.star.ui.wangyi.session.fragment.MessageFragment;
 import com.netease.nim.uikit.uinfo.UserInfoHelper;
 import com.netease.nim.uikit.uinfo.UserInfoObservable;
@@ -85,6 +86,7 @@ public class P2PMessageActivity extends BaseMessageActivity {
     private void requestBuddyInfo() {
         TextView viewById = (TextView) findViewById(R.id.text_name);
         ImageView back = (ImageView) findViewById(R.id.back);
+        TextView tv_chart_rule = (TextView) findViewById(R.id.tv_chart_rule);
         String starname = getIntent().getStringExtra(Extras.EXTRA_STARNAME);
         viewById.setText(starname);
         back.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +96,12 @@ public class P2PMessageActivity extends BaseMessageActivity {
             }
         });
         //setTitle(UserInfoHelper.getUserTitleName(sessionId, SessionTypeEnum.P2P));
-
+        tv_chart_rule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CommonWebActivity.startAction(P2PMessageActivity.this,"http://122.144.169.219:3389/talk","星聊须知");
+            }
+        });
 
     }
 

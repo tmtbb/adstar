@@ -66,5 +66,14 @@ public class AdvBeen {
         public void setPic_url(String pic_url) {
             this.pic_url = pic_url;
         }
+
+        @Override
+        public String toString() {
+            return "ListBean{" +
+                    "code='" + code + '\'' +
+                    ", name='" + name + '\'' +
+                    ", pic_url='" + pic_url + '\'' +
+                    '}';
+        }
     }
 }

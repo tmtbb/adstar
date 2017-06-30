@@ -78,16 +78,10 @@ public class GeneralSettingsActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_setting_deal_rule:
-                Bundle bundle1 = new Bundle();
-                bundle1.putString("bundle", "https://www.baidu.com/");
-                bundle1.putInt("tag", 1);
-                startActivity(DealRulesActivity.class, bundle1);
+                CommonWebActivity.startAction(GeneralSettingsActivity.this,"http://122.144.169.219:3389/transaction","交易规则");
                 break;
             case R.id.ll_setting_about_us:
-                Bundle bundle2 = new Bundle();
-                bundle2.putString("bundle", "http://www.sina.com.cn/");
-                bundle2.putInt("tag", 2);
-                startActivity(DealRulesActivity.class, bundle2);
+                CommonWebActivity.startAction(GeneralSettingsActivity.this,"http://122.144.169.219:3389/aboutStar","关于我们");
                 break;
             case R.id.ll_setting_clear_cache:
                 clearAppCache();

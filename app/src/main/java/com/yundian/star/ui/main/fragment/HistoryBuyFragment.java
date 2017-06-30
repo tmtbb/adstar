@@ -26,7 +26,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
@@ -119,7 +118,7 @@ public class HistoryBuyFragment extends BaseFragment {
     }
 
     private void getData(final boolean isLoadMore, int start) {
-        NetworkAPIFactoryImpl.getInformationAPI().todayDeal(3, start, REQUEST_COUNT, AppConstant.HISTORY_DEAL_OPCODE, new OnAPIListener<List<TodayDealReturnBean>>() {
+        NetworkAPIFactoryImpl.getInformationAPI().todayDeal(2, start, REQUEST_COUNT, AppConstant.HISTORY_DEAL_OPCODE, new OnAPIListener<List<TodayDealReturnBean>>() {
             @Override
             public void onError(Throwable ex) {
                 if (lrv != null) {
@@ -160,6 +159,7 @@ public class HistoryBuyFragment extends BaseFragment {
         } else {
             closeErrorView();
         }
+        historyBuyAdapter.clear();
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();
         historyBuyAdapter.addAll(list);

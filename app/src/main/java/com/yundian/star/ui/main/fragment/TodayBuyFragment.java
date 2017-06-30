@@ -19,8 +19,6 @@ import com.yundian.star.ui.main.adapter.TodayBuyAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-
 /**
  * Created by Administrator on 2017/5/25.
  * 当日成交
@@ -124,10 +122,11 @@ public class TodayBuyFragment extends BaseFragment {
         } else {
             closeErrorView();
         }
+        todayBuyAdapter.clear();
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();
         todayBuyAdapter.addAll(list);
-        lrv.refresh();
+        lrv.refreshComplete(REQUEST_COUNT);
     }
 
     private void loadMoreData() {

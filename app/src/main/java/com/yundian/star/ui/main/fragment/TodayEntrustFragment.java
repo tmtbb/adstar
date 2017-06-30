@@ -10,7 +10,6 @@ import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
-import com.yundian.star.app.SocketAPIConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.TodayEntrustReturnBean;
 import com.yundian.star.listener.OnAPIListener;
@@ -19,11 +18,6 @@ import com.yundian.star.ui.main.adapter.TodayEntrustAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.Bind;
-
-import static com.yundian.star.R.id.lrv;
-import static com.yundian.star.R.id.parent_view;
 
 /**
  * Created by Administrator on 2017/5/25.
@@ -128,6 +122,7 @@ public class TodayEntrustFragment extends BaseFragment {
         } else {
             closeErrorView();
         }
+        todayEntrustAdapter.clear();
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();
         todayEntrustAdapter.addAll(list);

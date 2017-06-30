@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.serializer.BeanContext;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
@@ -145,7 +144,13 @@ public class CommentMarketFragment extends BaseFragment {
                 LogUtils.loge("评论" + been.toString());
                 LogUtils.loge("刷新评论onSuccess"+been.toString());
                 if (been.getCommentsinfo() == null) {
-                    lrv.refreshComplete(REQUEST_COUNT);
+                    lrv.setNoMore(true);
+                    if (!isLoadMore) {
+                        list.clear();
+                        commentMarketAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                        showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+                    }
                     return;
                 }
                 if (been.getTotal_count() > 999){

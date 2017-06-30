@@ -26,11 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import butterknife.Bind;
 import butterknife.OnClick;
-
-import static com.yundian.star.R.id.lrv;
-import static com.yundian.star.R.id.tv_end_time;
 
 /**
  * Created by Administrator on 2017/5/25.
@@ -166,10 +162,11 @@ public class HistoryEntrustFragment extends BaseFragment {
         } else {
             closeErrorView();
         }
+        historyEntrustAdapter.clear();
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();
         historyEntrustAdapter.addAll(list);
-        lrv.refresh();
+        lrv.refreshComplete(REQUEST_COUNT);
     }
 
     private void loadMoreData() {

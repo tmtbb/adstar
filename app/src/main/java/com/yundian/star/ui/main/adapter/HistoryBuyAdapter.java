@@ -9,7 +9,6 @@ import com.yundian.star.base.SuperViewHolder;
 import com.yundian.star.been.TodayDealReturnBean;
 import com.yundian.star.greendao.GreenDaoManager;
 import com.yundian.star.greendao.StarInfo;
-import com.yundian.star.utils.NumberUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.TimeUtil;
 
@@ -40,8 +39,7 @@ public class HistoryBuyAdapter extends ListBaseAdapter<TodayDealReturnBean> {
         TextView tv_content_state = holder.getView(R.id.tv_content_state);
         TextView tv_buy_price = holder.getView(R.id.tv_buy_price);
         TextView tv_buy_num = holder.getView(R.id.tv_buy_num);
-
-        tv_buy_price.setText(bean.getOpenPrice() + "");
+        tv_buy_price.setText(String.format("%.2f",bean.getOpenPrice()));
         tv_buy_num.setText(bean.getAmount() + "");
 
         date.setText(TimeUtil.getDate(bean.getOpenTime() * 1000));
@@ -50,7 +48,7 @@ public class HistoryBuyAdapter extends ListBaseAdapter<TodayDealReturnBean> {
         if (starInfos != null && starInfos.size() > 0) {
             name.setText(starInfos.get(0).getName());
         }
-        price.setText(NumberUtils.halfAdjust2(bean.getOpenPrice() * bean.getAmount()));
+        price.setText(String.format("%.2f",bean.getOpenPrice() * bean.getAmount()));
 
         int userId = SharePrefUtil.getInstance().getUserId();
         if (bean.getBuyUid() == userId) {
