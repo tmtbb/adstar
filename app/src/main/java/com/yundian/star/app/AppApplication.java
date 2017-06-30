@@ -98,9 +98,7 @@ public class AppApplication extends BaseApplication {
     private void testProcress() {
         String processName = getProcessName(this);
         if (processName!= null) {
-            LogUtils.loge("进程名称:"+processName+"-----------------------------------");
             if(processName.equals("com.yundian.star")){
-                LogUtils.loge("-----------------------------------------------AppApplication.onCreate1");
                 Fabric.with(this, new Crashlytics());
                 //初始化logger
                 LogUtils.logInit(BuildConfig.LOG_DEBUG);
@@ -111,15 +109,10 @@ public class AppApplication extends BaseApplication {
                 Config.DEBUG = true;
                 setupDatabase();
             } else if(processName.equals("com.yundian.star:core")){
-                LogUtils.loge("-----------------------------------------------AppApplication.onCreate2");
-                //初始化com.soubw.prodemo:login
 
             }else if(processName.equals("com.yundian.star:cosine")){
-                LogUtils.loge("-----------------------------------------------AppApplication.onCreate3");
-                //初始化com.wxj.register
 
             }else if (processName.equals("com.yundian.star:pushservice")){
-                LogUtils.loge("-----------------------------------------------AppApplication.onCreate4");
 
             }
         }
