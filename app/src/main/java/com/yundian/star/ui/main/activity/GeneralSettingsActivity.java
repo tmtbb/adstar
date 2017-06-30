@@ -24,6 +24,8 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+import static io.netty.handler.codec.http.HttpMethod.HEAD;
+
 /**
  * Created by sll on 2017/5/24.
  */

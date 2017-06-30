@@ -595,10 +595,6 @@
             android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.main.activity.DealRulesActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".ui.main.activity.ResetPayPwdActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
             android:screenOrientation="portrait" />

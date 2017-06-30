@@ -94,7 +94,7 @@ public class NewsStarBuyActivity extends BaseActivity {
     public void initView() {
         nl_title.setBackVisibility(true);
         nl_title.setRightImagVisibility(true);
-        nl_title.setRightImagSrc(R.drawable.share);
+//        nl_title.setRightImagSrc(R.drawable.share);
         Intent intent = getIntent();
         code = intent.getStringExtra(AppConstant.STAR_CODE);
         name = intent.getStringExtra(AppConstant.STAR_NAME);
@@ -113,12 +113,12 @@ public class NewsStarBuyActivity extends BaseActivity {
                 finish();
             }
         });
-        nl_title.setOnRightImagListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                share();
-            }
-        });
+//        nl_title.setOnRightImagListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                share();
+//            }
+//        });
     }
 
     private void share() {

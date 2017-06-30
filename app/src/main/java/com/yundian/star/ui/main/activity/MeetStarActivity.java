@@ -3,7 +3,13 @@ package com.yundian.star.ui.main.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.support.v4.view.ViewPager;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.TextPaint;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -85,6 +91,8 @@ public class MeetStarActivity extends BaseActivity {
     ImageView starBg;
     @Bind(R.id.passwordView)
     PasswordView passwordView;
+    @Bind(R.id.tv_meet_rule)
+    TextView meetRule;
     private int current_end_year;
     private int current_end_month;
     private int current_end_day;
@@ -121,13 +129,32 @@ public class MeetStarActivity extends BaseActivity {
         nl_title.setTitleText(getString(R.string.meet_start));
         nl_title.setBackVisibility(true);
         nl_title.setRightImagVisibility(true);
-        nl_title.setRightImagSrc(R.drawable.share);
+        setMeetRule();
         getIntentData();
         getDateTime();
 //        getMeetType();
         getMeetInfo();
         initListener();
         initPopWindow();
+    }
+
+    private void setMeetRule() {
+        SpannableStringBuilder spannable = new SpannableStringBuilder(getString(R.string.meet_rule));
+        spannable.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.color_0000FF)), 81, 85, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        meetRule.setMovementMethod(LinkMovementMethod.getInstance());  //这个一定要记得设置，不然点击不生效
+        spannable.setSpan(new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+              CommonWebActivity.startAction(MeetStarActivity.this,"http://122.144.169.219:3389/meet","约见规则");
+            }
+
+            @Override
+            public void updateDrawState(TextPaint ds) {
+                ds.setColor(getResources().getColor(R.color.color_0000FF));
+                ds.setUnderlineText(false);
+            }
+        }, 81, 85, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        meetRule.setText(spannable);
     }
 
     private void getMeetInfo() {
@@ -159,7 +186,7 @@ public class MeetStarActivity extends BaseActivity {
         code = intent.getStringExtra(AppConstant.STAR_CODE);
         head_url = intent.getStringExtra(AppConstant.STAR_HEAD_URL);
         name = intent.getStringExtra(AppConstant.STAR_NAME);
-        ImageLoaderUtils.displaySmallPhoto(this,imageView3,head_url);
+        ImageLoaderUtils.displaySmallPhoto(this, imageView3, head_url);
         List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(code);
         if (starInfos != null && starInfos.size() != 0) {
             StarInfo starInfo = starInfos.get(0);
@@ -169,9 +196,9 @@ public class MeetStarActivity extends BaseActivity {
 
     private void getDateTime() {
         String nextDay = TimeUtil.getNextDay(30);
-        LogUtil.e("获取当前时间"+nextDay);
+        LogUtil.e("获取当前时间" + nextDay);
         current_end_year = Integer.valueOf(nextDay.substring(0, 4));
-        current_end_month =Integer.valueOf(nextDay.substring(5, 7));
+        current_end_month = Integer.valueOf(nextDay.substring(5, 7));
         current_end_day = Integer.valueOf(nextDay.substring(8, 10));
         textView9.setText(current_end_year + "-" + current_end_month + "-" + current_end_day);
         textView6.setText(String.format(getString(R.string.name_code), name, code));
@@ -230,7 +257,7 @@ public class MeetStarActivity extends BaseActivity {
             return;
         }
         userComment = comment.getText().toString().trim();
-        if (TextUtils.isEmpty(userComment)){
+        if (TextUtils.isEmpty(userComment)) {
             ToastUtils.showShort("请输入备注内容");
             return;
         }
@@ -347,12 +374,12 @@ public class MeetStarActivity extends BaseActivity {
     }
 
     private void initListener() {
-        nl_title.setOnRightImagListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                share();
-            }
-        });
+//        nl_title.setOnRightImagListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                share();
+//            }
+//        });
         passwordView.setOnFinishInput(new PasswordView.CheckPasCallBake() {
             @Override
             public void checkSuccess(OrderReturnBeen.OrdersListBean ordersListBean) {
@@ -469,10 +496,10 @@ public class MeetStarActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {
             case KeyEvent.KEYCODE_BACK:
-                if (passwordView.getVisibility()==View.VISIBLE){
+                if (passwordView.getVisibility() == View.VISIBLE) {
                     passwordView.setVisibility(View.GONE);
                     return true;
-                }else {
+                } else {
                     return super.onKeyDown(keyCode, event);
                 }
         }
