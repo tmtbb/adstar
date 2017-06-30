@@ -53,4 +53,8 @@ public interface Constant {
     String STATUS_PAYING = "PAYING"; //代付中
     String STATUS_PAY_FAILED = "PAY_FAILED"; //代付失败
     String STATUS_REFUND = "REFUND";//已退款
+
+    String ABOUT_US_URL = "http://122.144.169.219:3389/aboutStar";
+    String DEAL_RULE_URL = "https://www.baidu.com/";
+
 }

@@ -212,12 +212,12 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/tv_meet_rule"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
                 android:layout_marginTop="18dp"
-                android:text="@string/meet_rule"
                 android:textColor="@color/font_999999"
                 android:textSize="@dimen/fontSize_12sp" />
 
