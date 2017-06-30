@@ -68,12 +68,12 @@ public class NewsBrowserActivity extends BaseActivity {
             }
         });
 
-        nt_title.setOnRightImagListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                share();
-            }
-        });
+//        nt_title.setOnRightImagListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                share();
+//            }
+//        });
     }
 
 
@@ -81,7 +81,7 @@ public class NewsBrowserActivity extends BaseActivity {
         nt_title.setTvLeftVisiable(true);
         nt_title.setTitleText(getString(R.string.news_info_title));
         nt_title.setRightImagVisibility(true);
-        nt_title.setRightImagSrc(R.drawable.share);
+//        nt_title.setRightImagSrc(R.drawable.share);
         setWebViewSettings();
         setWebView();
     }

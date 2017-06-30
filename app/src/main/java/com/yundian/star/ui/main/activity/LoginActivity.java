@@ -177,7 +177,7 @@ public class LoginActivity extends BaseActivity {
                     }
                 });
                 LogUtils.logd("网易云登录成功:" + param.toString());
-                ToastUtils.showStatusView("登陆成功", true);
+                ToastUtils.showStatusView("登录成功", true);
                 DemoCache.setAccount(param.getAccount());
                 saveLoginInfo(param.getAccount(), param.getToken());
                 // 初始化消息提醒配置
