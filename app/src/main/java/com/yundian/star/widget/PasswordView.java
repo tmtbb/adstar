@@ -222,8 +222,6 @@ public class PasswordView extends RelativeLayout {
                                             if (checkPasCallBake != null) {
                                                 if (ordersListBean!=null){
                                                     checkPasCallBake.checkSuccess(ordersListBean);
-                                                }else {
-                                                    ToastUtils.showShort("操作异常");
                                                 }
                                                 checkPasCallBake.checkSuccessPwd();
                                             }
