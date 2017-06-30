@@ -1,5 +1,6 @@
 package com.yundian.star.app;
 
+import android.app.ActivityManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -79,6 +80,7 @@ import com.yundian.star.utils.Utils;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.List;
 import java.util.Map;
 
 import io.fabric.sdk.android.Fabric;
@@ -90,19 +92,58 @@ public class AppApplication extends BaseApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        LogUtils.loge("-----------------------------------------------AppApplication.onCreate");
-        Fabric.with(this, new Crashlytics());
-        //初始化logger
-        LogUtils.logInit(BuildConfig.LOG_DEBUG);
-        initWangYiIM();
-        checkToken();
-        initNetworkAPIConfig();
-
-        registerToWx();   //注册微信
-        UMShareAPI.get(this);//初始化友盟
-        Config.DEBUG = true;
-        setupDatabase();
+        testProcress();
     }
+
+    private void testProcress() {
+        String processName = getProcessName(this);
+        if (processName!= null) {
+            LogUtils.loge("进程名称:"+processName+"-----------------------------------");
+            if(processName.equals("com.yundian.star")){
+                LogUtils.loge("-----------------------------------------------AppApplication.onCreate1");
+                Fabric.with(this, new Crashlytics());
+                //初始化logger
+                LogUtils.logInit(BuildConfig.LOG_DEBUG);
+                checkToken();
+                initNetworkAPIConfig();
+                registerToWx();   //注册微信
+                UMShareAPI.get(this);//初始化友盟
+                Config.DEBUG = true;
+                setupDatabase();
+            } else if(processName.equals("com.yundian.star:core")){
+                LogUtils.loge("-----------------------------------------------AppApplication.onCreate2");
+                //初始化com.soubw.prodemo:login
+
+            }else if(processName.equals("com.yundian.star:cosine")){
+                LogUtils.loge("-----------------------------------------------AppApplication.onCreate3");
+                //初始化com.wxj.register
+
+            }else if (processName.equals("com.yundian.star:pushservice")){
+                LogUtils.loge("-----------------------------------------------AppApplication.onCreate4");
+
+            }
+        }
+        initWangYiIM();
+    }
+
+    private String getProcessName(Context context) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = am.getRunningAppProcesses();
+        if (runningAppProcesses == null) {
+            return "";
+        }
+
+        for (ActivityManager.RunningAppProcessInfo runningAppProcess : runningAppProcesses) {
+            if (runningAppProcess.pid == android.os.Process.myPid()
+                    && !TextUtils.isEmpty(runningAppProcess.processName)) {
+                return runningAppProcess.processName;
+            }
+        }
+        return "";
+    }
+
+
+
 
     private void initWangYiIM() {
         DemoCache.setContext(this);
@@ -281,7 +322,6 @@ public class AppApplication extends BaseApplication {
             unregisterReceiver(localeReceiver);
         }
     }
-
     private void updateLocale() {
         NimStrings strings = new NimStrings();
         strings.status_bar_multi_messages_incoming = getString(R.string.nim_status_bar_multi_messages_incoming);

@@ -366,6 +366,7 @@ public class MeetStarActivity extends BaseActivity {
 
             @Override
             public void checkSuccessPwd() {
+                passwordView.setVisibility(View.GONE);
                 //密码正确
                 makeSureToMeet();
             }
