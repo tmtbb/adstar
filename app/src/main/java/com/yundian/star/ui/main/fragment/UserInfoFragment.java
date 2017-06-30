@@ -136,7 +136,7 @@ public class UserInfoFragment extends BaseFragment {
         if (TextUtils.isEmpty(userPhotoUrl)) {
             headImage.setImageResource(R.drawable.user_default_head);
         } else {
-            ImageLoaderUtils.display(getContext(), headImage, userPhotoUrl);
+            ImageLoaderUtils.displaySmallPhotoRound(getContext(), headImage, userPhotoUrl);
         }
         String userNickName = SharePrefUtil.getInstance().getUserNickName();
         if (TextUtils.isEmpty(userNickName)) {
