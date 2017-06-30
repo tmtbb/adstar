@@ -100,12 +100,12 @@ public class StarIntroFragment extends BaseFragment {
     }
 
     private void initData(StarBuyActReferralInfo info) {
-        tv_1.setText(String.format(getString(R.string.intro_nationality),info.getNationality()));
-        tv_2.setText(String.format(getString(R.string.intro_nation),info.getNation()));
-        tv_3.setText(String.format(getString(R.string.intro_work),info.getWork()));
-        tv_4.setText(String.format(getString(R.string.intro_constellation),info.getConstellaction()));
-        tv_5.setText(String.format(getString(R.string.intro_birth_day),info.getBirth()));
-        tv_6.setText(String.format(getString(R.string.intro_colleage),info.getColleage()));
+        tv_1.setText(String.format(getActivity().getString(R.string.intro_nationality),info.getNationality()));
+        tv_2.setText(String.format(getActivity().getString(R.string.intro_nation),info.getNation()));
+        tv_3.setText(String.format(getActivity().getString(R.string.intro_work),info.getWork()));
+        tv_4.setText(String.format(getActivity().getString(R.string.intro_constellation),info.getConstellaction()));
+        tv_5.setText(String.format(getActivity().getString(R.string.intro_birth_day),info.getBirth()));
+        tv_6.setText(String.format(getActivity().getString(R.string.intro_colleage),info.getColleage()));
         ImageLoaderUtils.displayWithDefaultImg(getActivity(),img_adv,info.getPic_url(),R.drawable.infos_news_defolat);
     }
     private void getStarExperience() {
@@ -153,7 +153,7 @@ public class StarIntroFragment extends BaseFragment {
         ll_new_buy_achievement.setVisibility(View.VISIBLE);
         MyListView listExpView2 = (MyListView)ll_new_buy_achievement.findViewById(R.id.listview_buy);
         TextView textAch = (TextView)ll_new_buy_achievement.findViewById(R.id.tv_content);
-        textAch.setText(getString(R.string.oneself_intro_achievement));
+        textAch.setText(getActivity().getString(R.string.oneself_intro_achievement));
         listExpView2.setAdapter(buyAchAdapter);
         int high = ListViewUtil.setListViewHeightBasedOnChildren(listExpView2);
         ViewGroup.LayoutParams layoutParams = tv_mesure.getLayoutParams();

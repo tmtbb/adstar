@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -27,7 +26,6 @@ import com.yundian.star.ui.view.PayDialog;
 import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
-import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
@@ -114,7 +112,7 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_recharge:
-                ToastUtils.showShort("充值");
+//                ToastUtils.showShort("充值");
 //                if (JudgeIdentityUtils.isIdentityed(this)) {
 //                    startActivity(RechargeActivity.class);
 //                }

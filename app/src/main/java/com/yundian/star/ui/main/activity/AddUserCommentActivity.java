@@ -148,7 +148,11 @@ public class AddUserCommentActivity extends BaseActivity {
                     lrv.setNoMore(true);
                     return;
                 }
-                tv_num.setText(been.getTotal_count()+"");
+                if (been.getTotal_count() > 999){
+                    tv_num.setText("999+");
+                }else{
+                    tv_num.setText(String.valueOf(been.getTotal_count()));
+                }
                 if (isLoadMore){
                     loadList.clear();
                     loadList = been.getCommentsinfo();

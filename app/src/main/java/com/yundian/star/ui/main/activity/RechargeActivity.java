@@ -1,10 +1,8 @@
 package com.yundian.star.ui.main.activity;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.os.Message;
@@ -37,15 +35,13 @@ import com.yundian.star.app.AppApplication;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.AliPayReturnBean;
 import com.yundian.star.been.EventBusMessage;
-import com.yundian.star.been.RequestResultBean;
 import com.yundian.star.been.WXPayReturnEntity;
 import com.yundian.star.listener.OnAPIListener;
-import com.yundian.star.listener.OnChildViewClickListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
-import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
 import com.yundian.star.ui.view.CustomerRadioGroup;
 import com.yundian.star.ui.view.RoundImageView;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.NumberUtils;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
@@ -58,7 +54,6 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-import static com.yundian.star.R.id.btn_enter_star;
 import static com.yundian.star.R.id.iv_recharge_type;
 import static com.yundian.star.R.id.rb_recharge_money1;
 import static com.yundian.star.R.id.rb_recharge_money2;
@@ -140,6 +135,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         ntTitle.setBackVisibility(true);
 //        rechargeMoney.setInputType(InputType.TYPE_CLASS_NUMBER);  //输入整数
         rechargeMoney.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);  //输入小数
+        NumberUtils.setEditTextPoint(rechargeMoney, 2);  //设置输入 提现金额的小数位数
         if (flag) {
             EventBus.getDefault().register(this);
             flag = false;
@@ -257,12 +253,18 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void applyRecharge() {
-        ToastUtils.showShort("充值");
+//        ToastUtils.showShort("充值");
         String title = "星享-充值";
         if (!TextUtils.isEmpty(rechargeMoney.getEditableText().toString().trim())) {
             price = Double.parseDouble(rechargeMoney.getEditableText().toString().trim());
         }
-
+        if (price > 50000) {
+            ToastUtils.showShort("充值金额超出范围");
+            return;
+        }else if (price <= 0){
+            ToastUtils.showShort("充值金额输入有误");
+            return;
+        }
         if (isAliPay) {
             requestAliPay(title, price);
         } else {
@@ -299,7 +301,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ll_recharge_alipay:
-                ToastUtils.showShort("支付宝");
+//                ToastUtils.showShort("支付宝");
                 rechargeIcon.setImageResource(R.drawable.icon_alipay);
                 rechargeName.setText(getString(R.string.recharge_ali_pay));
                 isAliPay = true;
@@ -363,12 +365,12 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                      */
                     String resultInfo = payResult.getResult();// 同步返回需要验证的信息
                     String resultStatus = payResult.getResultStatus();
-                    LogUtils.loge("------------------------支付宝返回的resultStatus:"+resultStatus);
+                    LogUtils.loge("------------------------支付宝返回的resultStatus:" + resultStatus);
                     // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
                         // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         Toast.makeText(RechargeActivity.this, "支付成功", Toast.LENGTH_SHORT).show();
-                    }else if(TextUtils.equals(resultStatus, "6001")){
+                    } else if (TextUtils.equals(resultStatus, "6001")) {
                         LogUtils.loge("支付取消----------------------------------");
                         cancelPay(aLiRid);
                     } else {

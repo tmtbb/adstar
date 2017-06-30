@@ -32,6 +32,7 @@ import com.yundian.star.ui.main.activity.GeneralSettingsActivity;
 import com.yundian.star.ui.main.activity.UserAssetsManageActivity;
 import com.yundian.star.ui.main.activity.UserSettingActivity;
 import com.yundian.star.ui.view.RoundImageView;
+import com.yundian.star.ui.wangyi.common.util.sys.InstallUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.JudgeIdentityUtils;
 import com.yundian.star.utils.LogUtils;
@@ -109,7 +110,13 @@ public class UserInfoFragment extends BaseFragment {
             @Override
             public void run() {
                 String versionName = SharePrefUtil.getInstance().getVersion();
-                version.setText(versionName);
+                if (TextUtils.isEmpty(versionName)) {
+                    String versionName1 = InstallUtil.getVersionName(getActivity(), getActivity().getPackageName());
+                    LogUtils.loge("versionName1:" + versionName1);
+                    version.setText("版本号: " + versionName1);
+                } else {
+                    version.setText("版本号: "+versionName);
+                }
             }
         }, 1000);
     }
@@ -158,7 +165,7 @@ public class UserInfoFragment extends BaseFragment {
                 break;
             case R.id.ll_user_order_star:
                 ViewConcurrencyUtils.preventConcurrency();  //防止并发
-                if (JudgeIdentityUtils.isIdentityed(getActivity())){
+                if (JudgeIdentityUtils.isIdentityed(getActivity())) {
                     startActivity(BookingStarActivity.class);
                 }
                 break;
@@ -244,15 +251,15 @@ public class UserInfoFragment extends BaseFragment {
             public void onSuccess(AssetDetailsBean bean) {
                 LogUtils.loge("余额请求成功:" + bean.toString());
                 userTotalAssets.setText(bean.getBalance() + "");
-                if ( bean.getIs_setpwd() != -100) {
+                if (bean.getIs_setpwd() != -100) {
                     SharePrefUtil.getInstance().saveAssetInfo(bean);
                 }
-                if (!TextUtils.isEmpty(bean.getHead_url()) && !TextUtils.isEmpty(bean.getNick_name())){
+                if (!TextUtils.isEmpty(bean.getHead_url()) && !TextUtils.isEmpty(bean.getNick_name())) {
                     SharePrefUtil.getInstance().putUserNickName(bean.getNick_name());
                     SharePrefUtil.getInstance().putUserPhotoUrl(bean.getHead_url());
                 }
 
-               // SharePrefUtil.getInstance().saveAssetInfo(bean);
+                // SharePrefUtil.getInstance().saveAssetInfo(bean);
                 if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getUserNickName()) && isSaveWangYi == false) {
                     updateWangYiInfo();
                     isSaveWangYi = true;

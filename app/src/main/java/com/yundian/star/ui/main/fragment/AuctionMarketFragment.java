@@ -122,7 +122,7 @@ public class AuctionMarketFragment extends BaseFragment {
         List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(code);
         if (starInfos.size() != 0) {
             StarInfo starInfo = starInfos.get(0);
-            tv_have_name.setText(String.format(getString(R.string.auction_have_time), starInfo.getName(), starInfo.getCode()));
+            tv_have_name.setText(String.format(getActivity().getString(R.string.auction_have_time), starInfo.getName(), starInfo.getCode()));
         }
         getHaveCodeTime();
         getStartHaveTime();
@@ -390,7 +390,7 @@ public class AuctionMarketFragment extends BaseFragment {
                     @Override
                     public void onSuccess(HaveStarTimeBeen haveStarTimeBeen) {
                         LogUtils.loge("持有时间" + haveStarTimeBeen.toString());
-                        tv_have_time.setText(String.format(getString(R.string.num_time), haveStarTimeBeen.getStar_time()));
+                        tv_have_time.setText(String.format(getActivity().getString(R.string.num_time), haveStarTimeBeen.getStar_time()));
                     }
                 });
     }
