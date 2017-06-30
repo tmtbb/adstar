@@ -1,9 +1,9 @@
 package com.yundian.star.ui.main.activity;
 
-import android.os.Bundle;
+import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.webkit.WebChromeClient;
-import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -12,54 +12,66 @@ import android.widget.ProgressBar;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
-import com.yundian.star.utils.LogUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
 
-import static com.yundian.star.R.id.webView;
-
-
 /**
- * Created by sll on 2017/6/1.
+ * Created by Administrator on 2017/6/30.
+ * 公共的web浏览页面
  */
 
-public class DealRulesActivity extends BaseActivity {
+public class CommonWebActivity extends BaseActivity {
     @Bind(R.id.nt_title)
-    NormalTitleBar ntTitle;
-    @Bind(R.id.wv_html_info)
-    WebView webView;
+    NormalTitleBar nt_title;
     @Bind(R.id.progress_bar)
     ProgressBar progressBar;
-    private WebViewClient mWebViewClient = new WebViewClient();
-    private String url;
+    @Bind(R.id.web_view)
+    WebView webView;
+    private String title;
 
     @Override
     public int getLayoutId() {
-        return R.layout.activity_user_web;
+        return R.layout.activity_news_browser;
     }
 
     @Override
     public void initPresenter() {
+
     }
 
     @Override
     public void initView() {
-        initData();
-        setWebViewSettings();
-        setWebView();
+        title = getIntent().getStringExtra(AppConstant.NEWS_TITLE);
+        initWebView();
+        initListener();
     }
 
-    private void initData() {
-        Bundle bundle = getIntent().getExtras();
-        int tag = bundle.getInt("tag");
-        url = bundle.getString("bundle");
-        if (tag == 1) {
-            ntTitle.setTitleText("买卖规则");
-        } else if (tag == 2) {
-            ntTitle.setTitleText("关于我们");
-        }
 
+
+    public static void startAction(Context context, String link, String title) {
+        Intent intent = new Intent(context, CommonWebActivity.class);
+        intent.putExtra(AppConstant.NEWS_LINK, link);
+        intent.putExtra(AppConstant.NEWS_TITLE, title);
+        context.startActivity(intent);
+    }
+
+
+    private void initListener() {
+        nt_title.setOnBackListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+
+
+    private void initWebView() {
+        nt_title.setTvLeftVisiable(true);
+        nt_title.setTitleText(title);
+        setWebViewSettings();
+        setWebView();
     }
 
     private void setWebViewSettings() {
@@ -77,10 +89,7 @@ public class DealRulesActivity extends BaseActivity {
     }
 
     private void setWebView() {
-        if (url == null) {
-            return;
-        }
-        webView.loadUrl(url);
+        webView.loadUrl(getIntent().getStringExtra(AppConstant.NEWS_LINK));
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

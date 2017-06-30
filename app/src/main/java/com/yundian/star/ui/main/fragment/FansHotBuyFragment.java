@@ -19,10 +19,6 @@ import com.yundian.star.utils.SharePrefUtil;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
-
-import static com.yundian.star.R.id.lrv;
-
 
 /**
  * Created by Administrator on 2017/5/22.
@@ -95,6 +91,12 @@ public class FansHotBuyFragment extends BaseFragment {
                     LogUtils.loge("粉丝排行榜"+fansTopListBeen.toString());
                     if (fansTopListBeen==null||fansTopListBeen.getOrdersList()==null){
                         lrv.setNoMore(true);
+                        if (!isLoadMore) {
+                            list.clear();
+                            fansHotBuyAdapter.clear();
+                            lrv.refreshComplete(REQUEST_COUNT);
+                            showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+                        }
                         return;
                     }
                     if (isLoadMore){

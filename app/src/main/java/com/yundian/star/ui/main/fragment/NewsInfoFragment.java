@@ -40,29 +40,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import butterknife.Bind;
-
-import static com.yundian.star.R.id.lrv;
-
 /**
  * Created by Administrator on 2017/5/8.
  * 资讯主页
  */
 
 public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforModel> implements NewInfoContract.View {
-
-    @Bind(R.id.rl_time)
-    RelativeLayout rl_time;
-    @Bind(R.id.tv_time)
-    TextView tv_time;
-    @Bind(R.id.tv_am_pm)
-    TextView tv_am_pm;
-    @Bind(R.id.tv_time_h)
-    TextView tv_time_h;
-    @Bind(R.id.imageView2)
-    ImageView imageView2;
-    @Bind(R.id.parent_view)
-    FrameLayout parentView;
     //    @Bind(R.id.loadingTip)
 //    LoadingTip loadingTip ;
     private ArrayList<NewsInforModel.ListBean> arrayList = new ArrayList<>();
@@ -86,6 +69,12 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     private RelativeLayout rl_adroot;
     private List<AdvBeen.ListBean> listData;
     private LRecyclerView lrv;
+    private RelativeLayout rl_time;
+    private TextView tv_time;
+    private TextView tv_am_pm;
+    private TextView tv_time_h;
+    private ImageView imageView2;
+    private FrameLayout parentView;
 
     @Override
     protected int getLayoutResource() {
@@ -99,10 +88,20 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
 
     @Override
     protected void initView() {
+        initFindById();
         initData();
         initAdpter();
         mPresenter.getAdvertisement("1", 1);
         mPresenter.getData(false, "1", "1", 1, REQUEST_COUNT, 1);
+    }
+
+    private void initFindById() {
+        rl_time = (RelativeLayout) rootView.findViewById(R.id.rl_time);
+        tv_time = (TextView) rootView.findViewById(R.id.tv_time);
+        tv_am_pm = (TextView) rootView.findViewById(R.id.tv_am_pm);
+        tv_time_h = (TextView) rootView.findViewById(R.id.tv_time_h);
+        imageView2 = (ImageView) rootView.findViewById(R.id.imageView2);
+        parentView = (FrameLayout) rootView.findViewById(R.id.parent_view);
     }
 
     private void initData() {
@@ -245,7 +244,9 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         //newsInfoAdapter.setDataList(arrayList);
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         newsInfoAdapter.addAll(list);
-        lrv.refreshComplete(REQUEST_COUNT);
+        if (lrv!=null){
+            lrv.refreshComplete(REQUEST_COUNT);
+        }
     }
 
     @Override
@@ -266,7 +267,11 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         if (listData != null && listData.size() != 0) {
             String adList[] = new String[listData.size()];
             for (int i = 0; i < listData.size(); i++) {
-                adList[i] = o.getList().get(i).getPic_url();
+                String pic_url = o.getList().get(i).getPic_url();
+                if (!pic_url.startsWith("http")){
+                    pic_url = "http://"+pic_url;
+                }
+                adList[i] = pic_url;
             }
             LogUtils.loge("首页资讯轮播图数据" + listData.toString());
             //add a HeaderView

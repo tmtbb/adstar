@@ -172,6 +172,9 @@
             android:name="com.umeng.socialize.editorpage.ShareActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.UMDefault" />
+        <activity android:name=".ui.main.activity.CommonWebActivity"
+            android:launchMode="singleTask"
+            ></activity>
         <!--友盟sdk-->
         <meta-data
             android:name="UMENG_APPKEY"
@@ -589,10 +592,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.main.activity.SettingDealPwdActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.main.activity.DealRulesActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
             android:screenOrientation="portrait" />
         <activity

@@ -33,15 +33,15 @@ public class SrealSendReturnBeen {
          */
 
         private float change;
-        private int closedYesterdayPrice;
+        private float closedYesterdayPrice;
         private float currentPrice;
-        private int highPrice;
-        private int lowPrice;
-        private int openingTodayPrice;
-        private int pchg;
-        private int priceTime;
+        private float highPrice;
+        private float lowPrice;
+        private float openingTodayPrice;
+        private float pchg;
+        private long priceTime;
         private String symbol;
-        private int sysTime;
+        private long sysTime;
 
         public float getChange() {
             return change;
@@ -51,11 +51,11 @@ public class SrealSendReturnBeen {
             this.change = change;
         }
 
-        public int getClosedYesterdayPrice() {
+        public float getClosedYesterdayPrice() {
             return closedYesterdayPrice;
         }
 
-        public void setClosedYesterdayPrice(int closedYesterdayPrice) {
+        public void setClosedYesterdayPrice(float closedYesterdayPrice) {
             this.closedYesterdayPrice = closedYesterdayPrice;
         }
 
@@ -67,43 +67,43 @@ public class SrealSendReturnBeen {
             this.currentPrice = currentPrice;
         }
 
-        public int getHighPrice() {
+        public float getHighPrice() {
             return highPrice;
         }
 
-        public void setHighPrice(int highPrice) {
+        public void setHighPrice(float highPrice) {
             this.highPrice = highPrice;
         }
 
-        public int getLowPrice() {
+        public float getLowPrice() {
             return lowPrice;
         }
 
-        public void setLowPrice(int lowPrice) {
+        public void setLowPrice(float lowPrice) {
             this.lowPrice = lowPrice;
         }
 
-        public int getOpeningTodayPrice() {
+        public float getOpeningTodayPrice() {
             return openingTodayPrice;
         }
 
-        public void setOpeningTodayPrice(int openingTodayPrice) {
+        public void setOpeningTodayPrice(float openingTodayPrice) {
             this.openingTodayPrice = openingTodayPrice;
         }
 
-        public int getPchg() {
+        public float getPchg() {
             return pchg;
         }
 
-        public void setPchg(int pchg) {
+        public void setPchg(float pchg) {
             this.pchg = pchg;
         }
 
-        public int getPriceTime() {
+        public long getPriceTime() {
             return priceTime;
         }
 
-        public void setPriceTime(int priceTime) {
+        public void setPriceTime(long priceTime) {
             this.priceTime = priceTime;
         }
 
@@ -115,11 +115,11 @@ public class SrealSendReturnBeen {
             this.symbol = symbol;
         }
 
-        public int getSysTime() {
+        public long getSysTime() {
             return sysTime;
         }
 
-        public void setSysTime(int sysTime) {
+        public void setSysTime(long sysTime) {
             this.sysTime = sysTime;
         }
 

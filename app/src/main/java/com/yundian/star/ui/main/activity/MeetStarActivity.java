@@ -145,7 +145,7 @@ public class MeetStarActivity extends BaseActivity {
         spannable.setSpan(new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-              
+              CommonWebActivity.startAction(MeetStarActivity.this,"http://122.144.169.219:3389/meet","约见规则");
             }
 
             @Override

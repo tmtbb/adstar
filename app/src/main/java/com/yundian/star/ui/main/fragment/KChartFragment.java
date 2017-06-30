@@ -17,6 +17,8 @@ import com.github.mikephil.charting.listener.OnChartValueSelectedListener;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
+import com.yundian.star.been.SrealSendBeen;
+import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.TimeLineBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
@@ -58,6 +60,8 @@ public class KChartFragment extends BaseFragment {
     private String head_url;
     private ArrayList<TimeLineBeen.PriceinfoBean> lineEntities;
     private LineMarkerView mvLine;
+    private SrealSendBeen sendBeen;
+    private List<SrealSendBeen> symbolInfos = new ArrayList<>();
 
 
     @Override
@@ -117,6 +121,7 @@ public class KChartFragment extends BaseFragment {
 
             }
         });
+        getCurrentTimeData();
     }
 
 
@@ -169,24 +174,6 @@ public class KChartFragment extends BaseFragment {
     }
 
     public void loadChartData(ArrayList<TimeLineBeen.PriceinfoBean> currentTimeLineEntities) {
-        if (tv_change==null||tv_preice==null){
-            return;
-        }
-        if (currentTimeLineEntities.get(0).getPchg()>0){
-            tv_change.setBackgroundResource(R.drawable.bg_red_radius);
-            tv_preice.setTextColor(getActivity().getResources().getColor(R.color.color_CB4232));
-        }else if (currentTimeLineEntities.get(0).getPchg()<0){
-            tv_change.setBackgroundResource(R.drawable.bg_green_radius);
-            tv_preice.setTextColor(getActivity().getResources().getColor(R.color.color_18B03F));
-        }else if (currentTimeLineEntities.get(0).getPchg()==0){
-            tv_change.setBackgroundResource(R.drawable.bg_green_black);
-            tv_preice.setTextColor(getActivity().getResources().getColor(R.color.color_black_333333));
-        }
-        DecimalFormat format = new DecimalFormat("0.00%");
-        String updown = format.format(currentTimeLineEntities.get(0).getPchg());
-        tv_change.setText(String.format(getActivity().getResources().getString(R.string.star_price_time_share_limit),
-                String.format("%.2f",currentTimeLineEntities.get(0).getChange()),updown));
-        tv_preice.setText(String.format(getString(R.string.star_price_time_share),String.format("%.2f", currentTimeLineEntities.get(0).getCurrentPrice())));
         mChart.resetTracking();
         if (currentTimeLineEntities.size() == 0) {
             return;
@@ -284,4 +271,57 @@ public class KChartFragment extends BaseFragment {
         mvLine = new LineMarkerView(getContext(), R.layout.ly_marker_line);
         mChart.setMarkerView(mvLine);
     }
+
+    //获取实时数据
+    private void getCurrentTimeData() {
+        symbolInfos.clear();
+        sendBeen = new SrealSendBeen();
+        sendBeen.setAType(5);
+        sendBeen.setSymbol(wid);
+        symbolInfos.add(sendBeen);
+        //LogUtils.loge("事实数据" + symbolInfos.toString());
+        NetworkAPIFactoryImpl.getInformationAPI().getSrealtime(SharePrefUtil.getInstance().getUserId(),
+                SharePrefUtil.getInstance().getToken(), symbolInfos, new OnAPIListener<SrealSendReturnBeen>() {
+                    @Override
+                    public void onError(Throwable ex) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(SrealSendReturnBeen been) {
+                        LogUtils.loge("事实数据" + been.toString());
+                        if (been.getPriceinfo() == null || been.getPriceinfo().size() == 0) {
+                            return;
+                        }
+                        if (tv_change==null||tv_preice==null){
+                            return;
+                        }
+                        SrealSendReturnBeen.PriceinfoBean priceinfoBean = been.getPriceinfo().get(0);
+                        LogUtils.loge("事实数据111" + been.toString());
+                        if (priceinfoBean.getPchg()>0){
+                            tv_change.setBackgroundResource(R.drawable.bg_red_radius);
+                            tv_preice.setTextColor(getActivity().getResources().getColor(R.color.color_CB4232));
+                        }else if (priceinfoBean.getPchg()<0){
+                            tv_change.setBackgroundResource(R.drawable.bg_green_radius);
+                            tv_preice.setTextColor(getActivity().getResources().getColor(R.color.color_18B03F));
+                        }else if (priceinfoBean.getPchg()==0){
+                            tv_change.setBackgroundResource(R.drawable.bg_green_black);
+                            tv_preice.setTextColor(getActivity().getResources().getColor(R.color.color_black_333333));
+                        }
+                        DecimalFormat format = new DecimalFormat("0.00%");
+                        String updown = format.format(priceinfoBean.getPchg());
+                        tv_change.setText(String.format(getActivity().getResources().getString(R.string.star_price_time_share_limit),
+                                String.format("%.2f",priceinfoBean.getChange()),updown));
+                        tv_preice.setText(String.format(getString(R.string.star_price_time_share),String.format("%.2f", priceinfoBean.getCurrentPrice())));
+
+
+
+
+
+
+
+                    }
+                });
+    }
+
 }
