@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.serializer.BeanContext;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
@@ -147,7 +148,11 @@ public class CommentMarketFragment extends BaseFragment {
                     lrv.refreshComplete(REQUEST_COUNT);
                     return;
                 }
-                tv_num.setText(been.getTotal_count()+"");
+                if (been.getTotal_count() > 999){
+                    tv_num.setText("999+");
+                }else{
+                    tv_num.setText(String.valueOf(been.getTotal_count()));
+                }
                 if (isLoadMore) {
                     closeErrorView();
                     loadList.clear();
