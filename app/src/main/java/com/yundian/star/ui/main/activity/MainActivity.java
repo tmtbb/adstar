@@ -60,7 +60,7 @@ import static com.qiangxi.checkupdatelibrary.dialog.UpdateDialog.UPDATE_DIALOG_P
 public class MainActivity extends BaseActivity {
     @Bind(R.id.tab_bottom_layout)
     CommonTabLayout tabLayout;
-    private String[] mTitles = {"资讯", "行情", "星聊", "我的"};
+    private String[] mTitles = {"资讯", "热度", "星聊", "我的"};
     private int[] mIconUnselectIds = {
             R.drawable.message_no_ok, R.drawable.market_no_ok, R.drawable.differ_answer_no_ok, R.drawable.me_no_ok};
     private int[] mIconSelectIds = {
