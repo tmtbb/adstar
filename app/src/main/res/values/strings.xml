@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">星享</string>
+    <string name="app_name">星说</string>
     <string name="confirm_exit_app">再按一次退出%s</string>
     <string name="net_error">网络访问错误，请稍后再试</string>
     <string name="empty">还没有数据哦</string>
@@ -12,7 +12,7 @@
     <string name="loging">现在登录</string>
     <string name="other_login">第三方登录</string>
     <string name="wei_xin_login">微信登录</string>
-    <string name="title_welcome_1">星享，</string>
+    <string name="title_welcome_1">星说，</string>
     <string name="title_welcome_2">你与明星零距离</string>
     <string name="news_info_title">资讯</string>
     <string name="sample_heard_layout">头布局</string>
@@ -52,7 +52,7 @@
     <string name="user_pet_name">昵称</string>
     <string name="user_real_name">真实姓名</string>
     <string name="user_card_number">身份证号码</string>
-    <string name="star_money">星享币</string>
+    <string name="star_money">星说币</string>
     <string name="user_asset_manage">资产管理</string>
     <string name="user_have_market_value">持有市值</string>
     <string name="user_acailable_balance">可用余额</string>
@@ -70,14 +70,14 @@
     <string name="recharge_money6">50000元</string>
     <string name="recharge_ali_pay">支付宝支付</string>
     <string name="recharge_wxpay">微信支付</string>
-    <string name="app_version_name">星享V:%s</string>
+    <string name="app_version_name">星说V:%s</string>
     <string name="money_bag_detail">钱包明细</string>
     <string name="bank_info">银行卡</string>
     <string name="booking_star_list">预约名单</string>
     <string name="have_talk">聊一聊</string>
     <string name="service_center">客服中心</string>
     <string name="service_weixin">客服微信</string>
-    <string name="service_wx_number">星享V:%s</string>
+    <string name="service_wx_number">星说V:%s</string>
     <string name="service_qq_number">客服QQ</string>
     <string name="service_business_cooperation">商务合作</string>
     <string name="setting_deal_rule">买卖规则</string>
@@ -298,19 +298,19 @@
     <string name="sure_pay">确认支付该订单？</string>
     <string name="cancel_order">取消订单</string>
     <string name="have_empy_time">已持有:\t\t</string>
-    <string name="add_star">加入星享</string>
+    <string name="add_star">加入星说</string>
     <string name="input_member_id">请输入区域总经销ID（会员机构）</string>
     <string name="input_area_broker_id">请输入区域经销ID（区域经纪人）</string>
     <string name="input_broker_id">请输入零售商ID（经纪人）</string>
-    <string name="input_id_tips">TIPS：请从您的经纪人或者推荐人那里获 取相对应的ID，请至少填写一个以上的ID 信息</string>
-    <string name="enter_star">进入星享</string>
+    <string name="input_id_tips">TIPS：请从您的经纪人或者推荐人那里获 取相对应的ID，请填写ID信息</string>
+    <string name="enter_star">进入星说</string>
     <string name="delegation">委托</string>
     <string name="delegation_num">委托量</string>
     <string name="star_meet_rule">"北京市发布霾黄色预警，<font color='#ff0000'><big><big>外出携带好</big></big></font>口罩"</string>
 
 
     <string name="empty_view_history">当前还没有相关记录</string>
-    <string name="input_pay_pwd">请输入支付密码</string>
+    <string name="input_pay_pwd">请输入交易密码</string>
     <string name="empty_view_comment">当前还没有相关评论</string>
     <string name="empty_view_price">添加明星，就可以实时跟踪您关心的行情。</string>
     <string name="empty_view_contacts">当前还没有相关通讯录</string>

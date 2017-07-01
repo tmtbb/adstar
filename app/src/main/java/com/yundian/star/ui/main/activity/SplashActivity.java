@@ -119,6 +119,7 @@ public class SplashActivity extends BaseActivity {
         super.onPause();
         //* 注：回调 2
         Bugout.onPause(this);
+
     }
 
     @Override

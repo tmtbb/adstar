@@ -275,7 +275,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
             }
             LogUtils.loge("首页资讯轮播图数据" + listData.toString());
             //add a HeaderView
-            header = LayoutInflater.from(getContext()).inflate(R.layout.adv_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
+            header = LayoutInflater.from(getActivity()).inflate(R.layout.adv_layout, (ViewGroup) getActivity().findViewById(android.R.id.content), false);
             rl_adroot = (RelativeLayout) header.findViewById(R.id.rl_adroot);
             ViewPager viewpager = (ViewPager) header.findViewById(R.id.viewpager);
             LinearLayout ly_dots = (LinearLayout) header.findViewById(R.id.ly_dots);

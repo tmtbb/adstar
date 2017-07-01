@@ -115,7 +115,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                     list.clear();
                     searchListAdapter.clear();
                     recyclerViewAdapter.notifyDataSetChanged();
-                    lrv.refresh();
+                    lrv.refreshComplete(10);
                     return;
                 }else {
                     NetworkAPIFactoryImpl.getInformationAPI().searchStar(userId,token,s.toString(), new OnAPIListener<SearchReturnbeen>() {
@@ -135,10 +135,12 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                                 recyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
                                 LogUtils.loge(list.toString());
                                 searchListAdapter.addAll(list);
+                                lrv.refreshComplete(list.size());
                             }else {
                                 recyclerViewAdapter.notifyDataSetChanged();
+                                lrv.refreshComplete(10);
                             }
-                            lrv.refresh();
+
                         }
                     });
                 }

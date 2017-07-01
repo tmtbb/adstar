@@ -52,7 +52,7 @@ public class HistoryBuyAdapter extends ListBaseAdapter<TodayDealReturnBean> {
 
         int userId = SharePrefUtil.getInstance().getUserId();
         if (bean.getBuyUid() == userId) {
-            tv_content_state.setText("购买");
+            tv_content_state.setText("求购");
         } else {
             tv_content_state.setText("转让");
         }

@@ -426,6 +426,7 @@ public class AppApplication extends BaseApplication {
         SharePrefUtil.getInstance().clearUserLoginInfo();
         Preferences.saveUserToken("");
         LogoutHelper.logout();
+        SocketAPINettyBootstrap.getInstance().closeChannel();
 //      ChatRoomHelper.logout();
 //        DemoCache.clear();
 //        LoginSyncDataStatusObserver.getInstance().reset();
