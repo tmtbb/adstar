@@ -80,11 +80,7 @@ public class SocketAPIRequestManage {
         if (socketDataPacket != null) {
             LogUtils.loge("移除前接收口getOperateCode:" + socketDataPacket.getOperateCode());
             if (socketDataPacket.getOperateCode() == 5101 || socketDataPacket.getOperateCode() == 5102||socketDataPacket.getOperateCode()==3040) {
-                EventBus.getDefault().postSticky(socketDataPacket);
-                if (sucessListener != null) {
-                    LogUtils.loge("调用之前:"+socketDataPacket.getOperateCode()+"----------------------");
-                    sucessListener.onMatchListener(socketDataPacket);
-                }
+                EventBus.getDefault().post(socketDataPacket);
             }
             SocketAPIRequest socketAPIRequest = socketAPIRequestHashMap.get(socketDataPacket.getSessionId());
             if (socketAPIRequest != null && socketAPIRequest.getListener() != null) {
@@ -111,20 +107,6 @@ public class SocketAPIRequestManage {
         }
     }
 
-    private OnMatchSucessListener sucessListener;
-
-    //收到消息接口回调
-    public interface OnMatchSucessListener {
-        void onMatchListener(SocketDataPacket socketDataPacket);
-    }
-
-    public void setOnMatchSucessListener(OnMatchSucessListener sucessListener) {
-        this.sucessListener = sucessListener;
-    }
-
-    public void unboundOnMatchSucessListener() {
-        this.sucessListener = null;
-    }
 
     public void startJsonRequest(SocketDataPacket socketDataPacket, OnAPIListener<SocketAPIResponse> listener) {
         if (socketDataPacket != null && listener != null) {

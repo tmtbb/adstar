@@ -398,7 +398,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     }
 
     //接收消息
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = false)
     public void ReciveMessagePush(SocketDataPacket socketDataPacket) {
         SocketAPIResponse socketAPIResponse = new SocketAPIResponse(socketDataPacket);
         switch (socketDataPacket.getOperateCode()) {
