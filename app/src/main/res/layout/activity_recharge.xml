@@ -100,7 +100,9 @@
         <TextView
             android:id="@+id/tv_user_pet_name"
             style="@style/user_setting_hint_style"
-            android:text="点击切换支付方式" />
+            android:text="点击切换支付方式"
+            android:visibility="gone"
+            />
 
         <include layout="@layout/ll_right_arrow" />
     </LinearLayout>

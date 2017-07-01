@@ -369,6 +369,10 @@ public class MeetStarActivity extends BaseActivity {
                 if (resultBean.getResult() == 1) {
                     ToastUtils.showShort("约见成功，请耐心等待，并保持手机通话畅通。");
 //                    ToastUtils.showStatusView("约见成功，请耐心等待，并保持手机通话畅通。", true);
+                }else if (resultBean.getResult()==-100){
+                    ToastUtils.showShort("格式错误");
+                }else if (resultBean.getResult()==-1000){
+                    ToastUtils.showShort("持有时间不足");
                 }
             }
         });

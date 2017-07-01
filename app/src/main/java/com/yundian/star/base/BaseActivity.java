@@ -421,6 +421,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                         String s = "撮合成功提醒:"+"("+matchSucessReturnBeen.getSymbol()+")"+
                                 s1+",请到系统消息中查看,点击查看。";
                         mBuilder.setContentText(s);
+                        mBuilder.setTicker(s);
                         //                        showAlertDialog();
                         mNotificationManager.notify(new Random().nextInt(Integer.MAX_VALUE), mBuilder.build());
                     }
@@ -442,6 +443,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                 }
                 LogUtils.loge("交易成功，失败返回"+s+"...."+orderSucReturnBeen.toString());
                 mBuilder.setContentText(s);
+                mBuilder.setTicker(s);
                 //                        showAlertDialog();
                 mNotificationManager.notify(new Random().nextInt(Integer.MAX_VALUE), mBuilder.build());
                 break;
@@ -461,11 +463,10 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
 
         mBuilder.build().defaults = Notification.DEFAULT_ALL;
         mBuilder.setContentTitle("交易")//设置通知栏标题
-                .setContentText("测试内容")   // /<span style="font-family: Arial;">/设置通知栏显示内容</span>
+                .setContentText("")   // /<span style="font-family: Arial;">/设置通知栏显示内容</span>
                 .setContentIntent(getDefalutIntent(Notification.FLAG_AUTO_CANCEL)) //设置通知栏点击意图
 //                .setFullScreenIntent(getDefalutIntent(Notification.FLAG_AUTO_CANCEL), true)
 //  .setNumber(10) //设置通知集合的数量
-                .setTicker("测试通知来啦") //通知首次出现在通知栏，带上升动画效果的
                 .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示，一般是系统获取到的时间
                 .setPriority(Notification.PRIORITY_MAX) //设置该通知优先级
                 //  .setAutoCancel(true)//设置这个标志当用户单击面板就可以让通知将自动取消
