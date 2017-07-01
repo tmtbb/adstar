@@ -41,40 +41,48 @@
             </FrameLayout>
 
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_100"
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginRight="@dimen/dp_12"
                 android:layout_marginTop="@dimen/dp_18"
                 android:background="@color/main_bg_color"
+                android:orientation="vertical"
                 android:gravity="center">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:id="@+id/ll_1"
+                    android:layout_marginTop="21dp">
+                    <ImageView
+                        android:id="@+id/iv_contact1"
+                        android:layout_width="@dimen/dp_25"
+                        android:layout_height="@dimen/dp_25"
+                        android:src="@drawable/wx_customer" />
 
-                <ImageView
-                    android:id="@+id/iv_contact1"
-                    android:layout_width="@dimen/dp_25"
-                    android:layout_height="@dimen/dp_25"
-                    android:src="@drawable/wx_customer" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/iv_contact1"
+                        android:layout_marginLeft="@dimen/dp_6"
+                        android:layout_toRightOf="@id/iv_contact1"
+                        android:text="@string/service_weixin"
+                        android:textColor="@color/font_999999"
+                        android:textSize="@dimen/text_size_14" />
+                </LinearLayout>
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/iv_contact1"
-                    android:layout_marginLeft="@dimen/dp_6"
-                    android:layout_toRightOf="@id/iv_contact1"
-                    android:text="@string/service_weixin"
-                    android:textColor="@color/font_999999"
-                    android:textSize="@dimen/text_size_14" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/iv_contact1"
+                    android:layout_below="@id/ll_1"
                     android:layout_marginTop="@dimen/dp_17"
-                    android:text="@string/service_wx_number"
+                    android:text="HRIkaguanjia001"
                     android:textColor="@color/color_434343"
                     android:textSize="@dimen/text_size_16" />
-            </RelativeLayout>
+            </LinearLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -106,45 +114,52 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/iv_contact2"
                     android:layout_marginTop="@dimen/dp_17"
-                    android:text="666666"
+                    android:text="569061980"
                     android:textColor="@color/color_434343"
                     android:textSize="@dimen/text_size_16" />
             </RelativeLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_100"
                 android:layout_marginLeft="@dimen/dp_12"
                 android:layout_marginRight="@dimen/dp_12"
                 android:layout_marginTop="@dimen/dp_18"
+                android:orientation="vertical"
                 android:background="@color/main_bg_color"
+                android:id="@+id/ll_2"
                 android:gravity="center">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:id="@+id/iv_contact3"
+                        android:layout_width="@dimen/dp_25"
+                        android:layout_height="@dimen/dp_25"
+                        android:src="@drawable/email_customer" />
 
-                <ImageView
-                    android:id="@+id/iv_contact3"
-                    android:layout_width="@dimen/dp_25"
-                    android:layout_height="@dimen/dp_25"
-                    android:src="@drawable/email_customer" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignBottom="@id/iv_contact3"
+                        android:layout_marginLeft="@dimen/dp_6"
+                        android:layout_toRightOf="@id/iv_contact3"
+                        android:text="@string/service_business_cooperation"
+                        android:textColor="@color/font_999999"
+                        android:textSize="@dimen/text_size_14" />
+                </LinearLayout>
+
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/iv_contact3"
-                    android:layout_marginLeft="@dimen/dp_6"
-                    android:layout_toRightOf="@id/iv_contact3"
-                    android:text="@string/service_business_cooperation"
-                    android:textColor="@color/font_999999"
-                    android:textSize="@dimen/text_size_14" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/iv_contact3"
+                    android:layout_below="@id/ll_2"
                     android:layout_marginTop="@dimen/dp_17"
-                    android:text="666666"
+                    android:text="569061980@qq.com"
                     android:textColor="@color/color_434343"
                     android:textSize="@dimen/text_size_16" />
-            </RelativeLayout>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
