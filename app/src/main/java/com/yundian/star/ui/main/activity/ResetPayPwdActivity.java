@@ -103,7 +103,7 @@ public class ResetPayPwdActivity extends BaseActivity {
                 pwdEditText1.getEditText().setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)});
                 pwdEditText1.getEditText().setHint("请输入六位数字交易密码");
                 pwdEditText2.getEditText().setHint("重新输入交易密码");
-                okButton.setHint("重置交易密码");
+                okButton.setText("重置交易密码");
                 pwdEditText2.getEditText().setFilters(new InputFilter[]{new InputFilter.LengthFilter(6)});
                 isResetPayPwd = true;
             } else if (resetPwd != null && resetPwd.equals(Constant.USER_PWD)) {  //重置用户密码

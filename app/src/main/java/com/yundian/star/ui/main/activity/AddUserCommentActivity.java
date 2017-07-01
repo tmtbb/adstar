@@ -24,6 +24,7 @@ import com.yundian.star.ui.main.adapter.CommentMarketAdapter;
 import com.yundian.star.utils.KeyBordUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
+import com.yundian.star.widget.NormalTitleBar;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -42,6 +43,8 @@ public class AddUserCommentActivity extends BaseActivity {
     EditText et_add_comment ;
     @Bind(R.id.lrv)
     LRecyclerView lrv ;
+    @Bind(R.id.nt_title)
+    NormalTitleBar nt_title;
     private static final int REQUEST_COUNT = 10;
     private static int mCurrentCounter = 0;
     private String code;
@@ -65,6 +68,8 @@ public class AddUserCommentActivity extends BaseActivity {
     @Override
     public void initView() {
         code = getIntent().getStringExtra(AppConstant.STAR_CODE);
+        nt_title.setTitleText("评论");
+        nt_title.setBackVisibility(true);
         initAdapter();
         initListener();
         getData(false,0,REQUEST_COUNT);

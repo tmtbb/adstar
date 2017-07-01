@@ -43,32 +43,87 @@ public class SocketAPINettyBootstrap {
     }
 
     public void connect(final boolean tag) {
-        new Thread() {
-            @Override
-            public void run() {
-                SocketAPINettyBootstrap.getInstance().startConnect(tag);
-            }
-        }.start();
+        new startConnectThread(tag).start();
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                SocketAPINettyBootstrap.getInstance().startConnect(tag);
+//            }
+//        }.start();
+    }
+//    private Boolean startConnect(boolean tag) {
+//        EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
+//        Bootstrap bootstrap = new Bootstrap();
+//        bootstrap.channel(NioSocketChannel.class);
+//        bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
+//        bootstrap.group(eventLoopGroup);
+//        NetworkAPIConfig networkAPIConfig = SocketAPIFactoryImpl.getInstance().getConfig();
+//
+//        bootstrap.remoteAddress(networkAPIConfig.getSocketServerIp(), networkAPIConfig.getSocketServerPort());
+//        bootstrap.handler(new ChannelInitializer<SocketChannel>() {
+//            @Override
+//            protected void initChannel(SocketChannel socketChannel) throws Exception {
+//                socketChannel.pipeline().addLast(new IdleStateHandler(20, 10, 0));
+//                socketChannel.pipeline().addLast(new SocketAPIEncoder());
+//                socketChannel.pipeline().addLast(new SocketAPIDecoder());
+//                socketChannel.pipeline().addLast(new SocketAPINettyHandler());
+//            }
+//        });
+//        ChannelFuture future = null;
+//        try {
+//            future = bootstrap.connect(new InetSocketAddress(networkAPIConfig.getSocketServerIp(), networkAPIConfig.getSocketServerPort())).sync();
+//            if (future.isSuccess()) {
+//                socketChannel = (SocketChannel) future.channel();
+//                System.out.println("connect server  成功---------");
+//                LogUtils.loge("connect server  成功---------");
+//                if (onConnectListener != null) {
+//                    LogUtils.loge(onConnectListener+"。。。。connect server  成功---------");
+//                    onConnectListener.onSuccess();
+//                }
+//                return true;
+//            } else {
+//                System.out.println("connect server  失败---------");
+//                return false;
+//            }
+//        } catch (Exception e) {
+//            System.out.println("无法连接----------------");
+//            if (onConnectListener != null) {
+//                onConnectListener.onFailure(tag);
+//            }
+//            SystemClock.sleep(15 * 1000); //睡眠,重新链接
+//            startConnect(tag);
+//            return false;
+//        }
+//    }
+
+    public class startConnectThread extends Thread {
+        boolean mtag ;
+        public startConnectThread(boolean tag) {
+            mtag=tag;
+        }
+        @Override
+        public void run() {
+            EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
+            Bootstrap bootstrap = new Bootstrap();
+            bootstrap.channel(NioSocketChannel.class);
+            bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
+            bootstrap.group(eventLoopGroup);
+            NetworkAPIConfig networkAPIConfig = SocketAPIFactoryImpl.getInstance().getConfig();
+            bootstrap.remoteAddress(networkAPIConfig.getSocketServerIp(), networkAPIConfig.getSocketServerPort());
+            bootstrap.handler(new ChannelInitializer<SocketChannel>() {
+                @Override
+                protected void initChannel(SocketChannel socketChannel) throws Exception {
+                    socketChannel.pipeline().addLast(new IdleStateHandler(20, 10, 0));
+                    socketChannel.pipeline().addLast(new SocketAPIEncoder());
+                    socketChannel.pipeline().addLast(new SocketAPIDecoder());
+                    socketChannel.pipeline().addLast(new SocketAPINettyHandler());
+                }
+            });
+            SocketAPINettyBootstrap.getInstance().startConnect(mtag,bootstrap,networkAPIConfig);
+        }
     }
 
-    private Boolean startConnect(boolean tag) {
-        EventLoopGroup eventLoopGroup = new NioEventLoopGroup();
-        Bootstrap bootstrap = new Bootstrap();
-        bootstrap.channel(NioSocketChannel.class);
-        bootstrap.option(ChannelOption.SO_KEEPALIVE, true);
-        bootstrap.group(eventLoopGroup);
-        NetworkAPIConfig networkAPIConfig = SocketAPIFactoryImpl.getInstance().getConfig();
-
-        bootstrap.remoteAddress(networkAPIConfig.getSocketServerIp(), networkAPIConfig.getSocketServerPort());
-        bootstrap.handler(new ChannelInitializer<SocketChannel>() {
-            @Override
-            protected void initChannel(SocketChannel socketChannel) throws Exception {
-                socketChannel.pipeline().addLast(new IdleStateHandler(20, 10, 0));
-                socketChannel.pipeline().addLast(new SocketAPIEncoder());
-                socketChannel.pipeline().addLast(new SocketAPIDecoder());
-                socketChannel.pipeline().addLast(new SocketAPINettyHandler());
-            }
-        });
+    private Boolean startConnect(boolean tag,Bootstrap bootstrap,NetworkAPIConfig networkAPIConfig) {
         ChannelFuture future = null;
         try {
             future = bootstrap.connect(new InetSocketAddress(networkAPIConfig.getSocketServerIp(), networkAPIConfig.getSocketServerPort())).sync();
@@ -91,7 +146,7 @@ public class SocketAPINettyBootstrap {
                 onConnectListener.onFailure(tag);
             }
             SystemClock.sleep(15 * 1000); //睡眠,重新链接
-            startConnect(tag);
+            startConnect(tag,bootstrap,networkAPIConfig);
             return false;
         }
     }

@@ -11,7 +11,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -242,19 +241,19 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 preventConcurrency();
                 applyRecharge();
                 break;
-            case R.id.ll_user_recharge_type:  //选择充值方式
-                // 设置背景颜色变暗
-                WindowManager.LayoutParams lp = getWindow().getAttributes();
-                lp.alpha = 0.7f;
-                getWindow().setAttributes(lp);
-                popupWindow.showAtLocation(findViewById(R.id.ll_recharge_ui), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
-                break;
+//            case R.id.ll_user_recharge_type:  //选择充值方式
+//                // 设置背景颜色变暗
+//                WindowManager.LayoutParams lp = getWindow().getAttributes();
+//                lp.alpha = 0.7f;
+//                getWindow().setAttributes(lp);
+//                popupWindow.showAtLocation(findViewById(R.id.ll_recharge_ui), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+//                break;
         }
     }
 
     private void applyRecharge() {
 //        ToastUtils.showShort("充值");
-        String title = "星说-充值";
+        String title = "星悦-充值";
         if (!TextUtils.isEmpty(rechargeMoney.getEditableText().toString().trim())) {
             price = Double.parseDouble(rechargeMoney.getEditableText().toString().trim());
         }
