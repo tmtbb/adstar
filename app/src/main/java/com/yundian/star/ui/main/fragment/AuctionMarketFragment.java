@@ -127,8 +127,7 @@ public class AuctionMarketFragment extends BaseFragment {
         getHaveCodeTime();
         getStartHaveTime();
     }
-
-    private void initData() {
+    private void initData(final boolean sendHandler) {
         NetworkAPIFactoryImpl.getInformationAPI().getTradingStatus(userId, token, code, new OnAPIListener<TradingStatusBeen>() {
             @Override
             public void onError(Throwable ex) {
@@ -142,11 +141,16 @@ public class AuctionMarketFragment extends BaseFragment {
                         startSunTime = true;
                         secondTime = tradingStatusBeen.getRemainingTime();
                         if (myHandler != null) {
+                            myHandler.removeCallbacksAndMessages(null);
                             myHandler.sendEmptyMessage(myHandler.GRT_DATA);
                         }
                         //startTime(tradingStatusBeen.getRemainingTime());
                     } else {
                         tv_residue_time.setText("未开始");
+                        if (sendHandler&&myHandler != null){
+                            myHandler.removeCallbacksAndMessages(null);
+                            myHandler.sendEmptyMessage(myHandler.GRT_DATA);
+                        }
                     }
                 }
                 LogUtils.loge(tradingStatusBeen.toString());
@@ -266,7 +270,7 @@ public class AuctionMarketFragment extends BaseFragment {
         if (myHandler != null) {
             LogUtils.loge("刷新startRefresh");
             myHandler.removeCallbacksAndMessages(null);
-            initData();
+            initData(true);
         } else {
             LogUtils.loge("刷新startRefresh,handler=null");
             /*myHandler = new Handler() {
@@ -281,7 +285,7 @@ public class AuctionMarketFragment extends BaseFragment {
             };*/
             myHandler = new MyHandler1(this);
             myHandler.removeCallbacksAndMessages(null);
-            initData();
+            initData(true);
         }
     }
 
@@ -291,19 +295,22 @@ public class AuctionMarketFragment extends BaseFragment {
         if (tv_residue_time != null && secondTime >= 0 && myHandler != null && startSunTime) {
             tv_residue_time.setText(TimeUtil.getHMS(secondTime * 1000));
             secondTime--;
+        } else if (tv_residue_time != null && secondTime < 0) {
+            tv_residue_time.setText("未开始");
+        }
+        if (myHandler != null) {
             if (cycleTime == 3) {
                 cycleTime = 0;
             }
             if (cycleTime == 0) {
                 getBuyShellData();
                 getLrvData(false, 1);
+                if (tv_residue_time != null && secondTime < 0){
+                    initData(false);
+                }
             }
             cycleTime++;
-            if (myHandler != null) {
-                myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 1000);
-            }
-        } else if (tv_residue_time != null && secondTime < 0) {
-            tv_residue_time.setText("未开始");
+            myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 1000);
         }
     }
 
