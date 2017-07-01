@@ -125,7 +125,7 @@ public class AlreadyBoughtFragment extends BaseFragment {
                         list.clear();
                         alreadyBoughtAdapter.clear();
                         lrv.refreshComplete(REQUEST_COUNT);
-                        showErrorView(parentView, R.drawable.error_view_comment, getActivity().getString(R.string.empty_order_info));
+                        showErrorView(parentView, R.drawable.error_view_comment, "暂无订单信息");
                     }
                 }
             }
@@ -156,7 +156,7 @@ public class AlreadyBoughtFragment extends BaseFragment {
 
     public void showData() {
         if (list.size() == 0){
-            showErrorView(parentView, R.drawable.error_view_comment, getActivity().getResources().getString(R.string.empty_view_comment));
+            showErrorView(parentView, R.drawable.error_view_comment, "暂无订单信息");
             return;
         }else{
             closeErrorView();

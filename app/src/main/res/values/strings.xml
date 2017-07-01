@@ -310,7 +310,7 @@
 
 
     <string name="empty_view_history">当前还没有相关记录</string>
-    <string name="input_pay_pwd">请输入支付密码</string>
+    <string name="input_pay_pwd">请输入交易密码</string>
     <string name="empty_view_comment">当前还没有相关评论</string>
     <string name="empty_view_price">添加明星，就可以实时跟踪您关心的行情。</string>
     <string name="empty_view_contacts">当前还没有相关通讯录</string>

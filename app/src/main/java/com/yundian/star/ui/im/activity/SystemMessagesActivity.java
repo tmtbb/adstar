@@ -315,6 +315,7 @@ public class SystemMessagesActivity extends BaseActivity {
         window.setAttributes(lp);
         mDetailDialog.setContentView((R.layout.dialog_order_sure));
         TextView tv_state = (TextView) mDetailDialog.findViewById(R.id.tv_state);
+        TextView tv_xiangqing = (TextView) mDetailDialog.findViewById(R.id.tv_xiangqing);
         TextView tv_sure = (TextView) mDetailDialog.findViewById(R.id.tv_sure);
         TextView order_info = (TextView) mDetailDialog.findViewById(R.id.order_info);
         TextView order_preice = (TextView) mDetailDialog.findViewById(R.id.order_preice);
@@ -324,8 +325,10 @@ public class SystemMessagesActivity extends BaseActivity {
          final OrderReturnBeen.OrdersListBean ordersListBean = list.get(position);
         if (userId==ordersListBean.getBuyUid()){
             tv_state.setText(R.string.ask_to_buy);
+            tv_xiangqing.setText("求购数量");
         }else {
             tv_state.setText(R.string.transfer);
+            tv_xiangqing.setText("转让数量");
         }
          List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(ordersListBean.getSymbol());
          if (starInfos.size()!=0){
