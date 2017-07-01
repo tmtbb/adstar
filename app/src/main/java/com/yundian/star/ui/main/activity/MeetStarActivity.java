@@ -346,6 +346,7 @@ public class MeetStarActivity extends BaseActivity {
             textView.setTextColor(mContext.getResources().getColor(R.color.color_CB4232));
             price = lists.get(selectPager).get(selectPosition).getPrice();
             orderPrice.setText(String.format(getString(R.string.num_time_text), price));
+            tv_state.setText(lists.get(selectPager).get(selectPosition).getName());
         }
     };
 
@@ -439,8 +440,6 @@ public class MeetStarActivity extends BaseActivity {
 
     //订单详情接口
     private void showOrderInfoDialog() {
-
-        tv_state.setText("约见");
         order_info.setText(String.format(getString(R.string.name_code), name, code));
         order_total.setText(String.format(getString(R.string.num_time_text), price));
         mDetailDialog.show();
@@ -463,7 +462,6 @@ public class MeetStarActivity extends BaseActivity {
         tv_state = (TextView) mDetailDialog.findViewById(R.id.tv_state);
         TextView tv_sure = (TextView) mDetailDialog.findViewById(R.id.tv_sure);
         order_info = (TextView) mDetailDialog.findViewById(R.id.order_info);
-
         order_total = (TextView) mDetailDialog.findViewById(R.id.order_total);
         ImageView img_close = (ImageView) mDetailDialog.findViewById(R.id.img_close);
 
