@@ -289,7 +289,7 @@ public class KChartFragment extends BaseFragment {
 
                     @Override
                     public void onSuccess(SrealSendReturnBeen been) {
-                        LogUtils.loge("事实数据" + been.toString());
+                       // LogUtils.loge("事实数据" + been.toString());
                         if (been.getPriceinfo() == null || been.getPriceinfo().size() == 0) {
                             return;
                         }
@@ -297,7 +297,7 @@ public class KChartFragment extends BaseFragment {
                             return;
                         }
                         SrealSendReturnBeen.PriceinfoBean priceinfoBean = been.getPriceinfo().get(0);
-                        LogUtils.loge("事实数据111" + been.toString());
+                       // LogUtils.loge("事实数据111" + been.toString());
                         if (priceinfoBean.getPchg()>0){
                             tv_change.setBackgroundResource(R.drawable.bg_red_radius);
                             tv_preice.setTextColor(getActivity().getResources().getColor(R.color.color_CB4232));

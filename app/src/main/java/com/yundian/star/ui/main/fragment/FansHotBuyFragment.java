@@ -136,10 +136,11 @@ public class FansHotBuyFragment extends BaseFragment {
         }else{
             closeErrorView();
         }
+        fansHotBuyAdapter.clear();
         mCurrentCounter =list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         fansHotBuyAdapter.addAll(list);
-        lrv.refresh();
+        lrv.refreshComplete(REQUEST_COUNT);
     }
 
     private void loadMoreData() {
