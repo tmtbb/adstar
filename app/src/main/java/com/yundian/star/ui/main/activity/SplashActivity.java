@@ -63,8 +63,8 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void onAnimationEnd(Animator animator) {
                 startActivity(MainActivity.class);
-                finish();
                 overridePendingTransition(R.anim.act_in_from_right, R.anim.act_out_from_left);
+                finish();
             }
 
             @Override
