@@ -173,6 +173,7 @@ public class AddUserCommentActivity extends BaseActivity {
     }
 
     public void showData() {
+        commentMarketAdapter.clear();
         mCurrentCounter =list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         commentMarketAdapter.addAll(list);
