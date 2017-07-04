@@ -23,6 +23,9 @@ public class ChatRoomHelper {
     }
 
     public static void logout() {
+        if (ChatRoomMemberCache.getInstance()==null){
+            return;
+        }
         ChatRoomMemberCache.getInstance().registerObservers(false);
         ChatRoomMemberCache.getInstance().clear();
     }
