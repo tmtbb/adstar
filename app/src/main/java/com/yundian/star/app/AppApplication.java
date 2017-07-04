@@ -37,6 +37,7 @@ import com.netease.nimlib.sdk.rts.model.RTSData;
 import com.netease.nimlib.sdk.team.constant.TeamFieldEnum;
 import com.netease.nimlib.sdk.team.model.IMMessageFilter;
 import com.netease.nimlib.sdk.team.model.UpdateTeamAttachment;
+import com.squareup.leakcanary.LeakCanary;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.socialize.Config;
@@ -108,6 +109,10 @@ public class AppApplication extends BaseApplication {
                 UMShareAPI.get(this);//初始化友盟
                 Config.DEBUG = true;
                 setupDatabase();
+                if (LeakCanary.isInAnalyzerProcess(this)) {
+                    return;
+                }
+                LeakCanary.install(this);
             } else if(processName.equals("com.yundian.star:core")){
 
             }else if(processName.equals("com.yundian.star:cosine")){
