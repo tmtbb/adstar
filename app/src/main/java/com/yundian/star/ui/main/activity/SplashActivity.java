@@ -3,8 +3,6 @@ package com.yundian.star.ui.main.activity;
 import android.os.Handler;
 import android.os.Message;
 import android.view.MotionEvent;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.igexin.sdk.PushManager;
 import com.testin.agent.Bugout;
@@ -13,18 +11,11 @@ import com.yundian.star.R;
 import com.yundian.star.app.AppApplication;
 import com.yundian.star.base.BaseActivity;
 
-import butterknife.Bind;
-
 /**
  * Created by Administrator on 2017/5/5.
  */
 
 public class SplashActivity extends BaseActivity {
-    private final int BASIC_PERMISSION_REQUEST_CODE = 100;
-    @Bind(R.id.iv_logo)
-    ImageView ivLogo;
-    @Bind(R.id.tv_name)
-    TextView tvName;
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
