@@ -1,7 +1,11 @@
 package com.yundian.star.ui.main.activity;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 
 import com.igexin.sdk.PushManager;
@@ -9,13 +13,19 @@ import com.testin.agent.Bugout;
 import com.testin.agent.BugoutConfig;
 import com.yundian.star.R;
 import com.yundian.star.app.AppApplication;
-import com.yundian.star.base.BaseActivity;
 
 /**
  * Created by Administrator on 2017/5/5.
  */
 
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends Activity {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
+        initView();
+    }
+
     private Handler mHandler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
@@ -26,24 +36,16 @@ public class SplashActivity extends BaseActivity {
             }
         }
 
-        private void startNextAct() {
-            startActivity(MainActivity.class);
-            overridePendingTransition(R.anim.act_in_from_right, R.anim.act_out_from_left);
-            finish();
-        }
+
     };
-
-    @Override
-    public int getLayoutId() {
-        return R.layout.activity_splash;
+    private void startNextAct() {
+        startActivity(new Intent(this,MainActivity.class));
+        overridePendingTransition(R.anim.act_in_from_right, R.anim.act_out_from_left);
+        finish();
     }
 
-    @Override
-    public void initPresenter() {
 
-    }
 
-    @Override
     public void initView() {
     //  Bugout.init(this, "1664ea921dcbe122834e440f7f584e2e", "yingyongbao");
     //  initBugOut();
@@ -86,7 +88,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void initBugOut() {
-        BugoutConfig config = new BugoutConfig.Builder(mContext)
+        BugoutConfig config = new BugoutConfig.Builder(this)
                 //.withAppKey(a15147f843a6cdb414b8a61b6f5191b8)     // 您的应用的项目ID,如果已经在 Manifest 中配置则此处可略
                 //  .withAppChannel(cnl)     // 发布应用的渠道,如果已经在 Manifest 中配置则此处可略
                 .withUserInfo(AppApplication.getAndroidId())    // 用户信息-崩溃分析根据用户记录崩溃信息
