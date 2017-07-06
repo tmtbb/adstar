@@ -34,8 +34,6 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-import static com.yundian.star.R.id.lrv;
-
 
 /**
  * Created by Administrator on 2017/5/15.
@@ -63,7 +61,7 @@ public class MarketDetailFragment extends BaseFragment {
     private ArrayList<StarListbeen.SymbolInfoBean> list = new ArrayList<>();
     private String marketDetailName;
     private int marketDetailType = 1;
-    private MyHandler myHandler;
+    private static MyHandler myHandler;
     private boolean isPrepared;
     private LRecyclerView lrv;
 
@@ -105,7 +103,7 @@ public class MarketDetailFragment extends BaseFragment {
             marketDetailType = getArguments().getInt(AppConstant.MARKET_DETAIL_TYPE);
         }
         initAdpter();
-        getData(false, 1, REQUEST_COUNT);
+        //getData(false, 1, REQUEST_COUNT);
         myHandler = new MyHandler(this);
         initListener();
     }
@@ -246,10 +244,10 @@ public class MarketDetailFragment extends BaseFragment {
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        LogUtils.loge("onHiddenChanged>> ....."+hidden);
-        if (!hidden) {
+        LogUtils.loge("onHiddenChanged>> ....."+hidden+"..getUserVisibleHint"+getUserVisibleHint()+"...isVisible()"+isVisible());
+        if (getUserVisibleHint()&&isVisible()){
             startRefresh();
-        } else {
+        }else {
             stopRefresh();
         }
         super.onHiddenChanged(hidden);
@@ -257,12 +255,7 @@ public class MarketDetailFragment extends BaseFragment {
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        LogUtils.loge("setUserVisibleHint>>");
-        if (isVisibleToUser) {
-            startRefresh();
-        } else {
-            stopRefresh();
-        }
+        LogUtils.loge("setUserVisibleHint>>"+isVisibleToUser);
         super.setUserVisibleHint(isVisibleToUser);
     }
 

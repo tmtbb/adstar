@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.umeng.analytics.MobclickAgent;
 import com.yundian.star.R;
 import com.yundian.star.base.baseapp.AppManager;
 import com.yundian.star.been.EventBusMessage;
@@ -522,5 +523,17 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                 isFreezeMovement = true ;
                 break;
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 }

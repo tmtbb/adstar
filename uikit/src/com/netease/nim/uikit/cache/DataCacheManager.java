@@ -88,7 +88,11 @@ public class DataCacheManager {
         TeamDataCache.getInstance().clear();
 
         // clear avatar cache
-        NimUIKit.getImageLoaderKit().clear();
+        if (NimUIKit.getImageLoaderKit()==null){
+            return;
+        }else {
+            NimUIKit.getImageLoaderKit().clear();
+        }
     }
 
     /**

@@ -1,87 +1,94 @@
 package com.yundian.star.ui.main.activity;
 
-import android.animation.Animator;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.Nullable;
 import android.view.MotionEvent;
-import android.view.animation.AccelerateInterpolator;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.igexin.sdk.PushManager;
 import com.testin.agent.Bugout;
 import com.testin.agent.BugoutConfig;
 import com.yundian.star.R;
 import com.yundian.star.app.AppApplication;
-import com.yundian.star.base.BaseActivity;
-
-import butterknife.Bind;
 
 /**
  * Created by Administrator on 2017/5/5.
  */
 
-public class SplashActivity extends BaseActivity {
-    private final int BASIC_PERMISSION_REQUEST_CODE = 100;
-    @Bind(R.id.iv_logo)
-    ImageView ivLogo;
-    @Bind(R.id.tv_name)
-    TextView tvName;
-
+public class SplashActivity extends Activity {
     @Override
-    public int getLayoutId() {
-        return R.layout.activity_splash;
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_splash);
+        initView();
     }
 
-    @Override
-    public void initPresenter() {
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1 :
+                    startNextAct();
+                    break;
+            }
+        }
 
+
+    };
+    private void startNextAct() {
+        startActivity(new Intent(this,MainActivity.class));
+        overridePendingTransition(R.anim.act_in_from_right, R.anim.act_out_from_left);
+        finish();
     }
 
-    @Override
+
+
     public void initView() {
     //  Bugout.init(this, "1664ea921dcbe122834e440f7f584e2e", "yingyongbao");
     //  initBugOut();
         initGeTui();
-        PropertyValuesHolder alpha = PropertyValuesHolder.ofFloat("alpha", 0.3f, 1f);
-        PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 0.3f, 1f);
-        PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", 0.3f, 1f);
-        ObjectAnimator objectAnimator1 = ObjectAnimator.ofPropertyValuesHolder(tvName, alpha, scaleX, scaleY);
-        ObjectAnimator objectAnimator2 = ObjectAnimator.ofPropertyValuesHolder(ivLogo, alpha, scaleX, scaleY);
-
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(objectAnimator1, objectAnimator2);
-        animatorSet.setInterpolator(new AccelerateInterpolator());
-        animatorSet.setDuration(2000);
-        animatorSet.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animator) {
-                startActivity(MainActivity.class);
-                finish();
-                overridePendingTransition(R.anim.act_in_from_right, R.anim.act_out_from_left);
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animator) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animator) {
-
-            }
-        });
-        animatorSet.start();
+        mHandler.sendEmptyMessageDelayed(1,2000);
+//        PropertyValuesHolder alpha = PropertyValuesHolder.ofFloat("alpha", 0.3f, 1f);
+//        PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 0.3f, 1f);
+//        PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", 0.3f, 1f);
+//        ObjectAnimator objectAnimator1 = ObjectAnimator.ofPropertyValuesHolder(tvName, alpha, scaleX, scaleY);
+//        ObjectAnimator objectAnimator2 = ObjectAnimator.ofPropertyValuesHolder(ivLogo, alpha, scaleX, scaleY);
+//
+//        AnimatorSet animatorSet = new AnimatorSet();
+//        animatorSet.playTogether(objectAnimator1, objectAnimator2);
+//        animatorSet.setInterpolator(new AccelerateInterpolator());
+//        animatorSet.setDuration(2000);
+//        animatorSet.addListener(new Animator.AnimatorListener() {
+//            @Override
+//            public void onAnimationStart(Animator animator) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationEnd(Animator animator) {
+//                startActivity(MainActivity.class);
+//                overridePendingTransition(R.anim.act_in_from_right, R.anim.act_out_from_left);
+//                finish();
+//            }
+//
+//            @Override
+//            public void onAnimationCancel(Animator animator) {
+//
+//            }
+//
+//            @Override
+//            public void onAnimationRepeat(Animator animator) {
+//
+//            }
+//        });
+//        animatorSet.start();
     }
 
     private void initBugOut() {
-        BugoutConfig config = new BugoutConfig.Builder(mContext)
+        BugoutConfig config = new BugoutConfig.Builder(this)
                 //.withAppKey(a15147f843a6cdb414b8a61b6f5191b8)     // 您的应用的项目ID,如果已经在 Manifest 中配置则此处可略
                 //  .withAppChannel(cnl)     // 发布应用的渠道,如果已经在 Manifest 中配置则此处可略
                 .withUserInfo(AppApplication.getAndroidId())    // 用户信息-崩溃分析根据用户记录崩溃信息
