@@ -323,7 +323,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        if (hidden == false) {
+        if (hidden == false&&isVisible()) {
             if (listData==null||listData.size()==0){
                 mPresenter.getAdvertisement("1", 1);
             }

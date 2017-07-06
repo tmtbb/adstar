@@ -262,4 +262,8 @@ public <methods>;
  -dontwarn org.greenrobot.greendao.database.**
  # If you do not use Rx:
  -dontwarn rx.**
+ #友盟统计
+ -keepclassmembers class * {
+    public <init> (org.json.JSONObject);
+ }
 
