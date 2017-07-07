@@ -98,7 +98,7 @@ public class SystemMessagesActivity extends BaseActivity {
         passwordView.setOnFinishInput(new PasswordView.CheckPasCallBake() {
 
             @Override
-            public void checkSuccess(OrderReturnBeen.OrdersListBean ordersListBean) {
+            public void checkSuccess(OrderReturnBeen.OrdersListBean ordersListBean,String pwd) {
                 sureOrder(ordersListBean);
                 passwordView.setVisibility(View.GONE);
             }
@@ -108,7 +108,7 @@ public class SystemMessagesActivity extends BaseActivity {
             }
 
             @Override
-            public void checkSuccessPwd() {
+            public void checkSuccessPwd(String pwd) {
 
             }
         });

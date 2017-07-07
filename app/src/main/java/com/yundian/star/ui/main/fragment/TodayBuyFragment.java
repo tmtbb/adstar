@@ -75,7 +75,7 @@ public class TodayBuyFragment extends BaseFragment {
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getData(true, mCurrentCounter);
+                getData(true, mCurrentCounter+1);
             }
         });
     }

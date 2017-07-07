@@ -57,7 +57,7 @@
             android:gravity="center"
             android:padding="5dp"
             android:text="右标题"
-            android:textColor="@color/white"
+            android:textColor="@color/color_666666"
             android:textSize="15sp"
             android:visibility="gone" />
     </RelativeLayout>

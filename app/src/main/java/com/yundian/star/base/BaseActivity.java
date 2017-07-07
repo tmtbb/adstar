@@ -235,7 +235,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
      * @param msg
      */
     public void startProgressDialog(String msg) {
-        LoadingDialog.showDialogForLoading(this, msg, true);
+        LoadingDialog.showDialogForLoading(this, msg, false);
     }
 
     /**

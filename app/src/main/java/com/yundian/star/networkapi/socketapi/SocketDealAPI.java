@@ -4,12 +4,18 @@ package com.yundian.star.networkapi.socketapi;
 import com.yundian.star.app.SocketAPIConstant;
 import com.yundian.star.been.AliPayReturnBean;
 import com.yundian.star.been.AssetDetailsBean;
+import com.yundian.star.been.BankCardBean;
+import com.yundian.star.been.BankInfoBean;
 import com.yundian.star.been.BookingStarListBean;
 import com.yundian.star.been.IdentityInfoBean;
+import com.yundian.star.been.MeetStarStatusBean;
 import com.yundian.star.been.MoneyDetailListBean;
 import com.yundian.star.been.RequestResultBean;
+import com.yundian.star.been.ResultCodeBeen;
 import com.yundian.star.been.StatServiceListBean;
 import com.yundian.star.been.WXPayReturnEntity;
+import com.yundian.star.been.WithDrawCashHistoryBean;
+import com.yundian.star.been.WithDrawCashReturnBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.DealAPI;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
@@ -19,8 +25,6 @@ import com.yundian.star.utils.SharePrefUtil;
 import java.util.HashMap;
 import java.util.List;
 
-import static com.yundian.star.R.string.nickname;
-import static com.yundian.star.R.string.price;
 
 /**
  * Created by yaowang on 2017/2/20.
@@ -175,7 +179,7 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
     }
 
     @Override
-    public void moneyList(String time,int status, int count, int startPos, OnAPIListener<List<MoneyDetailListBean>> listener) {
+    public void moneyList(String time, int status, int count, int startPos, OnAPIListener<List<MoneyDetailListBean>> listener) {
         LogUtils.logd("请求钱包明细");
         HashMap<String, Object> map = new HashMap<>();
 //        map.put("id", SharePrefUtil.getInstance().getUserId());
@@ -255,7 +259,7 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
         map.put("token", SharePrefUtil.getInstance().getToken());
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Balance,
                 SocketAPIConstant.ReqeutType.User, map);
-      requestEntity(socketDataPacket,AssetDetailsBean.class,listener);
+        requestEntity(socketDataPacket, AssetDetailsBean.class, listener);
 //        requestJsonObject(socketDataPacket, listener);
     }
 
@@ -267,7 +271,7 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
         map.put("token", SharePrefUtil.getInstance().getToken());
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.IdentityInfo,
                 SocketAPIConstant.ReqeutType.User, map);
-        requestEntity(socketDataPacket,IdentityInfoBean.class,listener);
+        requestEntity(socketDataPacket, IdentityInfoBean.class, listener);
     }
 
     @Override
@@ -279,7 +283,7 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
         map.put("nickname", nickname);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.NikeName,
                 SocketAPIConstant.ReqeutType.User, map);
-        requestEntity(socketDataPacket,RequestResultBean.class,listener);
+        requestEntity(socketDataPacket, RequestResultBean.class, listener);
     }
 
     @Override
@@ -295,7 +299,7 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
         map.put("comment", comment);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarMeet,
                 SocketAPIConstant.ReqeutType.NewInfos, map);
-        requestEntity(socketDataPacket,RequestResultBean.class,listener);
+        requestEntity(socketDataPacket, RequestResultBean.class, listener);
     }
 
     @Override
@@ -305,7 +309,7 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
         map.put("starcode", starcode);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarType,
                 SocketAPIConstant.ReqeutType.NewInfos, map);
-        requestEntity(socketDataPacket,StatServiceListBean.class,listener);
+        requestEntity(socketDataPacket, StatServiceListBean.class, listener);
     }
 
     @Override
@@ -318,11 +322,11 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
         map.put("price", price);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.ALiPay,
                 SocketAPIConstant.ReqeutType.Pay, map);
-        requestEntity(socketDataPacket,AliPayReturnBean.class,listener);
+        requestEntity(socketDataPacket, AliPayReturnBean.class, listener);
     }
 
     @Override
-    public void cancelPay(String  rid, int payResult, OnAPIListener<Object> listener) {
+    public void cancelPay(String rid, int payResult, OnAPIListener<Object> listener) {
         LogUtils.loge("取消支付----------");
         HashMap<String, Object> map = new HashMap<>();
         map.put("id", SharePrefUtil.getInstance().getUserId());
@@ -331,11 +335,34 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.CancelPay,
                 SocketAPIConstant.ReqeutType.Pay, map);
 //        requestEntity(socketDataPacket,RequestResultBean.class,listener);
-        requestJsonObject(socketDataPacket,listener);
+        requestJsonObject(socketDataPacket, listener);
+    }
+
+    @Override
+    public void cashOut(double price, String withdrawPwd, OnAPIListener<WithDrawCashReturnBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id",SharePrefUtil.getInstance().getUserId());
+        map.put("token",SharePrefUtil.getInstance().getToken());
+        map.put("price", price);
+        map.put("withdrawPwd", withdrawPwd);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.CashOut,
+                SocketAPIConstant.ReqeutType.Pay, map);
+        requestEntity(socketDataPacket,WithDrawCashReturnBean.class, listener);
+    }
+
+    @Override
+    public void meetStatus(int pos, int count, OnAPIListener<MeetStarStatusBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("uid",SharePrefUtil.getInstance().getUserId());
+        map.put("pos",pos);
+        map.put("count", count);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.MeetStatus,
+                SocketAPIConstant.ReqeutType.NewInfos, map);
+        requestEntity(socketDataPacket,MeetStarStatusBean.class, listener);
     }
 
 
-//    @Override
+    //    @Override
 //    public void unionPay(String title, double price, OnAPIListener<Object> listener) {
 //        LogUtil.d("请求银联支付");
 //        HashMap<String, Object> map = new HashMap<>();
@@ -398,19 +425,19 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
 //        requestEntity(socketDataPacket, CashOutReturnEntity.class, listener);
 //    }
 //
-//    @Override
-//    public void cashList(int status, int startPos, int count, OnAPIListener<List<WithDrawCashReturnEntity>> listener) {
-//        LogUtil.d("提现列表请求网络");
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-//        map.put("token", NetworkAPIFactoryImpl.getConfig().getUserToken());
-//        map.put("startPos", startPos);
-//        map.put("count", count);
-//        map.put("status", status);
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.CashList,
-//                SocketAPIConstant.ReqeutType.History, map);
-//        requestEntitys(socketDataPacket, "withdrawList", WithDrawCashReturnEntity.class, listener);
-//    }
+    @Override
+    public void cashList(int status, int startPos, int count, OnAPIListener<List<WithDrawCashHistoryBean>> listener) {
+      LogUtils.loge("提现列表请求网络---------");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id",SharePrefUtil.getInstance().getUserId());
+        map.put("token",SharePrefUtil.getInstance().getToken());
+        map.put("startPos", startPos);
+        map.put("count", count);
+        map.put("status", status);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.CashList,
+                SocketAPIConstant.ReqeutType.History, map);
+        requestEntitys(socketDataPacket, "withdrawList", WithDrawCashHistoryBean.class, listener);
+    }
 //
 //    @Override
 //    public void currentPosition(double pid, OnAPIListener<CurrentPositionEntity> listener) {
@@ -449,17 +476,41 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
 //        requestEntity(socketDataPacket, WXPayResultEntity.class, listener);
 //    }
 //
-//    @Override
-//    public void bankCardList(OnAPIListener<List<BankCardEntity>> listener) {
-//        LogUtil.d("请求银行卡列表");
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-//        map.put("token", NetworkAPIFactoryImpl.getConfig().getUserToken());
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.BankCard,
-//                SocketAPIConstant.ReqeutType.Bank, map);
-//        requestEntitys(socketDataPacket, "cardList", BankCardEntity.class, listener);
-//    }
-//
+    @Override
+    public void bankCardList(OnAPIListener<BankCardBean> listener) {
+      LogUtils.loge("银行卡信息");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id",SharePrefUtil.getInstance().getUserId());
+        map.put("token",SharePrefUtil.getInstance().getToken());
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.BankCard,
+                SocketAPIConstant.ReqeutType.Bank, map);
+        requestEntity(socketDataPacket,BankCardBean.class,listener);
+    }
+
+    @Override
+    public void bankCardInfo(String cardNo, OnAPIListener<BankInfoBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id",SharePrefUtil.getInstance().getUserId());
+        map.put("token",SharePrefUtil.getInstance().getToken());
+        map.put("cardNo",cardNo);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.BankName,
+                SocketAPIConstant.ReqeutType.Bank, map);
+        requestEntity(socketDataPacket,BankInfoBean.class,listener);
+    }
+
+    @Override
+    public void bindCard(String bankUsername, String account, OnAPIListener<BankInfoBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id",SharePrefUtil.getInstance().getUserId());
+        map.put("token",SharePrefUtil.getInstance().getToken());
+        map.put("bankUsername", bankUsername);
+        map.put("account", account);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.BindCard,
+                SocketAPIConstant.ReqeutType.Bank, map);
+        requestEntity(socketDataPacket, BankInfoBean.class, listener);
+    }
+
+    //
 //    @Override
 //    public void bankName(String cardNo, OnAPIListener<BankInfoEntity> listener) {
 //        LogUtil.d("获取银行账户信息");
@@ -472,32 +523,18 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
 //        requestEntity(socketDataPacket, BankInfoEntity.class, listener);
 //    }
 //
-//    @Override
-//    public void bindCard(long bankId, String bankName, String branchBank, String cardNO, String name, OnAPIListener<BankInfoEntity> listener) {
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-//        map.put("token", NetworkAPIFactoryImpl.getConfig().getUserToken());
-//        map.put("bankId", bankId);
-//        map.put("branchBank", branchBank);
-//        map.put("cardNO", cardNO);
-//        map.put("bankName", bankName);
-//        map.put("name", name);
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.BindCard,
-//                SocketAPIConstant.ReqeutType.Bank, map);
-//        requestEntity(socketDataPacket, BankInfoEntity.class, listener);
-//    }
-//
-//    @Override
-//    public void unBindCard(long bankCardId, String verCode, OnAPIListener<Object> listener) {
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-//        map.put("token", NetworkAPIFactoryImpl.getConfig().getUserToken());
+
+    @Override
+    public void unBindCard( OnAPIListener<ResultCodeBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id",SharePrefUtil.getInstance().getUserId());
+        map.put("token",SharePrefUtil.getInstance().getToken());
 //        map.put("bankCardId", bankCardId);
 //        map.put("verCode", verCode);
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.UnBindCard,
-//                SocketAPIConstant.ReqeutType.Bank, map);
-//        requestJsonObject(socketDataPacket, listener);
-//    }
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.UnBindCard,
+                SocketAPIConstant.ReqeutType.Bank, map);
+        requestEntity(socketDataPacket,ResultCodeBeen.class,listener);
+    }
 //
 //    @Override
 //    public void rechargeList(int startPos, int count, OnAPIListener<List<RechargeRecordItemEntity>> listener) {

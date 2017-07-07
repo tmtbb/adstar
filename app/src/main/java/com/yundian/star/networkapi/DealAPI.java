@@ -3,16 +3,21 @@ package com.yundian.star.networkapi;
 
 import com.yundian.star.been.AliPayReturnBean;
 import com.yundian.star.been.AssetDetailsBean;
+import com.yundian.star.been.BankCardBean;
+import com.yundian.star.been.BankInfoBean;
 import com.yundian.star.been.BookingStarListBean;
 import com.yundian.star.been.IdentityInfoBean;
+import com.yundian.star.been.MeetStarStatusBean;
 import com.yundian.star.been.MoneyDetailListBean;
 import com.yundian.star.been.RequestResultBean;
+import com.yundian.star.been.ResultCodeBeen;
 import com.yundian.star.been.StatServiceListBean;
 import com.yundian.star.been.WXPayReturnEntity;
+import com.yundian.star.been.WithDrawCashHistoryBean;
+import com.yundian.star.been.WithDrawCashReturnBean;
 import com.yundian.star.listener.OnAPIListener;
 
 import java.util.List;
-import java.util.Objects;
 
 
 /**
@@ -65,8 +70,9 @@ public interface DealAPI {
 //                 OnAPIListener<CashOutReturnEntity> listener);
 //
 //    //提现列表
-//    void cashList(int status, int startPos, int count, OnAPIListener<List<WithDrawCashReturnEntity>> listener);
-//
+    void cashList(int status, int startPos, int count, OnAPIListener<List<WithDrawCashHistoryBean>> listener);
+
+    //
 //    //提现列表
 //    void currentPosition(double pid, OnAPIListener<CurrentPositionEntity> listener);
 //
@@ -75,28 +81,43 @@ public interface DealAPI {
 //
 //    void wxpayResult(String rid, int payResult, OnAPIListener<WXPayResultEntity> listener);//支付结果
 //
-//    void bankCardList(OnAPIListener<List<BankCardEntity>> listener);//银行卡列表
-//
-//    void bankName(String cardNo, OnAPIListener<BankInfoEntity> listener);//获取银行账户信息
-//
-//    void bindCard(long bankId, String bankName, String branchBank, String cardNo, String name, OnAPIListener<BankInfoEntity> listener);//获取银行账户信息
-//
-//    void unBindCard(long bankCardId, String verCode, OnAPIListener<Object> listener);//解绑操作
-//
+    void bankCardList(OnAPIListener<BankCardBean> listener);//银行卡列表
+
+    //
+    void bankCardInfo(String cardNo, OnAPIListener<BankInfoBean> listener);//获取银行账户信息
+
+    //
+    void bindCard(String bankUsername, String account, OnAPIListener<BankInfoBean> listener);//获取银行账户信息
+
+    void unBindCard(OnAPIListener<ResultCodeBeen> listener);//解绑操作
+
+    //
 //    void rechargeList(int startPos, int count, OnAPIListener<List<RechargeRecordItemEntity>> listener);//解绑操作
-    void moneyList(String time,int status, int count, int startPos, OnAPIListener<List<MoneyDetailListBean>> listener);//资金明细
+    void moneyList(String time, int status, int count, int startPos, OnAPIListener<List<MoneyDetailListBean>> listener);//资金明细
 
     void bookingStarList(int startPos, int count, OnAPIListener<List<BookingStarListBean>> listener);//预约明星列表
 
     void identityAuthentication(String realname, String id_card, OnAPIListener<RequestResultBean> listener);
 
-    void dealPwd(String phone,String vToken,String vCode, long timestamp,int type, String pwd, OnAPIListener<RequestResultBean> listener);//预约明星列表
-    void test(String title, double price ,OnAPIListener<Object> listener);//预约明星列表
+    void dealPwd(String phone, String vToken, String vCode, long timestamp, int type, String pwd, OnAPIListener<RequestResultBean> listener);//预约明星列表
+
+    void test(String title, double price, OnAPIListener<Object> listener);//预约明星列表
+
     void balance(OnAPIListener<AssetDetailsBean> listener);//余额
+
     void identity(OnAPIListener<IdentityInfoBean> listener);//身份
-    void nikeName(String nickname,OnAPIListener<RequestResultBean> listener);//身份
-    void starMeet(String starcode,long mid,String city_name,String appoint_time,int meet_type,String comment,OnAPIListener<RequestResultBean> listener);
-    void statServiceList(String starcode,OnAPIListener<StatServiceListBean> listener);
-    void alipay(String title,double price,OnAPIListener<AliPayReturnBean> listener);
-    void cancelPay(String rid,int payResult,OnAPIListener<Object> listener);
+
+    void nikeName(String nickname, OnAPIListener<RequestResultBean> listener);//身份
+
+    void starMeet(String starcode, long mid, String city_name, String appoint_time, int meet_type, String comment, OnAPIListener<RequestResultBean> listener);
+
+    void statServiceList(String starcode, OnAPIListener<StatServiceListBean> listener);
+
+    void alipay(String title, double price, OnAPIListener<AliPayReturnBean> listener);
+
+    void cancelPay(String rid, int payResult, OnAPIListener<Object> listener);
+
+    void cashOut(double price, String withdrawPwd, OnAPIListener<WithDrawCashReturnBean> listener);
+
+    void meetStatus(int pos, int count, OnAPIListener<MeetStarStatusBean> listener);
 }

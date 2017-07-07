@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/dp_12"
+    android:layout_marginLeft="@dimen/dp_12"
+    android:layout_marginRight="@dimen/dp_12"
+    android:layout_marginTop="@dimen/dp_12"
+    android:background="@color/main_bg_color"
+    android:gravity="center_vertical"
+    android:padding="@dimen/dp_10">
+
+
+    <ImageView
+        android:id="@+id/iv_star_head"
+        android:layout_width="@dimen/dp_40"
+        android:layout_height="@dimen/dp_40"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/dp_2" />
+
+    <TextView
+        android:id="@+id/tv_star_name"
+        android:layout_width="@dimen/dp_70"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_toRightOf="@id/iv_star_head"
+        android:textColor="@color/font_333333"
+        android:textSize="@dimen/text_size_14" />
+
+
+    <TextView
+        android:id="@+id/tv_booking_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/tv_star_job"
+        android:layout_marginLeft="@dimen/dp_5"
+        android:layout_weight="1"
+        android:text="@string/booking_time" />
+
+    <TextView
+        android:id="@+id/tv_booking"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_2"
+        android:layout_marginLeft="@dimen/dp_5"
+        android:background="@drawable/booking_star_status"
+        android:padding="@dimen/dp_5"
+        android:text="约见"
+        android:textColor="@color/color_fefefe"
+        android:textSize="@dimen/text_size_12"
+        android:visibility="visible" />
+
+
+</LinearLayout>

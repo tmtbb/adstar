@@ -89,9 +89,9 @@ public class ResultCodeUtil {
 //            case -604:
 //                msg = "没有交易数据";
 //                break;
-                case -801:
-                    msg = "没有绑定银行卡";
-                    break;
+//                case -801:
+//                    msg = "没有绑定银行卡";
+//                    break;
                 case -802:
                     msg = "绑定银行卡失败";
                     break;

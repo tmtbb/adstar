@@ -85,9 +85,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.activity.MainActivity"
-            android:theme="@style/AppTheme"
-            ></activity>
+        <activity
+            android:name=".ui.main.activity.MainActivity"
+            android:theme="@style/AppTheme"></activity>
         <activity android:name=".ui.main.activity.TestActivity"></activity>
         <activity
             android:name=".ui.main.activity.LoginActivity"
@@ -132,9 +132,9 @@
             android:name=".ui.main.activity.BuyTransferIndentActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:windowSoftInputMode="stateHidden|adjustResize"></activity>
-        <activity android:name=".ui.im.activity.SystemMessagesActivity"
-            android:launchMode="singleTask"
-            ></activity>
+        <activity
+            android:name=".ui.im.activity.SystemMessagesActivity"
+            android:launchMode="singleTask"></activity>
         <activity android:name=".ui.main.activity.MeetStarActivity"></activity>
 
         <!--微博回调-->
@@ -172,9 +172,9 @@
             android:name="com.umeng.socialize.editorpage.ShareActivity"
             android:excludeFromRecents="true"
             android:theme="@style/Theme.UMDefault" />
-        <activity android:name=".ui.main.activity.CommonWebActivity"
-            android:launchMode="singleTask"
-            ></activity>
+        <activity
+            android:name=".ui.main.activity.CommonWebActivity"
+            android:launchMode="singleTask"></activity>
         <!--友盟sdk-->
         <meta-data
             android:name="UMENG_APPKEY"
@@ -588,14 +588,34 @@
         <activity
             android:name=".ui.main.activity.IdentityAuthenticationActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
-            android:windowSoftInputMode="stateHidden|adjustResize"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".ui.main.activity.SettingDealPwdActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.main.activity.ResetPayPwdActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.DifferAnswerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.BankCardInfoActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.CashActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.AddBankCardActvivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.main.activity.CashHistoryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
             android:screenOrientation="portrait" />
         <!--支付宝-->
@@ -704,15 +724,15 @@
         <!-- 个推SDK配置结束 -->
         <!--update-->
         <!--<provider-->
-            <!--android:name="android.support.v4.content.FileProvider"-->
-            <!--android:authorities="com.yundian.star"-->
-            <!--android:exported="false"-->
-            <!--android:grantUriPermissions="true">-->
-            <!--<meta-data-->
-                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
-                <!--android:resource="@xml/checkupdatelibrary_uri_grant"/>-->
+        <!--android:name="android.support.v4.content.FileProvider"-->
+        <!--android:authorities="com.yundian.star"-->
+        <!--android:exported="false"-->
+        <!--android:grantUriPermissions="true">-->
+        <!--<meta-data-->
+        <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+        <!--android:resource="@xml/checkupdatelibrary_uri_grant"/>-->
         <!--</provider>-->
-        <service android:name="com.qiangxi.checkupdatelibrary.service.DownloadService"/>
+        <service android:name="com.qiangxi.checkupdatelibrary.service.DownloadService" />
     </application>
 
 </manifest>

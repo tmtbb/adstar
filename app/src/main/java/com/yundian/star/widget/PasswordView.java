@@ -188,7 +188,7 @@ public class PasswordView extends RelativeLayout {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
+            public void afterTextChanged(final Editable s) {
 
                 if (s.toString().length() == 1) {
 
@@ -200,6 +200,7 @@ public class PasswordView extends RelativeLayout {
                     LogUtils.loge("strPassword :" + strPassword);
 
                     //校验支付密码
+                    final String finalStrPassword = strPassword;
                     NetworkAPIFactoryImpl.getInformationAPI().checkPayPas(SharePrefUtil.getInstance().getUserId(),
                             SharePrefUtil.getInstance().getToken(), MD5Util.MD5(strPassword), new OnAPIListener<ResultBeen>() {
                                 @Override
@@ -221,9 +222,9 @@ public class PasswordView extends RelativeLayout {
                                         if (resultBeen.getResult() == 1) {
                                             if (checkPasCallBake != null) {
                                                 if (ordersListBean!=null){
-                                                    checkPasCallBake.checkSuccess(ordersListBean);
+                                                    checkPasCallBake.checkSuccess(ordersListBean, finalStrPassword);
                                                 }
-                                                checkPasCallBake.checkSuccessPwd();
+                                                checkPasCallBake.checkSuccessPwd(finalStrPassword);
                                             }
                                         } else if (resultBeen.getResult() == 0) {
                                             ToastUtils.showShort("密码错误");
@@ -254,11 +255,11 @@ public class PasswordView extends RelativeLayout {
     }
 
     public interface CheckPasCallBake {
-        void checkSuccess(OrderReturnBeen.OrdersListBean ordersListBean);
+        void checkSuccess(OrderReturnBeen.OrdersListBean ordersListBean,String pwd);
 
         void checkError();
 
-        void checkSuccessPwd();
+        void checkSuccessPwd(String pwd);
 
     }
 
