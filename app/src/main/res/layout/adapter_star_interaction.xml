@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    >
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp">
+        <RelativeLayout
+            android:id="@+id/rl_bg"
+            android:layout_gravity="bottom"
+            android:layout_width="match_parent"
+            android:layout_height="80dp">
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="117dp"
+                android:layout_marginTop="15dp"
+                android:textColor="@color/color_white_ffffffff"
+                android:textSize="@dimen/fontSize_16sp"
+                android:text="赵丽颖"
+                />
+            <TextView
+                android:id="@+id/tv_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_white_ffffffff"
+                android:textSize="@dimen/fontSize_12sp"
+                android:text="明星"
+                android:layout_below="@+id/tv_name"
+                android:layout_alignLeft="@+id/tv_name"
+                android:layout_alignStart="@+id/tv_name"
+                android:layout_marginTop="6dp" />
+
+        </RelativeLayout>
+        <ImageView
+            android:id="@+id/img_head"
+            android:layout_width="83dp"
+            android:layout_height="83dp"
+            android:layout_gravity="left"
+            android:layout_marginLeft="20dp"
+            android:src="@mipmap/ic_launcher"
+            android:padding="2dp"
+            />
+    </FrameLayout>
+</LinearLayout>
