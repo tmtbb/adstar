@@ -35,6 +35,7 @@ import com.yundian.star.been.CheckUpdateInfoEntity;
 import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.TabEntity;
 import com.yundian.star.ui.im.fragment.DifferAnswerFragment;
+import com.yundian.star.ui.main.fragment.FindStarFragment;
 import com.yundian.star.ui.main.fragment.MarketDetailFragment;
 import com.yundian.star.ui.main.fragment.NewsInfoFragment;
 import com.yundian.star.ui.main.fragment.UserInfoFragment;
@@ -67,6 +68,7 @@ public class MainActivity extends BaseActivity {
             R.drawable.message_ok, R.drawable.market_ok, R.drawable.differ_answer_ok, R.drawable.me_ok};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private NewsInfoFragment newsInfoFragment;
+    private FindStarFragment findStarFragment;
     //private MarketFragment marketFragment;
     private MarketDetailFragment marketFragment;
     private DifferAnswerFragment differAnswerFragment;
@@ -142,7 +144,7 @@ public class MainActivity extends BaseActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         int currentTabPosition = 0;
         if (savedInstanceState != null) {
-            newsInfoFragment = (NewsInfoFragment) getSupportFragmentManager().findFragmentByTag("NewsInfoFragment");
+            findStarFragment = (FindStarFragment) getSupportFragmentManager().findFragmentByTag("FindStarFragment");
             //marketFragment = (MarketFragment) getSupportFragmentManager().findFragmentByTag("MarketFragment");
             marketFragment = (MarketDetailFragment) getSupportFragmentManager().findFragmentByTag("MarketFragment");
 
@@ -150,11 +152,11 @@ public class MainActivity extends BaseActivity {
             userInfoFragment = (UserInfoFragment) getSupportFragmentManager().findFragmentByTag("UserInfoFragment");
             currentTabPosition = savedInstanceState.getInt(AppConstant.HOME_CURRENT_TAB_POSITION);
         } else {
-            newsInfoFragment = new NewsInfoFragment();
+            findStarFragment = new FindStarFragment();
             marketFragment = new MarketDetailFragment();
             differAnswerFragment = new DifferAnswerFragment();
             userInfoFragment = new UserInfoFragment();
-            transaction.add(R.id.fl_main, newsInfoFragment, "NewsInfoFragment");
+            transaction.add(R.id.fl_main, findStarFragment, "FindStarFragment");
             transaction.add(R.id.fl_main, marketFragment, "MarketFragment");
             transaction.add(R.id.fl_main, differAnswerFragment, "DifferAnswerFragment");
             transaction.add(R.id.fl_main, userInfoFragment, "UserInfoFragment");
@@ -220,11 +222,11 @@ public class MainActivity extends BaseActivity {
                 transaction.hide(marketFragment);
                 transaction.hide(differAnswerFragment);
                 transaction.hide(userInfoFragment);
-                transaction.show(newsInfoFragment);
+                transaction.show(findStarFragment);
                 transaction.commitAllowingStateLoss();
                 break;
             case 1:
-                transaction.hide(newsInfoFragment);
+                transaction.hide(findStarFragment);
                 transaction.hide(differAnswerFragment);
                 transaction.hide(userInfoFragment);
                 transaction.show(marketFragment);
@@ -233,7 +235,7 @@ public class MainActivity extends BaseActivity {
             case 2:
                 CheckLoginUtil.checkLogin(this);
                 transaction.hide(marketFragment);
-                transaction.hide(newsInfoFragment);
+                transaction.hide(findStarFragment);
                 transaction.hide(userInfoFragment);
                 transaction.show(differAnswerFragment);
                 transaction.commitAllowingStateLoss();
@@ -241,7 +243,7 @@ public class MainActivity extends BaseActivity {
             case 3:
                 CheckLoginUtil.checkLogin(this);
                 transaction.hide(marketFragment);
-                transaction.hide(newsInfoFragment);
+                transaction.hide(findStarFragment);
                 transaction.hide(differAnswerFragment);
                 transaction.show(userInfoFragment);
                 transaction.commitAllowingStateLoss();

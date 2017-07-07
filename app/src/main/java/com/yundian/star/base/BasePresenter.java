@@ -18,5 +18,8 @@ public abstract class BasePresenter<T,E>{
     public void onStart(){
     };
     public void onDestroy() {
+        mView = null ;
+        mModel = null ;
+        mContext = null;
     }
 }

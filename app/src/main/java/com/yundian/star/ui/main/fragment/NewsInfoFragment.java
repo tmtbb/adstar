@@ -335,13 +335,6 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
     }
 
 
-    /* @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (adViewpagerUtil != null) {
-            adViewpagerUtil.destroyAdViewPager();
-        }
-    }*/
 
     private void full(boolean enable) {
         if (enable) {
