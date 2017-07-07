@@ -61,7 +61,7 @@ public class MarketDetailFragment extends BaseFragment {
     private ArrayList<StarListbeen.SymbolInfoBean> list = new ArrayList<>();
     private String marketDetailName;
     private int marketDetailType = 1;
-    private MyHandler myHandler;
+    private static MyHandler myHandler;
     private boolean isPrepared;
     private LRecyclerView lrv;
 
