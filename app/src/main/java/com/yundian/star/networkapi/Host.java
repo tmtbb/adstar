@@ -1,6 +1,8 @@
 package com.yundian.star.networkapi;
 
 
+import static io.netty.handler.codec.http.HttpMethod.HEAD;
+
 /**
  * Created by wsz on 2016/4/27.
  */
@@ -66,6 +68,7 @@ public enum Host {
     }
 
     public static short getSocketServerPort() {
+
 //        return (short) 16006 ;
 //        return (short) 12300 ;
           //return (short) 16104 ;

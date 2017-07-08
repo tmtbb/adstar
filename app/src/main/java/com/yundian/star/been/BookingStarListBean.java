@@ -3,11 +3,13 @@ package com.yundian.star.been;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.yundian.star.ui.main.adapter.ExpandableRecyclerAdapter;
+
 /**
  * Created by sll on 2017/5/24.
  */
 
-public class BookingStarListBean implements Parcelable {
+public class BookingStarListBean extends ExpandableRecyclerAdapter.ListItem implements Parcelable {
 
     private long uid;
     private long ownseconds;
@@ -16,6 +18,8 @@ public class BookingStarListBean implements Parcelable {
     private String starname;
     private String faccid;
     private int status;
+
+    private String typeTitle;  //下拉标题
 
     public long getUid() {
         return uid;
@@ -73,17 +77,16 @@ public class BookingStarListBean implements Parcelable {
         this.status = status;
     }
 
-    @Override
-    public String toString() {
-        return "BookingStarListBean{" +
-                "uid=" + uid +
-                ", ownseconds=" + ownseconds +
-                ", appoint=" + appoint +
-                ", starcode='" + starcode + '\'' +
-                ", starname='" + starname + '\'' +
-                ", faccid='" + faccid + '\'' +
-                ", status=" + status +
-                '}';
+    public String getTypeTitle() {
+        return typeTitle;
+    }
+
+    public void setTypeTitle(String typeTitle) {
+        this.typeTitle = typeTitle;
+    }
+
+    public static Creator<BookingStarListBean> getCREATOR() {
+        return CREATOR;
     }
 
     @Override
@@ -100,6 +103,7 @@ public class BookingStarListBean implements Parcelable {
         dest.writeString(this.starname);
         dest.writeString(this.faccid);
         dest.writeInt(this.status);
+        dest.writeString(this.typeTitle);
     }
 
     public BookingStarListBean() {
@@ -113,6 +117,7 @@ public class BookingStarListBean implements Parcelable {
         this.starname = in.readString();
         this.faccid = in.readString();
         this.status = in.readInt();
+        this.typeTitle = in.readString();
     }
 
     public static final Creator<BookingStarListBean> CREATOR = new Creator<BookingStarListBean>() {

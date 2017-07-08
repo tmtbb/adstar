@@ -119,9 +119,9 @@
     <include layout="@layout/ll_interval_line" />
 
     <LinearLayout
-        android:id="@+id/ll_user_fudai"
+        android:id="@+id/ll_user_cash"
         style="@style/user_info_setting_style"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <ImageView
             android:layout_width="@dimen/dp_22"
@@ -131,14 +131,13 @@
         <TextView
             style="@style/user_setting_text_style"
             android:layout_marginLeft="@dimen/dp_22"
-            android:text="@string/user_fudai" />
+            android:text="@string/money_cash" />
 
         <include layout="@layout/ll_right_arrow" />
 
     </LinearLayout>
 
     <include
-        layout="@layout/ll_interval_line"
-        android:visibility="gone" />
+        layout="@layout/ll_interval_line" />
 
 </LinearLayout>

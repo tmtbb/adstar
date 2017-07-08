@@ -8,55 +8,56 @@ import android.widget.TextView;
 import com.yundian.star.R;
 import com.yundian.star.base.ListBaseAdapter;
 import com.yundian.star.base.SuperViewHolder;
-import com.yundian.star.been.BookingStarListBean;
-import com.yundian.star.greendao.GreenDaoManager;
-import com.yundian.star.greendao.StarInfo;
+import com.yundian.star.been.MeetStarInfoBean;
 import com.yundian.star.utils.ImageLoaderUtils;
 
-import java.util.List;
-
-import static com.yundian.star.R.id.tv_star_name;
 
 /**
  * Created by sll on 2017/5/24.
  */
 
-public class BookStarListAdapter extends ListBaseAdapter<BookingStarListBean> {
+public class BookStarListAdapter extends ListBaseAdapter<MeetStarInfoBean> {
     public BookStarListAdapter(Context context) {
         super(context);
     }
 
     @Override
     public int getLayoutId() {
-        return R.layout.adapter_book_star_list;
+        return R.layout.adapter_booking_status_list;
     }
 
     @Override
     public void onBindItemHolder(SuperViewHolder holder, final int position) {
-        final BookingStarListBean item = mDataList.get(position);
-        TextView nameText = holder.getView(tv_star_name);
+        final MeetStarInfoBean item = mDataList.get(position);
+        TextView nameText = holder.getView(R.id.tv_star_name);
         TextView bookinged = holder.getView(R.id.tv_booking);
-        TextView refuse = holder.getView(R.id.tv_booking_refuse);
-        TextView talk = holder.getView(R.id.have_talk);
         ImageView iv_star_head = holder.getView(R.id.iv_star_head);
-        nameText.setText(item.getStarname());
-        if (item.getAppoint() == 1) {  //1-已约见,2,已拒绝,3-已完成
+        TextView tv_booking_time = holder.getView(R.id.tv_booking_time);
+
+        //struct	约见详情列表, 其中meet_type 1-待确认 2-已拒绝 3-已完成 4-已同意；
+
+        nameText.setText(item.getStar_name());
+        if (item.getMeet_type() == 0) {
+            bookinged.setVisibility(View.GONE);
+        } else if (item.getMeet_type() == 1) {  //0-没有约见，不显示 1-待确认 2-已拒绝 3-已完成 4-已同意；
             bookinged.setVisibility(View.VISIBLE);
-            refuse.setVisibility(View.GONE);
-        } else if (item.getAppoint() == 2){
-            bookinged.setVisibility(View.GONE);
-            refuse.setVisibility(View.VISIBLE);
-            refuse.setText("已拒绝");
-        }else if (item.getAppoint() == 3){
-            bookinged.setVisibility(View.GONE);
-            refuse.setVisibility(View.VISIBLE);
-            refuse.setText("已完成");
+            bookinged.setText("待确认");
+            bookinged.setBackground(mContext.getResources().getDrawable(R.drawable.booking_star_status_refuse));
+        } else if (item.getMeet_type() == 2) {
+            bookinged.setVisibility(View.VISIBLE);
+            bookinged.setText("已拒绝");
+            bookinged.setBackground(mContext.getResources().getDrawable(R.drawable.booking_star_status_refuse));
+        } else if (item.getMeet_type() == 3) {
+            bookinged.setVisibility(View.VISIBLE);
+            bookinged.setText("已完成");
+            bookinged.setBackground(mContext.getResources().getDrawable(R.drawable.booking_star_status_refuse));
+        } else if (item.getMeet_type() == 4) {
+            bookinged.setVisibility(View.VISIBLE);
+            bookinged.setText("已同意");
+            bookinged.setBackground(mContext.getResources().getDrawable(R.drawable.booking_star_status));
         }
-        List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(item.getStarcode());
-        if (starInfos!=null&&starInfos.size()!=0){
-            StarInfo starInfo = starInfos.get(0);
-            ImageLoaderUtils.display(mContext,iv_star_head,starInfo.getPic_url());
-        }
+        tv_booking_time.setText(String.format(mContext.getResources().getString(R.string.booking_time_status), item.getMeet_time()));
+        ImageLoaderUtils.display(mContext, iv_star_head, item.getStar_pic());
 
     }
 }

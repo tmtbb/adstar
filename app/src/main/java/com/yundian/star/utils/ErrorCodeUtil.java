@@ -80,9 +80,9 @@ public class ErrorCodeUtil {
 //            case -704:
 //                msg = "创建Unionpay订单失败";
 //                break;
-            case -801:
-                msg = "没有绑定银行卡";
-                break;
+//            case -801:
+//                msg = "没有绑定银行卡";
+//                break;
             case -802:
                 msg = "绑定银行卡失败";
                 break;

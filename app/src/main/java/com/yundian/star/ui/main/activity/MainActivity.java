@@ -34,7 +34,7 @@ import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.CheckUpdateInfoEntity;
 import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.TabEntity;
-import com.yundian.star.ui.im.fragment.DifferAnswerFragment;
+
 import com.yundian.star.ui.main.fragment.FindStarFragment;
 import com.yundian.star.ui.main.fragment.MarketDetailFragment;
 import com.yundian.star.ui.main.fragment.NewsInfoFragment;
@@ -61,17 +61,17 @@ import static com.qiangxi.checkupdatelibrary.dialog.UpdateDialog.UPDATE_DIALOG_P
 public class MainActivity extends BaseActivity {
     @Bind(R.id.tab_bottom_layout)
     CommonTabLayout tabLayout;
-    private String[] mTitles = {"资讯", "热度", "星聊", "我的"};
+    private String[] mTitles = {"发现明星", "明星热度", "个人中心"};
     private int[] mIconUnselectIds = {
-            R.drawable.message_no_ok, R.drawable.market_no_ok, R.drawable.differ_answer_no_ok, R.drawable.me_no_ok};
+            R.drawable.differ_answer_no_ok, R.drawable.market_no_ok, R.drawable.me_no_ok};
     private int[] mIconSelectIds = {
-            R.drawable.message_ok, R.drawable.market_ok, R.drawable.differ_answer_ok, R.drawable.me_ok};
+            R.drawable.differ_answer_ok, R.drawable.market_ok, R.drawable.me_ok};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private NewsInfoFragment newsInfoFragment;
     private FindStarFragment findStarFragment;
     //private MarketFragment marketFragment;
     private MarketDetailFragment marketFragment;
-    private DifferAnswerFragment differAnswerFragment;
+//    private DifferAnswerFragment differAnswerFragment;
     private UserInfoFragment userInfoFragment;
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
     public static int CHECHK_LOGIN = 0;
@@ -107,7 +107,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView() {
         initTab();
-        checkunReadMsg();
+//        checkunReadMsg();
         handler.postDelayed(runnablePermission, 1000);
     }
 
@@ -148,17 +148,17 @@ public class MainActivity extends BaseActivity {
             //marketFragment = (MarketFragment) getSupportFragmentManager().findFragmentByTag("MarketFragment");
             marketFragment = (MarketDetailFragment) getSupportFragmentManager().findFragmentByTag("MarketFragment");
 
-            differAnswerFragment = (DifferAnswerFragment) getSupportFragmentManager().findFragmentByTag("DifferAnswerFragment");
+//            differAnswerFragment = (DifferAnswerFragment) getSupportFragmentManager().findFragmentByTag("DifferAnswerFragment");
             userInfoFragment = (UserInfoFragment) getSupportFragmentManager().findFragmentByTag("UserInfoFragment");
             currentTabPosition = savedInstanceState.getInt(AppConstant.HOME_CURRENT_TAB_POSITION);
         } else {
             findStarFragment = new FindStarFragment();
             marketFragment = new MarketDetailFragment();
-            differAnswerFragment = new DifferAnswerFragment();
+//            differAnswerFragment = new DifferAnswerFragment();
             userInfoFragment = new UserInfoFragment();
             transaction.add(R.id.fl_main, findStarFragment, "FindStarFragment");
             transaction.add(R.id.fl_main, marketFragment, "MarketFragment");
-            transaction.add(R.id.fl_main, differAnswerFragment, "DifferAnswerFragment");
+//            transaction.add(R.id.fl_main, differAnswerFragment, "DifferAnswerFragment");
             transaction.add(R.id.fl_main, userInfoFragment, "UserInfoFragment");
         }
         transaction.commit();
@@ -220,31 +220,31 @@ public class MainActivity extends BaseActivity {
         switch (position) {
             case 0:
                 transaction.hide(marketFragment);
-                transaction.hide(differAnswerFragment);
+//                transaction.hide(differAnswerFragment);
                 transaction.hide(userInfoFragment);
                 transaction.show(findStarFragment);
                 transaction.commitAllowingStateLoss();
                 break;
             case 1:
                 transaction.hide(findStarFragment);
-                transaction.hide(differAnswerFragment);
+//                transaction.hide(differAnswerFragment);
                 transaction.hide(userInfoFragment);
                 transaction.show(marketFragment);
                 transaction.commitAllowingStateLoss();
                 break;
+//            case 2:
+//                CheckLoginUtil.checkLogin(this);
+//                transaction.hide(marketFragment);
+//                transaction.hide(newsInfoFragment);
+//                transaction.hide(userInfoFragment);
+////                transaction.show(differAnswerFragment);
+//                transaction.commitAllowingStateLoss();
+//                break;
             case 2:
                 CheckLoginUtil.checkLogin(this);
                 transaction.hide(marketFragment);
                 transaction.hide(findStarFragment);
-                transaction.hide(userInfoFragment);
-                transaction.show(differAnswerFragment);
-                transaction.commitAllowingStateLoss();
-                break;
-            case 3:
-                CheckLoginUtil.checkLogin(this);
-                transaction.hide(marketFragment);
-                transaction.hide(findStarFragment);
-                transaction.hide(differAnswerFragment);
+//                transaction.hide(differAnswerFragment);
                 transaction.show(userInfoFragment);
                 transaction.commitAllowingStateLoss();
                 break;

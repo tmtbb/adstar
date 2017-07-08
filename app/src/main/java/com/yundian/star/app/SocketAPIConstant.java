@@ -40,8 +40,8 @@ public interface SocketAPIConstant {
         Short MoneyDetail = 6003;
         Short WXPay = 7033;
         Short Cash = 8001;
-        Short CashOut = 7045;
-        Short CashList = 6005;
+        Short CashOut = 7057;
+        Short CashList = 6019;
         Short Token = 3009;
         Short CurrentPosition = 5007;
         Short Profit = 6007;
@@ -107,6 +107,7 @@ public interface SocketAPIConstant {
         Short Update = 3033;
         Short CancelPay = 7055;
         Short saveDevice = 3035;
+        Short MeetStatus = 10029;
 
 
 

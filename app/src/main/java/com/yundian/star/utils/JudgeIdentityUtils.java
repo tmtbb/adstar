@@ -9,12 +9,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.yundian.star.R;
-import com.yundian.star.been.AssetDetailsBean;
-import com.yundian.star.listener.OnAPIListener;
-import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.IdentityAuthenticationActivity;
-import com.yundian.star.ui.main.activity.RechargeActivity;
-import com.yundian.star.ui.main.activity.SettingDealPwdActivity;
 
 
 /**

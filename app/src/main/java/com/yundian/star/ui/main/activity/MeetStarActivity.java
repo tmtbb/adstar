@@ -387,7 +387,7 @@ public class MeetStarActivity extends BaseActivity {
 //        });
         passwordView.setOnFinishInput(new PasswordView.CheckPasCallBake() {
             @Override
-            public void checkSuccess(OrderReturnBeen.OrdersListBean ordersListBean) {
+            public void checkSuccess(OrderReturnBeen.OrdersListBean ordersListBean,String pwd) {
 
             }
 
@@ -397,7 +397,7 @@ public class MeetStarActivity extends BaseActivity {
             }
 
             @Override
-            public void checkSuccessPwd() {
+            public void checkSuccessPwd(String pwd) {
                 passwordView.setVisibility(View.GONE);
                 //密码正确
                 makeSureToMeet();
