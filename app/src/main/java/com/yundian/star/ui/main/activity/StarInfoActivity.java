@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.session.SessionCustomization;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
@@ -24,6 +26,7 @@ import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.im.activity.StarCommunicationBookActivity;
 import com.yundian.star.ui.main.adapter.HorizontalRcvAdapter;
 import com.yundian.star.ui.main.adapter.StarBuyExcAdapter;
+import com.yundian.star.ui.wangyi.session.activity.P2PMessageActivity;
 import com.yundian.star.utils.HorizontalItemDecorator;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.JudgeIdentityUtils;
@@ -178,7 +181,14 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
             case R.id.imag_meesage:
                 if (haveStarTime>0){
                     if (JudgeIdentityUtils.isIdentityed(this)) {
+                        List<StarInfo> starInfoss = GreenDaoManager.getInstance().queryLove(code);
+                        StarInfo starInfo = null;
+                        if (starInfoss.size()!=0){
+                            starInfo = starInfoss.get(0);
+                        }
                         startActivity(StarCommunicationBookActivity.class);
+                        SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
+                        P2PMessageActivity.start(StarInfoActivity.this, /*get(position).getFaccid()*/"1001", code,starInfo.getName(), customization, null);
                     }
                 }else {
                     ToastUtils.showShort("您未持有改明星时间，请购买");

@@ -179,6 +179,7 @@
             android:name=".ui.main.activity.CommonWebActivity"
             android:launchMode="singleTask"></activity>
         <activity android:name=".ui.main.activity.StarInfoActivity"></activity>
+        <activity android:name=".ui.main.activity.StarSellActivity"></activity>
         <!--友盟sdk-->
         <meta-data
             android:name="UMENG_APPKEY"
