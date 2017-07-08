@@ -9,83 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         ></com.yundian.star.widget.NormalTitleBar>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        >
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/all_market_detail"
-            android:gravity="center"
-            android:textColor="@color/font_333333"
-            android:textSize="@dimen/fontSize_14sp"
-            />
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:gravity="center"
-            >
-
-            <TextView
-                android:id="@+id/textView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/new_price_market_detail_1"
-                android:textColor="@color/font_333333"
-                android:textSize="@dimen/fontSize_14sp" />
-
-            <TextView
-                android:layout_marginLeft="@dimen/dp_2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="@string/new_price_market_detail_2"
-                android:textColor="@color/font_333333"
-                android:textSize="@dimen/fontSize_12sp"
-                />
-
-        </LinearLayout>
-
-
-
-        <LinearLayout
-            android:id="@+id/ll_select_order"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:layout_weight="1"
-            android:gravity="center"
-            >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/price_limit"
-                android:textSize="@dimen/fontSize_14sp"
-                android:textColor="@color/font_333333"
-                />
-            <ImageView
-                android:layout_marginLeft="4dp"
-                android:id="@+id/iv_select"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/sort_nomal"
-                />
-        </LinearLayout>
-
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_0.5"
-        android:background="@color/color_cccccc"
-        >
-    </View>
     <FrameLayout
+        android:background="@color/color_fafafa"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/parent_view">

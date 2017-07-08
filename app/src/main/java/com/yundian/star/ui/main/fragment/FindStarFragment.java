@@ -10,6 +10,7 @@ import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
@@ -138,6 +139,14 @@ public class FindStarFragment extends BaseFragment {
             @Override
             public void onLoadMore() {
                 getData(true,mCurrentCounter+1,mCurrentCounter+REQUEST_COUNT);
+            }
+        });
+        lrv.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mCurrentCounter = 1;
+                lrv.setNoMore(false);
+                getData(false,1,REQUEST_COUNT);
             }
         });
     }

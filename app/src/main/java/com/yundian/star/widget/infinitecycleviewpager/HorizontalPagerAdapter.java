@@ -9,10 +9,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.yundian.star.R;
-import com.yundian.star.utils.ToastUtils;
 
 import java.util.List;
-import java.util.Random;
 
 
 /**
@@ -49,17 +47,8 @@ public class HorizontalPagerAdapter extends PagerAdapter {
         View view = mLayoutInflater.inflate(R.layout.view_card_item, container, false);
         ImageView img_item = (ImageView)view.findViewById(R.id.img_item);
         LinearLayout ll_content = (LinearLayout)view.findViewById(R.id.ll_content);
-        int[] customizedColors = mContext.getResources().getIntArray(R.array.customizedColors);
-        int customizedColor = customizedColors[new Random().nextInt(customizedColors.length)];
-        ll_content.setBackgroundColor(customizedColor);
         img_item.setImageResource(R.drawable.pic4);
         container.addView(view);
-        ll_content.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtils.showShort(position);
-            }
-        });
         return view;
     }
 

@@ -152,6 +152,7 @@
     <string name="new_price_market_detail_2">元/秒</string>
     <string name="price_limit">涨跌幅</string>
     <string name="star_hot">明星热度</string>
+    <string name="recommend_star">推荐明星</string>
     <string name="star_price_time_share">￥%s</string>
     <string name="price_total">￥%.2f</string>
     <string name="star_price_time_share_limit">%1$s/%2$s</string>

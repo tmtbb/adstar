@@ -18,6 +18,7 @@ public class StarInteractionAdapter extends ListBaseAdapter<FansTopListBeen.Orde
     private int[] random_bg = {
             R.drawable.bg_1, R.drawable.bg_2, R.drawable.bg_3, R.drawable.bg_4, R.drawable.bg_5
             , R.drawable.bg_6, R.drawable.bg_7, R.drawable.bg_8, R.drawable.bg_9, R.drawable.bg_10
+            , R.drawable.bg_11
     };
 
     public StarInteractionAdapter(Context context) {
