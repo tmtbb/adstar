@@ -41,7 +41,7 @@
 
 
     <string name="my_moneybag">我的钱包</string>
-    <string name="my_order_star">我约的明星</string>
+    <string name="my_order_star">我关注的明星</string>
     <string name="customer_service">客服中心</string>
     <string name="common_problem">常见问题</string>
     <string name="general_settings">通用设置</string>
@@ -307,7 +307,35 @@
     <string name="delegation">委托</string>
     <string name="delegation_num">委托量</string>
     <string name="star_meet_rule">"北京市发布霾黄色预警，<font color='#ff0000'><big><big>外出携带好</big></big></font>口罩"</string>
+    <string name="holding_star_time">持有时间</string>
+    <string name="booking_star_status">约见情况</string>
+    <string name="holding_times_count">总持有时间 %1$d 秒</string>
+    <string name="talk_with_him">与TA聊天</string>
+    <string name="meeting_with_him">与TA约见</string>
+    <string name="hoding_time_others">.....</string>
+    <string name="booking_time">约见时间 %1$d</string>
+    <string name="money_cash">提现</string>
+    <string name="cash_user_account">收款账户</string>
+    <string name="cash_history">提现记录</string>
+    <string name="cash_money">提现金额</string>
+    <string name="cash_sign">¥</string>
+    <string name="cash_available_money">可提金额¥ %1$s，</string>
+    <string name="cash_all_money">全部提现</string>
+    <string name="bank_card_user">持卡人</string>
+    <string name="bank_card_number">卡号</string>
+    <string name="input_card_number">请输入您的卡号</string>
+    <string name="input_card_phone">请输入您的预留手机号</string>
+    <string name="input_card_code">请输入验证码</string>
+    <string name="phone_number_bank">手机号</string>
+    <string name="phone_code_bank">验证码</string>
+    <string name="bind_bank_card">绑定银行卡</string>
+    <string name="forget_deal_pwd">忘记交易密码</string>
+    <string name="no_bind_bank_tips">您还没有绑定银行卡</string>
+    <string name="bind_bank_now">立即绑定</string>
 
+    <string name="bind_bank_tips">\t\t\t\t需要绑定银行卡才能进行充值等相关操作。绑定银行卡后，可以在预售、购买、兑换时、用该银行卡进行交易。</string>
+    <string name="booking_time_status">约见时间 %1$s</string>
+    <string name="bank_end_number">%1$s    尾号%2$s</string>
 
     <string name="empty_view_history">当前还没有相关记录</string>
     <string name="input_pay_pwd">请输入交易密码</string>

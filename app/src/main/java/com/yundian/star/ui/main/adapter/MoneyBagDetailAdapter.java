@@ -15,8 +15,6 @@ import com.yundian.star.utils.TimeUtil;
 import java.util.Date;
 import java.util.List;
 
-import static com.yundian.star.R.id.tv_star_name;
-
 
 /**
  * Created by sll on 2017/5/25.
@@ -35,7 +33,7 @@ public class MoneyBagDetailAdapter extends ListBaseAdapter<MoneyDetailListBean> 
     @Override
     public void onBindItemHolder(SuperViewHolder holder, int position) {
         MoneyDetailListBean item = mDataList.get(position);
-        TextView name = holder.getView(tv_star_name);
+        TextView name = holder.getView(R.id.tv_star_name);
         TextView time = holder.getView(R.id.tv_money_detail_time);
         TextView status = holder.getView(R.id.tv_trust_status);
         TextView money = holder.getView(R.id.tv_deal_money);

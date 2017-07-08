@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/default_bg"
+    android:orientation="vertical">
+
+    <com.yundian.star.widget.NormalTitleBar
+        android:id="@+id/nt_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp" />
+
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/default_bg"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/fl_card_view"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_marginLeft="@dimen/dp_12"
+                android:layout_marginRight="@dimen/dp_12"
+                android:layout_marginTop="@dimen/dp_17">
+
+                <com.yundian.star.ui.view.SwipeListLayout
+                    android:id="@+id/swipeLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="81dp"
+                        android:background="@color/color_666666"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="@dimen/dp_10">
+
+                        <TextView
+                            android:id="@+id/deleteView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="解绑"
+                            android:textColor="@color/color_fefefe"
+                            android:textSize="@dimen/fontSize_14sp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/bank_info_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_bind_bank_card_item"
+                        android:paddingBottom="@dimen/dp_16"
+                        android:paddingLeft="@dimen/dp_19"
+                        android:paddingRight="@dimen/dp_15"
+                        android:paddingTop="@dimen/dp_16"
+                       >
+
+                        <RelativeLayout
+                            android:id="@+id/rl_bank"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <com.yundian.star.ui.view.RoundImageView
+                                android:id="@+id/iconView"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:scaleType="centerCrop"
+                                android:src="@drawable/icon_bank_union_pay"
+                                app:roundHeight="@dimen/dp_20"
+                                app:roundWidth="@dimen/dp_20" />
+
+                            <TextView
+                                android:id="@+id/titleView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginLeft="@dimen/dp_10"
+                                android:layout_toRightOf="@id/iconView"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="招商银行"
+                                android:textColor="@color/color_fefefe"
+                                android:textSize="@dimen/fontSize_16sp" />
+
+                            <TextView
+                                android:id="@+id/typeView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/titleView"
+                                android:layout_below="@id/titleView"
+                                android:layout_marginTop="@dimen/dp_3"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="储蓄卡"
+                                android:textColor="@color/color_fefefe"
+                                android:textSize="@dimen/fontSize_10sp" />
+
+                            <TextView
+                                android:id="@+id/numberView"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignLeft="@id/titleView"
+                                android:layout_below="@id/typeView"
+                                android:layout_marginTop="@dimen/dp_25"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:text="****  ****  ****  6364"
+                                android:textColor="@color/color_fefefe"
+                                android:textSize="@dimen/fontSize_20sp" />
+
+                            <ImageView
+                                android:id="@+id/iv_close_img"
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_alignParentRight="true"
+                                android:src="@drawable/close" />
+
+                        </RelativeLayout>
+
+                    </LinearLayout>
+
+
+                </com.yundian.star.ui.view.SwipeListLayout>
+
+                <RelativeLayout
+                    android:id="@+id/bank_info_empty"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_bind_bank_card_footer"
+                    android:paddingBottom="45dp"
+                    android:paddingLeft="@dimen/dp_19"
+                    android:paddingRight="@dimen/dp_19"
+                    android:paddingTop="@dimen/dp_16"
+                    android:visibility="gone">
+
+                    <com.yundian.star.ui.view.RoundImageView
+                        android:id="@+id/iconView2"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/icon_bank_union_pay"
+                        app:roundHeight="@dimen/dp_20"
+                        app:roundWidth="@dimen/dp_20" />
+
+                    <TextView
+                        android:id="@+id/titleView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:layout_toRightOf="@id/iconView2"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:text="添加银行卡"
+                        android:textColor="@color/color_fefefe"
+                        android:textSize="@dimen/fontSize_16sp" />
+
+                </RelativeLayout>
+            </FrameLayout>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</LinearLayout>

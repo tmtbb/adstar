@@ -443,4 +443,17 @@ public class SharePrefUtil {
         sp = context.getSharedPreferences(UserLoginInfo, MODE_PRIVATE);
         sp.edit().putString("version", versionName).apply();
     }
+
+    /**
+     * 保存银行卡信息
+     */
+    public void saveCardNo(String cardNo) {
+        sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
+        sp.edit().putString("cardNo", cardNo).apply();
+    }
+
+    public String getCardNo() {
+        sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
+        return sp.getString("cardNo","");
+    }
 }

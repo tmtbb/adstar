@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_item_bank"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/dp_10"
+    android:paddingTop="@dimen/dp_10">
+
+    <LinearLayout
+        android:id="@+id/swipeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="81dp"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/dp_10">
+
+            <TextView
+                android:id="@+id/deleteView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="删除"
+                android:textColor="@color/color_fefefe"
+                android:textSize="@dimen/fontSize_14sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/itemLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_bind_bank_card_item"
+            android:paddingBottom="@dimen/dp_16"
+            android:paddingLeft="@dimen/dp_19"
+            android:paddingRight="@dimen/dp_19"
+            android:paddingTop="@dimen/dp_16">
+
+            <RelativeLayout
+                android:id="@+id/rl_bank"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.yundian.star.ui.view.RoundImageView
+                    android:id="@+id/iconView"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_bank_union_pay"
+                    app:roundHeight="@dimen/dp_20"
+                    app:roundWidth="@dimen/dp_20" />
+
+                <TextView
+                    android:id="@+id/titleView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:layout_toRightOf="@id/iconView"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="招商银行"
+                    android:textColor="@color/color_fefefe"
+                    android:textSize="@dimen/fontSize_16sp" />
+
+                <TextView
+                    android:id="@+id/typeView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/titleView"
+                    android:layout_below="@id/titleView"
+                    android:layout_marginTop="@dimen/dp_3"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="储蓄卡"
+                    android:textColor="@color/color_fefefe"
+                    android:textSize="@dimen/fontSize_10sp" />
+
+                <TextView
+                    android:id="@+id/numberView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/titleView"
+                    android:layout_below="@id/typeView"
+                    android:layout_marginTop="@dimen/dp_25"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="****  ****  ****  6364"
+                    android:textColor="@color/color_fefefe"
+                    android:textSize="@dimen/fontSize_20sp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</LinearLayout>

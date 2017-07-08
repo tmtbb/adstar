@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 import com.yundian.star.R;
@@ -28,6 +29,7 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.BookingStarActivity;
 import com.yundian.star.ui.main.activity.CustomerServiceActivity;
+import com.yundian.star.ui.main.activity.DifferAnswerActivity;
 import com.yundian.star.ui.main.activity.GeneralSettingsActivity;
 import com.yundian.star.ui.main.activity.UserAssetsManageActivity;
 import com.yundian.star.ui.main.activity.UserSettingActivity;
@@ -80,7 +82,10 @@ public class UserInfoFragment extends BaseFragment {
     LinearLayout generalSettings;
     @Bind(R.id.btn_my_referee)
     Button myReferee;
-
+    @Bind(R.id.iv_star_talk)
+    ImageView starTalk;
+    @Bind(R.id.red_talk_tip)
+    View redTalkTip;
     private boolean flag = true;
     private TextView version;
 
@@ -103,6 +108,7 @@ public class UserInfoFragment extends BaseFragment {
 //            LogUtils.loge("---登陆成功了,更新数据和请求余额");
 //            requestBalance();
 //        }
+        checkunReadMsg();
         testStar();
 
 
@@ -115,7 +121,7 @@ public class UserInfoFragment extends BaseFragment {
                     LogUtils.loge("versionName1:" + versionName1);
                     version.setText("版本号: " + versionName1);
                 } else {
-                    version.setText("版本号: "+versionName);
+                    version.setText("版本号: " + versionName);
                 }
             }
         }, 1000);
@@ -149,7 +155,8 @@ public class UserInfoFragment extends BaseFragment {
     }
 
 
-    @OnClick({R.id.iv_user_info_bg, R.id.headImage, R.id.ll_user_money_bag, R.id.ll_user_order_star, R.id.ll_customer_service, R.id.ll_common_problem, R.id.ll_general_settings, R.id.btn_my_referee})
+    @OnClick({R.id.iv_user_info_bg, R.id.headImage, R.id.ll_user_money_bag, R.id.ll_user_order_star,
+            R.id.ll_customer_service, R.id.ll_common_problem, R.id.ll_general_settings, R.id.btn_my_referee, R.id.iv_star_talk})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_user_info_bg:
@@ -183,6 +190,20 @@ public class UserInfoFragment extends BaseFragment {
                 ViewConcurrencyUtils.preventConcurrency();  //防止并发
                 showDialog();
                 break;
+
+            case R.id.iv_star_talk:
+                ViewConcurrencyUtils.preventConcurrency();  //防止并发
+                startActivity(DifferAnswerActivity.class);
+                break;
+        }
+    }
+
+    private void checkunReadMsg() {
+        int unreadNum = NIMClient.getService(MsgService.class).getTotalUnreadCount();
+        if (unreadNum > 0) {
+            redTalkTip.setVisibility(View.VISIBLE);
+        } else {
+            redTalkTip.setVisibility(View.GONE);
         }
     }
 

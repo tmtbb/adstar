@@ -16,7 +16,7 @@ public class FormatUtil {
      */
     public static boolean isMobileNO(String mobiles) {
         /*
-	    移动：134、135、136、137、138、139、150、151、157(TD)、158、159、187、188、178
+        移动：134、135、136、137、138、139、150、151、157(TD)、158、159、187、188、178
 	    联通：130、131、132、152、155、156、185、186、176
 	    电信：133、153、180、189、（1349卫通）、177
 	    总结起来就是第一位必定为1，第二位必定为3或5或8或7，其他位置的可以为0-9
@@ -347,6 +347,20 @@ public class FormatUtil {
         String startNo = cardNo.substring(0, 3);
         card = startNo + card + cardNo.substring(cardNo.length() - 4);
         return card;
+    }
+
+    /**
+     * 获取银行卡尾号
+     *
+     * @param cardNo
+     * @return
+     */
+    public static String getCardEnd(String cardNo) {
+        if (cardNo.length() < 4) {
+            return cardNo;
+        }
+
+        return cardNo.substring(cardNo.length() - 4);
     }
 }
 
