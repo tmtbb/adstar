@@ -71,7 +71,7 @@ public class MainActivity extends BaseActivity {
     private FindStarFragment findStarFragment;
     //private MarketFragment marketFragment;
     private MarketDetailFragment marketFragment;
-//    private DifferAnswerFragment differAnswerFragment;
+    //    private DifferAnswerFragment differAnswerFragment;
     private UserInfoFragment userInfoFragment;
     private final int BASIC_PERMISSION_REQUEST_CODE = 100;
     public static int CHECHK_LOGIN = 0;
@@ -147,7 +147,6 @@ public class MainActivity extends BaseActivity {
             findStarFragment = (FindStarFragment) getSupportFragmentManager().findFragmentByTag("FindStarFragment");
             //marketFragment = (MarketFragment) getSupportFragmentManager().findFragmentByTag("MarketFragment");
             marketFragment = (MarketDetailFragment) getSupportFragmentManager().findFragmentByTag("MarketFragment");
-
 //            differAnswerFragment = (DifferAnswerFragment) getSupportFragmentManager().findFragmentByTag("DifferAnswerFragment");
             userInfoFragment = (UserInfoFragment) getSupportFragmentManager().findFragmentByTag("UserInfoFragment");
             currentTabPosition = savedInstanceState.getInt(AppConstant.HOME_CURRENT_TAB_POSITION);

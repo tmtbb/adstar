@@ -209,6 +209,7 @@
     <string name="intro_colleage">毕业院校:%s</string>
     <string name="intro_all_time">总时长</string>
     <string name="click_buy">立即求购</string>
+    <string name="buy_time">求购时间</string>
     <string name="star_time_intro">简介</string>
     <string name="star_time_fans">粉丝热度榜</string>
     <string name="star_time_auction">拍卖</string>
@@ -286,6 +287,7 @@
     <string name="need_consume">即将消耗:</string>
     <string name="sure_meet">确定约见</string>
     <string name="meet_start">约见名人</string>
+    <string name="meet_starts">约见明星</string>
     <string name="order_details">订单详情</string>
     <string name="meet_content">请输入您对此次约见的其他要求200字以内...</string>
     <string name="meet_rule">TIPS：请至少提前一个月约见。履约过程中产生的相关费用由用户承担明星出行的安保费通讯费、交通费、住宿费、餐饮费、服化费等必要开支。确定约见即表示您已阅读并同意《约见规则》</string>
@@ -787,4 +789,5 @@
     <string name="umeng_socialize_sharetotencent">分享到腾讯微博</string>
     <string name="umeng_socialize_sharetotwitter">分享到twitter</string>
     <string name="umeng_socialize_sharetolinkin">分享到领英</string>
+    <string name="star_infos">个人介绍</string>
 </resources>

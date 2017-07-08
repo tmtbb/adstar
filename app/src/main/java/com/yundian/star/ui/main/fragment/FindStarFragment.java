@@ -1,6 +1,7 @@
 package com.yundian.star.ui.main.fragment;
 
 
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -9,16 +10,19 @@ import android.widget.FrameLayout;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
+import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.FansTopListBeen;
 import com.yundian.star.been.TabEntity;
 import com.yundian.star.ui.main.activity.SearchActivity;
+import com.yundian.star.ui.main.activity.StarInfoActivity;
 import com.yundian.star.ui.main.adapter.StarInteractionAdapter;
 import com.yundian.star.widget.NormalTitleBar;
 import com.yundian.star.widget.infinitecycleviewpager.MainPagerAdapter;
@@ -147,6 +151,14 @@ public class FindStarFragment extends BaseFragment {
                 mCurrentCounter = 1;
                 lrv.setNoMore(false);
                 getData(false,1,REQUEST_COUNT);
+            }
+        });
+        lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Intent intent = new Intent(getActivity(),StarInfoActivity.class);
+                intent.putExtra(AppConstant.STAR_CODE,"1001");
+                startActivity(intent);
             }
         });
     }
