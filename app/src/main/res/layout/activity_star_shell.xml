@@ -135,7 +135,8 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="25dp"
-                    android:background="null"
+                    android:background="@null"
+                    android:textSize="@dimen/fontSize_16sp"
                     android:gravity="center"
                     android:hint="@string/shell_tolnum_info"
                     android:textColor="@color/black" />
@@ -154,14 +155,14 @@
                     android:textColor="@color/font_333333"
                     android:textSize="@dimen/fontSize_16sp" />
 
-                <EditText
+                <TextView
                     android:layout_width="200dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="25dp"
-                    android:background="null"
                     android:gravity="center"
+                    android:textSize="@dimen/fontSize_16sp"
                     android:text="@string/times_p"
                     android:textColor="@color/color_FB9938" />
             </RelativeLayout>
