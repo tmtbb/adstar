@@ -109,8 +109,8 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         rootView = LayoutInflater.from(this).inflate(getLayoutId(), null);
         setContentView(rootView);
         //matchSucessListener();
-        ButterKnife.bind(this);
         mContext = this;
+        ButterKnife.bind(this);
         mPresenter = TUtil.getT(this, 0);
         mModel = TUtil.getT(this, 1);
         if (mPresenter != null) {
@@ -166,7 +166,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
      * 着色状态栏（4.4以上系统有效）
      */
     protected void SetStatusBarColor() {
-        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.color_921224));
+        StatusBarCompat.setStatusBarColor(this, ContextCompat.getColor(this, R.color.colorPrimaryDark));
     }
 
     /**
@@ -303,14 +303,15 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
 
     @Override
     protected void onDestroy() {
+        if (mPresenter != null){
+            mPresenter.onDestroy();
+        }
+        ButterKnife.unbind(this);
+        AppManager.getAppManager().finishActivity(this);
         super.onDestroy();
         //SocketAPIRequestManage.getInstance().unboundOnMatchSucessListener();
-        if (mPresenter != null)
-            mPresenter.onDestroy();
         //if (!isConfigChange) {
-            AppManager.getAppManager().finishActivity(this);
         //}
-        ButterKnife.unbind(this);
     }
 
     /**

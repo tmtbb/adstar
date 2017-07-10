@@ -28,7 +28,7 @@ public class MarketFragment extends BaseFragment {
     @Bind(R.id.nt_title)
     NormalTitleBar nt_title;
     @Bind(R.id.tabs)
-    SlidingTabLayout tabs ;
+    SlidingTabLayout tabs;
     @Bind(R.id.view_pager)
     ViewPager viewPager ;
     private MarketTypeFragmentAdapter fragmentAdapter;

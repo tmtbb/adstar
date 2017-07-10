@@ -38,6 +38,7 @@
     <string name="option">自选</string>
     <string name="user_total_assets">资产总额</string>
     <string name="user_buyed_star">已购明星</string>
+    <string name="end_times">距离结束还有</string>
 
 
     <string name="my_moneybag">我的钱包</string>
@@ -152,6 +153,7 @@
     <string name="new_price_market_detail_2">元/秒</string>
     <string name="price_limit">涨跌幅</string>
     <string name="star_hot">明星热度</string>
+    <string name="recommend_star">推荐明星</string>
     <string name="star_price_time_share">￥%s</string>
     <string name="price_total">￥%.2f</string>
     <string name="star_price_time_share_limit">%1$s/%2$s</string>
@@ -208,6 +210,7 @@
     <string name="intro_colleage">毕业院校:%s</string>
     <string name="intro_all_time">总时长</string>
     <string name="click_buy">立即求购</string>
+    <string name="buy_time">求购时间</string>
     <string name="star_time_intro">简介</string>
     <string name="star_time_fans">粉丝热度榜</string>
     <string name="star_time_auction">拍卖</string>
@@ -285,6 +288,8 @@
     <string name="need_consume">即将消耗:</string>
     <string name="sure_meet">确定约见</string>
     <string name="meet_start">约见名人</string>
+    <string name="shells">发售</string>
+    <string name="meet_starts">约见明星</string>
     <string name="order_details">订单详情</string>
     <string name="meet_content">请输入您对此次约见的其他要求200字以内...</string>
     <string name="meet_rule">TIPS：请至少提前一个月约见。履约过程中产生的相关费用由用户承担明星出行的安保费通讯费、交通费、住宿费、餐饮费、服化费等必要开支。确定约见即表示您已阅读并同意《约见规则》</string>
@@ -310,6 +315,7 @@
     <string name="holding_star_time">持有时间</string>
     <string name="booking_star_status">约见情况</string>
     <string name="holding_times_count">总持有时间 %1$d 秒</string>
+    <string name="times_p">¥ %1$f 秒</string>
     <string name="talk_with_him">与TA聊天</string>
     <string name="meeting_with_him">与TA约见</string>
     <string name="hoding_time_others">.....</string>
@@ -786,4 +792,9 @@
     <string name="umeng_socialize_sharetotencent">分享到腾讯微博</string>
     <string name="umeng_socialize_sharetotwitter">分享到twitter</string>
     <string name="umeng_socialize_sharetolinkin">分享到领英</string>
+    <string name="star_infos">个人介绍</string>
+    <string name="shell_time">发售时间：%1$s-%2$s</string>
+    <string name="shell_tolnum">发售总量：%1$s秒</string>
+    <string name="shell_tolnum_info">当前最多能购买%1$d秒</string>
+    <string name="shell_text_info_limt">Tips:该商品不支持退款。每人仅能购买一次，每订单固定数量。倒计时结束后不能购买</string>
 </resources>

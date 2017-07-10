@@ -38,6 +38,7 @@ import com.netease.nimlib.sdk.team.constant.TeamFieldEnum;
 import com.netease.nimlib.sdk.team.model.IMMessageFilter;
 import com.netease.nimlib.sdk.team.model.UpdateTeamAttachment;
 import com.squareup.leakcanary.LeakCanary;
+import com.squareup.leakcanary.RefWatcher;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.socialize.Config;
@@ -90,6 +91,7 @@ import io.fabric.sdk.android.Fabric;
  * APPLICATION 17682310986
  */
 public class AppApplication extends BaseApplication {
+    private static RefWatcher sRefWatcher;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -123,7 +125,6 @@ public class AppApplication extends BaseApplication {
         }
         initWangYiIM();
     }
-
     private String getProcessName(Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = am.getRunningAppProcesses();

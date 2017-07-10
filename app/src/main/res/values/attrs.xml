@@ -86,4 +86,47 @@
         <!-- Style of the underline indicator. -->
         <attr name="vpiUnderlinePageIndicatorStyle" format="reference"/>
     </declare-styleable>
+    <!--自定义横向viewpager-->
+    <declare-styleable name="VerticalInfiniteCycleViewPager">
+        <attr name="icvp_min_page_scale_offset"/>
+        <attr name="icvp_center_page_scale_offset"/>
+        <attr name="icvp_min_page_scale"/>
+        <attr name="icvp_max_page_scale"/>
+        <attr name="icvp_medium_scaled"/>
+        <attr name="icvp_scroll_duration"/>
+        <attr name="icvp_page_duration"/>
+        <attr name="icvp_interpolator"/>
+    </declare-styleable>
+    <attr name="icvp_min_page_scale_offset" format="dimension"/>
+    <attr name="icvp_center_page_scale_offset" format="dimension"/>
+    <attr name="icvp_min_page_scale" format="float"/>
+    <attr name="icvp_max_page_scale" format="float"/>
+    <attr name="icvp_medium_scaled" format="boolean"/>
+    <attr name="icvp_scroll_duration" format="integer"/>
+    <attr name="icvp_page_duration" format="integer"/>
+    <attr name="icvp_interpolator" format="reference"/>
+
+    <declare-styleable name="HorizontalInfiniteCycleViewPager">
+        <attr name="icvp_min_page_scale_offset"/>
+        <attr name="icvp_center_page_scale_offset"/>
+        <attr name="icvp_min_page_scale"/>
+        <attr name="icvp_max_page_scale"/>
+        <attr name="icvp_medium_scaled"/>
+        <attr name="icvp_scroll_duration"/>
+        <attr name="icvp_page_duration"/>
+        <attr name="icvp_interpolator"/>
+    </declare-styleable>
+
+    <integer-array name="customizedColors">
+        <item>@color/blue</item>
+        <item>@color/yellow</item>
+        <item>@color/green</item>
+        <item>@color/orange</item>
+        <item>@color/red</item>
+        <item>@color/color_f05f46</item>
+        <item>@color/color_activity_blue_bg</item>
+        <item>@color/color_black_b3000000</item>
+        <item>@color/color_f98d8d</item>
+        <item>@color/color_00ADB4</item>
+    </integer-array>
 </resources>

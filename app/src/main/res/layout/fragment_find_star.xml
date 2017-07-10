@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tl="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white_ffffffff"
+    android:orientation="vertical">
+
+    <com.yundian.star.widget.NormalTitleBar
+        android:id="@id/nt_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+    </com.yundian.star.widget.NormalTitleBar>
+    <com.flyco.tablayout.CommonTabLayout
+        android:id="@+id/com_tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        tl:tl_indicator_color="@color/color_8C0808"
+        tl:tl_indicator_width="20dp"
+        tl:tl_textSelectColor="@color/color_8C0808"
+        tl:tl_textUnselectColor="@color/color_C2CFD8"
+        tl:tl_textsize="@dimen/fontSize_16sp"
+        tl:tl_underline_height="3dp"></com.flyco.tablayout.CommonTabLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0.5"
+        android:background="@color/color_cccccc"
+        ></View>
+    <FrameLayout
+        android:id="@+id/fm_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_fafafa"
+        >
+        <com.github.jdsjlzx.recyclerview.LRecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/lrv"
+            android:visibility="gone"
+            ></com.github.jdsjlzx.recyclerview.LRecyclerView>
+        <com.yundian.star.widget.infinitecycleviewpager.NonScrollableViewPager
+            android:id="@+id/vp_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></com.yundian.star.widget.infinitecycleviewpager.NonScrollableViewPager>
+    </FrameLayout>
+</LinearLayout>

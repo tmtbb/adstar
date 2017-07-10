@@ -1,13 +1,9 @@
 package com.yundian.star.ui.main.fragment;
 
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
@@ -28,11 +24,9 @@ import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.widget.NormalTitleBar;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 import butterknife.Bind;
-import butterknife.OnClick;
 
 
 /**
@@ -43,11 +37,6 @@ import butterknife.OnClick;
 public class MarketDetailFragment extends BaseFragment {
     @Bind(R.id.nt_title)
     NormalTitleBar nt_title;
-    @Bind(R.id.ll_select_order)
-    LinearLayout ll_select_order;
-    @Bind(R.id.iv_select)
-    ImageView iv_select;
-
     @Bind(R.id.parent_view)
     FrameLayout parentView;
     MarketDetailAdapter marketDetailAdapter;
@@ -59,27 +48,10 @@ public class MarketDetailFragment extends BaseFragment {
     private int sortType = 0;
     private int ORDER = 0;
     private ArrayList<StarListbeen.SymbolInfoBean> list = new ArrayList<>();
-    private String marketDetailName;
     private int marketDetailType = 1;
-    private static MyHandler myHandler;
+    //private static MyHandler myHandler;
     private boolean isPrepared;
     private LRecyclerView lrv;
-
-    public void showData() {
-        if (list.size() == 0) {
-            showErrorView(parentView, R.drawable.error_view_contact, getActivity().getResources().getString(R.string.empty_view_contacts));
-            return;
-        } else {
-            closeErrorView();
-        }
-
-        marketDetailAdapter.clear();
-        mCurrentCounter = list.size();
-        lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
-        marketDetailAdapter.addAll(list);
-        lrv.refreshComplete(REQUEST_COUNT);
-    }
-
 
     @Override
     protected int getLayoutResource() {
@@ -95,16 +67,12 @@ public class MarketDetailFragment extends BaseFragment {
     protected void initView() {
         initData();
         nt_title.setBackVisibility(false);
-        nt_title.setTitleText(R.string.star_hot);
+        nt_title.setTitleText(R.string.recommend_star);
         nt_title.setRightImagSrc(R.drawable.search);
         nt_title.setRightImagVisibility(true);
-        if (getArguments() != null) {
-            marketDetailName = getArguments().getString(AppConstant.MARKET_DETAIL_NAME);
-            marketDetailType = getArguments().getInt(AppConstant.MARKET_DETAIL_TYPE);
-        }
         initAdpter();
-        //getData(false, 1, REQUEST_COUNT);
-        myHandler = new MyHandler(this);
+        getData(false, 1, REQUEST_COUNT);
+        //myHandler = new MyHandler(this);
         initListener();
     }
 
@@ -122,36 +90,16 @@ public class MarketDetailFragment extends BaseFragment {
     }
 
     private void getData(final boolean isLoadMore, int start, int count) {
-        if (marketDetailType == 0) {
-            showEmptyView(marketDetailType);
-            /*NetworkAPIFactoryImpl.getInformationAPI().getOptionsStarList(*//*SharePrefUtil.getInstance().getPhoneNum()*//*1770640+"",start,end,ORDER, new OnAPIListener<OptionsStarListBeen>() {
-                @Override
-                public void onError(Throwable ex) {
-
-                }
-
-                @Override
-                public void onSuccess(OptionsStarListBeen optionsStarListBeen) {
-                    if (optionsStarListBeen.getList()==null){
-                        lrv.setNoMore(true);
-                        return;
-                    }
-                    if (isLoadMore){
-                        loadList.clear();
-                        loadList = optionsStarListBeen.getList();
-                        loadMoreData();
-                    }else {
-                        list.clear();
-                        list = optionsStarListBeen.getList();
-                        showData();
-                    }
-                }
-            });*/
-        } else {
             NetworkAPIFactoryImpl.getInformationAPI().getStarList(SharePrefUtil.getInstance().getUserId(), SharePrefUtil.getInstance().getToken(), sortType, 5, start, count, new OnAPIListener<StarListbeen>() {
                 @Override
                 public void onError(Throwable ex) {
-                    showEmptyView(marketDetailType);
+                    lrv.setNoMore(true);
+                    if (!isLoadMore) {
+                        list.clear();
+                        marketDetailAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                        showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+                    }
                 }
 
                 @Override
@@ -167,9 +115,6 @@ public class MarketDetailFragment extends BaseFragment {
                     showData();
                 }
             });
-        }
-
-
     }
 
     private void initAdpter() {
@@ -184,7 +129,7 @@ public class MarketDetailFragment extends BaseFragment {
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (CheckLoginUtil.checkLogin(getActivity())){
+                if (CheckLoginUtil.checkLogin(getActivity())) {
                     LogUtils.logd(position + "");
                     StarListbeen.SymbolInfoBean infoBean = list.get(position);
                     Intent intent = new Intent(getActivity(), StarTimeShareActivity.class);
@@ -199,12 +144,12 @@ public class MarketDetailFragment extends BaseFragment {
         lrv.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                refresh();
+                getData(false, 1, REQUEST_COUNT);
             }
         });
     }
 
-    @OnClick(R.id.ll_select_order)
+   /* @OnClick(R.id.ll_select_order)
     public void onClickOrder() {
         if (sortType == 0) {
             iv_select.setImageDrawable(getResources().getDrawable(R.drawable.sort_nomal));
@@ -218,9 +163,9 @@ public class MarketDetailFragment extends BaseFragment {
 
     private void refresh() {
         getData(false, 1, REQUEST_COUNT);
-    }
+    }*/
 
-    private static class MyHandler extends Handler {
+    /*private static class MyHandler extends Handler {
         final private static int GRT_DATA = 111;
         private final WeakReference<MarketDetailFragment> mFragment;
 
@@ -240,69 +185,66 @@ public class MarketDetailFragment extends BaseFragment {
                 }
             }
         }
-    }
+    }*/
 
-    @Override
-    public void onHiddenChanged(boolean hidden) {
-        LogUtils.loge("onHiddenChanged>> ....."+hidden+"..getUserVisibleHint"+getUserVisibleHint()+"...isVisible()"+isVisible());
-        if (getUserVisibleHint()&&isVisible()){
-            startRefresh();
-        }else {
-            stopRefresh();
-        }
-        super.onHiddenChanged(hidden);
-    }
+//    @Override
+//    public void onHiddenChanged(boolean hidden) {
+//        LogUtils.loge("onHiddenChanged>> ....." + hidden + "..getUserVisibleHint" + getUserVisibleHint() + "...isVisible()" + isVisible());
+//        if (getUserVisibleHint() && isVisible()) {
+//            startRefresh();
+//        } else {
+//            stopRefresh();
+//        }
+//        super.onHiddenChanged(hidden);
+//    }
+//
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        LogUtils.loge("setUserVisibleHint>>" + isVisibleToUser);
+//        super.setUserVisibleHint(isVisibleToUser);
+//    }
+//
+//    @Override
+//    public void onResume() {
+//        onHiddenChanged(false);
+//        LogUtils.loge("刷新行情明星列表onResume");
+//        super.onResume();
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        LogUtils.loge("停止刷新行情明星列表onPause");
+//        stopRefresh();
+//        super.onPause();
+//    }
+//
+//    private void stopRefresh() {
+//        if (myHandler != null) {
+//            myHandler.removeCallbacksAndMessages(null);
+//            LogUtils.loge("停止刷新stopRefresh");
+//        }
+//    }
+//
+//    private void startRefresh() {
+//        if (myHandler != null) {
+//            LogUtils.loge("刷新行情明星列表startRefresh");
+//            myHandler.removeCallbacksAndMessages(null);
+//            myHandler.sendEmptyMessage(myHandler.GRT_DATA);
+//        }
+//    }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        LogUtils.loge("setUserVisibleHint>>"+isVisibleToUser);
-        super.setUserVisibleHint(isVisibleToUser);
-    }
 
-    @Override
-    public void onResume() {
-        onHiddenChanged(false);
-        LogUtils.loge("刷新行情明星列表onResume");
-        super.onResume();
-    }
-
-    @Override
-    public void onPause() {
-        LogUtils.loge("停止刷新行情明星列表onPause");
-        stopRefresh();
-        super.onPause();
-    }
-
-    private void stopRefresh() {
-        if (myHandler != null) {
-            myHandler.removeCallbacksAndMessages(null);
-            LogUtils.loge("停止刷新stopRefresh");
-        }
-    }
-
-    private void startRefresh() {
-        if (myHandler != null) {
-            LogUtils.loge("刷新行情明星列表startRefresh");
-            myHandler.removeCallbacksAndMessages(null);
-            myHandler.sendEmptyMessage(myHandler.GRT_DATA);
-        }
-    }
-
-    private void showEmptyView(int type) {
-        if (lrv != null) {
-            list.clear();
-            marketDetailAdapter.clear();
-            lrv.refreshComplete(REQUEST_COUNT);
-        }
-        LogUtils.loge("请求错误,加载空白图-------------");
-//        lrv.setVisibility(View.GONE);
-        String des = "";
-        if (type == 0) {
-            des = getActivity().getResources().getString(R.string.empty_view_price);
+    public void showData() {
+        if (list.size() == 0) {
+            showErrorView(parentView, R.drawable.error_view_contact, "暂无数据");
+            return;
         } else {
-            des = "";
+            closeErrorView();
         }
-        showErrorView(parentView, R.drawable.error_view_contact, des);
+        marketDetailAdapter.clear();
+        mCurrentCounter = list.size();
+        lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
+        marketDetailAdapter.addAll(list);
+        lrv.refreshComplete(REQUEST_COUNT);
     }
-
 }
