@@ -10,6 +10,7 @@ import butterknife.Bind;
 
 /**
  * Created by Administrator on 2017/7/8.
+ * 发售页面
  */
 
 public class StarSellActivity extends BaseActivity {
