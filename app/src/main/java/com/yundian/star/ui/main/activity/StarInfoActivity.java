@@ -150,6 +150,7 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tv_back:
+                finish();
                 break;
             case R.id.tv_meet_starts:
                 if (JudgeIdentityUtils.isIdentityed(StarInfoActivity.this)){
