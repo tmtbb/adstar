@@ -100,7 +100,7 @@ public abstract class ExpandableRecyclerAdapter<T extends ExpandableRecyclerAdap
         }
 
         public void bind(int position) {
-            arrow.setRotation(isExpanded(position) ? 90 : 0);
+            arrow.setRotation(isExpanded(position) ? 180 : 0);
         }
     }
 
@@ -274,7 +274,7 @@ public abstract class ExpandableRecyclerAdapter<T extends ExpandableRecyclerAdap
     }
 
     public static void openArrow(View view) {
-        view.animate().setDuration(ARROW_ROTATION_DURATION).rotation(90);
+        view.animate().setDuration(ARROW_ROTATION_DURATION).rotation(180);
     }
 
     public static void closeArrow(View view) {

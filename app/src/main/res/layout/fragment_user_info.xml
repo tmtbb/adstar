@@ -28,12 +28,12 @@
 
                 <ImageView
                     android:id="@+id/iv_star_talk"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_marginTop="@dimen/dp_20"
+                    android:layout_width="@dimen/dp_40"
+                    android:layout_height="@dimen/dp_40"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:src="@drawable/about_logo" />
+                    android:layout_marginRight="@dimen/dp_20"
+                    android:src="@drawable/news_remind_no" />
                 <View
                     android:id="@+id/red_talk_tip"
                     android:layout_width="@dimen/dp_10"
