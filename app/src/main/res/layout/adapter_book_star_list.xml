@@ -27,15 +27,16 @@
         android:text="姓名"
         android:textColor="@color/font_333333"
         android:textSize="@dimen/text_size_14" />
+
     <TextView
         android:id="@+id/tv_holding_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/tv_star_job"
-        android:layout_marginLeft="@dimen/dp_13"
-        android:layout_toRightOf="@id/iv_star_head"
         android:layout_below="@id/tv_star_name"
+        android:layout_marginLeft="@dimen/dp_13"
         android:layout_marginTop="@dimen/dp_7"
+        android:layout_toRightOf="@id/iv_star_head"
         android:text="@string/holding_times_count" />
 
     <ImageView
@@ -46,7 +47,7 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="@dimen/dp_12"
-        android:src="@drawable/arrow_right"
+        android:src="@drawable/arrow_down"
         android:visibility="visible" />
 
 </RelativeLayout>
