@@ -52,7 +52,6 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-
 /**
  * Created by Administrator on 2017/5/5.
  */
@@ -201,9 +200,11 @@ public class UserInfoFragment extends BaseFragment {
     private void checkunReadMsg() {
         int unreadNum = NIMClient.getService(MsgService.class).getTotalUnreadCount();
         if (unreadNum > 0) {
-            redTalkTip.setVisibility(View.VISIBLE);
+            starTalk.setImageResource(R.drawable.news_remind_unread);
+//            redTalkTip.setVisibility(View.VISIBLE);
         } else {
-            redTalkTip.setVisibility(View.GONE);
+            starTalk.setImageResource(R.drawable.news_remind_no);
+//            redTalkTip.setVisibility(View.GONE);
         }
     }
 
