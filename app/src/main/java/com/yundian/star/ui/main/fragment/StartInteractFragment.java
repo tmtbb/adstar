@@ -14,9 +14,13 @@ import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
-import com.yundian.star.been.FansTopListBeen;
+import com.yundian.star.been.StarListReturnBean;
+import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.StarInfoActivity;
 import com.yundian.star.ui.main.adapter.StarInteractionAdapter;
+import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
 
 import java.util.ArrayList;
 
@@ -29,11 +33,14 @@ public class StartInteractFragment extends BaseFragment {
     private LRecyclerView lrv;
     private FrameLayout fl_layout;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
-    private ArrayList<FansTopListBeen.OrdersListBean> list = new ArrayList<>();
-    private ArrayList<FansTopListBeen.OrdersListBean> loadList = new ArrayList<>();
+    private ArrayList<StarListReturnBean.SymbolInfoBean> list = new ArrayList<>();
+    private ArrayList<StarListReturnBean.SymbolInfoBean> loadList = new ArrayList<>();
     private static int mCurrentCounter = 1;
     private StarInteractionAdapter interactionAdapter;
     private static final int REQUEST_COUNT = 10;
+    private long userId;
+    private String token;
+
     @Override
     protected int getLayoutResource() {
         return R.layout.fragment_start_interact;
@@ -48,13 +55,16 @@ public class StartInteractFragment extends BaseFragment {
     protected void initView() {
         initFindById();
         initAdapter();
-        getData(false,1,REQUEST_COUNT);
+        getData(false, 1, REQUEST_COUNT);
     }
 
     private void initFindById() {
+        userId = SharePrefUtil.getInstance().getUserId();
+        token = SharePrefUtil.getInstance().getToken();
         lrv = (LRecyclerView) rootView.findViewById(R.id.lrv);
         fl_layout = (FrameLayout) rootView.findViewById(R.id.fm_layout);
     }
+
     private void initAdapter() {
         interactionAdapter = new StarInteractionAdapter(getActivity());
         lRecyclerViewAdapter = new LRecyclerViewAdapter(interactionAdapter);
@@ -66,7 +76,7 @@ public class StartInteractFragment extends BaseFragment {
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getData(true,mCurrentCounter+1,mCurrentCounter+REQUEST_COUNT);
+                getData(true, mCurrentCounter + 1, mCurrentCounter + REQUEST_COUNT);
             }
         });
         lrv.setOnRefreshListener(new OnRefreshListener() {
@@ -74,58 +84,72 @@ public class StartInteractFragment extends BaseFragment {
             public void onRefresh() {
                 mCurrentCounter = 1;
                 lrv.setNoMore(false);
-                getData(false,1,REQUEST_COUNT);
+                getData(false, 1, REQUEST_COUNT);
             }
         });
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getActivity(),StarInfoActivity.class);
-                intent.putExtra(AppConstant.STAR_CODE,"1001");
+                Intent intent = new Intent(getActivity(), StarInfoActivity.class);
+                intent.putExtra(AppConstant.STAR_CODE, "1001");
                 startActivity(intent);
             }
         });
     }
-    private void getData(final boolean isLoadMore,int start ,int end ) {
-        ArrayList < FansTopListBeen.OrdersListBean > demoList = new ArrayList<>();
-        for (int i = 0;i<10;i++){
-            FansTopListBeen.OrdersListBean ordersListBean = new FansTopListBeen.OrdersListBean();
-            FansTopListBeen.OrdersListBean.BuyUserBean buyUserBean= new FansTopListBeen.OrdersListBean.BuyUserBean();
-            buyUserBean.setNickname("明星"+i);
-            ordersListBean.setBuy_user(buyUserBean);
-            demoList.add(ordersListBean);
-        }
-        if (demoList==null){
-            lrv.setNoMore(true);
-            if (!isLoadMore) {
-                list.clear();
-                interactionAdapter.clear();
-                lrv.refreshComplete(REQUEST_COUNT);
-                showErrorView(fl_layout, R.drawable.error_view_comment, "当前没有相关数据");
-            }
-            return;
-        }
-        if (isLoadMore){
-            closeErrorView();
-            loadList.clear();
-            loadList = demoList;
-            loadMoreData();
-        }else {
-            list.clear();
-            list = demoList;
-            showData();
-        }
+
+    private void getData(final boolean isLoadMore, int start, int end) {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarList(userId,
+                token, 4, 0, start, end, new OnAPIListener<StarListReturnBean>() {
+                    @Override
+                    public void onError(Throwable ex) {
+                        if (lrv != null) {
+                            lrv.setNoMore(true);
+                            if (!isLoadMore) {
+                                list.clear();
+                                interactionAdapter.clear();
+                                lrv.refreshComplete(REQUEST_COUNT);
+                                showErrorView(fl_layout, R.drawable.error_view_comment, "当前没有相关数据");
+                            }
+                        }
+                        LogUtils.loge("明星互动返回错误码" + ex.toString());
+                    }
+
+                    @Override
+                    public void onSuccess(StarListReturnBean starListReturnBean) {
+                        LogUtils.loge("互动列表" + starListReturnBean.toString());
+                        if (starListReturnBean == null || starListReturnBean.getSymbol_info() == null || starListReturnBean.getSymbol_info().size() == 0) {
+                            if (!isLoadMore) {
+                                list.clear();
+                                interactionAdapter.clear();
+                                lrv.refreshComplete(REQUEST_COUNT);
+                                showErrorView(fl_layout, R.drawable.error_view_comment, "当前没有相关数据");
+                            }else {
+                                lrv.setNoMore(true);
+                            }
+                            return;
+                        }
+                        if (isLoadMore) {
+                            loadList.clear();
+                            loadList = starListReturnBean.getSymbol_info();
+                            loadMoreData();
+                        } else {
+                            list.clear();
+                            list = starListReturnBean.getSymbol_info();
+                            showData();
+                        }
+                    }
+                });
     }
 
     public void showData() {
-        if (list.size() == 0){
-            showErrorView(fl_layout, R.drawable.error_view_comment, getActivity().getResources().getString(R.string.empty_order_info));
+        if (list.size() == 0) {
+            showErrorView(fl_layout, R.drawable.error_view_comment, "暂无相关数据");
             return;
-        }else{
+        } else {
             closeErrorView();
         }
         interactionAdapter.clear();
-        mCurrentCounter =list.size();
+        mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         interactionAdapter.addAll(list);
         lrv.refreshComplete(REQUEST_COUNT);
