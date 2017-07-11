@@ -8,6 +8,7 @@ package com.yundian.star.app;
 public class AppConstant {
    //明星code
     public static final String STAR_CODE="STAR_CODE";
+    public static final String PUBLISH_TYPE="PUBLISH_TYPE";
     public static final String STAR_NAME="STAR_NAME";
     public static final String STAR_WID="STAR_WID";
     public static final String STAR_HEAD_URL="STAR_HEAD_URL";
@@ -58,5 +59,8 @@ public class AppConstant {
 
     //冻结用户操作
     public static final Short FREEZE_MOVEMENT = -1000;
+
+    //首页信息
+    public static final String HOME_PAGE_STAR_INFO = "HOME_PAGE_STAR_INFO";
 
 }

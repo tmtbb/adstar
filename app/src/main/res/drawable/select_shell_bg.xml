@@ -5,7 +5,12 @@
             <solid android:color="@color/color_CB4232"/>
         </shape>
     </item>
-    <item android:state_pressed="false">
+    <item android:state_enabled="false">
+        <shape >
+            <solid android:color="@color/color_A6A6A6"/>
+        </shape>
+    </item>
+    <item android:state_enabled="true">
         <shape >
             <solid android:color="@color/color_FB9938"/>
         </shape>

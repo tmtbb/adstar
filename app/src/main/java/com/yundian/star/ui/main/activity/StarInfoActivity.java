@@ -44,6 +44,7 @@ import java.util.List;
 /**
  * Created by Administrator on 2017/7/8.
  * 互动详情
+ * 明星介绍
  */
 
 public class StarInfoActivity extends BaseActivity implements View.OnClickListener {

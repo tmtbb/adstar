@@ -12,11 +12,14 @@ import com.yundian.star.been.FansEntrustReturnBean;
 import com.yundian.star.been.FansHotBuyReturnBeen;
 import com.yundian.star.been.FansTopListBeen;
 import com.yundian.star.been.HaveStarTimeBeen;
+import com.yundian.star.been.HomePageInfoBean;
 import com.yundian.star.been.MarketTypeBeen;
 import com.yundian.star.been.OptionsStarListBeen;
 import com.yundian.star.been.OrderCancelReturnBeen;
 import com.yundian.star.been.OrderReturnBeen;
+import com.yundian.star.been.RefreshStarTimeBean;
 import com.yundian.star.been.ResultBeen;
+import com.yundian.star.been.ShoppingStarBean;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
@@ -468,6 +471,37 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.BuyShellCom,
                 SocketAPIConstant.ReqeutType.History, map);
         requestEntity(socketDataPacket,BuyShellReutrnBeen.class,listener);
+    }
+
+    @Override
+    public void getHomePage(long id, String token, long aType, OnAPIListener<HomePageInfoBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("token", token);
+        map.put("aType", aType);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.HomePageInfo,
+                SocketAPIConstant.ReqeutType.Time, map);
+        requestEntity(socketDataPacket,HomePageInfoBean.class,listener);
+    }
+
+    @Override
+    public void getShoppingStar(String symbol, OnAPIListener<ShoppingStarBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("symbol", symbol);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarShopping,
+                SocketAPIConstant.ReqeutType.Shopping, map);
+        requestEntity(socketDataPacket,ShoppingStarBean.class,listener);
+    }
+
+    @Override
+    public void getRefreshStar(long uid, String token, String symbol, OnAPIListener<RefreshStarTimeBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("uid", uid);
+        map.put("token", token);
+        map.put("symbol", symbol);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarRefresh,
+                SocketAPIConstant.ReqeutType.Shopping, map);
+        requestEntity(socketDataPacket,RefreshStarTimeBean.class,listener);
     }
 
 }
