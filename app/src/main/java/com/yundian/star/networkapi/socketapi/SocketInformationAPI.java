@@ -23,6 +23,7 @@ import com.yundian.star.been.ShoppingStarBean;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
+import com.yundian.star.been.StarDetailInfoBean;
 import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.been.StarInfoReturnBean;
 import com.yundian.star.been.StarListReturnBean;
@@ -517,6 +518,15 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarList,
                 SocketAPIConstant.ReqeutType.Time, map);
         requestEntity(socketDataPacket,StarListReturnBean.class,listener);
+    }
+
+    @Override
+    public void getStarDetailInfo(String star_code, OnAPIListener<StarDetailInfoBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("star_code", star_code);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarDetailInfo,
+                SocketAPIConstant.ReqeutType.NewInfos, map);
+        requestEntity(socketDataPacket,StarDetailInfoBean.class,listener);
     }
 
 }

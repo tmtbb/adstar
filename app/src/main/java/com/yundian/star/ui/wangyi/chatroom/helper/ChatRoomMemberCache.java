@@ -180,6 +180,9 @@ public class ChatRoomMemberCache {
      */
 
     public void registerObservers(boolean register) {
+        if (NIMClient.getService(ChatRoomServiceObserver.class)==null){
+            return;
+        }
         NIMClient.getService(ChatRoomServiceObserver.class).observeReceiveMessage(incomingChatRoomMsg, register);
     }
 

@@ -112,6 +112,7 @@ public interface SocketAPIConstant {
         Short HomePageInfo = 4009;
         Short StarShopping = 14003;
         Short StarRefresh = 14001;
+        Short StarDetailInfo = 10031;
 
 
 

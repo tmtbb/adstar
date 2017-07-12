@@ -62,7 +62,7 @@ public class StartInteractFragment extends BaseFragment {
         userId = SharePrefUtil.getInstance().getUserId();
         token = SharePrefUtil.getInstance().getToken();
         lrv = (LRecyclerView) rootView.findViewById(R.id.lrv);
-        fl_layout = (FrameLayout) rootView.findViewById(R.id.fm_layout);
+        fl_layout = (FrameLayout) rootView.findViewById(R.id.fl_layout);
     }
 
     private void initAdapter() {
@@ -91,7 +91,8 @@ public class StartInteractFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getActivity(), StarInfoActivity.class);
-                intent.putExtra(AppConstant.STAR_CODE, "1001");
+                StarListReturnBean.SymbolInfoBean symbolInfoBean = list.get(position);
+                intent.putExtra(AppConstant.STAR_CODE, symbolInfoBean.getSymbol());
                 startActivity(intent);
             }
         });

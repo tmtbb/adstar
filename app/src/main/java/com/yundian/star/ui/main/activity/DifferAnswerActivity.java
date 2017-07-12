@@ -55,8 +55,8 @@ public class DifferAnswerActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        nt_title.setTvLeftVisiable(false);
         nt_title.setTitleText(getString(R.string.diff_answer));
+        nt_title.setBackVisibility(true);
     }
 
 }

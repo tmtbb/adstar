@@ -87,31 +87,6 @@ public class MarketDetailFragment extends BaseFragment {
     }
 
     private void getData(final boolean isLoadMore, int start, int count) {
-//            NetworkAPIFactoryImpl.getInformationAPI().getStarList(SharePrefUtil.getInstance().getUserId(), SharePrefUtil.getInstance().getToken(), sortType, 5, start, count, new OnAPIListener<StarListbeen>() {
-//                @Override
-//                public void onError(Throwable ex) {
-//                    lrv.setNoMore(true);
-//                    if (!isLoadMore) {
-//                        list.clear();
-//                        marketDetailAdapter.clear();
-//                        lrv.refreshComplete(REQUEST_COUNT);
-//                        showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
-//                    }
-//                }
-//
-//                @Override
-//                public void onSuccess(StarListbeen sarListbeen) {
-//                    LogUtils.loge("行情每个页面请求数据返回的retult:" + sarListbeen);
-//                    if (sarListbeen.getSymbol_info() == null) {
-//                        lrv.setNoMore(true);
-//                        showErrorView(parentView, R.drawable.error_view_contact, "");
-//                        return;
-//                    }
-//                    list.clear();
-//                    list = sarListbeen.getSymbol_info();
-//                    showData();
-//                }
-//            });
         NetworkAPIFactoryImpl.getInformationAPI().getStarList(userId,
                 token, 4, 1, start, count, new OnAPIListener<StarListReturnBean>() {
                     @Override

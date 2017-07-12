@@ -22,6 +22,7 @@ import com.yundian.star.been.ShoppingStarBean;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
+import com.yundian.star.been.StarDetailInfoBean;
 import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.been.StarInfoReturnBean;
 import com.yundian.star.been.StarListReturnBean;
@@ -88,4 +89,5 @@ public interface InformationAPI {
     void getShoppingStar(String symbol,OnAPIListener<ShoppingStarBean> listener);
     void getRefreshStar(long uid, String token,String symbol,OnAPIListener<RefreshStarTimeBean> listener);
     void getStarList(long id, String token,long aType,long sort,int pos,int count,OnAPIListener<StarListReturnBean> listener);
+    void getStarDetailInfo(String star_code,OnAPIListener<StarDetailInfoBean> listener);
 }

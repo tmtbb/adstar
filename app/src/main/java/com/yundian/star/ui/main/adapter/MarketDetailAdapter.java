@@ -21,6 +21,7 @@ public class MarketDetailAdapter extends ListBaseAdapter<StarListReturnBean.Symb
             , R.drawable.bg_6, R.drawable.bg_7, R.drawable.bg_8, R.drawable.bg_9, R.drawable.bg_10
             , R.drawable.bg_11
     };
+    private String starTypeInfo[] = {"网红", "娱乐明星", "体育明星", "艺人", "海外知名人士", "测试"};
     public MarketDetailAdapter(Context context) {
         super(context);
     }
@@ -40,7 +41,7 @@ public class MarketDetailAdapter extends ListBaseAdapter<StarListReturnBean.Symb
         TextView tv_price = holder.getView(R.id.tv_preice);
         ImageLoaderUtils.displaySmallPhoto(mContext,imageView,item.getPic());
         tv_name.setText(item.getName());
-        tv_info.setText("明星");
+        tv_info.setText(starTypeInfo[item.getStar_type()]);
         tv_price.setText(String.format("%.2f",item.getCurrentPrice()));
         RelativeLayout rl_bg = holder.getView(R.id.rl_bg);
         int i = position % 11;
