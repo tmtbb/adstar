@@ -5,6 +5,7 @@ import com.yundian.star.base.SearchReturnbeen;
 import com.yundian.star.been.AdvBeen;
 import com.yundian.star.been.AskToBuyReturnBeen;
 import com.yundian.star.been.BuyShellReutrnBeen;
+import com.yundian.star.been.CircleFriendBean;
 import com.yundian.star.been.CommentMarketBeen;
 import com.yundian.star.been.EntrustReturnBeen;
 import com.yundian.star.been.FansEntrustReturnBean;
@@ -90,4 +91,6 @@ public interface InformationAPI {
     void getRefreshStar(long uid, String token,String symbol,OnAPIListener<RefreshStarTimeBean> listener);
     void getStarList(long id, String token,long aType,long sort,int pos,int count,OnAPIListener<StarListReturnBean> listener);
     void getStarDetailInfo(String star_code,OnAPIListener<StarDetailInfoBean> listener);
+    void getAllCircleInfo(int pos,int count,OnAPIListener<CircleFriendBean> listener);
+    void getPraisestar(String star_code,long circle_id,long uid,OnAPIListener<ResultBeen> listener);
 }

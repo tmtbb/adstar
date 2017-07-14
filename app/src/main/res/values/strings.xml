@@ -269,6 +269,7 @@
     <string name="start_time">起始时间</string>
     <string name="end_time">结束时间</string>
     <string name="systen_news">系统消息</string>
+    <string name="find_star">发现明星</string>
     <string name="star_address_book">明星通讯录</string>
     <string name="PM">PM</string>
     <string name="AM">AM</string>

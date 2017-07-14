@@ -370,6 +370,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".ui.main.activity.CircleFriendsActivity"
+            android:launchMode="singleTask"
+            android:configChanges="keyboardHidden|orientation"
+            android:screenOrientation="portrait"
+            ></activity>
 
         <!-- 全局搜索 -->
         <activity

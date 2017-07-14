@@ -22,6 +22,7 @@ public interface SocketAPIConstant {
         byte Search = 13;
         byte BuyOrSell = 5;
         byte Shopping = 14;
+        byte CircleInfo = 15;
     }
 
     interface OperateCode {
@@ -113,6 +114,8 @@ public interface SocketAPIConstant {
         Short StarShopping = 14003;
         Short StarRefresh = 14001;
         Short StarDetailInfo = 10031;
+        Short CircleFrindInfo = 15001;
+        Short PresenterStar = 15009;
 
 
 

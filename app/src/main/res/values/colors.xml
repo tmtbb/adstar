@@ -151,11 +151,14 @@
     <color name="color_F6F6F6">#F6F6F6</color>
     <color name="color_FE9023">#FE9023</color>
     <color name="color_FBD831">#FBD831</color>
+    <color name="color_0092CA">#0092CA</color>
+    <color name="color_8290AF">#8290AF</color>
 
 
     <color name="color_f2f7fc">#F2F7FC</color>
     <color name="color_c2364b">#C2364B</color>
     <color name="color_f5455e">#F5455E</color>
+    <color name="color_F5F5F5">#F5F5F5</color>
     <color name="color_grey_d0d0d0">#d0d0d0</color>
     <color name="video_call_peer_close_cameral_text_shadow">#484848</color>
     <color name="video_call_peer_close_cameral_text_color">#f1f1f1</color>
