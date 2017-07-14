@@ -31,8 +31,8 @@
                 android:id="@+id/iv_dialog_close"
                 android:layout_width="@dimen/dp_20"
                 android:layout_height="@dimen/dp_20"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/dp_16"
                 android:layout_marginTop="@dimen/dp_16"
                 android:gravity="right"
@@ -40,56 +40,57 @@
         </RelativeLayout>
 
         <EditText
-            android:inputType="number"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:gravity="center"
-            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             android:id="@+id/member_id"
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:textColor="@color/day_one_text_color"
-            android:textColorHint="@color/font_999999"
-            android:textCursorDrawable="@drawable/edit_cursor"
-            android:textSize="@dimen/fontSize_14sp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="@dimen/dp_30"
             android:background="@drawable/bg_edittext"
-            android:hint="@string/input_member_id" />
-
-        <EditText
-            android:inputType="number"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:id="@+id/area_broker_id"
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginTop="@dimen/dp_25"
-            android:background="@drawable/bg_edittext"
-            android:textSize="@dimen/fontSize_14sp"
+            android:gravity="center"
+            android:hint="@string/input_member_id"
+            android:inputType="number"
             android:textColor="@color/day_one_text_color"
             android:textColorHint="@color/font_999999"
             android:textCursorDrawable="@drawable/edit_cursor"
-            android:hint="@string/input_area_broker_id"
-            android:gravity="center"
-            />
+            android:textSize="@dimen/fontSize_14sp" />
 
         <EditText
-            android:inputType="number"
+            android:id="@+id/area_broker_id"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:gravity="center"
+            android:layout_marginTop="@dimen/dp_25"
+            android:background="@drawable/bg_edittext"
             android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+            android:gravity="center"
+            android:hint="@string/input_area_broker_id"
+            android:inputType="number"
+            android:textColor="@color/day_one_text_color"
+            android:textColorHint="@color/font_999999"
+            android:textCursorDrawable="@drawable/edit_cursor"
+            android:textSize="@dimen/fontSize_14sp"
+            android:visibility="gone" />
+
+        <EditText
             android:id="@+id/broker_id"
             android:layout_width="match_parent"
             android:layout_height="44dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="@dimen/dp_25"
             android:background="@drawable/bg_edittext"
-            android:textSize="@dimen/fontSize_14sp"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+            android:gravity="center"
+            android:hint="@string/input_broker_id"
+            android:inputType="number"
             android:textColor="@color/day_one_text_color"
             android:textColorHint="@color/font_999999"
             android:textCursorDrawable="@drawable/edit_cursor"
-            android:hint="@string/input_broker_id" />
+            android:textSize="@dimen/fontSize_14sp"
+            android:visibility="gone" />
 
 
         <TextView
