@@ -373,6 +373,7 @@
         <activity android:name=".ui.main.activity.CircleFriendsActivity"
             android:launchMode="singleTask"
             android:configChanges="keyboardHidden|orientation"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"
             ></activity>
 

@@ -21,6 +21,7 @@ import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.CommentListView;
 import com.yundian.star.widget.PraiseListView;
 import com.yundian.star.widget.SnsPopupWindow;
+import com.yundian.star.widget.emoji.MoonUtils;
 
 import java.util.List;
 
@@ -64,6 +65,7 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
         }
         if(!TextUtils.isEmpty(content)){
             circleViewHolder.contentTv.setText(content);
+            MoonUtils.replaceEmoticons(context,circleViewHolder.contentTv.getText(),0,circleViewHolder.contentTv.getText().length());
         }
         circleViewHolder.contentTv.setVisibility(TextUtils.isEmpty(content) ? View.GONE : View.VISIBLE);
         circleViewHolder.tv_time.setText(TimeUtil.getfriendlyTime(circleItem.getCreate_time()*1000));

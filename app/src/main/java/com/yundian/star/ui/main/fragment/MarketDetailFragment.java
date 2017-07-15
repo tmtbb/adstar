@@ -280,4 +280,12 @@ public class MarketDetailFragment extends BaseFragment {
             lrv.refreshComplete(REQUEST_COUNT);
         }
     }
+
+    @Override
+    public void onDestroy() {
+        if (lrv!=null){
+            lrv = null ;
+        }
+        super.onDestroy();
+    }
 }

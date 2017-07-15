@@ -1,8 +1,17 @@
 package com.yundian.star.ui.main.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
@@ -18,27 +27,37 @@ import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.CircleFriendAdapter;
 import com.yundian.star.ui.main.contract.CircleContract;
 import com.yundian.star.ui.main.presenter.CirclePresenter;
+import com.yundian.star.utils.KeyBordUtil;
 import com.yundian.star.utils.LogUtils;
-import com.yundian.star.widget.CommentListView;
 import com.yundian.star.widget.NormalTitleBar;
+import com.yundian.star.widget.emoji.EmotionKeyboard;
+import com.yundian.star.widget.emoji.EmotionLayout;
+import com.yundian.star.widget.emoji.IEmotionExtClickListener;
+import com.yundian.star.widget.emoji.IEmotionSelectedListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 
+import static com.yundian.star.R.id.etContent;
+import static com.yundian.star.R.id.llContent;
+
+
 /**
  * Created by Administrator on 2017/7/12.
  * 朋友圈
  */
 
-public class CircleFriendsActivity extends BaseActivity implements CircleContract.View {
+public class CircleFriendsActivity extends BaseActivity implements CircleContract.View, IEmotionSelectedListener {
     @Bind(R.id.lrv)
     LRecyclerView lrv;
     @Bind(R.id.nt_title)
     NormalTitleBar nt_title;
     @Bind(R.id.fl_pr)
     FrameLayout fl_pr;
+    @Bind(R.id.emoji_include)
+    LinearLayout emoji_include;
     private CirclePresenter presenter;
     private CircleFriendAdapter circleFriendAdapter;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
@@ -50,6 +69,15 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
     private static final int REQUEST_COUNT = 10;
     private ArrayList<CircleFriendBean.CircleListBean> list = new ArrayList<>();
     private ArrayList<CircleFriendBean.CircleListBean> loadList = new ArrayList<>();
+    private LinearLayout mLlContent;
+    private LinearLayout ll_inputt;
+    private EditText mEtContent;
+    private ImageView mIvEmo;
+    private Button mBtnSend;
+    private FrameLayout mFlEmotionView;
+    private FrameLayout flEmotionView;
+    private EmotionLayout mElEmotion;
+    private EmotionKeyboard mEmotionKeyboard;
 
     @Override
     public int getLayoutId() {
@@ -66,12 +94,25 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
         presenter = new CirclePresenter(this);
         nt_title.setBackVisibility(true);
         nt_title.setTitleText(R.string.find_star);
+        initEmoji();
         initAdapter();
         getData(false, 0, REQUEST_COUNT);
     }
 
-    private void initAdapter() {
+    private void initEmoji() {
+        mLlContent = (LinearLayout) findViewById(llContent);
+        ll_inputt = (LinearLayout) findViewById(R.id.ll_inputt);
+        flEmotionView = (FrameLayout) findViewById(R.id.flEmotionView);
+        mEtContent = (EditText) findViewById(etContent);
+        mIvEmo = (ImageView) findViewById(R.id.ivEmo);
+        mBtnSend = (Button) findViewById(R.id.btnSend);
+        mFlEmotionView = (FrameLayout) findViewById(R.id.flEmotionView);
+        mElEmotion = (EmotionLayout) findViewById(R.id.elEmotion);
+        mElEmotion.attachEditText(mEtContent);
+        initEmotionKeyboard();
+    }
 
+    private void initAdapter() {
         circleFriendAdapter = new CircleFriendAdapter(this);
         lRecyclerViewAdapter = new LRecyclerViewAdapter(circleFriendAdapter);
         circleFriendAdapter.setCirclePresenter(presenter);
@@ -92,7 +133,28 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
                 getData(false, 0, REQUEST_COUNT);
             }
         });
+        lrv.setLScrollListener(new LRecyclerView.LScrollListener() {
+            @Override
+            public void onScrollUp() {
 
+            }
+
+            @Override
+            public void onScrollDown() {
+            }
+
+            @Override
+            public void onScrolled(int distanceX, int distanceY) {
+
+            }
+
+            @Override
+            public void onScrollStateChanged(int state) {
+                if (emoji_include.getVisibility() == View.VISIBLE) {
+                    updateEditTextBodyVisible(View.GONE, null);
+                }
+            }
+        });
 
 //        systemMessageAdapter = new SystemMessageAdapter(this,list, SharePrefUtil.getInstance().getUserId());
 //        lRecyclerViewAdapter = new LRecyclerViewAdapter(systemMessageAdapter);
@@ -151,60 +213,44 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
 
     }
 
+    //发表评论吊起
     @Override
     public void updateEditTextBodyVisible(int visibility, CommentConfig commentConfig) {
         this.commentConfig = commentConfig;
-        //edittextbody.setVisibility(visibility);
+        if (View.GONE == visibility && mEtContent.getVisibility() == View.VISIBLE) {
+            mEtContent.setText("");
+        }
+        ll_inputt.setVisibility(visibility);
+        if (View.VISIBLE == visibility) {
+            mEtContent.requestFocus();
+            //弹出键盘
+            KeyBordUtil.showSoftInput(mEtContent.getContext(), mEtContent);
+        } else if (View.GONE == visibility) {
+            if (mFlEmotionView.getVisibility() == View.VISIBLE) {
+                mFlEmotionView.setVisibility(View.GONE);
+            }
+            //隐藏键盘
+            KeyBordUtil.hideSoftInput(mEtContent.getContext(), mEtContent);
+        }
+    }
 
-        measureCircleItemHighAndCommentItemOffset(commentConfig);
-
-//        if(View.VISIBLE==visibility){
-//            editText.requestFocus();
-//            //弹出键盘
-//            CommonUtils.showSoftInput( editText.getContext(),  editText);
-//
-//        }else if(View.GONE==visibility){
-//            //隐藏键盘
-//            CommonUtils.hideSoftInput( editText.getContext(),  editText);
-//        }
+    /**
+     * 获取状态栏高度
+     *
+     * @return
+     */
+    private int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     @Override
     public void update2loadData(int loadType, List<CircleFriendBean.CircleListBean> datas) {
 
-    }
-
-    private void measureCircleItemHighAndCommentItemOffset(CommentConfig commentConfig) {
-        if (commentConfig == null)
-            return;
-
-        //只能返回当前可见区域（列表可滚动）的子项
-        View selectCircleItem = layoutManager.getChildAt(commentConfig.circlePosition);
-
-        if (selectCircleItem != null) {
-            selectCircleItemH = selectCircleItem.getHeight();
-        }
-
-        if (commentConfig.commentType == CommentConfig.Type.REPLY) {
-            //回复评论的情况
-            CommentListView commentLv = (CommentListView) selectCircleItem.findViewById(R.id.commentList);
-            if (commentLv != null) {
-                //找到要回复的评论view,计算出该view距离所属动态底部的距离
-                View selectCommentItem = commentLv.getChildAt(commentConfig.commentPosition);
-                if (selectCommentItem != null) {
-                    //选择的commentItem距选择的CircleItem底部的距离
-                    selectCommentItemOffset = 0;
-                    View parentView = selectCommentItem;
-                    do {
-                        int subItemBottom = parentView.getBottom();
-                        parentView = (View) parentView.getParent();
-                        if (parentView != null) {
-                            selectCommentItemOffset += (parentView.getHeight() - subItemBottom);
-                        }
-                    } while (parentView != null && parentView != selectCircleItem);
-                }
-            }
-        }
     }
 
 
@@ -279,9 +325,149 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
 
     @Override
     protected void onDestroy() {
-        if(presenter !=null){
+        if (presenter != null) {
             presenter.recycle();
         }
         super.onDestroy();
     }
+
+    private void initEmotionKeyboard() {
+        mEmotionKeyboard = EmotionKeyboard.with(this);
+        mEmotionKeyboard.bindToEditText(mEtContent);
+        mEmotionKeyboard.bindToContent(mLlContent);
+        mEmotionKeyboard.setEmotionLayout(mFlEmotionView);
+        mEmotionKeyboard.bindToEmotionButton(mIvEmo);
+        mEmotionKeyboard.setOnEmotionButtonOnClickListener(new EmotionKeyboard.OnEmotionButtonOnClickListener() {
+            @Override
+            public boolean onEmotionButtonOnClickListener(View view) {
+                switch (view.getId()) {
+                    case R.id.ivEmo:
+                        if (!mElEmotion.isShown()) {
+                            /*if (mLlMore.isShown()) {
+                                showEmotionLayout();
+                                hideMoreLayout();
+                                hideAudioButton();
+                                return true;
+                            }*/
+                        } else if (mElEmotion.isShown()) {
+                            mIvEmo.setImageResource(R.drawable.ic_cheat_emo);
+                            return false;
+                        }
+                        showEmotionLayout();
+                        break;
+                }
+                return false;
+            }
+        });
+
+    }
+
+
+    private void showEmotionLayout() {
+        mElEmotion.setVisibility(View.VISIBLE);
+        mIvEmo.setImageResource(R.drawable.ic_cheat_keyboard);
+    }
+
+    private void hideEmotionLayout() {
+        mElEmotion.setVisibility(View.GONE);
+        mIvEmo.setImageResource(R.drawable.ic_cheat_emo);
+    }
+
+    /*private void showMoreLayout() {
+        mLlMore.setVisibility(View.VISIBLE);
+    }
+
+    private void hideMoreLayout() {
+        mLlMore.setVisibility(View.GONE);
+    }*/
+
+    private void closeBottomAndKeyboard() {
+        mElEmotion.setVisibility(View.GONE);
+        //mLlMore.setVisibility(View.GONE);
+        if (mEmotionKeyboard != null) {
+            mEmotionKeyboard.interceptBackPress();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mElEmotion.isShown()) {
+            mEmotionKeyboard.interceptBackPress();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public void onEmojiSelected(String key) {
+        Log.e("onEmojiSelected>>>", key);
+        Log.e("CSDN_LQR", "onEmojiSelected : " + key);
+    }
+
+    @Override
+    public void onStickerSelected(String categoryName, String stickerName, String stickerBitmapPath) {
+        Log.e("onStickerSelected>>>", categoryName + "..." + stickerName + "..." + stickerBitmapPath);
+        Toast.makeText(getApplicationContext(), stickerBitmapPath, Toast.LENGTH_SHORT).show();
+        Log.e("CSDN_LQR", "stickerBitmapPath : " + stickerBitmapPath);
+    }
+
+    public void initListener() {
+        mElEmotion.setEmotionSelectedListener(this);
+        mElEmotion.setEmotionAddVisiable(false);
+        mElEmotion.setEmotionSettingVisiable(false);
+        mElEmotion.setEmotionExtClickListener(new IEmotionExtClickListener() {
+            @Override
+            public void onEmotionAddClick(View view) {
+                Toast.makeText(getApplicationContext(), "add", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onEmotionSettingClick(View view) {
+                Toast.makeText(getApplicationContext(), "setting", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mLlContent.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        closeBottomAndKeyboard();
+                        break;
+                }
+                return false;
+            }
+        });
+
+        mEtContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                /*if (mEtContent.getText().toString().trim().length() > 0) {
+                    mBtnSend.setVisibility(View.VISIBLE);
+                    //mIvMore.setVisibility(View.GONE);
+                } else {
+                    mBtnSend.setVisibility(View.GONE);
+                    //mIvMore.setVisibility(View.VISIBLE);
+                }*/
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        mBtnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.e("mEtContent>>>", mEtContent.getText().toString());
+                mEtContent.setText("");
+                Toast.makeText(getApplicationContext(), "发送成功", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
 }

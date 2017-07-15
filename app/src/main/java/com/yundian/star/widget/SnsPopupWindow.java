@@ -80,7 +80,7 @@ public class SnsPopupWindow extends PopupWindow implements OnClickListener {
 		mRect.set(mLocation[0], mLocation[1], mLocation[0] + parent.getWidth(),mLocation[1] + parent.getHeight());
 		digBtn.setText(mActionItems.get(0).mTitle);
 		if(!this.isShowing()){
-			showAtLocation(parent, Gravity.NO_GRAVITY, mLocation[0] - this.getWidth()
+			showAtLocation(parent, Gravity.NO_GRAVITY, mLocation[0] - this.getWidth()-DisplayUtil.dip2px(10)
 					, mLocation[1] - ((this.getHeight() - parent.getHeight()) / 2));
 		}else{
 			dismiss();

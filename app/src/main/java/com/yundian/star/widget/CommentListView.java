@@ -12,11 +12,15 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yundian.star.R;
 import com.yundian.star.been.CircleFriendBean;
+import com.yundian.star.utils.LogUtils;
+import com.yundian.star.widget.emoji.MoonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -110,8 +114,9 @@ public class CommentListView extends LinearLayout {
             layoutInflater = LayoutInflater.from(getContext());
         }
         View convertView = layoutInflater.inflate(R.layout.item_comment, null, false);
-
-        TextView commentTv = (TextView) convertView.findViewById(R.id.commentTv);
+        FrameLayout frameLayout = (FrameLayout) convertView.findViewById(R.id.fl_layout);
+        EditText commentTv = (EditText) convertView.findViewById(R.id.commentTv);
+        TextView tv_onclick = (TextView) convertView.findViewById(R.id.tv_onclick);
         final CircleMovementMethod circleMovementMethod = new CircleMovementMethod(itemSelectorColor, itemSelectorColor);
 
         CircleFriendBean.CircleListBean.CommentListBean bean = mDatas.get(position);
@@ -137,10 +142,12 @@ public class CommentListView extends LinearLayout {
         //builder.append(UrlUtils.formatUrlString(contentBodyStr));
         builder.append(bean.getContent());
         commentTv.setText(builder);
-        commentTv.setMovementMethod(circleMovementMethod);
-        commentTv.setOnClickListener(new View.OnClickListener() {
+        MoonUtils.replaceEmoticons(getContext(),commentTv.getText(),0,commentTv.getText().length());
+        //commentTv.setMovementMethod(circleMovementMethod);
+        tv_onclick.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                LogUtils.loge("点击了");
                 if (circleMovementMethod.isPassToTv()) {
                     if(onItemClickListener!=null){
                         onItemClickListener.onItemClick(position);
@@ -148,7 +155,7 @@ public class CommentListView extends LinearLayout {
                 }
             }
         });
-        commentTv.setOnLongClickListener(new View.OnLongClickListener() {
+        tv_onclick.setOnLongClickListener(new OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 if (circleMovementMethod.isPassToTv()) {
@@ -170,6 +177,7 @@ public class CommentListView extends LinearLayout {
         subjectSpanText.setSpan(new SpannableClickable(itemColor){
                                     @Override
                                     public void onClick(View widget) {
+                                        LogUtils.loge("点击了");
                                         //Toast.makeText(MyApplication.getContext(), textStr + " &id = " + id, Toast.LENGTH_SHORT).show();
                                         //ToastUtils.showShort(textStr + " &id = " + id);
                                     }
