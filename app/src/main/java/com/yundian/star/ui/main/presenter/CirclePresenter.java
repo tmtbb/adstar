@@ -96,21 +96,21 @@ public class CirclePresenter implements CircleContract.Presenter {
         if (config == null) {
             return;
         }
-        /*circleModel.addComment(new IDataRequestListener() {
-			@Override
-			public void loadSuccess(Object object) {
-				CommentItem newItem = null;
-				if (config.commentType == CommentConfig.Type.PUBLIC) {
-					newItem = DatasUtil.createPublicComment(content);
-				} else if (config.commentType == CommentConfig.Type.REPLY) {
-					newItem = DatasUtil.createReplyComment(config.replyUser, content);
-				}
-                if(view!=null){
-                    view.update2AddComment(config.circlePosition, newItem);
-                }
-			}
+        circleModel.addComment(content, config, new IDataRequestListener() {
+                    @Override
+                    public void loadSuccess(Object object) {
+                        CircleFriendBean.CircleListBean.CommentListBean newItem = null;
+                        if (config.commentType == CommentConfig.Type.PUBLIC) {
+                            newItem = DatasUtil.createPublicComment(content,config.symbol_name);
+                        } else if (config.commentType == CommentConfig.Type.REPLY) {
+                            newItem = DatasUtil.createReplyComment(content,config.symbol_name);
+                        }
+                        if(view!=null){
+                            view.update2AddComment(config.circlePosition, newItem);
+                        }
 
-		});*/
+                    }
+                });
     }
 
     /**

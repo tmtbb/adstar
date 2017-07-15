@@ -1,9 +1,11 @@
 package com.yundian.star.ui.main.model;
 
+import com.yundian.star.app.CommentConfig;
 import com.yundian.star.been.ResultBeen;
 import com.yundian.star.listener.IDataRequestListener;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
+import com.yundian.star.utils.SharePrefUtil;
 
 
 public class CircleModel {
@@ -43,8 +45,28 @@ public class CircleModel {
 		requestServer(listener);
 	}
 
-	public void addComment( final IDataRequestListener listener) {
-		requestServer(listener);
+	public void addComment(String content,CommentConfig config,final IDataRequestListener listener) {
+		int type = -1 ;
+		if (config.commentType==CommentConfig.Type.PUBLIC){
+			type = 0;
+		}else if (config.commentType==CommentConfig.Type.REPLY){
+			type = 2 ;
+		}
+		NetworkAPIFactoryImpl.getInformationAPI().getUserAddComment(config.symbol_code, config.Circle_id,
+				SharePrefUtil.getInstance().getUserId(), type, content, new OnAPIListener<ResultBeen>() {
+					@Override
+					public void onError(Throwable ex) {
+
+					}
+
+					@Override
+					public void onSuccess(ResultBeen resultBeen) {
+						if (resultBeen.getResult()==1){
+							requestServer(listener);
+						}
+					}
+				});
+
 	}
 
 	public void deleteComment( final IDataRequestListener listener) {

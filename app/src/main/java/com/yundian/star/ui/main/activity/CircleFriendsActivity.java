@@ -1,10 +1,9 @@
 package com.yundian.star.ui.main.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.MotionEvent;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,6 +28,7 @@ import com.yundian.star.ui.main.contract.CircleContract;
 import com.yundian.star.ui.main.presenter.CirclePresenter;
 import com.yundian.star.utils.KeyBordUtil;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 import com.yundian.star.widget.emoji.EmotionKeyboard;
 import com.yundian.star.widget.emoji.EmotionLayout;
@@ -96,6 +96,7 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
         nt_title.setTitleText(R.string.find_star);
         initEmoji();
         initAdapter();
+        initListener();
         getData(false, 0, REQUEST_COUNT);
     }
 
@@ -150,36 +151,12 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
 
             @Override
             public void onScrollStateChanged(int state) {
-                if (emoji_include.getVisibility() == View.VISIBLE) {
+                if (ll_inputt.getVisibility() == View.VISIBLE) {
                     updateEditTextBodyVisible(View.GONE, null);
                 }
             }
         });
 
-//        systemMessageAdapter = new SystemMessageAdapter(this,list, SharePrefUtil.getInstance().getUserId());
-//        lRecyclerViewAdapter = new LRecyclerViewAdapter(systemMessageAdapter);
-//        lrv.setAdapter(lRecyclerViewAdapter);
-//        lrv.setLayoutManager(new LinearLayoutManager(this));
-//        lrv.setNoMore(false);
-//        lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
-//        /*lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
-//            @Override
-//            public void onLoadMore() {
-//                getData(true,mCurrentCounter+1,mCurrentCounter+REQUEST_COUNT);
-//            }
-//        });*/
-//        lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
-//            @Override
-//            public void onLoadMore() {
-//                getData(true, mCurrentCounter + 1, REQUEST_COUNT);
-//            }
-//        });
-//        lrv.setOnRefreshListener(new OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                getData(false, 1, REQUEST_COUNT);
-//            }
-//        });
     }
 
 
@@ -205,7 +182,15 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
 
     @Override
     public void update2AddComment(int circlePosition, CircleFriendBean.CircleListBean.CommentListBean addItem) {
-
+        if(addItem != null){
+            CircleFriendBean.CircleListBean item = (CircleFriendBean.CircleListBean)circleFriendAdapter.getDatas().get(circlePosition);
+            item.getComment_list().add(addItem);
+            circleFriendAdapter.notifyDataSetChanged();
+            ToastUtils.showShort("评论发布成功");
+            //circleAdapter.notifyItemChanged(circlePosition+1);
+        }
+        //清空评论文本
+        updateEditTextBodyVisible(View.GONE,null);
     }
 
     @Override
@@ -220,8 +205,8 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
         if (View.GONE == visibility && mEtContent.getVisibility() == View.VISIBLE) {
             mEtContent.setText("");
         }
-        ll_inputt.setVisibility(visibility);
         if (View.VISIBLE == visibility) {
+            ll_inputt.setVisibility(View.VISIBLE);
             mEtContent.requestFocus();
             //弹出键盘
             KeyBordUtil.showSoftInput(mEtContent.getContext(), mEtContent);
@@ -231,6 +216,7 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
             }
             //隐藏键盘
             KeyBordUtil.hideSoftInput(mEtContent.getContext(), mEtContent);
+            ll_inputt.setVisibility(View.GONE);
         }
     }
 
@@ -426,7 +412,7 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
                 Toast.makeText(getApplicationContext(), "setting", Toast.LENGTH_SHORT).show();
             }
         });
-        mLlContent.setOnTouchListener(new View.OnTouchListener() {
+        /*mLlContent.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -436,38 +422,35 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
                 }
                 return false;
             }
-        });
+        });*/
 
-        mEtContent.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                /*if (mEtContent.getText().toString().trim().length() > 0) {
-                    mBtnSend.setVisibility(View.VISIBLE);
-                    //mIvMore.setVisibility(View.GONE);
-                } else {
-                    mBtnSend.setVisibility(View.GONE);
-                    //mIvMore.setVisibility(View.VISIBLE);
-                }*/
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
         mBtnSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("mEtContent>>>", mEtContent.getText().toString());
+                if (presenter != null) {
+                    //发布评论
+                    String content =  mEtContent.getText().toString().trim();
+                    if(TextUtils.isEmpty(content)){
+                        ToastUtils.showShort("评论内容不能为空...");
+                        return;
+                    }
+                    presenter.addComment(content, commentConfig);
+                }
                 mEtContent.setText("");
-                Toast.makeText(getApplicationContext(), "发送成功", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            if(ll_inputt != null && ll_inputt.getVisibility() == View.VISIBLE){
+                //edittextbody.setVisibility(View.GONE);
+                updateEditTextBodyVisible(View.GONE, null);
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
 }

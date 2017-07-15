@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
-import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +34,7 @@ public class CommentListView extends LinearLayout {
     private OnItemLongClickListener onItemLongClickListener;
     private List<CircleFriendBean.CircleListBean.CommentListBean> mDatas;
     private LayoutInflater layoutInflater ;
+    private String symbolName;
 
     public OnItemClickListener getOnItemClickListener() {
         return onItemClickListener;
@@ -52,11 +52,12 @@ public class CommentListView extends LinearLayout {
         this.onItemLongClickListener = onItemLongClickListener;
     }
 
-    public void setDatas(List<CircleFriendBean.CircleListBean.CommentListBean> datas){
+    public void setDatas(List<CircleFriendBean.CircleListBean.CommentListBean> datas,String Symbol_name){
         if(datas == null ){
             datas = new ArrayList<CircleFriendBean.CircleListBean.CommentListBean>();
         }
         mDatas = datas;
+        symbolName = Symbol_name;
         notifyDataSetChanged();
     }
 
@@ -123,23 +124,19 @@ public class CommentListView extends LinearLayout {
         String name = bean.getUser_name();
         long id = bean.getUid();
         String toReplyName = "";
-        if (bean.getSymbol_name() != null) {
-            toReplyName = bean.getSymbol_name();
-        }
-
         SpannableStringBuilder builder = new SpannableStringBuilder();
-         builder.append(setClickableSpan(name, bean.getUid()));
-        //builder.append(name);
-        if (!TextUtils.isEmpty(toReplyName)) {
-
+        if (bean.getDirection()==1){
+            builder.append(setClickableSpan(symbolName, 0));
             builder.append(" 回复 ");
-            builder.append(setClickableSpan(toReplyName, bean.getUid()));
-            //builder.append(toReplyName);
+            builder.append(setClickableSpan(bean.getUser_name(), bean.getUid()));
+        }else if (bean.getDirection()==2){
+            builder.append(setClickableSpan(bean.getUser_name(), bean.getUid()));
+            builder.append(" 回复 ");
+            builder.append(setClickableSpan(symbolName, 0));
+        }else if (bean.getDirection()==0){
+            builder.append(setClickableSpan(bean.getUser_name(), bean.getUid()));
         }
         builder.append(": ");
-        //转换表情字符
-        String contentBodyStr = bean.getContent();
-        //builder.append(UrlUtils.formatUrlString(contentBodyStr));
         builder.append(bean.getContent());
         commentTv.setText(builder);
         MoonUtils.replaceEmoticons(getContext(),commentTv.getText(),0,commentTv.getText().length());

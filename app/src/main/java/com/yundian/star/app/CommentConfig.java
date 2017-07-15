@@ -23,6 +23,8 @@ public class CommentConfig {
     public long uid;
     public String user_name;
     public String symbol_name;
+    public String symbol_code;
+    public long Circle_id;
 
     @Override
     public String toString() {

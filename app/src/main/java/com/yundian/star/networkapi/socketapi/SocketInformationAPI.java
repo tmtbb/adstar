@@ -551,4 +551,17 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         requestEntity(socketDataPacket,ResultBeen.class,listener);
     }
 
+    @Override
+    public void getUserAddComment(String star_code, long circle_id, long uid, int direction, String content, OnAPIListener<ResultBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("star_code", star_code);
+        map.put("circle_id", circle_id);
+        map.put("uid", uid);
+        map.put("direction", direction);
+        map.put("content", content);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.UserAddComment,
+                SocketAPIConstant.ReqeutType.CircleInfo, map);
+        requestEntity(socketDataPacket,ResultBeen.class,listener);
+    }
+
 }

@@ -93,4 +93,5 @@ public interface InformationAPI {
     void getStarDetailInfo(String star_code,OnAPIListener<StarDetailInfoBean> listener);
     void getAllCircleInfo(int pos,int count,OnAPIListener<CircleFriendBean> listener);
     void getPraisestar(String star_code,long circle_id,long uid,OnAPIListener<ResultBeen> listener);
+    void getUserAddComment(String star_code,long circle_id,long uid,int direction,String content,OnAPIListener<ResultBeen> listener);
 }

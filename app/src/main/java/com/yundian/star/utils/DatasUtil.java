@@ -277,26 +277,29 @@ public class DatasUtil {
 //	 * 创建发布评论
 //	 * @return
 //
-//	public static CommentItem createPublicComment(String content){
-//		CommentItem item = new CommentItem();
-//		item.setId(String.valueOf(commentId++));
-//		item.setContent(content);
-//		item.setUser(curUser);
-//		return item;
-//	}
+	public static CircleFriendBean.CircleListBean.CommentListBean createPublicComment(String content,String Symbol_name){
+		CircleFriendBean.CircleListBean.CommentListBean item = new CircleFriendBean.CircleListBean.CommentListBean();
+		item.setDirection(0);
+		item.setUser_name(SharePrefUtil.getInstance().getUserNickName());
+		item.setUid(SharePrefUtil.getInstance().getUserId());
+		item.setSymbol_name(Symbol_name);
+		item.setContent(content);
+		return item;
+	}
 //
 //	*
 //	 * 创建回复评论
 //	 * @return
 //
-//	public static CommentItem createReplyComment(User replyUser, String content){
-//		CommentItem item = new CommentItem();
-//		item.setId(String.valueOf(commentId++));
-//		item.setContent(content);
-//		item.setUser(curUser);
-//		item.setToReplyUser(replyUser);
-//		return item;
-//	}
+	public static CircleFriendBean.CircleListBean.CommentListBean createReplyComment(String content,String Symbol_name){
+		CircleFriendBean.CircleListBean.CommentListBean item = new CircleFriendBean.CircleListBean.CommentListBean();
+		item.setDirection(2);
+		item.setUser_name(SharePrefUtil.getInstance().getUserNickName());
+		item.setUid(SharePrefUtil.getInstance().getUserId());
+		item.setSymbol_name(Symbol_name);
+		item.setContent(content);
+		return item;
+	}
 //
 //
 //	public static CircleItem createVideoItem(String videoUrl, String imgUrl){

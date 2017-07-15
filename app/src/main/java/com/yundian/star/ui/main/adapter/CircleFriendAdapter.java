@@ -93,17 +93,17 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
                                 CommentConfig config = new CommentConfig();
                                 config.circlePosition = position;
                                 config.commentPosition = commentPosition;
+                                config.Circle_id = circleItem.getCircle_id();
                                 config.commentType = CommentConfig.Type.REPLY;
-                                config.uid = commentItem.getUid();
-                                config.user_name = commentItem.getUser_name();
-                                config.symbol_name = commentItem.getSymbol_name();
+                                config.symbol_name = circleItem.getSymbol_name();
+                                config.symbol_code = circleItem.getSymbol();
                                 presenter.showEditTextBody(config);
                             }
                         }
                     }
                 });
 
-                circleViewHolder.commentList.setDatas(commentsDatas);
+                circleViewHolder.commentList.setDatas(commentsDatas,circleItem.getSymbol_name());
                 circleViewHolder.commentList.setVisibility(View.VISIBLE);
 
             }else {
@@ -176,6 +176,9 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
                         CommentConfig config = new CommentConfig();
                         config.circlePosition = mCirclePosition;
                         config.commentType = CommentConfig.Type.PUBLIC;
+                        config.Circle_id = mCircleItem.getCircle_id();
+                        config.symbol_name = mCircleItem.getSymbol_name();
+                        config.symbol_code = mCircleItem.getSymbol();
                         presenter.showEditTextBody(config);
                     }
                     break;
