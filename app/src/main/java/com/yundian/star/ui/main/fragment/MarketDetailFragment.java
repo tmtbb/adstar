@@ -15,8 +15,8 @@ import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.StarListReturnBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
-import com.yundian.star.ui.main.activity.CircleFriendsActivity;
 import com.yundian.star.ui.main.activity.SearchActivity;
+import com.yundian.star.ui.main.activity.StarTimeDealActivity;
 import com.yundian.star.ui.main.adapter.MarketDetailAdapter;
 import com.yundian.star.utils.CheckLoginUtil;
 import com.yundian.star.utils.LogUtils;
@@ -145,7 +145,8 @@ public class MarketDetailFragment extends BaseFragment {
             @Override
             public void onItemClick(View view, int position) {
                 if (CheckLoginUtil.checkLogin(getActivity())) {
-                    startActivity(CircleFriendsActivity.class);
+                    //startActivity(CircleFriendsActivity.class);
+                    startActivity(StarTimeDealActivity.class);
 //                    LogUtils.logd(position + "");
 //                    StarListbeen.SymbolInfoBean infoBean = list.get(position);
 //                    Intent intent = new Intent(getActivity(), StarTimeShareActivity.class);

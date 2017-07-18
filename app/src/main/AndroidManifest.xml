@@ -180,6 +180,12 @@
             android:launchMode="singleTask"></activity>
         <activity android:name=".ui.main.activity.StarInfoActivity"></activity>
         <activity android:name=".ui.main.activity.StarSellActivity"></activity>
+
+        <activity android:name=".ui.main.activity.StarTimeDealActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            >
+        </activity>
         <!--友盟sdk-->
         <meta-data
             android:name="UMENG_APPKEY"
