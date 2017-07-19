@@ -1,22 +1,36 @@
 package com.yundian.star.ui.main.activity;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.LinearGradient;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.style.ImageSpan;
-import android.text.style.TextAppearanceSpan;
+import android.text.Spanned;
+import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.WindowManager;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.netease.nimlib.jsbridge.util.LogUtil;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.utils.DisplayUtil;
+import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.widget.BiliDanmukuParser;
+import com.yundian.star.widget.CenteredImageSpan;
+import com.yundian.star.widget.CircleDrawable;
 
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
@@ -48,6 +62,7 @@ import master.flame.danmaku.danmaku.parser.IDataSource;
 public class StarTimeDealActivity extends BaseActivity {
 
     private IDanmakuView mDanmakuView;
+    private ImageView img_head;
     private DanmakuContext mDanmakuContext;
     private BaseDanmakuParser mParser;
     private int widthPixels;
@@ -69,6 +84,7 @@ public class StarTimeDealActivity extends BaseActivity {
     @Override
     public void initView() {
         initFindById();
+        setSize();
         getKuanGao();
         getData();
     }
@@ -83,6 +99,7 @@ public class StarTimeDealActivity extends BaseActivity {
 
     private void initFindById() {
         mDanmakuView = (IDanmakuView) findViewById(R.id.sv_danmaku);
+        img_head = (ImageView) findViewById(R.id.img_head);
         mDanmakuContext = DanmakuContext.create();
         if (myHandler == null) {
             myHandler = new MyHandler(this);
@@ -111,7 +128,7 @@ public class StarTimeDealActivity extends BaseActivity {
 
                     }
                 }) // 图文混排使用SpannedCacheStuffer
-//        .setCacheStuffer(new BackgroundCacheStuffer())  // 绘制背景使用BackgroundCacheStuffer
+                .setCacheStuffer(new BackgroundCacheStuffer(), mCacheStufferAdapter)  // 绘制背景使用BackgroundCacheStuffer
                 .setMaximumLines(maxLinesPair)
                 .preventOverlapping(overlappingEnablePair).setDanmakuMargin(40);
         if (mDanmakuView != null) {
@@ -178,9 +195,9 @@ public class StarTimeDealActivity extends BaseActivity {
     }
 
 
-    private void addDanmaKuShowTextAndImage(String content, boolean islive) {
+    private void addDanmaKuShowTextAndImage(String content, final boolean islive) {
         //Math.floor(Math.random()*(max-min+1)+min);
-        BaseDanmaku danmaku = mDanmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SPECIAL, mDanmakuContext);
+        final BaseDanmaku danmaku = mDanmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SPECIAL, mDanmakuContext);
         float floor = (float) Math.floor(Math.random() * (6 + 4 + 1) - 3);
         float floorY = (float) Math.floor(Math.random() * (10 - 1 + 1) + 1);
         float dH = floor * 100 * display;
@@ -194,7 +211,6 @@ public class StarTimeDealActivity extends BaseActivity {
         Log.e("(long)3:", (long) Math.sqrt(Math.pow(widthPixels + dH + dY, 2.0)) * 3 + "");
         Log.e("(long)4:", (long) (7 * widthPixels + (floor > 0 ? floor * (widthPixels + dH + dY) : floor * 100)) + "");
         //(long) (7*widthPixels + (floor > 0 ? floor * (widthPixels + dH + dY): floor * 100))
-
         mDanmakuContext.mDanmakuFactory.fillAlphaData(danmaku, AlphaValue.MAX * 1, AlphaValue.MAX * 1, 1000 * 600);
         mDanmakuContext.setMaximumVisibleSizeInScreen(30);
         if (danmaku == null || mDanmakuView == null) {
@@ -203,29 +219,48 @@ public class StarTimeDealActivity extends BaseActivity {
 
         danmaku.rotationY = -1;
         danmaku.rotationZ = -45;
-        Drawable drawable = getResources().getDrawable(R.drawable.ic_home_normal);
-        drawable.setBounds(0, 0, DisplayUtil.dip2px(20), DisplayUtil.dip2px(20));
-        SpannableStringBuilder spannable = createSpannable(drawable);
-        danmaku.text = spannable;
-        danmaku.padding = 5;
-        danmaku.setDuration(new Duration(120000));
-        danmaku.priority = 1;  // 一定会显示, 一般用于本机发送的弹幕
-        danmaku.isLive = islive;
-        danmaku.setTime(mDanmakuView.getCurrentTime());
-        danmaku.textSize = DisplayUtil.sp2px(20);
-        danmaku.textColor = Color.RED;
-        danmaku.textShadowColor = 0; // 重要：如果有图文混排，最好不要设置描边(设textShadowColor=0)，否则会进行两次复杂的绘制导致运行效率降低
-        danmaku.underlineColor = Color.GREEN;
-        mDanmakuView.addDanmaku(danmaku);
+        // Drawable drawable = getResources().getDrawable(R.drawable.ic_home_normal);
+        //drawable.setBounds(0, 0, DisplayUtil.dip2px(40), DisplayUtil.dip2px(40));
+        String url = "http://tva2.sinaimg.cn/crop.0.1.510.510.180/48e837eejw8ex30o7eoylj20e60e8wet.jpg";
+        //ImageLoaderUtils.displaySmallPhoto();
+        Glide.with(mContext).load(url)
+                .asBitmap()
+                .into(new SimpleTarget<Bitmap>() {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                img_head.setImageBitmap(resource);
+                Bitmap bitmap = ImageLoaderUtils.getDefaultBitmap(resource,45,BITMAP_WIDTH,BITMAP_HEIGHT);
+                CircleDrawable drawable = new CircleDrawable(bitmap);
+                //BitmapDrawable drawable=new BitmapDrawable(resource);
+                //Drawable drawable = getResources().getDrawable(R.drawable.ic_home_normal);
+                LogUtil.e("danmaku"+danmaku.getLeft()+"");
+                drawable.setBounds(0, 0, BITMAP_WIDTH,BITMAP_HEIGHT);
+                SpannableStringBuilder spannable = createSpannable(drawable);
+                danmaku.text = spannable;
+                danmaku.padding = DANMU_PADDING;
+                danmaku.setDuration(new Duration(120000));
+                danmaku.priority = 1;  // 一定会显示, 一般用于本机发送的弹幕
+                danmaku.isLive = islive;
+                danmaku.setTime(mDanmakuView.getCurrentTime());
+                danmaku.textSize = DANMU_TEXT_SIZE;
+                danmaku.textColor = Color.RED;
+                danmaku.underlineColor = 0;
+                danmaku.textShadowColor = 0; // 重要：如果有图文混排，最好不要设置描边(设textShadowColor=0)，否则会进行两次复杂的绘制导致运行效率降低
+                mDanmakuView.addDanmaku(danmaku);
+            }
+        });
+
     }
 
     private SpannableStringBuilder createSpannable(Drawable drawable) {
         String text = "bitmap";
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
-        ImageSpan span = new ImageSpan(drawable);//ImageSpan.ALIGN_BOTTOM);
+        //CenteredImageSpan span = new CenteredImageSpan(drawable);//ImageSpan.ALIGN_BOTTOM);
+        CenteredImageSpan span = new CenteredImageSpan(drawable);
+        //ImageSpan span = new ImageSpan(resource);
         spannableStringBuilder.setSpan(span, 0, text.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-        spannableStringBuilder.append("图文混排");
-        spannableStringBuilder.setSpan(new TextAppearanceSpan(this, R.style.style_pingjie), 0, spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        spannableStringBuilder.append("   图文混排                   ");
+        //spannableStringBuilder.setSpan(new TextAppearanceSpan(this, R.style.style_pingjie), 0, spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         return spannableStringBuilder;
     }
 
@@ -312,5 +347,84 @@ public class StarTimeDealActivity extends BaseActivity {
             mDanmakuView.release();
             mDanmakuView = null;
         }
+    }
+
+    //这两个用来控制两行弹幕之间的间距
+    private int   BITMAP_WIDTH    = 40;//头像的大小
+    private int   BITMAP_HEIGHT   = 40;
+    private float DANMU_TEXT_SIZE = 14f;//弹幕字体的大小
+    private int DANMU_PADDING = 10;
+    private int DANMU_PADDING_INNER = 7;
+    private int DANMU_RADIUS = 11;//圆角半径
+
+    /**
+     * 绘制背景(自定义弹幕样式)
+     */
+    private class BackgroundCacheStuffer extends SpannedCacheStuffer {
+        // 通过扩展SimpleTextCacheStuffer或SpannedCacheStuffer个性化你的弹幕样式
+         Paint paint = new Paint();
+
+        @Override
+        public void measure(BaseDanmaku danmaku, TextPaint paint, boolean fromWorkerThread) {
+//            danmaku.padding = 20;  // 在背景绘制模式下增加padding
+            super.measure(danmaku, paint, fromWorkerThread);
+        }
+
+        @Override
+        public void drawBackground(BaseDanmaku danmaku, Canvas canvas, float left, float top) {
+            paint.setAntiAlias(true);
+            LinearGradient mLinearGradient = new LinearGradient(0, 0, danmaku.paintWidth, 0, 0xFFE69A17, 0xFFfafafa, Shader.TileMode.CLAMP);
+            //new LinearGradient(float x0, float y0, float x1, float y1, int color0, int color1, TileMode tile)
+            paint.setShader(mLinearGradient);
+//            canvas.drawRoundRect(new RectF(20+left + DANMU_PADDING_INNER, top + DANMU_PADDING_INNER-12
+//                            , left + danmaku.paintWidth - DANMU_PADDING_INNER + 6,
+//                            top + danmaku.paintHeight - DANMU_PADDING_INNER + 6+10),//+6 主要是底部被截得太厉害了，+6是增加padding的效果
+//                    DANMU_RADIUS, DANMU_RADIUS, paint);
+//            canvas.drawRoundRect(new RectF(20 + left + DANMU_PADDING_INNER, top + 20 + DANMU_PADDING_INNER - 5
+//                            , 20 + left + danmaku.paintWidth - DANMU_PADDING_INNER + 6,
+//                            5 + top + danmaku.paintHeight - DANMU_PADDING_INNER + 6 - 20),
+//                    DANMU_RADIUS, DANMU_RADIUS, paint);
+            LogUtil.e("danmaku"+left+"");
+            canvas.drawRoundRect(new RectF(BITMAP_WIDTH/2+left + DANMU_PADDING_INNER, top + DANMU_PADDING_INNER
+                            , left + danmaku.paintWidth - DANMU_PADDING_INNER + 6+BITMAP_WIDTH/2,
+                            top + danmaku.paintHeight - DANMU_PADDING_INNER + 6),//+6 主要是底部被截得太厉害了，+6是增加padding的效果
+                    0, 0, paint);
+        }
+
+        @Override
+        public void drawStroke(BaseDanmaku danmaku, String lineText, Canvas canvas, float left, float top, Paint paint) {
+            // 禁用描边绘制
+        }
+
+    }
+
+    private BaseCacheStuffer.Proxy mCacheStufferAdapter = new BaseCacheStuffer.Proxy() {
+
+        @Override
+        public void prepareDrawing(final BaseDanmaku danmaku, boolean fromWorkerThread) {
+//            if (danmaku.text instanceof Spanned) { // 根据你的条件检查是否需要需要更新弹幕
+//            }
+        }
+
+        @Override
+        public void releaseResource(BaseDanmaku danmaku) {
+            // TODO 重要:清理含有ImageSpan的text中的一些占用内存的资源 例如drawable
+            if (danmaku.text instanceof Spanned) {
+                danmaku.text = "";
+            }
+        }
+    };
+
+    /**
+     * 对数值进行转换，适配手机，必须在初始化之前，否则有些数据不会起作用
+     */
+    private void setSize() {
+        BITMAP_WIDTH = DisplayUtil.dp2pxConvertInt(BITMAP_HEIGHT);
+        BITMAP_HEIGHT = DisplayUtil.dp2pxConvertInt(BITMAP_HEIGHT);
+//        EMOJI_SIZE = DpOrSp2PxUtil.dp2pxConvertInt(context, EMOJI_SIZE);
+        DANMU_PADDING = DisplayUtil.dp2pxConvertInt(DANMU_PADDING);
+        DANMU_PADDING_INNER = DisplayUtil.dp2pxConvertInt(DANMU_PADDING_INNER);
+        DANMU_RADIUS = DisplayUtil.dp2pxConvertInt(DANMU_RADIUS);
+        DANMU_TEXT_SIZE = DisplayUtil.sp2px(DANMU_TEXT_SIZE);
     }
 }
