@@ -138,12 +138,13 @@ public class ImageLoaderUtils {
                 .error(resurce)
                 .crossFade().into(imageView);
     }
-    public static Bitmap getDefaultBitmap(Bitmap mDefauleBitmap,float rotateRotationAngle,float BITMAP_WIDTH,float BITMAP_HEIGHT) {
+    public static Bitmap getDefaultBitmap(Bitmap mDefauleBitmap,int rotateRotationAngle,float BITMAP_WIDTH,float BITMAP_HEIGHT) {
        // Bitmap bitmap = BitmapFactory.decodeResource(AppApplication.getAppContext().getResources(), drawableId);
             int width = mDefauleBitmap.getWidth();
             int height = mDefauleBitmap.getHeight();
             Matrix matrix = new Matrix();
             //matrix.postRotate(rotateRotationAngle);
+            //matrix.setRotate(rotateRotationAngle,((float) BITMAP_WIDTH) / width,((float) BITMAP_HEIGHT) / height);
             matrix.postScale(((float) BITMAP_WIDTH) / width, ((float) BITMAP_HEIGHT) / height);
             mDefauleBitmap = Bitmap.createBitmap(mDefauleBitmap, 0, 0, width, height, matrix, true);
             return mDefauleBitmap;

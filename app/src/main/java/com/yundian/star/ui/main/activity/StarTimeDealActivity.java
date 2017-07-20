@@ -3,7 +3,6 @@ package com.yundian.star.ui.main.activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
@@ -36,12 +35,12 @@ import java.io.InputStream;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import master.flame.danmaku.controller.IDanmakuView;
 import master.flame.danmaku.danmaku.loader.ILoader;
 import master.flame.danmaku.danmaku.loader.IllegalDataException;
 import master.flame.danmaku.danmaku.loader.android.DanmakuLoaderFactory;
-import master.flame.danmaku.danmaku.model.AlphaValue;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
 import master.flame.danmaku.danmaku.model.DanmakuTimer;
 import master.flame.danmaku.danmaku.model.Duration;
@@ -91,10 +90,11 @@ public class StarTimeDealActivity extends BaseActivity {
 
     private void getData() {
         list = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 100; i++) {
             list.add("i");
         }
         myHandler.sendEmptyMessage(MyHandler.GRT_DATA);
+
     }
 
     private void initFindById() {
@@ -116,7 +116,7 @@ public class StarTimeDealActivity extends BaseActivity {
         overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_RL, true);
         overlappingEnablePair.put(BaseDanmaku.TYPE_FIX_TOP, true);
         overlappingEnablePair.put(BaseDanmaku.TYPE_SPECIAL, true);
-        mDanmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3).setDuplicateMergingEnabled(false).setScrollSpeedFactor(1.2f).setScaleTextSize(1.2f)
+        mDanmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_NONE, 3).setDuplicateMergingEnabled(false).setScrollSpeedFactor(1.2f).setScaleTextSize(1.2f)
                 .setCacheStuffer(new SpannedCacheStuffer(), new BaseCacheStuffer.Proxy() {
                     @Override
                     public void prepareDrawing(BaseDanmaku danmaku, boolean fromWorkerThread) {
@@ -177,8 +177,6 @@ public class StarTimeDealActivity extends BaseActivity {
                 }
             });
             mDanmakuView.prepare(mParser, mDanmakuContext);
-
-
             mDanmakuView.enableDanmakuDrawingCache(true);
         }
     }
@@ -191,7 +189,6 @@ public class StarTimeDealActivity extends BaseActivity {
                 myHandler.sendEmptyMessageDelayed(MyHandler.GRT_DATA, 1000);
             }
         }
-        ;
     }
 
 
@@ -202,21 +199,21 @@ public class StarTimeDealActivity extends BaseActivity {
         float floorY = (float) Math.floor(Math.random() * (10 - 1 + 1) + 1);
         float dH = floor * 100 * display;
         float dY = floorY * 20 * display;
+        float d = (widthPixels + dH + dY);
         Log.e("floor:", floor + "");
-        mDanmakuContext.mDanmakuFactory.fillTranslationData(danmaku, widthPixels + dH + dY,
-                0, -1 * (widthPixels + dH + dY), 2 * (widthPixels + dH + dY), (long) (Math.sqrt(Math.pow(widthPixels + dH + dY, 2.0)) * 4 + dH), 0, 1, 1);
+        mDanmakuContext.mDanmakuFactory.fillTranslationData(danmaku, d,
+                0, -1 * d, 2 * d, (long) (Math.sqrt(2) * d*(5/display)+ dH), 0, 1, 1);
         Log.e("(long)判断:", widthPixels + ".." + heightPixels);
-        Log.e("(long)1:", (float) (-0.8 * (widthPixels + dH + dY)) + "");
-        Log.e("(long)2:", (float) (2 * (widthPixels + dH + dY)) + "");
-        Log.e("(long)3:", (long) Math.sqrt(Math.pow(widthPixels + dH + dY, 2.0)) * 3 + "");
-        Log.e("(long)4:", (long) (7 * widthPixels + (floor > 0 ? floor * (widthPixels + dH + dY) : floor * 100)) + "");
+        Log.e("(long)1:", (float) (-d) + "");
+        Log.e("(long)2:", (float) (2 * d) + "");
+       // Log.e("(long)3:", (long) Math.sqrt(Math.pow(d, 2.0)) * 3 + "");
+        Log.e("(long)4:", (long) (Math.sqrt(2) * d*5+ dH) + "");
         //(long) (7*widthPixels + (floor > 0 ? floor * (widthPixels + dH + dY): floor * 100))
-        mDanmakuContext.mDanmakuFactory.fillAlphaData(danmaku, AlphaValue.MAX * 1, AlphaValue.MAX * 1, 1000 * 600);
+        //mDanmakuContext.mDanmakuFactory.fillAlphaData(danmaku, AlphaValue.MAX * 1, AlphaValue.MAX * 1, 1000 * 600);
         mDanmakuContext.setMaximumVisibleSizeInScreen(30);
         if (danmaku == null || mDanmakuView == null) {
             return;
         }
-
         danmaku.rotationY = -1;
         danmaku.rotationZ = -45;
         // Drawable drawable = getResources().getDrawable(R.drawable.ic_home_normal);
@@ -225,6 +222,8 @@ public class StarTimeDealActivity extends BaseActivity {
         //ImageLoaderUtils.displaySmallPhoto();
         Glide.with(mContext).load(url)
                 .asBitmap()
+                .placeholder(R.drawable.user_default_head)
+                .error(R.drawable.user_default_head)
                 .into(new SimpleTarget<Bitmap>() {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -238,14 +237,15 @@ public class StarTimeDealActivity extends BaseActivity {
                 SpannableStringBuilder spannable = createSpannable(drawable);
                 danmaku.text = spannable;
                 danmaku.padding = DANMU_PADDING;
-                danmaku.setDuration(new Duration(120000));
+                danmaku.setDuration(new Duration(1000*60));
                 danmaku.priority = 1;  // 一定会显示, 一般用于本机发送的弹幕
                 danmaku.isLive = islive;
                 danmaku.setTime(mDanmakuView.getCurrentTime());
                 danmaku.textSize = DANMU_TEXT_SIZE;
-                danmaku.textColor = Color.RED;
+                danmaku.textColor = 0xfafafafa;
                 danmaku.underlineColor = 0;
                 danmaku.textShadowColor = 0; // 重要：如果有图文混排，最好不要设置描边(设textShadowColor=0)，否则会进行两次复杂的绘制导致运行效率降低
+                LogUtil.e("mDanmakuView.addDanmaku(danmaku);:");
                 mDanmakuView.addDanmaku(danmaku);
             }
         });
@@ -261,6 +261,7 @@ public class StarTimeDealActivity extends BaseActivity {
         spannableStringBuilder.setSpan(span, 0, text.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         spannableStringBuilder.append("   图文混排                   ");
         //spannableStringBuilder.setSpan(new TextAppearanceSpan(this, R.style.style_pingjie), 0, spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+        //spannableStringBuilder.setSpan(new BackgroundColorSpan(Color.parseColor("#fafafa")), 0, spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         return spannableStringBuilder;
     }
 
@@ -363,7 +364,7 @@ public class StarTimeDealActivity extends BaseActivity {
     private class BackgroundCacheStuffer extends SpannedCacheStuffer {
         // 通过扩展SimpleTextCacheStuffer或SpannedCacheStuffer个性化你的弹幕样式
          Paint paint = new Paint();
-
+         int[] colors = {0xFFE69A17,0xFFFF3052,0xFF4FBEDC,0xFFAA3FBD};
         @Override
         public void measure(BaseDanmaku danmaku, TextPaint paint, boolean fromWorkerThread) {
 //            danmaku.padding = 20;  // 在背景绘制模式下增加padding
@@ -373,17 +374,10 @@ public class StarTimeDealActivity extends BaseActivity {
         @Override
         public void drawBackground(BaseDanmaku danmaku, Canvas canvas, float left, float top) {
             paint.setAntiAlias(true);
-            LinearGradient mLinearGradient = new LinearGradient(0, 0, danmaku.paintWidth, 0, 0xFFE69A17, 0xFFfafafa, Shader.TileMode.CLAMP);
+            int i = new Random().nextInt(4);
+            LinearGradient mLinearGradient = new LinearGradient(0, 0, danmaku.paintWidth, 0, colors[i], 0xFFfafafa, Shader.TileMode.CLAMP);
             //new LinearGradient(float x0, float y0, float x1, float y1, int color0, int color1, TileMode tile)
             paint.setShader(mLinearGradient);
-//            canvas.drawRoundRect(new RectF(20+left + DANMU_PADDING_INNER, top + DANMU_PADDING_INNER-12
-//                            , left + danmaku.paintWidth - DANMU_PADDING_INNER + 6,
-//                            top + danmaku.paintHeight - DANMU_PADDING_INNER + 6+10),//+6 主要是底部被截得太厉害了，+6是增加padding的效果
-//                    DANMU_RADIUS, DANMU_RADIUS, paint);
-//            canvas.drawRoundRect(new RectF(20 + left + DANMU_PADDING_INNER, top + 20 + DANMU_PADDING_INNER - 5
-//                            , 20 + left + danmaku.paintWidth - DANMU_PADDING_INNER + 6,
-//                            5 + top + danmaku.paintHeight - DANMU_PADDING_INNER + 6 - 20),
-//                    DANMU_RADIUS, DANMU_RADIUS, paint);
             LogUtil.e("danmaku"+left+"");
             canvas.drawRoundRect(new RectF(BITMAP_WIDTH/2+left + DANMU_PADDING_INNER, top + DANMU_PADDING_INNER
                             , left + danmaku.paintWidth - DANMU_PADDING_INNER + 6+BITMAP_WIDTH/2,

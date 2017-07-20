@@ -61,6 +61,7 @@ public enum Host {
        // return "api.star.smartdata-x.com";
 //        return "61.147.114.87";
         return "139.224.34.22";
+        //return  "122.144.169.214" ;
 //        return "61.147.114.78";
 //        return "192.168.8.131";
     }
