@@ -93,6 +93,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
     private String starTypeInfo[] = {"网红", "娱乐明星", "体育明星", "艺人", "海外知名人士", "测试"};
     private StarListReturnBean.SymbolInfoBean symbolInfoBean;
     private TextView tv_time;
+    private ImageView qiu;
 
     @Override
     public int getLayoutId() {
@@ -118,6 +119,9 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
         for (int i = 0; i < 100; i++) {
             list.add("i");
         }
+        if (list.size()>0){
+            qiu.setImageAlpha(125);
+        }
         initTradingStatus(false);
         //myHandler.sendEmptyMessage(MyHandler.GRT_DATA);
 
@@ -125,6 +129,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
 
     private void initFindById() {
         mDanmakuView = (IDanmakuView) findViewById(R.id.sv_danmaku);
+        qiu = (ImageView) findViewById(R.id.qiu);
         tv_back = (TextView) findViewById(R.id.tv_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
         tv_right = (TextView) findViewById(R.id.tv_right);
@@ -341,6 +346,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.tv_right:
+                startActivity(FleaMarketActivity.class);
                 break;
             case R.id.tv_transfer:
                 Intent intent = new Intent(this, BuyTransferIndentActivity.class);

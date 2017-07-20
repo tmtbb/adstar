@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.yundian.star.widget.NormalTitleBar
+        android:id="@+id/nt_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></com.yundian.star.widget.NormalTitleBar>
+
+    <master.flame.danmaku.ui.widget.DanmakuView
+        android:id="@+id/sv_danmaku"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+         />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#ff0000"></View>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/star_list"
+        android:textColor="@color/color_black_333333"
+        android:textSize="@dimen/fontSize_14sp" />
+
+    <com.github.jdsjlzx.recyclerview.LRecyclerView
+        android:id="@+id/lrv"
+        android:layout_width="match_parent"
+        android:layout_height="280dp"></com.github.jdsjlzx.recyclerview.LRecyclerView>
+
+</LinearLayout>

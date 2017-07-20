@@ -212,6 +212,7 @@
     <color name="color_dcdcdc">#dcdcdc</color>
     <color name="color_ffffff">#ffffff</color>
     <color name="color_0000FF">#0000FF</color>
+    <color name="color_7f000000">#47000000</color>
 
     <!-- main bg color -->
     <color name="g_child_page_bg_color">#FFFFFF</color>
