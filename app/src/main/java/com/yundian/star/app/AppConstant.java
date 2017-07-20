@@ -18,6 +18,7 @@ public class AppConstant {
     public static final String HOME_CURRENT_TAB_POSITION="HOME_CURRENT_TAB_POSITION";
     public static final String MENU_SHOW_HIDE="MENU_SHOW_HIDE";
     public static final String AUCTION_TYPE="AUCTION_TYPE";
+    public static final String SYMBOL_INFO_BEAN="SYMBOL_INFO_BEAN";
 
    /*行情*/
     public static final String MARKET_DETAIL_NAME = "market_detail_name";

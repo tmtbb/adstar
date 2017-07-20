@@ -1,5 +1,6 @@
 package com.yundian.star.ui.main.fragment;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -11,6 +12,7 @@ import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
+import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.StarListReturnBean;
 import com.yundian.star.listener.OnAPIListener;
@@ -146,15 +148,15 @@ public class MarketDetailFragment extends BaseFragment {
             public void onItemClick(View view, int position) {
                 if (CheckLoginUtil.checkLogin(getActivity())) {
                     //startActivity(CircleFriendsActivity.class);
-                    startActivity(StarTimeDealActivity.class);
+                    //startActivity(StarTimeDealActivity.class);
 //                    LogUtils.logd(position + "");
-//                    StarListbeen.SymbolInfoBean infoBean = list.get(position);
-//                    Intent intent = new Intent(getActivity(), StarTimeShareActivity.class);
-//                    intent.putExtra(AppConstant.STAR_CODE, infoBean.getSymbol());
+                    StarListReturnBean.SymbolInfoBean symbolInfoBean = list.get(position);
+                    Intent intent = new Intent(getActivity(), StarTimeDealActivity.class);
+                    intent.putExtra(AppConstant.SYMBOL_INFO_BEAN, symbolInfoBean);
 //                    intent.putExtra(AppConstant.STAR_NAME, infoBean.getName());
 //                    intent.putExtra(AppConstant.STAR_WID, infoBean.getWid());
 //                    intent.putExtra(AppConstant.STAR_HEAD_URL, infoBean.getPic());
-//                    startActivity(intent);
+                    startActivity(intent);
                 }
             }
         });

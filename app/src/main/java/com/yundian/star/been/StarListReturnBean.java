@@ -1,5 +1,8 @@
 package com.yundian.star.been;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 
 /**
@@ -18,7 +21,7 @@ public class StarListReturnBean {
         this.symbol_info = symbol_info;
     }
 
-    public static class SymbolInfoBean {
+    public static class SymbolInfoBean implements Parcelable {
         /**
          * change : 0
          * currentPrice : 0
@@ -171,5 +174,58 @@ public class StarListReturnBean {
                     ", wid='" + wid + '\'' +
                     '}';
         }
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeFloat(this.change);
+            dest.writeFloat(this.currentPrice);
+            dest.writeString(this.home_button_pic);
+            dest.writeString(this.home_pic);
+            dest.writeString(this.name);
+            dest.writeFloat(this.pchg);
+            dest.writeString(this.pic);
+            dest.writeLong(this.priceTime);
+            dest.writeInt(this.pushlish_type);
+            dest.writeInt(this.star_type);
+            dest.writeString(this.symbol);
+            dest.writeLong(this.sysTime);
+            dest.writeString(this.wid);
+        }
+
+        public SymbolInfoBean() {
+        }
+
+        protected SymbolInfoBean(Parcel in) {
+            this.change = in.readFloat();
+            this.currentPrice = in.readFloat();
+            this.home_button_pic = in.readString();
+            this.home_pic = in.readString();
+            this.name = in.readString();
+            this.pchg = in.readFloat();
+            this.pic = in.readString();
+            this.priceTime = in.readLong();
+            this.pushlish_type = in.readInt();
+            this.star_type = in.readInt();
+            this.symbol = in.readString();
+            this.sysTime = in.readLong();
+            this.wid = in.readString();
+        }
+
+        public static final Parcelable.Creator<SymbolInfoBean> CREATOR = new Parcelable.Creator<SymbolInfoBean>() {
+            @Override
+            public SymbolInfoBean createFromParcel(Parcel source) {
+                return new SymbolInfoBean(source);
+            }
+
+            @Override
+            public SymbolInfoBean[] newArray(int size) {
+                return new SymbolInfoBean[size];
+            }
+        };
     }
 }

@@ -341,6 +341,7 @@
     <string name="forget_deal_pwd">忘记交易密码</string>
     <string name="no_bind_bank_tips">您还没有绑定银行卡</string>
     <string name="bind_bank_now">立即绑定</string>
+    <string name="deal_time_count">交易倒计时</string>
 
     <string name="bind_bank_tips">\t\t\t\t需要绑定银行卡才能进行充值等相关操作。绑定银行卡后，可以在预售、购买、兑换时、用该银行卡进行交易。</string>
     <string name="booking_time_status">约见时间 %1$s</string>
@@ -367,6 +368,8 @@
     <string name="message_search_title">搜索本地消息记录</string>
     <string name="message_clear">清空本地消息记录</string>
     <string name="message_info">聊天信息</string>
+    <string name="time_deal">时间交易</string>
+    <string name="flea_market">跳蚤市场</string>
 
     <!-- 通讯录 -->
     <string name="add_friend">加为好友</string>

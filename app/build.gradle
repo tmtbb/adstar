@@ -146,4 +146,5 @@ dependencies {
     compile 'com.github.ctiao:ndkbitmap-armv7a:0.8.3'
     compile 'com.github.ctiao:ndkbitmap-armv5:0.8.3'
     compile 'com.github.ctiao:ndkbitmap-x86:0.8.3'
+    compile 'com.android.support:percent:25+'
 }
