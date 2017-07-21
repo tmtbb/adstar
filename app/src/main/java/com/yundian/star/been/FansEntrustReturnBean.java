@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by sll on 2017/6/15.
@@ -13,13 +12,13 @@ import java.util.List;
 public class FansEntrustReturnBean implements Parcelable {
 
 
-    private List<PositionsListBean> positionsList;
+    private ArrayList<PositionsListBean> positionsList;
 
-    public List<PositionsListBean> getPositionsList() {
+    public ArrayList<PositionsListBean> getPositionsList() {
         return positionsList;
     }
 
-    public void setPositionsList(List<PositionsListBean> positionsList) {
+    public void setPositionsList(ArrayList<PositionsListBean> positionsList) {
         this.positionsList = positionsList;
     }
 

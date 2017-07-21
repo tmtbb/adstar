@@ -39,7 +39,7 @@
                 android:src="@drawable/close" />
         </RelativeLayout>
 
-        <EditText
+        <!--<EditText
             android:inputType="number"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
@@ -72,7 +72,7 @@
             android:textCursorDrawable="@drawable/edit_cursor"
             android:hint="@string/input_area_broker_id"
             android:gravity="center"
-            />
+            />-->
 
         <EditText
             android:inputType="number"
@@ -106,7 +106,7 @@
         <Button
             android:id="@+id/btn_enter_star"
             style="@style/ButtonLogin"
-            android:layout_marginTop="@dimen/dp_40"
+            android:layout_marginTop="120dp"
             android:text="@string/enter_star" />
 
     </LinearLayout>

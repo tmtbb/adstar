@@ -96,4 +96,5 @@ public interface InformationAPI {
     void getDanMaKuInfo(int pos,int count,OnAPIListener<DanMaKuInfo> listener);
     void getPraisestar(String star_code,long circle_id,long uid,OnAPIListener<ResultBeen> listener);
     void getUserAddComment(String star_code,long circle_id,long uid,int direction,String content,OnAPIListener<ResultBeen> listener);
+    void getByBuy(long uid, String token,String symbol,long amount,double price,OnAPIListener<ResultBeen> listener);
 }

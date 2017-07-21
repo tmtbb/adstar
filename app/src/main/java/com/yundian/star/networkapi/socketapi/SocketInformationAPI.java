@@ -575,4 +575,17 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         requestEntity(socketDataPacket,ResultBeen.class,listener);
     }
 
+    @Override
+    public void getByBuy(long uid, String token, String symbol, long amount, double price, OnAPIListener<ResultBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("uid", uid);
+        map.put("token", token);
+        map.put("symbol", symbol);
+        map.put("amount", amount);
+        map.put("price", price);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.ByBuy,
+                SocketAPIConstant.ReqeutType.Shopping, map);
+        requestEntity(socketDataPacket,ResultBeen.class,listener);
+    }
+
 }

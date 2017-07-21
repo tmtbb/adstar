@@ -118,6 +118,7 @@ public interface SocketAPIConstant {
         Short PresenterStar = 15009;
         Short UserAddComment = 15011;
         Short DanMaKu = 10035;
+        Short ByBuy = 14005;
 
 
 

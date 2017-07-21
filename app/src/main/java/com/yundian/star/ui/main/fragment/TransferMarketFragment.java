@@ -1,5 +1,6 @@
 package com.yundian.star.ui.main.fragment;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -17,6 +18,7 @@ import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StartShellTimeBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
+import com.yundian.star.ui.main.activity.AuctionRankingListActivity;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
@@ -59,6 +61,7 @@ public class TransferMarketFragment extends BaseFragment {
     private TextView tv_content_limit;
     private TextView tv_total;
     private TextView tv_have_star_time;
+    private TextView tv_goto_buy_hot;
 
     @Override
     protected int getLayoutResource() {
@@ -116,6 +119,7 @@ public class TransferMarketFragment extends BaseFragment {
         tv_content_limit = (TextView) rootView.findViewById(R.id.tv_content_limit);
         tv_total = (TextView) rootView.findViewById(R.id.tv_total);
         tv_have_star_time = (TextView) rootView.findViewById(R.id.tv_have_star_time);
+        tv_goto_buy_hot = (TextView)rootView.findViewById(R.id.tv_goto_buy_hot);
     }
 
     private void getData() {
@@ -283,6 +287,15 @@ public class TransferMarketFragment extends BaseFragment {
                 total_prices = buy_price * buy_num;
                 tv_total.setText(String.format("%.2f", total_prices));
                 LogUtils.loge("获取输入数量" + buy_num);
+            }
+        });
+
+        tv_goto_buy_hot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),AuctionRankingListActivity.class);
+                intent.putExtra(AppConstant.STAR_CODE,code);
+                startActivity(intent);
             }
         });
     }

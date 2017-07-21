@@ -62,6 +62,10 @@ public class HorizontalPagerFragment extends BaseFragment {
                 if (homePageInfoBean.getSymbol_info() == null || homePageInfoBean.getSymbol_info().size() == 0) {
                     showErrorView(fm_layout, R.drawable.error_view_comment, "当前没有相关数据");
                 } else {
+                    HomePageInfoBean.SymbolInfoBean bean = new HomePageInfoBean.SymbolInfoBean();
+                    bean.setPushlish_type(-1);
+                    bean.setHome_pic(homePageInfoBean.getHome_last_pic());
+                    homePageInfoBean.getSymbol_info().add(bean);
                     adapter = new HorizontalPagerAdapter(getContext(), homePageInfoBean.getSymbol_info());
                     if (!haveInitPager){
                         initPager();
