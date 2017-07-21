@@ -117,6 +117,7 @@ public interface SocketAPIConstant {
         Short CircleFrindInfo = 15001;
         Short PresenterStar = 15009;
         Short UserAddComment = 15011;
+        Short DanMaKu = 10035;
 
 
 

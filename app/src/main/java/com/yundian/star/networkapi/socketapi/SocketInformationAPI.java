@@ -8,6 +8,7 @@ import com.yundian.star.been.AskToBuyReturnBeen;
 import com.yundian.star.been.BuyShellReutrnBeen;
 import com.yundian.star.been.CircleFriendBean;
 import com.yundian.star.been.CommentMarketBeen;
+import com.yundian.star.been.DanMaKuInfo;
 import com.yundian.star.been.EntrustReturnBeen;
 import com.yundian.star.been.FansEntrustReturnBean;
 import com.yundian.star.been.FansHotBuyReturnBeen;
@@ -538,6 +539,16 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.CircleFrindInfo,
                 SocketAPIConstant.ReqeutType.CircleInfo, map);
         requestEntity(socketDataPacket,CircleFriendBean.class,listener);
+    }
+
+    @Override
+    public void getDanMaKuInfo(int pos, int count, OnAPIListener<DanMaKuInfo> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("pos", pos);
+        map.put("count", count);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.DanMaKu,
+                SocketAPIConstant.ReqeutType.NewInfos, map);
+        requestEntity(socketDataPacket,DanMaKuInfo.class,listener);
     }
 
     @Override
