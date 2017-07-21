@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Spannable;
@@ -15,6 +16,8 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 
 import com.bumptech.glide.Glide;
@@ -42,6 +45,7 @@ import master.flame.danmaku.danmaku.loader.IllegalDataException;
 import master.flame.danmaku.danmaku.loader.android.DanmakuLoaderFactory;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
 import master.flame.danmaku.danmaku.model.DanmakuTimer;
+import master.flame.danmaku.danmaku.model.Duration;
 import master.flame.danmaku.danmaku.model.IDanmakus;
 import master.flame.danmaku.danmaku.model.IDisplayer;
 import master.flame.danmaku.danmaku.model.android.BaseCacheStuffer;
@@ -70,6 +74,11 @@ public class FleaMarketActivity extends BaseActivity {
     private int temporary = 0;
     private int secondTime = 0;
     private boolean startSunTime = false;
+    private int layoutLeft;
+    private int layoutRight;
+    private int layoutHeight;
+    private int layoutBottom;
+    private View lint;
 
     @Override
     public int getLayoutId() {
@@ -84,6 +93,7 @@ public class FleaMarketActivity extends BaseActivity {
     @Override
     public void initView() {
         initFindById();
+        getKuanGao();
         setSize();
         initDanmakuView();
         initData();
@@ -103,6 +113,7 @@ public class FleaMarketActivity extends BaseActivity {
     private void initFindById() {
         NormalTitleBar nt_title = (NormalTitleBar) findViewById(R.id.nt_title);
         mDanmakuView = (DanmakuView) findViewById(R.id.sv_danmaku);
+        lint = (View) findViewById(R.id.lint);
         lrv = (LRecyclerView) findViewById(R.id.lrv);
         nt_title.setTitleText(R.string.flea_market);
         nt_title.setBackVisibility(true);
@@ -134,14 +145,14 @@ public class FleaMarketActivity extends BaseActivity {
     private void initDanmakuView() {
         // 设置最大显示行数
         HashMap<Integer, Integer> maxLinesPair = new HashMap<Integer, Integer>();
-        maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, null); // 滚动弹幕最大显示5行
+        maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, 5); // 滚动弹幕最大显示5行
         // 设置是否禁止重叠
         HashMap<Integer, Boolean> overlappingEnablePair = new HashMap<Integer, Boolean>();
         overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_RL, true);
         overlappingEnablePair.put(BaseDanmaku.TYPE_FIX_TOP, true);
         overlappingEnablePair.put(BaseDanmaku.TYPE_SPECIAL, true);
-        mDanmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3).setDuplicateMergingEnabled(false).setScrollSpeedFactor(1.8f)
-                .setScaleTextSize(1.2f).setR2LDanmakuVisibility(true).setFBDanmakuVisibility(true)
+        mDanmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_NONE, 3).setDuplicateMergingEnabled(false).setScrollSpeedFactor(0)
+                .setScaleTextSize(1.2f).setDanmakuTransparency(0.8f).setSpecialDanmakuVisibility(true)
                 .setCacheStuffer(new SpannedCacheStuffer(), new BaseCacheStuffer.Proxy() {
                     @Override
                     public void prepareDrawing(BaseDanmaku danmaku, boolean fromWorkerThread) {
@@ -155,7 +166,7 @@ public class FleaMarketActivity extends BaseActivity {
                 }) // 图文混排使用SpannedCacheStuffer
                 .setCacheStuffer(new BackgroundCacheStuffer(), mCacheStufferAdapter)  // 绘制背景使用BackgroundCacheStuffer
                 .setMaximumLines(maxLinesPair)
-                .preventOverlapping(overlappingEnablePair).setDanmakuMargin(10);
+                .preventOverlapping(overlappingEnablePair).setDanmakuMargin(40);
         if (mDanmakuView != null) {
             mParser = createParser(this.getResources().openRawResource(R.raw.comments));
             mDanmakuView.setCallback(new master.flame.danmaku.controller.DrawHandler.Callback() {
@@ -211,7 +222,7 @@ public class FleaMarketActivity extends BaseActivity {
             addDanmaKuShowTextAndImage(list.get(temporary), false);
             if (temporary < list.size() - 1 && myHandler != null) {
                 temporary++;
-                myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 1000);
+                myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 500);
             }
         }
     }
@@ -219,7 +230,24 @@ public class FleaMarketActivity extends BaseActivity {
 
     private void addDanmaKuShowTextAndImage(String content, final boolean islive) {
         //Math.floor(Math.random()*(max-min+1)+min);
-        final BaseDanmaku danmaku = mDanmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL,mDanmakuContext);
+        final BaseDanmaku danmaku = mDanmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SPECIAL, mDanmakuContext);
+        float floor = (float) Math.floor(Math.random() * (limt-2 - 1+ 1) +1);
+        float floorY = (float) Math.floor(Math.random() * (5 - 1 + 1) + 1);
+        float dH = floor * DisplayUtil.dip2px(40) ;
+        float dY = floorY * DisplayUtil.dip2px(5);
+        float d = (dH + dY);
+        Log.e("floor:", floor + "");
+        Log.e("floorY:", floorY + "");
+        mDanmakuContext.mDanmakuFactory.fillTranslationData(danmaku, widthPixels,
+                d, -widthPixels, d, (long) (widthPixels * 10*display+dH+dY),-2000, 1, 1);
+        Log.e("(limt)判断:", limt+"");
+        Log.e("(layoutHeight+dH+dY)1:", layoutHeight+dH+dY + "");
+        Log.e("(long)2:", (float) (2 * d) + "");
+        // Log.e("(long)3:", (long) Math.sqrt(Math.pow(d, 2.0)) * 3 + "");
+        Log.e("(long)4:", (long) (Math.sqrt(2) * d * 5 + dH) + "");
+        //(long) (7*widthPixels + (floor > 0 ? floor * (widthPixels + dH + dY): floor * 100))
+        //mDanmakuContext.mDanmakuFactory.fillAlphaData(danmaku, AlphaValue.MAX * 1, AlphaValue.MAX * 0, 1000 * 30);
+        mDanmakuContext.setMaximumVisibleSizeInScreen(30);
         if (danmaku == null || mDanmakuView == null) {
             return;
         }
@@ -236,14 +264,17 @@ public class FleaMarketActivity extends BaseActivity {
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                         Bitmap bitmap = ImageLoaderUtils.getDefaultBitmap(resource, 45, BITMAP_WIDTH, BITMAP_HEIGHT);
                         CircleDrawable drawable = new CircleDrawable(bitmap);
+                        //BitmapDrawable drawable=new BitmapDrawable(resource);
+                        //Drawable drawable = getResources().getDrawable(R.drawable.ic_home_normal);
                         LogUtil.e("danmaku" + danmaku.getLeft() + "");
                         drawable.setBounds(0, 0, BITMAP_WIDTH, BITMAP_HEIGHT);
                         SpannableStringBuilder spannable = createSpannable(drawable);
                         danmaku.text = spannable;
                         danmaku.padding = DANMU_PADDING;
-                        danmaku.priority = 0;  // 一定会显示, 一般用于本机发送的弹幕
+                        danmaku.setDuration(new Duration(1000 * 60));
+                        danmaku.priority = 1;  // 一定会显示, 一般用于本机发送的弹幕
                         danmaku.isLive = islive;
-                        danmaku.setTime(mDanmakuView.getCurrentTime()+1000);
+                        danmaku.setTime(mDanmakuView.getCurrentTime());
                         danmaku.textSize = DANMU_TEXT_SIZE;
                         danmaku.textColor = 0xfafafafa;
                         danmaku.underlineColor = 0;
@@ -252,7 +283,6 @@ public class FleaMarketActivity extends BaseActivity {
                         mDanmakuView.addDanmaku(danmaku);
                     }
                 });
-
     }
 
     private SpannableStringBuilder createSpannable(Drawable drawable) {
@@ -269,6 +299,7 @@ public class FleaMarketActivity extends BaseActivity {
     }
 
     private float display;
+    private int limt;
 
     private void getKuanGao() {
         WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
@@ -276,8 +307,22 @@ public class FleaMarketActivity extends BaseActivity {
         wm.getDefaultDisplay().getMetrics(dm);
         widthPixels = dm.widthPixels;
         heightPixels = dm.heightPixels;
-        display = widthPixels / 720;
+        lint.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                    layoutHeight = lint.getHeight();
+                    layoutBottom = lint.getBottom();
+                    limt = (layoutBottom - DisplayUtil.dip2px(48)) / DisplayUtil.dip2px(30);
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+                    lint.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                } else {
+                    lint.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                }
+                Log.e("layout.....", "..."+layoutHeight+"..."+layoutBottom);
+            }
+        });
         Log.e("widthPixels", widthPixels + "...heightPixels" + heightPixels);
+        display = widthPixels / 720;
     }
 
 
@@ -288,6 +333,8 @@ public class FleaMarketActivity extends BaseActivity {
     private int DANMU_PADDING = 10;
     private int DANMU_PADDING_INNER = 7;
     private int DANMU_RADIUS = 15;//圆角半径
+    private int VIEW_HEIGHT = 30;//view高
+    private int random = 10;//view高
 
     /**
      * 绘制背景(自定义弹幕样式)
@@ -350,7 +397,9 @@ public class FleaMarketActivity extends BaseActivity {
         DANMU_PADDING = DisplayUtil.dp2pxConvertInt(DANMU_PADDING);
         DANMU_PADDING_INNER = DisplayUtil.dp2pxConvertInt(DANMU_PADDING_INNER);
         DANMU_RADIUS = DisplayUtil.dp2pxConvertInt(DANMU_RADIUS);
+        VIEW_HEIGHT = DisplayUtil.dp2pxConvertInt(VIEW_HEIGHT);
         DANMU_TEXT_SIZE = DisplayUtil.sp2px(DANMU_TEXT_SIZE);
+        random = DisplayUtil.sp2px(random);
     }
 
 
@@ -379,4 +428,6 @@ public class FleaMarketActivity extends BaseActivity {
         return parser;
 
     }
+    private boolean isMusre = false ;
+
 }
