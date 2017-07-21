@@ -85,11 +85,8 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
             public void onItemClick(View view, int position) {
                 if (CheckLoginUtil.checkLogin(SearchActivity.this)){
                     SearchReturnbeen.StarsinfoBean starsinfoBean = list.get(position);
-                    Intent intent = new Intent(SearchActivity.this,StarTimeShareActivity.class);
+                    Intent intent = new Intent(SearchActivity.this,StarInfoActivity.class);
                     intent.putExtra(AppConstant.STAR_CODE, starsinfoBean.getSymbol());
-                    intent.putExtra(AppConstant.STAR_NAME, starsinfoBean.getName());
-                    intent.putExtra(AppConstant.STAR_WID, starsinfoBean.getWid());
-                    intent.putExtra(AppConstant.STAR_HEAD_URL, starsinfoBean.getPic());
                     startActivity(intent);
                 }
             }

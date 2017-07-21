@@ -141,7 +141,7 @@ public class FleaMarketActivity extends BaseActivity {
 
                     @Override
                     public void onSuccess(DanMaKuInfo danMaKuInfo) {
-                        if (danMaKuInfo!=null&&danMaKuInfo.getBarrage_info().size()>0){
+                        if (danMaKuInfo!=null&&danMaKuInfo.getBarrage_info()!=null&&danMaKuInfo.getBarrage_info().size()!=0){
                             listDanMaKu = danMaKuInfo.getBarrage_info();
                             myHandler.sendEmptyMessage(myHandler.GRT_DATA);
                         }

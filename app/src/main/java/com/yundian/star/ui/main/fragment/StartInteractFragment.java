@@ -172,6 +172,9 @@ public class StartInteractFragment extends BaseFragment {
         if (lrv!=null){
             lrv = null;
         }
+        if (interactionAdapter!=null){
+            interactionAdapter=null;
+        }
         super.onDestroy();
     }
 }

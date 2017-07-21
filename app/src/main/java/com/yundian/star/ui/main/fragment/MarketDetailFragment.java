@@ -289,6 +289,9 @@ public class MarketDetailFragment extends BaseFragment {
         if (lrv!=null){
             lrv = null ;
         }
+        if (marketDetailAdapter!=null){
+            marketDetailAdapter=null;
+        }
         super.onDestroy();
     }
 }
