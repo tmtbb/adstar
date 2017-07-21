@@ -1,0 +1,28 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/transparent"
+    android:id="@+id/fl_layout"
+    >
+    <EditText
+        android:id="@+id/commentTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:focusable="false"
+        android:enabled="false"
+        android:clickable="false"
+        android:focusableInTouchMode="false"
+        android:lineSpacingMultiplier="1.1"
+        android:paddingBottom="2dp"
+        android:paddingLeft="3dp"
+        android:paddingRight="3dp"
+        android:paddingTop="2dp"
+        android:textColor="@color/color_black_333333"
+        android:textSize="14sp" />
+    <TextView
+        android:id="@+id/tv_onclick"
+        android:background="@drawable/select_bg_trans_cccc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</FrameLayout>

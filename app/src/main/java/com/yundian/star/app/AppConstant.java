@@ -8,14 +8,17 @@ package com.yundian.star.app;
 public class AppConstant {
    //明星code
     public static final String STAR_CODE="STAR_CODE";
+    public static final String PUBLISH_TYPE="PUBLISH_TYPE";
     public static final String STAR_NAME="STAR_NAME";
     public static final String STAR_WID="STAR_WID";
     public static final String STAR_HEAD_URL="STAR_HEAD_URL";
+    public static final String STAR_BACKGROUND_URL="STAR_BACKGROUND_URL";
     public static final String MATCH_SUCESS_INFO="MATCH_SUCESS_INFO";
     public static final String MATCH_SUCESS_ORDER_INFO="MATCH_SUCESS_ORDER_INFO";
     public static final String HOME_CURRENT_TAB_POSITION="HOME_CURRENT_TAB_POSITION";
     public static final String MENU_SHOW_HIDE="MENU_SHOW_HIDE";
     public static final String AUCTION_TYPE="AUCTION_TYPE";
+    public static final String SYMBOL_INFO_BEAN="SYMBOL_INFO_BEAN";
 
    /*行情*/
     public static final String MARKET_DETAIL_NAME = "market_detail_name";
@@ -58,5 +61,8 @@ public class AppConstant {
 
     //冻结用户操作
     public static final Short FREEZE_MOVEMENT = -1000;
+
+    //首页信息
+    public static final String HOME_PAGE_STAR_INFO = "HOME_PAGE_STAR_INFO";
 
 }

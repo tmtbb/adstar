@@ -1,62 +1,93 @@
 package com.yundian.star.ui.main.fragment;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.animation.OvershootInterpolator;
+import android.widget.FrameLayout;
 
 import com.yundian.star.R;
+import com.yundian.star.base.BaseFragment;
+import com.yundian.star.been.HomePageInfoBean;
+import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.utils.DisplayUtil;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.widget.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
 import com.yundian.star.widget.infinitecycleviewpager.HorizontalPagerAdapter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
  * Created by GIGAMOLE on 8/18/16.
  */
-public class HorizontalPagerFragment extends Fragment {
+public class HorizontalPagerFragment extends BaseFragment {
 
     private int screenWidth;
     private HorizontalInfiniteCycleViewPager horizontalInfiniteCycleViewPager;
+    private long userId;
+    private String token;
+    private FrameLayout fm_layout;
+    private HorizontalPagerAdapter adapter;
 
-    @Nullable
     @Override
-    public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable final Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_horizontal, container, false);
+    protected int getLayoutResource() {
+        return R.layout.fragment_horizontal;
     }
 
     @Override
-    public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        DisplayMetrics dm =new DisplayMetrics();
+    public void initPresenter() {
+
+    }
+
+    @Override
+    protected void initView() {
+        DisplayMetrics dm = new DisplayMetrics();
         dm = getResources().getDisplayMetrics();
         screenWidth = dm.widthPixels;
-        horizontalInfiniteCycleViewPager = (HorizontalInfiniteCycleViewPager) view.findViewById(R.id.hicvp);
+        horizontalInfiniteCycleViewPager = (HorizontalInfiniteCycleViewPager) rootView.findViewById(R.id.hicvp);
+        fm_layout = (FrameLayout) rootView.findViewById(R.id.fm_layout);
+        userId = SharePrefUtil.getInstance().getUserId();
+        token = SharePrefUtil.getInstance().getToken();
         initPagerData();
-
     }
-    private List<Integer> mList = new ArrayList<>();
+
     private void initPagerData() {
-        for (int i = 0; i < 10; i++) {
-            mList.add(R.drawable.pic4);
-        }
-        LogUtils.loge("screenWidth:"+screenWidth);
-        HorizontalPagerAdapter adapter = new HorizontalPagerAdapter(getContext(), mList);
+        NetworkAPIFactoryImpl.getInformationAPI().getHomePage(userId, token, 4, new OnAPIListener<HomePageInfoBean>() {
+            @Override
+            public void onError(Throwable ex) {
+                showErrorView(fm_layout, R.drawable.error_view_comment, "当前没有相关数据");
+            }
+
+            @Override
+            public void onSuccess(HomePageInfoBean homePageInfoBean) {
+                if (homePageInfoBean.getSymbol_info() == null || homePageInfoBean.getSymbol_info().size() == 0) {
+                    showErrorView(fm_layout, R.drawable.error_view_comment, "当前没有相关数据");
+                } else {
+                    adapter = new HorizontalPagerAdapter(getContext(), homePageInfoBean.getSymbol_info());
+                    if (!haveInitPager){
+                        initPager();
+                    }else {
+                        horizontalInfiniteCycleViewPager.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
+    }
+    private boolean haveInitPager = false;
+    private void initPager() {
+        haveInitPager = true ;
         horizontalInfiniteCycleViewPager.setAdapter(adapter);
         horizontalInfiniteCycleViewPager.setMaxPageScale(0.85F);
         horizontalInfiniteCycleViewPager.setMinPageScale(0.6F);
-        horizontalInfiniteCycleViewPager.setMinPageScaleOffset(-(screenWidth*0.6f)+ DisplayUtil.dip2px(50));
-//        horizontalInfiniteCycleViewPager.setOnInfiniteCyclePageTransformListener();
+        horizontalInfiniteCycleViewPager.setMinPageScaleOffset(-(screenWidth * 0.6f) + DisplayUtil.dip2px(50));
+        horizontalInfiniteCycleViewPager.setInterpolator(new OvershootInterpolator());
+    }
 
-//        horizontalInfiniteCycleViewPager.setCurrentItem(
-//                horizontalInfiniteCycleViewPager.getRealItem() + 1
-//        );
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        if (isVisible()){
+            LogUtils.loge("onHiddenChanged——————刷新首页"+isVisible());
+            initPagerData();
+        }
+        super.onHiddenChanged(hidden);
     }
 }

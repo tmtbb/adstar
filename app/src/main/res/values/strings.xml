@@ -39,6 +39,7 @@
     <string name="user_total_assets">资产总额</string>
     <string name="user_buyed_star">已购明星</string>
     <string name="end_times">距离结束还有</string>
+    <string name="star_list">明星列表</string>
 
 
     <string name="my_moneybag">我的钱包</string>
@@ -241,6 +242,7 @@
     <string name="indent">订单</string>
     <string name="detail">明细</string>
     <string name="total_prices">总价:</string>
+    <string name="total_pricess">合计:</string>
     <string name="sure_transfer">确认转让</string>
     <string name="sure_buy">确认购买</string>
     <string name="ask_to_buy_price">求购价格</string>
@@ -268,6 +270,7 @@
     <string name="start_time">起始时间</string>
     <string name="end_time">结束时间</string>
     <string name="systen_news">系统消息</string>
+    <string name="find_star">发现明星</string>
     <string name="star_address_book">明星通讯录</string>
     <string name="PM">PM</string>
     <string name="AM">AM</string>
@@ -315,7 +318,8 @@
     <string name="holding_star_time">持有时间</string>
     <string name="booking_star_status">约见情况</string>
     <string name="holding_times_count">总持有时间 %1$d 秒</string>
-    <string name="times_p">¥ %1$f 秒</string>
+    <string name="times_p">¥ %1$.2f 秒</string>
+    <string name="total_money_">¥ %1$.2f </string>
     <string name="talk_with_him">与TA聊天</string>
     <string name="meeting_with_him">与TA约见</string>
     <string name="hoding_time_others">.....</string>
@@ -338,6 +342,7 @@
     <string name="forget_deal_pwd">忘记交易密码</string>
     <string name="no_bind_bank_tips">您还没有绑定银行卡</string>
     <string name="bind_bank_now">立即绑定</string>
+    <string name="deal_time_count">交易倒计时</string>
 
     <string name="bind_bank_tips">\t\t\t\t需要绑定银行卡才能进行充值等相关操作。绑定银行卡后，可以在预售、购买、兑换时、用该银行卡进行交易。</string>
     <string name="booking_time_status">约见时间 %1$s</string>
@@ -364,6 +369,8 @@
     <string name="message_search_title">搜索本地消息记录</string>
     <string name="message_clear">清空本地消息记录</string>
     <string name="message_info">聊天信息</string>
+    <string name="time_deal">时间交易</string>
+    <string name="flea_market">跳蚤市场</string>
 
     <!-- 通讯录 -->
     <string name="add_friend">加为好友</string>
@@ -794,7 +801,7 @@
     <string name="umeng_socialize_sharetolinkin">分享到领英</string>
     <string name="star_infos">个人介绍</string>
     <string name="shell_time">发售时间：%1$s-%2$s</string>
-    <string name="shell_tolnum">发售总量：%1$s秒</string>
+    <string name="shell_tolnum">发售总量：%1$d秒</string>
     <string name="shell_tolnum_info">当前最多能购买%1$d秒</string>
     <string name="shell_text_info_limt">Tips:该商品不支持退款。每人仅能购买一次，每订单固定数量。倒计时结束后不能购买</string>
 </resources>

@@ -129,4 +129,8 @@
         <item>@color/color_f98d8d</item>
         <item>@color/color_00ADB4</item>
     </integer-array>
+    <declare-styleable name="PraiseListView">
+        <attr name="item_color" format="color"/>
+        <attr name="item_selector_color" format="color"/>
+    </declare-styleable>
 </resources>

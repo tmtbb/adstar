@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
@@ -257,5 +258,13 @@ public class DisplayUtil {
 				- statusBarHeight);
 		view.destroyDrawingCache();
 		return bp;
+	}
+
+	public static int dp2pxConvertInt(float dpValue) {
+		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dpValue, AppApplication.getAppContext().getResources().getDisplayMetrics());
+	}
+
+	public static int sp2pxConvertInt(float spValue) {
+		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, spValue, AppApplication.getAppContext().getResources().getDisplayMetrics());
 	}
 }
