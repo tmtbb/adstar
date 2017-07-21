@@ -12,7 +12,10 @@ import android.graphics.Color;
 import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.crashlytics.android.Crashlytics;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.contact.core.query.PinYin;
@@ -79,9 +82,12 @@ import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.MD5Util;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.Utils;
+import com.yundian.star.widget.emoji.IImageLoader;
+import com.yundian.star.widget.emoji.LQREmotionKit;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -112,6 +118,7 @@ public class AppApplication extends BaseApplication {
                 UMShareAPI.get(this);//初始化友盟
                 Config.DEBUG = true;
                 setupDatabase();
+                initEmoji();
                 if (LeakCanary.isInAnalyzerProcess(this)) {
                     return;
                 }
@@ -126,6 +133,16 @@ public class AppApplication extends BaseApplication {
         }
         initWangYiIM();
     }
+
+    private void initEmoji() {
+        LQREmotionKit.init(this, Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "emoji", new IImageLoader() {
+            @Override
+            public void displayImage(Context context, String path, ImageView imageView) {
+                Glide.with(context).load(path).centerCrop().diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
+            }
+        });
+    }
+
     private String getProcessName(Context context) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = am.getRunningAppProcesses();

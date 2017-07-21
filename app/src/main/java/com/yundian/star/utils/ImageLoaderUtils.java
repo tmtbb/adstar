@@ -1,6 +1,8 @@
 package com.yundian.star.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -135,6 +137,17 @@ public class ImageLoaderUtils {
                 .placeholder(R.drawable.edit_cursor)
                 .error(resurce)
                 .crossFade().into(imageView);
+    }
+    public static Bitmap getDefaultBitmap(Bitmap mDefauleBitmap,int rotateRotationAngle,float BITMAP_WIDTH,float BITMAP_HEIGHT) {
+       // Bitmap bitmap = BitmapFactory.decodeResource(AppApplication.getAppContext().getResources(), drawableId);
+            int width = mDefauleBitmap.getWidth();
+            int height = mDefauleBitmap.getHeight();
+            Matrix matrix = new Matrix();
+            //matrix.postRotate(rotateRotationAngle);
+            //matrix.setRotate(rotateRotationAngle,((float) BITMAP_WIDTH) / width,((float) BITMAP_HEIGHT) / height);
+            matrix.postScale(((float) BITMAP_WIDTH) / width, ((float) BITMAP_HEIGHT) / height);
+            mDefauleBitmap = Bitmap.createBitmap(mDefauleBitmap, 0, 0, width, height, matrix, true);
+            return mDefauleBitmap;
     }
 
 }

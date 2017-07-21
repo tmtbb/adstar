@@ -52,11 +52,11 @@
                         android:layout_marginTop="6dp"
                         android:layout_toEndOf="@+id/imageView3"
                         android:layout_toRightOf="@+id/imageView3"
-                        android:text="黄圣依"
                         android:textColor="@color/color_black_333333"
                         android:textSize="@dimen/fontSize_16sp" />
 
                     <TextView
+                        android:id="@+id/star_work"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignLeft="@id/textView6"
@@ -133,7 +133,6 @@
         android:drawableLeft="@drawable/back_button"
         android:paddingLeft="14dp"
         android:paddingRight="30dp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -170,5 +169,11 @@
             android:textSize="@dimen/fontSize_16sp" />
 
     </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0.5"
+        android:background="@color/color_cccccc"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="50dp"
+        ></View>
 </FrameLayout>

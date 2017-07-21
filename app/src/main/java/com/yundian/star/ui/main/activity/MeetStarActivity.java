@@ -104,6 +104,7 @@ public class MeetStarActivity extends BaseActivity {
     private String wid;
     private String code;
     private String head_url;
+    private String back_url;
     private String name;
     private List<StatServiceListBean.ListBean> typeList;
     private List<List<StatServiceListBean.ListBean>> lists;
@@ -185,13 +186,19 @@ public class MeetStarActivity extends BaseActivity {
         wid = intent.getStringExtra(AppConstant.STAR_WID);
         code = intent.getStringExtra(AppConstant.STAR_CODE);
         head_url = intent.getStringExtra(AppConstant.STAR_HEAD_URL);
+        back_url = intent.getStringExtra(AppConstant.STAR_BACKGROUND_URL);
         name = intent.getStringExtra(AppConstant.STAR_NAME);
         ImageLoaderUtils.displaySmallPhoto(this, imageView3, head_url);
-        List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(code);
-        if (starInfos != null && starInfos.size() != 0) {
-            StarInfo starInfo = starInfos.get(0);
-            ImageLoaderUtils.displaySmallPhoto(mContext, starBg, starInfo.getPic1());
+        if (TextUtils.isEmpty(back_url)){
+            List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(code);
+            if (starInfos != null && starInfos.size() != 0) {
+                StarInfo starInfo = starInfos.get(0);
+                ImageLoaderUtils.displayWithDefaultImg(mContext, starBg, starInfo.getPic1(),R.drawable.infos_news_defolat);
+            }
+        }else {
+            ImageLoaderUtils.displayWithDefaultImg(mContext, starBg, back_url,R.drawable.infos_news_defolat);
         }
+
     }
 
     private void getDateTime() {

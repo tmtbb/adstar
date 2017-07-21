@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <!--内容-->
+    <com.yundian.star.widget.NormalTitleBar
+        android:id="@+id/nt_title"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_gravity="top"></com.yundian.star.widget.NormalTitleBar>
+
+    <FrameLayout
+        android:id="@+id/fl_pr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="48dp">
+
+        <LinearLayout
+            android:id="@+id/emoji_include"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/llContent"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <com.github.jdsjlzx.recyclerview.LRecyclerView
+                    android:id="@+id/lrv"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:background="@color/color_fafafa"></com.github.jdsjlzx.recyclerview.LRecyclerView>
+
+                <LinearLayout
+                    android:id="@+id/ll_inputt"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/edit_cricr_botton_bg"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center_vertical"
+                    android:visibility="gone"
+                    android:orientation="horizontal">
+
+                    <!--<ImageView
+                        android:id="@+id/ivAudio"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="5dp"
+                        android:src="@mipmap/ic_cheat_voice"/>-->
+
+                    <RelativeLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center">
+
+                        <EditText
+                            android:id="@+id/etContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:layout_marginLeft="5dp"
+                            android:background="@null"
+                            android:drawableBottom="@drawable/selector_edit_focus"
+                            />
+
+                        <!--<Button
+                            android:id="@+id/btnAudio"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/shape_session_btn_voice_normal"
+                            android:text="@string/please_to_talk"
+                            android:textColor="@color/gray1"
+                            android:visibility="gone"/>-->
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/ivEmo"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_margin="5dp"
+                        android:src="@drawable/ic_cheat_emo" />
+
+                    <!--<ImageView
+                        android:id="@+id/ivMore"
+                        android:layout_width="35dp"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="7dp"
+                        />-->
+
+                    <Button
+                        android:id="@+id/btnSend"
+                        style="?android:attr/borderlessButtonStyle"
+                        android:layout_width="43dp"
+                        android:layout_height="35dp"
+                        android:layout_marginRight="4dp"
+                        android:background="@drawable/shape_session_btn_send"
+                        android:text="@string/send"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        android:visibility="visible" />
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="#ccc" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:id="@+id/flEmotionView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/color_fafafa"
+                android:visibility="gone">
+                <!--表情-->
+                <com.yundian.star.widget.emoji.EmotionLayout
+                    android:id="@+id/elEmotion"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:visibility="gone" />
+                <!--&lt;!&ndash;其他功能&ndash;&gt;
+                <include
+                    android:id="@+id/llMore"
+                    layout="@layout/include_func_layout"
+                    android:visibility="gone"/>-->
+            </FrameLayout>
+        </LinearLayout>
+
+
+    </FrameLayout>
+
+</FrameLayout>

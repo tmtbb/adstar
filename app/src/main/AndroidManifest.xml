@@ -180,6 +180,16 @@
             android:launchMode="singleTask"></activity>
         <activity android:name=".ui.main.activity.StarInfoActivity"></activity>
         <activity android:name=".ui.main.activity.StarSellActivity"></activity>
+
+        <activity android:name=".ui.main.activity.StarTimeDealActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            >
+        </activity>
+        <activity android:name=".ui.main.activity.FleaMarketActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            ></activity>
         <!--友盟sdk-->
         <meta-data
             android:name="UMENG_APPKEY"
@@ -370,6 +380,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".ui.main.activity.CircleFriendsActivity"
+            android:launchMode="singleTask"
+            android:configChanges="keyboardHidden|orientation"
+            android:windowSoftInputMode="stateHidden"
+            android:screenOrientation="portrait"
+            ></activity>
 
         <!-- 全局搜索 -->
         <activity

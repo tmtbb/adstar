@@ -32,15 +32,5 @@
         android:layout_height="match_parent"
         android:background="@color/color_fafafa"
         >
-        <com.github.jdsjlzx.recyclerview.LRecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/lrv"
-            android:visibility="gone"
-            ></com.github.jdsjlzx.recyclerview.LRecyclerView>
-        <com.yundian.star.widget.infinitecycleviewpager.NonScrollableViewPager
-            android:id="@+id/vp_main"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></com.yundian.star.widget.infinitecycleviewpager.NonScrollableViewPager>
     </FrameLayout>
 </LinearLayout>
