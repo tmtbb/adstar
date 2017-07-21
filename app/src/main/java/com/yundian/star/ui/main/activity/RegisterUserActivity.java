@@ -369,9 +369,10 @@ public class RegisterUserActivity extends BaseActivity {
             public void onClick(View v) {
                 LogUtils.logd("输入会员ID----------------------");
 
-                if (TextUtils.isEmpty(memberId.getText().toString().trim())||
-                        TextUtils.isEmpty(areaBrokerId.getText().toString().trim())
-                        ||TextUtils.isEmpty(brokerId.getText().toString().trim())){
+                if (TextUtils.isEmpty(memberId.getText().toString().trim())
+//                        || TextUtils.isEmpty(areaBrokerId.getText().toString().trim())
+//                        ||TextUtils.isEmpty(brokerId.getText().toString().trim())
+                        ){
                     ToastUtils.showShort("请填写全部数据");
                     return;
                 }

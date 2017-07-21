@@ -1,5 +1,6 @@
 package com.yundian.star.ui.main.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.yundian.star.R;
 import com.yundian.star.app.Constant;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.been.AssetDetailsBean;
 import com.yundian.star.been.BankInfoBean;
 import com.yundian.star.been.OrderReturnBeen;
 import com.yundian.star.been.WithDrawCashReturnBean;
@@ -67,6 +69,7 @@ public class CashActivity extends BaseActivity {
     public void initView() {
         initData();
         requestBankInfo();
+        requestBalance();
         initListener();
 
 //        if (flag) {
@@ -74,6 +77,24 @@ public class CashActivity extends BaseActivity {
 //            flag = false;
 //        }
     }
+
+    private void requestBalance() {
+        NetworkAPIFactoryImpl.getDealAPI().balance(new OnAPIListener<AssetDetailsBean>() {
+            @Override
+            public void onSuccess(AssetDetailsBean bean) {
+                LogUtils.loge("余额请求成功:" + bean.toString());
+                SharePrefUtil.getInstance().putBalance(bean.getBalance());
+                userAvailableMoney.setText(String.format(getString(R.string.cash_available_money),
+                        bean.getBalance() + ""));
+            }
+
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.loge("余额请求失败:" + ex.getMessage());
+            }
+        });
+    }
+
 
     private void initData() {
         ntTitle.setTitleText(getString(R.string.money_cash));
@@ -91,7 +112,8 @@ public class CashActivity extends BaseActivity {
         ntTitle.setOnRightTextListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(CashHistoryActivity.class);
+                startActivityForResult(CashHistoryActivity.class, 100);
+//                startActivity(CashHistoryActivity.class);
             }
         });
 
@@ -108,12 +130,20 @@ public class CashActivity extends BaseActivity {
 
             @Override
             public void checkSuccessPwd(String pwd) {
-                LogUtils.loge("回调的pwd:"+pwd);
+                LogUtils.loge("回调的pwd:" + pwd);
                 doCash(pwd);
                 passwordView.setVisibility(View.GONE);
             }
         });
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            requestBalance();
+        }
     }
 
     @OnClick({R.id.tv_cash_all_money, R.id.cash, R.id.tv_forget_deal_pwd})
@@ -139,7 +169,7 @@ public class CashActivity extends BaseActivity {
 
     private void requestBankInfo() {
         String cardNo = SharePrefUtil.getInstance().getCardNo();
-        NetworkAPIFactoryImpl.getDealAPI().bankCardInfo(cardNo,new OnAPIListener<BankInfoBean>() {
+        NetworkAPIFactoryImpl.getDealAPI().bankCardInfo(cardNo, new OnAPIListener<BankInfoBean>() {
             @Override
             public void onSuccess(BankInfoBean bankInfoBean) {
 
@@ -194,17 +224,17 @@ public class CashActivity extends BaseActivity {
             @Override
             public void onError(Throwable ex) {
                 stopProgressDialog();
-                ToastUtils.showStatusView("提现失败",false);
+                ToastUtils.showStatusView("提现失败", false);
             }
 
             @Override
             public void onSuccess(WithDrawCashReturnBean withDrawCashReturnBean) {
                 stopProgressDialog();
-                if (withDrawCashReturnBean.getResult() == 1){
-                    ToastUtils.showStatusView("提现成功",true);
-                }
-                else{
-                    ToastUtils.showStatusView("提现失败",false);
+                if (withDrawCashReturnBean.getResult() == 1) {
+                    ToastUtils.showStatusView("提现成功", true);
+                    startActivityForResult(CashHistoryActivity.class, 100);
+                } else {
+                    ToastUtils.showStatusView("提现失败", false);
                 }
 
             }

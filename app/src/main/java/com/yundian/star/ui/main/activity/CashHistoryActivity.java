@@ -55,6 +55,7 @@ public class CashHistoryActivity extends BaseActivity {
         ntTitle.setTvLeftVisiable(true);
         initAdapter();
         getData(false, 1, 10);
+        setResult(RESULT_OK);
     }
 
 
