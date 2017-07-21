@@ -320,7 +320,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
         CenteredImageSpan span = new CenteredImageSpan(drawable);
         //ImageSpan span = new ImageSpan(resource);
         spannableStringBuilder.setSpan(span, 0, text.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-        spannableStringBuilder.append("   图文混排                   ");
+        spannableStringBuilder.append("   XXX求购 100.00/秒                   ");
         //spannableStringBuilder.setSpan(new TextAppearanceSpan(this, R.style.style_pingjie), 0, spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         //spannableStringBuilder.setSpan(new BackgroundColorSpan(Color.parseColor("#fafafa")), 0, spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         return spannableStringBuilder;

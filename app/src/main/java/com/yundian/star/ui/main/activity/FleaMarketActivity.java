@@ -95,8 +95,8 @@ public class FleaMarketActivity extends BaseActivity {
     private ArrayList<DanMaKuInfo.BarrageInfoBean> listDanMaKu = new ArrayList<>();
     private ArrayList<StarListReturnBean.SymbolInfoBean> list = new ArrayList<>();
     private ArrayList<StarListReturnBean.SymbolInfoBean> loadList = new ArrayList<>();
-    private static int mCurrentCounter = 1;
-    private static final int REQUEST_COUNT = 10;
+    private static int mCurrentCounter = 0;
+    private static final int REQUEST_COUNT = 12;
 
     @Override
     public int getLayoutId() {
@@ -535,7 +535,7 @@ public class FleaMarketActivity extends BaseActivity {
 
             }
         });
-        getData(false, 0, 10);
+        getData(false, 0, 12);
     }
 
 

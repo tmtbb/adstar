@@ -4,7 +4,6 @@ import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.netease.nimlib.jsbridge.util.LogUtil;
 import com.yundian.star.R;
 import com.yundian.star.base.ListBaseAdapter;
 import com.yundian.star.base.SuperViewHolder;
@@ -28,7 +27,6 @@ public class FleaMarketAdapter extends ListBaseAdapter<StarListReturnBean.Symbol
     @Override
     public void onBindItemHolder(SuperViewHolder holder, int position) {
         StarListReturnBean.SymbolInfoBean barrageInfoBean = mDataList.get(position);
-        LogUtil.e("position"+barrageInfoBean.toString());
         ImageView imge = holder.getView(R.id.imge);
         TextView name = holder.getView(R.id.name);
         ImageLoaderUtils.displaySmallPhoto(mContext,imge,barrageInfoBean.getPic());
