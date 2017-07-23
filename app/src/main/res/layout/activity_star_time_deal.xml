@@ -14,11 +14,16 @@
         android:src="@drawable/star_body"
 
         app:layout_marginTopPercent="45%" />
-
-    <master.flame.danmaku.ui.widget.DanmakuView
-        android:id="@+id/sv_danmaku"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:id="@+id/fl_cont"
+        >
+        <master.flame.danmaku.ui.widget.DanmakuView
+            android:id="@+id/sv_danmaku"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </FrameLayout>
 
 
     <LinearLayout

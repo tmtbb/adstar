@@ -18,7 +18,9 @@ import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -108,9 +110,9 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void initView() {
         symbolInfoBean = getIntent().getParcelableExtra(AppConstant.SYMBOL_INFO_BEAN);
+        getKuanGao();
         initFindById();
         setSize();
-        getKuanGao();
         getData();
     }
 
@@ -119,7 +121,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
         for (int i = 0; i < 100; i++) {
             list.add("i");
         }
-        if (list.size()>0){
+        if (list.size() > 0) {
             qiu.setImageAlpha(125);
         }
         initTradingStatus(false);
@@ -129,6 +131,10 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
 
     private void initFindById() {
         mDanmakuView = (IDanmakuView) findViewById(R.id.sv_danmaku);
+        FrameLayout fl_cont = (FrameLayout) findViewById(R.id.fl_cont);
+        ViewGroup.LayoutParams params = fl_cont.getLayoutParams();
+        params.height = 2*heightPixels;
+        fl_cont.setLayoutParams(params);
         qiu = (ImageView) findViewById(R.id.qiu);
         tv_back = (TextView) findViewById(R.id.tv_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
@@ -168,6 +174,28 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
         HashMap<Integer, Boolean> overlappingEnablePair = new HashMap<Integer, Boolean>();
         overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_RL, true);
         overlappingEnablePair.put(BaseDanmaku.TYPE_FIX_TOP, true);
+
+        mDanmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_STROKEN, 3).setDuplicateMergingEnabled(false).setScrollSpeedFactor(1.6f).setScaleTextSize(1.2f)
+                .setCacheStuffer(new SpannedCacheStuffer(), mCacheStufferAdapter) // 图文混排使用SpannedCacheStuffer
+//        .setCacheStuffer(new BackgroundCacheStuffer())  // 绘制背景使用BackgroundCacheStuffer
+                .setMaximumLines(maxLinesPair)
+                // .setMarginTop(40)
+                .setCacheStuffer(new BackgroundCacheStuffer(), mCacheStufferAdapter)  // 绘制背景使用BackgroundCacheStuffer
+                .preventOverlapping(overlappingEnablePair).setDanmakuMargin(40);
+
+
+
+
+
+
+
+        /*// 设置最大显示行数
+        HashMap<Integer, Integer> maxLinesPair = new HashMap<Integer, Integer>();
+        maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, 5); // 滚动弹幕最大显示5行
+        // 设置是否禁止重叠
+        HashMap<Integer, Boolean> overlappingEnablePair = new HashMap<Integer, Boolean>();
+        overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_RL, true);
+        overlappingEnablePair.put(BaseDanmaku.TYPE_FIX_TOP, true);
         overlappingEnablePair.put(BaseDanmaku.TYPE_SPECIAL, true);
         mDanmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_NONE, 3).setDuplicateMergingEnabled(false).setScrollSpeedFactor(0)
                 .setScaleTextSize(1.2f).setDanmakuTransparency(0.8f).setSpecialDanmakuVisibility(true)
@@ -184,7 +212,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
                 }) // 图文混排使用SpannedCacheStuffer
                 .setCacheStuffer(new BackgroundCacheStuffer(), mCacheStufferAdapter)  // 绘制背景使用BackgroundCacheStuffer
                 .setMaximumLines(maxLinesPair)
-                .preventOverlapping(overlappingEnablePair).setDanmakuMargin(40);
+                .preventOverlapping(overlappingEnablePair).setDanmakuMargin(40);*/
         if (mDanmakuView != null) {
             mParser = createParser(this.getResources().openRawResource(R.raw.comments));
             mDanmakuView.setCallback(new master.flame.danmaku.controller.DrawHandler.Callback() {
@@ -256,16 +284,25 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
 
     private void addDanmaKuShowTextAndImage(String content, final boolean islive) {
         //Math.floor(Math.random()*(max-min+1)+min);
-        final BaseDanmaku danmaku = mDanmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SPECIAL, mDanmakuContext);
+        final BaseDanmaku danmaku = mDanmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SPECIAL,mDanmakuContext);
+        danmaku.setDuration(new Duration(60*1000));
         float floor = (float) Math.floor(Math.random() * (6 + 4 + 1) - 3);
         float floorY = (float) Math.floor(Math.random() * (10 - 1 + 1) + 1);
         float dH = floor * 100 * display;
         float dY = floorY * 20 * display;
         float d = (widthPixels + dH + dY);
         Log.e("floor:", floor + "");
-        mDanmakuContext.mDanmakuFactory.fillTranslationData(danmaku, d,
-                0, -1 * d, 2 * d, (long) (Math.sqrt(2) * d * (6 / display) + dH), 0, 1, 1);
-        Log.e("(long)判断:", widthPixels + ".." + heightPixels);
+        mDanmakuContext.mDanmakuFactory.fillTranslationData(danmaku, 0,
+                0, 0, 0, (long) (d*12), 0, 1, 1);
+
+        float[][] points = new float[2][2];
+            points[0][0] = d;
+            points[0][1] = 0;
+            points[1][0] = (float) (-2*d);
+            points[1][1] = (float) (3*d);
+        mDanmakuContext.mDanmakuFactory.fillLinePathData(danmaku,points,1f,1f);
+
+                Log.e("(long)判断:", widthPixels + ".." + heightPixels);
         Log.e("(long)1:", (float) (-d) + "");
         Log.e("(long)2:", (float) (2 * d) + "");
         // Log.e("(long)3:", (long) Math.sqrt(Math.pow(d, 2.0)) * 3 + "");
@@ -298,7 +335,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
                         SpannableStringBuilder spannable = createSpannable(drawable);
                         danmaku.text = spannable;
                         danmaku.padding = DANMU_PADDING;
-                        danmaku.setDuration(new Duration(1000 * 60));
+                        //danmaku.setDuration(new Duration(1000 * 60));
                         danmaku.priority = 1;  // 一定会显示, 一般用于本机发送的弹幕
                         danmaku.isLive = islive;
                         danmaku.setTime(mDanmakuView.getCurrentTime());
