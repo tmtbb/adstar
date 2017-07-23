@@ -57,7 +57,6 @@ import master.flame.danmaku.danmaku.loader.IllegalDataException;
 import master.flame.danmaku.danmaku.loader.android.DanmakuLoaderFactory;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
 import master.flame.danmaku.danmaku.model.DanmakuTimer;
-import master.flame.danmaku.danmaku.model.Duration;
 import master.flame.danmaku.danmaku.model.IDanmakus;
 import master.flame.danmaku.danmaku.model.IDisplayer;
 import master.flame.danmaku.danmaku.model.android.BaseCacheStuffer;
@@ -124,9 +123,15 @@ public class FleaMarketActivity extends BaseActivity {
         }
         listDanMaKu = new ArrayList<>();
         getDanMaku();
-//        for (int i = 0; i < 100; i++) {
-//            listDanMaKu.add("i");
+//        for (int i = 0; i < 10; i++) {
+//            DanMaKuInfo.BarrageInfoBean bean = new DanMaKuInfo.BarrageInfoBean();
+//            bean.setOrder_num(1);
+//            bean.setOrder_price(1.11);
+//            bean.setOrder_type(1);
+//            bean.setUser_name("i");
+//            listDanMaKu.add(bean);
 //        }
+//        myHandler.sendEmptyMessage(myHandler.GRT_DATA);
 
     }
 
@@ -184,13 +189,14 @@ public class FleaMarketActivity extends BaseActivity {
     private void initDanmakuView() {
         // 设置最大显示行数
         HashMap<Integer, Integer> maxLinesPair = new HashMap<Integer, Integer>();
-        maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, 5); // 滚动弹幕最大显示5行
+        maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, null); // 滚动弹幕最大显示5行
         // 设置是否禁止重叠
         HashMap<Integer, Boolean> overlappingEnablePair = new HashMap<Integer, Boolean>();
         overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_RL, true);
         overlappingEnablePair.put(BaseDanmaku.TYPE_FIX_TOP, true);
         overlappingEnablePair.put(BaseDanmaku.TYPE_SPECIAL, true);
-        mDanmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_NONE, 3).setDuplicateMergingEnabled(false).setScrollSpeedFactor(0)
+        LogUtils.loge("layoutBottom..."+layoutBottom);
+        mDanmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_NONE, 3).setDuplicateMergingEnabled(false)
                 .setScaleTextSize(1.2f).setDanmakuTransparency(0.8f).setSpecialDanmakuVisibility(true)
                 .setCacheStuffer(new SpannedCacheStuffer(), new BaseCacheStuffer.Proxy() {
                     @Override
@@ -205,7 +211,8 @@ public class FleaMarketActivity extends BaseActivity {
                 }) // 图文混排使用SpannedCacheStuffer
                 .setCacheStuffer(new BackgroundCacheStuffer(), mCacheStufferAdapter)  // 绘制背景使用BackgroundCacheStuffer
                 .setMaximumLines(maxLinesPair)
-                .preventOverlapping(overlappingEnablePair).setDanmakuMargin(40);
+                .preventOverlapping(null).setDanmakuMargin(20).setMaximumVisibleSizeInScreen(0)
+        .setScrollSpeedFactor(1.5f);
         if (mDanmakuView != null) {
             mParser = createParser(this.getResources().openRawResource(R.raw.comments));
             mDanmakuView.setCallback(new master.flame.danmaku.controller.DrawHandler.Callback() {
@@ -269,8 +276,8 @@ public class FleaMarketActivity extends BaseActivity {
 
     private void addDanmaKuShowTextAndImage(final DanMaKuInfo.BarrageInfoBean infoBean) {
         //Math.floor(Math.random()*(max-min+1)+min);
-        final BaseDanmaku danmaku = mDanmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SPECIAL, mDanmakuContext);
-        float floor = (float) Math.floor(Math.random() * (limt - 1 - 0 + 1) + 0);
+        final BaseDanmaku danmaku = mDanmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL, mDanmakuContext);
+       /* float floor = (float) Math.floor(Math.random() * (limt - 1 - 0 + 1) + 0);
         float floorY = (float) Math.floor(Math.random() * (5 - 0 + 1) + 0);
         float dH = floor * DisplayUtil.dip2px(30);
         float dY = floorY * DisplayUtil.dip2px(10);
@@ -287,16 +294,16 @@ public class FleaMarketActivity extends BaseActivity {
         // Log.e("(long)3:", (long) Math.sqrt(Math.pow(d, 2.0)) * 3 + "");
         Log.e("-3*widthPixels*display:", -3 * widthPixels * display + "");
         //(long) (7*widthPixels + (floor > 0 ? floor * (widthPixels + dH + dY): floor * 100))
-        //mDanmakuContext.mDanmakuFactory.fillAlphaData(danmaku, AlphaValue.MAX * 1, AlphaValue.MAX * 0, 1000 * 30);
-        mDanmakuContext.setMaximumVisibleSizeInScreen(30);
+        //mDanmakuContext.mDanmakuFactory.fillAlphaData(danmaku, AlphaValue.MAX * 1, AlphaValue.MAX * 0, 1000 * 30);*/
+
         if (danmaku == null || mDanmakuView == null) {
             return;
         }
         // Drawable drawable = getResources().getDrawable(R.drawable.ic_home_normal);
         //drawable.setBounds(0, 0, DisplayUtil.dip2px(40), DisplayUtil.dip2px(40));
-        //String url = "http://tva2.sinaimg.cn/crop.0.1.510.510.180/48e837eejw8ex30o7eoylj20e60e8wet.jpg";
+        String url = "http://tva2.sinaimg.cn/crop.0.1.510.510.180/48e837eejw8ex30o7eoylj20e60e8wet.jpg";
         //ImageLoaderUtils.displaySmallPhoto();
-        Glide.with(mContext).load(infoBean.getHead_url())
+        Glide.with(mContext).load(url)
                 .asBitmap()
                 .placeholder(R.drawable.user_default_head)
                 .error(R.drawable.user_default_head)
@@ -312,7 +319,8 @@ public class FleaMarketActivity extends BaseActivity {
                         SpannableStringBuilder spannable = createSpannable(drawable,infoBean);
                         danmaku.text = spannable;
                         danmaku.padding = DANMU_PADDING;
-                        danmaku.setDuration(new Duration(1000 * 60 * 6));
+                        danmaku.paintHeight=layoutBottom-DisplayUtil.dip2px(40);
+                        //danmaku.setDuration(new Duration(1000 * 60));
                         danmaku.priority = 1;  // 一定会显示, 一般用于本机发送的弹幕
                         danmaku.isLive = false;
                         danmaku.setTime(mDanmakuView.getCurrentTime());
