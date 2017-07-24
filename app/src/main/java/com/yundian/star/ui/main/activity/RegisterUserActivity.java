@@ -41,6 +41,8 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+import static io.netty.handler.codec.http.HttpMethod.HEAD;
+
 
 /**
  * Created by Administrator on 2017/5/9.
@@ -355,7 +357,6 @@ public class RegisterUserActivity extends BaseActivity {
         //areaBrokerId = (EditText) mDetailDialog.findViewById(R.id.area_broker_id);
         brokerId = (EditText) mDetailDialog.findViewById(R.id.broker_id);
         enterStar = (Button) mDetailDialog.findViewById(R.id.btn_enter_star);
-
         ImageView closeImg = (ImageView) mDetailDialog.findViewById(R.id.iv_dialog_close);
         closeImg.setOnClickListener(new View.OnClickListener() {
             @Override

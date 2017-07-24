@@ -106,6 +106,7 @@ public class AppApplication extends BaseApplication {
 
     private void testProcress() {
         String processName = getProcessName(this);
+        LogUtils.loge("------------processName:"+processName);
         if (processName!= null) {
             if(processName.equals("com.yundian.star")){
                 Fabric.with(this, new Crashlytics());

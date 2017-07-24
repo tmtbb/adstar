@@ -42,11 +42,13 @@ public class CommentExpandAdapter extends ExpandableRecyclerAdapter<BookingStarL
     public class CommentViewHolder extends ExpandableRecyclerAdapter.HeaderViewHolder {
         TextView holdingTime;
         ImageView iv_star_head;
+        TextView starName;
 
         public CommentViewHolder(View view, LRecyclerView recyclerView) {
             super(view, (ImageView) view.findViewById(R.id.item_arrow), recyclerView);
             iv_star_head = (ImageView) view.findViewById(R.id.iv_star_head);
             holdingTime = (TextView) view.findViewById(R.id.tv_holding_time);
+            starName = (TextView) view.findViewById(R.id.tv_star_name);
         }
 
         public void bind(int position) {
@@ -56,7 +58,7 @@ public class CommentExpandAdapter extends ExpandableRecyclerAdapter<BookingStarL
             String format = String.format(mContext.getResources().getString(R.string.holding_times_count, item.getOwnseconds()) + "");
             SpannableStringBuilder spannable = new SpannableStringBuilder(format);
             spannable.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_FB9938)), 5, format.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
+            starName.setText(item.getStarname());
             holdingTime.setText(spannable);
             List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(item.getStarcode());
             if (starInfos != null && starInfos.size() != 0) {
