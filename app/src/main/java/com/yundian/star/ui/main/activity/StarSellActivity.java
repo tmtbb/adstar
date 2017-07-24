@@ -116,7 +116,7 @@ public class StarSellActivity extends BaseActivity {
 
             @Override
             public void onSuccess(ResultBeen resultBeen) {
-                if (resultBeen.getResult()==1){
+                if (resultBeen.getResult()==1||resultBeen.getResult()==2){
                     ToastUtils.showShort("购买成功");
                 }else {
                     ToastUtils.showShort("购买失败");

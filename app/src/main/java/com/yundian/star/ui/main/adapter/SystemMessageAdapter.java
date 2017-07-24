@@ -53,7 +53,7 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
         String ss = null ;
         if (bean.getBuyUid()==uid){
             ss = "求购," ;
-            if (bean.getBuyHandle()==0&&bean.getHandle()!=-1){
+            if (bean.getBuyHandle()==0&&bean.getHandle()!=-1&&bean.getHandle()!=2){
                 ss = "求购,匹配成功。";
                 viewHolder.tv_check.setVisibility(View.VISIBLE);
                 viewHolder.tv_check.setText("未确认");
@@ -89,7 +89,7 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
             }
         }else {
             ss = "转让，" ;
-            if (bean.getSellHandler()==0&&bean.getHandle()!=-1){
+            if (bean.getSellHandler()==0&&bean.getHandle()!=-1&&bean.getHandle()!=2){
                 ss = "转让,匹配成功。";
                 viewHolder.tv_check.setVisibility(View.VISIBLE);
                 viewHolder.tv_check.setText("未确认");
