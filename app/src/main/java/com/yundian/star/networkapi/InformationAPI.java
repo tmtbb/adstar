@@ -7,6 +7,7 @@ import com.yundian.star.been.AskToBuyReturnBeen;
 import com.yundian.star.been.BuyShellReutrnBeen;
 import com.yundian.star.been.CircleFriendBean;
 import com.yundian.star.been.CommentMarketBeen;
+import com.yundian.star.been.DanMaKuInfo;
 import com.yundian.star.been.EntrustReturnBeen;
 import com.yundian.star.been.FansEntrustReturnBean;
 import com.yundian.star.been.FansHotBuyReturnBeen;
@@ -92,6 +93,8 @@ public interface InformationAPI {
     void getStarList(long id, String token,long aType,long sort,int pos,int count,OnAPIListener<StarListReturnBean> listener);
     void getStarDetailInfo(String star_code,OnAPIListener<StarDetailInfoBean> listener);
     void getAllCircleInfo(int pos,int count,OnAPIListener<CircleFriendBean> listener);
+    void getDanMaKuInfo(int pos,int count,OnAPIListener<DanMaKuInfo> listener);
     void getPraisestar(String star_code,long circle_id,long uid,OnAPIListener<ResultBeen> listener);
     void getUserAddComment(String star_code,long circle_id,long uid,int direction,String content,OnAPIListener<ResultBeen> listener);
+    void getByBuy(long uid, String token,String symbol,long amount,double price,OnAPIListener<ResultBeen> listener);
 }

@@ -8,6 +8,7 @@ import com.yundian.star.been.AskToBuyReturnBeen;
 import com.yundian.star.been.BuyShellReutrnBeen;
 import com.yundian.star.been.CircleFriendBean;
 import com.yundian.star.been.CommentMarketBeen;
+import com.yundian.star.been.DanMaKuInfo;
 import com.yundian.star.been.EntrustReturnBeen;
 import com.yundian.star.been.FansEntrustReturnBean;
 import com.yundian.star.been.FansHotBuyReturnBeen;
@@ -541,6 +542,16 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
+    public void getDanMaKuInfo(int pos, int count, OnAPIListener<DanMaKuInfo> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("pos", pos);
+        map.put("count", count);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.DanMaKu,
+                SocketAPIConstant.ReqeutType.NewInfos, map);
+        requestEntity(socketDataPacket,DanMaKuInfo.class,listener);
+    }
+
+    @Override
     public void getPraisestar(String star_code, long circle_id, long uid, OnAPIListener<ResultBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("star_code", star_code);
@@ -561,6 +572,19 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("content", content);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.UserAddComment,
                 SocketAPIConstant.ReqeutType.CircleInfo, map);
+        requestEntity(socketDataPacket,ResultBeen.class,listener);
+    }
+
+    @Override
+    public void getByBuy(long uid, String token, String symbol, long amount, double price, OnAPIListener<ResultBeen> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("uid", uid);
+        map.put("token", token);
+        map.put("symbol", symbol);
+        map.put("amount", amount);
+        map.put("price", price);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.ByBuy,
+                SocketAPIConstant.ReqeutType.Shopping, map);
         requestEntity(socketDataPacket,ResultBeen.class,listener);
     }
 

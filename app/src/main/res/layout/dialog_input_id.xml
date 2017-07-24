@@ -39,7 +39,12 @@
                 android:src="@drawable/close" />
         </RelativeLayout>
 
-        <EditText
+        <!--<EditText
+            android:inputType="number"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:gravity="center"
+            android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
             android:id="@+id/member_id"
             android:layout_width="match_parent"
             android:layout_height="44dp"
@@ -71,8 +76,9 @@
             android:textColor="@color/day_one_text_color"
             android:textColorHint="@color/font_999999"
             android:textCursorDrawable="@drawable/edit_cursor"
-            android:textSize="@dimen/fontSize_14sp"
-            android:visibility="gone" />
+            android:hint="@string/input_area_broker_id"
+            android:gravity="center"
+            />-->
 
         <EditText
             android:id="@+id/broker_id"
@@ -90,7 +96,7 @@
             android:textColorHint="@color/font_999999"
             android:textCursorDrawable="@drawable/edit_cursor"
             android:textSize="@dimen/fontSize_14sp"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
 
         <TextView
@@ -107,7 +113,7 @@
         <Button
             android:id="@+id/btn_enter_star"
             style="@style/ButtonLogin"
-            android:layout_marginTop="@dimen/dp_40"
+            android:layout_marginTop="120dp"
             android:text="@string/enter_star" />
 
     </LinearLayout>

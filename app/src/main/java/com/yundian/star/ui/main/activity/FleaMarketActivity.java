@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.GridLayoutManager;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -23,12 +24,23 @@ import android.view.WindowManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.github.jdsjlzx.interfaces.OnItemClickListener;
+import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
+import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
+import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.netease.nimlib.jsbridge.util.LogUtil;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.been.DanMaKuInfo;
+import com.yundian.star.been.StarListReturnBean;
+import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
+import com.yundian.star.ui.main.adapter.FleaMarketAdapter;
 import com.yundian.star.utils.DisplayUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
+import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.widget.BiliDanmukuParser;
 import com.yundian.star.widget.CenteredImageSpan;
 import com.yundian.star.widget.CircleDrawable;
@@ -45,7 +57,6 @@ import master.flame.danmaku.danmaku.loader.IllegalDataException;
 import master.flame.danmaku.danmaku.loader.android.DanmakuLoaderFactory;
 import master.flame.danmaku.danmaku.model.BaseDanmaku;
 import master.flame.danmaku.danmaku.model.DanmakuTimer;
-import master.flame.danmaku.danmaku.model.Duration;
 import master.flame.danmaku.danmaku.model.IDanmakus;
 import master.flame.danmaku.danmaku.model.IDisplayer;
 import master.flame.danmaku.danmaku.model.android.BaseCacheStuffer;
@@ -69,7 +80,6 @@ public class FleaMarketActivity extends BaseActivity {
     private BaseDanmakuParser mParser;
     private int widthPixels;
     private int heightPixels;
-    private ArrayList<String> list;
     private MyHandler myHandler;
     private int temporary = 0;
     private int secondTime = 0;
@@ -79,6 +89,13 @@ public class FleaMarketActivity extends BaseActivity {
     private int layoutHeight;
     private int layoutBottom;
     private View lint;
+    private LRecyclerViewAdapter lRecyclerViewAdapter;
+    private FleaMarketAdapter fleaMarketAdapter;
+    private ArrayList<DanMaKuInfo.BarrageInfoBean> listDanMaKu = new ArrayList<>();
+    private ArrayList<StarListReturnBean.SymbolInfoBean> list = new ArrayList<>();
+    private ArrayList<StarListReturnBean.SymbolInfoBean> loadList = new ArrayList<>();
+    private static int mCurrentCounter = 0;
+    private static final int REQUEST_COUNT = 12;
 
     @Override
     public int getLayoutId() {
@@ -93,6 +110,7 @@ public class FleaMarketActivity extends BaseActivity {
     @Override
     public void initView() {
         initFindById();
+        initAdapter();
         getKuanGao();
         setSize();
         initDanmakuView();
@@ -103,11 +121,37 @@ public class FleaMarketActivity extends BaseActivity {
         if (myHandler == null) {
             myHandler = new MyHandler(this);
         }
-        list = new ArrayList<>();
-        for (int i = 0; i < 100; i++) {
-            list.add("i");
-        }
-        myHandler.sendEmptyMessage(myHandler.GRT_DATA);
+        listDanMaKu = new ArrayList<>();
+        getDanMaku();
+//        for (int i = 0; i < 10; i++) {
+//            DanMaKuInfo.BarrageInfoBean bean = new DanMaKuInfo.BarrageInfoBean();
+//            bean.setOrder_num(1);
+//            bean.setOrder_price(1.11);
+//            bean.setOrder_type(1);
+//            bean.setUser_name("i");
+//            listDanMaKu.add(bean);
+//        }
+//        myHandler.sendEmptyMessage(myHandler.GRT_DATA);
+
+    }
+
+    private void getDanMaku() {
+        NetworkAPIFactoryImpl.getInformationAPI().getDanMaKuInfo(0,
+                50, new OnAPIListener<DanMaKuInfo>() {
+                    @Override
+                    public void onError(Throwable ex) {
+
+                        LogUtils.loge("弹幕错误码" + ex.toString());
+                    }
+
+                    @Override
+                    public void onSuccess(DanMaKuInfo danMaKuInfo) {
+                        if (danMaKuInfo!=null&&danMaKuInfo.getBarrage_info()!=null&&danMaKuInfo.getBarrage_info().size()!=0){
+                            listDanMaKu = danMaKuInfo.getBarrage_info();
+                            myHandler.sendEmptyMessage(myHandler.GRT_DATA);
+                        }
+                    }
+                });
     }
 
     private void initFindById() {
@@ -145,13 +189,14 @@ public class FleaMarketActivity extends BaseActivity {
     private void initDanmakuView() {
         // 设置最大显示行数
         HashMap<Integer, Integer> maxLinesPair = new HashMap<Integer, Integer>();
-        maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, 5); // 滚动弹幕最大显示5行
+        maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, null); // 滚动弹幕最大显示5行
         // 设置是否禁止重叠
         HashMap<Integer, Boolean> overlappingEnablePair = new HashMap<Integer, Boolean>();
         overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_RL, true);
         overlappingEnablePair.put(BaseDanmaku.TYPE_FIX_TOP, true);
         overlappingEnablePair.put(BaseDanmaku.TYPE_SPECIAL, true);
-        mDanmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_NONE, 3).setDuplicateMergingEnabled(false).setScrollSpeedFactor(0)
+        LogUtils.loge("layoutBottom..."+layoutBottom);
+        mDanmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_NONE, 3).setDuplicateMergingEnabled(false)
                 .setScaleTextSize(1.2f).setDanmakuTransparency(0.8f).setSpecialDanmakuVisibility(true)
                 .setCacheStuffer(new SpannedCacheStuffer(), new BaseCacheStuffer.Proxy() {
                     @Override
@@ -166,7 +211,8 @@ public class FleaMarketActivity extends BaseActivity {
                 }) // 图文混排使用SpannedCacheStuffer
                 .setCacheStuffer(new BackgroundCacheStuffer(), mCacheStufferAdapter)  // 绘制背景使用BackgroundCacheStuffer
                 .setMaximumLines(maxLinesPair)
-                .preventOverlapping(overlappingEnablePair).setDanmakuMargin(40);
+                .preventOverlapping(null).setDanmakuMargin(20).setMaximumVisibleSizeInScreen(0)
+        .setScrollSpeedFactor(1.5f);
         if (mDanmakuView != null) {
             mParser = createParser(this.getResources().openRawResource(R.raw.comments));
             mDanmakuView.setCallback(new master.flame.danmaku.controller.DrawHandler.Callback() {
@@ -218,9 +264,9 @@ public class FleaMarketActivity extends BaseActivity {
     }
 
     private void refreshAnim() {
-        if (list.size() != 0 && list.get(temporary) != null) {
-            addDanmaKuShowTextAndImage(list.get(temporary), false);
-            if (temporary < list.size() - 1 && myHandler != null) {
+        if (listDanMaKu.size() != 0 && listDanMaKu.get(temporary) != null) {
+            addDanmaKuShowTextAndImage(listDanMaKu.get(temporary));
+            if (temporary < listDanMaKu.size() - 1 && myHandler != null) {
                 temporary++;
                 myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 500);
             }
@@ -228,26 +274,28 @@ public class FleaMarketActivity extends BaseActivity {
     }
 
 
-    private void addDanmaKuShowTextAndImage(String content, final boolean islive) {
+    private void addDanmaKuShowTextAndImage(final DanMaKuInfo.BarrageInfoBean infoBean) {
         //Math.floor(Math.random()*(max-min+1)+min);
-        final BaseDanmaku danmaku = mDanmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SPECIAL, mDanmakuContext);
-        float floor = (float) Math.floor(Math.random() * (limt-2 - 1+ 1) +1);
-        float floorY = (float) Math.floor(Math.random() * (5 - 1 + 1) + 1);
-        float dH = floor * DisplayUtil.dip2px(40) ;
-        float dY = floorY * DisplayUtil.dip2px(5);
+        final BaseDanmaku danmaku = mDanmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL, mDanmakuContext);
+       /* float floor = (float) Math.floor(Math.random() * (limt - 1 - 0 + 1) + 0);
+        float floorY = (float) Math.floor(Math.random() * (5 - 0 + 1) + 0);
+        float dH = floor * DisplayUtil.dip2px(30);
+        float dY = floorY * DisplayUtil.dip2px(10);
         float d = (dH + dY);
+        float dDisplayY = display > 0.7f ? 2 : 3.5f;
+        float dDisplayT = display > 0.7f ? 9.4f : 8.2f;
         Log.e("floor:", floor + "");
         Log.e("floorY:", floorY + "");
         mDanmakuContext.mDanmakuFactory.fillTranslationData(danmaku, widthPixels,
-                d, -widthPixels, d, (long) (widthPixels * 10*display+dH+dY),-2000, 1, 1);
-        Log.e("(limt)判断:", limt+"");
-        Log.e("(layoutHeight+dH+dY)1:", layoutHeight+dH+dY + "");
-        Log.e("(long)2:", (float) (2 * d) + "");
+                d, (float) (-widthPixels * dDisplayY), d, (long) (widthPixels * dDisplayT + dH + dY), 0, 1, 1);
+        Log.e("(limt)判断:", limt + "");
+        Log.e("(layoutHeight+dH+dY)1:", layoutHeight + dH + dY + "");
+        Log.e("display:", display + "");
         // Log.e("(long)3:", (long) Math.sqrt(Math.pow(d, 2.0)) * 3 + "");
-        Log.e("(long)4:", (long) (Math.sqrt(2) * d * 5 + dH) + "");
+        Log.e("-3*widthPixels*display:", -3 * widthPixels * display + "");
         //(long) (7*widthPixels + (floor > 0 ? floor * (widthPixels + dH + dY): floor * 100))
-        //mDanmakuContext.mDanmakuFactory.fillAlphaData(danmaku, AlphaValue.MAX * 1, AlphaValue.MAX * 0, 1000 * 30);
-        mDanmakuContext.setMaximumVisibleSizeInScreen(30);
+        //mDanmakuContext.mDanmakuFactory.fillAlphaData(danmaku, AlphaValue.MAX * 1, AlphaValue.MAX * 0, 1000 * 30);*/
+
         if (danmaku == null || mDanmakuView == null) {
             return;
         }
@@ -268,12 +316,13 @@ public class FleaMarketActivity extends BaseActivity {
                         //Drawable drawable = getResources().getDrawable(R.drawable.ic_home_normal);
                         LogUtil.e("danmaku" + danmaku.getLeft() + "");
                         drawable.setBounds(0, 0, BITMAP_WIDTH, BITMAP_HEIGHT);
-                        SpannableStringBuilder spannable = createSpannable(drawable);
+                        SpannableStringBuilder spannable = createSpannable(drawable,infoBean);
                         danmaku.text = spannable;
                         danmaku.padding = DANMU_PADDING;
-                        danmaku.setDuration(new Duration(1000 * 60));
+                        danmaku.paintHeight=layoutBottom-DisplayUtil.dip2px(40);
+                        //danmaku.setDuration(new Duration(1000 * 60));
                         danmaku.priority = 1;  // 一定会显示, 一般用于本机发送的弹幕
-                        danmaku.isLive = islive;
+                        danmaku.isLive = false;
                         danmaku.setTime(mDanmakuView.getCurrentTime());
                         danmaku.textSize = DANMU_TEXT_SIZE;
                         danmaku.textColor = 0xfafafafa;
@@ -285,14 +334,24 @@ public class FleaMarketActivity extends BaseActivity {
                 });
     }
 
-    private SpannableStringBuilder createSpannable(Drawable drawable) {
+    private SpannableStringBuilder createSpannable(Drawable drawable,DanMaKuInfo.BarrageInfoBean infoBean) {
+        //小姜求购15秒，12.32/秒
         String text = "bitmap";
+        String name = "infoBean";
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
         //CenteredImageSpan span = new CenteredImageSpan(drawable);//ImageSpan.ALIGN_BOTTOM);
         CenteredImageSpan span = new CenteredImageSpan(drawable);
         //ImageSpan span = new ImageSpan(resource);
         spannableStringBuilder.setSpan(span, 0, text.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-        spannableStringBuilder.append("   图文混排                   ");
+        spannableStringBuilder.append(infoBean.getUser_name());
+        if (infoBean.getOrder_type()==1){
+            spannableStringBuilder.append("转让");
+        }else {
+            spannableStringBuilder.append("求购");
+        }
+        spannableStringBuilder.append(infoBean.getOrder_num()+"秒");
+        spannableStringBuilder.append(","+String.format("%.2f",infoBean.getOrder_price())+"/秒");
+
         //spannableStringBuilder.setSpan(new TextAppearanceSpan(this, R.style.style_pingjie), 0, spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         //spannableStringBuilder.setSpan(new BackgroundColorSpan(Color.parseColor("#fafafa")), 0, spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         return spannableStringBuilder;
@@ -310,19 +369,20 @@ public class FleaMarketActivity extends BaseActivity {
         lint.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                    layoutHeight = lint.getHeight();
-                    layoutBottom = lint.getBottom();
-                    limt = (layoutBottom - DisplayUtil.dip2px(48)) / DisplayUtil.dip2px(30);
+                layoutHeight = lint.getHeight();
+                layoutBottom = lint.getBottom();
+                limt = (layoutBottom - DisplayUtil.dip2px(48)) / DisplayUtil.dip2px(30);
+                display = 720f / widthPixels;
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
                     lint.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 } else {
                     lint.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                 }
-                Log.e("layout.....", "..."+layoutHeight+"..."+layoutBottom);
+                Log.e("layout.....", "..." + layoutHeight + "..." + layoutBottom + "..." + "widthPixels" + widthPixels + "..." + display);
             }
         });
         Log.e("widthPixels", widthPixels + "...heightPixels" + heightPixels);
-        display = widthPixels / 720;
+
     }
 
 
@@ -428,6 +488,128 @@ public class FleaMarketActivity extends BaseActivity {
         return parser;
 
     }
-    private boolean isMusre = false ;
+
+    private boolean isMusre = false;
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mDanmakuView != null && mDanmakuView.isPrepared()) {
+            mDanmakuView.pause();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (mDanmakuView != null && mDanmakuView.isPrepared() && mDanmakuView.isPaused()) {
+            mDanmakuView.resume();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (lrv != null) {
+            lrv = null;
+        }
+        if (mDanmakuView != null) {
+            // dont forget release!
+            mDanmakuView.release();
+            mDanmakuView = null;
+        }
+        super.onDestroy();
+    }
+
+    private void initAdapter() {
+        fleaMarketAdapter = new FleaMarketAdapter(this);
+        lRecyclerViewAdapter = new LRecyclerViewAdapter(fleaMarketAdapter);
+        GridLayoutManager manager = new GridLayoutManager(this, 4);
+        lrv.setNoMore(false);
+        lrv.setLayoutManager(manager);
+        lrv.setAdapter(lRecyclerViewAdapter);
+        lrv.setPullRefreshEnabled(false);
+        lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
+        lrv.setHasFixedSize(true);
+        lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore() {
+                getData(true, mCurrentCounter + 1, mCurrentCounter + REQUEST_COUNT);
+            }
+        });
+        //lrv.addItemDecoration(SpacesItemDecoration.newInstance(DisplayUtil.dip2px(20), DisplayUtil.dip2px(10), manager.getSpanCount(), Color.WHITE));
+        lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+
+            }
+        });
+        getData(false, 0, 12);
+    }
+
+
+    private void getData(final boolean isLoadMore, int start, int end) {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarList(SharePrefUtil.getInstance().getUserId(),
+                SharePrefUtil.getInstance().getToken(), 4, 1, start, end, new OnAPIListener<StarListReturnBean>() {
+                    @Override
+                    public void onError(Throwable ex) {
+                        if (lrv != null) {
+                            lrv.setNoMore(true);
+                            if (!isLoadMore) {
+                                list.clear();
+                                fleaMarketAdapter.clear();
+                                lrv.refreshComplete(REQUEST_COUNT);
+
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onSuccess(StarListReturnBean starListReturnBean) {
+                        if (starListReturnBean == null || starListReturnBean.getSymbol_info() == null || starListReturnBean.getSymbol_info().size() == 0) {
+                            if (!isLoadMore) {
+                                list.clear();
+                                fleaMarketAdapter.clear();
+                                lrv.refreshComplete(REQUEST_COUNT);
+                            }else {
+                                lrv.setNoMore(true);
+                            }
+
+                            return;
+                        }
+                        if (isLoadMore) {
+                            loadList.clear();
+                            loadList = starListReturnBean.getSymbol_info();
+                            loadMoreData();
+                        } else {
+                            list.clear();
+                            list = starListReturnBean.getSymbol_info();
+                            showData();
+                        }
+                    }
+                });
+    }
+
+    public void showData() {
+        if (list.size() == 0) {
+            return;
+        }
+        fleaMarketAdapter.clear();
+        mCurrentCounter = list.size();
+        lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
+        fleaMarketAdapter.addAll(list);
+        lrv.refreshComplete(REQUEST_COUNT);
+    }
+
+    private void loadMoreData() {
+        if (loadList == null || list.size() == 0) {
+            lrv.setNoMore(true);
+        } else {
+            list.addAll(loadList);
+            fleaMarketAdapter.addAll(loadList);
+            mCurrentCounter += loadList.size();
+            lrv.refreshComplete(REQUEST_COUNT);
+        }
+    }
+
 
 }

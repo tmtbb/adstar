@@ -65,7 +65,7 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
     }
 
     @Override
-    public void register(String phone, String password, String memberId, String agentId, String recommend,String sub_agentId, OnAPIListener<RegisterReturnBeen> listener) {
+    public void register(String phone, String password, String memberId, String agentId,String channel, String recommend,String sub_agentId, OnAPIListener<RegisterReturnBeen> listener) {
         isNetBreak();
         HashMap<String, Object> map = new HashMap<>();
         map.put("phone", phone);
@@ -73,6 +73,7 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
         map.put("memberId", memberId);
         map.put("agentId", agentId);
         map.put("recommend", recommend);
+        map.put("channel", channel);
         map.put("sub_agentId", sub_agentId);
         map.put("timeStamp", System.currentTimeMillis());
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Register,
@@ -103,7 +104,7 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
     }
 
     @Override
-    public void bindNumber(String phone, String openid, String password, long timeStamp, String vToken, String vCode, String memberId, String agentId, String recommend,String sub_agentId, String nickname, String headerUrl, OnAPIListener<RegisterReturnBeen> listener) {
+    public void bindNumber(String phone, String openid, String password, long timeStamp, String vToken, String vCode, String memberId, String agentId,String channel, String recommend,String sub_agentId, String nickname, String headerUrl, OnAPIListener<RegisterReturnBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("phone", phone);
         map.put("openid", openid);
@@ -117,6 +118,7 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
         map.put("agentId", agentId);
         map.put("sub_agentId", sub_agentId);
         map.put("recommend", recommend);
+        map.put("channel", channel);
         map.put("deviceId", AppApplication.getAndroidId());
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.WXBind,
                 SocketAPIConstant.ReqeutType.User, map);

@@ -490,6 +490,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+        <activity android:name=".ui.main.activity.AuctionRankingListActivity"></activity>
 
         <!-- 声明云信后台服务 -->
         <service

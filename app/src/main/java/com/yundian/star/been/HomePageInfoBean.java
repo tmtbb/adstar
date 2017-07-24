@@ -7,7 +7,7 @@ import java.util.List;
  */
 
 public class HomePageInfoBean  {
-
+    private String home_last_pic;
     private List<SymbolInfoBean> symbol_info;
 
     public List<SymbolInfoBean> getSymbol_info() {
@@ -16,6 +16,14 @@ public class HomePageInfoBean  {
 
     public void setSymbol_info(List<SymbolInfoBean> symbol_info) {
         this.symbol_info = symbol_info;
+    }
+
+    public String getHome_last_pic() {
+        return home_last_pic;
+    }
+
+    public void setHome_last_pic(String home_last_pic) {
+        this.home_last_pic = home_last_pic;
     }
 
     public static class SymbolInfoBean {

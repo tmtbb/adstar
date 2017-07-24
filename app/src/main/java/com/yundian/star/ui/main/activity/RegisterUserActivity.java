@@ -41,6 +41,8 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+import static io.netty.handler.codec.http.HttpMethod.HEAD;
+
 
 /**
  * Created by Administrator on 2017/5/9.
@@ -155,7 +157,7 @@ public class RegisterUserActivity extends BaseActivity {
     private void wxBindInfo() {
         NetworkAPIFactoryImpl.getUserAPI().bindNumber(userNameEditText.getEditTextString(), wxUserInfo.getOpenid()
                 , MD5Util.MD5(passwordEditText.getEditTextString()), verifyCodeBeen.getTimeStamp(), verifyCodeBeen.getVToken(), vCode,
-                userMenberId , agentId,"",sub_agentId
+                "" , "","",sub_agentId,""
               , wxUserInfo.getNickname(), wxUserInfo.getHeadimgurl(), new OnAPIListener<RegisterReturnBeen>() {
                     @Override
                     public void onError(Throwable ex) {
@@ -218,7 +220,7 @@ public class RegisterUserActivity extends BaseActivity {
 
     private void register() {
         NetworkAPIFactoryImpl.getUserAPI().register(userNameEditText.getEditTextString(),
-                MD5Util.MD5(passwordEditText.getEditTextString()),userMenberId , agentId,"",sub_agentId,
+                MD5Util.MD5(passwordEditText.getEditTextString()),"" , "","","",sub_agentId,
                 new OnAPIListener<RegisterReturnBeen>() {
             @Override
             public void onError(Throwable ex) {
@@ -351,11 +353,10 @@ public class RegisterUserActivity extends BaseActivity {
     private void initIdDialog() {
         mDetailDialog = new Dialog(this, R.style.custom_dialog);
         mDetailDialog.setContentView(R.layout.dialog_input_id);
-        memberId = (EditText) mDetailDialog.findViewById(R.id.member_id);
-        areaBrokerId = (EditText) mDetailDialog.findViewById(R.id.area_broker_id);
+        //memberId = (EditText) mDetailDialog.findViewById(R.id.member_id);
+        //areaBrokerId = (EditText) mDetailDialog.findViewById(R.id.area_broker_id);
         brokerId = (EditText) mDetailDialog.findViewById(R.id.broker_id);
         enterStar = (Button) mDetailDialog.findViewById(R.id.btn_enter_star);
-
         ImageView closeImg = (ImageView) mDetailDialog.findViewById(R.id.iv_dialog_close);
         closeImg.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -369,15 +370,12 @@ public class RegisterUserActivity extends BaseActivity {
             public void onClick(View v) {
                 LogUtils.logd("输入会员ID----------------------");
 
-                if (TextUtils.isEmpty(memberId.getText().toString().trim())
-//                        || TextUtils.isEmpty(areaBrokerId.getText().toString().trim())
-//                        ||TextUtils.isEmpty(brokerId.getText().toString().trim())
-                        ){
-                    ToastUtils.showShort("请填写全部数据");
+                if (TextUtils.isEmpty(brokerId.getText().toString().trim())){
+                    ToastUtils.showShort("请填写ID");
                     return;
                 }
-                userMenberId = memberId.getText().toString().trim();
-                agentId = areaBrokerId.getText().toString().trim();//区域。。经纪人
+                //userMenberId = memberId.getText().toString().trim();
+                //agentId = areaBrokerId.getText().toString().trim();//区域。。经纪人
                 sub_agentId =brokerId.getText().toString().trim();  //经济人人  == 推荐人
                 mDetailDialog.dismiss();
                 if (isWXBind) {
