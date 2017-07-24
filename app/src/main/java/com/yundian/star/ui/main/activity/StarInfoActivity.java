@@ -153,7 +153,7 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
                 ImageLoaderUtils.displaySmallPhoto(StarInfoActivity.this, imageView_head, resultvalue.getHead_url());
                 tv_name.setText(resultvalue.getStar_name());
                 star_work.setText(starTypeInfo[resultvalue.getStar_tpye()]);
-                ImageLoaderUtils.displayWithDefaultImg(StarInfoActivity.this, iv_star_bg, resultvalue.getBack_pic(), R.drawable.infos_news_defolat);
+                ImageLoaderUtils.displayWithDefaultImg(StarInfoActivity.this, iv_star_bg, resultvalue.getBack_pic(), R.drawable.rec_bg);
                 initHorizontalRecview(infoBean);
             }
         });
@@ -178,7 +178,7 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         popupWindow.setOutsideTouchable(false);
         popupWindow.setFocusable(true);
-        ImageLoaderUtils.displayWithDefaultImg(this, zoomImageView, prc_url, R.drawable.infos_news_defolat);
+        ImageLoaderUtils.displayWithDefaultImg(this, zoomImageView, prc_url, R.drawable.rec_bg);
         zoomImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

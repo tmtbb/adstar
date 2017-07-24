@@ -33,7 +33,7 @@ public class HorizontalRcvAdapter extends RecyclerView.Adapter<HorizontalRcvAdap
     @Override
     public void onBindViewHolder(RelatedGoodsViewHolder holder, final int position) {
         String pic_url = mMovieItems.get(position);
-        ImageLoaderUtils.displayWithDefaultImg(mContext, holder.imageView, pic_url,R.drawable.infos_news_defolat);
+        ImageLoaderUtils.displayWithDefaultImg(mContext, holder.imageView, pic_url,R.drawable.rec_bg);
         holder.imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

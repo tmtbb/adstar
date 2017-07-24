@@ -31,6 +31,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.umeng.analytics.MobclickAgent;
 import com.yundian.star.R;
+import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.baseapp.AppManager;
 import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.MatchSucessReturnBeen;
@@ -39,6 +40,7 @@ import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstr
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPIResponse;
 import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.yundian.star.ui.im.activity.SystemMessagesActivity;
+import com.yundian.star.ui.main.activity.BuyTransferIndentActivity;
 import com.yundian.star.ui.main.activity.CustomerServiceActivity;
 import com.yundian.star.ui.main.activity.MainActivity;
 import com.yundian.star.ui.wangyi.config.preference.Preferences;
@@ -425,6 +427,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                         mBuilder.setContentText(s);
                         mBuilder.setTicker(s);
                         //                        showAlertDialog();
+                        mBuilder.setContentIntent(getDefalutIntent(SystemMessagesActivity.class,Notification.FLAG_AUTO_CANCEL)); //设置通知栏点击意图
                         mNotificationManager.notify(new Random().nextInt(Integer.MAX_VALUE), mBuilder.build());
                     }
                 });
@@ -447,6 +450,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                 mBuilder.setContentText(s);
                 mBuilder.setTicker(s);
                 //                        showAlertDialog();
+                mBuilder.setContentIntent(getDefalutIntent(BuyTransferIndentActivity.class,Notification.FLAG_AUTO_CANCEL)); //设置通知栏点击意图
                 mNotificationManager.notify(new Random().nextInt(Integer.MAX_VALUE), mBuilder.build());
                 break;
             case 3040:
@@ -466,7 +470,6 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         mBuilder.build().defaults = Notification.DEFAULT_ALL;
         mBuilder.setContentTitle("交易")//设置通知栏标题
                 .setContentText("")   // /<span style="font-family: Arial;">/设置通知栏显示内容</span>
-                .setContentIntent(getDefalutIntent(Notification.FLAG_AUTO_CANCEL)) //设置通知栏点击意图
 //                .setFullScreenIntent(getDefalutIntent(Notification.FLAG_AUTO_CANCEL), true)
 //  .setNumber(10) //设置通知集合的数量
                 .setWhen(System.currentTimeMillis())//通知产生的时间，会在通知信息里显示，一般是系统获取到的时间
@@ -481,8 +484,11 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
 
     }
 
-    public PendingIntent getDefalutIntent(int flags) {
-        Intent intent = new Intent(this, SystemMessagesActivity.class);
+    public PendingIntent getDefalutIntent(Class aClass,int flags) {
+        Intent intent = new Intent(this, aClass);
+        if (aClass == BuyTransferIndentActivity.class){
+            intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 3);
+        }
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, intent, flags);
         return pendingIntent;
     }

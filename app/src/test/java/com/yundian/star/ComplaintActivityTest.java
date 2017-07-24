@@ -1,5 +1,10 @@
 package com.yundian.star;
 
+import com.yundian.star.been.CircleFriendBean;
+import com.yundian.star.listener.OnAPIListener;
+import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
+import com.yundian.star.utils.LogUtils;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -18,6 +23,22 @@ public class ComplaintActivityTest extends BaseRobolectricTestCase {
         int o = (int)mock.get(0);
         Assert.assertEquals(1,o);
         Mockito.verify(mock).get(0);
+    }
+
+    @Test
+    public void getData() {
+        NetworkAPIFactoryImpl.getInformationAPI().getAllCircleInfo(0, 10, new OnAPIListener<CircleFriendBean>() {
+            @Override
+            public void onError(Throwable ex) {
+
+            }
+
+            @Override
+            public void onSuccess(CircleFriendBean circleFriendBean) {
+                LogUtils.loge("圈子反馈" + circleFriendBean.toString());
+            }
+        });
+
     }
 
 

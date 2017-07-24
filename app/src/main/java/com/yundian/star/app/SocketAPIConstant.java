@@ -115,6 +115,7 @@ public interface SocketAPIConstant {
         Short StarRefresh = 14001;
         Short StarDetailInfo = 10031;
         Short CircleFrindInfo = 15001;
+        Short CircleFrindIsOne = 15003;
         Short PresenterStar = 15009;
         Short UserAddComment = 15011;
         Short DanMaKu = 10035;

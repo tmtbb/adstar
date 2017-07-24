@@ -1,6 +1,7 @@
 package com.yundian.star.ui.main.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -31,6 +32,7 @@ import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.netease.nimlib.jsbridge.util.LogUtil;
 import com.yundian.star.R;
+import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.DanMaKuInfo;
 import com.yundian.star.been.StarListReturnBean;
@@ -277,25 +279,6 @@ public class FleaMarketActivity extends BaseActivity {
     private void addDanmaKuShowTextAndImage(final DanMaKuInfo.BarrageInfoBean infoBean) {
         //Math.floor(Math.random()*(max-min+1)+min);
         final BaseDanmaku danmaku = mDanmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL, mDanmakuContext);
-       /* float floor = (float) Math.floor(Math.random() * (limt - 1 - 0 + 1) + 0);
-        float floorY = (float) Math.floor(Math.random() * (5 - 0 + 1) + 0);
-        float dH = floor * DisplayUtil.dip2px(30);
-        float dY = floorY * DisplayUtil.dip2px(10);
-        float d = (dH + dY);
-        float dDisplayY = display > 0.7f ? 2 : 3.5f;
-        float dDisplayT = display > 0.7f ? 9.4f : 8.2f;
-        Log.e("floor:", floor + "");
-        Log.e("floorY:", floorY + "");
-        mDanmakuContext.mDanmakuFactory.fillTranslationData(danmaku, widthPixels,
-                d, (float) (-widthPixels * dDisplayY), d, (long) (widthPixels * dDisplayT + dH + dY), 0, 1, 1);
-        Log.e("(limt)判断:", limt + "");
-        Log.e("(layoutHeight+dH+dY)1:", layoutHeight + dH + dY + "");
-        Log.e("display:", display + "");
-        // Log.e("(long)3:", (long) Math.sqrt(Math.pow(d, 2.0)) * 3 + "");
-        Log.e("-3*widthPixels*display:", -3 * widthPixels * display + "");
-        //(long) (7*widthPixels + (floor > 0 ? floor * (widthPixels + dH + dY): floor * 100))
-        //mDanmakuContext.mDanmakuFactory.fillAlphaData(danmaku, AlphaValue.MAX * 1, AlphaValue.MAX * 0, 1000 * 30);*/
-
         if (danmaku == null || mDanmakuView == null) {
             return;
         }
@@ -540,7 +523,10 @@ public class FleaMarketActivity extends BaseActivity {
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
+                StarListReturnBean.SymbolInfoBean symbolInfoBean = list.get(position);
+                Intent intent3 = new Intent(FleaMarketActivity.this, StarInfoActivity.class);
+                intent3.putExtra(AppConstant.STAR_CODE, symbolInfoBean.getSymbol());
+                startActivity(intent3);
             }
         });
         getData(false, 0, 12);

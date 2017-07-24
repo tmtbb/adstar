@@ -20,7 +20,6 @@ import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.SearchActivity;
 import com.yundian.star.ui.main.activity.StarTimeDealActivity;
 import com.yundian.star.ui.main.adapter.MarketDetailAdapter;
-import com.yundian.star.utils.CheckLoginUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.widget.NormalTitleBar;
@@ -42,7 +41,7 @@ public class MarketDetailFragment extends BaseFragment {
     FrameLayout parentView;
     MarketDetailAdapter marketDetailAdapter;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
-    private static int mCurrentCounter = 1;
+    private static int mCurrentCounter = 0;
     private static final int REQUEST_COUNT = 10;
     private static final int GET_DATA = 10;
     private ArrayList<StarListReturnBean.SymbolInfoBean> list = new ArrayList<>();
@@ -69,7 +68,7 @@ public class MarketDetailFragment extends BaseFragment {
         nt_title.setRightImagSrc(R.drawable.search);
         nt_title.setRightImagVisibility(true);
         initAdpter();
-        getData(false, 1, REQUEST_COUNT);
+        getData(false, 0, REQUEST_COUNT);
         //myHandler = new MyHandler(this);
         initListener();
     }
@@ -146,32 +145,24 @@ public class MarketDetailFragment extends BaseFragment {
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (CheckLoginUtil.checkLogin(getActivity())) {
-                    //startActivity(CircleFriendsActivity.class);
-                    //startActivity(StarTimeDealActivity.class);
-//                    LogUtils.logd(position + "");
                     StarListReturnBean.SymbolInfoBean symbolInfoBean = list.get(position);
                     Intent intent = new Intent(getActivity(), StarTimeDealActivity.class);
                     intent.putExtra(AppConstant.SYMBOL_INFO_BEAN, symbolInfoBean);
-//                    intent.putExtra(AppConstant.STAR_NAME, infoBean.getName());
-//                    intent.putExtra(AppConstant.STAR_WID, infoBean.getWid());
-//                    intent.putExtra(AppConstant.STAR_HEAD_URL, infoBean.getPic());
                     startActivity(intent);
-                }
             }
         });
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getData(true, mCurrentCounter + 1, mCurrentCounter + REQUEST_COUNT);
+                getData(true, mCurrentCounter,REQUEST_COUNT);
             }
         });
         lrv.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mCurrentCounter = 1;
+                mCurrentCounter = 0;
                 lrv.setNoMore(false);
-                getData(false, 1, REQUEST_COUNT);
+                getData(false, 0, REQUEST_COUNT);
             }
         });
     }

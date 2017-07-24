@@ -1,5 +1,6 @@
 package com.yundian.star.ui.main.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
+import com.yundian.star.app.AppConstant;
 import com.yundian.star.app.CommentConfig;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.CircleFriendBean;
@@ -78,6 +80,8 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
     private FrameLayout flEmotionView;
     private EmotionLayout mElEmotion;
     private EmotionKeyboard mEmotionKeyboard;
+    private String code;
+    private boolean isOne;
 
     @Override
     public int getLayoutId() {
@@ -91,6 +95,9 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
 
     @Override
     public void initView() {
+        Intent intent = getIntent();
+        code = intent.getStringExtra(AppConstant.STAR_CODE);
+        isOne = intent.getBooleanExtra(AppConstant.IS_ONE, false);
         presenter = new CirclePresenter(this);
         nt_title.setBackVisibility(true);
         nt_title.setTitleText(R.string.find_star);
@@ -241,46 +248,90 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
 
 
     private void getData(final boolean isLoadMore, int start, int count) {
-        NetworkAPIFactoryImpl.getInformationAPI().getAllCircleInfo(start, count, new OnAPIListener<CircleFriendBean>() {
-            @Override
-            public void onError(Throwable ex) {
-                if (lrv != null) {
-                    lrv.setNoMore(true);
-                    if (!isLoadMore) {
-                        list.clear();
-                        circleFriendAdapter.clear();
-                        lrv.refreshComplete(REQUEST_COUNT);
-                        showErrorView(fl_pr, R.drawable.error_view_comment, "当前没有相关数据");
-                    }
-                }
-            }
-
-            @Override
-            public void onSuccess(CircleFriendBean circleFriendBean) {
-                LogUtils.loge("圈子反馈" + circleFriendBean.toString());
-                if (circleFriendBean == null || circleFriendBean.getCircle_list() == null || circleFriendBean.getCircle_list().size() == 0) {
-                    if (!isLoadMore) {
-                        list.clear();
-                        circleFriendAdapter.clear();
-                        lrv.refreshComplete(REQUEST_COUNT);
-                        showErrorView(fl_pr, R.drawable.error_view_comment, "当前没有相关数据");
-                    } else {
+        if (isOne){
+            NetworkAPIFactoryImpl.getInformationAPI().getAllCircleIsOne(start, count,code, new OnAPIListener<CircleFriendBean>() {
+                @Override
+                public void onError(Throwable ex) {
+                    if (lrv != null) {
                         lrv.setNoMore(true);
+                        if (!isLoadMore) {
+                            list.clear();
+                            circleFriendAdapter.clear();
+                            lrv.refreshComplete(REQUEST_COUNT);
+                            showErrorView(fl_pr, R.drawable.error_view_comment, "当前没有相关数据");
+                        }
                     }
+                }
 
-                    return;
+                @Override
+                public void onSuccess(CircleFriendBean circleFriendBean) {
+                    LogUtils.loge("圈子反馈" + circleFriendBean.toString());
+                    if (circleFriendBean == null || circleFriendBean.getCircle_list() == null || circleFriendBean.getCircle_list().size() == 0) {
+                        if (!isLoadMore) {
+                            list.clear();
+                            circleFriendAdapter.clear();
+                            lrv.refreshComplete(REQUEST_COUNT);
+                            showErrorView(fl_pr, R.drawable.error_view_comment, "当前没有相关数据");
+                        } else {
+                            lrv.setNoMore(true);
+                        }
+
+                        return;
+                    }
+                    if (isLoadMore) {
+                        loadList.clear();
+                        loadList = circleFriendBean.getCircle_list();
+                        loadMoreData();
+                    } else {
+                        list.clear();
+                        list = circleFriendBean.getCircle_list();
+                        showData();
+                    }
                 }
-                if (isLoadMore) {
-                    loadList.clear();
-                    loadList = circleFriendBean.getCircle_list();
-                    loadMoreData();
-                } else {
-                    list.clear();
-                    list = circleFriendBean.getCircle_list();
-                    showData();
+            });
+        }else {
+            NetworkAPIFactoryImpl.getInformationAPI().getAllCircleInfo(start, count, new OnAPIListener<CircleFriendBean>() {
+                @Override
+                public void onError(Throwable ex) {
+                    if (lrv != null) {
+                        lrv.setNoMore(true);
+                        if (!isLoadMore) {
+                            list.clear();
+                            circleFriendAdapter.clear();
+                            lrv.refreshComplete(REQUEST_COUNT);
+                            showErrorView(fl_pr, R.drawable.error_view_comment, "当前没有相关数据");
+                        }
+                    }
                 }
-            }
-        });
+
+                @Override
+                public void onSuccess(CircleFriendBean circleFriendBean) {
+                    LogUtils.loge("圈子反馈" + circleFriendBean.toString());
+                    if (circleFriendBean == null || circleFriendBean.getCircle_list() == null || circleFriendBean.getCircle_list().size() == 0) {
+                        if (!isLoadMore) {
+                            list.clear();
+                            circleFriendAdapter.clear();
+                            lrv.refreshComplete(REQUEST_COUNT);
+                            showErrorView(fl_pr, R.drawable.error_view_comment, "当前没有相关数据");
+                        } else {
+                            lrv.setNoMore(true);
+                        }
+
+                        return;
+                    }
+                    if (isLoadMore) {
+                        loadList.clear();
+                        loadList = circleFriendBean.getCircle_list();
+                        loadMoreData();
+                    } else {
+                        list.clear();
+                        list = circleFriendBean.getCircle_list();
+                        showData();
+                    }
+                }
+            });
+        }
+
 
     }
 

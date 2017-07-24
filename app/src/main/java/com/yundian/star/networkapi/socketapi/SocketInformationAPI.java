@@ -542,6 +542,17 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
+    public void getAllCircleIsOne(int pos, int count, String star_code, OnAPIListener<CircleFriendBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("pos", pos);
+        map.put("count", count);
+        map.put("star_code", star_code);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.CircleFrindIsOne,
+                SocketAPIConstant.ReqeutType.CircleInfo, map);
+        requestEntity(socketDataPacket,CircleFriendBean.class,listener);
+    }
+
+    @Override
     public void getDanMaKuInfo(int pos, int count, OnAPIListener<DanMaKuInfo> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("pos", pos);

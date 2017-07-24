@@ -22,6 +22,7 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.utils.CheckLoginUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
+import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.TimeUtil;
@@ -135,10 +136,10 @@ public class StarSellActivity extends BaseActivity {
                     return;
                 }
                 CheckLoginUtil.checkLogin(StarSellActivity.this);
-//                if (JudgeIsSetPayPwd.isSetPwd(StarSellActivity.this)) {
-//                    passwordView.setVisibility(View.VISIBLE);
-//                }
-                byBuyStar();
+                if (JudgeIsSetPayPwd.isSetPwd(StarSellActivity.this)) {
+                    passwordView.setVisibility(View.VISIBLE);
+                }
+                //byBuyStar();
                 LogUtils.loge("ask_buy_prices:"+ask_buy_prices+"num:"+num+"total_money:"+total_money);
             }
         });
@@ -157,7 +158,7 @@ public class StarSellActivity extends BaseActivity {
             public void checkSuccessPwd(String pwd) {
                 passwordView.setVisibility(View.GONE);
                 //密码正确
-                //byBuyStar();
+                byBuyStar();
             }
         });
     }
@@ -178,7 +179,7 @@ public class StarSellActivity extends BaseActivity {
     }
 
     private void showViewData(final ShoppingStarBean shoppingStarBean) {
-        ImageLoaderUtils.displayWithDefaultImg(this, iv_star_bg, shoppingStarBean.getBack_pic_url(), R.drawable.infos_news_defolat);
+        ImageLoaderUtils.displayWithDefaultImg(this, iv_star_bg, shoppingStarBean.getBack_pic_url(), R.drawable.rec_bg);
         ImageLoaderUtils.displaySmallPhoto(this, imageView_icon, shoppingStarBean.getHead_url());
         tv_name.setText(shoppingStarBean.getStar_name());
         tv_preice.setText(String.format(getString(R.string.times_p),shoppingStarBean.getPublish_price()));

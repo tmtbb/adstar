@@ -193,10 +193,10 @@ public class MeetStarActivity extends BaseActivity {
             List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(code);
             if (starInfos != null && starInfos.size() != 0) {
                 StarInfo starInfo = starInfos.get(0);
-                ImageLoaderUtils.displayWithDefaultImg(mContext, starBg, starInfo.getPic1(),R.drawable.infos_news_defolat);
+                ImageLoaderUtils.displayWithDefaultImg(mContext, starBg, starInfo.getPic1(),R.drawable.rec_bg);
             }
         }else {
-            ImageLoaderUtils.displayWithDefaultImg(mContext, starBg, back_url,R.drawable.infos_news_defolat);
+            ImageLoaderUtils.displayWithDefaultImg(mContext, starBg, back_url,R.drawable.rec_bg);
         }
 
     }

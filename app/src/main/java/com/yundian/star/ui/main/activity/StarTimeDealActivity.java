@@ -36,6 +36,7 @@ import com.yundian.star.been.StarListReturnBean;
 import com.yundian.star.been.TradingStatusBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
+import com.yundian.star.utils.CheckLoginUtil;
 import com.yundian.star.utils.DisplayUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.LogUtils;
@@ -155,6 +156,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
         RelativeLayout rl_bg = (RelativeLayout) findViewById(R.id.rl_bg);
         int i = new Random().nextInt(11);
         rl_bg.setBackgroundResource(random_bg[i]);
+        img_head.setOnClickListener(this);
         tv_back.setOnClickListener(this);
         tv_right.setOnClickListener(this);
         tv_transfer.setOnClickListener(this);
@@ -182,13 +184,6 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
                 // .setMarginTop(40)
                 .setCacheStuffer(new BackgroundCacheStuffer(), mCacheStufferAdapter)  // 绘制背景使用BackgroundCacheStuffer
                 .preventOverlapping(overlappingEnablePair).setDanmakuMargin(40);
-
-
-
-
-
-
-
         /*// 设置最大显示行数
         HashMap<Integer, Integer> maxLinesPair = new HashMap<Integer, Integer>();
         maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, 5); // 滚动弹幕最大显示5行
@@ -302,12 +297,6 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
             points[1][0] = (float) (-2*d);
             points[1][1] = (float) (3*d);
         mDanmakuContext.mDanmakuFactory.fillLinePathData(danmaku,points,1f,1f);
-
-                Log.e("(long)判断:", widthPixels + ".." + heightPixels);
-        Log.e("(long)1:", (float) (-d) + "");
-        Log.e("(long)2:", (float) (2 * d) + "");
-        // Log.e("(long)3:", (long) Math.sqrt(Math.pow(d, 2.0)) * 3 + "");
-        Log.e("(long)4:", (long) (Math.sqrt(2) * d * 5 + dH) + "");
         //(long) (7*widthPixels + (floor > 0 ? floor * (widthPixels + dH + dY): floor * 100))
         //mDanmakuContext.mDanmakuFactory.fillAlphaData(danmaku, AlphaValue.MAX * 1, AlphaValue.MAX * 0, 1000 * 30);
         mDanmakuContext.setMaximumVisibleSizeInScreen(30);
@@ -384,11 +373,17 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
                 finish();
                 break;
             case R.id.tv_right:
+                if (CheckLoginUtil.checkLogin(this)==false){
+                    return;
+                }
                 startActivity(FleaMarketActivity.class);
                 break;
             case R.id.tv_transfer:
+                if (CheckLoginUtil.checkLogin(this)==false){
+                    return;
+                }
                 Intent intent = new Intent(this, BuyTransferIndentActivity.class);
-                intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 0);
+                intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 1);
                 intent.putExtra(AppConstant.STAR_WID, symbolInfoBean.getWid());
                 intent.putExtra(AppConstant.STAR_NAME, symbolInfoBean.getName());
                 intent.putExtra(AppConstant.STAR_CODE, symbolInfoBean.getSymbol());
@@ -396,13 +391,24 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
                 startActivity(intent);
                 break;
             case R.id.tv_ask_to_buy:
+                if (CheckLoginUtil.checkLogin(this)==false){
+                    return;
+                }
                 Intent intent2 = new Intent(this, BuyTransferIndentActivity.class);
-                intent2.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 1);
+                intent2.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 0);
                 intent2.putExtra(AppConstant.STAR_WID, symbolInfoBean.getWid());
                 intent2.putExtra(AppConstant.STAR_NAME, symbolInfoBean.getName());
                 intent2.putExtra(AppConstant.STAR_CODE, symbolInfoBean.getSymbol());
                 intent2.putExtra(AppConstant.STAR_HEAD_URL, symbolInfoBean.getPic());
                 startActivity(intent2);
+                break;
+            case R.id.img_head:
+                if (CheckLoginUtil.checkLogin(this)==false){
+                    return;
+                }
+                Intent intent3 = new Intent(this, StarInfoActivity.class);
+                intent3.putExtra(AppConstant.STAR_CODE, symbolInfoBean.getSymbol());
+                startActivity(intent3);
                 break;
         }
     }

@@ -93,6 +93,7 @@ public interface InformationAPI {
     void getStarList(long id, String token,long aType,long sort,int pos,int count,OnAPIListener<StarListReturnBean> listener);
     void getStarDetailInfo(String star_code,OnAPIListener<StarDetailInfoBean> listener);
     void getAllCircleInfo(int pos,int count,OnAPIListener<CircleFriendBean> listener);
+    void getAllCircleIsOne(int pos,int count,String star_code,OnAPIListener<CircleFriendBean> listener);
     void getDanMaKuInfo(int pos,int count,OnAPIListener<DanMaKuInfo> listener);
     void getPraisestar(String star_code,long circle_id,long uid,OnAPIListener<ResultBeen> listener);
     void getUserAddComment(String star_code,long circle_id,long uid,int direction,String content,OnAPIListener<ResultBeen> listener);
