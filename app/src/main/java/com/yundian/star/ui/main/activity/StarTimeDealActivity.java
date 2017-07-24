@@ -291,9 +291,10 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
         float dH = floor * 100 * display;
         float dY = floorY * 20 * display;
         float d = (widthPixels + dH + dY);
+        long time = (long) (d*(display<1.6?24:12));
         Log.e("floor:", floor + "");
         mDanmakuContext.mDanmakuFactory.fillTranslationData(danmaku, 0,
-                0, 0, 0, (long) (d*12), 0, 1, 1);
+                0, 0, 0, (long) (d*24/display), 0, 1, 1);
 
         float[][] points = new float[2][2];
             points[0][0] = d;
