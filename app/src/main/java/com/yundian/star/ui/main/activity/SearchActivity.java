@@ -86,6 +86,7 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
                 SearchReturnbeen.StarsinfoBean starsinfoBean = list.get(position);
                 StarListReturnBean.SymbolInfoBean bean = new StarListReturnBean.SymbolInfoBean();
                 bean.setPic(starsinfoBean.getPic());
+                bean.setSymbol(starsinfoBean.getSymbol());
                 bean.setCurrentPrice(0);
                 bean.setName(starsinfoBean.getName());
                 bean.setWid(starsinfoBean.getWid());

@@ -184,6 +184,18 @@
             </LinearLayout>
 
             <include layout="@layout/ll_interval_line" />
+            <LinearLayout
+                android:id="@+id/ll_me_deal"
+                style="@style/user_info_setting_style">
+
+                <TextView
+                    style="@style/user_setting_text_style"
+                    android:text="@string/me_deal_detail" />
+
+                <include layout="@layout/ll_right_arrow" />
+
+            </LinearLayout>
+            <include layout="@layout/ll_interval_line" />
 
             <Button
                 android:id="@+id/btn_my_referee"

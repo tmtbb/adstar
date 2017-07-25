@@ -19,7 +19,7 @@ import java.util.List;
 
 
 /**
- * Created by GIGAMOLE on 8/18/16.
+ * 抢购明星
  */
 public class HorizontalPagerFragment extends BaseFragment {
 

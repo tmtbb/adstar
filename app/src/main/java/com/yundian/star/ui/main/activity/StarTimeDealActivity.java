@@ -260,7 +260,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
 
     private void refreshAnim() {
         if (tv_time != null && secondTime >= 0 && myHandler != null && startSunTime) {
-            tv_time.setText(TimeUtil.getHMS(secondTime * 1000));
+            tv_time.setText(TimeUtil.calculatTime(secondTime));
             secondTime--;
             if (myHandler != null) {
                 myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 1000);

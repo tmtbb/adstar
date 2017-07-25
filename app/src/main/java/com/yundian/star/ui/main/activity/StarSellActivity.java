@@ -263,7 +263,8 @@ public class StarSellActivity extends BaseActivity {
 
     private void refreshTime() {
         if (tv_time_count != null && secondTime > 0 && myHandler != null) {
-            tv_time_count.setText(TimeUtil.getHMS(secondTime * 1000));
+            tv_time_count.setText(TimeUtil.calculatTime(secondTime));
+            LogUtils.loge(secondTime+"");
             secondTime--;
             myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 1000);
         } else if (tv_time_count != null && secondTime <= 0) {
@@ -290,4 +291,5 @@ public class StarSellActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
 }

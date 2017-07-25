@@ -38,9 +38,9 @@ public class ResultCodeUtil {
                     msg = "异常操作";
                     EventBus.getDefault().postSticky(new EventBusMessage(AppConstant.FREEZE_MOVEMENT));
                     break;
-                case -301:
-                    msg = "用户已经存在";
-                    break;
+//                case -301:
+//                    msg = "用户已经存在";
+//                    break;
                 case -302:
                     msg = "密码错误";
                     break;

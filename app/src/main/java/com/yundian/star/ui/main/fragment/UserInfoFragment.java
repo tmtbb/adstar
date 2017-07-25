@@ -1,6 +1,7 @@
 package com.yundian.star.ui.main.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -18,6 +19,7 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 import com.yundian.star.R;
+import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.AssetDetailsBean;
 import com.yundian.star.been.EventBusMessage;
@@ -28,6 +30,7 @@ import com.yundian.star.greendao.GreenDaoManager;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.BookingStarActivity;
+import com.yundian.star.ui.main.activity.BuyTransferIndentActivity;
 import com.yundian.star.ui.main.activity.CustomerServiceActivity;
 import com.yundian.star.ui.main.activity.DifferAnswerActivity;
 import com.yundian.star.ui.main.activity.GeneralSettingsActivity;
@@ -67,6 +70,8 @@ public class UserInfoFragment extends BaseFragment {
     TextView userTotalAssets;
     @Bind(R.id.tv_order_star)
     TextView userOrderStar;
+    @Bind(R.id.ll_me_deal)
+    LinearLayout ll_me_deal;
     @Bind(R.id.headImage)
     RoundImageView headImage;
     @Bind(R.id.ll_user_money_bag)
@@ -155,7 +160,7 @@ public class UserInfoFragment extends BaseFragment {
 
 
     @OnClick({R.id.iv_user_info_bg, R.id.headImage, R.id.ll_user_money_bag, R.id.ll_user_order_star,
-            R.id.ll_customer_service, R.id.ll_common_problem, R.id.ll_general_settings, R.id.btn_my_referee, R.id.iv_star_talk})
+            R.id.ll_customer_service, R.id.ll_common_problem, R.id.ll_general_settings, R.id.btn_my_referee, R.id.iv_star_talk,R.id.ll_me_deal})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_user_info_bg:
@@ -193,6 +198,12 @@ public class UserInfoFragment extends BaseFragment {
             case R.id.iv_star_talk:
                 ViewConcurrencyUtils.preventConcurrency();  //防止并发
                 startActivity(DifferAnswerActivity.class);
+                break;
+            case R.id.ll_me_deal:
+                ViewConcurrencyUtils.preventConcurrency();  //防止并发
+                Intent intent = new Intent(getActivity(),BuyTransferIndentActivity.class);
+                intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 4);
+                getActivity().startActivity(intent);
                 break;
         }
     }

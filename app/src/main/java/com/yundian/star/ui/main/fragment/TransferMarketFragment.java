@@ -19,10 +19,12 @@ import com.yundian.star.been.StartShellTimeBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.AuctionRankingListActivity;
+import com.yundian.star.ui.main.activity.BuyTransferIndentActivity;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
+import com.yundian.star.utils.ViewConcurrencyUtils;
 import com.yundian.star.widget.NumberBoubleButton;
 import com.yundian.star.widget.NumberButton;
 
@@ -243,6 +245,7 @@ public class TransferMarketFragment extends BaseFragment {
 //                    return;
 //                }
                 //judgeIsLogin();
+                ViewConcurrencyUtils.preventConcurrency();
                 if (buy_num > starTotalTime) {
                     ToastUtils.showShort("超过明星发行总数量");
                     return;
@@ -264,6 +267,9 @@ public class TransferMarketFragment extends BaseFragment {
                                 LogUtils.loge("挂单" + askToBuyReturnBeen.toString());
                                 if (!TextUtils.isEmpty(askToBuyReturnBeen.getSymbol())) {
                                     ToastUtils.showShort("挂单成功");
+                                    Intent intent = new Intent(getActivity(),BuyTransferIndentActivity.class);
+                                    intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 3);
+                                    getActivity().startActivity(intent);
                                     LogUtils.loge("转让成功" + askToBuyReturnBeen.toString());
                                 }
                             }

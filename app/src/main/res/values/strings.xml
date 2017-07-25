@@ -47,6 +47,7 @@
     <string name="customer_service">客服中心</string>
     <string name="common_problem">常见问题</string>
     <string name="general_settings">通用设置</string>
+    <string name="me_deal_detail">交易明细</string>
     <string name="my_referee">我的推荐人</string>
     <string name="user_info">个人信息</string>
     <string name="user_head_imageview">头像</string>
