@@ -120,6 +120,7 @@ public interface SocketAPIConstant {
         Short UserAddComment = 15011;
         Short DanMaKu = 10035;
         Short ByBuy = 14005;
+        Short getNowPricce = 4011;
 
 
 

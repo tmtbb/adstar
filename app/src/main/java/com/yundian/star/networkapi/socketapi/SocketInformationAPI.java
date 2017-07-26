@@ -16,6 +16,7 @@ import com.yundian.star.been.FansTopListBeen;
 import com.yundian.star.been.HaveStarTimeBeen;
 import com.yundian.star.been.HomePageInfoBean;
 import com.yundian.star.been.MarketTypeBeen;
+import com.yundian.star.been.NowPriceBean;
 import com.yundian.star.been.OptionsStarListBeen;
 import com.yundian.star.been.OrderCancelReturnBeen;
 import com.yundian.star.been.OrderReturnBeen;
@@ -597,6 +598,18 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.ByBuy,
                 SocketAPIConstant.ReqeutType.Shopping, map);
         requestEntity(socketDataPacket,ResultBeen.class,listener);
+    }
+
+    @Override
+    public void getNowPrice(long id, String token, String starcode, int aType, OnAPIListener<NowPriceBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("token", token);
+        map.put("starcode", starcode);
+        map.put("aType", aType);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.getNowPricce,
+                SocketAPIConstant.ReqeutType.Time, map);
+        requestEntity(socketDataPacket,NowPriceBean.class,listener);
     }
 
 }

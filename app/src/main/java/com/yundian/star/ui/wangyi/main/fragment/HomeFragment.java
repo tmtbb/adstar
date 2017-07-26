@@ -45,7 +45,7 @@ public class HomeFragment extends TFragment implements OnPageChangeListener, Rem
     private View rootView;
 
     public HomeFragment() {
-        setContainerId(R.id.welcome_container);
+        setContainerId(R.id.line);
     }
 
     @Override

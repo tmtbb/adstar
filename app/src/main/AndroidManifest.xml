@@ -81,7 +81,10 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.main.activity.SplashActivity">
+        <activity android:name=".ui.main.activity.SplashActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

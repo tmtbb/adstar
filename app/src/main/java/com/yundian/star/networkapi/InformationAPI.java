@@ -15,6 +15,7 @@ import com.yundian.star.been.FansTopListBeen;
 import com.yundian.star.been.HaveStarTimeBeen;
 import com.yundian.star.been.HomePageInfoBean;
 import com.yundian.star.been.MarketTypeBeen;
+import com.yundian.star.been.NowPriceBean;
 import com.yundian.star.been.OptionsStarListBeen;
 import com.yundian.star.been.OrderCancelReturnBeen;
 import com.yundian.star.been.OrderReturnBeen;
@@ -98,4 +99,5 @@ public interface InformationAPI {
     void getPraisestar(String star_code,long circle_id,long uid,OnAPIListener<ResultBeen> listener);
     void getUserAddComment(String star_code,long circle_id,long uid,int direction,String content,OnAPIListener<ResultBeen> listener);
     void getByBuy(long uid, String token,String symbol,long amount,double price,OnAPIListener<ResultBeen> listener);
+    void getNowPrice(long id, String token,String starcode,int aType,OnAPIListener<NowPriceBean> listener);
 }

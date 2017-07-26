@@ -113,7 +113,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_marginRight="12dp"
-                    android:text="99"
+                    android:text="0.00"
                     android:textColor="@color/color_white_ffffffff"
                     android:textSize="@dimen/fontSize_40sp"
                     android:textStyle="bold" />

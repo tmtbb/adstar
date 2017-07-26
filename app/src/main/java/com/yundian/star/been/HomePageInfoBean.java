@@ -160,5 +160,32 @@ public class HomePageInfoBean  {
         public void setWid(String wid) {
             this.wid = wid;
         }
+
+        @Override
+        public String toString() {
+            return "SymbolInfoBean{" +
+                    "change=" + change +
+                    ", currentPrice=" + currentPrice +
+                    ", home_button_pic='" + home_button_pic + '\'' +
+                    ", home_pic='" + home_pic + '\'' +
+                    ", name='" + name + '\'' +
+                    ", pchg=" + pchg +
+                    ", pic='" + pic + '\'' +
+                    ", priceTime=" + priceTime +
+                    ", pushlish_type=" + pushlish_type +
+                    ", star_type=" + star_type +
+                    ", symbol='" + symbol + '\'' +
+                    ", sysTime=" + sysTime +
+                    ", wid='" + wid + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "HomePageInfoBean{" +
+                "home_last_pic='" + home_last_pic + '\'' +
+                ", symbol_info=" + symbol_info +
+                '}';
     }
 }

@@ -32,6 +32,7 @@ import com.netease.nimlib.jsbridge.util.LogUtil;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.been.NowPriceBean;
 import com.yundian.star.been.StarListReturnBean;
 import com.yundian.star.been.TradingStatusBeen;
 import com.yundian.star.listener.OnAPIListener;
@@ -68,6 +69,8 @@ import master.flame.danmaku.danmaku.model.android.SpannedCacheStuffer;
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser;
 import master.flame.danmaku.danmaku.parser.IDataSource;
 
+import static com.yundian.star.R.id.tv_preice;
+
 /**
  * Created by Administrator on 2017/7/18.
  * 明星时间交易
@@ -97,6 +100,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
     private StarListReturnBean.SymbolInfoBean symbolInfoBean;
     private TextView tv_time;
     private ImageView qiu;
+    private TextView tv_price;
 
     @Override
     public int getLayoutId() {
@@ -115,6 +119,22 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
         initFindById();
         setSize();
         getData();
+        getNowPrice();
+    }
+
+    private void getNowPrice() {
+        NetworkAPIFactoryImpl.getInformationAPI().getNowPrice(SharePrefUtil.getInstance().getUserId(), SharePrefUtil.getInstance().getToken(), symbolInfoBean.getSymbol(),5, new OnAPIListener<NowPriceBean>() {
+            @Override
+            public void onError(Throwable ex) {
+
+            }
+
+            @Override
+            public void onSuccess(NowPriceBean nowPriceBean) {
+                tv_price.setText(String.format("%.2f", nowPriceBean.getCurrentPrice()));
+                LogUtils.loge("实时报价接口。。"+nowPriceBean.toString());
+            }
+        });
     }
 
     private void getData() {
@@ -147,12 +167,11 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
         ImageView img_head = (ImageView) findViewById(R.id.img_head);
         TextView tv_name = (TextView) findViewById(R.id.tv_name);
         TextView tv_info = (TextView) findViewById(R.id.tv_info);
-        TextView tv_price = (TextView) findViewById(R.id.tv_preice);
+        tv_price = (TextView) findViewById(tv_preice);
         tv_time = (TextView) findViewById(R.id.tv_time);
         ImageLoaderUtils.displaySmallPhoto(mContext, img_head, symbolInfoBean.getPic());
         tv_name.setText(symbolInfoBean.getName());
         tv_info.setText(starTypeInfo[symbolInfoBean.getStar_type()]);
-        tv_price.setText(String.format("%.2f", symbolInfoBean.getCurrentPrice()));
         RelativeLayout rl_bg = (RelativeLayout) findViewById(R.id.rl_bg);
         int i = new Random().nextInt(11);
         rl_bg.setBackgroundResource(random_bg[i]);

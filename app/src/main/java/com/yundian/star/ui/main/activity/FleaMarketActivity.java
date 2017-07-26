@@ -25,6 +25,7 @@ import android.view.WindowManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.github.jdsjlzx.ItemDecoration.SpacesItemDecoration;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
@@ -519,7 +520,7 @@ public class FleaMarketActivity extends BaseActivity {
                 getData(true, mCurrentCounter + 1, mCurrentCounter + REQUEST_COUNT);
             }
         });
-        //lrv.addItemDecoration(SpacesItemDecoration.newInstance(DisplayUtil.dip2px(20), DisplayUtil.dip2px(10), manager.getSpanCount(), Color.WHITE));
+        lrv.addItemDecoration(SpacesItemDecoration.newInstance(0, DisplayUtil.dip2px(10), manager.getSpanCount(), Color.WHITE));
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
