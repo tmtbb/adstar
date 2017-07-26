@@ -3,7 +3,6 @@ package com.yundian.star.ui.wangyi.session;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
@@ -24,8 +23,6 @@ import com.netease.nim.uikit.team.model.TeamExtras;
 import com.netease.nim.uikit.team.model.TeamRequestCode;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
-import com.netease.nimlib.sdk.avchat.constant.AVChatType;
-import com.netease.nimlib.sdk.avchat.model.AVChatAttachment;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.attachment.FileAttachment;
@@ -39,7 +36,6 @@ import com.netease.nimlib.sdk.team.model.Team;
 import com.yundian.star.R;
 import com.yundian.star.ui.wangyi.DemoCache;
 import com.yundian.star.ui.wangyi.contact.activity.UserProfileActivity;
-import com.yundian.star.ui.wangyi.session.action.AVChatAction;
 import com.yundian.star.ui.wangyi.session.action.FileAction;
 import com.yundian.star.ui.wangyi.session.action.GuessAction;
 import com.yundian.star.ui.wangyi.session.action.RTSAction;
@@ -53,7 +49,6 @@ import com.yundian.star.ui.wangyi.session.extension.RTSAttachment;
 import com.yundian.star.ui.wangyi.session.extension.SnapChatAttachment;
 import com.yundian.star.ui.wangyi.session.extension.StickerAttachment;
 import com.yundian.star.ui.wangyi.session.search.SearchMessageActivity;
-import com.yundian.star.ui.wangyi.session.viewholder.MsgViewHolderAVChat;
 import com.yundian.star.ui.wangyi.session.viewholder.MsgViewHolderDefCustom;
 import com.yundian.star.ui.wangyi.session.viewholder.MsgViewHolderFile;
 import com.yundian.star.ui.wangyi.session.viewholder.MsgViewHolderGuess;
@@ -159,10 +154,6 @@ public class SessionHelper {
 
             // 定制加号点开后可以包含的操作， 默认已经有图片，视频等消息了
             ArrayList<BaseAction> actions = new ArrayList<>();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                actions.add(new AVChatAction(AVChatType.AUDIO));
-                actions.add(new AVChatAction(AVChatType.VIDEO));
-            }
             actions.add(new RTSAction());
             actions.add(new SnapChatAction());
             actions.add(new GuessAction());
@@ -321,7 +312,6 @@ public class SessionHelper {
 
     private static void registerViewHolders() {
         NimUIKit.registerMsgItemViewHolder(FileAttachment.class, MsgViewHolderFile.class);
-        NimUIKit.registerMsgItemViewHolder(AVChatAttachment.class, MsgViewHolderAVChat.class);
         NimUIKit.registerMsgItemViewHolder(GuessAttachment.class, MsgViewHolderGuess.class);
         NimUIKit.registerMsgItemViewHolder(CustomAttachment.class, MsgViewHolderDefCustom.class);
         NimUIKit.registerMsgItemViewHolder(StickerAttachment.class, MsgViewHolderSticker.class);
@@ -379,8 +369,8 @@ public class SessionHelper {
             @Override
             public boolean shouldIgnore(IMMessage message) {
                 if (message.getAttachment() != null
-                        && (message.getAttachment() instanceof AVChatAttachment
-                        || message.getAttachment() instanceof RTSAttachment)) {
+                        && (
+                         message.getAttachment() instanceof RTSAttachment)) {
                     // 视频通话消息和白板消息 不允许撤回
                     return true;
                 } else if (DemoCache.getAccount().equals(message.getSessionId())) {

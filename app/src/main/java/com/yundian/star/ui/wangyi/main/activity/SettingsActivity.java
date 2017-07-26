@@ -19,8 +19,6 @@ import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.ResponseCode;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.auth.AuthService;
-import com.netease.nimlib.sdk.avchat.AVChatNetDetectCallback;
-import com.netease.nimlib.sdk.avchat.AVChatNetDetector;
 import com.netease.nimlib.sdk.lucene.LuceneService;
 import com.netease.nimlib.sdk.mixpush.MixPushService;
 import com.netease.nimlib.sdk.msg.MsgService;
@@ -250,22 +248,6 @@ public class SettingsActivity extends UI implements SettingsAdapter.SwitchChange
     }
 
     private void netDetectForNrtc() {
-        AVChatNetDetector.startNetDetect(new AVChatNetDetectCallback() {
-            @Override
-            public void onDetectResult(String id,
-                                       int code,
-                                       int loss,
-                                       int rttMax,
-                                       int rttMin,
-                                       int rttAvg,
-                                       int mdev,
-                                       String info) {
-                String msg = code == 200 ?
-                        ("loss:" + loss + ", rtt min/avg/max/mdev = " + rttMin + "/" + rttAvg + "/" + rttMax + "/" + mdev + " ms")
-                        : ("error:" + code);
-                Toast.makeText(SettingsActivity.this, msg, Toast.LENGTH_SHORT).show();
-            }
-        });
     }
 
     /**

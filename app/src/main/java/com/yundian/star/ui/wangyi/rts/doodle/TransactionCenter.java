@@ -1,13 +1,7 @@
 package com.yundian.star.ui.wangyi.rts.doodle;
 
 import android.text.TextUtils;
-import android.util.Log;
 
-import com.netease.nim.uikit.common.util.log.LogUtil;
-import com.netease.nimlib.sdk.rts.RTSManager;
-import com.netease.nimlib.sdk.rts.model.RTSTunData;
-
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,14 +42,6 @@ public class TransactionCenter {
         }
 
         String data = pack(transactions);
-        try {
-            RTSTunData channelData = new RTSTunData(sessionId, toAccount, data.getBytes
-                    ("UTF-8"), data.getBytes().length);
-            RTSManager.getInstance().sendData(channelData);
-            Log.i(TAG, "SEND DATA = " + index + ", BYTES = " + data.getBytes().length);
-        } catch (UnsupportedEncodingException e) {
-            LogUtil.e("Transaction", "send to remote, getBytes exception : " + data);
-        }
     }
 
     private String pack(List<Transaction> transactions) {
