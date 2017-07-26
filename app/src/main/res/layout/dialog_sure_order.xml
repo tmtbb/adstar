@@ -9,20 +9,29 @@
         android:layout_height="160dp"
         android:background="@drawable/shape_dialog_live_history_bg"
         android:orientation="vertical">
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="99dp"
             android:gravity="center"
+            android:orientation="vertical"
             >
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center|clip_vertical"
+                android:layout_gravity="center_horizontal"
                 android:text="@string/sure_pay"
                 android:textColor="#333333"
                 android:textSize="17sp" />
-        </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_law_info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tv_title"
+                android:text="@string/sure_law_info"
+                android:textColor="#333333"
+                android:textSize="14sp" />
+        </LinearLayout>
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"

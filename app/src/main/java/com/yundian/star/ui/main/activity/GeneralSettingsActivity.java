@@ -24,8 +24,6 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-import static io.netty.handler.codec.http.HttpMethod.HEAD;
-
 /**
  * Created by sll on 2017/5/24.
  */
@@ -76,7 +74,7 @@ public class GeneralSettingsActivity extends BaseActivity {
 
 
     @OnClick({R.id.ll_setting_deal_rule, R.id.ll_setting_about_us, R.id.ll_setting_clear_cache, R.id.ll_setting_quit_login
-            , R.id.ll_setting_reset_login_pwd, R.id.ll_setting_reset_pay_pwd})
+            , R.id.ll_setting_reset_login_pwd, R.id.ll_setting_reset_pay_pwd,R.id.ll_law_info})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ll_setting_deal_rule:
@@ -94,6 +92,9 @@ public class GeneralSettingsActivity extends BaseActivity {
                 break;
             case R.id.ll_setting_reset_login_pwd:
                 judgePayPwd(Constant.USER_PWD);
+                break;
+            case R.id.ll_law_info:
+                CommonWebActivity.startAction(GeneralSettingsActivity.this,"http://122.144.169.219:3389/law","法律说明");
                 break;
             case R.id.ll_setting_reset_pay_pwd:
                 if (JudgeIsSetPayPwd.isSetPwd(this)) {
