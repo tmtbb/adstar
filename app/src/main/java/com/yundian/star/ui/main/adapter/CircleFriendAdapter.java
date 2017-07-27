@@ -116,7 +116,8 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
         circleViewHolder.digLine.setVisibility(hasFavort && hasComment ? View.VISIBLE : View.GONE);
 
         final SnsPopupWindow snsPopupWindow = circleViewHolder.snsPopupWindow;
-        snsPopupWindow.getmActionItems().get(0).mTitle = "赞";
+        snsPopupWindow.getmActionItems().get(0).mTitle = "赞(1秒)";
+        snsPopupWindow.getmActionItems().get(1).mTitle = "评论(1秒)";
         snsPopupWindow.update();
         snsPopupWindow.setmItemClickListener(new PopupItemClickListener(position, circleItem, SharePrefUtil.getInstance().getUserId(),SharePrefUtil.getInstance().getUserNickName()));
         circleViewHolder.snsBtn.setOnClickListener(new View.OnClickListener(){
@@ -163,7 +164,7 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
                     if(presenter != null){
                         //判断是否已点赞
                         int curUserFavortId = mCircleItem.getCurUserFavortId(SharePrefUtil.getInstance().getUserId());
-                        if ("赞".equals(actionitem.mTitle.toString())&&curUserFavortId!=mFavorId) {
+                        if (curUserFavortId!=mFavorId) {
                             presenter.addFavort(mCircleItem.getSymbol(),mCircleItem.getCircle_id(),SharePrefUtil.getInstance().getUserId(),mCirclePosition,mUserName);
                         } else {//取消点赞
                             //presenter.deleteFavort(mCirclePosition, mFavorId);

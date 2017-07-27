@@ -59,6 +59,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+import static com.yundian.star.R.id.imagview;
 import static com.yundian.star.R.id.tv_content;
 
 /**
@@ -344,12 +345,16 @@ public class MeetStarActivity extends BaseActivity {
                 GridView gridView = (GridView) gridViews.get(selectPager);
                 View childAt = gridView.getChildAt(selectPosition);
                 TextView textView = (TextView) childAt.findViewById(tv_content);
+                ImageView img_select = (ImageView) childAt.findViewById(imagview);
+                ImageLoaderUtils.displaySmallPhoto(MeetStarActivity.this,img_select,lists.get(selectPager).get(selectPosition).getUrl2());
                 textView.setTextColor(mContext.getResources().getColor(R.color.color_BDC6B8));
             }
             selectPager = view_pager.getCurrentItem();
             selectPosition = position;
             LogUtils.loge("当前的position:" + selectPosition);
             TextView textView = (TextView) view.findViewById(tv_content);
+            ImageView img_selects = (ImageView) view.findViewById(imagview);
+            ImageLoaderUtils.displaySmallPhoto(MeetStarActivity.this,img_selects,lists.get(selectPager).get(selectPosition).getUrl1());
             textView.setTextColor(mContext.getResources().getColor(R.color.color_CB4232));
             price = lists.get(selectPager).get(selectPosition).getPrice();
             orderPrice.setText(String.format(getString(R.string.num_time_text), price));

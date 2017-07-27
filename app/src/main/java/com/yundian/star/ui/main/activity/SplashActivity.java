@@ -47,8 +47,8 @@ public class SplashActivity extends Activity {
 
 
     public void initView() {
-    //  Bugout.init(this, "1664ea921dcbe122834e440f7f584e2e", "yingyongbao");
-    //  initBugOut();
+      Bugout.init(this, "1664ea921dcbe122834e440f7f584e2e", "yingyongbao");
+      initBugOut();
         initGeTui();
         mHandler.sendEmptyMessageDelayed(1,2000);
 //        PropertyValuesHolder alpha = PropertyValuesHolder.ofFloat("alpha", 0.3f, 1f);
@@ -118,21 +118,21 @@ public class SplashActivity extends Activity {
     protected void onResume() {
         super.onResume();
         //* 注：回调 1
-      // Bugout.onResume(this);
+       Bugout.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         //* 注：回调 2
-     // Bugout.onPause(this);
+      Bugout.onPause(this);
 
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         //* 注：回调 3
-     // Bugout.onDispatchTouchEvent(this, event);
+      Bugout.onDispatchTouchEvent(this, event);
         return super.dispatchTouchEvent(event);
     }
 

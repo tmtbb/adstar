@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
@@ -76,6 +77,8 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
     private EditText mEtContent;
     private ImageView mIvEmo;
     private Button mBtnSend;
+    private LinearLayout cv_info;
+    private TextView close_info;
     private FrameLayout mFlEmotionView;
     private FrameLayout flEmotionView;
     private EmotionLayout mElEmotion;
@@ -114,6 +117,8 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
         mEtContent = (EditText) findViewById(etContent);
         mIvEmo = (ImageView) findViewById(R.id.ivEmo);
         mBtnSend = (Button) findViewById(R.id.btnSend);
+        cv_info = (LinearLayout) findViewById(R.id.cv_info);
+        close_info = (TextView) findViewById(R.id.close_info);
         mFlEmotionView = (FrameLayout) findViewById(R.id.flEmotionView);
         mElEmotion = (EmotionLayout) findViewById(R.id.elEmotion);
         mElEmotion.attachEditText(mEtContent);
@@ -334,13 +339,17 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
 
 
     }
-
+    private boolean isHint = false;
     public void showData() {
         if (list.size() == 0) {
             showErrorView(fl_pr, R.drawable.error_view_comment, "暂无相关数据");
             return;
         } else {
             closeErrorView();
+        }
+        if (!isHint){
+            cv_info.setVisibility(View.VISIBLE);
+            isHint = true ;
         }
         circleFriendAdapter.clear();
         mCurrentCounter = list.size();
@@ -488,6 +497,12 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
                     presenter.addComment(content, commentConfig);
                 }
                 mEtContent.setText("");
+            }
+        });
+        close_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cv_info.setVisibility(View.GONE);
             }
         });
     }

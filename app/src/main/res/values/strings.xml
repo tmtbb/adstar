@@ -277,6 +277,7 @@
     <string name="no_bind_bank_tips">您还没有绑定银行卡</string>
     <string name="bind_bank_now">立即绑定</string>
     <string name="deal_time_count">交易倒计时</string>
+    <string name="pre_com_info">点赞、评论和评论回复都将扣除已持有明星的时间。</string>
 
     <string name="bind_bank_tips">\t\t\t\t需要绑定银行卡才能进行充值等相关操作。绑定银行卡后，可以在预售、购买、兑换时、用该银行卡进行交易。</string>
     <string name="booking_time_status">约见时间 %1$s</string>
