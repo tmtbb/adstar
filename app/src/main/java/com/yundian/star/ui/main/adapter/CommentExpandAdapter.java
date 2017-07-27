@@ -21,6 +21,7 @@ import com.yundian.star.greendao.StarInfo;
 import com.yundian.star.ui.main.activity.MeetStarActivity;
 import com.yundian.star.ui.wangyi.session.activity.P2PMessageActivity;
 import com.yundian.star.utils.ImageLoaderUtils;
+import com.yundian.star.utils.JudgeIdentityUtils;
 import com.yundian.star.utils.LogUtils;
 
 import java.util.List;
@@ -87,30 +88,32 @@ public class CommentExpandAdapter extends ExpandableRecyclerAdapter<BookingStarL
             newView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    if (bean.getTypeTitle().equals("与TA聊天")) {
+                    if (JudgeIdentityUtils.isIdentityed(mContext)) {
+                        if (bean.getTypeTitle().equals("与TA聊天")) {
 //                        String starname = ;
-                        BookingStarListBean bean1 = visibleItems.get(position - 1);
-                        LogUtils.loge("与TA聊天:" + bean1.getStarname());
-                        SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
-                        P2PMessageActivity.start(mContext, bean1.getFaccid(), bean1.getStarcode(), bean1.getStarname(), customization, null);
-                    } else if (bean.getTypeTitle().equals("与TA约见")) {
-                        BookingStarListBean bean2 = visibleItems.get(position - 2);
-                        String pic_url = "";
-                        List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(bean2.getStarcode());
-                        if (starInfos != null && starInfos.size() != 0) {
-                            StarInfo starInfo = starInfos.get(0);
-                            pic_url = starInfo.getPic_url();
-                        }
+                            BookingStarListBean bean1 = visibleItems.get(position - 1);
+                            LogUtils.loge("与TA聊天:" + bean1.getStarname());
+                            SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
+                            P2PMessageActivity.start(mContext, bean1.getFaccid(), bean1.getStarcode(), bean1.getStarname(), customization, null);
+                        } else if (bean.getTypeTitle().equals("与TA约见")) {
+                            BookingStarListBean bean2 = visibleItems.get(position - 2);
+                            String pic_url = "";
+                            List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(bean2.getStarcode());
+                            if (starInfos != null && starInfos.size() != 0) {
+                                StarInfo starInfo = starInfos.get(0);
+                                pic_url = starInfo.getPic_url();
+                            }
 
-                        Intent intent3 = new Intent(mContext, MeetStarActivity.class);
-                        intent3.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 1);
-                        intent3.putExtra(AppConstant.STAR_WID, bean2.getUid());
-                        intent3.putExtra(AppConstant.STAR_NAME, bean2.getStarname());
-                        intent3.putExtra(AppConstant.STAR_CODE, bean2.getStarcode());
-                        intent3.putExtra(AppConstant.STAR_HEAD_URL, pic_url);
-                        mContext.startActivity(intent3);
+                            Intent intent3 = new Intent(mContext, MeetStarActivity.class);
+                            intent3.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 1);
+                            intent3.putExtra(AppConstant.STAR_WID, bean2.getUid());
+                            intent3.putExtra(AppConstant.STAR_NAME, bean2.getStarname());
+                            intent3.putExtra(AppConstant.STAR_CODE, bean2.getStarcode());
+                            intent3.putExtra(AppConstant.STAR_HEAD_URL, pic_url);
+                            mContext.startActivity(intent3);
+                        }
                     }
+
                 }
             });
         }

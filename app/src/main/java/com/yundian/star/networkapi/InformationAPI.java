@@ -25,6 +25,7 @@ import com.yundian.star.been.ShoppingStarBean;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
+import com.yundian.star.been.StarDanMuNewInfo;
 import com.yundian.star.been.StarDetailInfoBean;
 import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.been.StarInfoReturnBean;
@@ -96,6 +97,8 @@ public interface InformationAPI {
     void getAllCircleInfo(int pos,int count,OnAPIListener<CircleFriendBean> listener);
     void getAllCircleIsOne(int pos,int count,String star_code,OnAPIListener<CircleFriendBean> listener);
     void getDanMaKuInfo(int pos,int count,OnAPIListener<DanMaKuInfo> listener);
+    void getDanMaKuInfoNeW(String star_code,long count,OnAPIListener<StarDanMuNewInfo> listener);
+    void getDanMaKuInfoNeWAll(long count,OnAPIListener<StarDanMuNewInfo> listener);
     void getPraisestar(String star_code,long circle_id,long uid,OnAPIListener<ResultBeen> listener);
     void getUserAddComment(String star_code,long circle_id,long uid,int direction,String content,OnAPIListener<ResultBeen> listener);
     void getByBuy(long uid, String token,String symbol,long amount,double price,OnAPIListener<ResultBeen> listener);

@@ -6,6 +6,7 @@ import com.yundian.star.listener.IDataRequestListener;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.utils.SharePrefUtil;
+import com.yundian.star.utils.ToastUtils;
 
 
 public class CircleModel {
@@ -28,13 +29,15 @@ public class CircleModel {
 		NetworkAPIFactoryImpl.getInformationAPI().getPraisestar(symbol, circle_id, uid, new OnAPIListener<ResultBeen>() {
 			@Override
 			public void onError(Throwable ex) {
-
+				ToastUtils.showShort("点赞失败");
 			}
 
 			@Override
 			public void onSuccess(ResultBeen resultBeen) {
 				if (resultBeen.getResult()==1){
 					requestServer(listener);
+				}else if (resultBeen.getResult()==-1505){
+					ToastUtils.showShort("您未持有该明星的时间，不能点赞");
 				}
 			}
 		});
@@ -56,13 +59,15 @@ public class CircleModel {
 				SharePrefUtil.getInstance().getUserId(), type, content, new OnAPIListener<ResultBeen>() {
 					@Override
 					public void onError(Throwable ex) {
-
+						ToastUtils.showShort("评论失败");
 					}
 
 					@Override
 					public void onSuccess(ResultBeen resultBeen) {
 						if (resultBeen.getResult()==1){
 							requestServer(listener);
+						}else if (resultBeen.getResult()==-1505){
+							ToastUtils.showShort("您未持有该明星的时间，不能评论");
 						}
 					}
 				});

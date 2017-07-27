@@ -26,6 +26,7 @@ import com.yundian.star.been.ShoppingStarBean;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
+import com.yundian.star.been.StarDanMuNewInfo;
 import com.yundian.star.been.StarDetailInfoBean;
 import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.been.StarInfoReturnBean;
@@ -561,6 +562,25 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.DanMaKu,
                 SocketAPIConstant.ReqeutType.NewInfos, map);
         requestEntity(socketDataPacket,DanMaKuInfo.class,listener);
+    }
+
+    @Override
+    public void getDanMaKuInfoNeW(String star_code, long count, OnAPIListener<StarDanMuNewInfo> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("star_code", star_code);
+        map.put("count", count);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.getDanMuInfo,
+                SocketAPIConstant.ReqeutType.History, map);
+        requestEntity(socketDataPacket,StarDanMuNewInfo.class,listener);
+    }
+
+    @Override
+    public void getDanMaKuInfoNeWAll(long count, OnAPIListener<StarDanMuNewInfo> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("count", count);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.getDanMuInfoAll,
+                SocketAPIConstant.ReqeutType.History, map);
+        requestEntity(socketDataPacket,StarDanMuNewInfo.class,listener);
     }
 
     @Override

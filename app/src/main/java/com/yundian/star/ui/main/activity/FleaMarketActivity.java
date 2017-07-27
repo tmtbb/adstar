@@ -35,7 +35,7 @@ import com.netease.nimlib.jsbridge.util.LogUtil;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
-import com.yundian.star.been.DanMaKuInfo;
+import com.yundian.star.been.StarDanMuNewInfo;
 import com.yundian.star.been.StarListReturnBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
@@ -94,7 +94,7 @@ public class FleaMarketActivity extends BaseActivity {
     private View lint;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private FleaMarketAdapter fleaMarketAdapter;
-    private ArrayList<DanMaKuInfo.BarrageInfoBean> listDanMaKu = new ArrayList<>();
+    private ArrayList<StarDanMuNewInfo.PositionsListBean> listDanMaKu = new ArrayList<>();
     private ArrayList<StarListReturnBean.SymbolInfoBean> list = new ArrayList<>();
     private ArrayList<StarListReturnBean.SymbolInfoBean> loadList = new ArrayList<>();
     private static int mCurrentCounter = 0;
@@ -139,8 +139,24 @@ public class FleaMarketActivity extends BaseActivity {
     }
 
     private void getDanMaku() {
-        NetworkAPIFactoryImpl.getInformationAPI().getDanMaKuInfo(0,
-                50, new OnAPIListener<DanMaKuInfo>() {
+//        NetworkAPIFactoryImpl.getInformationAPI().getDanMaKuInfo(0,
+//                50, new OnAPIListener<DanMaKuInfo>() {
+//                    @Override
+//                    public void onError(Throwable ex) {
+//
+//                        LogUtils.loge("弹幕错误码" + ex.toString());
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(DanMaKuInfo danMaKuInfo) {
+//                        if (danMaKuInfo!=null&&danMaKuInfo.getBarrage_info()!=null&&danMaKuInfo.getBarrage_info().size()!=0){
+//                            listDanMaKu = danMaKuInfo.getBarrage_info();
+//                            myHandler.sendEmptyMessage(myHandler.GRT_DATA);
+//                        }
+//                    }
+//                });
+        NetworkAPIFactoryImpl.getInformationAPI().getDanMaKuInfoNeWAll(
+                50, new OnAPIListener<StarDanMuNewInfo>() {
                     @Override
                     public void onError(Throwable ex) {
 
@@ -148,9 +164,10 @@ public class FleaMarketActivity extends BaseActivity {
                     }
 
                     @Override
-                    public void onSuccess(DanMaKuInfo danMaKuInfo) {
-                        if (danMaKuInfo!=null&&danMaKuInfo.getBarrage_info()!=null&&danMaKuInfo.getBarrage_info().size()!=0){
-                            listDanMaKu = danMaKuInfo.getBarrage_info();
+                    public void onSuccess(StarDanMuNewInfo danMaKuInfo) {
+                        LogUtils.loge("弹幕错误码" + danMaKuInfo.toString());
+                        if (danMaKuInfo!=null&&danMaKuInfo.getPositionsList()!=null&&danMaKuInfo.getPositionsList().size()!=0){
+                            listDanMaKu = danMaKuInfo.getPositionsList();
                             myHandler.sendEmptyMessage(myHandler.GRT_DATA);
                         }
                     }
@@ -269,6 +286,9 @@ public class FleaMarketActivity extends BaseActivity {
     private void refreshAnim() {
         if (listDanMaKu.size() != 0 && listDanMaKu.get(temporary) != null) {
             addDanmaKuShowTextAndImage(listDanMaKu.get(temporary));
+            if (temporary==list.size() - 1){
+                temporary=0;
+            }
             if (temporary < listDanMaKu.size() - 1 && myHandler != null) {
                 temporary++;
                 myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 500);
@@ -277,7 +297,7 @@ public class FleaMarketActivity extends BaseActivity {
     }
 
 
-    private void addDanmaKuShowTextAndImage(final DanMaKuInfo.BarrageInfoBean infoBean) {
+    private void addDanmaKuShowTextAndImage(final StarDanMuNewInfo.PositionsListBean infoBean) {
         //Math.floor(Math.random()*(max-min+1)+min);
         final BaseDanmaku danmaku = mDanmakuContext.mDanmakuFactory.createDanmaku(BaseDanmaku.TYPE_SCROLL_RL, mDanmakuContext);
         if (danmaku == null || mDanmakuView == null) {
@@ -285,9 +305,8 @@ public class FleaMarketActivity extends BaseActivity {
         }
         // Drawable drawable = getResources().getDrawable(R.drawable.ic_home_normal);
         //drawable.setBounds(0, 0, DisplayUtil.dip2px(40), DisplayUtil.dip2px(40));
-        String url = "http://tva2.sinaimg.cn/crop.0.1.510.510.180/48e837eejw8ex30o7eoylj20e60e8wet.jpg";
         //ImageLoaderUtils.displaySmallPhoto();
-        Glide.with(mContext).load(url)
+        Glide.with(mContext).load(infoBean.getUser().getHeadUrl())
                 .asBitmap()
                 .placeholder(R.drawable.user_default_head)
                 .error(R.drawable.user_default_head)
@@ -318,7 +337,7 @@ public class FleaMarketActivity extends BaseActivity {
                 });
     }
 
-    private SpannableStringBuilder createSpannable(Drawable drawable,DanMaKuInfo.BarrageInfoBean infoBean) {
+    private SpannableStringBuilder createSpannable(Drawable drawable,StarDanMuNewInfo.PositionsListBean infoBean) {
         //小姜求购15秒，12.32/秒
         String text = "bitmap";
         String name = "infoBean";
@@ -327,14 +346,14 @@ public class FleaMarketActivity extends BaseActivity {
         CenteredImageSpan span = new CenteredImageSpan(drawable);
         //ImageSpan span = new ImageSpan(resource);
         spannableStringBuilder.setSpan(span, 0, text.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-        spannableStringBuilder.append(infoBean.getUser_name());
-        if (infoBean.getOrder_type()==1){
+        spannableStringBuilder.append("  "+infoBean.getUser().getNickname());
+        if (infoBean.getTrades().getBuySell()==-1){
             spannableStringBuilder.append("转让");
         }else {
             spannableStringBuilder.append("求购");
         }
-        spannableStringBuilder.append(infoBean.getOrder_num()+"秒");
-        spannableStringBuilder.append(","+String.format("%.2f",infoBean.getOrder_price())+"/秒");
+        spannableStringBuilder.append(infoBean.getTrades().getAmount()+"秒");
+        spannableStringBuilder.append(","+String.format("%.2f",infoBean.getTrades().getOpenPrice())+"/秒  ");
 
         //spannableStringBuilder.setSpan(new TextAppearanceSpan(this, R.style.style_pingjie), 0, spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
         //spannableStringBuilder.setSpan(new BackgroundColorSpan(Color.parseColor("#fafafa")), 0, spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);

@@ -267,9 +267,11 @@ public class TransferMarketFragment extends BaseFragment {
                                 LogUtils.loge("挂单" + askToBuyReturnBeen.toString());
                                 if (!TextUtils.isEmpty(askToBuyReturnBeen.getSymbol())) {
                                     ToastUtils.showShort("挂单成功");
-                                    Intent intent = new Intent(getActivity(),BuyTransferIndentActivity.class);
-                                    intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 3);
-                                    getActivity().startActivity(intent);
+//                                    Intent intent = new Intent(getActivity(),BuyTransferIndentActivity.class);
+//                                    intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 3);
+//                                    getActivity().startActivity(intent);
+                                    BuyTransferIndentActivity activity = (BuyTransferIndentActivity)getActivity();
+                                    activity.toPager(3);
                                     LogUtils.loge("转让成功" + askToBuyReturnBeen.toString());
                                 }
                             }

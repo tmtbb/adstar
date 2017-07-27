@@ -39,7 +39,6 @@ import com.yundian.star.ui.main.activity.UserSettingActivity;
 import com.yundian.star.ui.view.RoundImageView;
 import com.yundian.star.ui.wangyi.common.util.sys.InstallUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
-import com.yundian.star.utils.JudgeIdentityUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
@@ -176,9 +175,7 @@ public class UserInfoFragment extends BaseFragment {
                 break;
             case R.id.ll_user_order_star:
                 ViewConcurrencyUtils.preventConcurrency();  //防止并发
-                if (JudgeIdentityUtils.isIdentityed(getActivity())) {
-                    startActivity(BookingStarActivity.class);
-                }
+                startActivity(BookingStarActivity.class);
                 break;
             case R.id.ll_customer_service:
                 ViewConcurrencyUtils.preventConcurrency();  //防止并发
