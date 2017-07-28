@@ -193,6 +193,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             ></activity>
+        <activity android:name=".ui.main.activity.TransactionDetailActivity"></activity>
         <!--友盟sdk-->
         <meta-data
             android:name="UMENG_APPKEY"

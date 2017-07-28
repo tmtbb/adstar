@@ -231,7 +231,7 @@ public class FleaMarketActivity extends BaseActivity {
                 }) // 图文混排使用SpannedCacheStuffer
                 .setCacheStuffer(new BackgroundCacheStuffer(), mCacheStufferAdapter)  // 绘制背景使用BackgroundCacheStuffer
                 .setMaximumLines(maxLinesPair)
-                .preventOverlapping(null).setDanmakuMargin(20).setMaximumVisibleSizeInScreen(0)
+                .preventOverlapping(null).setDanmakuMargin(10).setMaximumVisibleSizeInScreen(0)
         .setScrollSpeedFactor(1.5f);
         if (mDanmakuView != null) {
             mParser = createParser(this.getResources().openRawResource(R.raw.comments));
@@ -291,7 +291,7 @@ public class FleaMarketActivity extends BaseActivity {
             }
             if (temporary < listDanMaKu.size() - 1 && myHandler != null) {
                 temporary++;
-                myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 500);
+                myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 800);
             }
         }
     }

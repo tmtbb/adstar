@@ -134,7 +134,7 @@
                 android:textSize="@dimen/fontSize_14sp" />
         </LinearLayout>
         <LinearLayout
-            android:layout_marginTop="25dp"
+            android:layout_marginTop="30dp"
             android:orientation="horizontal"
             android:gravity="center_vertical"
             android:layout_width="match_parent"
@@ -165,7 +165,7 @@
         <Button
             android:id="@+id/loginButton"
             style="@style/ButtonLogin"
-            android:layout_marginTop="@dimen/dp_25"
+            android:layout_marginTop="@dimen/dp_10"
             android:text="@string/butten_loging" />
     </LinearLayout>
 

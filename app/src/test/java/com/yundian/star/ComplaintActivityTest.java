@@ -3,9 +3,12 @@ package com.yundian.star;
 import android.util.DisplayMetrics;
 import android.widget.FrameLayout;
 
+import com.yundian.star.been.AssetDetailsBean;
 import com.yundian.star.been.HomePageInfoBean;
+import com.yundian.star.been.StarListReturnBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
+import com.yundian.star.utils.LogUtils;
 import com.yundian.star.widget.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
 import com.yundian.star.widget.infinitecycleviewpager.HorizontalPagerAdapter;
 
@@ -33,7 +36,6 @@ public class ComplaintActivityTest extends BaseRobolectricTestCase {
         DisplayMetrics dm = new DisplayMetrics();
         dm = getAppApplication().getResources().getDisplayMetrics();
         screenWidth = dm.widthPixels;
-        initPagerData();
     }
     @Test
     public void initPagerData1() {
@@ -88,6 +90,55 @@ public class ComplaintActivityTest extends BaseRobolectricTestCase {
         });
     }
 
+    @Test
+    public void getData() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarList(241,
+                "", 4, 0, 0, 10, new OnAPIListener<StarListReturnBean>() {
+                    @Override
+                    public void onError(Throwable ex) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(StarListReturnBean starListReturnBean) {
+                        LogUtils.loge("互动列表" + starListReturnBean.toString());
+
+                    }
+                });
+    }
+
+    @Test
+    public void getData1() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarList(userId,
+                token, 4, 1, 1, 10, new OnAPIListener<StarListReturnBean>() {
+                    @Override
+                    public void onError(Throwable ex) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(StarListReturnBean starListReturnBean) {
+                        LogUtils.loge("互动列表" + starListReturnBean.toString());
+                    }
+                });
+    }
+
+    @Test
+    public void requestBalance() {
+        NetworkAPIFactoryImpl.getDealAPI().balance(new OnAPIListener<AssetDetailsBean>() {
+            @Override
+            public void onSuccess(AssetDetailsBean bean) {
+                LogUtils.loge("余额请求成功:" + bean.toString());
+
+
+            }
+
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.loge("余额请求失败:" + ex.getMessage());
+            }
+        });
+    }
 
 
 }

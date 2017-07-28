@@ -19,7 +19,6 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 import com.yundian.star.R;
-import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.AssetDetailsBean;
 import com.yundian.star.been.EventBusMessage;
@@ -30,10 +29,10 @@ import com.yundian.star.greendao.GreenDaoManager;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.BookingStarActivity;
-import com.yundian.star.ui.main.activity.BuyTransferIndentActivity;
 import com.yundian.star.ui.main.activity.CustomerServiceActivity;
 import com.yundian.star.ui.main.activity.DifferAnswerActivity;
 import com.yundian.star.ui.main.activity.GeneralSettingsActivity;
+import com.yundian.star.ui.main.activity.TransactionDetailActivity;
 import com.yundian.star.ui.main.activity.UserAssetsManageActivity;
 import com.yundian.star.ui.main.activity.UserSettingActivity;
 import com.yundian.star.ui.view.RoundImageView;
@@ -56,6 +55,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/5/5.
+ * 个人中心
  */
 
 public class UserInfoFragment extends BaseFragment {
@@ -198,8 +198,8 @@ public class UserInfoFragment extends BaseFragment {
                 break;
             case R.id.ll_me_deal:
                 ViewConcurrencyUtils.preventConcurrency();  //防止并发
-                Intent intent = new Intent(getActivity(),BuyTransferIndentActivity.class);
-                intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 4);
+                Intent intent = new Intent(getActivity(),TransactionDetailActivity.class);
+                //intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 4);
                 getActivity().startActivity(intent);
                 break;
         }
@@ -333,12 +333,6 @@ public class UserInfoFragment extends BaseFragment {
         requestStarCount();
     }
 
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        EventBus.getDefault().removeAllStickyEvents();
-//        EventBus.getDefault().unregister(this);
-//    }
 
     @Override
     public void onDestroy() {

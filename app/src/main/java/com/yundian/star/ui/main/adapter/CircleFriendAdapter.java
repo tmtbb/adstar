@@ -116,8 +116,8 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
         circleViewHolder.digLine.setVisibility(hasFavort && hasComment ? View.VISIBLE : View.GONE);
 
         final SnsPopupWindow snsPopupWindow = circleViewHolder.snsPopupWindow;
-        snsPopupWindow.getmActionItems().get(0).mTitle = "赞(1秒)";
-        snsPopupWindow.getmActionItems().get(1).mTitle = "评论(1秒)";
+        snsPopupWindow.getmActionItems().get(0).mTitle = String.format("赞(%d秒)",circleItem.getApprove_dec_time());
+        snsPopupWindow.getmActionItems().get(1).mTitle = String.format("评论(%d秒)",circleItem.getComment_dec_time());
         snsPopupWindow.update();
         snsPopupWindow.setmItemClickListener(new PopupItemClickListener(position, circleItem, SharePrefUtil.getInstance().getUserId(),SharePrefUtil.getInstance().getUserNickName()));
         circleViewHolder.snsBtn.setOnClickListener(new View.OnClickListener(){
