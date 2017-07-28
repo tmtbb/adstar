@@ -98,8 +98,11 @@ public class MeetStarActivity extends BaseActivity {
     private int current_end_month;
     private int current_end_day;
     private int end_year;
+    private int end_end_year;
     private int end_month;
+    private int end_end_month;
     private int end_day;
+    private int end_end_day;
     private List<View> gridViews;
     private int type;
     private String wid;
@@ -169,35 +172,38 @@ public class MeetStarActivity extends BaseActivity {
             @Override
             public void onSuccess(StatServiceListBean statServiceListBean) {
                 if (statServiceListBean.getResult() == 1) {
-                    isCanChoose = true;
                     typeList = statServiceListBean.getList();
                     if (typeList.size() == 0) {
                         return;
                     }
                     textView4.setText(typeList.get(0).getMeet_city());
-                    if ("0".equals(typeList.get(0).getStartdate())||typeList.get(0).getStartdate().length()==1||typeList.get(0).getStartdate().length()==0){
+                    if (null==typeList.get(0).getStartdate()||"0".equals(typeList.get(0).getStartdate())||typeList.get(0).getStartdate().length()==1||typeList.get(0).getStartdate().length()==0){
+                        isCanChoose = false;
                         String nextDay = TimeUtil.getNextDay(30);
                         LogUtil.e("获取当前时间" + nextDay);
                         current_end_year = Integer.valueOf(nextDay.substring(0, 4));
                         current_end_month = Integer.valueOf(nextDay.substring(5, 7));
                         current_end_day = Integer.valueOf(nextDay.substring(8, 10));
                     }else {
+                        isCanChoose = true;
                         current_end_year = Integer.valueOf(typeList.get(0).getStartdate().substring(0, 4));
                         current_end_month = Integer.valueOf(typeList.get(0).getStartdate().substring(5, 7));
                         current_end_day = Integer.valueOf(typeList.get(0).getStartdate().substring(8, 10));
                     }
-                    if ("0".equals(typeList.get(0).getEnddate())||typeList.get(0).getEnddate().length()==1||typeList.get(0).getEnddate().length()==0){
+                    if (null==typeList.get(0).getEnddate()||"0".equals(typeList.get(0).getEnddate())||typeList.get(0).getEnddate().length()==1||typeList.get(0).getEnddate().length()==0){
+                        isCanChoose = false;
                         String nextDay = TimeUtil.getNextDay(60);
                         LogUtil.e("获取当前时间" + nextDay);
-                        end_year = Integer.valueOf(nextDay.substring(0, 4));
-                        end_month = Integer.valueOf(nextDay.substring(5, 7));
-                        end_day = Integer.valueOf(nextDay.substring(8, 10));
+                        end_end_year = Integer.valueOf(nextDay.substring(0, 4));
+                        end_end_month = Integer.valueOf(nextDay.substring(5, 7));
+                        end_end_day = Integer.valueOf(nextDay.substring(8, 10));
                     }else {
-                        end_year = Integer.valueOf(typeList.get(0).getEnddate().substring(0, 4));
-                        end_month = Integer.valueOf(typeList.get(0).getEnddate().substring(5, 7));
-                        end_day = Integer.valueOf(typeList.get(0).getEnddate().substring(8, 10));
+                        isCanChoose = true;
+                        end_end_year = Integer.valueOf(typeList.get(0).getEnddate().substring(0, 4));
+                        end_end_month = Integer.valueOf(typeList.get(0).getEnddate().substring(5, 7));
+                        end_end_day = Integer.valueOf(typeList.get(0).getEnddate().substring(8, 10));
                     }
-                    textView9.setText(current_end_year + "-" + current_end_month + "-" + current_end_day+" — "+end_year+"-"+end_month+"-"+end_day);
+                    textView9.setText(current_end_year + "-" + current_end_month + "-" + current_end_day+" — "+end_end_year+"-"+end_end_month+"-"+end_end_day);
                     getMeetType();
 
 
@@ -244,7 +250,7 @@ public class MeetStarActivity extends BaseActivity {
         picker.setCanceledOnTouchOutside(true);
         picker.setUseWeight(true);
         picker.setTopPadding(DisplayUtil.dip2px(20));
-        picker.setRangeEnd(end_year,end_month,end_day);
+        picker.setRangeEnd(end_end_year,end_end_month,end_end_day);
         picker.setRangeStart(current_end_year, current_end_month, current_end_day);
         picker.setSelectedItem(current_end_year, current_end_month, current_end_day);
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
