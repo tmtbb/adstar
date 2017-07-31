@@ -17,7 +17,7 @@ import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.StarListReturnBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
-import com.yundian.star.ui.main.activity.StarInfoActivity;
+import com.yundian.star.ui.main.activity.CircleFriendsActivity;
 import com.yundian.star.ui.main.adapter.StarInteractionAdapter;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
@@ -35,7 +35,7 @@ public class StartInteractFragment extends BaseFragment {
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private ArrayList<StarListReturnBean.SymbolInfoBean> list = new ArrayList<>();
     private ArrayList<StarListReturnBean.SymbolInfoBean> loadList = new ArrayList<>();
-    private static int mCurrentCounter = 1;
+    private static int mCurrentCounter = 0;
     private StarInteractionAdapter interactionAdapter;
     private static final int REQUEST_COUNT = 10;
     private long userId;
@@ -55,7 +55,7 @@ public class StartInteractFragment extends BaseFragment {
     protected void initView() {
         initFindById();
         initAdapter();
-        getData(false, 1, REQUEST_COUNT);
+        getData(false, 0, REQUEST_COUNT);
     }
 
     private void initFindById() {
@@ -76,24 +76,31 @@ public class StartInteractFragment extends BaseFragment {
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getData(true, mCurrentCounter + 1, mCurrentCounter + REQUEST_COUNT);
+                getData(true, mCurrentCounter,REQUEST_COUNT);
             }
         });
         lrv.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mCurrentCounter = 1;
+                mCurrentCounter = 0;
                 lrv.setNoMore(false);
-                getData(false, 1, REQUEST_COUNT);
+                getData(false, 0, REQUEST_COUNT);
             }
         });
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getActivity(), StarInfoActivity.class);
+//                Intent intent = new Intent(getActivity(), StarInfoActivity.class);
+//                StarListReturnBean.SymbolInfoBean symbolInfoBean = list.get(position);
+//                intent.putExtra(AppConstant.STAR_CODE, symbolInfoBean.getSymbol());
+//                startActivity(intent);
+                Intent intent0 = new Intent(getActivity(),CircleFriendsActivity.class);
                 StarListReturnBean.SymbolInfoBean symbolInfoBean = list.get(position);
-                intent.putExtra(AppConstant.STAR_CODE, symbolInfoBean.getSymbol());
-                startActivity(intent);
+                intent0.putExtra(AppConstant.STAR_CODE,symbolInfoBean.getSymbol());
+                intent0.putExtra(AppConstant.STAR_NAME,symbolInfoBean.getName());
+                intent0.putExtra(AppConstant.STAR_HEAD_URL,symbolInfoBean.getPic());
+                intent0.putExtra(AppConstant.IS_ONE,true);
+                getActivity().startActivity(intent0);
             }
         });
     }
@@ -171,6 +178,9 @@ public class StartInteractFragment extends BaseFragment {
     public void onDestroy() {
         if (lrv!=null){
             lrv = null;
+        }
+        if (interactionAdapter!=null){
+            interactionAdapter=null;
         }
         super.onDestroy();
     }

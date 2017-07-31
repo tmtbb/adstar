@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import com.netease.nim.uikit.cache.NimUserInfoCache;
 import com.netease.nim.uikit.common.ui.imageview.HeadImageView;
-import com.netease.nimlib.sdk.avchat.AVChatManager;
 import com.yundian.star.R;
 import com.yundian.star.ui.wangyi.avchat.constant.CallStateEnum;
 import com.yundian.star.ui.wangyi.avchat.widgets.ToggleListener;
@@ -227,8 +226,6 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
      */
     private void enableToggle() {
         if (shouldEnableToggle) {
-            if (manager.canSwitchCamera() && AVChatManager.getInstance().hasMultipleCameras())
-                switchCameraToggle.enable();
             closeCameraToggle.enable();
             muteToggle.enable();
             recordToggle.setEnabled(true);
@@ -238,7 +235,7 @@ public class AVChatVideo implements View.OnClickListener, ToggleListener {
 
     private void enableCameraToggle() {
         if (shouldEnableToggle) {
-            if (manager.canSwitchCamera() && AVChatManager.getInstance().hasMultipleCameras())
+            if (manager.canSwitchCamera() )
                 switchCameraToggle.enable();
         }
     }

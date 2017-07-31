@@ -189,7 +189,7 @@ public class AdViewpagerUtil {
                 if (i < length - 2) {
                     final int index = i;
                     final String url = urls[i];
-                    ImageLoaderUtils.displayWithDefaultImg(context, mImageViews[i + 1], url,R.drawable.infos_news_defolat);
+                    ImageLoaderUtils.displayWithDefaultImg(context, mImageViews[i + 1], url,R.drawable.rec_bg);
                     mImageViews[i + 1].setOnClickListener(new View.OnClickListener() {
 
                         @Override
@@ -202,8 +202,8 @@ public class AdViewpagerUtil {
                     });
                 }
             }
-            ImageLoaderUtils.displayWithDefaultImg(context, mImageViews[0], urls[urls.length - 1],R.drawable.infos_news_defolat);
-            ImageLoaderUtils.displayWithDefaultImg(context, mImageViews[length - 1], urls[0],R.drawable.infos_news_defolat);
+            ImageLoaderUtils.displayWithDefaultImg(context, mImageViews[0], urls[urls.length - 1],R.drawable.rec_bg);
+            ImageLoaderUtils.displayWithDefaultImg(context, mImageViews[length - 1], urls[0],R.drawable.rec_bg);
         }
     }
 

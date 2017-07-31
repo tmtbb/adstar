@@ -53,6 +53,7 @@ public class ImageLoaderUtils {
      * @param context
      * @param imageView
      * @param url
+     * .transform(new GlideRoundTransform(context, 10))
      */
     public static void displaySmallPhoto(Context context, ImageView imageView, String url) {
         if (imageView == null) {
@@ -66,6 +67,27 @@ public class ImageLoaderUtils {
                 .crossFade()
                 .into(imageView);
     }
+
+//    /**
+//     * 小方图，圆角
+//     * @param context
+//     * @param imageView
+//     * @param url
+//     * .transform(new GlideRoundTransform(context, 10))
+//     */
+//    public static void displaySmallPhotoCircular(Context context, ImageView imageView, String url,int rund) {
+//        if (imageView == null) {
+//            throw new IllegalArgumentException("argument error");
+//        }
+//        Glide.with(context).load(url)
+//                .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                .placeholder(R.drawable.star_default_icon)
+//                .error(R.drawable.star_default_icon)
+//                .transform(new GlideRoundTransform(context, rund))
+//                .centerCrop()
+//                .crossFade()
+//                .into(imageView);
+//    }
 
     /**
      * 小圆图,专用头像
@@ -149,5 +171,7 @@ public class ImageLoaderUtils {
             mDefauleBitmap = Bitmap.createBitmap(mDefauleBitmap, 0, 0, width, height, matrix, true);
             return mDefauleBitmap;
     }
+
+
 
 }

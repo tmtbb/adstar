@@ -13,6 +13,7 @@ import com.yundian.star.base.BaseRecycleViewAdapter;
 import com.yundian.star.been.ActionItem;
 import com.yundian.star.been.CircleFriendBean;
 import com.yundian.star.helper.CircleViewHolder;
+import com.yundian.star.ui.main.activity.StarInfoActivity;
 import com.yundian.star.ui.main.presenter.CirclePresenter;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.SharePrefUtil;
@@ -116,7 +117,8 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
         circleViewHolder.digLine.setVisibility(hasFavort && hasComment ? View.VISIBLE : View.GONE);
 
         final SnsPopupWindow snsPopupWindow = circleViewHolder.snsPopupWindow;
-        snsPopupWindow.getmActionItems().get(0).mTitle = "赞";
+        snsPopupWindow.getmActionItems().get(0).mTitle = String.format("赞(%d秒)",circleItem.getApprove_dec_time());
+        snsPopupWindow.getmActionItems().get(1).mTitle = String.format("评论(%d秒)",circleItem.getComment_dec_time());
         snsPopupWindow.update();
         snsPopupWindow.setmItemClickListener(new PopupItemClickListener(position, circleItem, SharePrefUtil.getInstance().getUserId(),SharePrefUtil.getInstance().getUserNickName()));
         circleViewHolder.snsBtn.setOnClickListener(new View.OnClickListener(){
@@ -124,6 +126,12 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
             public void onClick(View view) {
                 //弹出popupwindow
                 snsPopupWindow.showPopupWindow(view);
+            }
+        });
+        circleViewHolder.headIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StarInfoActivity.goToStarInfoActivity(context,circleItem.getSymbol());
             }
         });
     }
@@ -163,7 +171,7 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
                     if(presenter != null){
                         //判断是否已点赞
                         int curUserFavortId = mCircleItem.getCurUserFavortId(SharePrefUtil.getInstance().getUserId());
-                        if ("赞".equals(actionitem.mTitle.toString())&&curUserFavortId!=mFavorId) {
+                        if (curUserFavortId!=mFavorId) {
                             presenter.addFavort(mCircleItem.getSymbol(),mCircleItem.getCircle_id(),SharePrefUtil.getInstance().getUserId(),mCirclePosition,mUserName);
                         } else {//取消点赞
                             //presenter.deleteFavort(mCirclePosition, mFavorId);

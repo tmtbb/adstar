@@ -1,6 +1,7 @@
 package com.yundian.star.ui.main.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -31,12 +32,12 @@ import com.yundian.star.ui.main.activity.BookingStarActivity;
 import com.yundian.star.ui.main.activity.CustomerServiceActivity;
 import com.yundian.star.ui.main.activity.DifferAnswerActivity;
 import com.yundian.star.ui.main.activity.GeneralSettingsActivity;
+import com.yundian.star.ui.main.activity.TransactionDetailActivity;
 import com.yundian.star.ui.main.activity.UserAssetsManageActivity;
 import com.yundian.star.ui.main.activity.UserSettingActivity;
 import com.yundian.star.ui.view.RoundImageView;
 import com.yundian.star.ui.wangyi.common.util.sys.InstallUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
-import com.yundian.star.utils.JudgeIdentityUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
@@ -54,6 +55,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/5/5.
+ * 个人中心
  */
 
 public class UserInfoFragment extends BaseFragment {
@@ -67,6 +69,8 @@ public class UserInfoFragment extends BaseFragment {
     TextView userTotalAssets;
     @Bind(R.id.tv_order_star)
     TextView userOrderStar;
+    @Bind(R.id.ll_me_deal)
+    LinearLayout ll_me_deal;
     @Bind(R.id.headImage)
     RoundImageView headImage;
     @Bind(R.id.ll_user_money_bag)
@@ -155,7 +159,7 @@ public class UserInfoFragment extends BaseFragment {
 
 
     @OnClick({R.id.iv_user_info_bg, R.id.headImage, R.id.ll_user_money_bag, R.id.ll_user_order_star,
-            R.id.ll_customer_service, R.id.ll_common_problem, R.id.ll_general_settings, R.id.btn_my_referee, R.id.iv_star_talk})
+            R.id.ll_customer_service, R.id.ll_common_problem, R.id.ll_general_settings, R.id.btn_my_referee, R.id.iv_star_talk,R.id.ll_me_deal})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_user_info_bg:
@@ -171,9 +175,7 @@ public class UserInfoFragment extends BaseFragment {
                 break;
             case R.id.ll_user_order_star:
                 ViewConcurrencyUtils.preventConcurrency();  //防止并发
-                if (JudgeIdentityUtils.isIdentityed(getActivity())) {
-                    startActivity(BookingStarActivity.class);
-                }
+                startActivity(BookingStarActivity.class);
                 break;
             case R.id.ll_customer_service:
                 ViewConcurrencyUtils.preventConcurrency();  //防止并发
@@ -193,6 +195,12 @@ public class UserInfoFragment extends BaseFragment {
             case R.id.iv_star_talk:
                 ViewConcurrencyUtils.preventConcurrency();  //防止并发
                 startActivity(DifferAnswerActivity.class);
+                break;
+            case R.id.ll_me_deal:
+                ViewConcurrencyUtils.preventConcurrency();  //防止并发
+                Intent intent = new Intent(getActivity(),TransactionDetailActivity.class);
+                //intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 4);
+                getActivity().startActivity(intent);
                 break;
         }
     }
@@ -325,12 +333,6 @@ public class UserInfoFragment extends BaseFragment {
         requestStarCount();
     }
 
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        EventBus.getDefault().removeAllStickyEvents();
-//        EventBus.getDefault().unregister(this);
-//    }
 
     @Override
     public void onDestroy() {

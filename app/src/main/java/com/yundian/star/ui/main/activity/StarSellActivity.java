@@ -5,6 +5,7 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,16 +14,21 @@ import android.widget.TextView;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
+import com.yundian.star.been.OrderReturnBeen;
 import com.yundian.star.been.RefreshStarTimeBean;
+import com.yundian.star.been.ResultBeen;
 import com.yundian.star.been.ShoppingStarBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
+import com.yundian.star.utils.CheckLoginUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
+import com.yundian.star.utils.JudgeIsSetPayPwd;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.TimeUtil;
 import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
+import com.yundian.star.widget.PasswordView;
 
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
@@ -63,6 +69,8 @@ public class StarSellActivity extends BaseActivity {
     ImageView iv_star_bg;
     @Bind(R.id.imageView_icon)
     ImageView imageView_icon;
+    @Bind(R.id.passwordView)
+    PasswordView passwordView;
     private String starCode;
     private MyHandler myHandler;
     private int type;
@@ -97,6 +105,25 @@ public class StarSellActivity extends BaseActivity {
         initData();
         getRefreshTime();
         initListener();
+
+    }
+
+    private void byBuyStar() {
+        NetworkAPIFactoryImpl.getInformationAPI().getByBuy(userId, token, starCode,num,ask_buy_prices, new OnAPIListener<ResultBeen>() {
+            @Override
+            public void onError(Throwable ex) {
+
+            }
+
+            @Override
+            public void onSuccess(ResultBeen resultBeen) {
+                if (resultBeen.getResult()==1||resultBeen.getResult()==2){
+                    ToastUtils.showShort("购买成功");
+                }else {
+                    ToastUtils.showShort("购买失败");
+                }
+            }
+        });
     }
 
     private void initListener() {
@@ -108,7 +135,36 @@ public class StarSellActivity extends BaseActivity {
                     ToastUtils.showShort("总价不能零");
                     return;
                 }
+                CheckLoginUtil.checkLogin(StarSellActivity.this);
+                if (JudgeIsSetPayPwd.isSetPwd(StarSellActivity.this)) {
+                    passwordView.setVisibility(View.VISIBLE);
+                }
+                //byBuyStar();
                 LogUtils.loge("ask_buy_prices:"+ask_buy_prices+"num:"+num+"total_money:"+total_money);
+            }
+        });
+        passwordView.setOnFinishInput(new PasswordView.CheckPasCallBake() {
+            @Override
+            public void checkSuccess(OrderReturnBeen.OrdersListBean ordersListBean, String pwd) {
+
+            }
+
+            @Override
+            public void checkError() {
+
+            }
+
+            @Override
+            public void checkSuccessPwd(String pwd) {
+                passwordView.setVisibility(View.GONE);
+                //密码正确
+                byBuyStar();
+            }
+        });
+        imageView_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StarInfoActivity.goToStarInfoActivity(StarSellActivity.this,starCode);
             }
         });
     }
@@ -129,11 +185,11 @@ public class StarSellActivity extends BaseActivity {
     }
 
     private void showViewData(final ShoppingStarBean shoppingStarBean) {
-        ImageLoaderUtils.displayWithDefaultImg(this, iv_star_bg, shoppingStarBean.getBack_pic_url(), R.drawable.infos_news_defolat);
+        ImageLoaderUtils.displayWithDefaultImg(this, iv_star_bg, shoppingStarBean.getBack_pic_url(), R.drawable.rec_bg);
         ImageLoaderUtils.displaySmallPhoto(this, imageView_icon, shoppingStarBean.getHead_url());
         tv_name.setText(shoppingStarBean.getStar_name());
         tv_preice.setText(String.format(getString(R.string.times_p),shoppingStarBean.getPublish_price()));
-        tv_star_job.setText(starTypeInfo[shoppingStarBean.getStar_type()]);
+        tv_star_job.setText(starTypeInfo[shoppingStarBean.getStar_type()%6]);
         tv_time.setText(String.format(getString(R.string.shell_time), TimeUtil.formatData(dateFormatYMD, shoppingStarBean.getPublish_begin_time()),
                 TimeUtil.formatData(dateFormatYMD, shoppingStarBean.getPublish_end_time())));
         tv_num.setText(String.format(getString(R.string.shell_tolnum), shoppingStarBean.getPublish_time()));
@@ -213,7 +269,8 @@ public class StarSellActivity extends BaseActivity {
 
     private void refreshTime() {
         if (tv_time_count != null && secondTime > 0 && myHandler != null) {
-            tv_time_count.setText(TimeUtil.getHMS(secondTime * 1000));
+            tv_time_count.setText(TimeUtil.calculatTime(secondTime));
+            LogUtils.loge(secondTime+"");
             secondTime--;
             myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 1000);
         } else if (tv_time_count != null && secondTime <= 0) {
@@ -227,4 +284,18 @@ public class StarSellActivity extends BaseActivity {
         myHandler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                if (passwordView.getVisibility() == View.VISIBLE) {
+                    passwordView.setVisibility(View.GONE);
+                    return true;
+                } else {
+                    return super.onKeyDown(keyCode, event);
+                }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
 }

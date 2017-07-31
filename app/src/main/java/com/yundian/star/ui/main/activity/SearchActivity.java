@@ -16,10 +16,10 @@ import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.base.SearchReturnbeen;
+import com.yundian.star.been.StarListReturnBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.SearchListAdapter;
-import com.yundian.star.utils.CheckLoginUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.widget.NormalTitleBar;
@@ -83,15 +83,16 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         recyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (CheckLoginUtil.checkLogin(SearchActivity.this)){
-                    SearchReturnbeen.StarsinfoBean starsinfoBean = list.get(position);
-                    Intent intent = new Intent(SearchActivity.this,StarTimeShareActivity.class);
-                    intent.putExtra(AppConstant.STAR_CODE, starsinfoBean.getSymbol());
-                    intent.putExtra(AppConstant.STAR_NAME, starsinfoBean.getName());
-                    intent.putExtra(AppConstant.STAR_WID, starsinfoBean.getWid());
-                    intent.putExtra(AppConstant.STAR_HEAD_URL, starsinfoBean.getPic());
-                    startActivity(intent);
-                }
+                SearchReturnbeen.StarsinfoBean starsinfoBean = list.get(position);
+                StarListReturnBean.SymbolInfoBean bean = new StarListReturnBean.SymbolInfoBean();
+                bean.setPic(starsinfoBean.getPic());
+                bean.setSymbol(starsinfoBean.getSymbol());
+                bean.setName(starsinfoBean.getName());
+                bean.setWid(starsinfoBean.getWid());
+                bean.setStar_type(1);
+                Intent intent = new Intent(SearchActivity.this, StarTimeDealActivity.class);
+                intent.putExtra(AppConstant.SYMBOL_INFO_BEAN, bean);
+                startActivity(intent);
             }
         });
     }

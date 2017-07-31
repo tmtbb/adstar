@@ -34,7 +34,7 @@ public abstract class BaseRobolectricTestCase {
     public Application getAppApplication(){
         return RuntimeEnvironment.application;
     }
-    public Context getcContext(){
+    public Context getContext(){
         return RuntimeEnvironment.application;
     }
 

@@ -261,7 +261,7 @@ public class SystemMessagesActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mPopWindowHistory.dismiss();
-                showOrderInfoDialog(position);
+                //showOrderInfoDialog(position);
             }
         });
         TextView btn_cancel = (TextView) mPopWindowHistory.findViewById(R.id.btn_cancel);

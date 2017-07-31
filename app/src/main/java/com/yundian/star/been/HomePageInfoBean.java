@@ -7,7 +7,7 @@ import java.util.List;
  */
 
 public class HomePageInfoBean  {
-
+    private String home_last_pic;
     private List<SymbolInfoBean> symbol_info;
 
     public List<SymbolInfoBean> getSymbol_info() {
@@ -16,6 +16,14 @@ public class HomePageInfoBean  {
 
     public void setSymbol_info(List<SymbolInfoBean> symbol_info) {
         this.symbol_info = symbol_info;
+    }
+
+    public String getHome_last_pic() {
+        return home_last_pic;
+    }
+
+    public void setHome_last_pic(String home_last_pic) {
+        this.home_last_pic = home_last_pic;
     }
 
     public static class SymbolInfoBean {
@@ -152,5 +160,32 @@ public class HomePageInfoBean  {
         public void setWid(String wid) {
             this.wid = wid;
         }
+
+        @Override
+        public String toString() {
+            return "SymbolInfoBean{" +
+                    "change=" + change +
+                    ", currentPrice=" + currentPrice +
+                    ", home_button_pic='" + home_button_pic + '\'' +
+                    ", home_pic='" + home_pic + '\'' +
+                    ", name='" + name + '\'' +
+                    ", pchg=" + pchg +
+                    ", pic='" + pic + '\'' +
+                    ", priceTime=" + priceTime +
+                    ", pushlish_type=" + pushlish_type +
+                    ", star_type=" + star_type +
+                    ", symbol='" + symbol + '\'' +
+                    ", sysTime=" + sysTime +
+                    ", wid='" + wid + '\'' +
+                    '}';
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "HomePageInfoBean{" +
+                "home_last_pic='" + home_last_pic + '\'' +
+                ", symbol_info=" + symbol_info +
+                '}';
     }
 }

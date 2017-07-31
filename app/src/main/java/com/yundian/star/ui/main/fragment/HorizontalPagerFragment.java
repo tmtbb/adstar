@@ -15,9 +15,11 @@ import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.widget.infinitecycleviewpager.HorizontalInfiniteCycleViewPager;
 import com.yundian.star.widget.infinitecycleviewpager.HorizontalPagerAdapter;
 
+import java.util.List;
+
 
 /**
- * Created by GIGAMOLE on 8/18/16.
+ * 抢购明星
  */
 public class HorizontalPagerFragment extends BaseFragment {
 
@@ -27,6 +29,7 @@ public class HorizontalPagerFragment extends BaseFragment {
     private String token;
     private FrameLayout fm_layout;
     private HorizontalPagerAdapter adapter;
+    private List<HomePageInfoBean.SymbolInfoBean> symbol_info;
 
     @Override
     protected int getLayoutResource() {
@@ -59,10 +62,16 @@ public class HorizontalPagerFragment extends BaseFragment {
 
             @Override
             public void onSuccess(HomePageInfoBean homePageInfoBean) {
-                if (homePageInfoBean.getSymbol_info() == null || homePageInfoBean.getSymbol_info().size() == 0) {
+                if (homePageInfoBean==null||homePageInfoBean.getSymbol_info() == null || homePageInfoBean.getSymbol_info().size() == 0) {
                     showErrorView(fm_layout, R.drawable.error_view_comment, "当前没有相关数据");
                 } else {
-                    adapter = new HorizontalPagerAdapter(getContext(), homePageInfoBean.getSymbol_info());
+                    symbol_info = homePageInfoBean.getSymbol_info();
+                    closeErrorView();
+                    HomePageInfoBean.SymbolInfoBean bean = new HomePageInfoBean.SymbolInfoBean();
+                    bean.setPushlish_type(-1);
+                    bean.setHome_pic(homePageInfoBean.getHome_last_pic());
+                    symbol_info.add(bean);
+                    adapter = new HorizontalPagerAdapter(getContext(), symbol_info);
                     if (!haveInitPager){
                         initPager();
                     }else {
@@ -89,5 +98,13 @@ public class HorizontalPagerFragment extends BaseFragment {
             initPagerData();
         }
         super.onHiddenChanged(hidden);
+    }
+
+    @Override
+    public void onDestroy() {
+        if (adapter!=null){
+            adapter=null;
+        }
+        super.onDestroy();
     }
 }

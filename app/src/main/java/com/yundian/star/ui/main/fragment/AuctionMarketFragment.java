@@ -98,7 +98,7 @@ public class AuctionMarketFragment extends BaseFragment {
         List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(code);
         if (starInfos.size() != 0) {
             StarInfo starInfo = starInfos.get(0);
-            ImageLoaderUtils.displayWithDefaultImg(getActivity(), iv_src, starInfo.getPic1(), R.drawable.infos_news_defolat);
+            ImageLoaderUtils.displayWithDefaultImg(getActivity(), iv_src, starInfo.getPic1(), R.drawable.rec_bg);
         }
     }
 

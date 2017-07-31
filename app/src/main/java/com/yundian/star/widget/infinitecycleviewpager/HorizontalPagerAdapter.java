@@ -1,5 +1,6 @@
 package com.yundian.star.widget.infinitecycleviewpager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
@@ -11,8 +12,10 @@ import android.widget.ImageView;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.been.HomePageInfoBean;
+import com.yundian.star.ui.main.activity.CircleFriendsActivity;
 import com.yundian.star.ui.main.activity.StarInfoActivity;
 import com.yundian.star.ui.main.activity.StarSellActivity;
+import com.yundian.star.utils.CheckLoginUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
 
 import java.util.List;
@@ -50,28 +53,36 @@ public class HorizontalPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(final ViewGroup container, final int position) {
         View view = mLayoutInflater.inflate(R.layout.view_card_item, container, false);
+        final HomePageInfoBean.SymbolInfoBean infoBean = mList.get(position);
         ImageView img_item = (ImageView)view.findViewById(R.id.img_item);
-        ImageLoaderUtils.displayWithDefaultImg(mContext,img_item,mList.get(position).getHome_pic(),R.drawable.pic4);
+        ImageLoaderUtils.displayWithDefaultImg(mContext,img_item,infoBean.getHome_pic(),R.drawable.buying_star);
         img_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (position){
+                if (CheckLoginUtil.checkLogin((Activity) mContext)==false){
+                    return;
+                }
+                switch (infoBean.getPushlish_type()){
+                    case -1:
+                        Intent intent0 = new Intent(mContext,CircleFriendsActivity.class);
+                        mContext.startActivity(intent0);
+                        break;
                     case 0:
                         Intent intent1 = new Intent(mContext,StarSellActivity.class);
-                        intent1.putExtra(AppConstant.STAR_CODE,mList.get(position).getSymbol());
-                        intent1.putExtra(AppConstant.PUBLISH_TYPE,mList.get(position).getPushlish_type());
+                        intent1.putExtra(AppConstant.STAR_CODE, infoBean.getSymbol());
+                        intent1.putExtra(AppConstant.PUBLISH_TYPE, infoBean.getPushlish_type());
                         mContext.startActivity(intent1);
                         break;
                     case 1:
                         Intent intent2 = new Intent(mContext,StarSellActivity.class);
-                        intent2.putExtra(AppConstant.STAR_CODE,mList.get(position).getSymbol());
-                        intent2.putExtra(AppConstant.PUBLISH_TYPE,mList.get(position).getPushlish_type());
+                        intent2.putExtra(AppConstant.STAR_CODE, infoBean.getSymbol());
+                        intent2.putExtra(AppConstant.PUBLISH_TYPE, infoBean.getPushlish_type());
                         mContext.startActivity(intent2);
                         break;
                     case 2:
                         Intent intent3 = new Intent(mContext,StarInfoActivity.class);
-                        intent3.putExtra(AppConstant.STAR_CODE,mList.get(position).getSymbol());
-                        intent3.putExtra(AppConstant.PUBLISH_TYPE,mList.get(position).getPushlish_type());
+                        intent3.putExtra(AppConstant.STAR_CODE, infoBean.getSymbol());
+                        intent3.putExtra(AppConstant.PUBLISH_TYPE, infoBean.getPushlish_type());
                         mContext.startActivity(intent3);
                         break;
                 }

@@ -10,7 +10,6 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -22,8 +21,6 @@ import com.yundian.star.utils.ToastUtils;
 import com.yundian.star.widget.NormalTitleBar;
 
 import butterknife.Bind;
-
-import static com.yundian.star.R.id.nl_title;
 
 /**
  * 资讯点击webview页面
@@ -142,7 +139,6 @@ public class NewsBrowserActivity extends BaseActivity {
         controlerView.setWebUrl(webUrl);
         controlerView.setDescribe(describe);
         controlerView.setTitle(title);
-
         controlerView.showShareView(rootView);
     }
 

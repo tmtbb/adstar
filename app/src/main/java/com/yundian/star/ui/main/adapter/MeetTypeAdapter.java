@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yundian.star.R;
-import com.yundian.star.been.MeetTypeBeen;
 import com.yundian.star.been.StatServiceListBean;
 import com.yundian.star.utils.ImageLoaderUtils;
 
@@ -57,7 +56,7 @@ public class MeetTypeAdapter extends BaseAdapter {
         }
 
         viewHolder.tv_content.setText(list.get(position).getName());
-        ImageLoaderUtils.display(mContext,viewHolder.itemImg,list.get(position).getUrl1());
+        ImageLoaderUtils.display(mContext,viewHolder.itemImg,list.get(position).getUrl2());
 //        viewHolder.itemImg.setBackgroundResource(R.drawable.sort_nomal);
         return convertView;
     }

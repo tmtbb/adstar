@@ -81,7 +81,10 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.main.activity.SplashActivity">
+        <activity android:name=".ui.main.activity.SplashActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -190,6 +193,7 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
             ></activity>
+        <activity android:name=".ui.main.activity.TransactionDetailActivity"></activity>
         <!--友盟sdk-->
         <meta-data
             android:name="UMENG_APPKEY"
@@ -490,6 +494,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateHidden"></activity>
+        <activity android:name=".ui.main.activity.AuctionRankingListActivity"></activity>
 
         <!-- 声明云信后台服务 -->
         <service

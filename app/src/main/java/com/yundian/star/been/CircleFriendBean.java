@@ -33,6 +33,8 @@ public class CircleFriendBean {
          */
 
         private long circle_id;
+        private int approve_dec_time;
+        private int comment_dec_time;
         private String content;
         private long create_time;
         private String head_url;
@@ -41,6 +43,22 @@ public class CircleFriendBean {
         private String symbol_name;
         private List<ApproveListBean> approve_list;
         private List<CommentListBean> comment_list;
+
+        public int getApprove_dec_time() {
+            return approve_dec_time;
+        }
+
+        public void setApprove_dec_time(int approve_dec_time) {
+            this.approve_dec_time = approve_dec_time;
+        }
+
+        public int getComment_dec_time() {
+            return comment_dec_time;
+        }
+
+        public void setComment_dec_time(int comment_dec_time) {
+            this.comment_dec_time = comment_dec_time;
+        }
 
         public long getCircle_id() {
             return circle_id;

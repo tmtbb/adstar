@@ -61,6 +61,7 @@ public class AppConstant {
 
     //冻结用户操作
     public static final Short FREEZE_MOVEMENT = -1000;
+    public static final String IS_ONE = "IS_ONE";
 
     //首页信息
     public static final String HOME_PAGE_STAR_INFO = "HOME_PAGE_STAR_INFO";

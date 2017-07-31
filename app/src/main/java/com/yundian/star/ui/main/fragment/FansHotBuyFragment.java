@@ -4,18 +4,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.widget.FrameLayout;
 
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
+import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseFragment;
-import com.yundian.star.been.FansTopListBeen;
+import com.yundian.star.been.FansEntrustReturnBean;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
-import com.yundian.star.ui.main.adapter.FansHotBuyAdapter;
+import com.yundian.star.ui.main.adapter.AutionTopAdapter;
 import com.yundian.star.utils.LogUtils;
-import com.yundian.star.utils.SharePrefUtil;
 
 import java.util.ArrayList;
 
@@ -31,10 +31,10 @@ public class FansHotBuyFragment extends BaseFragment {
 
     private LRecyclerViewAdapter lRecyclerViewAdapter;
 
-    private ArrayList<FansTopListBeen.OrdersListBean> list = new ArrayList<>();
-    private ArrayList<FansTopListBeen.OrdersListBean> loadList = new ArrayList<>();
+    private ArrayList<FansEntrustReturnBean.PositionsListBean> list = new ArrayList<>();
+    private ArrayList<FansEntrustReturnBean.PositionsListBean> loadList = new ArrayList<>();
     private static int mCurrentCounter = 1;
-    private FansHotBuyAdapter fansHotBuyAdapter;
+    private AutionTopAdapter fansHotBuyAdapter;
     private int hotType;
     private String code;
     private LRecyclerView lrv;
@@ -69,7 +69,7 @@ public class FansHotBuyFragment extends BaseFragment {
 
     private void getData(final boolean isLoadMore,int start ,int end ) {
         LogUtils.loge("粉丝排行榜code111"+code);
-            NetworkAPIFactoryImpl.getInformationAPI().oederFansList(SharePrefUtil.getInstance().getUserId(),
+            /*NetworkAPIFactoryImpl.getInformationAPI().oederFansList(SharePrefUtil.getInstance().getUserId(),
                     SharePrefUtil.getInstance().getToken(),code,0, start, end, new OnAPIListener<FansTopListBeen>() {
                 @Override
                 public void onError(Throwable ex) {
@@ -110,21 +110,69 @@ public class FansHotBuyFragment extends BaseFragment {
                         showData();
                     }
                 }
-            });
+            });*/
+
+
+        NetworkAPIFactoryImpl.getInformationAPI().fansRntrust(code, hotType, start, REQUEST_COUNT, new OnAPIListener<FansEntrustReturnBean>() {
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.loge("粉丝热度失败------------------------------------------");
+                if (lrv != null) {
+                    lrv.setNoMore(true);
+                    if (!isLoadMore) {
+                        list.clear();
+                        fansHotBuyAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                        //showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+                    }
+                }
+            }
+
+            @Override
+            public void onSuccess(FansEntrustReturnBean bean) {
+                LogUtils.loge("粉丝热度成功-------" + bean.toString());
+                if (bean==null||bean.getPositionsList()==null||bean.getPositionsList().size()==0){
+                    lrv.setNoMore(true);
+                    if (!isLoadMore) {
+                        list.clear();
+                        fansHotBuyAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                        showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+                    }
+                    return;
+                }
+                if (isLoadMore){
+                    closeErrorView();
+                    loadList.clear();
+                    loadList = bean.getPositionsList();
+                    loadMoreData();
+                }else {
+                    list.clear();
+                    list = bean.getPositionsList();
+                    showData();
+                }
+            }
+        });
     }
 
     private void initAdapter() {
-        fansHotBuyAdapter = new FansHotBuyAdapter(getActivity(),hotType);
+        fansHotBuyAdapter = new AutionTopAdapter(getActivity());
         lRecyclerViewAdapter = new LRecyclerViewAdapter(fansHotBuyAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
         lrv.setLayoutManager(new LinearLayoutManager(getContext()));
-        lrv.setPullRefreshEnabled(false);
+        lrv.setPullRefreshEnabled(true);
         lrv.setNoMore(false);
         lrv.setLoadingMoreProgressStyle(ProgressStyle.BallSpinFadeLoader);
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
                 getData(true,mCurrentCounter+1,mCurrentCounter+REQUEST_COUNT);
+            }
+        });
+        lrv.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getData(false, 1, REQUEST_COUNT);
             }
         });
     }

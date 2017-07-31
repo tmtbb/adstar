@@ -1,5 +1,6 @@
 package com.yundian.star.ui.main.fragment;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
@@ -17,10 +18,14 @@ import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StartShellTimeBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
+import com.yundian.star.ui.main.activity.AuctionRankingListActivity;
+import com.yundian.star.ui.main.activity.BuyTransferIndentActivity;
+import com.yundian.star.ui.main.activity.StarInfoActivity;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
+import com.yundian.star.utils.ViewConcurrencyUtils;
 import com.yundian.star.widget.NumberBoubleButton;
 import com.yundian.star.widget.NumberButton;
 
@@ -60,6 +65,7 @@ public class AskToBuyMarketFragment extends BaseFragment {
     private TextView tv_content_limit;
     private TextView tv_total;
     private TextView tv_have_star_time;
+    private TextView tv_goto_buy_hot;
 
     @Override
     protected int getLayoutResource() {
@@ -101,6 +107,7 @@ public class AskToBuyMarketFragment extends BaseFragment {
         tv_content_limit = (TextView)rootView.findViewById(R.id.tv_content_limit);
         tv_total = (TextView)rootView.findViewById(R.id.tv_total);
         tv_have_star_time = (TextView)rootView.findViewById(R.id.tv_have_star_time);
+        tv_goto_buy_hot = (TextView)rootView.findViewById(R.id.tv_goto_buy_hot);
     }
 
     private void getHaveCodeTime() {
@@ -250,6 +257,7 @@ public class AskToBuyMarketFragment extends BaseFragment {
 //                if (!JudgeIsSetPayPwd.isSetPwd(getActivity())) {
 //                    return;
 //                }
+                ViewConcurrencyUtils.preventConcurrency();
                 if (buy_num>starTotalTime){
                     ToastUtils.showShort("超过明星发行总数量");
                     return;
@@ -272,6 +280,11 @@ public class AskToBuyMarketFragment extends BaseFragment {
                             public void onSuccess(AskToBuyReturnBeen askToBuyReturnBeen) {
                                 if (!TextUtils.isEmpty(askToBuyReturnBeen.getSymbol())) {
                                     ToastUtils.showShort("挂单成功");
+//                                    Intent intent = new Intent(getActivity(),BuyTransferIndentActivity.class);
+//                                    intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 3);
+//                                    getActivity().startActivity(intent);
+                                    BuyTransferIndentActivity activity = (BuyTransferIndentActivity)getActivity();
+                                    activity.toPager(3);
                                     LogUtils.loge("求购成功" + askToBuyReturnBeen.toString());
                                 }
                             }
@@ -296,6 +309,20 @@ public class AskToBuyMarketFragment extends BaseFragment {
                 total_prices = buy_price * buy_num;
                 tv_total.setText(String.format("%.2f", total_prices));
                 LogUtils.loge("获取输入数量" + buy_num);
+            }
+        });
+        tv_goto_buy_hot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),AuctionRankingListActivity.class);
+                intent.putExtra(AppConstant.STAR_CODE,code);
+                startActivity(intent);
+            }
+        });
+        img_head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StarInfoActivity.goToStarInfoActivity(getActivity(),code);
             }
         });
     }
