@@ -3,47 +3,28 @@ package com.yundian.star.ui.wangyi.avchat.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Toast;
 
 import com.netease.nim.uikit.common.activity.UI;
 import com.netease.nim.uikit.common.util.log.LogUtil;
-import com.netease.nim.uikit.common.util.sys.NetworkUtil;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.StatusCode;
 import com.netease.nimlib.sdk.auth.AuthServiceObserver;
-import com.netease.nimlib.sdk.auth.ClientType;
-import com.netease.nimlib.sdk.avchat.AVChatManager;
-import com.netease.nimlib.sdk.avchat.AVChatStateObserver;
-import com.netease.nimlib.sdk.avchat.constant.AVChatControlCommand;
-import com.netease.nimlib.sdk.avchat.constant.AVChatEventType;
-import com.netease.nimlib.sdk.avchat.constant.AVChatType;
-import com.netease.nimlib.sdk.avchat.model.AVChatAudioFrame;
-import com.netease.nimlib.sdk.avchat.model.AVChatCalleeAckEvent;
-import com.netease.nimlib.sdk.avchat.model.AVChatCommonEvent;
-import com.netease.nimlib.sdk.avchat.model.AVChatControlEvent;
-import com.netease.nimlib.sdk.avchat.model.AVChatData;
-import com.netease.nimlib.sdk.avchat.model.AVChatOnlineAckEvent;
-import com.netease.nimlib.sdk.avchat.model.AVChatVideoFrame;
 import com.yundian.star.R;
 import com.yundian.star.ui.wangyi.avchat.AVChatNotification;
 import com.yundian.star.ui.wangyi.avchat.AVChatProfile;
 import com.yundian.star.ui.wangyi.avchat.AVChatSoundPlayer;
 import com.yundian.star.ui.wangyi.avchat.AVChatUI;
 import com.yundian.star.ui.wangyi.avchat.constant.CallStateEnum;
-import com.yundian.star.ui.wangyi.avchat.receiver.PhoneCallStateObserver;
-
-import java.util.Map;
 
 /**
  * 音视频界面
  * Created by hzxuwen on 2015/4/21.
  */
-public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVChatStateObserver {
+public class AVChatActivity extends UI implements AVChatUI.AVChatListener {
     // constant
     private static final String TAG = "AVChatActivity";
     private static final String KEY_IN_CALLING = "KEY_IN_CALLING";
@@ -72,7 +53,6 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
 
     // data
     private AVChatUI avChatUI; // 音视频总管理器
-    private AVChatData avChatData; // config for connect video server
     private int state; // calltype 音频或视频
     private String receiverId; // 对方的account
 
@@ -97,21 +77,6 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
         context.startActivity(intent);
     }
 
-    /**
-     * incoming call
-     *
-     * @param context
-     */
-    public static void launch(Context context, AVChatData config, int source) {
-        needFinish = false;
-        Intent intent = new Intent();
-        intent.setClass(context, AVChatActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra(KEY_CALL_CONFIG, config);
-        intent.putExtra(KEY_IN_CALLING, true);
-        intent.putExtra(KEY_SOURCE, source);
-        context.startActivity(intent);
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,15 +94,8 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
             return;
         }
 
-        registerNetCallObserver(true);
-        if (mIsInComingCall) {
-            inComingCalling();
-        } else {
-            outgoingCalling();
-        }
-
         notifier = new AVChatNotification(this);
-        notifier.init(receiverId != null ? receiverId : avChatData.getAccount());
+        notifier.init(receiverId);
         isCallEstablished = false;
         //放到所有UI的基类里面注册，所有的UI实现onKickOut接口
         NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(userStatusObserver, true);
@@ -171,7 +129,6 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
         super.onDestroy();
         NIMClient.getService(AuthServiceObserver.class).observeOnlineStatus(userStatusObserver, false);
         AVChatProfile.getInstance().setAVChatting(false);
-        registerNetCallObserver(false);
         cancelCallingNotifier();
         needFinish = true;
     }
@@ -187,27 +144,14 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
      */
     private boolean checkSource() {
         switch (getIntent().getIntExtra(KEY_SOURCE, FROM_UNKNOWN)) {
-            case FROM_BROADCASTRECEIVER: // incoming call
-                parseIncomingIntent();
-                return true;
             case FROM_INTERNAL: // outgoing call
                 parseOutgoingIntent();
-                if (state == AVChatType.VIDEO.getValue() || state == AVChatType.AUDIO.getValue()) {
-                    return true;
-                }
                 return false;
             default:
                 return false;
         }
     }
 
-    /**
-     * 来电参数解析
-     */
-    private void parseIncomingIntent() {
-        avChatData = (AVChatData) getIntent().getSerializableExtra(KEY_CALL_CONFIG);
-        state = avChatData.getChatType().getValue();
-    }
 
     /**
      * 去电参数解析
@@ -217,63 +161,6 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
         state = getIntent().getIntExtra(KEY_CALL_TYPE, -1);
     }
 
-    /**
-     * 注册监听
-     *
-     * @param register
-     */
-    private void registerNetCallObserver(boolean register) {
-        AVChatManager.getInstance().observeAVChatState(this, register);
-        AVChatManager.getInstance().observeCalleeAckNotification(callAckObserver, register);
-        AVChatManager.getInstance().observeControlNotification(callControlObserver, register);
-        AVChatManager.getInstance().observeHangUpNotification(callHangupObserver, register);
-        AVChatManager.getInstance().observeOnlineAckNotification(onlineAckObserver, register);
-        AVChatManager.getInstance().observeTimeoutNotification(timeoutObserver, register);
-        PhoneCallStateObserver.getInstance().observeAutoHangUpForLocalPhone(autoHangUpForLocalPhoneObserver, register);
-    }
-
-    /**
-     * 注册/注销网络通话被叫方的响应（接听、拒绝、忙）
-     */
-    Observer<AVChatCalleeAckEvent> callAckObserver = new Observer<AVChatCalleeAckEvent>() {
-        @Override
-        public void onEvent(AVChatCalleeAckEvent ackInfo) {
-
-            AVChatSoundPlayer.instance().stop();
-
-            if (ackInfo.getEvent() == AVChatEventType.CALLEE_ACK_BUSY) {
-
-                AVChatSoundPlayer.instance().play(AVChatSoundPlayer.RingerTypeEnum.PEER_BUSY);
-
-                avChatUI.closeSessions(AVChatExitCode.PEER_BUSY);
-            } else if (ackInfo.getEvent() == AVChatEventType.CALLEE_ACK_REJECT) {
-                avChatUI.closeSessions(AVChatExitCode.REJECT);
-            } else if (ackInfo.getEvent() == AVChatEventType.CALLEE_ACK_AGREE) {
-                avChatUI.isCallEstablish.set(true);
-                avChatUI.canSwitchCamera = true;
-            }
-        }
-    };
-
-    Observer<Long> timeoutObserver = new Observer<Long>() {
-        @Override
-        public void onEvent(Long chatId) {
-
-            AVChatData info = avChatUI.getAvChatData();
-            if (info != null && info.getChatId() == chatId) {
-
-                avChatUI.closeSessions(AVChatExitCode.PEER_NO_RESPONSE);
-
-                // 来电超时，自己未接听
-                if (mIsInComingCall) {
-                    activeMissCallNotifier();
-                }
-
-                AVChatSoundPlayer.instance().stop();
-            }
-
-        }
-    };
 
     Observer<Integer> autoHangUpForLocalPhoneObserver = new Observer<Integer>() {
         @Override
@@ -285,87 +172,6 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
         }
     };
 
-    /**
-     * 注册/注销网络通话控制消息（音视频模式切换通知）
-     */
-    Observer<AVChatControlEvent> callControlObserver = new Observer<AVChatControlEvent>() {
-        @Override
-        public void onEvent(AVChatControlEvent netCallControlNotification) {
-            handleCallControl(netCallControlNotification);
-        }
-    };
-
-    /**
-     * 注册/注销网络通话对方挂断的通知
-     */
-    Observer<AVChatCommonEvent> callHangupObserver = new Observer<AVChatCommonEvent>() {
-        @Override
-        public void onEvent(AVChatCommonEvent avChatHangUpInfo) {
-
-            AVChatSoundPlayer.instance().stop();
-
-            avChatUI.closeSessions(AVChatExitCode.HANGUP);
-            cancelCallingNotifier();
-            // 如果是incoming call主叫方挂断，那么通知栏有通知
-            if (mIsInComingCall && !isCallEstablished) {
-                activeMissCallNotifier();
-            }
-        }
-    };
-
-    /**
-     * 注册/注销同时在线的其他端对主叫方的响应
-     */
-    Observer<AVChatOnlineAckEvent> onlineAckObserver = new Observer<AVChatOnlineAckEvent>() {
-        @Override
-        public void onEvent(AVChatOnlineAckEvent ackInfo) {
-
-            AVChatSoundPlayer.instance().stop();
-
-            String client = null;
-            switch (ackInfo.getClientType()) {
-                case ClientType.Web:
-                    client = "Web";
-                    break;
-                case ClientType.Windows:
-                    client = "Windows";
-                    break;
-                case ClientType.Android:
-                    client = "Android";
-                    break;
-                case ClientType.iOS:
-                    client = "iOS";
-                    break;
-                default:
-                    break;
-            }
-            if (client != null) {
-                String option = ackInfo.getEvent() == AVChatEventType.CALLEE_ONLINE_CLIENT_ACK_AGREE ? "接听！" : "拒绝！";
-                Toast.makeText(AVChatActivity.this, "通话已在" + client + "端被" + option, Toast.LENGTH_SHORT).show();
-            }
-            avChatUI.closeSessions(-1);
-        }
-    };
-
-
-    /**
-     * 接听
-     */
-    private void inComingCalling() {
-        avChatUI.inComingCalling(avChatData);
-    }
-
-    /**
-     * 拨打
-     */
-    private void outgoingCalling() {
-        if (!NetworkUtil.isNetAvailable(AVChatActivity.this)) { // 网络不可用
-            Toast.makeText(this, R.string.network_is_not_available, Toast.LENGTH_SHORT).show();
-            finish();
-            return;
-        }
-        avChatUI.outGoingCalling(receiverId, AVChatType.typeOfValue(state));
-    }
 
     /**
      * *************************** AVChatListener *********************************
@@ -401,37 +207,6 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
 
     /**************************** 处理音视频切换 *********************************/
 
-    /**
-     * 处理音视频切换请求
-     *
-     * @param notification
-     */
-    private void handleCallControl(AVChatControlEvent notification) {
-        switch (notification.getControlCommand()) {
-            case AVChatControlCommand.SWITCH_AUDIO_TO_VIDEO:
-                avChatUI.incomingAudioToVideo();
-                break;
-            case AVChatControlCommand.SWITCH_AUDIO_TO_VIDEO_AGREE:
-                onAudioToVideo();
-                break;
-            case AVChatControlCommand.SWITCH_AUDIO_TO_VIDEO_REJECT:
-                avChatUI.onCallStateChange(CallStateEnum.AUDIO);
-                Toast.makeText(AVChatActivity.this, R.string.avchat_switch_video_reject, Toast.LENGTH_SHORT).show();
-                break;
-            case AVChatControlCommand.SWITCH_VIDEO_TO_AUDIO:
-                onVideoToAudio();
-                break;
-            case AVChatControlCommand.NOTIFY_VIDEO_OFF:
-                avChatUI.peerVideoOff();
-                break;
-            case AVChatControlCommand.NOTIFY_VIDEO_ON:
-                avChatUI.peerVideoOn();
-                break;
-            default:
-                Toast.makeText(this, "对方发来指令值：" + notification.getControlCommand(), Toast.LENGTH_SHORT).show();
-                break;
-        }
-    }
 
     /**
      * 音频切换为视频
@@ -480,152 +255,6 @@ public class AVChatActivity extends UI implements AVChatUI.AVChatListener, AVCha
     /**
      * ************************ AVChatStateObserver ****************************
      */
-
-    @Override
-    public void onTakeSnapshotResult(String account, boolean success, String file) {
-
-    }
-
-    @Override
-    public void onConnectionTypeChanged(int netType) {
-
-    }
-
-    @Override
-    public void onAVRecordingCompletion(String account, String filePath) {
-        if (account != null && filePath != null && filePath.length() > 0) {
-            String msg = "音视频录制已结束, " + "账号：" + account + " 录制文件已保存至：" + filePath;
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "录制已结束.", Toast.LENGTH_SHORT).show();
-        }
-        if (avChatUI != null) {
-            avChatUI.resetRecordTip();
-        }
-    }
-
-    @Override
-    public void onAudioRecordingCompletion(String filePath) {
-        if (filePath != null && filePath.length() > 0) {
-            String msg = "音频录制已结束, 录制文件已保存至：" + filePath;
-            Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
-        } else {
-            Toast.makeText(this, "录制已结束.", Toast.LENGTH_SHORT).show();
-        }
-        if (avChatUI != null) {
-            avChatUI.resetRecordTip();
-        }
-    }
-
-    @Override
-    public void onLowStorageSpaceWarning(long availableSize) {
-        if (avChatUI != null) {
-            avChatUI.showRecordWarning();
-        }
-    }
-
-
-    @Override
-    public void onFirstVideoFrameAvailable(String account) {
-
-    }
-
-    @Override
-    public void onVideoFpsReported(String account, int fps) {
-
-    }
-
-    @Override
-    public void onJoinedChannel(int code, String audioFile, String videoFile) {
-        handleWithConnectServerResult(code);
-    }
-
-    @Override
-    public void onLeaveChannel() {
-
-    }
-
-    @Override
-    public void onUserJoined(String account) {
-        Log.d(TAG, "onUserJoin -> " + account);
-        avChatUI.setVideoAccount(account);
-        avChatUI.initLargeSurfaceView(avChatUI.getVideoAccount());
-    }
-
-    @Override
-    public void onUserLeave(String account, int event) {
-        Log.d(TAG, "onUserLeave -> " + account);
-    }
-
-    @Override
-    public void onProtocolIncompatible(int status) {
-
-    }
-
-    @Override
-    public void onDisconnectServer() {
-
-    }
-
-    @Override
-    public void onNetworkQuality(String user, int value) {
-
-    }
-
-    @Override
-    public void onCallEstablished() {
-        Log.d(TAG, "onCallEstablished");
-        if (avChatUI.getTimeBase() == 0)
-            avChatUI.setTimeBase(SystemClock.elapsedRealtime());
-
-        if (state == AVChatType.AUDIO.getValue()) {
-            avChatUI.onCallStateChange(CallStateEnum.AUDIO);
-        } else {
-            avChatUI.initSmallSurfaceView();
-            avChatUI.onCallStateChange(CallStateEnum.VIDEO);
-        }
-        isCallEstablished = true;
-    }
-
-    @Override
-    public void onDeviceEvent(int code, String desc) {
-
-    }
-
-    @Override
-    public void onFirstVideoFrameRendered(String user) {
-
-    }
-
-    @Override
-    public void onVideoFrameResolutionChanged(String user, int width, int height, int rotate) {
-
-    }
-
-    @Override
-    public boolean onVideoFrameFilter(AVChatVideoFrame frame) {
-        return true;
-    }
-
-    @Override
-    public boolean onAudioFrameFilter(AVChatAudioFrame frame) {
-        return true;
-    }
-
-    @Override
-    public void onAudioDeviceChanged(int device) {
-
-    }
-
-    @Override
-    public void onReportSpeaker(Map<String, Integer> speakers, int mixedEnergy) {
-
-    }
-
-    @Override
-    public void onAudioMixingEvent(int event) {
-
-    }
 
 
     Observer<StatusCode> userStatusObserver = new Observer<StatusCode>() {

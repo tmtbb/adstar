@@ -1,5 +1,6 @@
 package com.yundian.star.widget.infinitecycleviewpager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
@@ -14,6 +15,7 @@ import com.yundian.star.been.HomePageInfoBean;
 import com.yundian.star.ui.main.activity.CircleFriendsActivity;
 import com.yundian.star.ui.main.activity.StarInfoActivity;
 import com.yundian.star.ui.main.activity.StarSellActivity;
+import com.yundian.star.utils.CheckLoginUtil;
 import com.yundian.star.utils.ImageLoaderUtils;
 
 import java.util.List;
@@ -57,6 +59,9 @@ public class HorizontalPagerAdapter extends PagerAdapter {
         img_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (CheckLoginUtil.checkLogin((Activity) mContext)==false){
+                    return;
+                }
                 switch (infoBean.getPushlish_type()){
                     case -1:
                         Intent intent0 = new Intent(mContext,CircleFriendsActivity.class);

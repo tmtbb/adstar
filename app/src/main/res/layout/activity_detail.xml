@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <com.yundian.star.widget.NormalTitleBar
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:id="@+id/nt_title"
+        ></com.yundian.star.widget.NormalTitleBar>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/color_f4f4f4"
+        android:orientation="horizontal">
+
+        <TextView
+            android:clickable="true"
+            android:id="@+id/tv_1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/on_that_day_transaction"
+            android:textColor="@color/color_cccccc"
+            android:textSize="@dimen/fontSize_14sp" />
+
+        <TextView
+            android:clickable="true"
+            android:id="@+id/tv_2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/on_that_day_delegation"
+            android:textColor="@color/color_cccccc"
+            android:textSize="@dimen/fontSize_14sp" />
+
+        <TextView
+            android:clickable="true"
+            android:id="@+id/tv_3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/history_delegation"
+            android:textColor="@color/color_cccccc"
+            android:textSize="@dimen/fontSize_14sp" />
+        <TextView
+            android:clickable="true"
+            android:id="@+id/tv_4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="@string/history_deal"
+            android:textColor="@color/color_cccccc"
+            android:textSize="@dimen/fontSize_14sp" />
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/fl_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></FrameLayout>
+</LinearLayout>

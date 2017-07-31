@@ -50,6 +50,33 @@ public class StatServiceListBean implements Parcelable{
         private String url2;
         private String name;
         private String price;
+        private String enddate;
+        private String startdate;
+        private String meet_city;
+
+        public String getEnddate() {
+            return enddate;
+        }
+
+        public void setEnddate(String enddate) {
+            this.enddate = enddate;
+        }
+
+        public String getStartdate() {
+            return startdate;
+        }
+
+        public void setStartdate(String startdate) {
+            this.startdate = startdate;
+        }
+
+        public String getMeet_city() {
+            return meet_city;
+        }
+
+        public void setMeet_city(String meet_city) {
+            this.meet_city = meet_city;
+        }
 
         public String getMid() {
             return mid;
@@ -99,6 +126,9 @@ public class StatServiceListBean implements Parcelable{
                     ", url2='" + url2 + '\'' +
                     ", name='" + name + '\'' +
                     ", price='" + price + '\'' +
+                    ", enddate='" + enddate + '\'' +
+                    ", startdate='" + startdate + '\'' +
+                    ", meet_city='" + meet_city + '\'' +
                     '}';
         }
     }

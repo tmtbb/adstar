@@ -138,6 +138,7 @@ public class SocketAPINettyBootstrap {
                 return true;
             } else {
                 System.out.println("connect server  失败---------");
+                LogUtils.loge("connect server  失败---------");
                 return false;
             }
         } catch (Exception e) {
@@ -145,6 +146,7 @@ public class SocketAPINettyBootstrap {
             if (onConnectListener != null) {
                 onConnectListener.onFailure(tag);
             }
+            LogUtils.loge("connect server  无法连接---------");
             SystemClock.sleep(15 * 1000); //睡眠,重新链接
             startConnect(tag,bootstrap,networkAPIConfig);
             return false;

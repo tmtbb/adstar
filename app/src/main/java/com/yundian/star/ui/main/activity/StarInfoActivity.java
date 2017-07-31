@@ -1,5 +1,6 @@
 package com.yundian.star.ui.main.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,9 @@ import android.widget.TextView;
 
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.session.SessionCustomization;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.base.BaseActivity;
@@ -25,6 +29,7 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.HorizontalRcvAdapter;
 import com.yundian.star.ui.main.adapter.StarBuyExcAdapter;
+import com.yundian.star.ui.view.ShareControlerView;
 import com.yundian.star.ui.wangyi.session.activity.P2PMessageActivity;
 import com.yundian.star.utils.HorizontalItemDecorator;
 import com.yundian.star.utils.ImageLoaderUtils;
@@ -55,8 +60,12 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
     private ImageView imag_meesage;
     private ImageView imageView_head;
     private ImageView iv_star_bg;
+    private TextView tv_right_share;
     private String starTypeInfo[] = {"网红", "娱乐明星", "体育明星", "艺人", "海外知名人士", "测试"};
     private StarDetailInfoBean.ResultvalueBean resultvalue;
+    private String head_url;
+    private String back_pic;
+    private String describe="";
 
     @Override
     public int getLayoutId() {
@@ -79,6 +88,7 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
         imag_meesage = (ImageView) findViewById(R.id.imag_meesage);
         imageView_head = (ImageView) findViewById(R.id.imageView3);
         iv_star_bg = (ImageView) findViewById(R.id.iv_star_bg);
+        tv_right_share = (TextView) findViewById(R.id.tv_right_share);
         getHaveCodeTime();
         getStarDetailInfo();
         initListener();
@@ -90,6 +100,7 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
         tv_meet_starts.setOnClickListener(this);
         tv_buy_time.setOnClickListener(this);
         imag_meesage.setOnClickListener(this);
+        tv_right_share.setOnClickListener(this);
     }
 
     private void initHorizontalRecview(StarDetailInfoBean infoBean) {
@@ -123,7 +134,7 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
     }
 
 
-    private void getStarExperience() {
+    public void getStarExperience() {
         NetworkAPIFactoryImpl.getInformationAPI().getStarExperience(code, new OnAPIListener<StarExperienceBeen>() {
             @Override
             public void onError(Throwable ex) {
@@ -133,6 +144,7 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onSuccess(StarExperienceBeen o) {
                 if (o.getResult() == 1 && o.getList() != null) {
+                    describe = o.getList().get(0).getExperience().toString();
                     initExp(o);
                 }
             }
@@ -149,11 +161,25 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onSuccess(StarDetailInfoBean infoBean) {
                 LogUtils.loge("明星个人详情" + infoBean.toString());
+
                 resultvalue = infoBean.getResultvalue();
-                ImageLoaderUtils.displaySmallPhoto(StarInfoActivity.this, imageView_head, resultvalue.getHead_url());
+                if (resultvalue==null){
+                    return;
+                }
+                if (TextUtils.isEmpty(resultvalue.getHead_url())){
+                    head_url="";
+                }else {
+                    head_url = resultvalue.getHead_url();
+                }
+                if (TextUtils.isEmpty(resultvalue.getBack_pic())){
+                    back_pic="";
+                }else {
+                    back_pic = resultvalue.getBack_pic();
+                }
+                ImageLoaderUtils.displaySmallPhoto(StarInfoActivity.this, imageView_head, head_url);
                 tv_name.setText(resultvalue.getStar_name());
                 star_work.setText(starTypeInfo[resultvalue.getStar_tpye()]);
-                ImageLoaderUtils.displayWithDefaultImg(StarInfoActivity.this, iv_star_bg, resultvalue.getBack_pic(), R.drawable.infos_news_defolat);
+                ImageLoaderUtils.displayWithDefaultImg(StarInfoActivity.this, iv_star_bg, back_pic, R.drawable.rec_bg);
                 initHorizontalRecview(infoBean);
             }
         });
@@ -178,7 +204,7 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         popupWindow.setOutsideTouchable(false);
         popupWindow.setFocusable(true);
-        ImageLoaderUtils.displayWithDefaultImg(this, zoomImageView, prc_url, R.drawable.infos_news_defolat);
+        ImageLoaderUtils.displayWithDefaultImg(this, zoomImageView, prc_url, R.drawable.rec_bg);
         zoomImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -197,9 +223,9 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
             case R.id.tv_meet_starts:
                 if (JudgeIdentityUtils.isIdentityed(StarInfoActivity.this)) {
                     Intent intent3 = new Intent(StarInfoActivity.this, MeetStarActivity.class);
-                    intent3.putExtra(AppConstant.STAR_HEAD_URL, resultvalue.getHead_url());
+                    intent3.putExtra(AppConstant.STAR_HEAD_URL, head_url);
                     intent3.putExtra(AppConstant.STAR_NAME, resultvalue.getStar_name());
-                    intent3.putExtra(AppConstant.STAR_BACKGROUND_URL, resultvalue.getBack_pic());
+                    intent3.putExtra(AppConstant.STAR_BACKGROUND_URL, back_pic);
                     intent3.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, resultvalue.getStar_tpye());
                     intent3.putExtra(AppConstant.STAR_CODE, code);
                     startActivity(intent3);
@@ -208,7 +234,7 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
             case R.id.tv_buy_time:
                 Intent intent = new Intent(this, BuyTransferIndentActivity.class);
                 intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 0);
-                intent.putExtra(AppConstant.STAR_HEAD_URL, resultvalue.getHead_url());
+                intent.putExtra(AppConstant.STAR_HEAD_URL, head_url);
                 intent.putExtra(AppConstant.STAR_NAME, resultvalue.getStar_name());
                 intent.putExtra(AppConstant.STAR_CODE, code);
                 startActivity(intent);
@@ -222,6 +248,9 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
                 } else {
                     ToastUtils.showShort("您未持有该明星时间，请购买");
                 }
+                break;
+            case R.id.tv_right_share:
+                share();
                 break;
 
         }
@@ -243,5 +272,50 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
                         LogUtils.loge("持有时间" + haveStarTimeBeen.toString());
                     }
                 });
+    }
+    private void share() {
+        ShareControlerView controlerView = new ShareControlerView(this, mContext, umShareListener);
+        String webUrl = "https://mobile.umeng.com/";
+        String title = resultvalue.getStar_name()+" 正在星享时光出售TA的时间";
+        String text = "文本";
+        controlerView.setText(text);
+        controlerView.setWebUrl(webUrl);
+        controlerView.setDescribe(describe);
+        controlerView.setTitle(title);
+        controlerView.setImageurl(resultvalue.getHead_url());
+        controlerView.showShareView(rootView);
+    }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            //分享开始的回调
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            ToastUtils.showShort("分享成功啦");
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            ToastUtils.showShort("分享失败了");
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            ToastUtils.showShort("分享取消了");
+        }
+    };
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode,resultCode,data);
+    }
+    public static void goToStarInfoActivity(Context context, String code){
+        Intent intent = new Intent(context,StarInfoActivity.class);
+        intent.putExtra(AppConstant.STAR_CODE,code);
+        context.startActivity(intent);
     }
 }

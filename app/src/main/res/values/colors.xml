@@ -14,116 +14,37 @@
     <color name="night_two_text_color">#8A9599</color>
     <color name="night_there_text_color">#8A9599</color>
     <!-- app主色调-->
-    <color name="main_color">#FA7C20</color>
-    <color name="orange">#FA8C20</color>
-    <color name="wheel_divider_line_color">#FF000000</color>
-    <color name="wheel_item_text_color_selected">#FF0288ce</color>
-    <color name="wheel_item_text_color_no_select">#FFbbbbbb</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FFFF0000</color>
-    <color name="green">#FF00FF00</color>
     <color name="white_alpha_half">#99FFFFFF</color>
     <color name="gray">#FFF0F0F0</color>
-    <color name="gray_deep">#c9000000</color>
     <color name="transparent">#00000000</color>
-    <color name="role_right_gray">#929292</color>
-    <color name="role_yellow_gray">#33CC99</color>
-    <color name="tv_right_gray">#929292</color>
-    <color name="bg_white_gray">#f2f2f2</color>
-    <color name="tv_talk_content">#FFB3B3B3</color>
-    <color name="line_recent_contact">#FFEEEEEE</color>
-    <color name="light_gray">#808080</color>
-    <color name="light_white">#33ffffff</color>
-    <color name="chat_tip_color">#FFcccccc</color>
     <color name="blue">#5CA3E5</color>
-    <color name="main_blue">#3598db</color>
-    <color name="blue_check">#3493d4</color>
     <color name="toast_white">#ffffff</color>
     <color name="toast_stroke_gray">#99d4d4d4</color>
     <color name="color_070707">#070707</color>
     <color name="color_ececec">#ececec</color>
 
 
-    <color name="alpha_05_white">#0DFFFFFF</color>
-    <color name="alpha_10_white">#1AFFFFFF</color>
-    <color name="alpha_15_white">#26FFFFFF</color>
-    <color name="alpha_20_white">#33FFFFFF</color>
-    <color name="alpha_25_white">#40FFFFFF</color>
-    <color name="alpha_30_white">#4DFFFFFF</color>
-    <color name="alpha_35_white">#59FFFFFF</color>
-    <color name="alpha_40_white">#66FFFFFF</color>
-    <color name="alpha_45_white">#73FFFFFF</color>
-    <color name="alpha_50_white">#80FFFFFF</color>
-    <color name="alpha_55_white">#8CFFFFFF</color>
-    <color name="alpha_60_white">#99FFFFFF</color>
-    <color name="alpha_65_white">#A6FFFFFF</color>
-    <color name="alpha_70_white">#B3FFFFFF</color>
-    <color name="alpha_75_white">#BFFFFFFF</color>
-    <color name="alpha_80_white">#CCFFFFFF</color>
-    <color name="alpha_85_white">#D9FFFFFF</color>
-    <color name="alpha_90_white">#E6FFFFFF</color>
-    <color name="alpha_95_white">#F2FFFFFF</color>
-
-    <color name="alpha_05_black">#0D000000</color>
-    <color name="alpha_10_black">#1A000000</color>
-    <color name="alpha_15_black">#26000000</color>
-    <color name="alpha_20_black">#33000000</color>
-    <color name="alpha_25_black">#40000000</color>
-    <color name="alpha_30_black">#4D000000</color>
-    <color name="alpha_35_black">#59000000</color>
-    <color name="alpha_40_black">#66000000</color>
-    <color name="alpha_45_black">#73000000</color>
     <color name="alpha_50_black">#80000000</color>
-    <color name="alpha_55_black">#8C000000</color>
-    <color name="alpha_60_black">#99000000</color>
-    <color name="alpha_65_black">#A6000000</color>
-    <color name="alpha_70_black">#B3000000</color>
-    <color name="alpha_75_black">#BF000000</color>
-    <color name="alpha_80_black">#CC000000</color>
-    <color name="alpha_85_black">#D9000000</color>
-    <color name="alpha_90_black">#E6000000</color>
     <color name="alpha_95_black">#F2000000</color>
 
-    <color name="yellow">#ff9000</color>
-    <color name="default_yellow">#fed630</color>
-    <color name="newgame_operate_bg_yellow">#ffcc00</color>
     <color name="default_bg">#f5f5f5</color>
-    <color name="default_red">#E9573F</color>
-    <color name="default_red_light">#F05F46</color>
-    <color name="default_green">#0EAF56</color>  //买跌色调
+    //买跌色调
     <color name="default_view_select">#f1f1f1</color>
-    <color name="default_assist_color">#E48723</color> //辅助色
-    <color name="default_main_color">#268DCF</color> //主色调
-    <color name="default_main_color_light">#2795D9</color> //主色调亮色
+    //辅助色
+    //主色调
+    //主色调亮色
     <color name="font_333333">#333333</color>
-    <color name="font_444">#444444</color>
-    <color name="font_e2e2e2">#e2e2e2</color>
     <color name="color_cccccc">#cccccc</color>
-    <color name="color_e9573e">#e9573e</color>
     <color name="color_f05f46">#f05f46</color>
     <color name="color_bdbdbd">#bdbdbd</color>
     <color name="color_666666">#666666</color>
-    <color name="font_ccc">#cccccc</color>
     <color name="font_666">#666666</color>
     <color name="font_999999">#999999</color>
-    <color name="color_eee">#eee</color>
-    <color name="color_fe0000">#fe0000</color>
-    <color name="color_009944">#009944</color>
     <color name="color_fefefe">#fefefe</color>
     <color name="color_f98d8d">#f98d8d</color>
-    <color name="white_alpha_30">#51ffffff</color>
-    <color name="red_time_line">#FC6E51</color>
-    <color name="color_dbdbdb">#DBDBDB</color>
-    <color name="color_e6e9ed">#E6E9ED</color>
-    <color name="font_888">#888888</color>
-    <color name="font_9e9e9e">#9e9e9e</color>
-    <color name="color_ef8455">#ef8455</color>
-    <color name="color_00ADB4">#00ADB4</color>
-    <color name="font_e6e6e6">#e6e6e6</color>
-    <color name="color_login">#F6F7FB</color>
-    <color name="color_d5efff">#D5EFFF</color>
-    <color name="color_c2cfd7">#C2CFD7</color>
     <color name="color_fafafa">#FAFAFA</color>
     <color name="color_BCE0DA">#BCE0DA</color>
     <color name="color_b0b0b0">#b0b0b0</color>
@@ -155,7 +76,6 @@
     <color name="color_8290AF">#8290AF</color>
     <color name="color_A3DEA3">#A3DEA3</color>
     <color name="color_E9E9E9">#E9E9E9</color>
-    <color name="color_00fafafa">#00fafafa</color>
     <color name="color_A2D8E0">#A2D8E0</color>
     <color name="color_D4B3DE">#D4B3DE</color>
 
@@ -167,7 +87,6 @@
     <color name="color_grey_d0d0d0">#d0d0d0</color>
     <color name="video_call_peer_close_cameral_text_shadow">#484848</color>
     <color name="video_call_peer_close_cameral_text_color">#f1f1f1</color>
-    <color name="color_gray_alpha">#99323232</color>
     <color name="color_gray_alpha40">#66000000</color>
     <color name="color_7fcb4232">#7fcb4232</color>
     <color name="color_7b000000">#7b000000</color>
@@ -178,21 +97,16 @@
     <color name="color_blue_0888ff">#0888ff</color>
     <color name="color_gray_d9d9d9">#d9d9d9</color>
     <color name="action_bar_tittle_color_555555">#555555</color>
-    <color name="grey_white">#F7F7F7</color>
     <color name="grey_white_has_alpha">#66FAFAFA</color>
     <color name="color_network_bar_bg_ee4b62">#ee4b62</color>
     <color name="color_black_333333">#333333</color>
     <color name="color_grey_999999">#999999</color>
     <color name="color_grey_888888">#888888</color>
     <color name="color_activity_blue_bg">#f7389fff</color>
-    <color name="color_green_00ae8c">#00ae8c</color>
     <color name="split_line_grey_color_d9d9d9">#D9D9D9</color>
     <color name="green_4DC0A4">#4DC0A4</color>
     <color name="gray7">#c5c4c4</color>
     <color name="GreyWhite">#F7F7F7</color>
-    <color name="color_register_text_normal_1ca086">#1ca086</color>
-    <color name="color_register_text_normal_246b61">#246b61</color>
-    <color name="color_register_text_disable_39b79d">#39b79d</color>
     <color name="im_list_select_hover">#dbdbdb</color>
     <color name="color_aaaaaa_content_text">#ffaaaaaa</color>
     <color name="title_color_01d9ae">#01D9AE</color>
@@ -201,14 +115,10 @@
     <color name="color_green_00d3a9">#ff00D3A9</color>
     <color name="color_red_ccfa3c55">#ccfa3c55</color>
     <color name="color_black_b3000000">#b3000000</color>
-    <color name="color_white_66ffffff">#66ffffff</color>
     <color name="color_white_ffffffff">#ffffffff</color>
-    <color name="color_blue_1081ea">#1081ea</color>
     <color name="color_grey_eaeaea">#eaeaea</color>
-    <color name="color_green_4bbda2">#4bbda2</color>
     <color name="color_yellow_fcf3cd">#fcf3cd</color>
     <color name="color_blue_3a9efb">#3a9efb</color>
-    <color name="color_green_89fbff">#89fbff</color>
     <color name="color_dcdcdc">#dcdcdc</color>
     <color name="color_ffffff">#ffffff</color>
     <color name="color_0000FF">#0000FF</color>
@@ -216,7 +126,6 @@
 
     <!-- main bg color -->
     <color name="g_child_page_bg_color">#FFFFFF</color>
-    <color name="list_bg_color">#FFFFFF</color>
     <color name="main_bg_color">#FFFFFF</color>
 
     <!-- session -->
@@ -250,21 +159,5 @@
     <color name="color_f2f2f2">#f2f2f2</color>
 
     <!--友盟-->
-    <color name="umeng_socialize_comments_bg">#F4F4F4</color>
-    <color name="umeng_socialize_color_group">#2c3035</color>
-    <color name="umeng_socialize_list_item_textcolor">#333333</color>
-    <color name="umeng_socialize_list_item_bgcolor">#FFFFFF</color>
-    <color name="umeng_socialize_divider">#E6E6E6</color>
-    <color name="umeng_socialize_text_time">#999999</color>
-    <color name="umeng_socialize_text_title">#464f61</color>
-    <color name="umeng_socialize_text_friends_list">#959696</color>
-    <color name="umeng_socialize_text_share_content">#666666</color>
-    <color name="umeng_socialize_ucenter_bg">#EEEEEE</color>
-    <color name="umeng_socialize_text_ucenter">#595959</color>
-    <color name="umeng_socialize_edit_bg">#C4C4C4</color>
-    <color name="umeng_socialize_grid_divider_line">#F8F8F8</color>
-    <color name="umeng_socialize_web_bg">#F4F4F4</color>
-    <color name="umeng_socialize_shareactivity">#D4E0E5</color>
-    <color name="umeng_socialize_shareactivitydefault">#ffffff</color>
 
 </resources>

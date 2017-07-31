@@ -1,5 +1,6 @@
 package com.yundian.star.ui.main.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
@@ -17,15 +19,21 @@ import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.yundian.star.R;
+import com.yundian.star.app.AppConstant;
 import com.yundian.star.app.CommentConfig;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.CircleFriendBean;
+import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.CircleFriendAdapter;
 import com.yundian.star.ui.main.contract.CircleContract;
 import com.yundian.star.ui.main.presenter.CirclePresenter;
+import com.yundian.star.ui.view.ShareControlerView;
 import com.yundian.star.utils.KeyBordUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.ToastUtils;
@@ -74,10 +82,17 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
     private EditText mEtContent;
     private ImageView mIvEmo;
     private Button mBtnSend;
+    private LinearLayout cv_info;
+    private TextView close_info;
     private FrameLayout mFlEmotionView;
     private FrameLayout flEmotionView;
     private EmotionLayout mElEmotion;
     private EmotionKeyboard mEmotionKeyboard;
+    private String code;
+    private String starName;
+    private String starUrl;
+    private boolean isOne;
+    private String describe="";
 
     @Override
     public int getLayoutId() {
@@ -91,6 +106,11 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
 
     @Override
     public void initView() {
+        Intent intent = getIntent();
+        code = intent.getStringExtra(AppConstant.STAR_CODE);
+        starName = intent.getStringExtra(AppConstant.STAR_NAME);
+        starUrl = intent.getStringExtra(AppConstant.STAR_HEAD_URL);
+        isOne = intent.getBooleanExtra(AppConstant.IS_ONE, false);
         presenter = new CirclePresenter(this);
         nt_title.setBackVisibility(true);
         nt_title.setTitleText(R.string.find_star);
@@ -98,6 +118,7 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
         initAdapter();
         initListener();
         getData(false, 0, REQUEST_COUNT);
+        getStarExperience();
     }
 
     private void initEmoji() {
@@ -107,9 +128,20 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
         mEtContent = (EditText) findViewById(etContent);
         mIvEmo = (ImageView) findViewById(R.id.ivEmo);
         mBtnSend = (Button) findViewById(R.id.btnSend);
+        cv_info = (LinearLayout) findViewById(R.id.cv_info);
+        close_info = (TextView) findViewById(R.id.close_info);
         mFlEmotionView = (FrameLayout) findViewById(R.id.flEmotionView);
         mElEmotion = (EmotionLayout) findViewById(R.id.elEmotion);
         mElEmotion.attachEditText(mEtContent);
+        if (isOne){
+            nt_title.setRightImagSrc(R.drawable.share);
+            nt_title.setOnRightImagListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                share();
+            }
+        });
+        }
         initEmotionKeyboard();
     }
 
@@ -241,55 +273,103 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
 
 
     private void getData(final boolean isLoadMore, int start, int count) {
-        NetworkAPIFactoryImpl.getInformationAPI().getAllCircleInfo(start, count, new OnAPIListener<CircleFriendBean>() {
-            @Override
-            public void onError(Throwable ex) {
-                if (lrv != null) {
-                    lrv.setNoMore(true);
-                    if (!isLoadMore) {
-                        list.clear();
-                        circleFriendAdapter.clear();
-                        lrv.refreshComplete(REQUEST_COUNT);
-                        showErrorView(fl_pr, R.drawable.error_view_comment, "当前没有相关数据");
-                    }
-                }
-            }
-
-            @Override
-            public void onSuccess(CircleFriendBean circleFriendBean) {
-                LogUtils.loge("圈子反馈" + circleFriendBean.toString());
-                if (circleFriendBean == null || circleFriendBean.getCircle_list() == null || circleFriendBean.getCircle_list().size() == 0) {
-                    if (!isLoadMore) {
-                        list.clear();
-                        circleFriendAdapter.clear();
-                        lrv.refreshComplete(REQUEST_COUNT);
-                        showErrorView(fl_pr, R.drawable.error_view_comment, "当前没有相关数据");
-                    } else {
+        if (isOne){
+            NetworkAPIFactoryImpl.getInformationAPI().getAllCircleIsOne(start, count,code, new OnAPIListener<CircleFriendBean>() {
+                @Override
+                public void onError(Throwable ex) {
+                    if (lrv != null) {
                         lrv.setNoMore(true);
+                        if (!isLoadMore) {
+                            list.clear();
+                            circleFriendAdapter.clear();
+                            lrv.refreshComplete(REQUEST_COUNT);
+                            showErrorView(fl_pr, R.drawable.error_view_comment, "当前没有相关数据");
+                        }
                     }
+                }
 
-                    return;
+                @Override
+                public void onSuccess(CircleFriendBean circleFriendBean) {
+                    LogUtils.loge("圈子反馈" + circleFriendBean.toString());
+                    if (circleFriendBean == null || circleFriendBean.getCircle_list() == null || circleFriendBean.getCircle_list().size() == 0) {
+                        if (!isLoadMore) {
+                            list.clear();
+                            circleFriendAdapter.clear();
+                            lrv.refreshComplete(REQUEST_COUNT);
+                            showErrorView(fl_pr, R.drawable.error_view_comment, "当前没有相关数据");
+                        } else {
+                            lrv.setNoMore(true);
+                        }
+
+                        return;
+                    }
+                    if (isLoadMore) {
+                        loadList.clear();
+                        loadList = circleFriendBean.getCircle_list();
+                        loadMoreData();
+                    } else {
+                        list.clear();
+                        list = circleFriendBean.getCircle_list();
+                        showData();
+                    }
                 }
-                if (isLoadMore) {
-                    loadList.clear();
-                    loadList = circleFriendBean.getCircle_list();
-                    loadMoreData();
-                } else {
-                    list.clear();
-                    list = circleFriendBean.getCircle_list();
-                    showData();
+            });
+        }else {
+            NetworkAPIFactoryImpl.getInformationAPI().getAllCircleInfo(start, count, new OnAPIListener<CircleFriendBean>() {
+                @Override
+                public void onError(Throwable ex) {
+                    if (lrv != null) {
+                        lrv.setNoMore(true);
+                        if (!isLoadMore) {
+                            list.clear();
+                            circleFriendAdapter.clear();
+                            lrv.refreshComplete(REQUEST_COUNT);
+                            showErrorView(fl_pr, R.drawable.error_view_comment, "当前没有相关数据");
+                        }
+                    }
                 }
-            }
-        });
+
+                @Override
+                public void onSuccess(CircleFriendBean circleFriendBean) {
+                    LogUtils.loge("圈子反馈" + circleFriendBean.toString());
+                    if (circleFriendBean == null || circleFriendBean.getCircle_list() == null || circleFriendBean.getCircle_list().size() == 0) {
+                        if (!isLoadMore) {
+                            list.clear();
+                            circleFriendAdapter.clear();
+                            lrv.refreshComplete(REQUEST_COUNT);
+                            showErrorView(fl_pr, R.drawable.error_view_comment, "当前没有相关数据");
+                        } else {
+                            lrv.setNoMore(true);
+                        }
+
+                        return;
+                    }
+                    if (isLoadMore) {
+                        loadList.clear();
+                        loadList = circleFriendBean.getCircle_list();
+                        loadMoreData();
+                    } else {
+                        list.clear();
+                        list = circleFriendBean.getCircle_list();
+                        showData();
+                    }
+                }
+            });
+        }
+
 
     }
-
+    private boolean isHint = false;
     public void showData() {
         if (list.size() == 0) {
             showErrorView(fl_pr, R.drawable.error_view_comment, "暂无相关数据");
             return;
         } else {
             closeErrorView();
+        }
+        if (!isHint){
+            cv_info.setVisibility(View.VISIBLE);
+            isHint = true ;
         }
         circleFriendAdapter.clear();
         mCurrentCounter = list.size();
@@ -439,6 +519,12 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
                 mEtContent.setText("");
             }
         });
+        close_info.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cv_info.setVisibility(View.GONE);
+            }
+        });
     }
 
     @Override
@@ -453,4 +539,61 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
         return super.onKeyDown(keyCode, event);
     }
 
+    private void share() {
+        ShareControlerView controlerView = new ShareControlerView(this, mContext, umShareListener);
+        String webUrl = "https://mobile.umeng.com/";
+        String title = starName+" 正在星享时光出售TA的时间";
+        String text = "文本";
+        controlerView.setText(text);
+        controlerView.setWebUrl(webUrl);
+        controlerView.setDescribe(describe);
+        controlerView.setTitle(title);
+        controlerView.setImageurl(starUrl);
+        controlerView.showShareView(rootView);
+    }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            //分享开始的回调
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            ToastUtils.showShort("分享成功啦");
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            ToastUtils.showShort("分享失败了");
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            ToastUtils.showShort("分享取消了");
+        }
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode,resultCode,data);
+    }
+
+    private void getStarExperience() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarExperience(code, new OnAPIListener<StarExperienceBeen>() {
+            @Override
+            public void onError(Throwable ex) {
+
+            }
+
+            @Override
+            public void onSuccess(StarExperienceBeen o) {
+                if (o.getResult() == 1 && o.getList() != null) {
+                    describe = o.getList().get(0).getExperience().toString();
+                }
+            }
+        });
+    }
 }

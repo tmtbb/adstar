@@ -16,6 +16,7 @@ import com.yundian.star.been.FansTopListBeen;
 import com.yundian.star.been.HaveStarTimeBeen;
 import com.yundian.star.been.HomePageInfoBean;
 import com.yundian.star.been.MarketTypeBeen;
+import com.yundian.star.been.NowPriceBean;
 import com.yundian.star.been.OptionsStarListBeen;
 import com.yundian.star.been.OrderCancelReturnBeen;
 import com.yundian.star.been.OrderReturnBeen;
@@ -25,6 +26,7 @@ import com.yundian.star.been.ShoppingStarBean;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
+import com.yundian.star.been.StarDanMuNewInfo;
 import com.yundian.star.been.StarDetailInfoBean;
 import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.been.StarInfoReturnBean;
@@ -542,6 +544,17 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
+    public void getAllCircleIsOne(int pos, int count, String star_code, OnAPIListener<CircleFriendBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("pos", pos);
+        map.put("count", count);
+        map.put("star_code", star_code);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.CircleFrindIsOne,
+                SocketAPIConstant.ReqeutType.CircleInfo, map);
+        requestEntity(socketDataPacket,CircleFriendBean.class,listener);
+    }
+
+    @Override
     public void getDanMaKuInfo(int pos, int count, OnAPIListener<DanMaKuInfo> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("pos", pos);
@@ -549,6 +562,25 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.DanMaKu,
                 SocketAPIConstant.ReqeutType.NewInfos, map);
         requestEntity(socketDataPacket,DanMaKuInfo.class,listener);
+    }
+
+    @Override
+    public void getDanMaKuInfoNeW(String star_code, long count, OnAPIListener<StarDanMuNewInfo> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("star_code", star_code);
+        map.put("count", count);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.getDanMuInfo,
+                SocketAPIConstant.ReqeutType.History, map);
+        requestEntity(socketDataPacket,StarDanMuNewInfo.class,listener);
+    }
+
+    @Override
+    public void getDanMaKuInfoNeWAll(long count, OnAPIListener<StarDanMuNewInfo> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("count", count);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.getDanMuInfoAll,
+                SocketAPIConstant.ReqeutType.History, map);
+        requestEntity(socketDataPacket,StarDanMuNewInfo.class,listener);
     }
 
     @Override
@@ -586,6 +618,18 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.ByBuy,
                 SocketAPIConstant.ReqeutType.Shopping, map);
         requestEntity(socketDataPacket,ResultBeen.class,listener);
+    }
+
+    @Override
+    public void getNowPrice(long id, String token, String starcode, int aType, OnAPIListener<NowPriceBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("token", token);
+        map.put("starcode", starcode);
+        map.put("aType", aType);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.getNowPricce,
+                SocketAPIConstant.ReqeutType.Time, map);
+        requestEntity(socketDataPacket,NowPriceBean.class,listener);
     }
 
 }

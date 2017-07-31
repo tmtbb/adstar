@@ -11,7 +11,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Environment;
 import android.text.TextUtils;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
@@ -23,20 +22,13 @@ import com.netease.nim.uikit.custom.DefalutUserInfoProvider;
 import com.netease.nim.uikit.session.viewholder.MsgViewHolderThumbBase;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.NimStrings;
-import com.netease.nimlib.sdk.Observer;
 import com.netease.nimlib.sdk.SDKOptions;
 import com.netease.nimlib.sdk.ServerAddresses;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.auth.LoginInfo;
-import com.netease.nimlib.sdk.avchat.AVChatManager;
-import com.netease.nimlib.sdk.avchat.constant.AVChatControlCommand;
-import com.netease.nimlib.sdk.avchat.model.AVChatAttachment;
-import com.netease.nimlib.sdk.avchat.model.AVChatData;
 import com.netease.nimlib.sdk.msg.MessageNotifierCustomization;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
-import com.netease.nimlib.sdk.rts.RTSManager;
-import com.netease.nimlib.sdk.rts.model.RTSData;
 import com.netease.nimlib.sdk.team.constant.TeamFieldEnum;
 import com.netease.nimlib.sdk.team.model.IMMessageFilter;
 import com.netease.nimlib.sdk.team.model.UpdateTeamAttachment;
@@ -64,9 +56,6 @@ import com.yundian.star.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstr
 import com.yundian.star.ui.im.activity.StarCommunicationBookActivity;
 import com.yundian.star.ui.wangyi.DemoCache;
 import com.yundian.star.ui.wangyi.PrivatizationConfig;
-import com.yundian.star.ui.wangyi.avchat.AVChatProfile;
-import com.yundian.star.ui.wangyi.avchat.activity.AVChatActivity;
-import com.yundian.star.ui.wangyi.avchat.receiver.PhoneCallStateObserver;
 import com.yundian.star.ui.wangyi.common.util.crash.AppCrashHandler;
 import com.yundian.star.ui.wangyi.common.util.sys.SystemUtil;
 import com.yundian.star.ui.wangyi.config.ExtraOptions;
@@ -76,7 +65,6 @@ import com.yundian.star.ui.wangyi.contact.ContactHelper;
 import com.yundian.star.ui.wangyi.event.DemoOnlineStateContentProvider;
 import com.yundian.star.ui.wangyi.event.OnlineStateEventManager;
 import com.yundian.star.ui.wangyi.login.LogoutHelper;
-import com.yundian.star.ui.wangyi.rts.activity.RTSActivity;
 import com.yundian.star.ui.wangyi.session.SessionHelper;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.MD5Util;
@@ -183,10 +171,9 @@ public class AppApplication extends BaseApplication {
             NIMClient.toggleNotification(UserPreferences.getNotificationToggle());
 
             // 注册网络通话来电
-            registerAVChatIncomingCallObserver(true);
+
 
             // 注册白板会话
-            registerRTSIncomingObserver(true);
 
             // 注册语言变化监听
             registerLocaleReceiver(true);
@@ -281,8 +268,6 @@ public class AppApplication extends BaseApplication {
                                 return true;
                             }
                         }
-                    } else if (message.getAttachment() instanceof AVChatAttachment) {
-                        return true;
                     }
                 }
                 return false;
@@ -290,24 +275,6 @@ public class AppApplication extends BaseApplication {
         });
     }
 
-    private void registerAVChatIncomingCallObserver(boolean register) {
-        AVChatManager.getInstance().observeIncomingCall(new Observer<AVChatData>() {
-            @Override
-            public void onEvent(AVChatData data) {
-                String extra = data.getExtra();
-                Log.e("Extra", "Extra Message->" + extra);
-                if (PhoneCallStateObserver.getInstance().getPhoneCallState() != PhoneCallStateObserver.PhoneCallStateEnum.IDLE
-                        || AVChatProfile.getInstance().isAVChatting()
-                        || AVChatManager.getInstance().getCurrentChatId() != 0) {
-                    AVChatManager.getInstance().sendControlCommand(data.getChatId(), AVChatControlCommand.BUSY, null);
-                    return;
-                }
-                // 有网络来电打开AVChatActivity
-                AVChatProfile.getInstance().setAVChatting(true);
-                AVChatActivity.launch(DemoCache.getContext(), data, AVChatActivity.FROM_BROADCASTRECEIVER);
-            }
-        }, register);
-    }
 
     private MessageNotifierCustomization messageNotifierCustomization = new MessageNotifierCustomization() {
         @Override
@@ -321,14 +288,6 @@ public class AppApplication extends BaseApplication {
         }
     };
 
-    private void registerRTSIncomingObserver(boolean register) {
-        RTSManager.getInstance().observeIncomingSession(new Observer<RTSData>() {
-            @Override
-            public void onEvent(RTSData rtsData) {
-                RTSActivity.incomingSession(DemoCache.getContext(), rtsData, RTSActivity.FROM_BROADCAST_RECEIVER);
-            }
-        }, register);
-    }
 
     private void registerLocaleReceiver(boolean register) {
         if (register) {

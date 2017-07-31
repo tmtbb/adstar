@@ -59,6 +59,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+import static com.yundian.star.R.id.imagview;
 import static com.yundian.star.R.id.tv_content;
 
 /**
@@ -97,8 +98,11 @@ public class MeetStarActivity extends BaseActivity {
     private int current_end_month;
     private int current_end_day;
     private int end_year;
+    private int end_end_year;
     private int end_month;
+    private int end_end_month;
     private int end_day;
+    private int end_end_day;
     private List<View> gridViews;
     private int type;
     private String wid;
@@ -132,7 +136,7 @@ public class MeetStarActivity extends BaseActivity {
         nl_title.setRightImagVisibility(true);
         setMeetRule();
         getIntentData();
-        getDateTime();
+        //getDateTime();
 //        getMeetType();
         getMeetInfo();
         initListener();
@@ -157,7 +161,7 @@ public class MeetStarActivity extends BaseActivity {
         }, 81, 85, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         meetRule.setText(spannable);
     }
-
+    private boolean isCanChoose =false;
     private void getMeetInfo() {
         NetworkAPIFactoryImpl.getDealAPI().statServiceList(code, new OnAPIListener<StatServiceListBean>() {
             @Override
@@ -172,6 +176,34 @@ public class MeetStarActivity extends BaseActivity {
                     if (typeList.size() == 0) {
                         return;
                     }
+                    textView4.setText(typeList.get(0).getMeet_city());
+                    if (null==typeList.get(0).getStartdate()||"0".equals(typeList.get(0).getStartdate())||typeList.get(0).getStartdate().length()==1||typeList.get(0).getStartdate().length()==0){
+                        isCanChoose = false;
+                        String nextDay = TimeUtil.getNextDay(30);
+                        LogUtil.e("获取当前时间" + nextDay);
+                        current_end_year = Integer.valueOf(nextDay.substring(0, 4));
+                        current_end_month = Integer.valueOf(nextDay.substring(5, 7));
+                        current_end_day = Integer.valueOf(nextDay.substring(8, 10));
+                    }else {
+                        isCanChoose = true;
+                        current_end_year = Integer.valueOf(typeList.get(0).getStartdate().substring(0, 4));
+                        current_end_month = Integer.valueOf(typeList.get(0).getStartdate().substring(5, 7));
+                        current_end_day = Integer.valueOf(typeList.get(0).getStartdate().substring(8, 10));
+                    }
+                    if (null==typeList.get(0).getEnddate()||"0".equals(typeList.get(0).getEnddate())||typeList.get(0).getEnddate().length()==1||typeList.get(0).getEnddate().length()==0){
+                        isCanChoose = false;
+                        String nextDay = TimeUtil.getNextDay(60);
+                        LogUtil.e("获取当前时间" + nextDay);
+                        end_end_year = Integer.valueOf(nextDay.substring(0, 4));
+                        end_end_month = Integer.valueOf(nextDay.substring(5, 7));
+                        end_end_day = Integer.valueOf(nextDay.substring(8, 10));
+                    }else {
+                        isCanChoose = true;
+                        end_end_year = Integer.valueOf(typeList.get(0).getEnddate().substring(0, 4));
+                        end_end_month = Integer.valueOf(typeList.get(0).getEnddate().substring(5, 7));
+                        end_end_day = Integer.valueOf(typeList.get(0).getEnddate().substring(8, 10));
+                    }
+                    textView9.setText(current_end_year + "-" + current_end_month + "-" + current_end_day+" — "+end_end_year+"-"+end_end_month+"-"+end_end_day);
                     getMeetType();
 
 
@@ -188,15 +220,16 @@ public class MeetStarActivity extends BaseActivity {
         head_url = intent.getStringExtra(AppConstant.STAR_HEAD_URL);
         back_url = intent.getStringExtra(AppConstant.STAR_BACKGROUND_URL);
         name = intent.getStringExtra(AppConstant.STAR_NAME);
+        textView6.setText(String.format(getString(R.string.name_code), name, code));
         ImageLoaderUtils.displaySmallPhoto(this, imageView3, head_url);
         if (TextUtils.isEmpty(back_url)){
             List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(code);
             if (starInfos != null && starInfos.size() != 0) {
                 StarInfo starInfo = starInfos.get(0);
-                ImageLoaderUtils.displayWithDefaultImg(mContext, starBg, starInfo.getPic1(),R.drawable.infos_news_defolat);
+                ImageLoaderUtils.displayWithDefaultImg(mContext, starBg, starInfo.getPic1(),R.drawable.rec_bg);
             }
         }else {
-            ImageLoaderUtils.displayWithDefaultImg(mContext, starBg, back_url,R.drawable.infos_news_defolat);
+            ImageLoaderUtils.displayWithDefaultImg(mContext, starBg, back_url,R.drawable.rec_bg);
         }
 
     }
@@ -212,10 +245,12 @@ public class MeetStarActivity extends BaseActivity {
     }
 
     public void onYearMonthStartTime() {
+        LogUtils.loge("end_year"+end_year+"end_month"+end_month+"end_day"+end_day);
         final DatePicker picker = new DatePicker(this);
         picker.setCanceledOnTouchOutside(true);
         picker.setUseWeight(true);
         picker.setTopPadding(DisplayUtil.dip2px(20));
+        picker.setRangeEnd(end_end_year,end_end_month,end_end_day);
         picker.setRangeStart(current_end_year, current_end_month, current_end_day);
         picker.setSelectedItem(current_end_year, current_end_month, current_end_day);
         picker.setOnDatePickListener(new DatePicker.OnYearMonthDayPickListener() {
@@ -249,13 +284,15 @@ public class MeetStarActivity extends BaseActivity {
 
     @OnClick({R.id.imageView8, R.id.textView9})
     public void OnTimeSelectClick(View v) {
-        onYearMonthStartTime();
+        if (isCanChoose){
+            onYearMonthStartTime();
+        }
     }
 
-    @OnClick({R.id.imageView4, R.id.textView4})
+    /*@OnClick({R.id.imageView4, R.id.textView4})
     public void OnCitySelectClick(View v) {
         onAddressPicker();
-    }
+    }*/
 
     @OnClick({R.id.tv_to_buy})
     public void setSureToMeet(View v) {
@@ -344,12 +381,16 @@ public class MeetStarActivity extends BaseActivity {
                 GridView gridView = (GridView) gridViews.get(selectPager);
                 View childAt = gridView.getChildAt(selectPosition);
                 TextView textView = (TextView) childAt.findViewById(tv_content);
+                ImageView img_select = (ImageView) childAt.findViewById(imagview);
+                ImageLoaderUtils.displaySmallPhoto(MeetStarActivity.this,img_select,lists.get(selectPager).get(selectPosition).getUrl2());
                 textView.setTextColor(mContext.getResources().getColor(R.color.color_BDC6B8));
             }
             selectPager = view_pager.getCurrentItem();
             selectPosition = position;
             LogUtils.loge("当前的position:" + selectPosition);
             TextView textView = (TextView) view.findViewById(tv_content);
+            ImageView img_selects = (ImageView) view.findViewById(imagview);
+            ImageLoaderUtils.displaySmallPhoto(MeetStarActivity.this,img_selects,lists.get(selectPager).get(selectPosition).getUrl1());
             textView.setTextColor(mContext.getResources().getColor(R.color.color_CB4232));
             price = lists.get(selectPager).get(selectPosition).getPrice();
             orderPrice.setText(String.format(getString(R.string.num_time_text), price));

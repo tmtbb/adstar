@@ -15,6 +15,7 @@ import com.yundian.star.been.FansTopListBeen;
 import com.yundian.star.been.HaveStarTimeBeen;
 import com.yundian.star.been.HomePageInfoBean;
 import com.yundian.star.been.MarketTypeBeen;
+import com.yundian.star.been.NowPriceBean;
 import com.yundian.star.been.OptionsStarListBeen;
 import com.yundian.star.been.OrderCancelReturnBeen;
 import com.yundian.star.been.OrderReturnBeen;
@@ -24,6 +25,7 @@ import com.yundian.star.been.ShoppingStarBean;
 import com.yundian.star.been.SrealSendBeen;
 import com.yundian.star.been.SrealSendReturnBeen;
 import com.yundian.star.been.StarBuyActReferralInfo;
+import com.yundian.star.been.StarDanMuNewInfo;
 import com.yundian.star.been.StarDetailInfoBean;
 import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.been.StarInfoReturnBean;
@@ -93,8 +95,12 @@ public interface InformationAPI {
     void getStarList(long id, String token,long aType,long sort,int pos,int count,OnAPIListener<StarListReturnBean> listener);
     void getStarDetailInfo(String star_code,OnAPIListener<StarDetailInfoBean> listener);
     void getAllCircleInfo(int pos,int count,OnAPIListener<CircleFriendBean> listener);
+    void getAllCircleIsOne(int pos,int count,String star_code,OnAPIListener<CircleFriendBean> listener);
     void getDanMaKuInfo(int pos,int count,OnAPIListener<DanMaKuInfo> listener);
+    void getDanMaKuInfoNeW(String star_code,long count,OnAPIListener<StarDanMuNewInfo> listener);
+    void getDanMaKuInfoNeWAll(long count,OnAPIListener<StarDanMuNewInfo> listener);
     void getPraisestar(String star_code,long circle_id,long uid,OnAPIListener<ResultBeen> listener);
     void getUserAddComment(String star_code,long circle_id,long uid,int direction,String content,OnAPIListener<ResultBeen> listener);
     void getByBuy(long uid, String token,String symbol,long amount,double price,OnAPIListener<ResultBeen> listener);
+    void getNowPrice(long id, String token,String starcode,int aType,OnAPIListener<NowPriceBean> listener);
 }

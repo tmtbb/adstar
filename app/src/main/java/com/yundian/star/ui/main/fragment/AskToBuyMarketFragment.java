@@ -19,10 +19,13 @@ import com.yundian.star.been.StartShellTimeBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.AuctionRankingListActivity;
+import com.yundian.star.ui.main.activity.BuyTransferIndentActivity;
+import com.yundian.star.ui.main.activity.StarInfoActivity;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.utils.ToastUtils;
+import com.yundian.star.utils.ViewConcurrencyUtils;
 import com.yundian.star.widget.NumberBoubleButton;
 import com.yundian.star.widget.NumberButton;
 
@@ -254,6 +257,7 @@ public class AskToBuyMarketFragment extends BaseFragment {
 //                if (!JudgeIsSetPayPwd.isSetPwd(getActivity())) {
 //                    return;
 //                }
+                ViewConcurrencyUtils.preventConcurrency();
                 if (buy_num>starTotalTime){
                     ToastUtils.showShort("超过明星发行总数量");
                     return;
@@ -276,6 +280,11 @@ public class AskToBuyMarketFragment extends BaseFragment {
                             public void onSuccess(AskToBuyReturnBeen askToBuyReturnBeen) {
                                 if (!TextUtils.isEmpty(askToBuyReturnBeen.getSymbol())) {
                                     ToastUtils.showShort("挂单成功");
+//                                    Intent intent = new Intent(getActivity(),BuyTransferIndentActivity.class);
+//                                    intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 3);
+//                                    getActivity().startActivity(intent);
+                                    BuyTransferIndentActivity activity = (BuyTransferIndentActivity)getActivity();
+                                    activity.toPager(3);
                                     LogUtils.loge("求购成功" + askToBuyReturnBeen.toString());
                                 }
                             }
@@ -308,6 +317,12 @@ public class AskToBuyMarketFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(),AuctionRankingListActivity.class);
                 intent.putExtra(AppConstant.STAR_CODE,code);
                 startActivity(intent);
+            }
+        });
+        img_head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StarInfoActivity.goToStarInfoActivity(getActivity(),code);
             }
         });
     }

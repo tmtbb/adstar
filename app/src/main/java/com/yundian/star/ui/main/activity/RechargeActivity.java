@@ -253,7 +253,7 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
 
     private void applyRecharge() {
 //        ToastUtils.showShort("充值");
-        String title = "星享-充值";
+        String title = "星享时光-充值";
         if (!TextUtils.isEmpty(rechargeMoney.getEditableText().toString().trim())) {
             price = Double.parseDouble(rechargeMoney.getEditableText().toString().trim());
         }

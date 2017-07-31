@@ -41,8 +41,6 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-import static io.netty.handler.codec.http.HttpMethod.HEAD;
-
 
 /**
  * Created by Administrator on 2017/5/9.
@@ -369,14 +367,13 @@ public class RegisterUserActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 LogUtils.logd("输入会员ID----------------------");
-
                 if (TextUtils.isEmpty(brokerId.getText().toString().trim())){
-                    ToastUtils.showShort("请填写ID");
-                    return;
+                    sub_agentId="";
+                }else {
+                    sub_agentId =brokerId.getText().toString().trim();  //经济人人  == 推荐人
                 }
                 //userMenberId = memberId.getText().toString().trim();
                 //agentId = areaBrokerId.getText().toString().trim();//区域。。经纪人
-                sub_agentId =brokerId.getText().toString().trim();  //经济人人  == 推荐人
                 mDetailDialog.dismiss();
                 if (isWXBind) {
                     wxBindInfo();

@@ -103,6 +103,9 @@ public class BuyTransferIndentActivity extends BaseActivity {
         view_pager.setCurrentItem(type);
 
     }
+    public void toPager(int type){
+        view_pager.setCurrentItem(type);
+    }
 
     private void createListFragments() {
         Bundle bundle = new Bundle();

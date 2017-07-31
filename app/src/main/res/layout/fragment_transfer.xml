@@ -60,7 +60,7 @@
                         android:layout_gravity="center"
                         android:layout_marginLeft="2dp"
                         android:layout_marginRight="2dp"
-                        android:text="800"
+                        android:text="0"
                         android:textColor="@color/color_FB9938"
                         android:textSize="@dimen/fontSize_20sp" />
 

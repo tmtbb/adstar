@@ -1,13 +1,10 @@
 package com.yundian.star.ui.wangyi.avchat.receiver;
 
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.netease.nim.uikit.common.util.log.LogUtil;
 import com.netease.nimlib.sdk.Observer;
-import com.netease.nimlib.sdk.avchat.AVChatCallback;
-import com.netease.nimlib.sdk.avchat.AVChatManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,43 +63,14 @@ public class PhoneCallStateObserver {
     public void handleLocalCall() {
         LogUtil.i(TAG, "notify phone state changed, state=" + stateEnum.name());
 
-        if (stateEnum != PhoneCallStateEnum.IDLE) {
-            AVChatManager.getInstance().hangUp2(AVChatManager.getInstance().getCurrentChatId(), new HandleLocalCallCallback(1));
-        }
+
     }
 
     public PhoneCallStateEnum getPhoneCallState() {
         return stateEnum;
     }
 
-    private class HandleLocalCallCallback implements AVChatCallback<Void> {
-        private int reason;
-        private String log;
 
-        public HandleLocalCallCallback(int reason) {
-            this.reason = reason;
-            this.log = "handle local call";
-        }
-
-        @Override
-        public void onSuccess(Void param) {
-            notifyObservers(autoHangUpObservers, reason);
-        }
-
-        @Override
-        public void onFailed(int code) {
-            notifyObservers(autoHangUpObservers, -1 * reason);
-        }
-
-        @Override
-        public void onException(Throwable exception) {
-            notifyObservers(autoHangUpObservers, 0);
-
-            if (!TextUtils.isEmpty(log)) {
-                LogUtil.i(TAG, log + " throws exception, e=" + exception.getMessage());
-            }
-        }
-    }
 
     private <T> void notifyObservers(List<Observer<T>> observers, T result) {
         if (observers == null || observers.isEmpty()) {

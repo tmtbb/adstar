@@ -57,6 +57,7 @@ public class LoginActivity extends BaseActivity {
     private TextView registerText;
     private TextView tv_retrieve_password;
     private TextView tv_weixin_login;
+    private TextView tv_law_info;
 
     @Override
     public int getLayoutId() {
@@ -95,6 +96,7 @@ public class LoginActivity extends BaseActivity {
         registerText = (TextView)findViewById(R.id.registerText);
         tv_retrieve_password = (TextView)findViewById(R.id.tv_retrieve_password);
         tv_weixin_login = (TextView)findViewById(R.id.tv_weixin_login);
+        tv_law_info = (TextView)findViewById(R.id.tv_law_info);
     }
     private boolean isOnClicked = false ;
     @OnClick(R.id.loginButton)
@@ -220,6 +222,11 @@ public class LoginActivity extends BaseActivity {
     public void retrievePassword() {
         ViewConcurrencyUtils.preventConcurrency();  //防止并发
         startActivity(ResetUserPwdActivity.class);
+    }
+    @OnClick(R.id.tv_law_info)
+    public void law_info() {
+        ViewConcurrencyUtils.preventConcurrency();  //防止并发
+        CommonWebActivity.startAction(this,"http://122.144.169.219:3389/law","法律说明");
     }
 
     @Override

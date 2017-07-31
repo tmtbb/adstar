@@ -47,16 +47,14 @@ public class SnsPopupWindow extends PopupWindow implements OnClickListener {
 		this.mActionItems = mActionItems;
 	}
 
-
 	public SnsPopupWindow(Context context) {
 		View view = LayoutInflater.from(context).inflate(R.layout.social_sns_popupwindow, null);
 		digBtn = (TextView) view.findViewById(R.id.digBtn);
 		commentBtn = (TextView) view.findViewById(R.id.commentBtn);
 		digBtn.setOnClickListener(this);
 		commentBtn.setOnClickListener(this);
-
 		this.setContentView(view);
-		this.setWidth(DisplayUtil.dip2px(168));
+		this.setWidth(DisplayUtil.dip2px(250));
 		this.setHeight(DisplayUtil.dip2px(40));
 		this.setFocusable(true);
 		this.setOutsideTouchable(true);
@@ -79,6 +77,7 @@ public class SnsPopupWindow extends PopupWindow implements OnClickListener {
 		// 设置矩形的大小
 		mRect.set(mLocation[0], mLocation[1], mLocation[0] + parent.getWidth(),mLocation[1] + parent.getHeight());
 		digBtn.setText(mActionItems.get(0).mTitle);
+		commentBtn.setText(mActionItems.get(1).mTitle);
 		if(!this.isShowing()){
 			showAtLocation(parent, Gravity.NO_GRAVITY, mLocation[0] - this.getWidth()-DisplayUtil.dip2px(10)
 					, mLocation[1] - ((this.getHeight() - parent.getHeight()) / 2));

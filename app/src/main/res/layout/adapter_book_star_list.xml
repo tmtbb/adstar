@@ -40,6 +40,7 @@
         android:text="@string/holding_times_count" />
 
     <ImageView
+        android:padding="10dp"
         android:id="@+id/item_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
