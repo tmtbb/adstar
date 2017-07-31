@@ -156,4 +156,19 @@ public class CheckUpdateInfoEntity implements Parcelable {
             return new CheckUpdateInfoEntity[size];
         }
     };
+
+    @Override
+    public String toString() {
+        return "CheckUpdateInfoEntity{" +
+                "appName='" + appName + '\'' +
+                ", newAppSize=" + newAppSize +
+                ", newAppVersionCode=" + newAppVersionCode +
+                ", newAppVersionName='" + newAppVersionName + '\'' +
+                ", newAppUpdateDesc='" + newAppUpdateDesc + '\'' +
+                ", newAppReleaseTime='" + newAppReleaseTime + '\'' +
+                ", newAppUrl='" + newAppUrl + '\'' +
+                ", isForceUpdate=" + isForceUpdate +
+                ", type=" + type +
+                '}';
+    }
 }

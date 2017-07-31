@@ -90,7 +90,7 @@ public class MarketDetailFragment extends BaseFragment {
 
     private void getData(final boolean isLoadMore, int start, int count) {
         NetworkAPIFactoryImpl.getInformationAPI().getStarList(userId,
-                token, 4, 1, start, count, new OnAPIListener<StarListReturnBean>() {
+                token, 5, 1, start, count, new OnAPIListener<StarListReturnBean>() {
                     @Override
                     public void onError(Throwable ex) {
                         if (lrv != null) {

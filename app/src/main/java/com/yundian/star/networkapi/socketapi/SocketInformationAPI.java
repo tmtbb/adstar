@@ -432,7 +432,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("symbol", symbol);
         map.put("buySell", buySell);
         LogUtils.loge("拍卖榜数据入参"+map.toString());
-        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Fans,
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.getWeituo,
                 SocketAPIConstant.ReqeutType.History, map);
       requestEntity(socketDataPacket,FansEntrustReturnBean.class,listener);
     }

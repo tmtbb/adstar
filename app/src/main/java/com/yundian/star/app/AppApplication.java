@@ -475,7 +475,7 @@ public class AppApplication extends BaseApplication {
                 LogUtils.logd("检测到连接成功-------------------");
                 //token交易暂时关闭
                 judgeIsLogin();
-               // checkUpdate();
+                checkUpdate();
             }
 
             @Override
@@ -526,6 +526,7 @@ public class AppApplication extends BaseApplication {
                 SharePrefUtil.getInstance().setVersion( checkUpdateInfoEntity.getNewAppVersionName());
                 LogUtils.loge("checkUpdateInfoEntity:" + checkUpdateInfoEntity.toString());
                 if (checkUpdateInfoEntity != null && checkUpdateInfoEntity.getNewAppVersionCode() > getVersionCode()) {
+                    LogUtils.loge("checkUpdateInfoEntity.getNewAppVersionCode()"+checkUpdateInfoEntity.getNewAppVersionCode()+"getVersionCode()"+getVersionCode());
                     EventBusMessage msg = new EventBusMessage(-11);
                     msg.setCheckUpdateInfoEntity(checkUpdateInfoEntity);  //发送广播
                     EventBus.getDefault().postSticky(msg);
