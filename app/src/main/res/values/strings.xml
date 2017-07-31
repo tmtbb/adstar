@@ -248,7 +248,7 @@
     <string name="cancel_order">取消订单</string>
     <string name="have_empy_time">已持有:\t\t</string>
     <string name="add_star">加入星享时光</string>
-    <string name="input_broker_id">请输入零售商ID（经纪人）</string>
+    <string name="input_broker_id">请输入零售商ID（选填）</string>
     <string name="input_id_tips">TIPS：请输入正确的渠道推广号</string>
     <string name="enter_star">进入星享时光</string>
     <string name="delegation_num">委托量</string>

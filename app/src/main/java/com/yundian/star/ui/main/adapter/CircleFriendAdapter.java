@@ -13,6 +13,7 @@ import com.yundian.star.base.BaseRecycleViewAdapter;
 import com.yundian.star.been.ActionItem;
 import com.yundian.star.been.CircleFriendBean;
 import com.yundian.star.helper.CircleViewHolder;
+import com.yundian.star.ui.main.activity.StarInfoActivity;
 import com.yundian.star.ui.main.presenter.CirclePresenter;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.SharePrefUtil;
@@ -125,6 +126,12 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
             public void onClick(View view) {
                 //弹出popupwindow
                 snsPopupWindow.showPopupWindow(view);
+            }
+        });
+        circleViewHolder.headIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StarInfoActivity.goToStarInfoActivity(context,circleItem.getSymbol());
             }
         });
     }

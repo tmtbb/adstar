@@ -97,6 +97,8 @@ public class StartInteractFragment extends BaseFragment {
                 Intent intent0 = new Intent(getActivity(),CircleFriendsActivity.class);
                 StarListReturnBean.SymbolInfoBean symbolInfoBean = list.get(position);
                 intent0.putExtra(AppConstant.STAR_CODE,symbolInfoBean.getSymbol());
+                intent0.putExtra(AppConstant.STAR_NAME,symbolInfoBean.getName());
+                intent0.putExtra(AppConstant.STAR_HEAD_URL,symbolInfoBean.getPic());
                 intent0.putExtra(AppConstant.IS_ONE,true);
                 getActivity().startActivity(intent0);
             }

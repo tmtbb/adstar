@@ -19,6 +19,7 @@ import com.yundian.star.been.BookingStarListBean;
 import com.yundian.star.greendao.GreenDaoManager;
 import com.yundian.star.greendao.StarInfo;
 import com.yundian.star.ui.main.activity.MeetStarActivity;
+import com.yundian.star.ui.main.activity.StarInfoActivity;
 import com.yundian.star.ui.wangyi.session.activity.P2PMessageActivity;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.JudgeIdentityUtils;
@@ -54,7 +55,7 @@ public class CommentExpandAdapter extends ExpandableRecyclerAdapter<BookingStarL
 
         public void bind(int position) {
             super.bind(position);
-            BookingStarListBean item = visibleItems.get(position);
+            final BookingStarListBean item = visibleItems.get(position);
 
             String format = String.format(mContext.getResources().getString(R.string.holding_times_count, item.getOwnseconds()) + "");
             SpannableStringBuilder spannable = new SpannableStringBuilder(format);
@@ -66,6 +67,12 @@ public class CommentExpandAdapter extends ExpandableRecyclerAdapter<BookingStarL
                 StarInfo starInfo = starInfos.get(0);
                 ImageLoaderUtils.display(mContext, iv_star_head, starInfo.getPic_url());
             }
+            iv_star_head.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    StarInfoActivity.goToStarInfoActivity(mContext,item.getStarcode());
+                }
+            });
         }
     }
 

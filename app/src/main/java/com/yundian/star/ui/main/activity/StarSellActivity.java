@@ -161,6 +161,12 @@ public class StarSellActivity extends BaseActivity {
                 byBuyStar();
             }
         });
+        imageView_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StarInfoActivity.goToStarInfoActivity(StarSellActivity.this,starCode);
+            }
+        });
     }
 
     private void initData() {

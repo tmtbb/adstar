@@ -19,16 +19,21 @@ import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.yundian.star.R;
 import com.yundian.star.app.AppConstant;
 import com.yundian.star.app.CommentConfig;
 import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.CircleFriendBean;
+import com.yundian.star.been.StarExperienceBeen;
 import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.adapter.CircleFriendAdapter;
 import com.yundian.star.ui.main.contract.CircleContract;
 import com.yundian.star.ui.main.presenter.CirclePresenter;
+import com.yundian.star.ui.view.ShareControlerView;
 import com.yundian.star.utils.KeyBordUtil;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.ToastUtils;
@@ -84,7 +89,10 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
     private EmotionLayout mElEmotion;
     private EmotionKeyboard mEmotionKeyboard;
     private String code;
+    private String starName;
+    private String starUrl;
     private boolean isOne;
+    private String describe="";
 
     @Override
     public int getLayoutId() {
@@ -100,6 +108,8 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
     public void initView() {
         Intent intent = getIntent();
         code = intent.getStringExtra(AppConstant.STAR_CODE);
+        starName = intent.getStringExtra(AppConstant.STAR_NAME);
+        starUrl = intent.getStringExtra(AppConstant.STAR_HEAD_URL);
         isOne = intent.getBooleanExtra(AppConstant.IS_ONE, false);
         presenter = new CirclePresenter(this);
         nt_title.setBackVisibility(true);
@@ -108,6 +118,7 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
         initAdapter();
         initListener();
         getData(false, 0, REQUEST_COUNT);
+        getStarExperience();
     }
 
     private void initEmoji() {
@@ -122,6 +133,15 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
         mFlEmotionView = (FrameLayout) findViewById(R.id.flEmotionView);
         mElEmotion = (EmotionLayout) findViewById(R.id.elEmotion);
         mElEmotion.attachEditText(mEtContent);
+        if (isOne){
+            nt_title.setRightImagSrc(R.drawable.share);
+            nt_title.setOnRightImagListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                share();
+            }
+        });
+        }
         initEmotionKeyboard();
     }
 
@@ -519,4 +539,61 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
         return super.onKeyDown(keyCode, event);
     }
 
+    private void share() {
+        ShareControlerView controlerView = new ShareControlerView(this, mContext, umShareListener);
+        String webUrl = "https://mobile.umeng.com/";
+        String title = starName+" 正在星享时光出售TA的时间";
+        String text = "文本";
+        controlerView.setText(text);
+        controlerView.setWebUrl(webUrl);
+        controlerView.setDescribe(describe);
+        controlerView.setTitle(title);
+        controlerView.setImageurl(starUrl);
+        controlerView.showShareView(rootView);
+    }
+
+    private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            //分享开始的回调
+        }
+
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            ToastUtils.showShort("分享成功啦");
+
+        }
+
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            ToastUtils.showShort("分享失败了");
+        }
+
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            ToastUtils.showShort("分享取消了");
+        }
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode,resultCode,data);
+    }
+
+    private void getStarExperience() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarExperience(code, new OnAPIListener<StarExperienceBeen>() {
+            @Override
+            public void onError(Throwable ex) {
+
+            }
+
+            @Override
+            public void onSuccess(StarExperienceBeen o) {
+                if (o.getResult() == 1 && o.getList() != null) {
+                    describe = o.getList().get(0).getExperience().toString();
+                }
+            }
+        });
+    }
 }

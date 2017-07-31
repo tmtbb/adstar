@@ -20,6 +20,7 @@ import com.yundian.star.listener.OnAPIListener;
 import com.yundian.star.networkapi.NetworkAPIFactoryImpl;
 import com.yundian.star.ui.main.activity.AuctionRankingListActivity;
 import com.yundian.star.ui.main.activity.BuyTransferIndentActivity;
+import com.yundian.star.ui.main.activity.StarInfoActivity;
 import com.yundian.star.utils.ImageLoaderUtils;
 import com.yundian.star.utils.LogUtils;
 import com.yundian.star.utils.SharePrefUtil;
@@ -304,6 +305,12 @@ public class TransferMarketFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(),AuctionRankingListActivity.class);
                 intent.putExtra(AppConstant.STAR_CODE,code);
                 startActivity(intent);
+            }
+        });
+        img_head.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StarInfoActivity.goToStarInfoActivity(getActivity(),code);
             }
         });
     }

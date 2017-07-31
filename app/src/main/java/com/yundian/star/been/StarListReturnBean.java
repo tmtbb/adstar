@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * Created by Administrator on 2017/7/11.
  */
 
-public class StarListReturnBean {
+public class StarListReturnBean implements Parcelable {
 
     private ArrayList<SymbolInfoBean> symbol_info;
 
@@ -228,4 +228,33 @@ public class StarListReturnBean {
             }
         };
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeTypedList(this.symbol_info);
+    }
+
+    public StarListReturnBean() {
+    }
+
+    protected StarListReturnBean(Parcel in) {
+        this.symbol_info = in.createTypedArrayList(SymbolInfoBean.CREATOR);
+    }
+
+    public static final Parcelable.Creator<StarListReturnBean> CREATOR = new Parcelable.Creator<StarListReturnBean>() {
+        @Override
+        public StarListReturnBean createFromParcel(Parcel source) {
+            return new StarListReturnBean(source);
+        }
+
+        @Override
+        public StarListReturnBean[] newArray(int size) {
+            return new StarListReturnBean[size];
+        }
+    };
 }

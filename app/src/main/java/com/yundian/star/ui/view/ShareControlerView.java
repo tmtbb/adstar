@@ -33,6 +33,7 @@ public class ShareControlerView implements View.OnClickListener {
     private String title;
     private String describe;
     private String text;
+    private String imageurl;
 
     public ShareControlerView(Activity activity, Context context, UMShareListener umShareListener) {
         this.umShareListener = umShareListener;
@@ -106,6 +107,9 @@ public class ShareControlerView implements View.OnClickListener {
     public void setText(String text) {
         this.text = text;
     }
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
+    }
 
     public void showShareView(View parent) {
         mPopWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);
@@ -120,7 +124,7 @@ public class ShareControlerView implements View.OnClickListener {
 
         UMWeb web = new UMWeb(webUrl);
         web.setTitle(title);
-        web.setThumb(new UMImage(context, R.drawable.about_logo));
+        web.setThumb(new UMImage(context, imageurl));
         web.setDescription(describe);
         new ShareAction(activity)
                 .withText(text)
