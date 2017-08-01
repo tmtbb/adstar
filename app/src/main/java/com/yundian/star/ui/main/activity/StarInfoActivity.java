@@ -3,6 +3,7 @@ package com.yundian.star.ui.main.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -149,6 +150,15 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
                 }
             }
         });
+        if (SharePrefUtil.getInstance().getStatusNav_6()==0){
+            SharePrefUtil.getInstance().setStatusNav_6(1);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showPopupWindow();
+                }
+            },500);
+        }
     }
 
     private void getStarDetailInfo() {
@@ -317,5 +327,23 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
         Intent intent = new Intent(context,StarInfoActivity.class);
         intent.putExtra(AppConstant.STAR_CODE,code);
         context.startActivity(intent);
+    }
+    private void showPopupWindow() {
+        View popView = LayoutInflater.from(this).inflate(R.layout.popwindow_navijation_3, null);
+        final ImageView imageView = (ImageView) popView.findViewById(R.id.navigation_5_2);
+        final PopupWindow popupWindow = new PopupWindow(this);
+        popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setContentView(popView);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x33000000));
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow.showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
     }
 }

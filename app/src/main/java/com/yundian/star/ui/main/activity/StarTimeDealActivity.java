@@ -8,6 +8,7 @@ import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
@@ -17,11 +18,14 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -119,8 +123,8 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
         getKuanGao();
         initFindById();
         setSize();
-        getData();
         getNowPrice();
+        getData();
     }
 
     private void getNowPrice() {
@@ -147,7 +151,15 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
         getDanMaku();
         initTradingStatus(false);
         //myHandler.sendEmptyMessage(MyHandler.GRT_DATA);
-
+        if (SharePrefUtil.getInstance().getStatusNav_5()==0){
+            SharePrefUtil.getInstance().setStatusNav_5(1);
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    showPopupWindow();
+                }
+            },500);
+        }
     }
 
     private void initFindById() {
@@ -676,9 +688,29 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
                         LogUtils.loge("弹幕错误码" + danMaKuInfo.toString());
                         if (danMaKuInfo!=null&&danMaKuInfo.getPositionsList()!=null&&danMaKuInfo.getPositionsList().size()!=0){
                             list = danMaKuInfo.getPositionsList();
-                            myHandler.sendEmptyMessage(myHandler.GRT_DATA);
+                            if (myHandler!=null){
+                                myHandler.sendEmptyMessage(myHandler.GRT_DATA);
+                            }
                         }
                     }
                 });
+    }
+    private void showPopupWindow() {
+        View popView = LayoutInflater.from(this).inflate(R.layout.popwindow_navijation_2, null);
+        final ImageView imageView = (ImageView) popView.findViewById(R.id.navigation_5_2);
+        final PopupWindow popupWindow = new PopupWindow(this);
+        popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setContentView(popView);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x33000000));
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow.showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
     }
 }

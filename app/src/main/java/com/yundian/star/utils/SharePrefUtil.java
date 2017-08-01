@@ -37,6 +37,7 @@ public class SharePrefUtil {
     private static String UserInfo = "AdstarUser";
     private static String UserLoginInfo = "UserLoginInfo";
     private static String LoginPhone = "LoginPhone";
+    private static String FirstStatus = "FirstStatus";
 
 
     public void saveLoginUserInfo(LoginReturnInfo user) {
@@ -68,6 +69,51 @@ public class SharePrefUtil {
     public void setToken(String token){
         sp = context.getSharedPreferences(UserInfo, MODE_PRIVATE);
         sp.edit().putString("token", token).apply();
+    }
+    public void setStatusNav_1(int Nav_1){
+        sp = context.getSharedPreferences(FirstStatus, MODE_PRIVATE);
+        sp.edit().putInt("Nav_1", Nav_1).apply();
+    }
+    public int getStatusNav_1() {
+        sp = context.getSharedPreferences(FirstStatus, MODE_PRIVATE);
+        int  Nav_1 = sp.getInt("Nav_1", 0);
+        return Nav_1;
+    }
+    public void setStatusNav_2(int Nav_2){
+        sp = context.getSharedPreferences(FirstStatus, MODE_PRIVATE);
+        sp.edit().putInt("Nav_2", Nav_2).apply();
+    }
+    public int getStatusNav_2() {
+        sp = context.getSharedPreferences(FirstStatus, MODE_PRIVATE);
+        int  Nav_2 = sp.getInt("Nav_2", 0);
+        return Nav_2;
+    }
+    public void setStatusNav_4(int Nav_4){
+        sp = context.getSharedPreferences(FirstStatus, MODE_PRIVATE);
+        sp.edit().putInt("Nav_4", Nav_4).apply();
+    }
+    public int getStatusNav_4() {
+        sp = context.getSharedPreferences(FirstStatus, MODE_PRIVATE);
+        int  Nav_4 = sp.getInt("Nav_4", 0);
+        return Nav_4;
+    }
+    public void setStatusNav_5(int Nav_5){
+        sp = context.getSharedPreferences(FirstStatus, MODE_PRIVATE);
+        sp.edit().putInt("Nav_5", Nav_5).apply();
+    }
+    public int getStatusNav_5() {
+        sp = context.getSharedPreferences(FirstStatus, MODE_PRIVATE);
+        int  Nav_5 = sp.getInt("Nav_5", 0);
+        return Nav_5;
+    }
+    public void setStatusNav_6(int Nav_6){
+        sp = context.getSharedPreferences(FirstStatus, MODE_PRIVATE);
+        sp.edit().putInt("Nav_6", Nav_6).apply();
+    }
+    public int getStatusNav_6() {
+        sp = context.getSharedPreferences(FirstStatus, MODE_PRIVATE);
+        int  Nav_6 = sp.getInt("Nav_6", 0);
+        return Nav_6;
     }
 
 

@@ -73,19 +73,7 @@ public class ComplaintActivityTest extends BaseRobolectricTestCase {
 
             @Override
             public void onSuccess(HomePageInfoBean homePageInfoBean) {
-                if (homePageInfoBean==null||homePageInfoBean.getSymbol_info() == null || homePageInfoBean.getSymbol_info().size() == 0) {
 
-                } else {
-                    symbol_info = homePageInfoBean.getSymbol_info();
-
-                    HomePageInfoBean.SymbolInfoBean bean = new HomePageInfoBean.SymbolInfoBean();
-                    bean.setPushlish_type(-1);
-                    bean.setHome_pic(homePageInfoBean.getHome_last_pic());
-                    symbol_info.add(bean);
-                    adapter = new HorizontalPagerAdapter(getContext(), symbol_info);
-                    horizontalInfiniteCycleViewPager.notifyDataSetChanged();
-
-                }
             }
         });
     }
@@ -128,14 +116,14 @@ public class ComplaintActivityTest extends BaseRobolectricTestCase {
         NetworkAPIFactoryImpl.getDealAPI().balance(new OnAPIListener<AssetDetailsBean>() {
             @Override
             public void onSuccess(AssetDetailsBean bean) {
-                LogUtils.loge("余额请求成功:" + bean.toString());
+
 
 
             }
 
             @Override
             public void onError(Throwable ex) {
-                LogUtils.loge("余额请求失败:" + ex.getMessage());
+
             }
         });
     }

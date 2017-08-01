@@ -3,12 +3,20 @@ package com.yundian.star.ui.main.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.flyco.tablayout.CommonTabLayout;
@@ -34,7 +42,6 @@ import com.yundian.star.base.BaseActivity;
 import com.yundian.star.been.CheckUpdateInfoEntity;
 import com.yundian.star.been.EventBusMessage;
 import com.yundian.star.been.TabEntity;
-
 import com.yundian.star.ui.main.fragment.FindStarFragment;
 import com.yundian.star.ui.main.fragment.MarketDetailFragment;
 import com.yundian.star.ui.main.fragment.NewsInfoFragment;
@@ -44,6 +51,7 @@ import com.yundian.star.ui.wangyi.chatroom.helper.ChatRoomHelper;
 import com.yundian.star.ui.wangyi.config.preference.UserPreferences;
 import com.yundian.star.utils.CheckLoginUtil;
 import com.yundian.star.utils.LogUtils;
+import com.yundian.star.utils.SharePrefUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -77,11 +85,13 @@ public class MainActivity extends BaseActivity {
     public static int CHECHK_LOGIN = 0;
     private boolean flag = true;
 
-    private Handler handler = new Handler() {
+    public Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-                case 0:
+                case 1:
+                    int i = (int)msg.obj;
+                    showPopupWindow(i);
                     break;
             }
         }
@@ -225,6 +235,13 @@ public class MainActivity extends BaseActivity {
                 transaction.commitAllowingStateLoss();
                 break;
             case 1:
+                if (SharePrefUtil.getInstance().getStatusNav_4()==0){
+                    SharePrefUtil.getInstance().setStatusNav_4(1);
+                    Message message = Message.obtain();
+                    message.what=1;
+                    message.obj=4;
+                    handler.sendMessageDelayed(message,500);
+                }
                 transaction.hide(findStarFragment);
 //                transaction.hide(differAnswerFragment);
                 transaction.hide(userInfoFragment);
@@ -417,5 +434,72 @@ public class MainActivity extends BaseActivity {
                 .setShowProgress(true)
                 .setIconResId(R.mipmap.ic_launcher)
                 .setAppName(mCheckUpdateInfo.getAppName()).show();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (SharePrefUtil.getInstance().getStatusNav_1()==0){
+            SharePrefUtil.getInstance().setStatusNav_1(1);
+            Message message = Message.obtain();
+            message.what=1;
+            message.obj=1;
+            handler.sendMessageDelayed(message,2000);
+        }
+    }
+
+    private void showPopupWindow(final int i) {
+        View popView = LayoutInflater.from(this).inflate(R.layout.popwindow_navijation_1, null);
+        final ImageView imageView = (ImageView) popView.findViewById(R.id.navigation_1);
+        final ImageView imageView3 = (ImageView) popView.findViewById(R.id.navigation_3);
+        final ImageView navigation_2_2 = (ImageView) popView.findViewById(R.id.navigation_2_2);
+        final RelativeLayout navigation_4 = (RelativeLayout) popView.findViewById(R.id.navigation_4);
+        final ImageView navigation_4_2 = (ImageView) popView.findViewById(R.id.navigation_4_2);
+        if (i==1){
+            imageView.setVisibility(View.VISIBLE);
+        }else if (i==2){
+            imageView.setVisibility(View.VISIBLE);
+            imageView.setImageDrawable(getResources().getDrawable(R.drawable.navigation_2));
+        }else if (i==4){
+            navigation_4.setVisibility(View.VISIBLE);
+        }
+        final PopupWindow popupWindow = new PopupWindow(this);
+        popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setContentView(popView);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x33000000));
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (i==1){
+                    imageView.setVisibility(View.GONE);
+                    imageView3.setVisibility(View.VISIBLE);
+                }else if (i==2){
+                    imageView.setVisibility(View.GONE);
+                    navigation_2_2.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        imageView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        navigation_2_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        navigation_4_2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow.showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
     }
 }

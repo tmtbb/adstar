@@ -359,7 +359,7 @@ public class UserInfoFragment extends BaseFragment {
         NetworkAPIFactoryImpl.getInformationAPI().starInfo("17682310986", "123", 1, new OnAPIListener<StarInfoReturnBean>() {
             @Override
             public void onError(Throwable ex) {
-                LogUtils.loge("明星列表失败---------------");
+                LogUtils.loge("明星列表失败----.-----------");
             }
 
             @Override

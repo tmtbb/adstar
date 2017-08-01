@@ -2,6 +2,7 @@ package com.yundian.star.ui.main.fragment;
 
 
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -12,7 +13,9 @@ import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.yundian.star.R;
 import com.yundian.star.base.BaseFragment;
 import com.yundian.star.been.TabEntity;
+import com.yundian.star.ui.main.activity.MainActivity;
 import com.yundian.star.ui.main.activity.SearchActivity;
+import com.yundian.star.utils.SharePrefUtil;
 import com.yundian.star.widget.NormalTitleBar;
 
 import java.util.ArrayList;
@@ -103,6 +106,13 @@ public class FindStarFragment extends BaseFragment {
                 transaction.commitAllowingStateLoss();
                 break;
             case 1:
+                if (SharePrefUtil.getInstance().getStatusNav_2()==0){
+                    SharePrefUtil.getInstance().setStatusNav_2(1);
+                    Message obtain = Message.obtain();
+                    obtain.what=1;
+                    obtain.obj=2;
+                    ((MainActivity)getActivity()).handler.sendMessageDelayed(obtain,500);
+                }
                 transaction.show(startInteractFragment);
                 transaction.hide(horizontalPagerFragment);
                 transaction.commitAllowingStateLoss();
