@@ -16,7 +16,7 @@ android {
         applicationId "com.yundian.star"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 20170722
+        versionCode 20170731
         versionName "0.9.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "GIT_REVISION", "\"${getGitVersion()}\""
@@ -125,7 +125,7 @@ dependencies {
     compile 'com.getui:sdk:2.10.2.0'
     compile 'org.greenrobot:greendao:3.2.2'
     // add library
-    compile 'com.qiangxi.checkupdatelibrary:checkupdatelibrary:1.1.2@aar'
+    compile 'com.qiangxi.checkupdatelibrary:checkupdatelibrary:1.1.3@aar'
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.1'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'
     testCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.1'

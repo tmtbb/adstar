@@ -30,7 +30,7 @@ import com.qiangxi.checkupdatelibrary.http.HttpRequest;
 import com.qiangxi.checkupdatelibrary.utils.ApplicationUtil;
 import com.qiangxi.checkupdatelibrary.utils.NetWorkUtil;
 import com.qiangxi.checkupdatelibrary.views.NumberProgressBar;
-import com.yundian.star.app.AppApplication;
+import com.yundian.star.utils.LogUtils;
 
 import java.io.File;
 
@@ -228,6 +228,7 @@ public class ForceUpdateDialog extends Dialog {
         HttpRequest.download(mDownloadUrl, mFilePath, mFileName, new DownloadCallback() {
             @Override
             public void onDownloadSuccess(File file) {
+                LogUtils.loge("file:"+file.toString()+"..."+file.getAbsolutePath());
                 forceUpdate.setEnabled(true);
                 forceUpdate.setText("点击安装");
                 ApplicationUtil.installApk(context, file);

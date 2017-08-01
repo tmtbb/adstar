@@ -16,7 +16,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/7/21.
- * 拍卖排行榜
+ * 委托排行榜
  */
 
 public class AuctionRankingListActivity extends BaseActivity {
