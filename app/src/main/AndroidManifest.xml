@@ -5,7 +5,6 @@
     <uses-permission android:name="android.permission.CHANGE_CONFIGURATION"></uses-permission>
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />`
 
     <!--网易云im相关权限。。。。。。。。。。。。。。。。。。。-->
     <!-- 访问网络状态-->
@@ -541,7 +540,7 @@
             </intent-filter>
         </receiver>
 
-        <!-- 申明白板会话的广播接收器，第三方APP集成时，action中的com.netease.nim.demo请替换为自己的包名 -->
+        <!--&lt;!&ndash; 申明白板会话的广播接收器，第三方APP集成时，action中的com.netease.nim.demo请替换为自己的包名 &ndash;&gt;
         <receiver
             android:name="com.netease.nimlib.receiver.RTSBroadcastReceiver"
             android:enabled="true"
@@ -549,7 +548,7 @@
             <intent-filter>
                 <action android:name="com.yundian.star.ACTION.RECEIVE_RTS_NOTIFICATION" />
             </intent-filter>
-        </receiver>
+        </receiver>-->
 
         <!-- 申明本地电话状态（通话状态）的广播接收器，第三方APP集成时音视频模块时，如果需要在App中处理网络通话与本地电话的交互请加上此接收器 -->
         <!-- 在Demo的示例代码中是在Application进行了网络通话与本地电话的互斥处理 -->
@@ -568,16 +567,24 @@
             android:name="com.netease.cosine.target.receiver"
             android:value="com.netease.nimlib.service.NimReceiver" />
 
+        <!--<provider-->
+            <!--android:name="android.support.v4.content.FileProvider"-->
+            <!--android:authorities="${applicationId}.provider"-->
+            <!--android:exported="false"-->
+            <!--android:grantUriPermissions="true">-->
+            <!--<meta-data-->
+                <!--android:name="android.support.FILE_PROVIDER_PATHS"-->
+                <!--android:resource="@xml/checkupdatelibrary_uri_grant" />-->
+        <!--</provider>-->
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.provider"
+            android:authorities="com.yundian.star"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/filepaths" />
+                android:resource="@xml/checkupdatelibrary_uri_grant"/>
         </provider>
-
 
         <activity
             android:name=".ui.main.activity.UserSettingActivity"

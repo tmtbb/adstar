@@ -122,6 +122,7 @@ public interface SocketAPIConstant {
         Short ByBuy = 14005;
         Short getDanMuInfo = 6021;
         Short getDanMuInfoAll = 6023;
+        Short getWeituo = 6025;
         Short getNowPricce = 4011;
 
 

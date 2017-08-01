@@ -404,6 +404,7 @@ public class MainActivity extends BaseActivity {
      * 非强制更新
      */
     public void updateDialog(CheckUpdateInfoEntity mCheckUpdateInfo) {
+        LogUtils.loge("mCheckUpdateInfo"+mCheckUpdateInfo.toString());
         mUpdateDialog = new UpdateDialog(this);
         mUpdateDialog.setAppSize(mCheckUpdateInfo.getNewAppSize())
                 .setDownloadUrl(mCheckUpdateInfo.getNewAppUrl())
