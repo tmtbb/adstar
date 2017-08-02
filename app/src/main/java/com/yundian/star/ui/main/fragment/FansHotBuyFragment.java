@@ -111,9 +111,13 @@ public class FansHotBuyFragment extends BaseFragment {
                     }
                 }
             });*/
-
-
-        NetworkAPIFactoryImpl.getInformationAPI().fansRntrust(code, hotType, start, REQUEST_COUNT, new OnAPIListener<FansEntrustReturnBean>() {
+        int buySell = 1 ;
+        if (hotType==1){
+            buySell = 1 ;
+        }else {
+            buySell = -1 ;
+        }
+        NetworkAPIFactoryImpl.getInformationAPI().fansRntrust(code, buySell, start, REQUEST_COUNT, new OnAPIListener<FansEntrustReturnBean>() {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.loge("粉丝热度失败------------------------------------------");

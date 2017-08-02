@@ -3,6 +3,7 @@ package com.yundian.star.ui.main.activity;
 import android.graphics.Point;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -45,7 +46,7 @@ import butterknife.OnClick;
  * 登录
  */
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
     private CheckHelper checkHelper = new CheckHelper();
     private AbortableFuture<LoginInfo> loginRequest;
@@ -72,10 +73,10 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void initView() {
         initFindById();
-  //      if (flag) {
-  //          EventBus.getDefault().register(this); // EventBus注册广播()
-  //          flag = false;//更改标记,使其不会再进行多次注册
-  //      }
+        //      if (flag) {
+        //          EventBus.getDefault().register(this); // EventBus注册广播()
+        //          flag = false;//更改标记,使其不会再进行多次注册
+        //      }
         WindowManager.LayoutParams p = getWindow().getAttributes();// 获取对话框当前的参值
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
@@ -90,22 +91,26 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initFindById() {
-        userNameEditText = (WPEditText)findViewById(R.id.userNameEditText);
-        passwordEditText = (WPEditText)findViewById(R.id.passwordEditText);
-        loginButton = (Button)findViewById(R.id.loginButton);
-        registerText = (TextView)findViewById(R.id.registerText);
-        tv_retrieve_password = (TextView)findViewById(R.id.tv_retrieve_password);
-        tv_weixin_login = (TextView)findViewById(R.id.tv_weixin_login);
-        tv_law_info = (TextView)findViewById(R.id.tv_law_info);
+        userNameEditText = (WPEditText) findViewById(R.id.userNameEditText);
+        passwordEditText = (WPEditText) findViewById(R.id.passwordEditText);
+        loginButton = (Button) findViewById(R.id.loginButton);
+        registerText = (TextView) findViewById(R.id.registerText);
+        tv_retrieve_password = (TextView) findViewById(R.id.tv_retrieve_password);
+        tv_weixin_login = (TextView) findViewById(R.id.tv_weixin_login);
+        tv_law_info = (TextView) findViewById(R.id.tv_law_info);
+        loginButton.setOnClickListener(this);
     }
-    private boolean isOnClicked = false ;
-    @OnClick(R.id.loginButton)
+
+    private boolean isOnClicked = false;
+
     public void loging() {
-        if (isOnClicked){
+        ViewConcurrencyUtils.preventConcurrency();  //防止并发
+        startProgressDialog("登录中...");
+        if (isOnClicked) {
             return;
         }
-        isOnClicked = true ;
-        //ViewConcurrencyUtils.preventConcurrency();  //防止并发
+        isOnClicked = true;
+        LogUtils.loge("loging点击");
         CheckException exception = new CheckException();
         LogUtils.loge(MD5Util.MD5(passwordEditText.getEditTextString()));
         if (checkHelper.checkMobile(userNameEditText.getEditTextString(), exception)
@@ -113,14 +118,14 @@ public class LoginActivity extends BaseActivity {
             NetworkAPIFactoryImpl.getUserAPI().login(userNameEditText.getEditTextString(), MD5Util.MD5(passwordEditText.getEditTextString()), new OnAPIListener<LoginReturnInfo>() {
                 @Override
                 public void onError(Throwable ex) {
-                    isOnClicked = false ;
+                    stopProgressDialog();
+                    isOnClicked = false;
                     LogUtils.logd("登录失败_____" + ex.toString());
                     ToastUtils.showShort("登录失败");
                 }
 
                 @Override
                 public void onSuccess(final LoginReturnInfo loginReturnInfo) {
-                    isOnClicked = false ;
                     if (loginReturnInfo.getResult() == -301) {
                         ToastUtils.showShort("用户不存在,请先注册");
                         return;
@@ -136,9 +141,11 @@ public class LoginActivity extends BaseActivity {
                     } else if (loginReturnInfo != null && loginReturnInfo.getUserinfo() != null) {
                         LogUtils.logd("登录成功" + loginReturnInfo.toString());
                         //网易云注册   usertype  : 0普通用户 1,明星
-                        NetworkAPIFactoryImpl.getUserAPI().registerWangYi(0,userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), loginReturnInfo.getUserinfo().getId(), new OnAPIListener<RegisterReturnWangYiBeen>() {
+                        NetworkAPIFactoryImpl.getUserAPI().registerWangYi(0, userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), loginReturnInfo.getUserinfo().getId(), new OnAPIListener<RegisterReturnWangYiBeen>() {
                             @Override
                             public void onError(Throwable ex) {
+                                isOnClicked = false;
+                                stopProgressDialog();
                                 LogUtils.logd("网易云注册失败" + ex.toString());
                                 ToastUtils.showShort("网易云注册失败");
                             }
@@ -154,7 +161,7 @@ public class LoginActivity extends BaseActivity {
                 }
             });
         } else {
-            isOnClicked = false ;
+            isOnClicked = false;
             showLongToast(exception.getErrorMsg());
         }
 
@@ -170,11 +177,15 @@ public class LoginActivity extends BaseActivity {
                 NetworkAPIFactoryImpl.getUserAPI().saveDevice(loginReturnInfos.getUserinfo().getId(), new OnAPIListener<Object>() {
                     @Override
                     public void onError(Throwable ex) {
+                        stopProgressDialog();
+                        isOnClicked = false;
                         LogUtils.logd("上传设备id和类型失败:" + ex.toString());
                     }
 
                     @Override
                     public void onSuccess(Object o) {
+                        stopProgressDialog();
+                        isOnClicked = false;
                         LogUtils.logd("上传设备id和类型成功:" + o.toString());
                     }
                 });
@@ -223,10 +234,11 @@ public class LoginActivity extends BaseActivity {
         ViewConcurrencyUtils.preventConcurrency();  //防止并发
         startActivity(ResetUserPwdActivity.class);
     }
+
     @OnClick(R.id.tv_law_info)
     public void law_info() {
         ViewConcurrencyUtils.preventConcurrency();  //防止并发
-        CommonWebActivity.startAction(this,"http://122.144.169.219:3389/law","法律说明");
+        CommonWebActivity.startAction(this, "http://122.144.169.219:3389/law", "法律说明");
     }
 
     @Override
@@ -257,7 +269,6 @@ public class LoginActivity extends BaseActivity {
         NIMClient.updateStatusBarNotificationConfig(statusBarNotificationConfig);
     }
 
-    @OnClick(R.id.tv_weixin_login)
     public void weixinLogin() {
         ViewConcurrencyUtils.preventConcurrency();  //防止并发
         if (!AppApplication.api.isWXAppInstalled()) {
@@ -279,7 +290,7 @@ public class LoginActivity extends BaseActivity {
         super.onDestroy();
     }
 
-//    //接收消息
+    //    //接收消息
 //    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
 //    public void ReciveMessageEventBus(EventBusMessage eventBusMessage) {
 //        switch (eventBusMessage.Message) {
@@ -289,11 +300,24 @@ public class LoginActivity extends BaseActivity {
 //                break;
 //        }
 //    }
-
-
-    @OnClick(R.id.close)
     public void close() {
         EventBus.getDefault().postSticky(new EventBusMessage(2));  //登录取消消息
         finish();
+    }
+
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.loginButton:
+                loging();
+                break;
+            case R.id.close:
+                close();
+                break;
+            case R.id.tv_weixin_login:
+                weixinLogin();
+                break;
+        }
     }
 }
