@@ -58,7 +58,7 @@
     </FrameLayout>
 
 
-    <com.yundian.star.widget.LoadingTip
+    <com.cloudTop.starshare.widget.LoadingTip
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/nt_title"

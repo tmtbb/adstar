@@ -67,7 +67,7 @@
             android:src="@drawable/icon_password_2" />
 
 
-        <com.yundian.star.widget.ClearEditText
+        <com.cloudTop.starshare.widget.ClearEditText
             android:id="@+id/editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -103,7 +103,7 @@
 
                 </LinearLayout>
 
-                <com.yundian.star.ui.view.RoundImageView
+                <com.cloudTop.starshare.ui.view.RoundImageView
                     android:id="@+id/headImage"
                     android:layout_width="75dp"
                     android:layout_height="75dp"

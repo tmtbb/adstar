@@ -6,7 +6,7 @@
     android:background="@color/color_fafafa"
     android:orientation="vertical">
 
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@+id/nt_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
@@ -20,7 +20,7 @@
         android:gravity="center"
         android:padding="@dimen/dp_30">
 
-        <com.yundian.star.ui.view.RoundImageView
+        <com.cloudTop.starshare.ui.view.RoundImageView
             android:id="@+id/headImage"
             android:layout_width="@dimen/dp_40"
             android:layout_height="@dimen/dp_40"

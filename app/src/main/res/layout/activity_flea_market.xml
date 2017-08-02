@@ -4,10 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@+id/nt_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></com.yundian.star.widget.NormalTitleBar>
+        android:layout_height="wrap_content"></com.cloudTop.starshare.widget.NormalTitleBar>
 
     <master.flame.danmaku.ui.widget.DanmakuView
         android:background="@color/color_fafafa"

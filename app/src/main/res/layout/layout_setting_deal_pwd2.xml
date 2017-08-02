@@ -9,7 +9,7 @@
     android:orientation="vertical"
     tools:showIn="@layout/activity_setting_deal_pwd">
 
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@+id/nt_title2"
         android:layout_width="match_parent"
         android:layout_height="48dp" />
@@ -23,7 +23,7 @@
         android:textColor="@color/color_434343"
         android:textSize="@dimen/text_size_14" />
 
-    <com.yundian.star.ui.view.PayPwdEditText
+    <com.cloudTop.starshare.ui.view.PayPwdEditText
         android:id="@+id/ppe_pwd2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_50"

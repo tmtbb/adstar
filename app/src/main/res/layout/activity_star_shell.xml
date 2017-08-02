@@ -185,11 +185,11 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@+id/nl_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_gravity="top"></com.yundian.star.widget.NormalTitleBar>
+        android:layout_gravity="top"></com.cloudTop.starshare.widget.NormalTitleBar>
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="50dp"
@@ -242,7 +242,7 @@
         android:layout_gravity="bottom"
         android:layout_marginBottom="50dp"
         ></View>
-    <com.yundian.star.widget.PasswordView
+    <com.cloudTop.starshare.widget.PasswordView
         android:id="@+id/passwordView"
         android:visibility="gone"
         android:layout_width="match_parent"
