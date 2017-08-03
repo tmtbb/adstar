@@ -124,5 +124,21 @@ public class StarDetailInfoBean {
         public void setStar_tpye(int star_tpye) {
             this.star_tpye = star_tpye;
         }
+
+        @Override
+        public String toString() {
+            return "ResultvalueBean{" +
+                    "acc_id=" + acc_id +
+                    ", back_pic='" + back_pic + '\'' +
+                    ", head_url='" + head_url + '\'' +
+                    ", portray1='" + portray1 + '\'' +
+                    ", portray2='" + portray2 + '\'' +
+                    ", portray3='" + portray3 + '\'' +
+                    ", portray4='" + portray4 + '\'' +
+                    ", star_code='" + star_code + '\'' +
+                    ", star_name='" + star_name + '\'' +
+                    ", star_tpye=" + star_tpye +
+                    '}';
+        }
     }
 }

@@ -203,7 +203,7 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
         NetworkAPIFactoryImpl.getDealAPI().balance(new OnAPIListener<AssetDetailsBean>() {
             @Override
             public void onSuccess(AssetDetailsBean bean) {
-                starMoney.setText(bean.getBalance() + "");
+                starMoney.setText(String.format("%.3f",bean.getBalance()));
                 //holdMoney.setText(bean.getBalance() + "");
                 //userMoney.setText(bean.getBalance() + "");
                 if (bean.getIs_setpwd() != -100) {

@@ -94,7 +94,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
     private int widthPixels;
     private int heightPixels;
     private ArrayList<StarDanMuNewInfo.PositionsListBean> list = new ArrayList<>();
-    private MyHandler myHandler;
+    private static MyHandler myHandler;
     private int temporary = 0;
     private int[] random_bg = {
             R.drawable.bg_1, R.drawable.bg_2, R.drawable.bg_3, R.drawable.bg_4, R.drawable.bg_5
@@ -120,11 +120,11 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void initView() {
         symbolInfoBean = getIntent().getParcelableExtra(AppConstant.SYMBOL_INFO_BEAN);
+        getData();
         getKuanGao();
         initFindById();
         setSize();
         getNowPrice();
-        getData();
     }
 
     private void getNowPrice() {
@@ -144,12 +144,9 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
 
     private void getData() {
         list = new ArrayList<>();
-        if (list.size() > 0) {
-            qiu.setImageAlpha(125);
-        }
         //listDanMaKu = new ArrayList<>();
         getDanMaku();
-        initTradingStatus(false);
+        //initTradingStatus(false);
         //myHandler.sendEmptyMessage(MyHandler.GRT_DATA);
         if (SharePrefUtil.getInstance().getStatusNav_5()==0){
             SharePrefUtil.getInstance().setStatusNav_5(1);
@@ -294,7 +291,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
             tv_time.setText(TimeUtil.calculatTime(secondTime));
             secondTime--;
             if (myHandler != null) {
-                myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 1000);
+                myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1000);
             }
         } else if (tv_time != null && secondTime < 0) {
             tv_time.setText("未开始");
@@ -668,6 +665,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
             myHandler.removeCallbacksAndMessages(null);
             initTradingStatus(false);
         } else {
+            LogUtils.loge("刷新startRefresh_myHandler=null");
             myHandler = new MyHandler(this);
             myHandler.removeCallbacksAndMessages(null);
             initTradingStatus(false);
@@ -688,8 +686,8 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
                         LogUtils.loge("弹幕错误码" + danMaKuInfo.toString());
                         if (danMaKuInfo!=null&&danMaKuInfo.getPositionsList()!=null&&danMaKuInfo.getPositionsList().size()!=0){
                             list = danMaKuInfo.getPositionsList();
-                            if (myHandler!=null){
-                                myHandler.sendEmptyMessage(myHandler.GRT_DATA);
+                            if (list.size() > 0) {
+                                qiu.setImageAlpha(125);
                             }
                         }
                     }

@@ -20,6 +20,7 @@ import com.cloudTop.starshare.utils.ToastUtils;
 import com.cloudTop.starshare.utils.ViewConcurrencyUtils;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.cache.DataCacheManager;
+import com.netease.nimlib.jsbridge.util.LogUtil;
 import com.netease.nimlib.sdk.AbortableFuture;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallback;
@@ -109,11 +110,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     public void loging() {
         ViewConcurrencyUtils.preventConcurrency();  //防止并发
-        startProgressDialog("登录中...");
         if (isOnClicked) {
             return;
         }
         isOnClicked = true;
+        startProgressDialog("登录中...");
         LogUtils.loge("loging点击");
         CheckException exception = new CheckException();
         LogUtils.loge(MD5Util.MD5(passwordEditText.getEditTextString()));
@@ -131,15 +132,24 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 @Override
                 public void onSuccess(final LoginReturnInfo loginReturnInfo) {
                     if (loginReturnInfo.getResult() == -301) {
+                        isOnClicked = false;
+                        stopProgressDialog();
                         ToastUtils.showShort("用户不存在,请先注册");
                         return;
                     } else if (loginReturnInfo.getResult() == -302) {
+                        isOnClicked = false;
+                        stopProgressDialog();
+                        LogUtil.e("账号或密码错误");
                         ToastUtils.showShort("账号或密码错误");
                         return;
                     } else if (loginReturnInfo.getResult() == -303) {
+                        isOnClicked = false;
+                        stopProgressDialog();
                         ToastUtils.showShort("登录信息失效，请重新登录");
                         return;
                     } else if (loginReturnInfo.getResult() == -304) {
+                        isOnClicked = false;
+                        stopProgressDialog();
                         ToastUtils.showShort("用户已存在");
                         return;
                     } else if (loginReturnInfo != null && loginReturnInfo.getUserinfo() != null) {

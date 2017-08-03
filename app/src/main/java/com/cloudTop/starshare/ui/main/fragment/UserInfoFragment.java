@@ -1,52 +1,68 @@
 package com.cloudTop.starshare.ui.main.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.cloudTop.starshare.base.BaseFragment;
-import com.cloudTop.starshare.listener.OnAPIListener;
-import com.cloudTop.starshare.ui.main.activity.DifferAnswerActivity;
-import com.cloudTop.starshare.ui.main.activity.TransactionDetailActivity;
-import com.cloudTop.starshare.ui.main.activity.UserSettingActivity;
-import com.cloudTop.starshare.utils.ToastUtils;
-import com.cloudTop.starshare.utils.ViewConcurrencyUtils;
-import com.netease.nimlib.sdk.NIMClient;
-import com.netease.nimlib.sdk.RequestCallbackWrapper;
-import com.netease.nimlib.sdk.msg.MsgService;
-import com.netease.nimlib.sdk.uinfo.UserService;
-import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 import com.cloudTop.starshare.R;
+import com.cloudTop.starshare.base.BaseFragment;
 import com.cloudTop.starshare.been.AssetDetailsBean;
 import com.cloudTop.starshare.been.EventBusMessage;
 import com.cloudTop.starshare.been.IdentityInfoBean;
 import com.cloudTop.starshare.been.RegisterReturnBeen;
 import com.cloudTop.starshare.been.StarInfoReturnBean;
 import com.cloudTop.starshare.greendao.GreenDaoManager;
+import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
 import com.cloudTop.starshare.ui.main.activity.BookingStarActivity;
 import com.cloudTop.starshare.ui.main.activity.CustomerServiceActivity;
+import com.cloudTop.starshare.ui.main.activity.DifferAnswerActivity;
 import com.cloudTop.starshare.ui.main.activity.GeneralSettingsActivity;
+import com.cloudTop.starshare.ui.main.activity.TransactionDetailActivity;
 import com.cloudTop.starshare.ui.main.activity.UserAssetsManageActivity;
+import com.cloudTop.starshare.ui.main.activity.UserSettingActivity;
 import com.cloudTop.starshare.ui.view.RoundImageView;
 import com.cloudTop.starshare.ui.wangyi.common.util.sys.InstallUtil;
+import com.cloudTop.starshare.utils.DisplayUtil;
 import com.cloudTop.starshare.utils.ImageLoaderUtils;
 import com.cloudTop.starshare.utils.LogUtils;
+import com.cloudTop.starshare.utils.QRCodeUtil;
 import com.cloudTop.starshare.utils.SharePrefUtil;
+import com.cloudTop.starshare.utils.ToastUtils;
+import com.cloudTop.starshare.utils.ViewConcurrencyUtils;
+import com.netease.nimlib.jsbridge.util.LogUtil;
+import com.netease.nimlib.sdk.NIMClient;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
+import com.netease.nimlib.sdk.msg.MsgService;
+import com.netease.nimlib.sdk.uinfo.UserService;
+import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -69,6 +85,8 @@ public class UserInfoFragment extends BaseFragment {
     TextView userTotalAssets;
     @Bind(R.id.tv_order_star)
     TextView userOrderStar;
+    @Bind(R.id.zxing_butten)
+    TextView zxing_butten;
     @Bind(R.id.ll_me_deal)
     LinearLayout ll_me_deal;
     @Bind(R.id.headImage)
@@ -91,6 +109,7 @@ public class UserInfoFragment extends BaseFragment {
     View redTalkTip;
     private boolean flag = true;
     private TextView version;
+    private Bitmap bitmap;
 
 
     @Override
@@ -159,7 +178,8 @@ public class UserInfoFragment extends BaseFragment {
 
 
     @OnClick({R.id.iv_user_info_bg, R.id.headImage, R.id.ll_user_money_bag, R.id.ll_user_order_star,
-            R.id.ll_customer_service, R.id.ll_common_problem, R.id.ll_general_settings, R.id.btn_my_referee, R.id.iv_star_talk,R.id.ll_me_deal})
+            R.id.ll_customer_service, R.id.ll_common_problem, R.id.ll_general_settings, R.id.btn_my_referee, R.id.iv_star_talk,R.id.ll_me_deal
+    ,R.id.zxing_butten})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_user_info_bg:
@@ -201,6 +221,10 @@ public class UserInfoFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(),TransactionDetailActivity.class);
                 //intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 4);
                 getActivity().startActivity(intent);
+                break;
+            case R.id.zxing_butten:
+                ViewConcurrencyUtils.preventConcurrency();  //防止并发
+                showPopupWindow();
                 break;
         }
     }
@@ -280,7 +304,7 @@ public class UserInfoFragment extends BaseFragment {
             @Override
             public void onSuccess(AssetDetailsBean bean) {
                 LogUtils.loge("余额请求成功:" + bean.toString());
-                userTotalAssets.setText(bean.getBalance() + "");
+                userTotalAssets.setText(String.format("%.3f",bean.getBalance()));
                 if (bean.getIs_setpwd() != -100) {
                     SharePrefUtil.getInstance().saveAssetInfo(bean);
                 }
@@ -376,4 +400,72 @@ public class UserInfoFragment extends BaseFragment {
             }
         });
     }
+
+    private boolean isFirstSave = false ;
+    private void showPopupWindow() {
+        View popView = LayoutInflater.from(getContext()).inflate(R.layout.popwindow_zxing_show, null);
+        final ImageView imageView = (ImageView) popView.findViewById(R.id.img_zxing);
+        final TextView tvSaveZxing = (TextView) popView.findViewById(R.id.tv_save_zxing);
+        if (bitmap==null){
+            bitmap = QRCodeUtil.createQRCode("www.baidu.com", DisplayUtil.getScreenWidth(getContext()) / 2);
+        }
+        imageView.setImageBitmap(bitmap);
+        final PopupWindow popupWindow = new PopupWindow(getContext());
+        popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setContentView(popView);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x33000000));
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        tvSaveZxing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveImageToGallery(getContext(), bitmap);
+            }
+        });
+        popupWindow.showAtLocation(rootView, Gravity.CENTER, 0, 0);
+    }
+
+    /**
+     * 保存图片到图库
+     *
+     * @param context
+     * @param bmp
+     */
+    public  void saveImageToGallery(Context context, Bitmap bmp) {
+        if (isFirstSave){
+            ToastUtils.showShort("二维码已保存");
+            return;
+        }
+        isFirstSave = true;
+        File appDir = new File(Environment.getExternalStorageDirectory(), "XingXiang");   // 首先保存图片
+        if (!appDir.exists()) {
+            appDir.mkdir();
+        }
+        String fileName = System.currentTimeMillis() + ".jpg";
+        File file = new File(appDir, fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // 其次把文件插入到系统图库
+        try {
+            MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                    file.getAbsolutePath(), fileName, null);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        LogUtil.e("二维码已保存至:" + Environment.getExternalStorageDirectory() + "/XingXiang/" + "目录文件夹下");
+        ToastUtils.showShort("二维码已保存");
+        // 最后通知图库更新
+        context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file.getAbsolutePath())));
+    }
+
 }
