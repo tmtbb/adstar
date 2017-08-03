@@ -288,6 +288,9 @@
     <string name="empty_order_info">暂无订单信息</string>
     <string name="order_type">订单类型</string>
     <string name="num_time_text">%s秒</string>
+    <string name="accumulated_earningss">累积收益</string>
+    <string name="Successfully_invited">成功邀请</string>
+    <string name="create_qr_code">生成邀请二维码</string>
 
     <!-- session -->
     <string name="input_panel_guess">猜 拳</string>

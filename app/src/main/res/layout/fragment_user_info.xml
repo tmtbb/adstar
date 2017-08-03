@@ -48,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/iv_user_info_bg"
-                    android:background="@color/color_fafafa"
+                    android:background="@color/color_white_ffffffff"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/dp_10">
 
@@ -100,15 +100,96 @@
                             android:textColor="@color/color_black_333333"
                             android:textSize="@dimen/text_size_16" />
                     </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        >
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            >
+                            <TextView
+                                android:id="@+id/tv_accumulated"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/accumulated_earningss"
+                                android:textColor="@color/font_999999"
+                                android:textSize="@dimen/fontSize_14sp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="14dp" />
+                            <TextView
+                                android:id="@+id/tv_acc_num"
+                                android:layout_centerHorizontal="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/color_8C0808"
+                                android:textSize="@dimen/fontSize_24sp"
+                                android:text="0"
+                                android:layout_below="@id/tv_accumulated"
+                                 />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/color_aaaaaa_content_text"
+                                android:textSize="@dimen/fontSize_14sp"
+                                android:text="元"
+                                android:layout_alignBaseline="@+id/tv_acc_num"
+                                android:layout_alignBottom="@+id/tv_acc_num"
+                                android:layout_alignRight="@+id/tv_accumulated"
+                                android:layout_alignEnd="@+id/tv_accumulated" />
+                        </RelativeLayout>
+                        <RelativeLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            >
+                            <TextView
+                                android:id="@+id/tv_success"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/Successfully_invited"
+                                android:textColor="@color/font_999999"
+                                android:textSize="@dimen/fontSize_14sp"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="14dp" />
+                            <TextView
+                                android:id="@+id/tv_success_num"
+                                android:layout_centerHorizontal="true"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/color_8C0808"
+                                android:textSize="@dimen/fontSize_24sp"
+                                android:text="0"
+                                android:layout_below="@id/tv_success"
+                                />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textColor="@color/color_aaaaaa_content_text"
+                                android:textSize="@dimen/fontSize_14sp"
+                                android:text="人"
+                                android:layout_alignBaseline="@+id/tv_success_num"
+                                android:layout_alignBottom="@+id/tv_success_num"
+                                android:layout_alignRight="@+id/tv_success"
+                                android:layout_alignEnd="@+id/tv_success" />
+                        </RelativeLayout>
+
+                    </LinearLayout>
                     <TextView
                         android:id="@+id/zxing_butten"
                         android:layout_marginTop="10dp"
                         android:padding="10dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="生成二维码"
+                        android:text="@string/create_qr_code"
                         android:layout_gravity="center"
-                        android:visibility="gone"
+                        android:drawableLeft="@drawable/link_1"
+                        android:drawablePadding="4dp"
+                        android:background="@drawable/empty_outline"
+                        android:visibility="visible"
                         />
                 </LinearLayout>
 

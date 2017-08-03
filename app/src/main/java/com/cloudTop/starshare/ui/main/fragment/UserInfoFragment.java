@@ -69,6 +69,8 @@ import java.util.Map;
 import butterknife.Bind;
 import butterknife.OnClick;
 
+import static com.cloudTop.starshare.R.id.img_zxing;
+
 /**
  * Created by Administrator on 2017/5/5.
  *  个人中心
@@ -404,23 +406,30 @@ public class UserInfoFragment extends BaseFragment {
     private boolean isFirstSave = false ;
     private void showPopupWindow() {
         View popView = LayoutInflater.from(getContext()).inflate(R.layout.popwindow_zxing_show, null);
-        final ImageView imageView = (ImageView) popView.findViewById(R.id.img_zxing);
-        final TextView tvSaveZxing = (TextView) popView.findViewById(R.id.tv_save_zxing);
+        final ImageView imageView = (ImageView) popView.findViewById(img_zxing);
+        final TextView close = (TextView) popView.findViewById(R.id.close);
         if (bitmap==null){
-            bitmap = QRCodeUtil.createQRCode("www.baidu.com", DisplayUtil.getScreenWidth(getContext()) / 2);
+            bitmap = QRCodeUtil.createQRCode("www.zhongyuliying.com", DisplayUtil.getScreenWidth(getContext()) / 2);
         }
         imageView.setImageBitmap(bitmap);
         final PopupWindow popupWindow = new PopupWindow(getContext());
-        popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindow.setContentView(popView);
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x33000000));
         popupWindow.setOutsideTouchable(false);
         popupWindow.setFocusable(true);
-        tvSaveZxing.setOnClickListener(new View.OnClickListener() {
+        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                saveImageToGallery(getContext(), bitmap);
+                return false;
+            }
+        });
+        close.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveImageToGallery(getContext(), bitmap);
+                popupWindow.dismiss();
             }
         });
         popupWindow.showAtLocation(rootView, Gravity.CENTER, 0, 0);

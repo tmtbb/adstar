@@ -541,7 +541,7 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
 
     private void share() {
         ShareControlerView controlerView = new ShareControlerView(this, mContext, umShareListener);
-        String webUrl = "https://mobile.umeng.com/";
+        String webUrl = "http://www.zhongyuliying.com/";
         String title = starName+" 正在星享时光出售TA的时间";
         String text = "文本";
         controlerView.setText(text);
