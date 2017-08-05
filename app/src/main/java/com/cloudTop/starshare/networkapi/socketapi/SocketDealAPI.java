@@ -1,25 +1,26 @@
 package com.cloudTop.starshare.networkapi.socketapi;
 
 
+import com.cloudTop.starshare.app.SocketAPIConstant;
 import com.cloudTop.starshare.been.AliPayReturnBean;
+import com.cloudTop.starshare.been.AssetDetailsBean;
 import com.cloudTop.starshare.been.BankCardBean;
 import com.cloudTop.starshare.been.BankInfoBean;
 import com.cloudTop.starshare.been.BookingStarListBean;
-import com.cloudTop.starshare.been.MoneyDetailListBean;
-import com.cloudTop.starshare.been.ResultCodeBeen;
-import com.cloudTop.starshare.been.WXPayReturnEntity;
-import com.cloudTop.starshare.listener.OnAPIListener;
-import com.cloudTop.starshare.utils.LogUtils;
-import com.cloudTop.starshare.app.SocketAPIConstant;
-import com.cloudTop.starshare.been.AssetDetailsBean;
 import com.cloudTop.starshare.been.IdentityInfoBean;
 import com.cloudTop.starshare.been.MeetStarStatusBean;
+import com.cloudTop.starshare.been.MoneyDetailListBean;
 import com.cloudTop.starshare.been.RequestResultBean;
+import com.cloudTop.starshare.been.ResultCodeBeen;
+import com.cloudTop.starshare.been.ReturnAmountBean;
 import com.cloudTop.starshare.been.StatServiceListBean;
+import com.cloudTop.starshare.been.WXPayReturnEntity;
 import com.cloudTop.starshare.been.WithDrawCashHistoryBean;
 import com.cloudTop.starshare.been.WithDrawCashReturnBean;
+import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.DealAPI;
 import com.cloudTop.starshare.networkapi.socketapi.SocketReqeust.SocketDataPacket;
+import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.SharePrefUtil;
 
 import java.util.HashMap;
@@ -31,140 +32,6 @@ import java.util.List;
  */
 
 public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
-//    @Override
-//    public void products(OnAPIListener<List<ProductEntity>> listener) {
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-//        map.put("token", NetworkAPIFactoryImpl.getConfig().getUserToken());
-//        LogUtil.d("商品列表请求数据--------");
-//        map.put("pid", 1002);
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Products,
-//                SocketAPIConstant.ReqeutType.Deal, map);
-//        requestEntitys(socketDataPacket, "goodsinfo", ProductEntity.class, listener);
-//    }
-//
-//    //分时数据
-//    @Override
-//    public void timeline(String exchangeName, String platformName, String symbol, int aType,
-//                         OnAPIListener<List<CurrentTimeLineReturnEntity>> listener) {
-//        LogUtil.d("----------------请求分时数据");
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-//        map.put("token", NetworkAPIFactoryImpl.getConfig().getUserToken());
-//        map.put("exchangeName", exchangeName);
-//        map.put("platformName", platformName);
-//        map.put("symbol", symbol);
-//        map.put("aType", aType);  //4
-//        map.put("start", 1);
-//        map.put("count", 50);
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.TimeLine,
-//                SocketAPIConstant.ReqeutType.Time, map);
-//        requestEntitys(socketDataPacket, "priceinfo", CurrentTimeLineReturnEntity.class, listener);
-//    }
-//
-//    //当前报价
-//    @Override
-//    public void currentPrice(List<SymbolInfosEntity> symbolInfos
-//            , OnAPIListener<List<CurrentPriceReturnEntity>> listener) {
-//        LogUtil.d("----------请求当前报价数据");
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-//        map.put("token", NetworkAPIFactoryImpl.getConfig().getUserToken());
-//        JSONArray jsonArray = null;
-//        try {
-//            jsonArray = new JSONArray(symbolInfos.toString());
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//        map.put("symbolInfos", jsonArray);
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.CurrentPrice,
-//                SocketAPIConstant.ReqeutType.Time, map);
-//        requestEntitys(socketDataPacket, "priceinfo", CurrentPriceReturnEntity.class, listener);
-////        requestEntity(socketDataPacket, CurrentPriceReturnEntity.class, listener);
-//    }
-//
-//    @Override
-//    public void kchart(String exchangeName, String platformName, String symbol, int aType, int chartType, OnAPIListener<List<CurrentTimeLineReturnEntity>> listener) {
-//        LogUtil.d("请求K线数据");
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-//        map.put("token", NetworkAPIFactoryImpl.getConfig().getUserToken());
-//        map.put("exchangeName", exchangeName);
-//        map.put("platformName", platformName);
-//        map.put("symbol", symbol);
-////        map.put("aType", aType);  //4
-//        map.put("chartType", chartType);//K线类型	60-1分钟K线，300-5分K线，900-15分K线，1800-30分K线，3600-60分K线，5-日K线
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.KChart,
-//                SocketAPIConstant.ReqeutType.Time, map);
-//        requestEntitys(socketDataPacket, "priceinfo", CurrentTimeLineReturnEntity.class, listener);
-//    }
-//
-//
-//    @Override
-//    public void openPosition(long codeId, int buySell, double amount, double price, boolean isDeferred, OnAPIListener<CurrentPositionListReturnEntity> listener) {
-//        LogUtil.d("请求建仓数据");
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-//        map.put("token", NetworkAPIFactoryImpl.getConfig().getUserToken());
-//        map.put("codeId", codeId);
-//        map.put("buySell", buySell);  //建仓方向
-//        map.put("amount", amount);
-//        map.put("deferred", isDeferred);
-//        map.put("price", price);
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Position,
-//                SocketAPIConstant.ReqeutType.Deal, map);
-//        requestEntity(socketDataPacket, CurrentPositionListReturnEntity.class, listener);
-//    }
-//
-//    @Override
-//    public void currentPositionList(int start, int count, OnAPIListener<List<CurrentPositionListReturnEntity>> listener) {
-//        LogUtil.d("当前仓位列表请求数据");
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-//        map.put("token", NetworkAPIFactoryImpl.getConfig().getUserToken());
-//        map.put("start", start);
-//        map.put("count", count);
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.ProductList,
-//                SocketAPIConstant.ReqeutType.Time, map);
-//        requestEntitys(socketDataPacket, "positioninfo", CurrentPositionListReturnEntity.class, listener);
-//    }
-//
-//    @Override
-//    public void historyPositionList(int start, int count, OnAPIListener<List<HistoryPositionListReturnEntity>> listener) {
-//        LogUtil.d("仓位历史记录请求数据");
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-//        map.put("token", NetworkAPIFactoryImpl.getConfig().getUserToken());
-//        map.put("start", start);
-//        map.put("count", count);
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.History,
-//                SocketAPIConstant.ReqeutType.History, map);
-//        requestEntitys(socketDataPacket, "positioninfo", HistoryPositionListReturnEntity.class, listener);
-//    }
-//
-//    @Override
-//    public void historyDealList(int start, int count, String symbol, OnAPIListener<List<HistoryPositionListReturnEntity>> listener) {
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-//        map.put("token", NetworkAPIFactoryImpl.getConfig().getUserToken());
-//        map.put("start", start);  //!!!!
-//        map.put("count", count);
-//        map.put("symbol", symbol);
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.History,
-//                SocketAPIConstant.ReqeutType.History, map);
-//        requestEntitys(socketDataPacket, "positioninfo", HistoryPositionListReturnEntity.class, listener);
-//    }
-//
-//    @Override
-//    public void totalDealInfo(OnAPIListener<TotalDealInfoEntity> listener) {
-//        LogUtil.d("请求交易总概况数据");
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-//        map.put("token", NetworkAPIFactoryImpl.getConfig().getUserToken());
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Total,
-//                SocketAPIConstant.ReqeutType.History, map);
-//        requestEntity(socketDataPacket, TotalDealInfoEntity.class, listener);
-//    }
 
     @Override
     public void weixinPay(String title, double price, OnAPIListener<WXPayReturnEntity> listener) {
@@ -359,6 +226,15 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.MeetStatus,
                 SocketAPIConstant.ReqeutType.NewInfos, map);
         requestEntity(socketDataPacket,MeetStarStatusBean.class, listener);
+    }
+
+    @Override
+    public void getReturnAmount(long uid, OnAPIListener<ReturnAmountBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("uid",uid);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.getReturnMoney,
+                SocketAPIConstant.ReqeutType.User, map);
+        requestEntity(socketDataPacket, ReturnAmountBean.class, listener);
     }
 
 

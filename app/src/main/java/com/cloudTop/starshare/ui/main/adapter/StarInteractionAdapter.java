@@ -21,7 +21,6 @@ public class StarInteractionAdapter extends ListBaseAdapter<StarListReturnBean.S
             , R.drawable.bg_6, R.drawable.bg_7, R.drawable.bg_8, R.drawable.bg_9, R.drawable.bg_10
             , R.drawable.bg_11
     };
-    private String starTypeInfo[] = {"网红", "娱乐明星", "体育明星", "艺人", "海外知名人士", "测试"};
 
     public StarInteractionAdapter(Context context) {
         super(context);
@@ -41,7 +40,7 @@ public class StarInteractionAdapter extends ListBaseAdapter<StarListReturnBean.S
         TextView tv_info = holder.getView(R.id.tv_info);
         ImageLoaderUtils.displaySmallPhoto(mContext,img_head,ordersListBean.getPic());
         tv_name.setText(nickname);
-        tv_info.setText(starTypeInfo[ordersListBean.getStar_type()]);
+        tv_info.setText(ordersListBean.getWork());
         RelativeLayout rl_bg = holder.getView(R.id.rl_bg);
         int i = position % 11;
         rl_bg.setBackgroundResource(random_bg[i]);

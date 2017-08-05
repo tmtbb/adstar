@@ -62,7 +62,6 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
     private ImageView imageView_head;
     private ImageView iv_star_bg;
     private TextView tv_right_share;
-    private String starTypeInfo[] = {"网红", "娱乐明星", "体育明星", "艺人", "海外知名人士", "测试"};
     private StarDetailInfoBean.ResultvalueBean resultvalue;
     private String head_url;
     private String back_pic;
@@ -188,7 +187,7 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
                 }
                 ImageLoaderUtils.displaySmallPhoto(StarInfoActivity.this, imageView_head, head_url);
                 tv_name.setText(resultvalue.getStar_name());
-                star_work.setText(starTypeInfo[resultvalue.getStar_tpye()]);
+                star_work.setText(resultvalue.getWork());
                 ImageLoaderUtils.displayWithDefaultImg(StarInfoActivity.this, iv_star_bg, back_pic, R.drawable.rec_bg);
                 initHorizontalRecview(infoBean);
             }
@@ -285,7 +284,7 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
     }
     private void share() {
         ShareControlerView controlerView = new ShareControlerView(this, mContext, umShareListener);
-        String webUrl = "http://www.zhongyuliying.com/";
+        String webUrl = "http://www.zhongyuliying.com/"+"?uid="+ SharePrefUtil.getInstance().getUserId();
         String title = resultvalue.getStar_name()+" 正在星享时光出售TA的时间";
         String text = "文本";
         controlerView.setText(text);

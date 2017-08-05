@@ -9,6 +9,7 @@ import com.cloudTop.starshare.been.CircleFriendBean;
 import com.cloudTop.starshare.been.CommentMarketBeen;
 import com.cloudTop.starshare.been.DanMaKuInfo;
 import com.cloudTop.starshare.been.EntrustReturnBeen;
+import com.cloudTop.starshare.been.ExpendLineBean;
 import com.cloudTop.starshare.been.FansEntrustReturnBean;
 import com.cloudTop.starshare.been.FansHotBuyReturnBeen;
 import com.cloudTop.starshare.been.FansTopListBeen;
@@ -65,7 +66,7 @@ public interface InformationAPI {
     void getFansComments(String starcode,OnAPIListener<Object> listener);
     void getStarmaillist(long id ,String token,String status,int startPos,int count,OnAPIListener<StarMailListBeen> listener);
     void addFriend(String accid,String faccid,String msg,int type,OnAPIListener<Object> listener);
-    void reduceTime(String phone,String starcode,long deduct_amount,OnAPIListener<Object> listener);
+    void reduceTime(String phone,String starcode,long deduct_amount,OnAPIListener<ResultBeen> listener);
     void inquiry(String symbol,int startPos,int count ,OnAPIListener<CommentMarketBeen> listener);
     void getTimeLine(long id,String token,String symbol ,int aType,OnAPIListener<TimeLineBeen> listener);
     void getAddComment(String symbol,String fans_id,String nick_name,String comments,String head_url ,OnAPIListener<Object> listener);
@@ -103,4 +104,5 @@ public interface InformationAPI {
     void getUserAddComment(String star_code,long circle_id,long uid,int direction,String content,OnAPIListener<ResultBeen> listener);
     void getByBuy(long uid, String token,String symbol,long amount,double price,OnAPIListener<ResultBeen> listener);
     void getNowPrice(long id, String token,String starcode,int aType,OnAPIListener<NowPriceBean> listener);
+    void getExpendLine(String param_code,OnAPIListener<ExpendLineBean> listener);
 }

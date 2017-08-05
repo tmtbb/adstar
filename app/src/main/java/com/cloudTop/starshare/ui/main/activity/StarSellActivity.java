@@ -70,11 +70,11 @@ public class StarSellActivity extends BaseActivity {
     @Bind(R.id.passwordView)
     PasswordView passwordView;
     private String starCode;
+    private String starwork;
     private MyHandler myHandler;
     private int type;
     private long userId;
     private String token;
-    private String starTypeInfo[] = {"网红", "娱乐明星", "体育明星", "艺人", "海外知名人士", "测试"};
     private Integer num;
     private double ask_buy_prices;
 
@@ -93,6 +93,7 @@ public class StarSellActivity extends BaseActivity {
         userId = SharePrefUtil.getInstance().getUserId();
         token = SharePrefUtil.getInstance().getToken();
         starCode = getIntent().getStringExtra(AppConstant.STAR_CODE);
+        starwork = getIntent().getStringExtra(AppConstant.AUCTION_TYPE);
         type = getIntent().getIntExtra(AppConstant.PUBLISH_TYPE, -1);
         nl_title.setTitleText(getString(R.string.shells));
         nl_title.setBackVisibility(true);
@@ -187,7 +188,7 @@ public class StarSellActivity extends BaseActivity {
         ImageLoaderUtils.displaySmallPhoto(this, imageView_icon, shoppingStarBean.getHead_url());
         tv_name.setText(shoppingStarBean.getStar_name());
         tv_preice.setText(String.format(getString(R.string.times_p),shoppingStarBean.getPublish_price()));
-        tv_star_job.setText(starTypeInfo[shoppingStarBean.getStar_type()%6]);
+        tv_star_job.setText(starwork);
         tv_time.setText(String.format(getString(R.string.shell_time), TimeUtil.formatData(TimeUtil.dateFormatYMD, shoppingStarBean.getPublish_begin_time()),
                 TimeUtil.formatData(TimeUtil.dateFormatYMD, shoppingStarBean.getPublish_end_time())));
         tv_num.setText(String.format(getString(R.string.shell_tolnum), shoppingStarBean.getPublish_time()));

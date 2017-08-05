@@ -159,13 +159,11 @@ public class FleaMarketActivity extends BaseActivity {
                 50, new OnAPIListener<StarDanMuNewInfo>() {
                     @Override
                     public void onError(Throwable ex) {
-
                         LogUtils.loge("弹幕错误码" + ex.toString());
                     }
 
                     @Override
                     public void onSuccess(StarDanMuNewInfo danMaKuInfo) {
-                        LogUtils.loge("弹幕错误码" + danMaKuInfo.toString());
                         if (danMaKuInfo!=null&&danMaKuInfo.getPositionsList()!=null&&danMaKuInfo.getPositionsList().size()!=0){
                             listDanMaKu = danMaKuInfo.getPositionsList();
                             myHandler.sendEmptyMessage(myHandler.GRT_DATA);

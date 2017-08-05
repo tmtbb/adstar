@@ -91,6 +91,11 @@ public class HoldingStarTimeFragment extends BaseFragment {
                 LogUtils.logd("预约明星列表错误----------");
                 if (lrv != null) {
                     lrv.setNoMore(true);
+                    if (!isLoadMore) {
+                        list.clear();
+                        mDataAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                    }
                 }
             }
 
@@ -99,7 +104,13 @@ public class HoldingStarTimeFragment extends BaseFragment {
                 LogUtils.logd("预约明星列表成功----------");
 
                 if (bookingStarList == null || bookingStarList.size() == 0) {
-                    lrv.setNoMore(false);
+                    if (!isLoadMore) {
+                        list.clear();
+                        mDataAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                    }else {
+                        lrv.setNoMore(true);
+                    }
                     return;
                 }
                 if (isLoadMore) {

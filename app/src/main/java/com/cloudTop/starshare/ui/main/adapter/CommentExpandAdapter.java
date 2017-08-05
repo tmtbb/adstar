@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cloudTop.starshare.utils.ToastUtils;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.session.SessionCustomization;
@@ -100,8 +101,12 @@ public class CommentExpandAdapter extends ExpandableRecyclerAdapter<BookingStarL
 //                        String starname = ;
                             BookingStarListBean bean1 = visibleItems.get(position - 1);
                             LogUtils.loge("与TA聊天:" + bean1.getStarname());
-                            SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
-                            P2PMessageActivity.start(mContext, bean1.getFaccid(), bean1.getStarcode(), bean1.getStarname(), customization, null);
+                            if (bean1.getOwnseconds()==0){
+                                ToastUtils.showShort("您持有的时间不足，请购买该明星的时间");
+                            }else {
+                                SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
+                                P2PMessageActivity.start(mContext, bean1.getFaccid(), bean1.getStarcode(), bean1.getStarname(), customization, null);
+                            }
                         } else if (bean.getTypeTitle().equals("与TA约见")) {
                             BookingStarListBean bean2 = visibleItems.get(position - 2);
                             String pic_url = "";

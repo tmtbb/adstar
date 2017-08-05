@@ -10,23 +10,25 @@ import android.widget.Button;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.app.Constant;
 import com.cloudTop.starshare.base.BaseActivity;
+import com.cloudTop.starshare.been.RegisterReturnBeen;
 import com.cloudTop.starshare.been.RegisterVerifyCodeBeen;
 import com.cloudTop.starshare.been.RequestResultBean;
 import com.cloudTop.starshare.helper.CheckHelper;
 import com.cloudTop.starshare.listener.OnAPIListener;
+import com.cloudTop.starshare.networkapi.NetworkAPIException;
 import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
 import com.cloudTop.starshare.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
 import com.cloudTop.starshare.utils.CountUtil;
 import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.MD5Util;
+import com.cloudTop.starshare.utils.SharePrefUtil;
 import com.cloudTop.starshare.utils.ToastUtils;
-import com.cloudTop.starshare.widget.NormalTitleBar;
-import com.cloudTop.starshare.R;
-import com.cloudTop.starshare.been.RegisterReturnBeen;
-import com.cloudTop.starshare.networkapi.NetworkAPIException;
 import com.cloudTop.starshare.widget.CheckException;
+import com.cloudTop.starshare.widget.ClearEditText;
+import com.cloudTop.starshare.widget.NormalTitleBar;
 import com.cloudTop.starshare.widget.WPEditText;
 
 import butterknife.Bind;
@@ -109,6 +111,9 @@ public class ResetPayPwdActivity extends BaseActivity {
             } else if (resetPwd != null && resetPwd.equals(Constant.USER_PWD)) {  //重置用户密码
 
             }
+            phoneEditText.getEditText().setText(SharePrefUtil.getInstance().getLoginPhone());
+            phoneEditText.getEditText().setEnabled(false);
+            ((ClearEditText)phoneEditText.getEditText()).isSowClearIcon=false;
         }
         nt_title.setTitleText(title);
     }

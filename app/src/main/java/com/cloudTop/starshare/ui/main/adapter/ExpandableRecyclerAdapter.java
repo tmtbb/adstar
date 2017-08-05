@@ -288,4 +288,9 @@ public abstract class ExpandableRecyclerAdapter<T extends ExpandableRecyclerAdap
     public void setMode(int mode) {
         this.mode = mode;
     }
+    public void clear() {
+        allItems.clear();
+        visibleItems.clear();
+        notifyDataSetChanged();
+    }
 }

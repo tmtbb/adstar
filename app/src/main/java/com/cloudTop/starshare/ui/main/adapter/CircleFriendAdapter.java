@@ -1,28 +1,32 @@
 package com.cloudTop.starshare.ui.main.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
 
+import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.app.CommentConfig;
+import com.cloudTop.starshare.base.BaseRecycleViewAdapter;
+import com.cloudTop.starshare.been.ActionItem;
 import com.cloudTop.starshare.been.CircleFriendBean;
 import com.cloudTop.starshare.helper.CircleViewHolder;
 import com.cloudTop.starshare.ui.main.activity.StarInfoActivity;
-import com.cloudTop.starshare.utils.ToastUtils;
-import com.cloudTop.starshare.widget.CommentListView;
-import com.cloudTop.starshare.widget.emoji.MoonUtils;
-import com.cloudTop.starshare.R;
-import com.cloudTop.starshare.base.BaseRecycleViewAdapter;
-import com.cloudTop.starshare.been.ActionItem;
 import com.cloudTop.starshare.ui.main.presenter.CirclePresenter;
 import com.cloudTop.starshare.utils.ImageLoaderUtils;
 import com.cloudTop.starshare.utils.SharePrefUtil;
 import com.cloudTop.starshare.utils.TimeUtil;
+import com.cloudTop.starshare.utils.ToastUtils;
+import com.cloudTop.starshare.widget.CommentListView;
 import com.cloudTop.starshare.widget.PraiseListView;
 import com.cloudTop.starshare.widget.SnsPopupWindow;
+import com.cloudTop.starshare.widget.ZoomImageView;
+import com.cloudTop.starshare.widget.emoji.MoonUtils;
 
 import java.util.List;
 
@@ -31,14 +35,17 @@ import java.util.List;
  */
 
 public class CircleFriendAdapter extends BaseRecycleViewAdapter{
+    private final View view;
     private Context context;
     private CirclePresenter presenter;
+
     public void setCirclePresenter(CirclePresenter presenter){
         this.presenter = presenter;
     }
 
-    public CircleFriendAdapter(Context context) {
+    public CircleFriendAdapter(Context context,View view) {
         this.context = context;
+        this.view = view;
     }
 
 
@@ -63,6 +70,12 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
             circleViewHolder.img_back.setVisibility(View.GONE);
         }else {
             ImageLoaderUtils.displaySmallPhoto(context,circleViewHolder.img_back,circleItem.getPic_url());
+            circleViewHolder.img_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showPopupWindow(circleItem.getPic_url());
+                }
+            });
         }
         if(!TextUtils.isEmpty(content)){
             circleViewHolder.contentTv.setText(content);
@@ -195,4 +208,25 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
             }
         }
     }
+
+    private void showPopupWindow(String prc_url) {
+        View popView = LayoutInflater.from(context).inflate(R.layout.popwindow_imegview, null);
+        ZoomImageView zoomImageView = (ZoomImageView) popView.findViewById(R.id.zoomimage);
+        final PopupWindow popupWindow = new PopupWindow(context);
+        popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setContentView(popView);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        popupWindow.setOutsideTouchable(false);
+        popupWindow.setFocusable(true);
+        ImageLoaderUtils.displayWithDefaultImg(context, zoomImageView, prc_url, R.drawable.rec_bg);
+        zoomImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+    }
+
 }

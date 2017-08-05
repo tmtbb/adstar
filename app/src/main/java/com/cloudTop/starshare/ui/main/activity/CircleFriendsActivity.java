@@ -27,6 +27,7 @@ import com.cloudTop.starshare.ui.main.presenter.CirclePresenter;
 import com.cloudTop.starshare.ui.view.ShareControlerView;
 import com.cloudTop.starshare.utils.KeyBordUtil;
 import com.cloudTop.starshare.utils.LogUtils;
+import com.cloudTop.starshare.utils.SharePrefUtil;
 import com.cloudTop.starshare.utils.ToastUtils;
 import com.cloudTop.starshare.widget.NormalTitleBar;
 import com.cloudTop.starshare.widget.emoji.EmotionLayout;
@@ -146,7 +147,7 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
     }
 
     private void initAdapter() {
-        circleFriendAdapter = new CircleFriendAdapter(this);
+        circleFriendAdapter = new CircleFriendAdapter(this,rootView);
         lRecyclerViewAdapter = new LRecyclerViewAdapter(circleFriendAdapter);
         circleFriendAdapter.setCirclePresenter(presenter);
         lrv.setAdapter(lRecyclerViewAdapter);
@@ -541,7 +542,7 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
 
     private void share() {
         ShareControlerView controlerView = new ShareControlerView(this, mContext, umShareListener);
-        String webUrl = "http://www.zhongyuliying.com/";
+        String webUrl = "http://www.zhongyuliying.com/"+"?uid="+ SharePrefUtil.getInstance().getUserId();
         String title = starName+" 正在星享时光出售TA的时间";
         String text = "文本";
         controlerView.setText(text);

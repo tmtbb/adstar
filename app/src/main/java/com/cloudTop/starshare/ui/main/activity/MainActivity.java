@@ -391,9 +391,9 @@ public class MainActivity extends BaseActivity {
                 tabLayout.setCurrentTab(0);
                 break;
             case -11:
-                if (eventBusMessage.getCheckUpdateInfoEntity().getIsForceUpdate() == 0) {
+                if (eventBusMessage.getCheckUpdateInfoEntity().getIsForceUpdate() == 0) {//强制更新
                     forceUpdateDialog(eventBusMessage.getCheckUpdateInfoEntity());
-                } else {  //非强制更新
+                } else if (eventBusMessage.getCheckUpdateInfoEntity().getIsForceUpdate() == 1){  //非强制更新
                     updateDialog(eventBusMessage.getCheckUpdateInfoEntity());
                 }
                 break;

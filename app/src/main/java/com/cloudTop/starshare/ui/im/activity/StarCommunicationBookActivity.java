@@ -6,7 +6,9 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.base.BaseActivity;
+import com.cloudTop.starshare.been.StarMailListBeen;
 import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
 import com.cloudTop.starshare.ui.im.adapter.BookStarComAdapter;
@@ -21,15 +23,13 @@ import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.netease.nim.uikit.NimUIKit;
-import com.netease.nim.uikit.common.ui.drop.DropFake;
 import com.netease.nim.uikit.session.SessionCustomization;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.Observer;
+import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
-import com.cloudTop.starshare.R;
-import com.cloudTop.starshare.been.StarMailListBeen;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +38,7 @@ import butterknife.Bind;
 
 /**
  * Created by Administrator on 2017/5/10.
+ * 名人通讯录
  */
 
 public class StarCommunicationBookActivity extends BaseActivity {
@@ -47,8 +48,8 @@ public class StarCommunicationBookActivity extends BaseActivity {
     TextView tv_back;
     @Bind(R.id.tv_title)
     TextView tv_title;
-    @Bind(R.id.tab_new_msg_label)
-    DropFake tab_new_msg_label;
+    //@Bind(R.id.tab_new_msg_label)
+    //DropFake tab_new_msg_label;
     @Bind(R.id.parent_view)
     FrameLayout parentView;
 
@@ -59,6 +60,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
     private ArrayList<StarMailListBeen.DepositsinfoBean> loadList = new ArrayList<>();
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private BookStarComAdapter starCommBookAdapter;
+    private List<RecentContact> contacts = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -74,9 +76,10 @@ public class StarCommunicationBookActivity extends BaseActivity {
     public void initView() {
         tv_title.setText(R.string.famous_address_book);
         initAdapter();
+        //getMeetList();
         getData(false, 1, REQUEST_COUNT);
         initListener();
-        checkunReadMsg();
+        //checkunReadMsg();
     }
 
     private void initListener() {
@@ -89,9 +92,13 @@ public class StarCommunicationBookActivity extends BaseActivity {
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
-                SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
-                P2PMessageActivity.start(StarCommunicationBookActivity.this, list.get(position).getFaccid(), list.get(position).getStarcode(),list.get(position).getStarname(), customization, null);
+                StarMailListBeen.DepositsinfoBean bean = list.get(position);
+                if (bean.getOwnseconds()==0){
+                    ToastUtils.showShort("您持有的时间不足，请购买该明星的时间");
+                }else {
+                    SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
+                    P2PMessageActivity.start(StarCommunicationBookActivity.this, bean.getFaccid(), bean.getStarcode(), bean.getStarname(), customization, null);
+                }
                 //SessionHelper.startP2PSession(StarCommunicationBookActivity.this,list.get(position).getFaccid());
             }
         });
@@ -143,8 +150,14 @@ public class StarCommunicationBookActivity extends BaseActivity {
             @Override
             public void onSuccess(StarMailListBeen starMailListBeen) {
                 LogUtils.loge(starMailListBeen.toString());
-                if (starMailListBeen.getDepositsinfo() == null) {
-                    lrv.setNoMore(true);
+                if (starMailListBeen== null||starMailListBeen.getDepositsinfo() == null || starMailListBeen.getDepositsinfo().size() == 0) {
+                    if (!isLoadMore) {
+                        list.clear();
+                        starCommBookAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                    }else {
+                        lrv.setNoMore(true);
+                    }
                     return;
                 }
                 if (isLoadMore) {
@@ -188,18 +201,18 @@ public class StarCommunicationBookActivity extends BaseActivity {
     }
 
     private void checkunReadMsg() {
-        //网易云模块可能需要检测下登录
-        int unreadNum = NIMClient.getService(MsgService.class).getTotalUnreadCount();
-        if (unreadNum > 0) {
-            tab_new_msg_label.setVisibility(View.VISIBLE);
-            if (unreadNum > 99) {
-                tab_new_msg_label.setText("99+");
-            } else {
-                tab_new_msg_label.setText(String.valueOf(unreadNum));
-            }
-        } else {
-            tab_new_msg_label.setVisibility(View.GONE);
-        }
+//        //网易云模块可能需要检测下登录
+//        int unreadNum = NIMClient.getService(MsgService.class).getTotalUnreadCount();
+//        if (unreadNum > 0) {
+//            tab_new_msg_label.setVisibility(View.VISIBLE);
+//            if (unreadNum > 99) {
+//                tab_new_msg_label.setText("99+");
+//            } else {
+//                tab_new_msg_label.setText(String.valueOf(unreadNum));
+//            }
+//        } else {
+//            tab_new_msg_label.setVisibility(View.GONE);
+//        }
     }
 
     @Override
@@ -219,7 +232,13 @@ public class StarCommunicationBookActivity extends BaseActivity {
     Observer<List<RecentContact>> messageObserver = new Observer<List<RecentContact>>() {
         @Override
         public void onEvent(List<RecentContact> recentContacts) {
-            checkunReadMsg();
+            if (recentContacts!=null&&recentContacts.size()!=0){
+                contacts = recentContacts;
+                starCommBookAdapter.addRecentContactList(contacts);
+                showData();
+            }
+            //checkunReadMsg();
+            LogUtils.loge("contactList1"+recentContacts.size());
         }
     };
 
@@ -233,5 +252,29 @@ public class StarCommunicationBookActivity extends BaseActivity {
     public void clickImg() {
         super.clickImg();
         ToastUtils.showShort("点击了错误图片!");
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getMeetList();
+    }
+
+    private void getMeetList() {
+        NIMClient.getService(MsgService.class).queryRecentContacts()
+                .setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
+                    @Override
+                    public void onResult(int code, List<RecentContact> recents, Throwable e) {
+                        contacts = recents;
+                        for (RecentContact contact : contacts) {
+                            LogUtils.loge("contact_id:"+contact.getContactId());
+                            LogUtils.loge("contact_unread:"+contact.getUnreadCount());
+                        }
+                        starCommBookAdapter.addRecentContactList(contacts);
+                        showData();
+                        LogUtils.loge("contactList2"+recents.size());
+                    }
+                });
     }
 }

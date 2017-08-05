@@ -19,6 +19,7 @@ import com.cloudTop.starshare.been.AssetDetailsBean;
 import com.cloudTop.starshare.been.BankCardBean;
 import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.utils.LogUtils;
+import com.cloudTop.starshare.utils.ToastUtils;
 import com.cloudTop.starshare.widget.NormalTitleBar;
 import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
@@ -142,12 +143,13 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
                 }
                 break;
             case R.id.ll_user_cash:
-                String cardNo = SharePrefUtil.getInstance().getCardNo();
-                if (TextUtils.isEmpty(cardNo)) {
-                    showBindBankDialog();
-                } else {
-                    startActivity(CashActivity.class);
-                }
+                ToastUtils.showShort("敬请期待");
+//                String cardNo = SharePrefUtil.getInstance().getCardNo();
+//                if (TextUtils.isEmpty(cardNo)) {
+//                    showBindBankDialog();
+//                } else {
+//                    startActivity(CashActivity.class);
+//                }
                 break;
         }
     }
@@ -203,7 +205,7 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
         NetworkAPIFactoryImpl.getDealAPI().balance(new OnAPIListener<AssetDetailsBean>() {
             @Override
             public void onSuccess(AssetDetailsBean bean) {
-                starMoney.setText(String.format("%.3f",bean.getBalance()));
+                starMoney.setText(String.format("%.2f",bean.getBalance()));
                 //holdMoney.setText(bean.getBalance() + "");
                 //userMoney.setText(bean.getBalance() + "");
                 if (bean.getIs_setpwd() != -100) {

@@ -6,16 +6,17 @@ import com.cloudTop.starshare.been.AssetDetailsBean;
 import com.cloudTop.starshare.been.BankCardBean;
 import com.cloudTop.starshare.been.BankInfoBean;
 import com.cloudTop.starshare.been.BookingStarListBean;
+import com.cloudTop.starshare.been.IdentityInfoBean;
 import com.cloudTop.starshare.been.MeetStarStatusBean;
 import com.cloudTop.starshare.been.MoneyDetailListBean;
 import com.cloudTop.starshare.been.RequestResultBean;
 import com.cloudTop.starshare.been.ResultCodeBeen;
-import com.cloudTop.starshare.been.WithDrawCashHistoryBean;
-import com.cloudTop.starshare.listener.OnAPIListener;
-import com.cloudTop.starshare.been.IdentityInfoBean;
+import com.cloudTop.starshare.been.ReturnAmountBean;
 import com.cloudTop.starshare.been.StatServiceListBean;
 import com.cloudTop.starshare.been.WXPayReturnEntity;
+import com.cloudTop.starshare.been.WithDrawCashHistoryBean;
 import com.cloudTop.starshare.been.WithDrawCashReturnBean;
+import com.cloudTop.starshare.listener.OnAPIListener;
 
 import java.util.List;
 
@@ -120,4 +121,5 @@ public interface DealAPI {
     void cashOut(double price, String withdrawPwd, OnAPIListener<WithDrawCashReturnBean> listener);
 
     void meetStatus(int pos, int count, OnAPIListener<MeetStarStatusBean> listener);
+    void getReturnAmount(long uid,OnAPIListener<ReturnAmountBean> listener);
 }

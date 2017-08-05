@@ -101,11 +101,11 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
             , R.drawable.bg_6, R.drawable.bg_7, R.drawable.bg_8, R.drawable.bg_9, R.drawable.bg_10
             , R.drawable.bg_11
     };
-    private String starTypeInfo[] = {"网红", "娱乐明星", "体育明星", "艺人", "海外知名人士", "测试"};
     private StarListReturnBean.SymbolInfoBean symbolInfoBean;
     private TextView tv_time;
     private ImageView qiu;
     private TextView tv_price;
+    private TextView tv_info;
 
     @Override
     public int getLayoutId() {
@@ -126,7 +126,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
         setSize();
         getNowPrice();
     }
-
+    //private boolean isFirest = true ;
     private void getNowPrice() {
         NetworkAPIFactoryImpl.getInformationAPI().getNowPrice(SharePrefUtil.getInstance().getUserId(), SharePrefUtil.getInstance().getToken(), symbolInfoBean.getSymbol(), 5, new OnAPIListener<NowPriceBean>() {
             @Override
@@ -137,6 +137,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
             @Override
             public void onSuccess(NowPriceBean nowPriceBean) {
                 tv_price.setText(String.format("%.2f", nowPriceBean.getCurrentPrice()));
+                tv_info.setText(nowPriceBean.getWork());
                 LogUtils.loge("实时报价接口。。" + nowPriceBean.toString());
             }
         });
@@ -175,12 +176,11 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
         tv_right.setText(getString(R.string.flea_market));
         ImageView img_head = (ImageView) findViewById(R.id.img_head);
         TextView tv_name = (TextView) findViewById(R.id.tv_name);
-        TextView tv_info = (TextView) findViewById(R.id.tv_info);
+        tv_info = (TextView) findViewById(R.id.tv_info);
         tv_price = (TextView) findViewById(tv_preice);
         tv_time = (TextView) findViewById(R.id.tv_time);
         ImageLoaderUtils.displaySmallPhoto(mContext, img_head, symbolInfoBean.getPic());
         tv_name.setText(symbolInfoBean.getName());
-        tv_info.setText(starTypeInfo[symbolInfoBean.getStar_type()]);
         RelativeLayout rl_bg = (RelativeLayout) findViewById(R.id.rl_bg);
         int i = new Random().nextInt(11);
         rl_bg.setBackgroundResource(random_bg[i]);

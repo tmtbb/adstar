@@ -1,50 +1,51 @@
 package com.cloudTop.starshare.networkapi.socketapi;
 
 
+import com.cloudTop.starshare.app.SocketAPIConstant;
+import com.cloudTop.starshare.base.SearchReturnbeen;
+import com.cloudTop.starshare.been.AdvBeen;
 import com.cloudTop.starshare.been.AskToBuyReturnBeen;
 import com.cloudTop.starshare.been.BuyShellReutrnBeen;
 import com.cloudTop.starshare.been.CircleFriendBean;
 import com.cloudTop.starshare.been.CommentMarketBeen;
+import com.cloudTop.starshare.been.DanMaKuInfo;
+import com.cloudTop.starshare.been.EntrustReturnBeen;
+import com.cloudTop.starshare.been.ExpendLineBean;
+import com.cloudTop.starshare.been.FansEntrustReturnBean;
 import com.cloudTop.starshare.been.FansHotBuyReturnBeen;
 import com.cloudTop.starshare.been.FansTopListBeen;
 import com.cloudTop.starshare.been.HaveStarTimeBeen;
 import com.cloudTop.starshare.been.HomePageInfoBean;
 import com.cloudTop.starshare.been.MarketTypeBeen;
 import com.cloudTop.starshare.been.NowPriceBean;
+import com.cloudTop.starshare.been.OptionsStarListBeen;
 import com.cloudTop.starshare.been.OrderCancelReturnBeen;
 import com.cloudTop.starshare.been.OrderReturnBeen;
 import com.cloudTop.starshare.been.RefreshStarTimeBean;
 import com.cloudTop.starshare.been.ResultBeen;
 import com.cloudTop.starshare.been.ShoppingStarBean;
+import com.cloudTop.starshare.been.SrealSendBeen;
 import com.cloudTop.starshare.been.SrealSendReturnBeen;
+import com.cloudTop.starshare.been.StarBuyActReferralInfo;
 import com.cloudTop.starshare.been.StarDanMuNewInfo;
+import com.cloudTop.starshare.been.StarDetailInfoBean;
 import com.cloudTop.starshare.been.StarExperienceBeen;
 import com.cloudTop.starshare.been.StarInfoReturnBean;
+import com.cloudTop.starshare.been.StarListReturnBean;
 import com.cloudTop.starshare.been.StarListbeen;
+import com.cloudTop.starshare.been.StarMailListBeen;
+import com.cloudTop.starshare.been.StarStarAchBeen;
 import com.cloudTop.starshare.been.StartShellTimeBeen;
 import com.cloudTop.starshare.been.SureOrder;
+import com.cloudTop.starshare.been.TimeLineBeen;
 import com.cloudTop.starshare.been.TodayDealReturnBean;
+import com.cloudTop.starshare.been.TodayEntrustReturnBean;
 import com.cloudTop.starshare.been.TradingStatusBeen;
 import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.InformationAPI;
-import com.cloudTop.starshare.utils.LogUtils;
-import com.cloudTop.starshare.app.SocketAPIConstant;
-import com.cloudTop.starshare.base.SearchReturnbeen;
-import com.cloudTop.starshare.been.AdvBeen;
-import com.cloudTop.starshare.been.DanMaKuInfo;
-import com.cloudTop.starshare.been.EntrustReturnBeen;
-import com.cloudTop.starshare.been.FansEntrustReturnBean;
-import com.cloudTop.starshare.been.OptionsStarListBeen;
-import com.cloudTop.starshare.been.SrealSendBeen;
-import com.cloudTop.starshare.been.StarBuyActReferralInfo;
-import com.cloudTop.starshare.been.StarDetailInfoBean;
-import com.cloudTop.starshare.been.StarListReturnBean;
-import com.cloudTop.starshare.been.StarMailListBeen;
-import com.cloudTop.starshare.been.StarStarAchBeen;
-import com.cloudTop.starshare.been.TimeLineBeen;
-import com.cloudTop.starshare.been.TodayEntrustReturnBean;
 import com.cloudTop.starshare.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.cloudTop.starshare.ui.main.model.NewsInforModel;
+import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.SharePrefUtil;
 
 import org.json.JSONArray;
@@ -214,14 +215,14 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
-    public void reduceTime(String phone,String starcode,long deduct_amount, OnAPIListener<Object> listener) {
+    public void reduceTime(String phone,String starcode,long deduct_amount, OnAPIListener<ResultBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("phone", phone);
         map.put("starcode", starcode);
         map.put("deduct_amount", deduct_amount);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.ReduceTime,
                 SocketAPIConstant.ReqeutType.Wangyi, map);
-        requestJsonObject(socketDataPacket, listener);
+        requestEntity(socketDataPacket,ResultBeen.class, listener);
     }
 
     @Override
@@ -630,6 +631,15 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.getNowPricce,
                 SocketAPIConstant.ReqeutType.Time, map);
         requestEntity(socketDataPacket,NowPriceBean.class,listener);
+    }
+
+    @Override
+    public void getExpendLine(String param_code, OnAPIListener<ExpendLineBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("param_code", param_code);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.getExpendLine,
+                SocketAPIConstant.ReqeutType.NewInfos, map);
+        requestEntity(socketDataPacket,ExpendLineBean.class,listener);
     }
 
 }

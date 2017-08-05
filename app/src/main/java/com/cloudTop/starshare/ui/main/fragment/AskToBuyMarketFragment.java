@@ -212,8 +212,9 @@ public class AskToBuyMarketFragment extends BaseFragment {
 
     private void initListener() {
         tv_total.postDelayed(runnable, 100);
-        but_buy_price.setBuyMin(0.01)
-                .setContext(getActivity())
+        but_buy_price.setContext(getActivity())
+                .setBuyMin(0.01)
+                .setCurrentNumber(0.01)
                 .setOnWarnListener(new NumberBoubleButton.OnWarnListener() {
                     @Override
                     public void onWarningForInventory(double inventory) {
@@ -230,7 +231,6 @@ public class AskToBuyMarketFragment extends BaseFragment {
                         tv_content_limit.setText("求购价格不能低于" + min);
                     }
                 });
-
         but_buy_num.setContext(getActivity())
                 .setCurrentNumber(600)
                 .setBuyMin(1)
@@ -354,6 +354,9 @@ public class AskToBuyMarketFragment extends BaseFragment {
     public void setUserVisibleHint(boolean isVisibleToUser) {
         LogUtils.loge("setUserVisibleHint>>");
         if (isVisibleToUser) {
+            if (but_buy_price!=null){
+                but_buy_price.setCurrentNumber(0.01);
+            }
             startRefresh();
         } else {
             stopRefresh();

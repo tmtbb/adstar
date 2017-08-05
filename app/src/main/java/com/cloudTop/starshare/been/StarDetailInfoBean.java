@@ -43,7 +43,16 @@ public class StarDetailInfoBean {
         private String portray4;
         private String star_code;
         private String star_name;
+        private String work;
         private int star_tpye;
+
+        public String getWork() {
+            return work;
+        }
+
+        public void setWork(String work) {
+            this.work = work;
+        }
 
         public long getAcc_id() {
             return acc_id;

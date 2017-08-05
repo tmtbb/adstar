@@ -187,6 +187,7 @@ public class TransferMarketFragment extends BaseFragment {
         double b = (double) (Math.round(priceinfoBean.getCurrentPrice() * 100)) / 100;
         if (isFirst) {
             but_buy_price.setCurrentNumber(b);
+            LogUtils.loge("b....."+b);
             isFirst = false;
         }
     }
@@ -201,6 +202,7 @@ public class TransferMarketFragment extends BaseFragment {
     private void initListener() {
         tv_total.postDelayed(runnable, 100);
         but_buy_price.setBuyMin(0.01)
+                .setCurrentNumber(0.01)
                 .setContext(getActivity())
                 .setOnWarnListener(new NumberBoubleButton.OnWarnListener() {
                     @Override
@@ -339,8 +341,11 @@ public class TransferMarketFragment extends BaseFragment {
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        LogUtils.loge("setUserVisibleHint>>");
+        LogUtils.loge("setUserVisibleHint>>"+isVisibleToUser+"..."+isVisible());
         if (isVisibleToUser) {
+            if (but_buy_price!=null){
+                but_buy_price.setCurrentNumber(0.01);
+            }
             startRefresh();
         } else {
             stopRefresh();
@@ -351,7 +356,7 @@ public class TransferMarketFragment extends BaseFragment {
     @Override
     public void onResume() {
         setUserVisibleHint(getUserVisibleHint());
-        LogUtils.loge("刷新实时报价2onResume");
+        LogUtils.loge("刷新实时报价2onResume"+"..."+isVisible());
         super.onResume();
     }
 

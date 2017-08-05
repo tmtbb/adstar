@@ -78,12 +78,15 @@ public class ClearEditText extends android.support.v7.widget.AppCompatEditText i
 
         return super.onTouchEvent(event);
     }
-
+    public boolean isSowClearIcon = true;
     /**
      * 当ClearEditText焦点发生变化的时候，判断里面字符串长度设置清除图标的显示与隐藏
      */
     @Override
     public void onFocusChange(View v, boolean hasFocus) {
+        if (!isSowClearIcon){
+            return;
+        }
         this.hasFoucs = hasFocus;
         if (hasFocus) {
             setClearIconVisible(getText().length() > 0);
@@ -98,7 +101,7 @@ public class ClearEditText extends android.support.v7.widget.AppCompatEditText i
      *
      * @param visible
      */
-    protected void setClearIconVisible(boolean visible) {
+    public void setClearIconVisible(boolean visible) {
         Drawable right = visible ? mClearDrawable : null;
         setCompoundDrawables(getCompoundDrawables()[0],
                 getCompoundDrawables()[1], right, getCompoundDrawables()[3]);

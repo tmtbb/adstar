@@ -64,7 +64,7 @@ import static com.cloudTop.starshare.R.id.tv_content;
 
 /**
  * Created by Administrator on 2017/6/13.
- * 粉丝见面会
+ * 约见名人
  */
 
 public class MeetStarActivity extends BaseActivity {
@@ -118,6 +118,7 @@ public class MeetStarActivity extends BaseActivity {
     private String price = "";
     private TextView order_total;
     private String userComment;
+    private StatServiceListBean.ListBean listBean;
 
     @Override
     public int getLayoutId() {
@@ -176,8 +177,11 @@ public class MeetStarActivity extends BaseActivity {
                     if (typeList.size() == 0) {
                         return;
                     }
-                    textView4.setText(typeList.get(0).getMeet_city());
-                    if (null==typeList.get(0).getStartdate()||"0".equals(typeList.get(0).getStartdate())||typeList.get(0).getStartdate().length()==1||typeList.get(0).getStartdate().length()==0){
+                    listBean = typeList.get(0);
+                    textView4.setText(listBean.getMeet_city());
+                    //0000-00-00
+                    if (null== listBean.getStartdate()||"0".equals(listBean.getStartdate())||
+                            listBean.getStartdate().length()==1||listBean.getStartdate().length()==0||"0000-00-00".equals(listBean.getStartdate())){
                         isCanChoose = false;
                         String nextDay = TimeUtil.getNextDay(30);
                         LogUtil.e("获取当前时间" + nextDay);
@@ -186,11 +190,12 @@ public class MeetStarActivity extends BaseActivity {
                         current_end_day = Integer.valueOf(nextDay.substring(8, 10));
                     }else {
                         isCanChoose = true;
-                        current_end_year = Integer.valueOf(typeList.get(0).getStartdate().substring(0, 4));
-                        current_end_month = Integer.valueOf(typeList.get(0).getStartdate().substring(5, 7));
-                        current_end_day = Integer.valueOf(typeList.get(0).getStartdate().substring(8, 10));
+                        current_end_year = Integer.valueOf(listBean.getStartdate().substring(0, 4));
+                        current_end_month = Integer.valueOf(listBean.getStartdate().substring(5, 7));
+                        current_end_day = Integer.valueOf(listBean.getStartdate().substring(8, 10));
                     }
-                    if (null==typeList.get(0).getEnddate()||"0".equals(typeList.get(0).getEnddate())||typeList.get(0).getEnddate().length()==1||typeList.get(0).getEnddate().length()==0){
+                    if (null==listBean.getEnddate()||"0".equals(listBean.getEnddate())||listBean.getEnddate().length()==1
+                            ||listBean.getEnddate().length()==0||"0000-00-00".equals(listBean.getEnddate())){
                         isCanChoose = false;
                         String nextDay = TimeUtil.getNextDay(60);
                         LogUtil.e("获取当前时间" + nextDay);
@@ -199,9 +204,9 @@ public class MeetStarActivity extends BaseActivity {
                         end_end_day = Integer.valueOf(nextDay.substring(8, 10));
                     }else {
                         isCanChoose = true;
-                        end_end_year = Integer.valueOf(typeList.get(0).getEnddate().substring(0, 4));
-                        end_end_month = Integer.valueOf(typeList.get(0).getEnddate().substring(5, 7));
-                        end_end_day = Integer.valueOf(typeList.get(0).getEnddate().substring(8, 10));
+                        end_end_year = Integer.valueOf(listBean.getEnddate().substring(0, 4));
+                        end_end_month = Integer.valueOf(listBean.getEnddate().substring(5, 7));
+                        end_end_day = Integer.valueOf(listBean.getEnddate().substring(8, 10));
                     }
                     textView9.setText(current_end_year + "-" + current_end_month + "-" + current_end_day+" — "+end_end_year+"-"+end_end_month+"-"+end_end_day);
                     getMeetType();
@@ -226,9 +231,11 @@ public class MeetStarActivity extends BaseActivity {
             List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(code);
             if (starInfos != null && starInfos.size() != 0) {
                 StarInfo starInfo = starInfos.get(0);
+                LogUtils.loge("starInfo.getPic1()"+starInfo.getPic1());
                 ImageLoaderUtils.displayWithDefaultImg(mContext, starBg, starInfo.getPic1(),R.drawable.rec_bg);
             }
         }else {
+            LogUtils.loge("starInfo.getPic1()-back_url"+back_url);
             ImageLoaderUtils.displayWithDefaultImg(mContext, starBg, back_url,R.drawable.rec_bg);
         }
 
@@ -382,7 +389,7 @@ public class MeetStarActivity extends BaseActivity {
                 View childAt = gridView.getChildAt(selectPosition);
                 TextView textView = (TextView) childAt.findViewById(tv_content);
                 ImageView img_select = (ImageView) childAt.findViewById(imagview);
-                ImageLoaderUtils.displaySmallPhoto(MeetStarActivity.this,img_select,lists.get(selectPager).get(selectPosition).getUrl2());
+                ImageLoaderUtils.displaySmallPhotoRound(MeetStarActivity.this,img_select,lists.get(selectPager).get(selectPosition).getUrl2());
                 textView.setTextColor(mContext.getResources().getColor(R.color.color_BDC6B8));
             }
             selectPager = view_pager.getCurrentItem();
@@ -390,7 +397,7 @@ public class MeetStarActivity extends BaseActivity {
             LogUtils.loge("当前的position:" + selectPosition);
             TextView textView = (TextView) view.findViewById(tv_content);
             ImageView img_selects = (ImageView) view.findViewById(imagview);
-            ImageLoaderUtils.displaySmallPhoto(MeetStarActivity.this,img_selects,lists.get(selectPager).get(selectPosition).getUrl1());
+            ImageLoaderUtils.displaySmallPhotoRound(MeetStarActivity.this,img_selects,lists.get(selectPager).get(selectPosition).getUrl1());
             textView.setTextColor(mContext.getResources().getColor(R.color.color_CB4232));
             price = lists.get(selectPager).get(selectPosition).getPrice();
             orderPrice.setText(String.format(getString(R.string.num_time_text), price));

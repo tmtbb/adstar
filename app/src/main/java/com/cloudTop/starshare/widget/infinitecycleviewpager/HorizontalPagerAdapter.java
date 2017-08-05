@@ -70,12 +70,14 @@ public class HorizontalPagerAdapter extends PagerAdapter {
                     case 0:
                         Intent intent1 = new Intent(mContext,StarSellActivity.class);
                         intent1.putExtra(AppConstant.STAR_CODE, infoBean.getSymbol());
+                        intent1.putExtra(AppConstant.AUCTION_TYPE, infoBean.getWork());
                         intent1.putExtra(AppConstant.PUBLISH_TYPE, infoBean.getPushlish_type());
                         mContext.startActivity(intent1);
                         break;
                     case 1:
                         Intent intent2 = new Intent(mContext,StarSellActivity.class);
                         intent2.putExtra(AppConstant.STAR_CODE, infoBean.getSymbol());
+                        intent2.putExtra(AppConstant.AUCTION_TYPE, infoBean.getWork());
                         intent2.putExtra(AppConstant.PUBLISH_TYPE, infoBean.getPushlish_type());
                         mContext.startActivity(intent2);
                         break;

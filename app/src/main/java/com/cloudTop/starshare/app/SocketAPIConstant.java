@@ -83,6 +83,7 @@ public interface SocketAPIConstant {
         Short AskToBuy = 5001;
         Short IsRegister = 3029;
         Short NikeName = 3031;
+        Short getReturnMoney = 3037;
         Short StartCount = 10023;
         Short StarType = 10019;
         Short StarMeet = 10021;
@@ -124,8 +125,6 @@ public interface SocketAPIConstant {
         Short getDanMuInfoAll = 6023;
         Short getWeituo = 6025;
         Short getNowPricce = 4011;
-
-
-
+        Short getExpendLine = 10033;
     }
 }

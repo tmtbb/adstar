@@ -26,8 +26,10 @@ import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.base.BaseFragment;
 import com.cloudTop.starshare.been.AssetDetailsBean;
 import com.cloudTop.starshare.been.EventBusMessage;
+import com.cloudTop.starshare.been.ExpendLineBean;
 import com.cloudTop.starshare.been.IdentityInfoBean;
 import com.cloudTop.starshare.been.RegisterReturnBeen;
+import com.cloudTop.starshare.been.ReturnAmountBean;
 import com.cloudTop.starshare.been.StarInfoReturnBean;
 import com.cloudTop.starshare.greendao.GreenDaoManager;
 import com.cloudTop.starshare.listener.OnAPIListener;
@@ -111,7 +113,10 @@ public class UserInfoFragment extends BaseFragment {
     View redTalkTip;
     private boolean flag = true;
     private TextView version;
+    private TextView tv_acc_num;
     private Bitmap bitmap;
+    private String expendLine = "";
+    TextView tv_success_num;
 
 
     @Override
@@ -134,6 +139,7 @@ public class UserInfoFragment extends BaseFragment {
 //        }
         checkunReadMsg();
         testStar();
+        getExpendLine();
 
 
         new Handler().postDelayed(new Runnable() {
@@ -151,8 +157,27 @@ public class UserInfoFragment extends BaseFragment {
         }, 1000);
     }
 
+    private void getExpendLine() {
+        NetworkAPIFactoryImpl.getInformationAPI().getExpendLine("PROMOTION_URL", new OnAPIListener<ExpendLineBean>() {
+            @Override
+            public void onError(Throwable ex) {
+
+            }
+
+            @Override
+            public void onSuccess(ExpendLineBean expendLineBean) {
+                if (expendLineBean!=null&&expendLineBean.getParam_value()!=null){
+                    LogUtils.loge("推广链接"+expendLineBean.getParam_value().toString());
+                    expendLine = expendLineBean.getParam_value();
+                }
+            }
+        });
+    }
+
     private void initFindById() {
         version = (TextView) rootView.findViewById(R.id.tv_version);
+        tv_acc_num = (TextView) rootView.findViewById(R.id.tv_acc_num);
+        tv_success_num = (TextView) rootView.findViewById(R.id.tv_success_num);
     }
 
     private void initData() {
@@ -279,8 +304,28 @@ public class UserInfoFragment extends BaseFragment {
                 requestBalance();
                 requestIdentity();
                 requestStarCount();
+                requestReturnMount();
                 break;
         }
+    }
+
+    private void requestReturnMount() {
+        NetworkAPIFactoryImpl.getDealAPI().getReturnAmount(SharePrefUtil.getInstance().getUserId(),new OnAPIListener<ReturnAmountBean>() {
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.loge("佣金-----------");
+            }
+
+            @Override
+            public void onSuccess(ReturnAmountBean returnAmountBean) {
+                LogUtils.loge("佣金-----------" + returnAmountBean.toString());
+                if (returnAmountBean.getResult()==1){
+                    //tv_current_price.setText(String.format("%.2f", priceinfoBean.getCurrentPrice()));
+                    tv_acc_num.setText(String.format("%.2f", returnAmountBean.getTotal_amount()));
+                    tv_success_num.setText(String.valueOf(returnAmountBean.getTotal_num()));
+                }
+            }
+        });
     }
 
     private void requestIdentity() {
@@ -306,7 +351,7 @@ public class UserInfoFragment extends BaseFragment {
             @Override
             public void onSuccess(AssetDetailsBean bean) {
                 LogUtils.loge("余额请求成功:" + bean.toString());
-                userTotalAssets.setText(String.format("%.3f",bean.getBalance()));
+                userTotalAssets.setText(String.format("%.2f",bean.getBalance()));
                 if (bean.getIs_setpwd() != -100) {
                     SharePrefUtil.getInstance().saveAssetInfo(bean);
                 }
@@ -408,8 +453,14 @@ public class UserInfoFragment extends BaseFragment {
         View popView = LayoutInflater.from(getContext()).inflate(R.layout.popwindow_zxing_show, null);
         final ImageView imageView = (ImageView) popView.findViewById(img_zxing);
         final TextView close = (TextView) popView.findViewById(R.id.close);
+        if (expendLine.contains("?uid=")){
+
+        }else {
+            expendLine = expendLine+"?uid="+SharePrefUtil.getInstance().getUserId();
+        }
+        LogUtils.loge("expendLine:"+expendLine);
         if (bitmap==null){
-            bitmap = QRCodeUtil.createQRCode("www.zhongyuliying.com", DisplayUtil.getScreenWidth(getContext()) / 2);
+            bitmap = QRCodeUtil.createQRCode(expendLine, DisplayUtil.getScreenWidth(getContext()) / 2);
         }
         imageView.setImageBitmap(bitmap);
         final PopupWindow popupWindow = new PopupWindow(getContext());

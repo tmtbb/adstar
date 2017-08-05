@@ -33,7 +33,16 @@ public class StarMailListBeen {
         private int ownseconds;
         private String starcode;
         private String starname;
+        private String work;
         private int uid;
+
+        public String getWork() {
+            return work;
+        }
+
+        public void setWork(String work) {
+            this.work = work;
+        }
 
         public int getAppoint() {
             return appoint;

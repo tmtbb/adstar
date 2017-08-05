@@ -7,8 +7,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cloudTop.starshare.been.ResultBeen;
 import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
+import com.cloudTop.starshare.utils.LogUtils;
+import com.cloudTop.starshare.utils.SharePrefUtil;
+import com.cloudTop.starshare.utils.ToastUtils;
 import com.netease.nim.uikit.CustomPushContentProvider;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.R;
@@ -29,7 +33,6 @@ import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.constant.SessionTypeEnum;
 import com.netease.nimlib.sdk.msg.model.IMMessage;
 import com.netease.nimlib.sdk.msg.model.MessageReceipt;
-import com.cloudTop.starshare.utils.SharePrefUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,15 +154,20 @@ public class MessageFragment extends TFragment implements ModuleProxy {
      */
     // 是否允许发送消息
     protected boolean isAllowSendMessage(final IMMessage message) {
-        NetworkAPIFactoryImpl.getInformationAPI().reduceTime(SharePrefUtil.getInstance().getPhoneNum(), starCode,1, new OnAPIListener<Object>() {
+        NetworkAPIFactoryImpl.getInformationAPI().reduceTime(SharePrefUtil.getInstance().getPhoneNum(), starCode,1, new OnAPIListener<ResultBeen>() {
             @Override
             public void onError(Throwable ex) {
 
             }
 
             @Override
-            public void onSuccess(Object o) {
+            public void onSuccess(ResultBeen o) {
                 LogUtil.e("聊天扣除秒数",o.toString());
+                if (o.getResult()==1){
+                    isAllow = true ;
+                }else {
+                    isAllow = false ;
+                }
             }
         });
         /*if (!isAllow){
@@ -202,7 +210,6 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         }
     };
 
-    int i = 0 ;
     boolean isAllow =true ;
     /**
      * ********************** implements ModuleProxy *********************
@@ -212,9 +219,10 @@ public class MessageFragment extends TFragment implements ModuleProxy {
 //        if (i>=10){
 //            isAllow = false ;
 //        }
-        LogUtil.e("ysl_消息发送了",i+"");
-        i++;
-        if (!isAllowSendMessage(message)) {
+        LogUtils.loge("发送了消息");
+        isAllowSendMessage(message);
+        if (isAllow==false){
+            ToastUtils.showShort("您持有的该明星时间不足，请购买该明星时间");
             return false;
         }
         appendPushConfig(message);

@@ -22,36 +22,6 @@ public class StarListReturnBean implements Parcelable {
     }
 
     public static class SymbolInfoBean implements Parcelable {
-        /**
-         * change : 0
-         * currentPrice : 0
-         * home_button_pic :
-         * home_pic : http://wx2.sinaimg.cn/mw690/63885668ly1fgf8f38f61j243n27ib2f.jpg
-         * name : 黄晓明
-         * pchg : 0
-         * pic : http://tva3.sinaimg.cn/crop.0.0.640.640.180/671ee283jw8eap6aqgponj20hs0hs3yq.jpg
-         * priceTime : 1499775086
-         * pushlish_type : 2
-         * star_type : 4
-         * symbol : 1015
-         * sysTime : 1499775086
-         * wid : 1011730077315
-         */
-
-        private float change;
-        private float currentPrice;
-        private String home_button_pic;
-        private String home_pic;
-        private String name;
-        private float pchg;
-        private String pic;
-        private long priceTime;
-        private int pushlish_type;
-        private int star_type;
-        private String symbol;
-        private long sysTime;
-        private String wid;
-
         public float getChange() {
             return change;
         }
@@ -156,24 +126,46 @@ public class StarListReturnBean implements Parcelable {
             this.wid = wid;
         }
 
-        @Override
-        public String toString() {
-            return "SymbolInfoBean{" +
-                    "change=" + change +
-                    ", currentPrice=" + currentPrice +
-                    ", home_button_pic='" + home_button_pic + '\'' +
-                    ", home_pic='" + home_pic + '\'' +
-                    ", name='" + name + '\'' +
-                    ", pchg=" + pchg +
-                    ", pic='" + pic + '\'' +
-                    ", priceTime=" + priceTime +
-                    ", pushlish_type=" + pushlish_type +
-                    ", star_type=" + star_type +
-                    ", symbol='" + symbol + '\'' +
-                    ", sysTime=" + sysTime +
-                    ", wid='" + wid + '\'' +
-                    '}';
+        public String getWork() {
+            return work;
         }
+
+        public void setWork(String work) {
+            this.work = work;
+        }
+
+        /**
+
+         * change : 0
+         * currentPrice : 0
+         * home_button_pic :
+         * home_pic : http://wx2.sinaimg.cn/mw690/63885668ly1fgf8f38f61j243n27ib2f.jpg
+         * name : 黄晓明
+         * pchg : 0
+         * pic : http://tva3.sinaimg.cn/crop.0.0.640.640.180/671ee283jw8eap6aqgponj20hs0hs3yq.jpg
+         * priceTime : 1499775086
+         * pushlish_type : 2
+         * star_type : 4
+         * symbol : 1015
+         * sysTime : 1499775086
+         * wid : 1011730077315
+         */
+
+        private float change;
+        private float currentPrice;
+        private String home_button_pic;
+        private String home_pic;
+        private String name;
+        private float pchg;
+        private String pic;
+        private long priceTime;
+        private int pushlish_type;
+        private int star_type;
+        private String symbol;
+        private long sysTime;
+        private String wid;
+        private String work;
+
 
         @Override
         public int describeContents() {
@@ -195,6 +187,7 @@ public class StarListReturnBean implements Parcelable {
             dest.writeString(this.symbol);
             dest.writeLong(this.sysTime);
             dest.writeString(this.wid);
+            dest.writeString(this.work);
         }
 
         public SymbolInfoBean() {
@@ -214,6 +207,7 @@ public class StarListReturnBean implements Parcelable {
             this.symbol = in.readString();
             this.sysTime = in.readLong();
             this.wid = in.readString();
+            this.work = in.readString();
         }
 
         public static final Parcelable.Creator<SymbolInfoBean> CREATOR = new Parcelable.Creator<SymbolInfoBean>() {
@@ -227,7 +221,28 @@ public class StarListReturnBean implements Parcelable {
                 return new SymbolInfoBean[size];
             }
         };
+
+        @Override
+        public String toString() {
+            return "SymbolInfoBean{" +
+                    "change=" + change +
+                    ", currentPrice=" + currentPrice +
+                    ", home_button_pic='" + home_button_pic + '\'' +
+                    ", home_pic='" + home_pic + '\'' +
+                    ", name='" + name + '\'' +
+                    ", pchg=" + pchg +
+                    ", pic='" + pic + '\'' +
+                    ", priceTime=" + priceTime +
+                    ", pushlish_type=" + pushlish_type +
+                    ", star_type=" + star_type +
+                    ", symbol='" + symbol + '\'' +
+                    ", sysTime=" + sysTime +
+                    ", wid='" + wid + '\'' +
+                    ", work='" + work + '\'' +
+                    '}';
+        }
     }
+
 
     @Override
     public int describeContents() {

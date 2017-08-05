@@ -13,7 +13,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 
 /**
- * 预约的明星
+ * 预约名单
  * Created by sll on 2017/5/24.
  */
 

@@ -64,7 +64,7 @@ public class NumberButton extends LinearLayout implements View.OnClickListener, 
 //    }
 
     private void init(Context context, AttributeSet attrs) {
-        LayoutInflater.from(context).inflate(R.layout.layout, this);
+        LayoutInflater.from(context).inflate(R.layout.layout_default, this);
 
         addButton = (TextView) findViewById(R.id.button_add);
         addButton.setOnClickListener(this);

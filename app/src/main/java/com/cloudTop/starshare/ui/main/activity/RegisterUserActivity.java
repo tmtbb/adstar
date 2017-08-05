@@ -335,7 +335,11 @@ public class RegisterUserActivity extends BaseActivity {
                 public void onSuccess(RegisterReturnBeen registerReturnBeen) {
                     stopProgressDialog();
                     if (registerReturnBeen.getResult() == 1) {
-                        ToastUtils.showShort("手机号码已注册,请直接登录");
+                        if (isWXBind){
+                            getCode();
+                        }else {
+                            ToastUtils.showShort("手机号码已注册,请直接登录");
+                        }
                     } else if (registerReturnBeen.getResult() == 0) {
                         getCode();
                     }

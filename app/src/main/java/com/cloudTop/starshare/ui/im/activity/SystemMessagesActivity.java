@@ -182,7 +182,13 @@ public class SystemMessagesActivity extends BaseActivity {
                     public void onSuccess(OrderReturnBeen orderReturnBeen) {
                         LogUtils.loge("当日订单" + orderReturnBeen.toString());
                         if (orderReturnBeen==null||orderReturnBeen.getOrdersList() == null || orderReturnBeen.getOrdersList().size() == 0) {
-                            lrv.refreshComplete(REQUEST_COUNT);
+                            if (!isLoadMore) {
+                                list.clear();
+                                systemMessageAdapter.clear();
+                                lrv.refreshComplete(REQUEST_COUNT);
+                            }else {
+                                lrv.setNoMore(true);
+                            }
                             return;
                         }
                         if (isLoadMore) {

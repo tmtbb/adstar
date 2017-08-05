@@ -56,6 +56,15 @@ public class HomePageInfoBean  {
         private String symbol;
         private int sysTime;
         private String wid;
+        private String work;
+
+        public String getWork() {
+            return work;
+        }
+
+        public void setWork(String work) {
+            this.work = work;
+        }
 
         public int getChange() {
             return change;
