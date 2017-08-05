@@ -105,6 +105,7 @@ public interface SocketAPIConstant {
         Short StarInfo = 10001;
         Short ALiPay = 7049;
         Short HaveStarTime = 10025;
+        Short StarTime = 10037;
         Short StarShellTime = 10027;
         Short BuyShellCom = 6017;
         Short Update = 3033;

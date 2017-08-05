@@ -68,9 +68,9 @@ public class MarketDetailFragment extends BaseFragment {
         nt_title.setRightImagSrc(R.drawable.search);
         nt_title.setRightImagVisibility(true);
         initAdpter();
-        getData(false, 0, REQUEST_COUNT);
         //myHandler = new MyHandler(this);
         initListener();
+        getData(false, 0, REQUEST_COUNT);
     }
 
     private void initData() {
@@ -257,7 +257,9 @@ public class MarketDetailFragment extends BaseFragment {
         } else {
             closeErrorView();
         }
-        marketDetailAdapter.clear();
+        if (marketDetailAdapter!=null){
+            marketDetailAdapter.clear();
+        }
         mCurrentCounter = list.size();
         lRecyclerViewAdapter.notifyDataSetChanged();//fix bug:crapped or attached views may not be recycled. isScrap:false isAttached:true
         marketDetailAdapter.addAll(list);

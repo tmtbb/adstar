@@ -34,6 +34,7 @@ import com.cloudTop.starshare.been.StarListReturnBean;
 import com.cloudTop.starshare.been.StarListbeen;
 import com.cloudTop.starshare.been.StarMailListBeen;
 import com.cloudTop.starshare.been.StarStarAchBeen;
+import com.cloudTop.starshare.been.StarTimeReaturnBean;
 import com.cloudTop.starshare.been.StartShellTimeBeen;
 import com.cloudTop.starshare.been.SureOrder;
 import com.cloudTop.starshare.been.TimeLineBeen;
@@ -88,6 +89,7 @@ public interface InformationAPI {
 
     void starInfo(String phone,String code, int all,OnAPIListener<StarInfoReturnBean> listener);
     void getHaveStarTime(long uid,String starcode,OnAPIListener<HaveStarTimeBeen> listener);
+    void getStarTime(long uid,String star_code,OnAPIListener<StarTimeReaturnBean> listener);
     void getStarShellTime(String starcode,OnAPIListener<StartShellTimeBeen> listener);
     void getBuyShellData(long id, String token,String symbol,OnAPIListener<BuyShellReutrnBeen> listener);
     void getHomePage(long id, String token,long aType,OnAPIListener<HomePageInfoBean> listener);

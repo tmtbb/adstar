@@ -8,26 +8,26 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.cloudTop.starshare.R;
+import com.cloudTop.starshare.app.AppConstant;
 import com.cloudTop.starshare.base.BaseFragment;
 import com.cloudTop.starshare.been.AskToBuyReturnBeen;
-import com.cloudTop.starshare.been.HaveStarTimeBeen;
+import com.cloudTop.starshare.been.SrealSendBeen;
 import com.cloudTop.starshare.been.SrealSendReturnBeen;
+import com.cloudTop.starshare.been.StarTimeReaturnBean;
+import com.cloudTop.starshare.been.StartShellTimeBeen;
 import com.cloudTop.starshare.listener.OnAPIListener;
+import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
 import com.cloudTop.starshare.ui.main.activity.AuctionRankingListActivity;
+import com.cloudTop.starshare.ui.main.activity.BuyTransferIndentActivity;
 import com.cloudTop.starshare.ui.main.activity.StarInfoActivity;
+import com.cloudTop.starshare.utils.ImageLoaderUtils;
 import com.cloudTop.starshare.utils.LogUtils;
+import com.cloudTop.starshare.utils.SharePrefUtil;
 import com.cloudTop.starshare.utils.ToastUtils;
 import com.cloudTop.starshare.utils.ViewConcurrencyUtils;
 import com.cloudTop.starshare.widget.NumberBoubleButton;
 import com.cloudTop.starshare.widget.NumberButton;
-import com.cloudTop.starshare.R;
-import com.cloudTop.starshare.app.AppConstant;
-import com.cloudTop.starshare.been.SrealSendBeen;
-import com.cloudTop.starshare.been.StartShellTimeBeen;
-import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
-import com.cloudTop.starshare.ui.main.activity.BuyTransferIndentActivity;
-import com.cloudTop.starshare.utils.ImageLoaderUtils;
-import com.cloudTop.starshare.utils.SharePrefUtil;
 
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
@@ -90,24 +90,38 @@ public class TransferMarketFragment extends BaseFragment {
         getHaveCodeTime();
         getData();
         initListener();
-        getStarTotalTime();
+        //getStarTotalTime();
         myHandler = new MyHandler2(this);
     }
 
     private void getHaveCodeTime() {
-        NetworkAPIFactoryImpl.getInformationAPI().getHaveStarTime(SharePrefUtil.getInstance().getUserId(),
-                code, new OnAPIListener<HaveStarTimeBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarTime(SharePrefUtil.getInstance().getUserId(),
+                code, new OnAPIListener<StarTimeReaturnBean>() {
                     @Override
                     public void onError(Throwable ex) {
 
                     }
 
                     @Override
-                    public void onSuccess(HaveStarTimeBeen haveStarTimeBeen) {
-                        LogUtils.loge("持有时间" + haveStarTimeBeen.toString());
-                        tv_have_star_time.setText(String.valueOf(haveStarTimeBeen.getStar_time()));
+                    public void onSuccess(StarTimeReaturnBean bean) {
+                        LogUtils.loge("持有时间" + bean.toString());
+                        tv_have_star_time.setText(String.valueOf(bean.getUser_star_time()));
+                        starTotalTime = bean.getStar_own_time();
                     }
                 });
+//        NetworkAPIFactoryImpl.getInformationAPI().getHaveStarTime(SharePrefUtil.getInstance().getUserId(),
+//                code, new OnAPIListener<HaveStarTimeBeen>() {
+//                    @Override
+//                    public void onError(Throwable ex) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(HaveStarTimeBeen haveStarTimeBeen) {
+//                        LogUtils.loge("持有时间" + haveStarTimeBeen.toString());
+//                        tv_have_star_time.setText(String.valueOf(haveStarTimeBeen.getStar_time()));
+//                    }
+//                });
     }
 
     private void initFindById() {
@@ -406,7 +420,7 @@ public class TransferMarketFragment extends BaseFragment {
 //            });
 //        }
 //    }
-    private int starTotalTime = 0;
+    private long starTotalTime = 0;
 
     private void getStarTotalTime() {
         NetworkAPIFactoryImpl.getInformationAPI().getStarShellTime(code, new OnAPIListener<StartShellTimeBeen>() {

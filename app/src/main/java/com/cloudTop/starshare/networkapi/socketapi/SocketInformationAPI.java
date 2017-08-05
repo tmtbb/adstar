@@ -35,6 +35,7 @@ import com.cloudTop.starshare.been.StarListReturnBean;
 import com.cloudTop.starshare.been.StarListbeen;
 import com.cloudTop.starshare.been.StarMailListBeen;
 import com.cloudTop.starshare.been.StarStarAchBeen;
+import com.cloudTop.starshare.been.StarTimeReaturnBean;
 import com.cloudTop.starshare.been.StartShellTimeBeen;
 import com.cloudTop.starshare.been.SureOrder;
 import com.cloudTop.starshare.been.TimeLineBeen;
@@ -458,6 +459,16 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.HaveStarTime,
                 SocketAPIConstant.ReqeutType.NewInfos, map);
         requestEntity(socketDataPacket,HaveStarTimeBeen.class,listener);
+    }
+
+    @Override
+    public void getStarTime(long uid, String star_code, OnAPIListener<StarTimeReaturnBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("uid", uid);
+        map.put("star_code", star_code);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarTime,
+                SocketAPIConstant.ReqeutType.NewInfos, map);
+        requestEntity(socketDataPacket,StarTimeReaturnBean.class,listener);
     }
 
     @Override

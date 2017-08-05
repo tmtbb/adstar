@@ -4,6 +4,7 @@ package com.cloudTop.starshare.base;
  * 基类
  */
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -29,7 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.umeng.analytics.MobclickAgent;
 import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.base.baseapp.AppManager;
 import com.cloudTop.starshare.been.EventBusMessage;
@@ -50,6 +50,7 @@ import com.cloudTop.starshare.utils.ToastUtils;
 import com.cloudTop.starshare.utils.daynightmodeutils.ChangeModeController;
 import com.cloudTop.starshare.widget.LoadingDialog;
 import com.cloudTop.starshare.widget.StatusBarCompat;
+import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -368,11 +369,7 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     }
 
     private static boolean isOpenDialog = false ;
-    private void showAlertDialog() {
-        if (isOpenDialog){
-            return;
-        }
-        isOpenDialog = true ;
+    public void showAlertLayoutDialog() {
         final Dialog logOutDialog = new Dialog(this, R.style.myDialog);
         logOutDialog.setCanceledOnTouchOutside(false);
         logOutDialog.setContentView(R.layout.mach_sucess_choose);
@@ -452,7 +449,13 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
                 mNotificationManager.notify(new Random().nextInt(Integer.MAX_VALUE), mBuilder.build());
                 break;
             case 3040:
-                showAlertDialog();
+                LogUtils.loge("登出",this.toString());
+                Activity activity = AppManager.getAppManager().currentActivity();
+                if (isOpenDialog){
+                    return;
+                }
+                ((BaseActivity)activity).showAlertLayoutDialog();
+                isOpenDialog = true ;
                 break;
         }
     }

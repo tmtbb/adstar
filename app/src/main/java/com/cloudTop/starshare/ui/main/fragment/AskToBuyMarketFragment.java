@@ -12,9 +12,9 @@ import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.app.AppConstant;
 import com.cloudTop.starshare.base.BaseFragment;
 import com.cloudTop.starshare.been.AskToBuyReturnBeen;
-import com.cloudTop.starshare.been.HaveStarTimeBeen;
 import com.cloudTop.starshare.been.SrealSendBeen;
 import com.cloudTop.starshare.been.SrealSendReturnBeen;
+import com.cloudTop.starshare.been.StarTimeReaturnBean;
 import com.cloudTop.starshare.been.StartShellTimeBeen;
 import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
@@ -89,7 +89,7 @@ public class AskToBuyMarketFragment extends BaseFragment {
             tv_name_code.setText(String.format(getActivity().getResources().getString(R.string.name_code), name, code));
         }
         getHaveCodeTime();
-        getStarTotalTime();
+        //getStarTotalTime();
         getData();
         initListener();
         myHandler = new MyHandler(this);
@@ -111,21 +111,35 @@ public class AskToBuyMarketFragment extends BaseFragment {
     }
 
     private void getHaveCodeTime() {
-        NetworkAPIFactoryImpl.getInformationAPI().getHaveStarTime(SharePrefUtil.getInstance().getUserId(),
-                code, new OnAPIListener<HaveStarTimeBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarTime(SharePrefUtil.getInstance().getUserId(),
+                code, new OnAPIListener<StarTimeReaturnBean>() {
                     @Override
                     public void onError(Throwable ex) {
-
+                        LogUtils.loge("持有时间" + ex.toString());
                     }
 
                     @Override
-                    public void onSuccess(HaveStarTimeBeen haveStarTimeBeen) {
-                        LogUtils.loge("持有时间" + haveStarTimeBeen.toString());
-                        tv_have_star_time.setText(String.valueOf(haveStarTimeBeen.getStar_time()));
+                    public void onSuccess(StarTimeReaturnBean bean) {
+                        LogUtils.loge("持有时间" + bean.toString());
+                        tv_have_star_time.setText(String.valueOf(bean.getUser_star_time()));
+                        starTotalTime = bean.getStar_own_time();
                     }
                 });
+//        NetworkAPIFactoryImpl.getInformationAPI().getHaveStarTime(SharePrefUtil.getInstance().getUserId(),
+//                code, new OnAPIListener<HaveStarTimeBeen>() {
+//                    @Override
+//                    public void onError(Throwable ex) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onSuccess(HaveStarTimeBeen haveStarTimeBeen) {
+//                        LogUtils.loge("持有时间" + haveStarTimeBeen.toString());
+//                        tv_have_star_time.setText(String.valueOf(haveStarTimeBeen.getStar_time()));
+//                    }
+//                });
     }
-    private int starTotalTime = 0;
+    private long starTotalTime = 0;
     private void getStarTotalTime() {
         NetworkAPIFactoryImpl.getInformationAPI().getStarShellTime(code, new OnAPIListener<StartShellTimeBeen>() {
             @Override
