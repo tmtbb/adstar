@@ -246,7 +246,6 @@ public class UserInfoFragment extends BaseFragment {
             case R.id.ll_me_deal:
                 ViewConcurrencyUtils.preventConcurrency();  //防止并发
                 Intent intent = new Intent(getActivity(),TransactionDetailActivity.class);
-                //intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 4);
                 getActivity().startActivity(intent);
                 break;
             case R.id.zxing_butten:

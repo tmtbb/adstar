@@ -86,6 +86,7 @@ import io.fabric.sdk.android.Fabric;
  */
 public class AppApplication extends BaseApplication {
     private static RefWatcher sRefWatcher;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -94,9 +95,9 @@ public class AppApplication extends BaseApplication {
 
     private void testProcress() {
         String processName = getProcessName(this);
-        LogUtils.loge("------------processName:"+processName);
-        if (processName!= null) {
-            if(processName.equals("com.cloudTop.starshare")){
+        LogUtils.loge("------------processName:" + processName);
+        if (processName != null) {
+            if (processName.equals("com.cloudTop.starshare")) {
                 Fabric.with(this, new Crashlytics());
                 //初始化logger
                 LogUtils.logInit(BuildConfig.LOG_DEBUG);
@@ -111,11 +112,11 @@ public class AppApplication extends BaseApplication {
                     return;
                 }
                 LeakCanary.install(this);
-            } else if(processName.equals("com.cloudTop.starshare:core")){
+            } else if (processName.equals("com.cloudTop.starshare:core")) {
 
-            }else if(processName.equals("com.cloudTop.starshare:cosine")){
+            } else if (processName.equals("com.cloudTop.starshare:cosine")) {
 
-            }else if (processName.equals("com.cloudTop.starshare:pushservice")){
+            } else if (processName.equals("com.cloudTop.starshare:pushservice")) {
 
             }
         }
@@ -146,8 +147,6 @@ public class AppApplication extends BaseApplication {
         }
         return "";
     }
-
-
 
 
     private void initWangYiIM() {
@@ -298,6 +297,7 @@ public class AppApplication extends BaseApplication {
             unregisterReceiver(localeReceiver);
         }
     }
+
     private void updateLocale() {
         NimStrings strings = new NimStrings();
         strings.status_bar_multi_messages_incoming = getString(R.string.nim_status_bar_multi_messages_incoming);
@@ -400,7 +400,7 @@ public class AppApplication extends BaseApplication {
         //友盟分享对应appid.要修改成自己的
         PlatformConfig.setWeixin("wxa75d31be7fcb762f", "edd6e7ea7293049951b563dbc803ebea");
         PlatformConfig.setQQZone("1106324672", "v1YiRlhA0NMu5aRn");
-        PlatformConfig.setSinaWeibo("2747515847", "52b1aee2857ba7846e27618ee1a13015", "http://sns.whalecloud.com");
+        PlatformConfig.setSinaWeibo("2747515847", "52b1aee2857ba7846e27618ee1a13015", "http://open.weibo.com/apps/2747515847/privilege/oauth");
     }
 
     private void logout() {
@@ -420,7 +420,7 @@ public class AppApplication extends BaseApplication {
     private void judgeIsLogin() {
         if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getToken())) {
             LogUtils.loge("已经登录,开始校验token---------------------------------");
-            NetworkAPIFactoryImpl.getUserAPI().loginWithToken(SharePrefUtil.getInstance().getTokenTime(),new OnAPIListener<LoginReturnInfo>() {
+            NetworkAPIFactoryImpl.getUserAPI().loginWithToken(SharePrefUtil.getInstance().getTokenTime(), new OnAPIListener<LoginReturnInfo>() {
                 @Override
                 public void onError(Throwable ex) {
                     ex.printStackTrace();
@@ -430,8 +430,8 @@ public class AppApplication extends BaseApplication {
 
                 @Override
                 public void onSuccess(LoginReturnInfo loginReturnEntity) {
-                    LogUtils.loge("------------------======token登录成功，保存信息"+loginReturnEntity.toString());
-                    if (loginReturnEntity.getResult()==1){
+                    LogUtils.loge("------------------======token登录成功，保存信息" + loginReturnEntity.toString());
+                    if (loginReturnEntity.getResult() == 1) {
                         NetworkAPIFactoryImpl.getUserAPI().saveDevice(loginReturnEntity.getUserinfo().getId(), new OnAPIListener<Object>() {
                             @Override
                             public void onError(Throwable ex) {
@@ -445,19 +445,19 @@ public class AppApplication extends BaseApplication {
                         });
                         //服务器问题,先token登录不保存信息
                         //SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
-                        if (!TextUtils.isEmpty(loginReturnEntity.getToken())){
+                        if (!TextUtils.isEmpty(loginReturnEntity.getToken())) {
 //                        SharePrefUtil.getInstance().setToken(loginReturnEntity.getToken());
                             SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
                         }
                         EventBus.getDefault().postSticky(new EventBusMessage(1));  //登录成功消息
-                    }else {
+                    } else {
                         LogUtils.loge("----------------------登录失败.token已经失效");
                         logout();
                     }
 
                 }
             });
-        }else{
+        } else {
             LogUtils.logd("token为空-------------------");
         }
     }
@@ -494,6 +494,7 @@ public class AppApplication extends BaseApplication {
     }
 
     private static DaoSession daoSession;
+
     /**
      * 配置数据库
      */
@@ -523,10 +524,10 @@ public class AppApplication extends BaseApplication {
 
             @Override
             public void onSuccess(CheckUpdateInfoEntity checkUpdateInfoEntity) {
-                SharePrefUtil.getInstance().setVersion( checkUpdateInfoEntity.getNewAppVersionName());
+                SharePrefUtil.getInstance().setVersion(checkUpdateInfoEntity.getNewAppVersionName());
                 LogUtils.loge("checkUpdateInfoEntity:" + checkUpdateInfoEntity.toString());
                 if (checkUpdateInfoEntity != null && checkUpdateInfoEntity.getNewAppVersionCode() > getVersionCode()) {
-                    LogUtils.loge("checkUpdateInfoEntity.getNewAppVersionCode()"+checkUpdateInfoEntity.getNewAppVersionCode()+"getVersionCode()"+getVersionCode());
+                    LogUtils.loge("checkUpdateInfoEntity.getNewAppVersionCode()" + checkUpdateInfoEntity.getNewAppVersionCode() + "getVersionCode()" + getVersionCode());
                     EventBusMessage msg = new EventBusMessage(-11);
                     msg.setCheckUpdateInfoEntity(checkUpdateInfoEntity);  //发送广播
                     EventBus.getDefault().postSticky(msg);
@@ -536,6 +537,7 @@ public class AppApplication extends BaseApplication {
             }
         });
     }
+
     /**
      * 获取当前应用版本号
      */

@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -147,10 +148,10 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
         initPopupWindow();
         initListener();
 
-        //以后注释掉
-        rechargeIcon.setImageResource(R.drawable.icon_alipay);
-        rechargeName.setText(getString(R.string.recharge_ali_pay));
-        isAliPay = true;
+//        //以后注释掉
+//        rechargeIcon.setImageResource(R.drawable.icon_alipay);
+//        rechargeName.setText(getString(R.string.recharge_ali_pay));
+//        isAliPay = true;
     }
 
     private void initListener() {
@@ -251,11 +252,11 @@ public class RechargeActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.ll_user_recharge_type:  //选择充值方式
                 //先注释，微信好了再开
-//                // 设置背景颜色变暗
-//                WindowManager.LayoutParams lp = getWindow().getAttributes();
-//                lp.alpha = 0.7f;
-//                getWindow().setAttributes(lp);
-//                popupWindow.showAtLocation(findViewById(R.id.ll_recharge_ui), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                // 设置背景颜色变暗
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
+                lp.alpha = 0.7f;
+                getWindow().setAttributes(lp);
+                popupWindow.showAtLocation(findViewById(R.id.ll_recharge_ui), Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
                 break;
         }
     }

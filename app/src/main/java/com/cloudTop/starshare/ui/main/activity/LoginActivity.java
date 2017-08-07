@@ -43,6 +43,8 @@ import org.greenrobot.eventbus.EventBus;
 import butterknife.OnClick;
 
 /**
+ * #75
+ * #76
  * Created by Null on 2017/5/7.
  * 登录
  */
@@ -51,8 +53,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private CheckHelper checkHelper = new CheckHelper();
     private AbortableFuture<LoginInfo> loginRequest;
-    private long exitNow;
-    boolean flag = true;
     private WPEditText userNameEditText;
     private WPEditText passwordEditText;
     private Button loginButton;
@@ -75,10 +75,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     @Override
     public void initView() {
         initFindById();
-        //      if (flag) {
-        //          EventBus.getDefault().register(this); // EventBus注册广播()
-        //          flag = false;//更改标记,使其不会再进行多次注册
-        //      }
+        //修改activity宽度
         WindowManager.LayoutParams p = getWindow().getAttributes();// 获取对话框当前的参值
         Point size = new Point();
         getWindowManager().getDefaultDisplay().getSize(size);
@@ -108,6 +105,9 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     private boolean isOnClicked = false;
 
+    /**
+     * 登录
+     */
     public void loging() {
         ViewConcurrencyUtils.preventConcurrency();  //防止并发
         if (isOnClicked) {
@@ -115,7 +115,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         }
         isOnClicked = true;
         startProgressDialog("登录中...");
-        LogUtils.loge("loging点击");
         CheckException exception = new CheckException();
         LogUtils.loge(MD5Util.MD5(passwordEditText.getEditTextString()));
         if (checkHelper.checkMobile(userNameEditText.getEditTextString(), exception)
@@ -182,6 +181,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     }
 
+    /**
+     * 登录网易云成功后，上传设备id，保存用户信息
+     * @param loginReturnInfos
+     * @param registerReturnWangYiBeen
+     */
     private void loginWangYi(final LoginReturnInfo loginReturnInfos, RegisterReturnWangYiBeen registerReturnWangYiBeen) {
         LogUtils.logd(loginReturnInfos.getUserinfo().getPhone() + "..." + registerReturnWangYiBeen.getToken_value());
         // 登录
@@ -226,10 +230,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 } else {
                     LogUtils.logd("网易云登录失败" + code);
                 }
+                isOnClicked = false;
             }
 
             @Override
             public void onException(Throwable exception) {
+                isOnClicked = false;
                 LogUtils.logd("网易云登录失败" + R.string.login_exception);
             }
         });
@@ -304,16 +310,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         super.onDestroy();
     }
 
-    //    //接收消息
-//    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
-//    public void ReciveMessageEventBus(EventBusMessage eventBusMessage) {
-//        switch (eventBusMessage.Message) {
-//            case -6:  //成功
-//                LogUtils.loge("当前是接收到微信登录成功的消息,finish");
-//                finish();
-//                break;
-//        }
-//    }
     public void close() {
         EventBus.getDefault().postSticky(new EventBusMessage(2));  //登录取消消息
         finish();
