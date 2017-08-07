@@ -19,17 +19,19 @@ import java.util.List;
 
 
 /**
+ *#75
+ *#76
  * 抢购明星
  */
 public class HorizontalPagerFragment extends BaseFragment {
 
-    private int screenWidth;
-    private HorizontalInfiniteCycleViewPager horizontalInfiniteCycleViewPager;
     private long userId;
     private String token;
+    private int screenWidth;
     private FrameLayout fm_layout;
     private HorizontalPagerAdapter adapter;
     private List<HomePageInfoBean.SymbolInfoBean> symbol_info;
+    private HorizontalInfiniteCycleViewPager horizontalInfiniteCycleViewPager;
 
     @Override
     protected int getLayoutResource() {
@@ -53,6 +55,7 @@ public class HorizontalPagerFragment extends BaseFragment {
         initPagerData();
     }
 
+    //获取明星信息
     private void initPagerData() {
         NetworkAPIFactoryImpl.getInformationAPI().getHomePage(userId, token, 4, new OnAPIListener<HomePageInfoBean>() {
             @Override

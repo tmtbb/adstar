@@ -77,23 +77,24 @@ import master.flame.danmaku.danmaku.parser.IDataSource;
 import static com.cloudTop.starshare.R.id.tv_preice;
 
 /**
+ * #75
+ * #76
  * Created by Administrator on 2017/7/18.
  * 明星时间交易
  */
 
 public class StarTimeDealActivity extends BaseActivity implements View.OnClickListener {
 
-    private IDanmakuView mDanmakuView;
-    private DanmakuContext mDanmakuContext;
+    private int widthPixels;
+    private int heightPixels;
     private TextView tv_back;
     private TextView tv_title;
     private TextView tv_right;
     private TextView tv_transfer;
     private TextView tv_ask_to_buy;
+    private IDanmakuView mDanmakuView;
     private BaseDanmakuParser mParser;
-    private int widthPixels;
-    private int heightPixels;
-    private ArrayList<StarDanMuNewInfo.PositionsListBean> list = new ArrayList<>();
+    private DanmakuContext mDanmakuContext;
     private static MyHandler myHandler;
     private int temporary = 0;
     private int[] random_bg = {
@@ -101,11 +102,12 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
             , R.drawable.bg_6, R.drawable.bg_7, R.drawable.bg_8, R.drawable.bg_9, R.drawable.bg_10
             , R.drawable.bg_11
     };
-    private StarListReturnBean.SymbolInfoBean symbolInfoBean;
-    private TextView tv_time;
     private ImageView qiu;
-    private TextView tv_price;
     private TextView tv_info;
+    private TextView tv_time;
+    private TextView tv_price;
+    private StarListReturnBean.SymbolInfoBean symbolInfoBean;
+    private ArrayList<StarDanMuNewInfo.PositionsListBean> list = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -145,10 +147,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
 
     private void getData() {
         list = new ArrayList<>();
-        //listDanMaKu = new ArrayList<>();
         getDanMaku();
-        //initTradingStatus(false);
-        //myHandler.sendEmptyMessage(MyHandler.GRT_DATA);
         if (SharePrefUtil.getInstance().getStatusNav_5()==0){
             SharePrefUtil.getInstance().setStatusNav_5(1);
             new Handler().postDelayed(new Runnable() {
@@ -212,30 +211,6 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
                 // .setMarginTop(40)
                 .setCacheStuffer(new BackgroundCacheStuffer(), mCacheStufferAdapter)  // 绘制背景使用BackgroundCacheStuffer
                 .preventOverlapping(overlappingEnablePair).setDanmakuMargin(40);
-        /*// 设置最大显示行数
-        HashMap<Integer, Integer> maxLinesPair = new HashMap<Integer, Integer>();
-        maxLinesPair.put(BaseDanmaku.TYPE_SCROLL_RL, 5); // 滚动弹幕最大显示5行
-        // 设置是否禁止重叠
-        HashMap<Integer, Boolean> overlappingEnablePair = new HashMap<Integer, Boolean>();
-        overlappingEnablePair.put(BaseDanmaku.TYPE_SCROLL_RL, true);
-        overlappingEnablePair.put(BaseDanmaku.TYPE_FIX_TOP, true);
-        overlappingEnablePair.put(BaseDanmaku.TYPE_SPECIAL, true);
-        mDanmakuContext.setDanmakuStyle(IDisplayer.DANMAKU_STYLE_NONE, 3).setDuplicateMergingEnabled(false).setScrollSpeedFactor(0)
-                .setScaleTextSize(1.2f).setDanmakuTransparency(0.8f).setSpecialDanmakuVisibility(true)
-                .setCacheStuffer(new SpannedCacheStuffer(), new BaseCacheStuffer.Proxy() {
-                    @Override
-                    public void prepareDrawing(BaseDanmaku danmaku, boolean fromWorkerThread) {
-
-                    }
-
-                    @Override
-                    public void releaseResource(BaseDanmaku danmaku) {
-
-                    }
-                }) // 图文混排使用SpannedCacheStuffer
-                .setCacheStuffer(new BackgroundCacheStuffer(), mCacheStufferAdapter)  // 绘制背景使用BackgroundCacheStuffer
-                .setMaximumLines(maxLinesPair)
-                .preventOverlapping(overlappingEnablePair).setDanmakuMargin(40);*/
         if (mDanmakuView != null) {
             mParser = createParser(this.getResources().openRawResource(R.raw.comments));
             mDanmakuView.setCallback(new master.flame.danmaku.controller.DrawHandler.Callback() {
@@ -328,17 +303,12 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
         points[1][0] = (float) (-2 * d);
         points[1][1] = (float) (3 * d);
         mDanmakuContext.mDanmakuFactory.fillLinePathData(danmaku, points, 1f, 1f);
-        //(long) (7*widthPixels + (floor > 0 ? floor * (widthPixels + dH + dY): floor * 100))
-        //mDanmakuContext.mDanmakuFactory.fillAlphaData(danmaku, AlphaValue.MAX * 1, AlphaValue.MAX * 0, 1000 * 30);
         mDanmakuContext.setMaximumVisibleSizeInScreen(30);
         if (danmaku == null || mDanmakuView == null) {
             return;
         }
         danmaku.rotationY = -1;
         danmaku.rotationZ = -45;
-        // Drawable drawable = getResources().getDrawable(R.drawable.ic_home_normal);
-        //drawable.setBounds(0, 0, DisplayUtil.dip2px(40), DisplayUtil.dip2px(40));
-        //ImageLoaderUtils.displaySmallPhoto();
         Glide.with(mContext).load(bean.getUser().getHeadUrl())
                 .asBitmap()
                 .placeholder(R.drawable.user_default_head)
@@ -371,25 +341,11 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
     }
 
     private SpannableStringBuilder createSpannable(Drawable drawable, StarDanMuNewInfo.PositionsListBean infoBean) {
-//        String text = "bitmap";
-//        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
-//        //CenteredImageSpan span = new CenteredImageSpan(drawable);//ImageSpan.ALIGN_BOTTOM);
-//        CenteredImageSpan span = new CenteredImageSpan(drawable);
-//        //ImageSpan span = new ImageSpan(resource);
-//        spannableStringBuilder.setSpan(span, 0, text.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
-//        spannableStringBuilder.append("   XXX求购 100.00/秒                   ");
-//        //spannableStringBuilder.setSpan(new TextAppearanceSpan(this, R.style.style_pingjie), 0, spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-//        //spannableStringBuilder.setSpan(new BackgroundColorSpan(Color.parseColor("#fafafa")), 0, spannableStringBuilder.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
-//        return spannableStringBuilder;
-
-
         //小姜求购15秒，12.32/秒
         String text = "bitmap";
         String name = "infoBean";
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(text);
-        //CenteredImageSpan span = new CenteredImageSpan(drawable);//ImageSpan.ALIGN_BOTTOM);
         CenteredImageSpan span = new CenteredImageSpan(drawable);
-        //ImageSpan span = new ImageSpan(resource);
         spannableStringBuilder.setSpan(span, 0, text.length(), Spannable.SPAN_INCLUSIVE_EXCLUSIVE);
         spannableStringBuilder.append("  "+infoBean.getUser().getNickname());
         if (infoBean.getTrades().getBuySell() == -1) {
@@ -618,6 +574,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
     private int secondTime = 0;
     private boolean startSunTime = false;
 
+    //获取交易时间倒计时
     private void initTradingStatus(final boolean sendHandler) {
         NetworkAPIFactoryImpl.getInformationAPI().getTradingStatus(SharePrefUtil.getInstance().getUserId(), SharePrefUtil.getInstance().getToken(), symbolInfoBean.getSymbol(), new OnAPIListener<TradingStatusBeen>() {
             @Override
@@ -672,6 +629,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
+    //获取弹幕数据
     private void getDanMaku() {
         NetworkAPIFactoryImpl.getInformationAPI().getDanMaKuInfoNeW(symbolInfoBean.getSymbol(),
                 50, new OnAPIListener<StarDanMuNewInfo>() {
@@ -693,6 +651,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
                     }
                 });
     }
+    //引导图
     private void showPopupWindow() {
         View popView = LayoutInflater.from(this).inflate(R.layout.popwindow_navijation_2, null);
         final ImageView imageView = (ImageView) popView.findViewById(R.id.navigation_5_2);

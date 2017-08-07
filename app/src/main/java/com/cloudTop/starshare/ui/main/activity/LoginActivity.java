@@ -50,17 +50,17 @@ import butterknife.OnClick;
  */
 
 public class LoginActivity extends BaseActivity implements View.OnClickListener {
-
-    private CheckHelper checkHelper = new CheckHelper();
+    private TextView close;
+    private Button loginButton;
+    private TextView tv_law_info;
+    private TextView registerText;
+    private TextView tv_weixin_login;
+    private boolean isOnClicked = false;
+    private TextView tv_retrieve_password;
     private AbortableFuture<LoginInfo> loginRequest;
+    private CheckHelper checkHelper = new CheckHelper();
     private WPEditText userNameEditText;
     private WPEditText passwordEditText;
-    private Button loginButton;
-    private TextView registerText;
-    private TextView tv_retrieve_password;
-    private TextView tv_weixin_login;
-    private TextView tv_law_info;
-    private TextView close;
 
     @Override
     public int getLayoutId() {
@@ -90,20 +90,18 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     private void initFindById() {
+        close = (TextView) findViewById(R.id.close);
+        loginButton = (Button) findViewById(R.id.loginButton);
+        tv_law_info = (TextView) findViewById(R.id.tv_law_info);
+        registerText = (TextView) findViewById(R.id.registerText);
+        tv_weixin_login = (TextView) findViewById(R.id.tv_weixin_login);
         userNameEditText = (WPEditText) findViewById(R.id.userNameEditText);
         passwordEditText = (WPEditText) findViewById(R.id.passwordEditText);
-        loginButton = (Button) findViewById(R.id.loginButton);
-        registerText = (TextView) findViewById(R.id.registerText);
         tv_retrieve_password = (TextView) findViewById(R.id.tv_retrieve_password);
-        tv_weixin_login = (TextView) findViewById(R.id.tv_weixin_login);
-        tv_law_info = (TextView) findViewById(R.id.tv_law_info);
-        close = (TextView) findViewById(R.id.close);
-        loginButton.setOnClickListener(this);
         close.setOnClickListener(this);
+        loginButton.setOnClickListener(this);
         tv_weixin_login.setOnClickListener(this);
     }
-
-    private boolean isOnClicked = false;
 
     /**
      * 登录
@@ -183,6 +181,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
 
     /**
      * 登录网易云成功后，上传设备id，保存用户信息
+     *
      * @param loginReturnInfos
      * @param registerReturnWangYiBeen
      */

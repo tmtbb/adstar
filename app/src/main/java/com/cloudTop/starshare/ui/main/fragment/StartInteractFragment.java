@@ -25,21 +25,23 @@ import com.cloudTop.starshare.utils.SharePrefUtil;
 import java.util.ArrayList;
 
 /**
+ * #75
+ * #76
  * Created by Administrator on 2017/7/11.
  * 明星互动
  */
 
 public class StartInteractFragment extends BaseFragment {
-    private LRecyclerView lrv;
-    private FrameLayout fl_layout;
-    private LRecyclerViewAdapter lRecyclerViewAdapter;
-    private ArrayList<StarListReturnBean.SymbolInfoBean> list = new ArrayList<>();
-    private ArrayList<StarListReturnBean.SymbolInfoBean> loadList = new ArrayList<>();
-    private static int mCurrentCounter = 0;
-    private StarInteractionAdapter interactionAdapter;
-    private static final int REQUEST_COUNT = 10;
     private long userId;
     private String token;
+    private LRecyclerView lrv;
+    private FrameLayout fl_layout;
+    private static int mCurrentCounter = 0;
+    private static final int REQUEST_COUNT = 10;
+    private LRecyclerViewAdapter lRecyclerViewAdapter;
+    private StarInteractionAdapter interactionAdapter;
+    private ArrayList<StarListReturnBean.SymbolInfoBean> list = new ArrayList<>();
+    private ArrayList<StarListReturnBean.SymbolInfoBean> loadList = new ArrayList<>();
 
     @Override
     protected int getLayoutResource() {
@@ -90,10 +92,6 @@ public class StartInteractFragment extends BaseFragment {
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-//                Intent intent = new Intent(getActivity(), StarInfoActivity.class);
-//                StarListReturnBean.SymbolInfoBean symbolInfoBean = list.get(position);
-//                intent.putExtra(AppConstant.STAR_CODE, symbolInfoBean.getSymbol());
-//                startActivity(intent);
                 Intent intent0 = new Intent(getActivity(),CircleFriendsActivity.class);
                 StarListReturnBean.SymbolInfoBean symbolInfoBean = list.get(position);
                 intent0.putExtra(AppConstant.STAR_CODE,symbolInfoBean.getSymbol());
@@ -105,6 +103,7 @@ public class StartInteractFragment extends BaseFragment {
         });
     }
 
+    //获取数据
     private void getData(final boolean isLoadMore, int start, int end) {
         NetworkAPIFactoryImpl.getInformationAPI().getStarList(userId,
                 token, 4, 0, start, end, new OnAPIListener<StarListReturnBean>() {

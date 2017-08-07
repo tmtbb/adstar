@@ -74,13 +74,13 @@ import butterknife.OnClick;
 import static com.cloudTop.starshare.R.id.img_zxing;
 
 /**
+ * #75
+ * #76
  * Created by Administrator on 2017/5/5.
  *  个人中心
  */
 
 public class UserInfoFragment extends BaseFragment {
-
-
     @Bind(R.id.iv_user_info_bg)
     ImageView userInfoBg;
     @Bind(R.id.tv_user_name)
@@ -132,16 +132,16 @@ public class UserInfoFragment extends BaseFragment {
     @Override
     protected void initView() {
         initFindById();
-//        if (!TextUtils.isEmpty(SharePrefUtil.getInstance().getPhoneNum())) {
-//            initData();
-//            LogUtils.loge("---登陆成功了,更新数据和请求余额");
-//            requestBalance();
-//        }
         checkunReadMsg();
         testStar();
         getExpendLine();
+        getVersionName();
+    }
 
-
+    /**
+     * 获取版本号
+     */
+    private void getVersionName() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -157,6 +157,7 @@ public class UserInfoFragment extends BaseFragment {
         }, 1000);
     }
 
+    //获取推广链接
     private void getExpendLine() {
         NetworkAPIFactoryImpl.getInformationAPI().getExpendLine("PROMOTION_URL", new OnAPIListener<ExpendLineBean>() {
             @Override
@@ -181,12 +182,6 @@ public class UserInfoFragment extends BaseFragment {
     }
 
     private void initData() {
-//        String referee = SharePrefUtil.getInstance().getUserReferee();
-//        if (referee == null) {
-//            myReferee.setText(getString(R.string.my_referee));
-//        } else {
-//            myReferee.setText(String.format(getString(R.string.dialog_title_referee2), referee));
-//        }
         String userPhotoUrl = SharePrefUtil.getInstance().getUserPhotoUrl();
         if (TextUtils.isEmpty(userPhotoUrl)) {
             headImage.setImageResource(R.drawable.user_default_head);
@@ -199,7 +194,6 @@ public class UserInfoFragment extends BaseFragment {
         } else {
             userName.setText(userNickName);
         }
-
         userOrderStar.setText(SharePrefUtil.getInstance().getOrderStar() + "");
     }
 
@@ -294,7 +288,10 @@ public class UserInfoFragment extends BaseFragment {
         builder.show();
     }
 
-    //接收消息
+    /**
+     * 接收登录成功消息
+     * @param eventBusMessage
+     */
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void ReciveMessageEventBus(EventBusMessage eventBusMessage) {
         switch (eventBusMessage.Message) {
@@ -345,6 +342,7 @@ public class UserInfoFragment extends BaseFragment {
 
     private static boolean isSaveWangYi = false;
 
+    //余额更新
     private void requestBalance() {
         NetworkAPIFactoryImpl.getDealAPI().balance(new OnAPIListener<AssetDetailsBean>() {
             @Override
@@ -411,6 +409,7 @@ public class UserInfoFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
+    //获取明星数量
     private void requestStarCount() {
         NetworkAPIFactoryImpl.getUserAPI().starCount(new OnAPIListener<RegisterReturnBeen>() {
             @Override
@@ -448,6 +447,10 @@ public class UserInfoFragment extends BaseFragment {
     }
 
     private boolean isFirstSave = false ;
+
+    /**
+     * 二维码弹窗
+     */
     private void showPopupWindow() {
         View popView = LayoutInflater.from(getContext()).inflate(R.layout.popwindow_zxing_show, null);
         final ImageView imageView = (ImageView) popView.findViewById(img_zxing);

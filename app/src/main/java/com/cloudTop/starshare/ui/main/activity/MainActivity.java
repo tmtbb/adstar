@@ -19,10 +19,21 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import com.cloudTop.starshare.R;
+import com.cloudTop.starshare.app.AppConstant;
 import com.cloudTop.starshare.base.BaseActivity;
-import com.cloudTop.starshare.ui.main.fragment.NewsInfoFragment;
+import com.cloudTop.starshare.been.CheckUpdateInfoEntity;
+import com.cloudTop.starshare.been.EventBusMessage;
+import com.cloudTop.starshare.been.TabEntity;
+import com.cloudTop.starshare.ui.main.fragment.FindStarFragment;
+import com.cloudTop.starshare.ui.main.fragment.MarketDetailFragment;
+import com.cloudTop.starshare.ui.main.fragment.UserInfoFragment;
 import com.cloudTop.starshare.ui.view.ForceUpdateDialog;
+import com.cloudTop.starshare.ui.wangyi.chatroom.helper.ChatRoomHelper;
 import com.cloudTop.starshare.ui.wangyi.config.preference.UserPreferences;
+import com.cloudTop.starshare.utils.CheckLoginUtil;
+import com.cloudTop.starshare.utils.LogUtils;
+import com.cloudTop.starshare.utils.SharePrefUtil;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import com.flyco.tablayout.listener.OnTabSelectListener;
@@ -40,18 +51,6 @@ import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.msg.MsgServiceObserve;
 import com.netease.nimlib.sdk.msg.model.RecentContact;
 import com.qiangxi.checkupdatelibrary.dialog.UpdateDialog;
-import com.cloudTop.starshare.R;
-import com.cloudTop.starshare.app.AppConstant;
-import com.cloudTop.starshare.been.CheckUpdateInfoEntity;
-import com.cloudTop.starshare.been.EventBusMessage;
-import com.cloudTop.starshare.been.TabEntity;
-import com.cloudTop.starshare.ui.main.fragment.FindStarFragment;
-import com.cloudTop.starshare.ui.main.fragment.MarketDetailFragment;
-import com.cloudTop.starshare.ui.main.fragment.UserInfoFragment;
-import com.cloudTop.starshare.ui.wangyi.chatroom.helper.ChatRoomHelper;
-import com.cloudTop.starshare.utils.CheckLoginUtil;
-import com.cloudTop.starshare.utils.LogUtils;
-import com.cloudTop.starshare.utils.SharePrefUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -65,7 +64,10 @@ import butterknife.Bind;
 import static com.qiangxi.checkupdatelibrary.dialog.ForceUpdateDialog.FORCE_UPDATE_DIALOG_PERMISSION_REQUEST_CODE;
 import static com.qiangxi.checkupdatelibrary.dialog.UpdateDialog.UPDATE_DIALOG_PERMISSION_REQUEST_CODE;
 
-
+/**
+ * #75
+ * #76
+ */
 public class MainActivity extends BaseActivity {
     @Bind(R.id.tab_bottom_layout)
     CommonTabLayout tabLayout;
@@ -74,37 +76,16 @@ public class MainActivity extends BaseActivity {
             R.drawable.differ_answer_no_ok, R.drawable.market_no_ok, R.drawable.me_no_ok};
     private int[] mIconSelectIds = {
             R.drawable.differ_answer_ok, R.drawable.market_ok, R.drawable.me_ok};
-    private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
-    private NewsInfoFragment newsInfoFragment;
-    private FindStarFragment findStarFragment;
-    //private MarketFragment marketFragment;
-    private MarketDetailFragment marketFragment;
-    //    private DifferAnswerFragment differAnswerFragment;
-    private UserInfoFragment userInfoFragment;
-    private final int BASIC_PERMISSION_REQUEST_CODE = 100;
-    public static int CHECHK_LOGIN = 0;
-    private boolean flag = true;
-
-    public Handler handler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 1:
-                    int i = (int)msg.obj;
-                    showPopupWindow(i);
-                    break;
-            }
-        }
-    };
-
-    Runnable runnablePermission = new Runnable() {
-        @Override
-        public void run() {
-            requestBasicPermission();
-        }
-    };
     private int match_info;
     private boolean isFirest;
+    private boolean flag = true;
+    private UpdateDialog mUpdateDialog;
+    private UserInfoFragment userInfoFragment;
+    private FindStarFragment findStarFragment;
+    private MarketDetailFragment marketFragment;
+    private ForceUpdateDialog mForceUpdateDialog;
+    private final int BASIC_PERMISSION_REQUEST_CODE = 100;
+    private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
 
     @Override
     public int getLayoutId() {
@@ -118,17 +99,8 @@ public class MainActivity extends BaseActivity {
     @Override
     public void initView() {
         initTab();
-//        checkunReadMsg();
+        checkunReadMsg();
         handler.postDelayed(runnablePermission, 1000);
-    }
-
-    private void checkunReadMsg() {
-        int unreadNum = NIMClient.getService(MsgService.class).getTotalUnreadCount();
-        if (unreadNum > 0) {
-            tabLayout.showDot(2);
-        } else {
-            tabLayout.hideMsg(2);
-        }
     }
 
     @Override
@@ -150,25 +122,60 @@ public class MainActivity extends BaseActivity {
         }
     }
 
+    private void checkunReadMsg() {
+        try {
+            int unreadNum = NIMClient.getService(MsgService.class).getTotalUnreadCount();
+            if (unreadNum > 0) {
+                tabLayout.showDot(2);
+            } else {
+                tabLayout.hideMsg(2);
 
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    int i = (int) msg.obj;
+                    showPopupWindow(i);
+                    break;
+            }
+        }
+    };
+
+    Runnable runnablePermission = new Runnable() {
+        @Override
+        public void run() {
+            requestBasicPermission();
+        }
+    };
+
+
+    /**
+     * 初始化fragment
+     *
+     * @param savedInstanceState
+     */
     private void initFragment(Bundle savedInstanceState) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         int currentTabPosition = 0;
         if (savedInstanceState != null) {
             findStarFragment = (FindStarFragment) getSupportFragmentManager().findFragmentByTag("FindStarFragment");
-            //marketFragment = (MarketFragment) getSupportFragmentManager().findFragmentByTag("MarketFragment");
             marketFragment = (MarketDetailFragment) getSupportFragmentManager().findFragmentByTag("MarketFragment");
-//            differAnswerFragment = (DifferAnswerFragment) getSupportFragmentManager().findFragmentByTag("DifferAnswerFragment");
             userInfoFragment = (UserInfoFragment) getSupportFragmentManager().findFragmentByTag("UserInfoFragment");
             currentTabPosition = savedInstanceState.getInt(AppConstant.HOME_CURRENT_TAB_POSITION);
         } else {
             findStarFragment = new FindStarFragment();
             marketFragment = new MarketDetailFragment();
-//            differAnswerFragment = new DifferAnswerFragment();
             userInfoFragment = new UserInfoFragment();
-            transaction.add(R.id.fl_main, findStarFragment, "FindStarFragment");
             transaction.add(R.id.fl_main, marketFragment, "MarketFragment");
-//            transaction.add(R.id.fl_main, differAnswerFragment, "DifferAnswerFragment");
+            transaction.add(R.id.fl_main, findStarFragment, "FindStarFragment");
             transaction.add(R.id.fl_main, userInfoFragment, "UserInfoFragment");
         }
         transaction.commit();
@@ -192,9 +199,7 @@ public class MainActivity extends BaseActivity {
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //奔溃前保存位置
-        LogUtils.loge("onSaveInstanceState进来了1");
         if (tabLayout != null) {
-            LogUtils.loge("onSaveInstanceState进来了2");
             outState.putInt(AppConstant.HOME_CURRENT_TAB_POSITION, tabLayout.getCurrentTab());
         }
     }
@@ -230,38 +235,27 @@ public class MainActivity extends BaseActivity {
         switch (position) {
             case 0:
                 transaction.hide(marketFragment);
-//                transaction.hide(differAnswerFragment);
                 transaction.hide(userInfoFragment);
                 transaction.show(findStarFragment);
                 transaction.commitAllowingStateLoss();
                 break;
             case 1:
-                if (SharePrefUtil.getInstance().getStatusNav_4()==0){
+                if (SharePrefUtil.getInstance().getStatusNav_4() == 0) {
                     SharePrefUtil.getInstance().setStatusNav_4(1);
                     Message message = Message.obtain();
-                    message.what=1;
-                    message.obj=4;
-                    handler.sendMessageDelayed(message,500);
+                    message.what = 1;
+                    message.obj = 4;
+                    handler.sendMessageDelayed(message, 500);
                 }
                 transaction.hide(findStarFragment);
-//                transaction.hide(differAnswerFragment);
                 transaction.hide(userInfoFragment);
                 transaction.show(marketFragment);
                 transaction.commitAllowingStateLoss();
                 break;
-//            case 2:
-//                CheckLoginUtil.checkLogin(this);
-//                transaction.hide(marketFragment);
-//                transaction.hide(newsInfoFragment);
-//                transaction.hide(userInfoFragment);
-////                transaction.show(differAnswerFragment);
-//                transaction.commitAllowingStateLoss();
-//                break;
             case 2:
                 CheckLoginUtil.checkLogin(this);
                 transaction.hide(marketFragment);
                 transaction.hide(findStarFragment);
-//                transaction.hide(differAnswerFragment);
                 transaction.show(userInfoFragment);
                 transaction.commitAllowingStateLoss();
                 break;
@@ -319,10 +313,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         MPermission.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
-
-        LogUtils.loge("走到此处------------------");
         if (requestCode == UPDATE_DIALOG_PERMISSION_REQUEST_CODE) {
-            LogUtils.loge("强制更新-------------");
             mUpdateDialog.download();
         } else if (requestCode == FORCE_UPDATE_DIALOG_PERMISSION_REQUEST_CODE) {
             mForceUpdateDialog.download();
@@ -382,7 +373,10 @@ public class MainActivity extends BaseActivity {
         registerObservers(false);
     }
 
-    //接收消息
+    /**
+     * 接收消息，登录取消，更新应用等
+     * @param eventBusMessage
+     */
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void ReciveMessageEventBus(final EventBusMessage eventBusMessage) {
         switch (eventBusMessage.Message) {
@@ -393,15 +387,12 @@ public class MainActivity extends BaseActivity {
             case -11:
                 if (eventBusMessage.getCheckUpdateInfoEntity().getIsForceUpdate() == 0) {//强制更新
                     forceUpdateDialog(eventBusMessage.getCheckUpdateInfoEntity());
-                } else if (eventBusMessage.getCheckUpdateInfoEntity().getIsForceUpdate() == 1){  //非强制更新
+                } else if (eventBusMessage.getCheckUpdateInfoEntity().getIsForceUpdate() == 1) {  //非强制更新
                     updateDialog(eventBusMessage.getCheckUpdateInfoEntity());
                 }
                 break;
         }
     }
-
-    private UpdateDialog mUpdateDialog;
-    private ForceUpdateDialog mForceUpdateDialog;
 
     /**
      * 强制更新
@@ -422,7 +413,7 @@ public class MainActivity extends BaseActivity {
      * 非强制更新
      */
     public void updateDialog(CheckUpdateInfoEntity mCheckUpdateInfo) {
-        LogUtils.loge("mCheckUpdateInfo"+mCheckUpdateInfo.toString());
+        LogUtils.loge("mCheckUpdateInfo" + mCheckUpdateInfo.toString());
         mUpdateDialog = new UpdateDialog(this);
         mUpdateDialog.setAppSize(mCheckUpdateInfo.getNewAppSize())
                 .setDownloadUrl(mCheckUpdateInfo.getNewAppUrl())
@@ -440,15 +431,19 @@ public class MainActivity extends BaseActivity {
     @Override
     public void onStart() {
         super.onStart();
-        if (SharePrefUtil.getInstance().getStatusNav_1()==0){
+        if (SharePrefUtil.getInstance().getStatusNav_1() == 0) {
             SharePrefUtil.getInstance().setStatusNav_1(1);
             Message message = Message.obtain();
-            message.what=1;
-            message.obj=1;
-            handler.sendMessageDelayed(message,2000);
+            message.what = 1;
+            message.obj = 1;
+            handler.sendMessageDelayed(message, 2000);
         }
     }
 
+    /**
+     * 新手引导页面
+     * @param i
+     */
     private void showPopupWindow(final int i) {
         View popView = LayoutInflater.from(this).inflate(R.layout.popwindow_navijation_1, null);
         final ImageView imageView = (ImageView) popView.findViewById(R.id.navigation_1);
@@ -456,12 +451,12 @@ public class MainActivity extends BaseActivity {
         final ImageView navigation_2_2 = (ImageView) popView.findViewById(R.id.navigation_2_2);
         final RelativeLayout navigation_4 = (RelativeLayout) popView.findViewById(R.id.navigation_4);
         final ImageView navigation_4_2 = (ImageView) popView.findViewById(R.id.navigation_4_2);
-        if (i==1){
+        if (i == 1) {
             imageView.setVisibility(View.VISIBLE);
-        }else if (i==2){
+        } else if (i == 2) {
             imageView.setVisibility(View.VISIBLE);
             imageView.setImageDrawable(getResources().getDrawable(R.drawable.navigation_2));
-        }else if (i==4){
+        } else if (i == 4) {
             navigation_4.setVisibility(View.VISIBLE);
         }
         final PopupWindow popupWindow = new PopupWindow(this);
@@ -475,15 +470,15 @@ public class MainActivity extends BaseActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (i==1){
-                    if (isFirest){
+                if (i == 1) {
+                    if (isFirest) {
                         imageView.setImageResource(R.drawable.navigation_7);
-                        isFirest =false;
-                    }else {
+                        isFirest = false;
+                    } else {
                         imageView.setVisibility(View.GONE);
                         imageView3.setVisibility(View.VISIBLE);
                     }
-                }else if (i==2){
+                } else if (i == 2) {
                     imageView.setVisibility(View.GONE);
                     navigation_2_2.setVisibility(View.VISIBLE);
                 }

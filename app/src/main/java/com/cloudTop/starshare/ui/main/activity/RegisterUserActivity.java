@@ -43,6 +43,8 @@ import butterknife.OnClick;
 
 
 /**
+ * #75
+ * #76
  * Created by Administrator on 2017/5/9.
  */
 
@@ -63,22 +65,22 @@ public class RegisterUserActivity extends BaseActivity {
     LinearLayout wxLogin;
     @Bind(R.id.tv_three_login)
     TextView threeLogin;
-    private CheckHelper checkHelper = new CheckHelper();
-    private String phone;
     private String pwd;
     private String vCode;
-    private RegisterVerifyCodeBeen verifyCodeBeen;
+    private String phone;
+    private String agentId;
+    private Button enterStar;
+    private String recommend;
+    private EditText memberId;
+    private EditText brokerId;
+    private String sub_agentId;
+    private String userMenberId;
+    private EditText areaBrokerId;
     private boolean isWXBind = false;
     private WXUserInfoEntity wxUserInfo;
     private static Dialog mDetailDialog;
-    private EditText memberId;
-    private EditText areaBrokerId;
-    private String sub_agentId;
-    private EditText brokerId;
-    private Button enterStar;
-    private String userMenberId;
-    private String agentId;
-    private String recommend;
+    private RegisterVerifyCodeBeen verifyCodeBeen;
+    private CheckHelper checkHelper = new CheckHelper();
 
     @Override
     public int getLayoutId() {
@@ -131,11 +133,6 @@ public class RegisterUserActivity extends BaseActivity {
     @OnClick(R.id.registerButton)
     public void registerButton() {
         ViewConcurrencyUtils.preventConcurrency();  //防止并发
-                /*String loader = "正在注册...";
-                if (isBind) {
-                    loader = "正在绑定...";
-                }
-                showLoader(loader);*/
         CheckException exception = new CheckException();
         phone = userNameEditText.getEditTextString();
         pwd = passwordEditText.getEditTextString();
@@ -152,6 +149,7 @@ public class RegisterUserActivity extends BaseActivity {
         }
     }
 
+    //绑定微信
     private void wxBindInfo() {
         NetworkAPIFactoryImpl.getUserAPI().bindNumber(userNameEditText.getEditTextString(), wxUserInfo.getOpenid()
                 , MD5Util.MD5(passwordEditText.getEditTextString()), verifyCodeBeen.getTimeStamp(), verifyCodeBeen.getVToken(), vCode,
@@ -173,9 +171,6 @@ public class RegisterUserActivity extends BaseActivity {
                             overridePendingTransition(R.anim.activity_open_down_in, R.anim.activity_off_top_out);
                         } else if (registerReturnBeen.getResult() == 1) {
                             ToastUtils.showShort("绑定成功");
-                            /*//loginGetUserInfo(newPwd);  //登录请求数据
-                            finish();
-                            overridePendingTransition(0,R.anim.activity_off_top_out);*/
                             SharePrefUtil.getInstance().putLoginPhone(userNameEditText.getEditTextString());
                             startActivity(LoginActivity.class);
                             finish();
@@ -227,18 +222,6 @@ public class RegisterUserActivity extends BaseActivity {
 
             @Override
             public void onSuccess(RegisterReturnBeen registerReturnBeen) {
-                /*//网易云注册
-                NetworkAPIFactoryImpl.getUserAPI().registerWangYi(userNameEditText.getEditTextString(), passwordEditText.getEditTextString(), new OnAPIListener<RegisterReturnWangYiBeen>() {
-                    @Override
-                    public void onError(Throwable ex) {
-                        LogUtils.logd("网易云注册失败"+ex.toString());
-                    }
-
-                    @Override
-                    public void onSuccess(RegisterReturnWangYiBeen registerReturnWangYiBeen) {
-                        LogUtils.logd("网易云注册成功"+registerReturnWangYiBeen.getResult_value()+"网易云token"+registerReturnWangYiBeen.getToken_value());
-                    }
-                });*/
                 LogUtils.logd("注册请求网络成功" + registerReturnBeen.toString());
                 if (registerReturnBeen.getResult() == -301) {
                     ToastUtils.showShort("用户已经注册,请直接登录");
@@ -351,12 +334,10 @@ public class RegisterUserActivity extends BaseActivity {
         }
     }
 
-    //
+    //会员id弹窗
     private void initIdDialog() {
         mDetailDialog = new Dialog(this, R.style.custom_dialog);
         mDetailDialog.setContentView(R.layout.dialog_input_id);
-        //memberId = (EditText) mDetailDialog.findViewById(R.id.member_id);
-        //areaBrokerId = (EditText) mDetailDialog.findViewById(R.id.area_broker_id);
         brokerId = (EditText) mDetailDialog.findViewById(R.id.broker_id);
         enterStar = (Button) mDetailDialog.findViewById(R.id.btn_enter_star);
         ImageView closeImg = (ImageView) mDetailDialog.findViewById(R.id.iv_dialog_close);

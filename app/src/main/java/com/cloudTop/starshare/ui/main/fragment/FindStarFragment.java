@@ -21,6 +21,8 @@ import com.cloudTop.starshare.utils.SharePrefUtil;
 import java.util.ArrayList;
 
 /**
+ * #75
+ * #76
  * Created by Administrator on 2017/7/6.
  * 发现模块
  */
@@ -97,6 +99,7 @@ public class FindStarFragment extends BaseFragment {
         });
     }
 
+    //切换
     private void switchTo(int position) {
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         switch (position) {

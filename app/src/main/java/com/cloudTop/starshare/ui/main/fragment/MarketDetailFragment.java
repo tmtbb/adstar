@@ -30,6 +30,8 @@ import butterknife.Bind;
 
 
 /**
+ * #75
+ * #76
  * Created by Administrator on 2017/5/15.
  * 行情明星热度列表
  */
@@ -39,16 +41,16 @@ public class MarketDetailFragment extends BaseFragment {
     NormalTitleBar nt_title;
     @Bind(R.id.parent_view)
     FrameLayout parentView;
+
+    private int userId;
+    private String token;
+    private LRecyclerView lrv;
     MarketDetailAdapter marketDetailAdapter;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private static int mCurrentCounter = 0;
     private static final int REQUEST_COUNT = 10;
-    private static final int GET_DATA = 10;
     private ArrayList<StarListReturnBean.SymbolInfoBean> list = new ArrayList<>();
     private ArrayList<StarListReturnBean.SymbolInfoBean> loadList = new ArrayList<>();
-    private LRecyclerView lrv;
-    private int userId;
-    private String token;
 
     @Override
     protected int getLayoutResource() {
@@ -68,14 +70,13 @@ public class MarketDetailFragment extends BaseFragment {
         nt_title.setRightImagSrc(R.drawable.search);
         nt_title.setRightImagVisibility(true);
         initAdpter();
-        //myHandler = new MyHandler(this);
         initListener();
         getData(false, 0, REQUEST_COUNT);
     }
 
     private void initData() {
-        userId = SharePrefUtil.getInstance().getUserId();
         token = SharePrefUtil.getInstance().getToken();
+        userId = SharePrefUtil.getInstance().getUserId();
         lrv = (LRecyclerView) rootView.findViewById(R.id.lrv);
     }
 
@@ -88,6 +89,7 @@ public class MarketDetailFragment extends BaseFragment {
         });
     }
 
+    //获取数据
     private void getData(final boolean isLoadMore, int start, int count) {
         NetworkAPIFactoryImpl.getInformationAPI().getStarList(userId,
                 token, 5, 1, start, count, new OnAPIListener<StarListReturnBean>() {
@@ -137,7 +139,6 @@ public class MarketDetailFragment extends BaseFragment {
         marketDetailAdapter = new MarketDetailAdapter(getActivity());
         lRecyclerViewAdapter = new LRecyclerViewAdapter(marketDetailAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
-        //mRecyclerView.setHasFixedSize(true);
         lrv.setLayoutManager(new LinearLayoutManager(getContext()));
         lrv.setLoadMoreEnabled(true);
         lrv.setNoMore(false);
@@ -167,89 +168,6 @@ public class MarketDetailFragment extends BaseFragment {
         });
     }
 
-   /* @OnClick(R.id.ll_select_order)
-    public void onClickOrder() {
-        if (sortType == 0) {
-            iv_select.setImageDrawable(getResources().getDrawable(R.drawable.sort_nomal));
-            sortType = 1;
-        } else if (sortType == 1) {
-            iv_select.setImageDrawable(getResources().getDrawable(R.drawable.sort_up));
-            sortType = 0;
-        }
-        refresh();
-    }
-
-    private void refresh() {
-        getData(false, 1, REQUEST_COUNT);
-    }*/
-
-    /*private static class MyHandler extends Handler {
-        final private static int GRT_DATA = 111;
-        private final WeakReference<MarketDetailFragment> mFragment;
-
-        public MyHandler(MarketDetailFragment mfragment) {
-            mFragment = new WeakReference<MarketDetailFragment>(mfragment);
-        }
-
-        @Override
-        public void handleMessage(Message msg) {
-            MarketDetailFragment fragment = mFragment.get();
-            if (fragment != null) {
-                switch (msg.what) {
-                    case GRT_DATA:
-                        fragment.refresh();
-                        fragment.myHandler.sendEmptyMessageDelayed(GRT_DATA, 3 * 1000);
-                        break;
-                }
-            }
-        }
-    }*/
-
-//    @Override
-//    public void onHiddenChanged(boolean hidden) {
-//        LogUtils.loge("onHiddenChanged>> ....." + hidden + "..getUserVisibleHint" + getUserVisibleHint() + "...isVisible()" + isVisible());
-//        if (getUserVisibleHint() && isVisible()) {
-//            startRefresh();
-//        } else {
-//            stopRefresh();
-//        }
-//        super.onHiddenChanged(hidden);
-//    }
-//
-//    @Override
-//    public void setUserVisibleHint(boolean isVisibleToUser) {
-//        LogUtils.loge("setUserVisibleHint>>" + isVisibleToUser);
-//        super.setUserVisibleHint(isVisibleToUser);
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        onHiddenChanged(false);
-//        LogUtils.loge("刷新行情明星列表onResume");
-//        super.onResume();
-//    }
-//
-//    @Override
-//    public void onPause() {
-//        LogUtils.loge("停止刷新行情明星列表onPause");
-//        stopRefresh();
-//        super.onPause();
-//    }
-//
-//    private void stopRefresh() {
-//        if (myHandler != null) {
-//            myHandler.removeCallbacksAndMessages(null);
-//            LogUtils.loge("停止刷新stopRefresh");
-//        }
-//    }
-//
-//    private void startRefresh() {
-//        if (myHandler != null) {
-//            LogUtils.loge("刷新行情明星列表startRefresh");
-//            myHandler.removeCallbacksAndMessages(null);
-//            myHandler.sendEmptyMessage(myHandler.GRT_DATA);
-//        }
-//    }
     public void showData() {
         if (list.size() == 0) {
             showErrorView(parentView, R.drawable.error_view_comment, "暂无相关数据");
