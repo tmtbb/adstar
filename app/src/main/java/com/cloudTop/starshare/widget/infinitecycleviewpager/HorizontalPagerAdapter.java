@@ -4,18 +4,21 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
+import android.support.v7.widget.CardView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
+import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.app.AppConstant;
 import com.cloudTop.starshare.been.HomePageInfoBean;
-import com.cloudTop.starshare.ui.main.activity.StarInfoActivity;
-import com.cloudTop.starshare.utils.CheckLoginUtil;
-import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.ui.main.activity.CircleFriendsActivity;
+import com.cloudTop.starshare.ui.main.activity.StarInfoActivity;
 import com.cloudTop.starshare.ui.main.activity.StarSellActivity;
+import com.cloudTop.starshare.utils.CheckLoginUtil;
+import com.cloudTop.starshare.utils.DisplayUtil;
 import com.cloudTop.starshare.utils.ImageLoaderUtils;
 
 import java.util.List;
@@ -28,10 +31,12 @@ public class HorizontalPagerAdapter extends PagerAdapter {
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private List<HomePageInfoBean.SymbolInfoBean> mList;
-    public HorizontalPagerAdapter(Context context, List<HomePageInfoBean.SymbolInfoBean> list) {
+    private boolean mHaveVirtualKey;
+    public HorizontalPagerAdapter(Context context, List<HomePageInfoBean.SymbolInfoBean> list,boolean haveVirtualKey) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
         mList = list;
+        mHaveVirtualKey = haveVirtualKey;
     }
 
     @Override
@@ -54,7 +59,15 @@ public class HorizontalPagerAdapter extends PagerAdapter {
     public Object instantiateItem(final ViewGroup container, final int position) {
         View view = mLayoutInflater.inflate(R.layout.view_card_item, container, false);
         final HomePageInfoBean.SymbolInfoBean infoBean = mList.get(position);
+        CardView CardView = (CardView)view.findViewById(R.id.CardView);
         ImageView img_item = (ImageView)view.findViewById(R.id.img_item);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)CardView.getLayoutParams();
+        if (mHaveVirtualKey){
+            params.setMargins(DisplayUtil.dip2px(40),0,DisplayUtil.dip2px(40),0);
+        }else {
+            params.setMargins(DisplayUtil.dip2px(23),0,DisplayUtil.dip2px(23),0);
+        }
+        CardView.setLayoutParams(params);
         ImageLoaderUtils.displayWithDefaultImg(mContext,img_item,infoBean.getHome_pic(),R.drawable.buying_star);
         img_item.setOnClickListener(new View.OnClickListener() {
             @Override

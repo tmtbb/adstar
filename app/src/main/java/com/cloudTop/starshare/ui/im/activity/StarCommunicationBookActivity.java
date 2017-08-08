@@ -251,8 +251,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
     @Override
     public void clickImg() {
         super.clickImg();
-        ToastUtils.showShort("点击了错误图片!");
-
+        //ToastUtils.showShort("点击了错误图片!");
     }
 
     @Override

@@ -185,6 +185,18 @@ public class ImageLoaderUtils {
                 .error(resurce)
                 .into(imageView);
     }
+    //不裁剪的填充
+    public static void displayWithNotTailorImg(Context context, ImageView imageView, String url,int resurce) {
+        if (imageView == null) {
+            throw new IllegalArgumentException("argument error");
+        }
+        Glide.with(context).load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .fitCenter()
+                .placeholder(R.drawable.edit_cursor)
+                .error(resurce)
+                .crossFade().into(imageView);
+    }
 
 
 

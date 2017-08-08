@@ -26,11 +26,12 @@ import butterknife.OnClick;
 
 
 /**
+ * #75
+ * #76
  * Created by sll on 2017/7/5.
  */
 
 public class AddBankCardActvivity extends BaseActivity {
-
 
     @Bind(R.id.nt_title)
     NormalTitleBar ntTitle;
@@ -47,6 +48,7 @@ public class AddBankCardActvivity extends BaseActivity {
     @Bind(R.id.btn_bind_bank)
     Button btnBindBank;
     private CheckHelper checkHelper = new CheckHelper();
+    private RegisterVerifyCodeBeen verifyCodeBeen;
 
     @Override
     public int getLayoutId() {
@@ -100,13 +102,10 @@ public class AddBankCardActvivity extends BaseActivity {
         }
         CheckException exception = new CheckException();
         if (checkHelper.checkMobile(etUserPhone.getText().toString(), exception)) {
-
-
             String bankUsername = etUserName.getText().toString().trim();
             String account = etUserCardno.getText().toString().trim();
             String phone = etUserPhone.getText().toString().trim();
             String codeMsg = etCodeMsg.getText().toString().trim();
-
 
             NetworkAPIFactoryImpl.getDealAPI().bindCard(bankUsername, account, new OnAPIListener<BankInfoBean>() {
                 @Override
@@ -142,13 +141,14 @@ public class AddBankCardActvivity extends BaseActivity {
         //获取验证码
         getCode();
     }
-    private RegisterVerifyCodeBeen verifyCodeBeen;
+
+
+    //获取验证码
     private void getCode() {
         LogUtils.logd("请求网络获取短信验证码------------------------------");
         CheckException exception = new CheckException();
         String phoneEdit = etUserPhone.getText().toString().trim();
         if (new CheckHelper().checkMobile(phoneEdit, exception)) {
-            //Utils.closeSoftKeyboard(view);
             NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit,3, new OnAPIListener<RegisterVerifyCodeBeen>() {
                 @Override
                 public void onError(Throwable ex) {
@@ -166,10 +166,5 @@ public class AddBankCardActvivity extends BaseActivity {
         } else {
             ToastUtils.showShort(exception.getErrorMsg());
         }
-    }
-
-    private void resetUserPwd() {
-
-
     }
 }
