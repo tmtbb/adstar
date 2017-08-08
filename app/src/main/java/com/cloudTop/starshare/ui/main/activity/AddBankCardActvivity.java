@@ -149,7 +149,7 @@ public class AddBankCardActvivity extends BaseActivity {
         String phoneEdit = etUserPhone.getText().toString().trim();
         if (new CheckHelper().checkMobile(phoneEdit, exception)) {
             //Utils.closeSoftKeyboard(view);
-            NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit, new OnAPIListener<RegisterVerifyCodeBeen>() {
+            NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit,3, new OnAPIListener<RegisterVerifyCodeBeen>() {
                 @Override
                 public void onError(Throwable ex) {
                     ex.printStackTrace();

@@ -153,8 +153,8 @@ public class RegisterUserActivity extends BaseActivity {
     private void wxBindInfo() {
         NetworkAPIFactoryImpl.getUserAPI().bindNumber(userNameEditText.getEditTextString(), wxUserInfo.getOpenid()
                 , MD5Util.MD5(passwordEditText.getEditTextString()), verifyCodeBeen.getTimeStamp(), verifyCodeBeen.getVToken(), vCode,
-                "" , "","",sub_agentId,""
-              , wxUserInfo.getNickname(), wxUserInfo.getHeadimgurl(), new OnAPIListener<RegisterReturnBeen>() {
+                "", "", "", sub_agentId, ""
+                , wxUserInfo.getNickname(), wxUserInfo.getHeadimgurl(), new OnAPIListener<RegisterReturnBeen>() {
                     @Override
                     public void onError(Throwable ex) {
                         LogUtils.logd("微信绑定失败!");
@@ -213,31 +213,31 @@ public class RegisterUserActivity extends BaseActivity {
 
     private void register() {
         NetworkAPIFactoryImpl.getUserAPI().register(userNameEditText.getEditTextString(),
-                MD5Util.MD5(passwordEditText.getEditTextString()),"" , "","","",sub_agentId,
+                MD5Util.MD5(passwordEditText.getEditTextString()), "", "", "", "", sub_agentId,
                 new OnAPIListener<RegisterReturnBeen>() {
-            @Override
-            public void onError(Throwable ex) {
-                LogUtils.logd("注册请求网络失败" + ex.toString());
-            }
+                    @Override
+                    public void onError(Throwable ex) {
+                        LogUtils.logd("注册请求网络失败" + ex.toString());
+                    }
 
-            @Override
-            public void onSuccess(RegisterReturnBeen registerReturnBeen) {
-                LogUtils.logd("注册请求网络成功" + registerReturnBeen.toString());
-                if (registerReturnBeen.getResult() == -301) {
-                    ToastUtils.showShort("用户已经注册,请直接登录");
-                    startActivity(LoginActivity.class);
-                    finish();
-                    overridePendingTransition(R.anim.activity_open_down_in, R.anim.activity_off_top_out);
-                } else if (registerReturnBeen.getResult() == 1) {
-                    ToastUtils.showShort("注册成功,请登录");
-                    SharePrefUtil.getInstance().putLoginPhone(userNameEditText.getEditTextString());
+                    @Override
+                    public void onSuccess(RegisterReturnBeen registerReturnBeen) {
+                        LogUtils.logd("注册请求网络成功" + registerReturnBeen.toString());
+                        if (registerReturnBeen.getResult() == -301) {
+                            ToastUtils.showShort("用户已经注册,请直接登录");
+                            startActivity(LoginActivity.class);
+                            finish();
+                            overridePendingTransition(R.anim.activity_open_down_in, R.anim.activity_off_top_out);
+                        } else if (registerReturnBeen.getResult() == 1) {
+                            ToastUtils.showShort("注册成功,请登录");
+                            SharePrefUtil.getInstance().putLoginPhone(userNameEditText.getEditTextString());
 //                            loginGetUserInfo(newPwd);  //登录请求数据
-                    startActivity(LoginActivity.class);
-                    finish();
-                    overridePendingTransition(R.anim.activity_open_down_in, R.anim.activity_off_top_out);
-                }
-            }
-        });
+                            startActivity(LoginActivity.class);
+                            finish();
+                            overridePendingTransition(R.anim.activity_open_down_in, R.anim.activity_off_top_out);
+                        }
+                    }
+                });
     }
 
     private void getCode() {
@@ -246,7 +246,7 @@ public class RegisterUserActivity extends BaseActivity {
         String phoneEdit = userNameEditText.getEditTextString();
         if (new CheckHelper().checkMobile(phoneEdit, exception)) {
             //Utils.closeSoftKeyboard(view);
-            NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit, new OnAPIListener<RegisterVerifyCodeBeen>() {
+            NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit, 0, new OnAPIListener<RegisterVerifyCodeBeen>() {
                 @Override
                 public void onError(Throwable ex) {
                     ex.printStackTrace();
@@ -294,7 +294,6 @@ public class RegisterUserActivity extends BaseActivity {
             return;
         }
         final SendAuth.Req req = new SendAuth.Req();
-        ToastUtils.showShort("微信登录");
         req.scope = "snsapi_userinfo";
         req.state = "wechat_sdk_demo_test";
         AppApplication.api.sendReq(req);
@@ -318,9 +317,9 @@ public class RegisterUserActivity extends BaseActivity {
                 public void onSuccess(RegisterReturnBeen registerReturnBeen) {
                     stopProgressDialog();
                     if (registerReturnBeen.getResult() == 1) {
-                        if (isWXBind){
+                        if (isWXBind) {
                             getCode();
-                        }else {
+                        } else {
                             ToastUtils.showShort("手机号码已注册,请直接登录");
                         }
                     } else if (registerReturnBeen.getResult() == 0) {
@@ -352,10 +351,10 @@ public class RegisterUserActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 LogUtils.logd("输入会员ID----------------------");
-                if (TextUtils.isEmpty(brokerId.getText().toString().trim())){
-                    sub_agentId="";
-                }else {
-                    sub_agentId =brokerId.getText().toString().trim();  //经济人人  == 推荐人
+                if (TextUtils.isEmpty(brokerId.getText().toString().trim())) {
+                    sub_agentId = "";
+                } else {
+                    sub_agentId = brokerId.getText().toString().trim();  //经济人人  == 推荐人
                 }
                 //userMenberId = memberId.getText().toString().trim();
                 //agentId = areaBrokerId.getText().toString().trim();//区域。。经纪人

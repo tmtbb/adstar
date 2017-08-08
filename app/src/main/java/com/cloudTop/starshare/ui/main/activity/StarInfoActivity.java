@@ -15,14 +15,9 @@ import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import com.cloudTop.starshare.base.BaseActivity;
-import com.netease.nim.uikit.NimUIKit;
-import com.netease.nim.uikit.session.SessionCustomization;
-import com.umeng.socialize.UMShareAPI;
-import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.app.AppConstant;
+import com.cloudTop.starshare.base.BaseActivity;
 import com.cloudTop.starshare.been.HaveStarTimeBeen;
 import com.cloudTop.starshare.been.StarDetailInfoBean;
 import com.cloudTop.starshare.been.StarExperienceBeen;
@@ -40,9 +35,16 @@ import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.SharePrefUtil;
 import com.cloudTop.starshare.utils.ToastUtils;
 import com.cloudTop.starshare.widget.MyListView;
-import com.cloudTop.starshare.widget.ZoomImageView;
+import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.session.SessionCustomization;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.ArrayList;
+
+import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 
 /**
@@ -205,7 +207,8 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
 
     private void showPopupWindow(String prc_url) {
         View popView = LayoutInflater.from(this).inflate(R.layout.popwindow_imegview, null);
-        ZoomImageView zoomImageView = (ZoomImageView) popView.findViewById(R.id.zoomimage);
+        PhotoView photoView = (PhotoView) popView.findViewById(R.id.iv_photo);
+        photoView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         final PopupWindow popupWindow = new PopupWindow(this);
         popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -213,10 +216,11 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         popupWindow.setOutsideTouchable(false);
         popupWindow.setFocusable(true);
-        ImageLoaderUtils.displayWithDefaultImg(this, zoomImageView, prc_url, R.drawable.rec_bg);
-        zoomImageView.setOnClickListener(new View.OnClickListener() {
+        //ImageLoaderUtils.displayWithDefaultImg(this, photoView, prc_url, R.drawable.rec_bg);
+        ImageLoaderUtils.displayWithPreviewImg(this, photoView, prc_url, R.drawable.rec_bg);
+        photoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
-            public void onClick(View v) {
+            public void onViewTap(View view, float x, float y) {
                 popupWindow.dismiss();
             }
         });

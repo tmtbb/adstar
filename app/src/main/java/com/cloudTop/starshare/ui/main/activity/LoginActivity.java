@@ -9,15 +9,25 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.app.AppApplication;
 import com.cloudTop.starshare.base.BaseActivity;
+import com.cloudTop.starshare.been.EventBusMessage;
 import com.cloudTop.starshare.been.LoginReturnInfo;
+import com.cloudTop.starshare.been.RegisterReturnWangYiBeen;
 import com.cloudTop.starshare.helper.CheckHelper;
 import com.cloudTop.starshare.listener.OnAPIListener;
+import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
+import com.cloudTop.starshare.ui.wangyi.DemoCache;
+import com.cloudTop.starshare.ui.wangyi.config.preference.Preferences;
 import com.cloudTop.starshare.ui.wangyi.config.preference.UserPreferences;
+import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.MD5Util;
+import com.cloudTop.starshare.utils.SharePrefUtil;
 import com.cloudTop.starshare.utils.ToastUtils;
 import com.cloudTop.starshare.utils.ViewConcurrencyUtils;
+import com.cloudTop.starshare.widget.CheckException;
+import com.cloudTop.starshare.widget.WPEditText;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.cache.DataCacheManager;
 import com.netease.nimlib.jsbridge.util.LogUtil;
@@ -27,16 +37,6 @@ import com.netease.nimlib.sdk.RequestCallback;
 import com.netease.nimlib.sdk.StatusBarNotificationConfig;
 import com.netease.nimlib.sdk.auth.LoginInfo;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
-import com.cloudTop.starshare.R;
-import com.cloudTop.starshare.been.EventBusMessage;
-import com.cloudTop.starshare.been.RegisterReturnWangYiBeen;
-import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
-import com.cloudTop.starshare.ui.wangyi.DemoCache;
-import com.cloudTop.starshare.ui.wangyi.config.preference.Preferences;
-import com.cloudTop.starshare.utils.LogUtils;
-import com.cloudTop.starshare.utils.SharePrefUtil;
-import com.cloudTop.starshare.widget.CheckException;
-import com.cloudTop.starshare.widget.WPEditText;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -112,7 +112,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             return;
         }
         isOnClicked = true;
-        startProgressDialog("登录中...");
+        startProgressDialog("登录中...",true);
         CheckException exception = new CheckException();
         LogUtils.loge(MD5Util.MD5(passwordEditText.getEditTextString()));
         if (checkHelper.checkMobile(userNameEditText.getEditTextString(), exception)
@@ -191,21 +191,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         loginRequest = NimUIKit.doLogin(new LoginInfo(loginReturnInfos.getUserinfo().getPhone(), registerReturnWangYiBeen.getToken_value()), new RequestCallback<LoginInfo>() {
             @Override
             public void onSuccess(LoginInfo param) {
-                NetworkAPIFactoryImpl.getUserAPI().saveDevice(loginReturnInfos.getUserinfo().getId(), new OnAPIListener<Object>() {
-                    @Override
-                    public void onError(Throwable ex) {
-                        stopProgressDialog();
-                        isOnClicked = false;
-                        LogUtils.logd("上传设备id和类型失败:" + ex.toString());
-                    }
-
-                    @Override
-                    public void onSuccess(Object o) {
-                        stopProgressDialog();
-                        isOnClicked = false;
-                        LogUtils.logd("上传设备id和类型成功:" + o.toString());
-                    }
-                });
+                stopProgressDialog();
+                isOnClicked = false;
                 LogUtils.logd("网易云登录成功:" + param.toString());
                 ToastUtils.showStatusView("登录成功", true);
                 DemoCache.setAccount(param.getAccount());
@@ -229,11 +216,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                 } else {
                     LogUtils.logd("网易云登录失败" + code);
                 }
+                stopProgressDialog();
                 isOnClicked = false;
             }
 
             @Override
             public void onException(Throwable exception) {
+                stopProgressDialog();
                 isOnClicked = false;
                 LogUtils.logd("网易云登录失败" + R.string.login_exception);
             }
@@ -287,9 +276,11 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         // 更新配置
         NIMClient.updateStatusBarNotificationConfig(statusBarNotificationConfig);
     }
-
+    private boolean isOnClickWeiXin = false ;
     public void weixinLogin() {
         ViewConcurrencyUtils.preventConcurrency();  //防止并发
+        isOnClickWeiXin = true ;
+        startProgressDialog("登录中....",true);
         if (!AppApplication.api.isWXAppInstalled()) {
             ToastUtils.showShort("您还未安装微信客户端");
             return;
@@ -306,6 +297,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onDestroy() {
         //EventBus.getDefault().removeAllStickyEvents();
         //EventBus.getDefault().unregister(this);
+        stopProgressDialog();
         super.onDestroy();
     }
 

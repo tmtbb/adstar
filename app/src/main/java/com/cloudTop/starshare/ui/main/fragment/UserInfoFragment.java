@@ -34,6 +34,8 @@ import com.cloudTop.starshare.been.StarInfoReturnBean;
 import com.cloudTop.starshare.greendao.GreenDaoManager;
 import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
+import com.cloudTop.starshare.service.DemoIntentService;
+import com.cloudTop.starshare.service.DemoPushService;
 import com.cloudTop.starshare.ui.main.activity.BookingStarActivity;
 import com.cloudTop.starshare.ui.main.activity.CustomerServiceActivity;
 import com.cloudTop.starshare.ui.main.activity.DifferAnswerActivity;
@@ -50,6 +52,7 @@ import com.cloudTop.starshare.utils.QRCodeUtil;
 import com.cloudTop.starshare.utils.SharePrefUtil;
 import com.cloudTop.starshare.utils.ToastUtils;
 import com.cloudTop.starshare.utils.ViewConcurrencyUtils;
+import com.igexin.sdk.PushManager;
 import com.netease.nimlib.jsbridge.util.LogUtil;
 import com.netease.nimlib.sdk.NIMClient;
 import com.netease.nimlib.sdk.RequestCallbackWrapper;
@@ -301,6 +304,7 @@ public class UserInfoFragment extends BaseFragment {
                 requestIdentity();
                 requestStarCount();
                 requestReturnMount();
+                initGeTui();
                 break;
         }
     }
@@ -528,6 +532,14 @@ public class UserInfoFragment extends BaseFragment {
         ToastUtils.showShort("二维码已保存");
         // 最后通知图库更新
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + file.getAbsolutePath())));
+    }
+    //初始化个推
+    private void initGeTui() {
+        // com.getui.demo.DemoPushService 为第三方自定义推送服务
+        PushManager.getInstance().initialize(getActivity().getApplicationContext(), DemoPushService.class);
+
+        // com.getui.demo.DemoIntentService 为第三方自定义的推送服务事件接收类
+        PushManager.getInstance().registerPushIntentService(getActivity().getApplicationContext(), DemoIntentService.class);
     }
 
 }

@@ -159,7 +159,7 @@ public class ResetUserPwdActivity extends BaseActivity {
         String phoneEdit = phoneEditText.getEditTextString();
         if (new CheckHelper().checkMobile(phoneEdit, exception)) {
             //Utils.closeSoftKeyboard(view);
-            NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit, new OnAPIListener<RegisterVerifyCodeBeen>() {
+            NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit,1, new OnAPIListener<RegisterVerifyCodeBeen>() {
                 @Override
                 public void onError(Throwable ex) {
                     ex.printStackTrace();

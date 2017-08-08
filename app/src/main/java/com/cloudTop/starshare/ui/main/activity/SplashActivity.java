@@ -8,13 +8,10 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.MotionEvent;
 
+import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.app.AppApplication;
-import com.cloudTop.starshare.service.DemoIntentService;
-import com.cloudTop.starshare.service.DemoPushService;
-import com.igexin.sdk.PushManager;
 import com.testin.agent.Bugout;
 import com.testin.agent.BugoutConfig;
-import com.cloudTop.starshare.R;
 
 /**
  * Created by Administrator on 2017/5/5.
@@ -51,7 +48,6 @@ public class SplashActivity extends Activity {
     public void initView() {
       Bugout.init(this, "1664ea921dcbe122834e440f7f584e2e", "yingyongbao");
       initBugOut();
-        initGeTui();
         mHandler.sendEmptyMessageDelayed(1,2000);
 //        PropertyValuesHolder alpha = PropertyValuesHolder.ofFloat("alpha", 0.3f, 1f);
 //        PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 0.3f, 1f);
@@ -108,13 +104,6 @@ public class SplashActivity extends Activity {
         Bugout.init(config);
     }
 
-    private void initGeTui() {
-        // com.getui.demo.DemoPushService 为第三方自定义推送服务
-        PushManager.getInstance().initialize(this.getApplicationContext(), DemoPushService.class);
-
-        // com.getui.demo.DemoIntentService 为第三方自定义的推送服务事件接收类
-        PushManager.getInstance().registerPushIntentService(this.getApplicationContext(), DemoIntentService.class);
-    }
 
     @Override
     protected void onResume() {

@@ -239,6 +239,14 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     public void startProgressDialog(String msg) {
         LoadingDialog.showDialogForLoading(this, msg, false);
     }
+    /**
+     * 开启浮动加载进度条
+     *是否可取消
+     * @param msg
+     */
+    public void startProgressDialog(String msg,boolean cancelable) {
+        LoadingDialog.showDialogForLoading(this, msg, cancelable);
+    }
 
     /**
      * 停止浮动加载进度条

@@ -432,17 +432,17 @@ public class AppApplication extends BaseApplication {
                 public void onSuccess(LoginReturnInfo loginReturnEntity) {
                     LogUtils.loge("------------------======token登录成功，保存信息" + loginReturnEntity.toString());
                     if (loginReturnEntity.getResult() == 1) {
-                        NetworkAPIFactoryImpl.getUserAPI().saveDevice(loginReturnEntity.getUserinfo().getId(), new OnAPIListener<Object>() {
-                            @Override
-                            public void onError(Throwable ex) {
-
-                            }
-
-                            @Override
-                            public void onSuccess(Object o) {
-                                LogUtils.logd("上传设备id和类型成功:" + o.toString());
-                            }
-                        });
+//                        NetworkAPIFactoryImpl.getUserAPI().saveDevice(loginReturnEntity.getUserinfo().getId(), new OnAPIListener<Object>() {
+//                            @Override
+//                            public void onError(Throwable ex) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onSuccess(Object o) {
+//                                LogUtils.logd("上传设备id和类型成功:" + o.toString());
+//                            }
+//                        });
                         //服务器问题,先token登录不保存信息
                         //SharePrefUtil.getInstance().saveLoginUserInfo(loginReturnEntity);
                         if (!TextUtils.isEmpty(loginReturnEntity.getToken())) {

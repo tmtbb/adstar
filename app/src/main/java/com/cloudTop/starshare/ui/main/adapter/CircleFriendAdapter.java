@@ -8,6 +8,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 
 import com.cloudTop.starshare.R;
@@ -25,10 +26,12 @@ import com.cloudTop.starshare.utils.ToastUtils;
 import com.cloudTop.starshare.widget.CommentListView;
 import com.cloudTop.starshare.widget.PraiseListView;
 import com.cloudTop.starshare.widget.SnsPopupWindow;
-import com.cloudTop.starshare.widget.ZoomImageView;
 import com.cloudTop.starshare.widget.emoji.MoonUtils;
 
 import java.util.List;
+
+import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by Administrator on 2017/7/12.
@@ -211,7 +214,8 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
 
     private void showPopupWindow(String prc_url) {
         View popView = LayoutInflater.from(context).inflate(R.layout.popwindow_imegview, null);
-        ZoomImageView zoomImageView = (ZoomImageView) popView.findViewById(R.id.zoomimage);
+        PhotoView photoView = (PhotoView) popView.findViewById(R.id.iv_photo);
+        photoView.setScaleType(ImageView.ScaleType.FIT_CENTER);
         final PopupWindow popupWindow = new PopupWindow(context);
         popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
@@ -219,10 +223,11 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
         popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
         popupWindow.setOutsideTouchable(false);
         popupWindow.setFocusable(true);
-        ImageLoaderUtils.displayWithDefaultImg(context, zoomImageView, prc_url, R.drawable.rec_bg);
-        zoomImageView.setOnClickListener(new View.OnClickListener() {
+        //ImageLoaderUtils.displayWithDefaultImg(context, photoView, prc_url, R.drawable.rec_bg);
+        ImageLoaderUtils.displayWithPreviewImg(context, photoView, prc_url, R.drawable.rec_bg);
+        photoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
             @Override
-            public void onClick(View v) {
+            public void onViewTap(View view, float x, float y) {
                 popupWindow.dismiss();
             }
         });

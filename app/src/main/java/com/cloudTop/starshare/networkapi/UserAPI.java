@@ -26,7 +26,7 @@ public interface UserAPI {
     void register(String phone, String password, String memberId, String agentId,String channel, String recommend,String sub_agentId, OnAPIListener<RegisterReturnBeen> listener);
 
     //
-    void verifyCode(String phone, OnAPIListener<RegisterVerifyCodeBeen> listener);
+    void verifyCode(String phone,int type, OnAPIListener<RegisterVerifyCodeBeen> listener);
 
     //
     void resetPasswd(String phone, String pwd, OnAPIListener<Object> listener); //修改交易/用户密码
@@ -46,5 +46,5 @@ public interface UserAPI {
     void isRegisted(String phone, OnAPIListener<RegisterReturnBeen> listener);
     void starCount( OnAPIListener<RegisterReturnBeen> listener);
     void update(OnAPIListener<CheckUpdateInfoEntity> listener);
-    void saveDevice(long uid, OnAPIListener<Object> listener);
+    void saveDevice(long uid,String device_id, OnAPIListener<Object> listener);
 }

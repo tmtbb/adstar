@@ -7,19 +7,26 @@ import android.os.Message;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.app.AppApplication;
 import com.cloudTop.starshare.app.Constant;
 import com.cloudTop.starshare.base.baseapp.AppManager;
 import com.cloudTop.starshare.been.EventBusMessage;
 import com.cloudTop.starshare.been.LoginReturnInfo;
+import com.cloudTop.starshare.been.RegisterReturnWangYiBeen;
+import com.cloudTop.starshare.been.WXAccessTokenEntity;
+import com.cloudTop.starshare.been.WXUserInfoEntity;
 import com.cloudTop.starshare.been.WXinLoginReturnBeen;
 import com.cloudTop.starshare.listener.OnAPIListener;
+import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
 import com.cloudTop.starshare.ui.main.activity.LoginActivity;
 import com.cloudTop.starshare.ui.main.activity.RegisterUserActivity;
+import com.cloudTop.starshare.ui.wangyi.DemoCache;
 import com.cloudTop.starshare.ui.wangyi.config.preference.Preferences;
 import com.cloudTop.starshare.ui.wangyi.config.preference.UserPreferences;
 import com.cloudTop.starshare.utils.HttpUrlConnectionUtil;
 import com.cloudTop.starshare.utils.LogUtils;
+import com.cloudTop.starshare.utils.SharePrefUtil;
 import com.cloudTop.starshare.utils.ToastUtils;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.cache.DataCacheManager;
@@ -33,13 +40,6 @@ import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.umeng.weixin.callback.WXCallbackActivity;
-import com.cloudTop.starshare.R;
-import com.cloudTop.starshare.been.RegisterReturnWangYiBeen;
-import com.cloudTop.starshare.been.WXAccessTokenEntity;
-import com.cloudTop.starshare.been.WXUserInfoEntity;
-import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
-import com.cloudTop.starshare.ui.wangyi.DemoCache;
-import com.cloudTop.starshare.utils.SharePrefUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -273,17 +273,6 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
             @Override
             public void onSuccess(LoginInfo param) {
                 LogUtils.logd("网易云登录成功");
-                NetworkAPIFactoryImpl.getUserAPI().saveDevice(loginReturnInfos.getUserinfo().getId(), new OnAPIListener<Object>() {
-                    @Override
-                    public void onError(Throwable ex) {
-
-                    }
-
-                    @Override
-                    public void onSuccess(Object o) {
-                        LogUtils.logd("上传设备id和类型成功:" + o.toString());
-                    }
-                });
                 DemoCache.setAccount(param.getAccount());
                 saveLoginInfo(param.getAccount(), param.getToken());
                 // 初始化消息提醒配置

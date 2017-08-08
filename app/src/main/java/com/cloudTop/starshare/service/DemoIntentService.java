@@ -3,11 +3,14 @@ package com.cloudTop.starshare.service;
 import android.content.Context;
 import android.util.Log;
 
+import com.cloudTop.starshare.listener.OnAPIListener;
+import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
+import com.cloudTop.starshare.utils.LogUtils;
+import com.cloudTop.starshare.utils.SharePrefUtil;
 import com.igexin.sdk.GTIntentService;
 import com.igexin.sdk.PushManager;
 import com.igexin.sdk.message.GTCmdMessage;
 import com.igexin.sdk.message.GTTransmitMessage;
-import com.cloudTop.starshare.utils.LogUtils;
 
 /**
  * 继承 GTIntentService 接收来自个推的消息, 所有消息在线程中回调, 如果注册了该服务, 则务必要在 AndroidManifest中声明, 否则无法接受消息<br>
@@ -49,6 +52,18 @@ public class DemoIntentService extends GTIntentService {
     @Override
     public void onReceiveClientId(Context context, String clientid) {
         Log.e(TAG, "-------------------onReceiveClientId -> " + "clientid = " + clientid);
+        NetworkAPIFactoryImpl.getUserAPI().saveDevice(SharePrefUtil.getInstance().getUserId(),clientid, new OnAPIListener<Object>() {
+            @Override
+            public void onError(Throwable ex) {
+
+                LogUtils.logd("上传设备id和类型失败:" + ex.toString());
+            }
+
+            @Override
+            public void onSuccess(Object o) {
+                LogUtils.logd("上传设备id和类型成功:" + o.toString());
+            }
+        });
     }
 
     @Override

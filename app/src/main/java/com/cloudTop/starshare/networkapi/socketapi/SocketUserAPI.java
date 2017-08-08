@@ -82,10 +82,11 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
     }
 
     @Override
-    public void verifyCode(String phone, OnAPIListener<RegisterVerifyCodeBeen> listener) {
+    public void verifyCode(String phone,int type, OnAPIListener<RegisterVerifyCodeBeen> listener) {
         isNetBreak();
         HashMap<String, Object> map = new HashMap<>();
         map.put("phone", phone);
+        map.put("type", type);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.VerifyCode,
                 SocketAPIConstant.ReqeutType.User, map);
         requestEntity(socketDataPacket, RegisterVerifyCodeBeen.class, listener);
@@ -168,11 +169,11 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
     }
 
     @Override
-    public void saveDevice(long uid, OnAPIListener<Object> listener) {
+    public void saveDevice(long uid,String device_id, OnAPIListener<Object> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("uid", uid);
         map.put("device_type", 1);
-        map.put("device_id", AppApplication.getAndroidId());
+        map.put("device_id", device_id);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.saveDevice,
                 SocketAPIConstant.ReqeutType.User, map);
         requestJsonObject(socketDataPacket, listener);

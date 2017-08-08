@@ -58,6 +58,7 @@ public class ResetPayPwdActivity extends BaseActivity {
 
     private CheckHelper checkHelper = new CheckHelper();
     private boolean isResetPayPwd = false;
+    private String resetPwd;
 
     @Override
     public int getLayoutId() {
@@ -96,7 +97,7 @@ public class ResetPayPwdActivity extends BaseActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            String resetPwd = bundle.getString("resetPwd");
+            resetPwd = bundle.getString("resetPwd");
             if (resetPwd != null && resetPwd.equals(Constant.PAY_PWD)) {  //重置交易密码
                 title = getString(R.string.reset_pay_pwd);
                 //设置密码为六位数字输入类型
@@ -113,7 +114,7 @@ public class ResetPayPwdActivity extends BaseActivity {
             }
             phoneEditText.getEditText().setText(SharePrefUtil.getInstance().getLoginPhone());
             phoneEditText.getEditText().setEnabled(false);
-            ((ClearEditText)phoneEditText.getEditText()).isSowClearIcon=false;
+            ((ClearEditText) phoneEditText.getEditText()).isSowClearIcon = false;
         }
         nt_title.setTitleText(title);
     }
@@ -186,7 +187,13 @@ public class ResetPayPwdActivity extends BaseActivity {
         if (new CheckHelper().checkMobile(phoneEdit, exception)) {
             //Utils.closeSoftKeyboard(view);
             startProgressDialog();
-            NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit, new OnAPIListener<RegisterVerifyCodeBeen>() {
+            int codeType = 1;
+            if (resetPwd != null && resetPwd.equals(Constant.PAY_PWD)) {
+                codeType = 2;
+            } else {
+                codeType = 1;
+            }
+            NetworkAPIFactoryImpl.getUserAPI().verifyCode(phoneEdit, codeType, new OnAPIListener<RegisterVerifyCodeBeen>() {
                 @Override
                 public void onError(Throwable ex) {
                     ex.printStackTrace();
@@ -220,7 +227,7 @@ public class ResetPayPwdActivity extends BaseActivity {
             ToastUtils.showShort("验证码需要重新获取");
             return;
         }
-        NetworkAPIFactoryImpl.getDealAPI().dealPwd(phoneEditText.getEditTextString(),verifyCodeBeen.getVToken(), vCode, verifyCodeBeen.getTimeStamp(), type, pwd, new OnAPIListener<RequestResultBean>() {
+        NetworkAPIFactoryImpl.getDealAPI().dealPwd(phoneEditText.getEditTextString(), verifyCodeBeen.getVToken(), vCode, verifyCodeBeen.getTimeStamp(), type, pwd, new OnAPIListener<RequestResultBean>() {
             @Override
             public void onSuccess(RequestResultBean resultBean) {
                 LogUtils.logd("交易密码成功回调:" + resultBean.toString());
@@ -239,6 +246,7 @@ public class ResetPayPwdActivity extends BaseActivity {
             }
         });
     }
+
     /**
      * 防止并发
      */
