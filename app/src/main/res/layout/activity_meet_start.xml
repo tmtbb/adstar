@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@+id/nl_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_gravity="top"></com.yundian.star.widget.NormalTitleBar>
+        android:layout_gravity="top"></com.cloudTop.starshare.widget.NormalTitleBar>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -85,7 +85,7 @@
                     android:layout_marginRight="12dp"
                     android:layout_marginTop="20dp"></android.support.v4.view.ViewPager>
 
-                <com.yundian.star.widget.indicator.IconPageIndicator
+                <com.cloudTop.starshare.widget.indicator.IconPageIndicator
                     android:id="@+id/pageindicator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -126,6 +126,7 @@
                         android:layout_centerVertical="true"
                         android:paddingLeft="6dp"
                         android:paddingRight="16dp"
+                        android:visibility="invisible"
                         android:src="@drawable/arrow_right" />
 
                     <TextView
@@ -267,7 +268,7 @@
 
     </android.support.v4.widget.NestedScrollView>
 
-    <com.yundian.star.widget.PasswordView
+    <com.cloudTop.starshare.widget.PasswordView
         android:id="@+id/passwordView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

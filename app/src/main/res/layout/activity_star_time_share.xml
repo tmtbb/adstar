@@ -12,12 +12,12 @@
         android:background="@color/color_white_ffffffff"
         android:theme="@style/AppTheme.AppBarOverlay">
 
-        <com.yundian.star.widget.NormalTitleBar
+        <com.cloudTop.starshare.widget.NormalTitleBar
             android:id="@+id/nt_title"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_48"
             android:layout_gravity="top"
-            app:layout_scrollFlags="scroll"></com.yundian.star.widget.NormalTitleBar>
+            app:layout_scrollFlags="scroll"></com.cloudTop.starshare.widget.NormalTitleBar>
 
         <FrameLayout
             android:layout_marginTop="15dp"
@@ -47,7 +47,6 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"></android.support.v4.view.ViewPager>
     <RadioGroup
-        android:id="@+id/rg_butten"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_gravity="bottom"

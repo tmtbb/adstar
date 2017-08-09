@@ -33,17 +33,17 @@
             android:textColor="@color/color_8C0808"
             android:textSize="@dimen/fontSize_18sp" />
 
-        <com.netease.nim.uikit.common.ui.drop.DropFake
-            android:id="@+id/tab_new_msg_label"
-            android:layout_width="28dip"
-            android:layout_height="28dip"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:gravity="center"
-            android:textColor="@android:color/white"
-            android:textSize="12sp"
-            android:visibility="gone" />
+        <!--<com.netease.nim.uikit.common.ui.drop.DropFake-->
+            <!--android:id="@+id/tab_new_msg_label"-->
+            <!--android:layout_width="28dip"-->
+            <!--android:layout_height="28dip"-->
+            <!--android:layout_alignParentRight="true"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:layout_marginRight="20dp"-->
+            <!--android:gravity="center"-->
+            <!--android:textColor="@android:color/white"-->
+            <!--android:textSize="12sp"-->
+            <!--android:visibility="gone" />-->
     </RelativeLayout>
 
     <FrameLayout
@@ -58,8 +58,7 @@
     </FrameLayout>
 
 
-    <com.yundian.star.widget.LoadingTip
-        android:id="@+id/loadingTip"
+    <com.cloudTop.starshare.widget.LoadingTip
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/nt_title"

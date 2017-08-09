@@ -1,21 +1,18 @@
 <resources>
-    <string name="app_name">星享</string>
-    <string name="confirm_exit_app">再按一次退出%s</string>
+    <string name="app_name">星享时光</string>
     <string name="net_error">网络访问错误，请稍后再试</string>
     <string name="empty">还没有数据哦</string>
     <string name="loading">请稍后...</string>
     <string name="reload">重新尝试</string>
-    <string name="no_net">网络不可用,请检查你的网络</string>
     <string name="no_register">还没有账户</string>
     <string name="had_account">已有账户</string>
     <string name="register">现在注册</string>
     <string name="loging">现在登录</string>
     <string name="other_login">第三方登录</string>
     <string name="wei_xin_login">微信登录</string>
-    <string name="title_welcome_1">星享，</string>
+    <string name="title_welcome_1">星享时光，</string>
     <string name="title_welcome_2">你与明星零距离</string>
     <string name="news_info_title">资讯</string>
-    <string name="sample_heard_layout">头布局</string>
     <string name="get_note_code">获取验证码</string>
     <string name="regiset_put_note_code">输入系统验证码</string>
     <string name="put_account_number">请输入账号</string>
@@ -27,11 +24,9 @@
     <string name="butten_loging">登录</string>
     <string name="butten_reset_psd">重置登录密码</string>
     <string name="again_reset_psd">重新输入登录密码</string>
-    <string name="check_famous_address_book">查看名人通讯录</string>
     <string name="famous_address_book">名人通讯录</string>
     <string name="diff_answer">星聊</string>
     <string name="ming_xing">明星</string>
-    <string name="number_80004">8004</string>
     <string name="search_hint">搜索发行人代码或名称</string>
     <string name="search_star_result_1">(</string>
     <string name="search_star_result_2">)</string>
@@ -47,23 +42,21 @@
     <string name="customer_service">客服中心</string>
     <string name="common_problem">常见问题</string>
     <string name="general_settings">通用设置</string>
+    <string name="me_deal_detail">交易明细</string>
     <string name="my_referee">我的推荐人</string>
-    <string name="user_info">个人信息</string>
     <string name="user_head_imageview">头像</string>
     <string name="user_phone">手机号码</string>
     <string name="user_pet_name">昵称</string>
     <string name="user_real_name">真实姓名</string>
     <string name="user_card_number">身份证号码</string>
-    <string name="star_money">星享币</string>
+    <string name="star_money">星享时光币</string>
     <string name="user_asset_manage">资产管理</string>
     <string name="user_have_market_value">持有市值</string>
     <string name="user_acailable_balance">可用余额</string>
     <string name="user_recharge">充值</string>
-    <string name="user_fudai">福袋</string>
     <string name="end_bank_number">尾号:%s</string>
     <string name="recharge_money">充值金额</string>
     <string name="input_recharge_money">手动输入充值金额</string>
-    <string name="choose_recharge_money">选择充值额度</string>
     <string name="recharge_money1">1元</string>
     <string name="recharge_money2">10元</string>
     <string name="recharge_money3">100元</string>
@@ -72,18 +65,17 @@
     <string name="recharge_money6">50000元</string>
     <string name="recharge_ali_pay">支付宝支付</string>
     <string name="recharge_wxpay">微信支付</string>
-    <string name="app_version_name">星享V:%s</string>
     <string name="money_bag_detail">钱包明细</string>
     <string name="bank_info">银行卡</string>
     <string name="booking_star_list">预约名单</string>
     <string name="have_talk">聊一聊</string>
     <string name="service_center">客服中心</string>
     <string name="service_weixin">客服微信</string>
-    <string name="service_wx_number">星享V:%s</string>
     <string name="service_qq_number">客服QQ</string>
     <string name="service_business_cooperation">商务合作</string>
     <string name="setting_deal_rule">买卖规则</string>
     <string name="setting_about_us">关于我们</string>
+    <string name="law_info">法律说明</string>
     <string name="setting_clear_cache">清空缓存</string>
     <string name="setting_quit_login">退出登录</string>
     <string name="my_setting">设置</string>
@@ -91,7 +83,6 @@
     <string name="money_billing_detail">账单详情</string>
     <string name="money_issuer_info">发行人信息</string>
     <string name="money_setup_time">创建时间</string>
-    <string name="money_bank_info">银行信息</string>
     <string name="dialog_title_referee">推荐人</string>
     <string name="dialog_title_referee2">推荐人:%s</string>
     <string name="dialog_input_tip">输入不能为空</string>
@@ -112,48 +103,22 @@
         无法确定您输入的条件进行是否合法，所以本系统对检索/分析出的结果不承担责任。
         如果因以本系统的检索/分析结果作为任何商业行为或者学术研究的依据而产生不良后果，本系统不承担任何法律责任。
         \n\t\t\t\t关于隐私权： 访问者在本系统注册时提供的一些个人资料，本系统除您本人同意外不会将用户的任何资料以任何方式泄露给第三方。当政府部门、司法机关等依照法定程序要求本系统披露个人资料时，本系统将根据执法单位之要求或为公共安全之目的提供个人资料，在此情况下的披露，本系统不承担任何责任。</string>
-    <string name="login_out">退出登录</string>
     <string name="reset_login_pwd">重置登录密码</string>
     <string name="reset_pay_pwd">重置交易密码</string>
     <string name="choose_pay_type">请选择付款方式</string>
-    <string name="star_booking">约见</string>
-    <string name="star_refuse">已拒绝</string>
     <string name="me_agree">我已同意</string>
     <string name="disclaimer_text">《免责声明》</string>
     <string name="recharge_info">充值方式</string>
     <string name="entrust_hot">委托拍卖榜</string>
 
-    <string name="title_activity_main">MainActivity</string>
-    <string name="hello_world">Hello world!</string>
     <string name="main_tab_session">会话</string>
     <string name="main_tab_contact">通讯录</string>
     <string name="user_profile">个人名片</string>
-    <string name="login">登录</string>
-    <string name="logining">登录中\u2026</string>
-    <string name="registering">注册中\u2026</string>
     <string name="agree">同意</string>
     <string name="reject">拒绝</string>
     <string name="network_is_not_available">网络连接失败，请检查你的网络设置</string>
-    <string name="login_hint_account">请输入帐号</string>
-    <string name="login_hint_password">请输入密码</string>
     <string name="input_account">请输入帐号，限20位字母或者数字</string>
-    <string name="register_account_tip">帐号限20位字母或者数字</string>
-    <string name="input_nickname">请输入昵称，限10位汉字、字母或者数字</string>
-    <string name="register_nick_name_tip">昵称限10位汉字、字母或者数字</string>
-    <string name="input_password">请输入密码，6~20位字母或者数字</string>
-    <string name="register_password_tip">密码必须为6~20位字母或者数字</string>
-    <string name="register_success">注册成功</string>
-    <string name="register_failed">注册失败,错误码%1$s:%2$s</string>
-    <string name="login_has_account">已有帐号？直接登录</string>
-    <string name="done">完成</string>
-    <string name="latest_message_draft_prefix">[草稿] </string>
-    <string name="main_msg_unread_msg_count">[%d条]</string>
-    <string name="out_time">超时</string>
     <string name="prepare_data">正在准备数据...</string>
-    <string name="all_market_detail">全部</string>
-    <string name="new_price_market_detail_1">最新价</string>
-    <string name="new_price_market_detail_2">元/秒</string>
-    <string name="price_limit">涨跌幅</string>
     <string name="star_hot">明星热度</string>
     <string name="recommend_star">推荐明星</string>
     <string name="star_price_time_share">￥%s</string>
@@ -163,12 +128,8 @@
     <string name="readed">已读</string>
     <string name="about">关于</string>
     <string name="logout">注销</string>
-    <string name="version">版本号:</string>
-    <string name="account">帐号:</string>
-    <string name="chat">聊天</string>
     <string name="add">添加</string>
     <string name="remove">移除</string>
-    <string name="network_forbidden_login">你被服务器禁止登录，详询客服</string>
     <string name="menu">菜单</string>
     <string name="verify_reminder">验证提醒</string>
     <string name="without_content">暂无</string>
@@ -179,25 +140,15 @@
     <string name="clear_all_success">清空成功</string>
     <string name="login_failed">帐号或密码错误</string>
     <string name="login_exception">无效输入</string>
-    <string name="kick_out">帐号在其它设备登录</string>
-    <string name="edittext_length_tips">你输入的字数已经超过了限制！</string>
-    <string name="file_transfer">文件云存储</string>
     <string name="file_browser">文件浏览器</string>
-    <string name="upload_text">上传</string>
-    <string name="download_text">下载</string>
     <string name="now_allow_space">不能含有空格</string>
-    <string name="how_to_get_account">如何获取帐号</string>
-    <string name="multi_client_management">多端登录管理</string>
-    <string name="kick_other_client_prompt">踢掉 %1$s</string>
     <string name="open">开启</string>
     <string name="close">关闭</string>
-    <string name="search_advanced_team">搜索高级群</string>
     <string name="net_broken">当前网络不可用</string>
     <string name="nim_status_unlogin">未登录</string>
     <string name="nim_status_connecting">连接中...</string>
     <string name="nim_status_logining">登录中...</string>
     <string name="copyright">Copyright ©1997-2017 网易公司版权所有</string>
-    <string name="edit_nick">修改昵称</string>
     <string name="user_not_exsit">该用户不存在</string>
     <string name="user_tips">请检查你输入的帐号是否正确</string>
     <string name="edit">编辑</string>
@@ -229,7 +180,6 @@
     <string name="ask_to_buy">求购</string>
     <string name="transfer">转让</string>
     <string name="fans_meet_and_greet">粉丝见面会</string>
-    <string name="optional">自选</string>
     <string name="name_code">%1$s (%2$s)</string>
     <string name="at_present_have">当前总持有</string>
     <string name="second">秒</string>
@@ -238,7 +188,6 @@
     <string name="ups_and_range">涨跌幅</string>
     <string name="transfe_price">转让价格</string>
     <string name="transfe_num">转让数量</string>
-    <string name="bought">已购</string>
     <string name="bought_have">持有</string>
     <string name="indent">订单</string>
     <string name="detail">明细</string>
@@ -248,14 +197,7 @@
     <string name="sure_buy">确认购买</string>
     <string name="ask_to_buy_price">求购价格</string>
     <string name="ask_to_buy_num">求购数量</string>
-    <string name="usable_money">可用金额(元)</string>
-    <string name="hold_have_money">持仓总市值(元)</string>
-    <string name="name_market_value">名称/市值(元)</string>
-    <string name="have_transfer">持有/可转(秒)</string>
-    <string name="current_price_cost">现价/成本(秒)</string>
-    <string name="profit_and_loss">盈亏(元)</string>
     <string name="name_and_code">名称/代码</string>
-    <string name="delegation_and_deal">委托/成交</string>
     <string name="price">价格</string>
     <string name="state">类型/状态</string>
     <string name="deal_time">成交时间</string>
@@ -266,8 +208,6 @@
     <string name="history_delegation">历史委托</string>
     <string name="history_deal">历史成交</string>
     <string name="buy_text">购买</string>
-    <string name="delegation_time">委托价/时间</string>
-    <string name="delegation_transaction_num">委托量/成交量</string>
     <string name="start_time">起始时间</string>
     <string name="end_time">结束时间</string>
     <string name="systen_news">系统消息</string>
@@ -281,7 +221,6 @@
     <string name="open_pay_agree">我知道了</string>
     <string name="open_pay_des">需要开通支付才能进行充值等相关操作。开通支付后，可以在求购、转让、约见、分答功能中使用钱包消费。</string>
     <string name="make_sure">确定</string>
-    <string name="total_second">总计：%1$d秒</string>
     <string name="total_second_enmpy">总计:0秒</string>
     <string name="buy_in">买入：%1$d人</string>
     <string name="buy">买入</string>
@@ -305,25 +244,19 @@
     <string name="sure">确认</string>
     <string name="onclick_check">点击查看</string>
     <string name="sure_pay">确认支付该订单？</string>
+    <string name="sure_law_info">请仔细阅读通用设置中的法律说明</string>
     <string name="cancel_order">取消订单</string>
     <string name="have_empy_time">已持有:\t\t</string>
-    <string name="add_star">加入星享</string>
-    <string name="input_member_id">请输入区域总经销ID（会员机构）</string>
-    <string name="input_area_broker_id">请输入区域经销ID（区域经纪人）</string>
-    <string name="input_broker_id">请输入零售商ID（经纪人）</string>
+    <string name="add_star">加入星享时光</string>
+    <string name="input_broker_id">请输入零售商ID（选填）</string>
     <string name="input_id_tips">TIPS：请输入正确的渠道推广号</string>
-    <string name="enter_star">进入星享</string>
-    <string name="delegation">委托</string>
+    <string name="enter_star">进入星享时光</string>
     <string name="delegation_num">委托量</string>
-    <string name="star_meet_rule">"北京市发布霾黄色预警，<font color='#ff0000'><big><big>外出携带好</big></big></font>口罩"</string>
     <string name="holding_star_time">持有时间</string>
     <string name="booking_star_status">约见情况</string>
     <string name="holding_times_count">总持有时间 %1$d 秒</string>
     <string name="times_p">¥ %1$.2f 秒</string>
     <string name="total_money_">¥ %1$.2f </string>
-    <string name="talk_with_him">与TA聊天</string>
-    <string name="meeting_with_him">与TA约见</string>
-    <string name="hoding_time_others">.....</string>
     <string name="booking_time">约见时间 %1$d</string>
     <string name="money_cash">提现</string>
     <string name="cash_user_account">收款账户</string>
@@ -344,19 +277,20 @@
     <string name="no_bind_bank_tips">您还没有绑定银行卡</string>
     <string name="bind_bank_now">立即绑定</string>
     <string name="deal_time_count">交易倒计时</string>
+    <string name="pre_com_info">点赞、评论和评论回复都将扣除已持有明星的时间。</string>
 
     <string name="bind_bank_tips">\t\t\t\t需要绑定银行卡才能进行充值等相关操作。绑定银行卡后，可以在预售、购买、兑换时、用该银行卡进行交易。</string>
     <string name="booking_time_status">约见时间 %1$s</string>
     <string name="bank_end_number">%1$s    尾号%2$s</string>
 
-    <string name="empty_view_history">当前还没有相关记录</string>
     <string name="input_pay_pwd">请输入交易密码</string>
-    <string name="empty_view_comment">当前还没有相关评论</string>
-    <string name="empty_view_price">添加明星，就可以实时跟踪您关心的行情。</string>
     <string name="empty_view_contacts">当前还没有相关通讯录</string>
     <string name="empty_order_info">暂无订单信息</string>
     <string name="order_type">订单类型</string>
     <string name="num_time_text">%s秒</string>
+    <string name="accumulated_earningss">累积收益</string>
+    <string name="Successfully_invited">成功邀请</string>
+    <string name="create_qr_code">生成邀请二维码</string>
 
     <!-- session -->
     <string name="input_panel_guess">猜 拳</string>
@@ -384,7 +318,6 @@
     <string name="black_list_tip">你不会接收到列表中联系人的任何消息</string>
 
     <!-- 群 -->
-    <string name="create_team_activity">创建群聊</string>
     <string name="add_buddy">添加好友</string>
     <string name="create_normal_team">创建讨论组</string>
     <string name="team_apply_sending">发送中…</string>
@@ -398,12 +331,6 @@
     <string name="has_exist_in_team">已经在群里</string>
 
     <!-- 消息提醒 -->
-    <string name="toolbar_mutli_new_msg_tips">个联系人发来新消息</string>
-    <string name="toolbar_new_msg_coming_ticker_text"> 有新消息</string>
-    <string name="toolbar_new_msg_general_tips">你收到一条新消息</string>
-    <string name="toolbar_add_buddy_request_tips">请求添加你为好友</string>
-    <string name="toolbar_add_buddy_verify_tips">通过了你的好友请求</string>
-    <string name="toolbar_new_notification_general_tips">你收到一条新通知</string>
 
     <!-- 自定义通知 -->
     <string name="custom_notification">自定义通知</string>
@@ -417,13 +344,9 @@
     <!-- 消息类型 -->
     <string name="msg_type_image">图片</string>
     <string name="msg_type_audio">语音</string>
-    <string name="title_activity_add_buddy">添加好友</string>
 
     <!-- location -->
-    <string name="location_init_map_error">初始化地图服务失败</string>
     <string name="location_navigate">导航</string>
-    <string name="self_location">我在这个位置</string>
-    <string name="location_unable_to_get_you">暂时无法获取您的位置</string>
     <string name="location_loading">正在定位</string>
     <string name="location_map">地图定位</string>
     <string name="my_location">我的位置</string>
@@ -435,7 +358,6 @@
     <string name="location_open_map_error">打开地图出错</string>
 
     <!-- about -->
-    <string name="about_custom_button1">自定义1</string>
     <string name="about_clear_msg_history">清空所有聊天记录</string>
     <string name="clear_msg_history_success">聊天记录已清空</string>
 
@@ -453,7 +375,6 @@
     <string name="nim_status_bar_hidden_msg_content">你收到一条新消息</string>
 
     <!--RTS白板-->
-    <string name="doodle">白板</string>
     <string name="start_session">正在邀请对方，请稍后</string>
     <string name="callee_reject">对方拒绝了本次请求</string>
     <string name="callee_ack_timeout">对方未接受请求</string>
@@ -462,7 +383,6 @@
     <string name="session_end_record">白板演示已结束</string>
     <string name="end_session_tip_head">退出白板演示</string>
     <string name="end_session_tip_content">退出后，你将不再接收白板演示的消息内容</string>
-    <string name="target_has_leave_session">对方已离开</string>
     <string name="target_has_end_session">对方结束白板演示</string>
     <string name="accept_session">接受</string>
     <string name="reject_session">拒绝</string>
@@ -486,13 +406,8 @@
     <string name="ring">响铃模式</string>
     <string name="led">自定义呼吸灯</string>
     <string name="notice_content">通知栏标题定制</string>
-    <string name="mass_message">批量消息测试</string>
-    <string name="sqlite_fts">SQLite FTS4</string>
-    <string name="sqlite_like">SQLite LIKE</string>
-    <string name="luc">Lucene</string>
     <string name="clear_index">清理全文检索缓存</string>
     <string name="operation_too_frequent">操作太频繁</string>
-    <string name="notification_folded">通知栏折叠</string>
     <!-- 多端登录 -->
     <string name="multiport_manager">多端登录管理</string>
     <string name="multiport_logout">下线</string>
@@ -500,8 +415,6 @@
     <string name="web_version">云信网页版</string>
     <string name="mobile_version">云信移动版</string>
     <string name="multiport_logging">正在使用</string>
-    <string name="kickout_notify">下线通知</string>
-    <string name="kickout_content">你的帐号被%1$s踢出下线，请确定帐号信息安全</string>
 
     <!-- 多端在线类型 -->
     <string name="on_line">在线</string>
@@ -514,7 +427,6 @@
 
     <!-- 阅后即焚 -->
     <string name="snapchat_longclick_to_view">按住查看</string>
-    <string name="snapchat_title">阅后即焚</string>
 
     <!-- 个人名片 -->
     <string name="birthday">生 日</string>
@@ -544,7 +456,6 @@
 
     <!-- NRTC -->
     <string name="nrtc_settings">网络通话设置</string>
-    <string name="nrtc_setting_net">网络</string>
     <string name="nrtc_setting_voe">语音通话</string>
     <string name="nrtc_setting_vie">视频通话</string>
     <string name="nrtc_setting_other">其它</string>
@@ -646,10 +557,6 @@
     <string name="nrtc_setting_other_server_record_video">视频服务器录制</string>
     <string name="nrtc_setting_voe_call_proximity_key">nrtc_setting_voe_call_proximity_key</string>
     <string name="nrtc_setting_voe_call_proximity">通话期间关闭屏幕</string>
-    <string name="nrtc_setting_voe_muted_key">nrtc_setting_voe_muted_key</string>
-    <string name="nrtc_setting_voe_muted">语音流静音处理</string>
-    <string name="nrtc_setting_vie_muted_key">nrtc_setting_vie_muted_key</string>
-    <string name="nrtc_setting_vie_muted">视频流静音处理</string>
     <string name="nrtc_setting_vie_fps_reported_key">nrtc_setting_vie_fps_reported_key</string>
     <string name="nrtc_setting_vie_fps_reported">帧率汇报</string>
     <string name="nrtc_setting_vie_max_bitrate_key">nrtc_setting_vie_max_bitrate_key</string>
@@ -686,10 +593,6 @@
     <string name="chatroom_fetch_member_failed">获取用户资料失败</string>
     <string name="cancel_muted">取消禁言</string>
     <string name="set_success">设置成功</string>
-    <string name="mark_member_level">设置成员等级</string>
-    <string name="set_level">设置等级</string>
-    <string name="cancel_level">取消等级</string>
-    <string name="no_data">暂无数据</string>
     <string name="internet_broken">网络断开</string>
     <!-- video call -->
     <string name="avchat_hangup">结束通话</string>
@@ -706,7 +609,6 @@
     <string name="avchat_pickup">接听</string>
     <string name="avchat_net_error_then_quit">网络异常，通话结束</string>
     <string name="avchat_call_finish">通话结束</string>
-    <string name="avchat_peer_reject">对方拒绝了本次通话</string>
     <string name="avchat_peer_protocol_low_version">对方版本过低，请提示对方升级</string>
     <string name="avchat_local_protocol_low_version">版本过低，请升级后使用</string>
     <string name="avchat_invalid_channel_id">对方已挂断</string>
@@ -716,90 +618,23 @@
     <string name="avchat_audio_call_request">请求通话</string>
     <string name="avchat_connecting">连接中…</string>
     <string name="avchat_audio_to_video_invitation">对方邀请你开启视频聊天…</string>
-    <string name="avchat_cannot_establish_connection">无法和对方建立连接</string>
     <string name="avchat_network_unstable_notificaton">当前网络不稳定</string>
     <string name="avchat_peer_close_camera">对方关闭了摄像头</string>
     <string name="avchat_local_close_camera">你关闭了摄像头</string>
     <string name="avchat_audio_to_video_wait">正在等待对方开启摄像头…</string>
     <string name="avchat_no_pick_up">未接听</string>
-    <string name="avchat_no_response">无人接听</string>
-    <string name="avchat_buddy_reject">对方正忙</string>
-    <string name="avchat_cancel">已取消</string>
     <string name="avchat_switch_video_reject">对方不同意音频切换为视频！</string>
     <string name="avchat_notification">正在与%1$s通话中，点击继续</string>
-    <string name="avchat_hangup_notificaion">%1$s:【网络通话】</string>
     <string name="avchat_call">网络通话</string>
     <string name="avchat_no_pickup_call">未接听</string>
     <string name="avchat_call_failed">发起通话失败</string>
     <string name="avchat_no_permission">暂无权限，请开通音视频服务</string>
     <string name="avchat_in_switch">请耐心等待！</string>
-    <string name="avchat_device_no_ready">音视频设备未准备好</string>
-
-    <string name="avchat_audio_record_toast">仅录制你说话的内容</string>
 
 
     <!--友盟-->
-    <dimen name="alphabet_size">12dip</dimen>
-    <dimen name="umeng_socialize_pad_window_height">350dip</dimen>
-    <dimen name="umeng_socialize_pad_window_width">580dip</dimen>
     <!-- 平台名称 -->
-    <string name="umeng_socialize_text_tencent_key">腾讯微博</string>
-    <string name="umeng_socialize_text_wenxin_fav">微信收藏</string>
-    <string name="umeng_socialize_text_sina_key">微博</string>
-    <string name="umeng_socialize_text_qq_key">QQ</string>
-    <string name="umeng_socialize_text_qq_zone_key">QQ空间</string>
-    <string name="umeng_socialize_text_renren_key">人人网</string>
-    <string name="umeng_socialize_text_douban_key">豆瓣</string>
-    <string name="umeng_socialize_text_weixin_key">微信</string>
-    <string name="umeng_socialize_text_weixin_circle_key">微信朋友圈</string>
-    <string name="umeng_socialize_text_weixin_fav_key">微信收藏</string>
-    <string name="umeng_socialize_text_add_custom_platform">请配置用户平台</string>
-    <string name="umeng_example_home_btn_plus">社交分享</string>
-    <string name="umeng_socialize_text_waitting_share">分享中&#8230;</string>
-    <string name="umeng_socialize_content_hint">说点啥&#8230;</string>
-    <string name="umeng_socialize_cancel_btn_str">取消</string>
-    <string name="umeng_socialize_send_btn_str">发送</string>
 
-    <string name="umeng_socialize_female">女</string>
-    <string name="umeng_socialize_male">男</string>
-
-    <string name="umeng_socialize_share">分享</string>
-
-    <string name="umeng_socialize_mail">邮件</string>
-    <string name="umeng_socialize_sms">短信</string>
-    <string name="umeng_socialize_sina">新浪</string>
-    <string name="umeng_socialize_text_yixin_key">易信</string>
-    <string name="umeng_socialize_text_yixincircle_key">易信朋友圈</string>
-
-    <string name="umeng_socialize_text_laiwangdynamic_key">点点虫动态</string>
-    <string name="umeng_socialize_text_evernote_key">印象笔记</string>
-    <string name="umeng_socialize_text_ydnote_key">有道云笔记</string>
-    <string name="umeng_socialize_text_facebook_key">Facebook</string>
-    <string name="umeng_socialize_text_facebookmessager_key">Facebook Messager</string>
-    <string name="umeng_socialize_text_twitter_key">Twitter</string>
-    <string name="umeng_socialize_text_instagram_key">Instagram</string>
-    <string name="umeng_socialize_text_pinterest_key">Pinterest</string>
-    <string name="umeng_socialize_text_pocket_key">Pocket</string>
-    <string name="umeng_socialize_text_linkedin_key">Linkedin</string>
-    <string name="umeng_socialize_text_foursquare_key">Foursquare</string>
-    <string name="umeng_socialize_text_whatsapp_key">WhatsApp</string>
-    <string name="umeng_socialize_text_line_key">LINE</string>
-    <string name="umeng_socialize_text_flickr_key">Flickr</string>
-    <string name="umeng_socialize_text_tumblr_key">Tumblr</string>
-    <string name="umeng_socialize_text_alipay_key">支付宝</string>
-    <string name="umeng_socialize_text_kakao_key">KakaoTalk</string>
-    <string name="umeng_socialize_text_googleplus_key">GooglePlus</string>
-    <string name="umeng_socialize_text_more_key">更多</string>
-    <string name="umeng_socialize_text_dingding_key">钉钉</string>
-    <string name="umeng_socialize_text_vkontakte_key">VKontakte</string>
-    <string name="umeng_socialize_text_dropbox_key">DropBox</string>
-    <string name="umeng_socialize_sharetosina">分享到新浪微博</string>
-    <string name="umeng_socialize_sharetodouban">分享到豆瓣</string>
-    <string name="umeng_socialize_sharetorenren">分享到人人网</string>
-
-    <string name="umeng_socialize_sharetotencent">分享到腾讯微博</string>
-    <string name="umeng_socialize_sharetotwitter">分享到twitter</string>
-    <string name="umeng_socialize_sharetolinkin">分享到领英</string>
     <string name="star_infos">个人介绍</string>
     <string name="shell_time">发售时间：%1$s-%2$s</string>
     <string name="shell_tolnum">发售总量：%1$d秒</string>

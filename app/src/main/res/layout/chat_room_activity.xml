@@ -6,7 +6,7 @@
 
   <fragment
         android:id="@+id/chat_rooms_fragment"
-        android:name="com.yundian.star.ui.wangyi.chatroom.fragment.ChatRoomFragment"
+        android:name="com.cloudTop.starshare.ui.wangyi.chatroom.fragment.ChatRoomFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

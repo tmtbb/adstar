@@ -16,7 +16,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <com.yundian.star.widget.NormalTitleBar
+            <com.cloudTop.starshare.widget.NormalTitleBar
                 android:id="@+id/nt_title"
                 android:layout_width="match_parent"
                 android:layout_height="48dp" />
@@ -146,7 +146,7 @@
             </LinearLayout>
         </LinearLayout>
 
-        <com.yundian.star.widget.PasswordView
+        <com.cloudTop.starshare.widget.PasswordView
             android:id="@+id/passwordView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

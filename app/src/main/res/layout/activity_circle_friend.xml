@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!--内容-->
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@+id/nt_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_gravity="top"></com.yundian.star.widget.NormalTitleBar>
+        android:layout_gravity="top"></com.cloudTop.starshare.widget.NormalTitleBar>
 
     <FrameLayout
         android:id="@+id/fl_pr"
@@ -123,7 +123,7 @@
                 android:background="@color/color_fafafa"
                 android:visibility="gone">
                 <!--表情-->
-                <com.yundian.star.widget.emoji.EmotionLayout
+                <com.cloudTop.starshare.widget.emoji.EmotionLayout
                     android:id="@+id/elEmotion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -138,5 +138,40 @@
 
 
     </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/cv_info"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="56dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:background="#66000000"
+            android:visibility="gone"
+            >
+            <TextView
+                android:padding="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:textColor="@color/color_fafafa"
+                android:text="@string/pre_com_info"
+                android:textSize="13sp"
+                />
+            <TextView
+                android:id="@+id/close_info"
+                android:padding="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:background="@drawable/close_rede"
+                />
+        </LinearLayout>
+
+
 
 </FrameLayout>

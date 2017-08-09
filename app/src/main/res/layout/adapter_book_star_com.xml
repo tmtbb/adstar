@@ -27,28 +27,44 @@
 
     <TextView
         android:text="明星"
+        android:maxWidth="140dp"
         android:id="@+id/tv_star_job"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/tv_star_name"
         android:layout_below="@id/tv_star_name"
-        android:layout_marginTop="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_6"
         android:layout_toRightOf="@id/iv_star_head"
         android:textColor="@color/font_999999"
         android:textSize="@dimen/text_size_12" />
-
-    <TextView
-        android:id="@+id/have_talk"
-        android:layout_width="@dimen/dp_70"
-        android:layout_height="@dimen/dp_26"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
         android:layout_marginRight="@dimen/dp_12"
-        android:background="@drawable/bg_booking_star_talk"
-        android:gravity="center"
-        android:text="@string/have_talk"
-        android:textColor="@color/color_8C0808"
-        android:textSize="@dimen/dp_12" />
+        >
+        <com.netease.nim.uikit.common.ui.drop.DropFake
+            android:id="@+id/tab_new_msg_label"
+            android:layout_width="28dip"
+            android:layout_height="28dip"
+            android:layout_marginRight="12dp"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:visibility="gone" />
+        <TextView
+            android:id="@+id/tv_mse"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="@dimen/dp_26"
+            android:background="@drawable/bg_booking_star_talk"
+            android:gravity="center"
+            android:text="@string/have_talk"
+            android:textColor="@color/color_8C0808"
+            android:textSize="@dimen/dp_12" />
+    </LinearLayout>
+
 
 
 </RelativeLayout>

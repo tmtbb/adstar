@@ -5,7 +5,7 @@
     android:background="@color/color_fafafa"
     android:orientation="vertical">
 
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@+id/nt_title"
         android:layout_width="match_parent"
         android:layout_height="48dp" />
@@ -23,7 +23,19 @@
     </LinearLayout>
 
     <include layout="@layout/ll_interval_line" />
+    <LinearLayout
+        android:id="@+id/ll_law_info"
+        style="@style/user_info_setting_style">
 
+        <TextView
+            style="@style/user_setting_text_style"
+            android:text="@string/law_info" />
+
+        <include layout="@layout/ll_right_arrow" />
+
+    </LinearLayout>
+
+    <include layout="@layout/ll_interval_line" />
     <LinearLayout
         android:id="@+id/ll_setting_about_us"
         style="@style/user_info_setting_style">

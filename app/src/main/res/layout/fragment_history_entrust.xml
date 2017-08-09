@@ -88,7 +88,6 @@
             android:textSize="@dimen/fontSize_11sp" />
 
         <TextView
-            android:id="@+id/textView5"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

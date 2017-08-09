@@ -11,7 +11,6 @@
         android:background="@color/white">
 
         <LinearLayout
-            android:id="@+id/account_info_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -143,7 +142,7 @@
             android:layout_above="@id/operate_layout"
             android:background="@color/grey">
 
-            <com.yundian.star.ui.wangyi.rts.doodle.DoodleView
+            <com.cloudTop.starshare.ui.wangyi.rts.doodle.DoodleView
                 android:id="@+id/doodle_view"
                 android:layout_width="600px"
                 android:layout_height="600px"

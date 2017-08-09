@@ -6,7 +6,7 @@
     android:background="@color/color_fafafa"
     android:orientation="vertical">
 
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@+id/nt_title"
         android:layout_width="match_parent"
         android:layout_height="48dp" />
@@ -61,7 +61,6 @@
                 android:textSize="@dimen/text_size_14" />
 
             <TextView
-                android:id="@+id/hold_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_18"
@@ -87,7 +86,6 @@
                 android:textSize="@dimen/text_size_14" />
 
             <TextView
-                android:id="@+id/user_money"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_18"

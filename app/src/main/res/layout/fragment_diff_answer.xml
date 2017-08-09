@@ -6,12 +6,12 @@
     android:background="@color/color_fafafa"
     >
 
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@+id/nt_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    </com.yundian.star.widget.NormalTitleBar>
+    </com.cloudTop.starshare.widget.NormalTitleBar>
 
     <LinearLayout
         android:id="@+id/ll_system_news"
