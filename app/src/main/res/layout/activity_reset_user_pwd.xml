@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
     android:id="@+id/nt_title"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"></com.yundian.star.widget.NormalTitleBar>
-    <com.yundian.star.widget.WPEditText
+    android:layout_height="wrap_content"></com.cloudTop.starshare.widget.NormalTitleBar>
+    <com.cloudTop.starshare.widget.WPEditText
         android:id="@+id/phoneEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,7 +18,7 @@
         app:edit_show_icon="false"
         app:edit_show_right_text="false" />
 
-    <com.yundian.star.widget.WPEditText
+    <com.cloudTop.starshare.widget.WPEditText
         android:id="@+id/msgEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
         app:edit_show_icon="false"
         app:edit_show_right_text="true" />
 
-    <com.yundian.star.widget.WPEditText
+    <com.cloudTop.starshare.widget.WPEditText
         android:id="@+id/pwdEditText1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
         app:edit_show_icon="false"
         app:edit_show_right_text="false" />
 
-    <com.yundian.star.widget.WPEditText
+    <com.cloudTop.starshare.widget.WPEditText
         android:id="@+id/pwdEditText2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_fafafa"
-    tools:context="com.yundian.star.ui.main.activity.MainActivity">
+    tools:context="com.cloudTop.starshare.com.cloudTop.star.ui.main.activity.MainActivity">
     <com.flyco.tablayout.CommonTabLayout
         android:id="@+id/tab_bottom_layout"
         android:layout_width="match_parent"

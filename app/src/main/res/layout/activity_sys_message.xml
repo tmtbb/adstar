@@ -3,17 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@+id/nt_title"
         android:layout_width="match_parent"
         android:layout_gravity="top"
-        android:layout_height="48dp"></com.yundian.star.widget.NormalTitleBar>
+        android:layout_height="48dp"></com.cloudTop.starshare.widget.NormalTitleBar>
     <com.github.jdsjlzx.recyclerview.LRecyclerView
         android:id="@+id/lrv"
         android:layout_marginTop="48dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"></com.github.jdsjlzx.recyclerview.LRecyclerView>
-    <com.yundian.star.widget.PasswordView
+    <com.cloudTop.starshare.widget.PasswordView
         android:id="@+id/passwordView"
         android:visibility="gone"
         android:layout_width="match_parent"

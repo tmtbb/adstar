@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="@color/main_bg_color">
 
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@+id/nt_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"

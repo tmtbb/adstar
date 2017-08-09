@@ -54,7 +54,7 @@
 
         </RelativeLayout>
 
-        <com.yundian.star.widget.WPEditText
+        <com.cloudTop.starshare.widget.WPEditText
             android:id="@+id/userNameEditText"
             android:layout_width="match_parent"
             android:layout_height="44dp"
@@ -65,7 +65,7 @@
             app:edit_show_icon="false"
             app:edit_show_right_text="false" />
 
-        <com.yundian.star.widget.WPEditText
+        <com.cloudTop.starshare.widget.WPEditText
             android:id="@+id/passwordEditText"
             android:layout_width="match_parent"
             android:layout_height="44dp"

@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@id/nt_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        ></com.yundian.star.widget.NormalTitleBar>
+        ></com.cloudTop.starshare.widget.NormalTitleBar>
         <com.flyco.tablayout.SlidingTabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"

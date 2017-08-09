@@ -4,19 +4,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@+id/nt_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></com.yundian.star.widget.NormalTitleBar>
-
-    <master.flame.danmaku.ui.widget.DanmakuView
-        android:background="@color/color_fafafa"
-        android:id="@+id/sv_danmaku"
+        android:layout_height="wrap_content"></com.cloudTop.starshare.widget.NormalTitleBar>
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-
-         />
+        android:background="@drawable/flea_market"
+        >
+        <master.flame.danmaku.ui.widget.DanmakuView
+            android:background="@color/transparent"
+            android:id="@+id/sv_danmaku"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </FrameLayout>
     <View
         android:id="@+id/lint"
         android:layout_width="match_parent"
