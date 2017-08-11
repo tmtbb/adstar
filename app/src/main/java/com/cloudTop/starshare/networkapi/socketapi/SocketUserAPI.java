@@ -68,6 +68,7 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
     public void register(String phone, String password, String memberId, String agentId,String channel, String recommend,String sub_agentId, OnAPIListener<RegisterReturnBeen> listener) {
         isNetBreak();
         HashMap<String, Object> map = new HashMap<>();
+        map.put("star_code","");
         map.put("phone", phone);
         map.put("pwd", password);
         map.put("memberId", memberId);

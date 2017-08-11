@@ -49,7 +49,7 @@
     <string name="user_pet_name">昵称</string>
     <string name="user_real_name">真实姓名</string>
     <string name="user_card_number">身份证号码</string>
-    <string name="star_money">星享时光币</string>
+    <string name="star_money">时光币</string>
     <string name="user_asset_manage">资产管理</string>
     <string name="user_have_market_value">持有市值</string>
     <string name="user_acailable_balance">可用余额</string>
