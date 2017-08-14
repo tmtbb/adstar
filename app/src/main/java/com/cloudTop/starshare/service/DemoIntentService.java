@@ -58,20 +58,16 @@ public class DemoIntentService extends GTIntentService {
             // sendMessage(data, 0);
             System.out.println("data-------->" + data);
             if ("1".equals(data)){
-                mBuilder.setContentText("委托匹配成功");
+                /*mBuilder.setContentText("委托匹配成功");
                 mBuilder.setTicker("委托匹配成功");
-                showNotify();
+                showNotify();*/
             }else if ("2".equals(data)){
                 mBuilder.setContentText("交易成功");
                 mBuilder.setTicker("交易成功");
                 showNotify();
             }else if ("0".equals(data)){
-                mBuilder.setContentText("委托成功");
-                mBuilder.setTicker("委托成功");
-                showNotify();
-            }else if ("0".equals(data)){
-                mBuilder.setContentText("委托成功");
-                mBuilder.setTicker("委托成功");
+                mBuilder.setContentText("扣费成功");
+                mBuilder.setTicker("扣费成功");
                 showNotify();
             }else if ("-4".equals(data)){
                 mBuilder.setContentText("订单异常");
@@ -88,6 +84,10 @@ public class DemoIntentService extends GTIntentService {
             } else if ("-1".equals(data)){
                 mBuilder.setContentText("取消订单");
                 mBuilder.setTicker("取消订单");
+                showNotify();
+            }else if ("10".equals(data)){
+                mBuilder.setContentText("委托匹配成功");
+                mBuilder.setTicker("委托匹配成功");
                 showNotify();
             }
 
