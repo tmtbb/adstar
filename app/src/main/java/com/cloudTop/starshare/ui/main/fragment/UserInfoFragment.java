@@ -108,6 +108,8 @@ public class UserInfoFragment extends BaseFragment {
     LinearLayout commonProblem;
     @Bind(R.id.ll_general_settings)
     LinearLayout generalSettings;
+    @Bind(R.id.ll_test)
+    LinearLayout ll_test;
     @Bind(R.id.btn_my_referee)
     Button myReferee;
     @Bind(R.id.iv_star_talk)
@@ -248,6 +250,9 @@ public class UserInfoFragment extends BaseFragment {
             case R.id.zxing_butten:
                 ViewConcurrencyUtils.preventConcurrency();  //防止并发
                 showPopupWindow();
+                break;
+            case R.id.ll_test:
+
                 break;
         }
     }

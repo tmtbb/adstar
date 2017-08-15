@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,14 +61,18 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
     private TextView tv_buy_time;
     private TextView tv_name;
     private TextView star_work;
+    private TextView tv_exp_show;
     private ImageView imag_meesage;
     private ImageView imageView_head;
     private ImageView iv_star_bg;
-    private TextView tv_right_share;
+    private ImageView share_button;
     private StarDetailInfoBean.ResultvalueBean resultvalue;
     private String head_url;
     private String back_pic;
     private String describe="";
+    private MyListView listExpView1;
+    private StarBuyExcAdapter buyExcAndAchAdapter;
+    private ShareControlerView controlerView;
 
     @Override
     public int getLayoutId() {
@@ -87,10 +92,11 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
         tv_buy_time = (TextView) findViewById(R.id.tv_buy_time);
         tv_name = (TextView) findViewById(R.id.textView6);
         star_work = (TextView) findViewById(R.id.star_work);
+        tv_exp_show = (TextView) findViewById(R.id.tv_exp_show);
         imag_meesage = (ImageView) findViewById(R.id.imag_meesage);
         imageView_head = (ImageView) findViewById(R.id.imageView3);
         iv_star_bg = (ImageView) findViewById(R.id.iv_star_bg);
-        tv_right_share = (TextView) findViewById(R.id.tv_right_share);
+        share_button = (ImageView) findViewById(R.id.share_button);
         getHaveCodeTime();
         getStarDetailInfo();
         initListener();
@@ -102,7 +108,9 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
         tv_meet_starts.setOnClickListener(this);
         tv_buy_time.setOnClickListener(this);
         imag_meesage.setOnClickListener(this);
-        tv_right_share.setOnClickListener(this);
+        //tv_right_share.setOnClickListener(this);
+        share_button.setOnClickListener(this);
+        tv_exp_show.setOnClickListener(this);
     }
 
     private void initHorizontalRecview(StarDetailInfoBean infoBean) {
@@ -197,12 +205,14 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initExp(StarExperienceBeen o) {
-        StarBuyExcAdapter buyExcAndAchAdapter = new StarBuyExcAdapter(this, o.getList());
-        MyListView listExpView1 = (MyListView) findViewById(R.id.listview_exp);
+        buyExcAndAchAdapter = new StarBuyExcAdapter(this, o.getList());
+        listExpView1 = (MyListView) findViewById(R.id.listview_exp);
         listExpView1.setVerticalScrollBarEnabled(true);
         listExpView1.setVisibility(View.VISIBLE);
         listExpView1.setAdapter(buyExcAndAchAdapter);
         ListViewUtil.setListViewHeightBasedOnChildren(listExpView1);
+        buyExcAndAchAdapter.setShareAll(isAllExp);
+        isAllExp = !isAllExp ;
     }
 
     private void showPopupWindow(String prc_url) {
@@ -226,7 +236,7 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
         });
         popupWindow.showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
     }
-
+private boolean isAllExp = false ;
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -262,8 +272,17 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
                     ToastUtils.showShort("您未持有该明星时间，请购买");
                 }
                 break;
-            case R.id.tv_right_share:
+            case R.id.share_button:
                 share();
+                break;
+            case R.id.tv_exp_show:
+                buyExcAndAchAdapter.setShareAll(isAllExp);
+                if (isAllExp){
+                    tv_exp_show.setText("收起更多");
+                }else {
+                    tv_exp_show.setText("显示更多");
+                }
+                isAllExp = !isAllExp;
                 break;
 
         }
@@ -287,11 +306,14 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
                 });
     }
     private void share() {
-        ShareControlerView controlerView = new ShareControlerView(this, mContext, umShareListener);
-        String webUrl = "http://www.zhongyuliying.com/"+"?uid="+ SharePrefUtil.getInstance().getUserId();
+        controlerView = new ShareControlerView(this, mContext, umShareListener);
+        String webUrl = "http://www.zhongyuliying.com/"+"?uid="+ SharePrefUtil.getInstance().getUserId()
+                +"&star_code="+code;
         String title = resultvalue.getStar_name()+" 正在星享时光出售TA的时间";
         String text = "文本";
         controlerView.setText(text);
+        controlerView.setStarName(resultvalue.getStar_name());
+        controlerView.setStarWork(resultvalue.getWork());
         controlerView.setWebUrl(webUrl);
         controlerView.setDescribe(describe);
         controlerView.setTitle(title);
@@ -348,5 +370,20 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
             }
         });
         popupWindow.showAtLocation(rootView, Gravity.BOTTOM, 0, 0);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_BACK:
+                if (controlerView!=null&&controlerView.isOpen() ==true) {
+                    controlerView.closeShareView();
+                    return true;
+                } else {
+                    return super.onKeyDown(keyCode, event);
+                }
+        }
+        return super.onKeyDown(keyCode, event);
+
     }
 }

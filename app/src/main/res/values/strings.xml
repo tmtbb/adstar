@@ -636,6 +636,10 @@
     <!-- 平台名称 -->
 
     <string name="star_infos">个人介绍</string>
+    <string name="star_interaction">明星互动</string>
+    <string name="star_charm_mirror">魅力写真</string>
+    <string name="share_describe">分享您的专属二维码给朋友，便可免费获得明星时间。</string>
+    <string name="long_press">长按保存二维码</string>
     <string name="shell_time">发售时间：%1$s-%2$s</string>
     <string name="shell_tolnum">发售总量：%1$d秒</string>
     <string name="shell_tolnum_info">当前最多能购买%1$d秒</string>
