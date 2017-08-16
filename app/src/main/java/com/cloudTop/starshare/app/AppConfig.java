@@ -1,4 +1,7 @@
 package com.cloudTop.starshare.app;
+
+import android.os.Environment;
+
 public class AppConfig {
 
     /**
@@ -10,5 +13,6 @@ public class AppConfig {
     public static String APP_FIRE_ID = "";
     //appid
     public static String APP_ID = "";
-
+    public static final String SDCARD_DIR = Environment.getExternalStorageDirectory().getAbsolutePath();
+    public static final String DEFAULT_CACHE_DIR = SDCARD_DIR + "/PLDroidPlayer";
 }

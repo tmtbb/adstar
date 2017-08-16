@@ -495,6 +495,11 @@
             android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity android:name="com.cloudTop.starshare.ui.main.activity.AuctionRankingListActivity"></activity>
 
+        <!--短视频-->
+        <activity
+            android:name=".ui.main.activity.PLVideoTextureActivity"
+            android:theme="@style/AppThemeFullscreen" />
+
         <!-- 声明云信后台服务 -->
         <service
             android:name="com.netease.nimlib.service.NimService"
