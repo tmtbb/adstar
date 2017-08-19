@@ -1151,7 +1151,6 @@ public class TimeUtil {
         long hour = milliSecondTime /(60*60);
         long minute = (milliSecondTime - hour*60*60)/(60);
         long seconds = milliSecondTime - hour*60*60 - minute*60;
-        LogUtils.loge("hour"+hour+"minute"+minute+"seconds"+seconds+"milliSecondTime"+milliSecondTime);
         if(seconds >= 60 )
         {
             seconds = seconds % 60;
