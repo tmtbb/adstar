@@ -499,7 +499,12 @@
         <activity
             android:name=".ui.main.activity.PLVideoTextureActivity"
             android:theme="@style/AppThemeFullscreen" />
-
+        <activity android:name=".ui.main.activity.AnswersActivity"></activity>
+        <activity android:name=".ui.main.activity.AskToAnswersActivity"></activity>
+        <activity android:name=".ui.main.activity.HistoryAnswersActivity"></activity>
+        <activity android:name=".ui.main.activity.VoiceCustomActivity"></activity>
+        <activity android:name=".ui.main.activity.HistoryVoiceActivity"></activity>
+        <activity android:name=".ui.main.activity.AskToVoiceActivity"></activity>
         <!-- 声明云信后台服务 -->
         <service
             android:name="com.netease.nimlib.service.NimService"

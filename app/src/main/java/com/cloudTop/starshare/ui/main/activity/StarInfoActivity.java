@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -62,11 +63,14 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
     private TextView tv_name;
     private TextView star_work;
     private TextView tv_exp_show;
+    private LinearLayout ll_answers;
+    private LinearLayout ll_voice_made;
+    private LinearLayout ll_star_state;
     private ImageView imag_meesage;
     private ImageView imageView_head;
     private ImageView iv_star_bg;
     private ImageView share_button;
-    private StarDetailInfoBean.ResultvalueBean resultvalue;
+    private StarDetailInfoBean.ResultvalueBean resultvalue = new StarDetailInfoBean.ResultvalueBean();
     private String head_url;
     private String back_pic;
     private String describe="";
@@ -97,6 +101,9 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
         imageView_head = (ImageView) findViewById(R.id.imageView3);
         iv_star_bg = (ImageView) findViewById(R.id.iv_star_bg);
         share_button = (ImageView) findViewById(R.id.share_button);
+        ll_answers = (LinearLayout) findViewById(R.id.ll_answers);
+        ll_voice_made = (LinearLayout) findViewById(R.id.ll_voice_made);
+        ll_star_state = (LinearLayout) findViewById(R.id.ll_star_state);
         getHaveCodeTime();
         getStarDetailInfo();
         initListener();
@@ -111,6 +118,9 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
         //tv_right_share.setOnClickListener(this);
         share_button.setOnClickListener(this);
         tv_exp_show.setOnClickListener(this);
+        ll_answers.setOnClickListener(this);
+        ll_voice_made.setOnClickListener(this);
+        ll_star_state.setOnClickListener(this);
     }
 
     private void initHorizontalRecview(StarDetailInfoBean infoBean) {
@@ -247,7 +257,7 @@ private boolean isAllExp = false ;
                 if (JudgeIdentityUtils.isIdentityed(StarInfoActivity.this)) {
                     Intent intent3 = new Intent(StarInfoActivity.this, MeetStarActivity.class);
                     intent3.putExtra(AppConstant.STAR_HEAD_URL, head_url);
-                    intent3.putExtra(AppConstant.STAR_NAME, resultvalue.getStar_name());
+                    intent3.putExtra(AppConstant.STAR_NAME, resultvalue.getStar_name()+"");
                     intent3.putExtra(AppConstant.STAR_BACKGROUND_URL, back_pic);
                     intent3.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, resultvalue.getStar_tpye());
                     intent3.putExtra(AppConstant.STAR_CODE, code);
@@ -258,7 +268,7 @@ private boolean isAllExp = false ;
                 Intent intent = new Intent(this, BuyTransferIndentActivity.class);
                 intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 0);
                 intent.putExtra(AppConstant.STAR_HEAD_URL, head_url);
-                intent.putExtra(AppConstant.STAR_NAME, resultvalue.getStar_name());
+                intent.putExtra(AppConstant.STAR_NAME, resultvalue.getStar_name()+"");
                 intent.putExtra(AppConstant.STAR_CODE, code);
                 startActivity(intent);
                 break;
@@ -276,13 +286,30 @@ private boolean isAllExp = false ;
                 share();
                 break;
             case R.id.tv_exp_show:
-                buyExcAndAchAdapter.setShareAll(isAllExp);
+                if (!TextUtils.isEmpty(describe)){
+                    buyExcAndAchAdapter.setShareAll(isAllExp);
+                }
                 if (isAllExp){
                     tv_exp_show.setText("收起更多");
                 }else {
                     tv_exp_show.setText("显示更多");
                 }
                 isAllExp = !isAllExp;
+                break;
+            case R.id.ll_answers:
+                Intent intent1 = new Intent(this,AnswersActivity.class);
+                intent1.putExtra("star_code",code);
+                intent1.putExtra("star_name",resultvalue.getStar_name());
+                startActivity(intent1);
+                break;
+            case R.id.ll_voice_made:
+                Intent intent2 = new Intent(this,VoiceCustomActivity.class);
+                intent2.putExtra("star_code",code);
+                intent2.putExtra("star_name",resultvalue.getStar_name());
+                startActivity(intent2);
+                break;
+            case R.id.ll_star_state:
+
                 break;
 
         }

@@ -1,13 +1,14 @@
 package com.cloudTop.starshare.networkapi;
 
 
-import com.cloudTop.starshare.been.LoginReturnInfo;
-import com.cloudTop.starshare.been.RegisterVerifyCodeBeen;
-import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.been.CheckUpdateInfoEntity;
+import com.cloudTop.starshare.been.LoginReturnInfo;
+import com.cloudTop.starshare.been.QiNiuAdressBean;
 import com.cloudTop.starshare.been.RegisterReturnBeen;
 import com.cloudTop.starshare.been.RegisterReturnWangYiBeen;
+import com.cloudTop.starshare.been.RegisterVerifyCodeBeen;
 import com.cloudTop.starshare.been.WXinLoginReturnBeen;
+import com.cloudTop.starshare.listener.OnAPIListener;
 
 /**
  * Created by yaowang on 2017/2/20.
@@ -47,4 +48,5 @@ public interface UserAPI {
     void starCount( OnAPIListener<RegisterReturnBeen> listener);
     void update(OnAPIListener<CheckUpdateInfoEntity> listener);
     void saveDevice(long uid,String device_id, OnAPIListener<Object> listener);
+    void getQiNiuPicDress(OnAPIListener<QiNiuAdressBean> listener);
 }

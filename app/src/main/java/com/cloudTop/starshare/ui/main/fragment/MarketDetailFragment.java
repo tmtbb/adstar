@@ -45,7 +45,7 @@ public class MarketDetailFragment extends BaseFragment {
     private int userId;
     private String token;
     private LRecyclerView lrv;
-    MarketDetailAdapter marketDetailAdapter;
+    private MarketDetailAdapter marketDetailAdapter;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
     private static int mCurrentCounter = 0;
     private static final int REQUEST_COUNT = 10;

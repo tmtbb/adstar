@@ -145,10 +145,10 @@
         <TextView
             android:id="@+id/tv_cancel"
             android:layout_width="match_parent"
-            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-          android:padding="@dimen/dp_15"
+            android:gravity="center"
+            android:padding="@dimen/dp_15"
             android:text="取消"
             android:textColor="#fb836f"
             android:textSize="17sp" />
