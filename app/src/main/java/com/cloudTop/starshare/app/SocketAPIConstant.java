@@ -127,5 +127,6 @@ public interface SocketAPIConstant {
         Short getWeituo = 6025;
         Short getNowPricce = 4011;
         Short getExpendLine = 10033;
+        Short getQiniu = 4015;
     }
 }
