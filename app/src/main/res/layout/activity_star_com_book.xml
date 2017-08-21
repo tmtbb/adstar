@@ -30,7 +30,7 @@
             android:layout_height="fill_parent"
             android:layout_centerInParent="true"
             android:gravity="center_vertical"
-            android:textColor="@color/color_8C0808"
+            android:textColor="@color/color_185CA5"
             android:textSize="@dimen/fontSize_18sp" />
 
         <!--<com.netease.nim.uikit.common.ui.drop.DropFake-->

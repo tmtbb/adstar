@@ -97,7 +97,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="@dimen/dp_6"
                 android:text="@string/register"
-                android:textColor="@color/color_B90A0A"
+                android:textColor="@color/color_185CA5"
                 android:textSize="@dimen/fontSize_14sp" />
         </LinearLayout>
         <View
@@ -159,7 +159,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/font_333333"
                 android:textSize="@dimen/fontSize_14sp"
-                android:text="星享时光法律协议"
+                android:text="星云法律协议"
                 />
         </LinearLayout>
         <Button

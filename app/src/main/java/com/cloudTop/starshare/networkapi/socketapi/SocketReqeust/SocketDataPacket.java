@@ -29,7 +29,7 @@ public class SocketDataPacket implements Serializable {
     private Short dataLength = 0;
     private int timestamp = 0;
     private Long sessionId = 0L;
-    private int requestId = 0;
+    private int requestId = 1;
     private byte[] dataBody;
 
 

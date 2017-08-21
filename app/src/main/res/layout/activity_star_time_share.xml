@@ -32,10 +32,10 @@
             android:layout_width="match_parent"
             android:layout_height="51dp"
             android:background="@color/color_white_ffffffff"
-            app:tl_indicator_color="@color/color_8C0808"
+            app:tl_indicator_color="@color/color_185CA5"
             app:tl_indicator_width_equal_title="true"
             app:tl_tab_space_equal="true"
-            app:tl_textSelectColor="@color/color_8C0808"
+            app:tl_textSelectColor="@color/color_185CA5"
             app:tl_textUnselectColor="@color/color_C2CFD8"
             app:tl_textsize="@dimen/fontSize_16sp"></com.flyco.tablayout.SlidingTabLayout>
 
@@ -65,7 +65,7 @@
             android:button="@null"
             android:drawableTop="@drawable/want_buy_icon"
             android:gravity="center"
-            android:textColor="@color/color_8C0808"
+            android:textColor="@color/color_185CA5"
             android:text="@string/ask_to_buy" />
 
         <RadioButton
@@ -76,7 +76,7 @@
             android:button="@null"
             android:drawableTop="@drawable/transfer_icon"
             android:gravity="center"
-            android:textColor="@color/color_8C0808"
+            android:textColor="@color/color_185CA5"
             android:text="@string/transfer" />
 
         <RadioButton
@@ -88,7 +88,7 @@
             android:button="@null"
             android:drawableTop="@drawable/fans_see"
             android:gravity="center"
-            android:textColor="@color/color_8C0808"
+            android:textColor="@color/color_185CA5"
             android:text="@string/fans_meet_and_greet" />
         <!--<RadioButton
             android:textColor="@color/color_8C0808"

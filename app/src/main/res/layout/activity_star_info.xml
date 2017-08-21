@@ -36,11 +36,52 @@
                     android:layout_marginBottom="20dp"
                     android:gravity="center_vertical">
 
-                    <ImageView
+                    <RelativeLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:layout_marginLeft="25dp"
+                        android:background="@color/white_alpha_half">
+
+                        <ImageView
+                            android:id="@+id/imageView3"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp" />
+
+                        <TextView
+                            android:id="@+id/textView6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignTop="@+id/imageView3"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginStart="12dp"
+                            android:layout_marginTop="6dp"
+                            android:layout_toEndOf="@+id/imageView3"
+                            android:layout_toRightOf="@+id/imageView3"
+                            android:paddingRight="12dp"
+                            android:textColor="@color/color_black_333333"
+                            android:textSize="@dimen/fontSize_16sp" />
+
+                        <TextView
+                            android:id="@+id/star_work"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignLeft="@id/textView6"
+                            android:layout_alignStart="@+id/textView6"
+                            android:layout_below="@id/textView6"
+                            android:layout_marginTop="9dp"
+                            android:text="@string/ming_xing"
+                            android:textColor="@color/color_666666"
+                            android:textSize="@dimen/fontSize_14sp" />
+
+                    </RelativeLayout>
+
+                    <!--<ImageView
                         android:id="@+id/imageView3"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginLeft="25dp" />
+
+
 
                     <TextView
                         android:id="@+id/textView6"
@@ -65,7 +106,7 @@
                         android:layout_marginTop="9dp"
                         android:text="@string/ming_xing"
                         android:textColor="@color/color_666666"
-                        android:textSize="@dimen/fontSize_14sp" />
+                        android:textSize="@dimen/fontSize_14sp" />-->
 
                     <ImageView
                         android:id="@+id/imag_meesage"
@@ -160,7 +201,7 @@
                 android:id="@+id/tv_meet_starts"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/color_FB9938"
+                android:background="@color/color_3598DB"
                 android:gravity="center"
                 android:text="@string/meet_starts"
                 android:textColor="@color/color_f4f4f4"
@@ -172,7 +213,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/color_FB9938"
+            android:background="@color/color_185CA5"
             android:gravity="center"
             android:text="@string/buy_time"
             android:textColor="@color/color_f4f4f4"

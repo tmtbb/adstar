@@ -15,9 +15,9 @@
         android:id="@+id/com_tab"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
-        tl:tl_indicator_color="@color/color_8C0808"
+        tl:tl_indicator_color="@color/color_185CA5"
         tl:tl_indicator_width="20dp"
-        tl:tl_textSelectColor="@color/color_8C0808"
+        tl:tl_textSelectColor="@color/color_185CA5"
         tl:tl_textUnselectColor="@color/color_C2CFD8"
         tl:tl_textsize="@dimen/fontSize_16sp"
         tl:tl_underline_height="3dp"></com.flyco.tablayout.CommonTabLayout>

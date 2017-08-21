@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">星享时光</string>
+    <string name="app_name">星云</string>
     <string name="net_error">网络访问错误，请稍后再试</string>
     <string name="empty">还没有数据哦</string>
     <string name="loading">请稍后...</string>
@@ -10,7 +10,7 @@
     <string name="loging">现在登录</string>
     <string name="other_login">第三方登录</string>
     <string name="wei_xin_login">微信登录</string>
-    <string name="title_welcome_1">星享时光，</string>
+    <string name="title_welcome_1">星云，</string>
     <string name="title_welcome_2">你与明星零距离</string>
     <string name="news_info_title">资讯</string>
     <string name="get_note_code">获取验证码</string>
@@ -247,10 +247,10 @@
     <string name="sure_law_info">请仔细阅读通用设置中的法律说明</string>
     <string name="cancel_order">取消订单</string>
     <string name="have_empy_time">已持有:\t\t</string>
-    <string name="add_star">加入星享时光</string>
+    <string name="add_star">加入星云</string>
     <string name="input_broker_id">请输入零售商ID（选填）</string>
     <string name="input_id_tips">TIPS：请输入正确的渠道推广号</string>
-    <string name="enter_star">进入星享时光</string>
+    <string name="enter_star">进入星云</string>
     <string name="delegation_num">委托量</string>
     <string name="holding_star_time">持有时间</string>
     <string name="booking_star_status">约见情况</string>

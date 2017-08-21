@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:textColor="@color/color_8C0808"
+                android:textColor="@color/color_185CA5"
                 android:textSize="@dimen/fontSize_14sp" />
 
             <EditText

@@ -61,7 +61,7 @@
             android:background="@drawable/bg_booking_star_talk"
             android:gravity="center"
             android:text="@string/have_talk"
-            android:textColor="@color/color_8C0808"
+            android:textColor="@color/color_185CA5"
             android:textSize="@dimen/dp_12" />
     </LinearLayout>
 
