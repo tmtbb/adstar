@@ -662,7 +662,9 @@
     <string name="share_describe">分享您的专属二维码给朋友， 便可免费获得明星时间。</string>
     <string name="long_press">长按保存二维码</string>
     <string name="shell_time">发售时间：%1$s-%2$s</string>
+    <string name="presell_time">预售时间：%1$s-%2$s</string>
     <string name="shell_tolnum">发售总量：%1$d秒</string>
+    <string name="presell_tolnum">预售总量：%1$d秒</string>
     <string name="shell_tolnum_info">当前最多能购买%1$d秒</string>
     <string name="shell_text_info_limt">Tips:该商品不支持退款。每人仅能购买一次，每订单固定数量。倒计时结束后不能购买</string>
 </resources>

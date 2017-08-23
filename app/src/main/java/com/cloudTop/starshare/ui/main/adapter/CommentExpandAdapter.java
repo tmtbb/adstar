@@ -63,11 +63,7 @@ public class CommentExpandAdapter extends ExpandableRecyclerAdapter<BookingStarL
             spannable.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.color_FB9938)), 5, format.length() - 1, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             starName.setText(item.getStarname());
             holdingTime.setText(spannable);
-            List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(item.getStarcode());
-            if (starInfos != null && starInfos.size() != 0) {
-                StarInfo starInfo = starInfos.get(0);
-                ImageLoaderUtils.display(mContext, iv_star_head, starInfo.getPic_url());
-            }
+            ImageLoaderUtils.displaySmallPhoto(mContext, iv_star_head, item.getHead_url_tail());
             iv_star_head.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

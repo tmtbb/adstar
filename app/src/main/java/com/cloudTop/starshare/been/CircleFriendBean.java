@@ -38,7 +38,9 @@ public class CircleFriendBean {
         private String content;
         private long create_time;
         private String head_url;
+        private String head_url_tail="";
         private String pic_url;
+        private String pic_url_tail="";
         private String symbol;
         private String symbol_name;
         private List<ApproveListBean> approve_list;
@@ -84,20 +86,20 @@ public class CircleFriendBean {
             this.create_time = create_time;
         }
 
-        public String getHead_url() {
-            return head_url;
+        public String getHead_url_tail() {
+            return head_url_tail;
         }
 
-        public void setHead_url(String head_url) {
-            this.head_url = head_url;
+        public void setHead_url_tail(String head_url_tail) {
+            this.head_url_tail = head_url_tail;
         }
 
-        public String getPic_url() {
-            return pic_url;
+        public String getPic_url_tail() {
+            return pic_url_tail;
         }
 
-        public void setPic_url(String pic_url) {
-            this.pic_url = pic_url;
+        public void setPic_url_tail(String pic_url_tail) {
+            this.pic_url_tail = pic_url_tail;
         }
 
         public String getSymbol() {

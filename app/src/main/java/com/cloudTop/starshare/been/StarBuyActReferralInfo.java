@@ -33,12 +33,14 @@ public class StarBuyActReferralInfo implements Parcelable {
     private String constellaction;
     private int gender;
     private String head_url;
+    private String head_url_tail="";
     private String introduction;
     private String name;
     private String nation;
     private String nationality;
     private int owntimes;
     private String pic_url;
+    private String pic_url_tail="";
     private int result;
     private int star_vip;
     private String symbol;
@@ -77,13 +79,14 @@ public class StarBuyActReferralInfo implements Parcelable {
         this.gender = gender;
     }
 
-    public String getHead_url() {
-        return head_url;
+    public String getHead_url_tail() {
+        return head_url_tail;
     }
 
-    public void setHead_url(String head_url) {
-        this.head_url = head_url;
+    public void setHead_url_tail(String head_url) {
+        this.head_url_tail = head_url_tail;
     }
+
 
     public String getIntroduction() {
         return introduction;
@@ -125,12 +128,12 @@ public class StarBuyActReferralInfo implements Parcelable {
         this.owntimes = owntimes;
     }
 
-    public String getPic_url() {
-        return pic_url;
+    public String getPic_url_tail() {
+        return pic_url_tail;
     }
 
-    public void setPic_url(String pic_url) {
-        this.pic_url = pic_url;
+    public void setPic_url_tail(String pic_url) {
+        this.pic_url_tail = pic_url_tail;
     }
 
     public int getResult() {
@@ -185,12 +188,14 @@ public class StarBuyActReferralInfo implements Parcelable {
         dest.writeString(this.constellaction);
         dest.writeInt(this.gender);
         dest.writeString(this.head_url);
+        dest.writeString(this.head_url_tail);
         dest.writeString(this.introduction);
         dest.writeString(this.name);
         dest.writeString(this.nation);
         dest.writeString(this.nationality);
         dest.writeInt(this.owntimes);
         dest.writeString(this.pic_url);
+        dest.writeString(this.pic_url_tail);
         dest.writeInt(this.result);
         dest.writeInt(this.star_vip);
         dest.writeString(this.symbol);
@@ -207,12 +212,14 @@ public class StarBuyActReferralInfo implements Parcelable {
         this.constellaction = in.readString();
         this.gender = in.readInt();
         this.head_url = in.readString();
+        this.head_url_tail = in.readString();
         this.introduction = in.readString();
         this.name = in.readString();
         this.nation = in.readString();
         this.nationality = in.readString();
         this.owntimes = in.readInt();
         this.pic_url = in.readString();
+        this.pic_url_tail = in.readString();
         this.result = in.readInt();
         this.star_vip = in.readInt();
         this.symbol = in.readString();
@@ -220,7 +227,7 @@ public class StarBuyActReferralInfo implements Parcelable {
         this.work = in.readString();
     }
 
-    public static final Parcelable.Creator<StarBuyActReferralInfo> CREATOR = new Parcelable.Creator<StarBuyActReferralInfo>() {
+    public static final Creator<StarBuyActReferralInfo> CREATOR = new Creator<StarBuyActReferralInfo>() {
         @Override
         public StarBuyActReferralInfo createFromParcel(Parcel source) {
             return new StarBuyActReferralInfo(source);

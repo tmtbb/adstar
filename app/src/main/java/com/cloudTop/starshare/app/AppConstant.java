@@ -9,6 +9,7 @@ public class AppConstant {
    //明星code
     public static final String STAR_CODE="STAR_CODE";
     public static final String PUBLISH_TYPE="PUBLISH_TYPE";
+    public static final String IS_PRESELL="IS_PRESELL";
     public static final String STAR_NAME="STAR_NAME";
     public static final String STAR_WID="STAR_WID";
     public static final String STAR_HEAD_URL="STAR_HEAD_URL";

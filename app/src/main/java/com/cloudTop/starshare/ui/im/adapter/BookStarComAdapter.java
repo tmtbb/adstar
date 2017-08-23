@@ -10,8 +10,6 @@ import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.base.ListBaseAdapter;
 import com.cloudTop.starshare.base.SuperViewHolder;
 import com.cloudTop.starshare.been.StarMailListBeen;
-import com.cloudTop.starshare.greendao.GreenDaoManager;
-import com.cloudTop.starshare.greendao.StarInfo;
 import com.cloudTop.starshare.utils.ImageLoaderUtils;
 import com.cloudTop.starshare.utils.LogUtils;
 import com.netease.nim.uikit.common.ui.drop.DropFake;
@@ -53,14 +51,9 @@ public class BookStarComAdapter extends ListBaseAdapter<StarMailListBeen.Deposit
                 tv_star_job.setVisibility(View.VISIBLE);
                 tv_star_job.setText(listBean.getWork());
             }
-            List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(listBean.getStarcode());
-            if (starInfos!=null&&starInfos.size()!=0){
-                StarInfo starInfo = starInfos.get(0);
-                ImageLoaderUtils.displaySmallPhoto(mContext,iv_star_head,starInfo.getPic_url());
-                tv_star_name.setText(starInfo.getName());
-            }else {
-                tv_star_name.setText(listBean.getStarname());
-            }
+            ImageLoaderUtils.displaySmallPhoto(mContext,iv_star_head,listBean.getHead_url_tail());
+            tv_star_name.setText(listBean.getStarname());
+
             LogUtils.loge("contactList"+contactList.size());
             if (contactList!=null&&contactList.size()!=0){
                 for (RecentContact contact : contactList) {

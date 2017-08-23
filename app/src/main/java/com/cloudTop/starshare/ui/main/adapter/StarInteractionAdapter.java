@@ -38,7 +38,7 @@ public class StarInteractionAdapter extends ListBaseAdapter<StarListReturnBean.S
         ImageView img_head = holder.getView(R.id.img_head);
         TextView tv_name = holder.getView(R.id.tv_name);
         TextView tv_info = holder.getView(R.id.tv_info);
-        ImageLoaderUtils.displaySmallPhoto(mContext,img_head,ordersListBean.getPic());
+        ImageLoaderUtils.displaySmallPhoto(mContext,img_head,ordersListBean.getPic_tail());
         tv_name.setText(nickname);
         tv_info.setText(ordersListBean.getWork());
         RelativeLayout rl_bg = holder.getView(R.id.rl_bg);

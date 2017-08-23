@@ -56,7 +56,7 @@ public class MeetTypeAdapter extends BaseAdapter {
         }
 
         viewHolder.tv_content.setText(list.get(position).getName());
-        ImageLoaderUtils.display(mContext,viewHolder.itemImg,list.get(position).getUrl2());
+        ImageLoaderUtils.display(mContext,viewHolder.itemImg,list.get(position).getUrl2_tail());
 //        viewHolder.itemImg.setBackgroundResource(R.drawable.sort_nomal);
         return convertView;
     }
