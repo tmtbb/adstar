@@ -110,12 +110,14 @@
 
 
         <View
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="1dip"
             android:layout_marginTop="@dimen/dp_16"
             android:background="@color/color_D2D2D2" />
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/tv_three_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -126,6 +128,7 @@
             android:textSize="@dimen/fontSize_14sp" />
 
         <LinearLayout
+            android:visibility="gone"
             android:id="@+id/ll_wx_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

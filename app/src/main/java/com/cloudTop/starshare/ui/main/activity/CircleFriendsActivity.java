@@ -135,13 +135,13 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
         mElEmotion = (EmotionLayout) findViewById(R.id.elEmotion);
         mElEmotion.attachEditText(mEtContent);
         if (isOne){
-            nt_title.setRightImagSrc(R.drawable.share);
-            nt_title.setOnRightImagListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                share();
-            }
-        });
+//            nt_title.setRightImagSrc(R.drawable.share);
+//            nt_title.setOnRightImagListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                share();
+//            }
+//        });
         }
         initEmotionKeyboard();
     }
