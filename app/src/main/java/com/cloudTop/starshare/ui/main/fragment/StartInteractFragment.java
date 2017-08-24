@@ -5,22 +5,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.cloudTop.starshare.R;
+import com.cloudTop.starshare.app.AppConstant;
 import com.cloudTop.starshare.base.BaseFragment;
+import com.cloudTop.starshare.been.StarListReturnBean;
 import com.cloudTop.starshare.listener.OnAPIListener;
+import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
+import com.cloudTop.starshare.ui.main.activity.CircleFriendsActivity;
+import com.cloudTop.starshare.ui.main.activity.StarInfoActivity;
 import com.cloudTop.starshare.ui.main.adapter.StarInteractionAdapter;
+import com.cloudTop.starshare.utils.LogUtils;
+import com.cloudTop.starshare.utils.SharePrefUtil;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
-import com.cloudTop.starshare.R;
-import com.cloudTop.starshare.app.AppConstant;
-import com.cloudTop.starshare.been.StarListReturnBean;
-import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
-import com.cloudTop.starshare.ui.main.activity.CircleFriendsActivity;
-import com.cloudTop.starshare.utils.LogUtils;
-import com.cloudTop.starshare.utils.SharePrefUtil;
 
 import java.util.ArrayList;
 
@@ -94,11 +95,9 @@ public class StartInteractFragment extends BaseFragment {
             public void onItemClick(View view, int position) {
                 Intent intent0 = new Intent(getActivity(),CircleFriendsActivity.class);
                 StarListReturnBean.SymbolInfoBean symbolInfoBean = list.get(position);
-                intent0.putExtra(AppConstant.STAR_CODE,symbolInfoBean.getSymbol());
-                intent0.putExtra(AppConstant.STAR_NAME,symbolInfoBean.getName());
-                intent0.putExtra(AppConstant.STAR_HEAD_URL,symbolInfoBean.getPic());
-                intent0.putExtra(AppConstant.IS_ONE,true);
-                getActivity().startActivity(intent0);
+                Intent intent3 = new Intent(getActivity(), StarInfoActivity.class);
+                intent3.putExtra(AppConstant.STAR_CODE, symbolInfoBean.getSymbol());
+                startActivity(intent3);
             }
         });
     }

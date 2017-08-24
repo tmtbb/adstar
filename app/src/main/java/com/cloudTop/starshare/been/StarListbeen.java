@@ -39,6 +39,7 @@ public class StarListbeen {
         private double currentPrice;
         private String name;
         private String pic;
+        private String pic_tail="";
         private int priceTime;
         private String symbol;
         private int sysTime;
@@ -69,12 +70,12 @@ public class StarListbeen {
             this.name = name;
         }
 
-        public String getPic() {
-            return pic;
+        public String getPic_tail() {
+            return pic_tail;
         }
 
-        public void setPic(String pic) {
-            this.pic = pic;
+        public void setPic_tail(String pic_tail) {
+            this.pic_tail = pic_tail;
         }
 
         public int getPriceTime() {
@@ -118,21 +119,6 @@ public class StarListbeen {
         }
 
         @Override
-        public String toString() {
-            return "SymbolInfoBean{" +
-                    "change=" + change +
-                    ", currentPrice=" + currentPrice +
-                    ", name='" + name + '\'' +
-                    ", pic='" + pic + '\'' +
-                    ", priceTime=" + priceTime +
-                    ", symbol='" + symbol + '\'' +
-                    ", sysTime=" + sysTime +
-                    ", wid='" + wid + '\'' +
-                    ", pchg=" + pchg +
-                    '}';
-        }
-
-        @Override
         public int describeContents() {
             return 0;
         }
@@ -143,6 +129,7 @@ public class StarListbeen {
             dest.writeDouble(this.currentPrice);
             dest.writeString(this.name);
             dest.writeString(this.pic);
+            dest.writeString(this.pic_tail);
             dest.writeInt(this.priceTime);
             dest.writeString(this.symbol);
             dest.writeInt(this.sysTime);
@@ -158,6 +145,7 @@ public class StarListbeen {
             this.currentPrice = in.readDouble();
             this.name = in.readString();
             this.pic = in.readString();
+            this.pic_tail = in.readString();
             this.priceTime = in.readInt();
             this.symbol = in.readString();
             this.sysTime = in.readInt();
@@ -165,7 +153,7 @@ public class StarListbeen {
             this.pchg = in.readFloat();
         }
 
-        public static final Parcelable.Creator<SymbolInfoBean> CREATOR = new Parcelable.Creator<SymbolInfoBean>() {
+        public static final Creator<SymbolInfoBean> CREATOR = new Creator<SymbolInfoBean>() {
             @Override
             public SymbolInfoBean createFromParcel(Parcel source) {
                 return new SymbolInfoBean(source);

@@ -29,6 +29,7 @@ import com.cloudTop.starshare.ui.main.adapter.HorizontalRcvAdapter;
 import com.cloudTop.starshare.ui.main.adapter.StarBuyExcAdapter;
 import com.cloudTop.starshare.ui.view.ShareControlerView;
 import com.cloudTop.starshare.ui.wangyi.session.activity.P2PMessageActivity;
+import com.cloudTop.starshare.utils.CheckLoginUtil;
 import com.cloudTop.starshare.utils.HorizontalItemDecorator;
 import com.cloudTop.starshare.utils.ImageLoaderUtils;
 import com.cloudTop.starshare.utils.JudgeIdentityUtils;
@@ -125,17 +126,17 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
 
     private void initHorizontalRecview(StarDetailInfoBean infoBean) {
         final ArrayList<String> arrayList = new ArrayList();
-        if (!TextUtils.isEmpty(infoBean.getResultvalue().getPortray1())) {
-            arrayList.add(infoBean.getResultvalue().getPortray1());
+        if (!TextUtils.isEmpty(infoBean.getResultvalue().getPortray1_tail())) {
+            arrayList.add(infoBean.getResultvalue().getPortray1_tail());
         }
-        if (!TextUtils.isEmpty(infoBean.getResultvalue().getPortray2())) {
-            arrayList.add(infoBean.getResultvalue().getPortray2());
+        if (!TextUtils.isEmpty(infoBean.getResultvalue().getPortray2_tail())) {
+            arrayList.add(infoBean.getResultvalue().getPortray2_tail());
         }
-        if (!TextUtils.isEmpty(infoBean.getResultvalue().getPortray3())) {
-            arrayList.add(infoBean.getResultvalue().getPortray3());
+        if (!TextUtils.isEmpty(infoBean.getResultvalue().getPortray3_tail())) {
+            arrayList.add(infoBean.getResultvalue().getPortray3_tail());
         }
-        if (!TextUtils.isEmpty(infoBean.getResultvalue().getPortray4())) {
-            arrayList.add(infoBean.getResultvalue().getPortray4());
+        if (!TextUtils.isEmpty(infoBean.getResultvalue().getPortray4_tail())) {
+            arrayList.add(infoBean.getResultvalue().getPortray4_tail());
         }
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rlv);
@@ -195,15 +196,15 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
                 if (resultvalue==null){
                     return;
                 }
-                if (TextUtils.isEmpty(resultvalue.getHead_url())){
+                if (TextUtils.isEmpty(resultvalue.getHead_url_tail())){
                     head_url="";
                 }else {
-                    head_url = resultvalue.getHead_url();
+                    head_url = resultvalue.getHead_url_tail();
                 }
-                if (TextUtils.isEmpty(resultvalue.getBack_pic())){
+                if (TextUtils.isEmpty(resultvalue.getBack_pic_tail())){
                     back_pic="";
                 }else {
-                    back_pic = resultvalue.getBack_pic();
+                    back_pic = resultvalue.getBack_pic_tail();
                 }
                 ImageLoaderUtils.displaySmallPhoto(StarInfoActivity.this, imageView_head, head_url);
                 tv_name.setText(resultvalue.getStar_name());
@@ -254,6 +255,13 @@ private boolean isAllExp = false ;
                 finish();
                 break;
             case R.id.tv_meet_starts:
+                if (CheckLoginUtil.checkLogin(this)==false){
+                    return;
+                }
+                if (resultvalue==null||resultvalue.getPublish_type()==0||resultvalue.getPublish_type()==1){
+                    ToastUtils.showShort("当前该明星非流通阶段，请等待为流通阶段");
+                    return;
+                }
                 if (JudgeIdentityUtils.isIdentityed(StarInfoActivity.this)) {
                     Intent intent3 = new Intent(StarInfoActivity.this, MeetStarActivity.class);
                     intent3.putExtra(AppConstant.STAR_HEAD_URL, head_url);
@@ -265,6 +273,13 @@ private boolean isAllExp = false ;
                 }
                 break;
             case R.id.tv_buy_time:
+                if (CheckLoginUtil.checkLogin(this)==false){
+                    return;
+                }
+                if (resultvalue==null||resultvalue.getPublish_type()==0||resultvalue.getPublish_type()==1){
+                    ToastUtils.showShort("当前该明星非流通阶段，请等待为流通阶段");
+                    return;
+                }
                 Intent intent = new Intent(this, BuyTransferIndentActivity.class);
                 intent.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 0);
                 intent.putExtra(AppConstant.STAR_HEAD_URL, head_url);
@@ -273,6 +288,13 @@ private boolean isAllExp = false ;
                 startActivity(intent);
                 break;
             case R.id.imag_meesage:
+                if (CheckLoginUtil.checkLogin(this)==false){
+                    return;
+                }
+                if (resultvalue==null||resultvalue.getPublish_type()==0){
+                    ToastUtils.showShort("当前该明星非流通阶段，请等待为流通阶段");
+                    return;
+                }
                 if (haveStarTime > 0) {
                     if (JudgeIdentityUtils.isIdentityed(this)) {
                         SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
@@ -309,7 +331,16 @@ private boolean isAllExp = false ;
                 startActivity(intent2);
                 break;
             case R.id.ll_star_state:
-
+                if (resultvalue==null){
+                    ToastUtils.showShort("未请求到明星数据");
+                    return;
+                }
+                Intent intent0 = new Intent(this,CircleFriendsActivity.class);
+                intent0.putExtra(AppConstant.STAR_CODE,code);
+                intent0.putExtra(AppConstant.STAR_NAME,resultvalue.getStar_name());
+                intent0.putExtra(AppConstant.STAR_HEAD_URL,resultvalue.getHead_url_tail());
+                intent0.putExtra(AppConstant.IS_ONE,true);
+                startActivity(intent0);
                 break;
 
         }
@@ -344,7 +375,7 @@ private boolean isAllExp = false ;
         controlerView.setWebUrl(webUrl);
         controlerView.setDescribe(describe);
         controlerView.setTitle(title);
-        controlerView.setImageurl(resultvalue.getHead_url());
+        controlerView.setImageurl(resultvalue.getHead_url_tail());
         controlerView.showShareView(rootView);
     }
 

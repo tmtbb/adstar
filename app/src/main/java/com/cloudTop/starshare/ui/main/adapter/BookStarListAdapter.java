@@ -57,7 +57,7 @@ public class BookStarListAdapter extends ListBaseAdapter<MeetStarInfoBean> {
             bookinged.setBackground(mContext.getResources().getDrawable(R.drawable.booking_star_status));
         }
         tv_booking_time.setText(String.format(mContext.getResources().getString(R.string.booking_time_status), item.getMeet_time()));
-        ImageLoaderUtils.display(mContext, iv_star_head, item.getStar_pic());
+        ImageLoaderUtils.display(mContext, iv_star_head, item.getStar_pic_tail());
 
     }
 }

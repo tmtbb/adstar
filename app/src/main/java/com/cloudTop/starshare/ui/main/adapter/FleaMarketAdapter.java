@@ -29,7 +29,7 @@ public class FleaMarketAdapter extends ListBaseAdapter<StarListReturnBean.Symbol
         StarListReturnBean.SymbolInfoBean barrageInfoBean = mDataList.get(position);
         ImageView imge = holder.getView(R.id.imge);
         TextView name = holder.getView(R.id.name);
-        ImageLoaderUtils.displaySmallPhoto(mContext,imge,barrageInfoBean.getPic());
+        ImageLoaderUtils.displaySmallPhoto(mContext,imge,barrageInfoBean.getPic_tail());
         name.setText(barrageInfoBean.getName());
     }
 

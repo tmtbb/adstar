@@ -42,6 +42,7 @@ public class AdvBeen {
         private String code;
         private String name;
         private String pic_url;
+        private String pic_url_tail="";
 
         public String getCode() {
             return code;
@@ -59,12 +60,12 @@ public class AdvBeen {
             this.name = name;
         }
 
-        public String getPic_url() {
-            return pic_url;
+        public String getPic_url_tail() {
+            return pic_url_tail;
         }
 
-        public void setPic_url(String pic_url) {
-            this.pic_url = pic_url;
+        public void setPic_url_tail(String pic_url_tail) {
+            this.pic_url_tail = pic_url_tail;
         }
 
         @Override

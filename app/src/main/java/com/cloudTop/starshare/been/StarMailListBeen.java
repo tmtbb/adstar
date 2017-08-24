@@ -21,34 +21,31 @@ public class StarMailListBeen {
     public static class DepositsinfoBean {
         /**
          * appoint : 0
-         * faccid : 13072714518
-         * ownseconds : 111
-         * starcode : 111
-         * starname : 17682310986
-         * uid : 124
+         * faccid : 18657195470
+         * head_url : http://ouim6qew1.bkt.clouddn.com/170810015649598bf5a1a6943.jpg
+         * head_url_tail : 170810015649598bf5a1a6943.jpg
+         * ownseconds : 339
+         * starcode : 10001
+         * starname : 程媛媛
+         * uid : 241
+         * work : 演员
          */
 
-        private int appoint;
+        private long appoint;
         private String faccid;
-        private int ownseconds;
+        private String head_url;
+        private String head_url_tail;
+        private long ownseconds;
         private String starcode;
         private String starname;
+        private long uid;
         private String work;
-        private int uid;
 
-        public String getWork() {
-            return work;
-        }
-
-        public void setWork(String work) {
-            this.work = work;
-        }
-
-        public int getAppoint() {
+        public long getAppoint() {
             return appoint;
         }
 
-        public void setAppoint(int appoint) {
+        public void setAppoint(long appoint) {
             this.appoint = appoint;
         }
 
@@ -60,11 +57,27 @@ public class StarMailListBeen {
             this.faccid = faccid;
         }
 
-        public int getOwnseconds() {
+        public String getHead_url() {
+            return head_url;
+        }
+
+        public void setHead_url(String head_url) {
+            this.head_url = head_url;
+        }
+
+        public String getHead_url_tail() {
+            return head_url_tail;
+        }
+
+        public void setHead_url_tail(String head_url_tail) {
+            this.head_url_tail = head_url_tail;
+        }
+
+        public long getOwnseconds() {
             return ownseconds;
         }
 
-        public void setOwnseconds(int ownseconds) {
+        public void setOwnseconds(long ownseconds) {
             this.ownseconds = ownseconds;
         }
 
@@ -84,31 +97,20 @@ public class StarMailListBeen {
             this.starname = starname;
         }
 
-        public int getUid() {
+        public long getUid() {
             return uid;
         }
 
-        public void setUid(int uid) {
+        public void setUid(long uid) {
             this.uid = uid;
         }
 
-        @Override
-        public String toString() {
-            return "DepositsinfoBean{" +
-                    "appoint=" + appoint +
-                    ", faccid='" + faccid + '\'' +
-                    ", ownseconds=" + ownseconds +
-                    ", starcode='" + starcode + '\'' +
-                    ", starname='" + starname + '\'' +
-                    ", uid=" + uid +
-                    '}';
+        public String getWork() {
+            return work;
         }
-    }
 
-    @Override
-    public String toString() {
-        return "StarMailListBeen{" +
-                "depositsinfo=" + depositsinfo +
-                '}';
+        public void setWork(String work) {
+            this.work = work;
+        }
     }
 }
