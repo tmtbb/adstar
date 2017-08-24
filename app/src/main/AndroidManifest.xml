@@ -496,9 +496,6 @@
         <activity android:name="com.cloudTop.starshare.ui.main.activity.AuctionRankingListActivity"></activity>
 
         <!--短视频-->
-        <activity
-            android:name=".ui.main.activity.PLVideoTextureActivity"
-            android:theme="@style/AppThemeFullscreen" />
         <activity android:name=".ui.main.activity.AnswersActivity"></activity>
         <activity android:name=".ui.main.activity.AskToAnswersActivity"></activity>
         <activity android:name=".ui.main.activity.HistoryAnswersActivity"></activity>
@@ -678,6 +675,9 @@
             android:name="com.cloudTop.starshare.ui.main.activity.DisclaimerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
             android:screenOrientation="portrait" />
+        <activity android:name=".ui.main.activity.VideoRecordActivity"
+            android:screenOrientation="portrait"
+            ></activity>
 
         <!--<meta-data-->
             <!--android:name="io.fabric.ApiKey"-->
