@@ -14,9 +14,10 @@ import android.widget.RelativeLayout;
 import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.app.AppConstant;
 import com.cloudTop.starshare.been.HomePageInfoBean;
+import com.cloudTop.starshare.been.StarListReturnBean;
 import com.cloudTop.starshare.ui.main.activity.CircleFriendsActivity;
-import com.cloudTop.starshare.ui.main.activity.StarInfoActivity;
 import com.cloudTop.starshare.ui.main.activity.StarSellActivity;
+import com.cloudTop.starshare.ui.main.activity.StarTimeDealActivity;
 import com.cloudTop.starshare.utils.CheckLoginUtil;
 import com.cloudTop.starshare.utils.DisplayUtil;
 import com.cloudTop.starshare.utils.ImageLoaderUtils;
@@ -85,6 +86,7 @@ public class HorizontalPagerAdapter extends PagerAdapter {
                         intent1.putExtra(AppConstant.STAR_CODE, infoBean.getSymbol());
                         intent1.putExtra(AppConstant.AUCTION_TYPE, infoBean.getWork());
                         intent1.putExtra(AppConstant.PUBLISH_TYPE, infoBean.getPushlish_type());
+                        intent1.putExtra(AppConstant.IS_PRESELL,true);
                         mContext.startActivity(intent1);
                         break;
                     case 1:
@@ -95,9 +97,13 @@ public class HorizontalPagerAdapter extends PagerAdapter {
                         mContext.startActivity(intent2);
                         break;
                     case 2:
-                        Intent intent3 = new Intent(mContext,StarInfoActivity.class);
-                        intent3.putExtra(AppConstant.STAR_CODE, infoBean.getSymbol());
-                        intent3.putExtra(AppConstant.PUBLISH_TYPE, infoBean.getPushlish_type());
+                        StarListReturnBean.SymbolInfoBean symbolInfoBean = new StarListReturnBean.SymbolInfoBean();
+                        symbolInfoBean.setSymbol(infoBean.getSymbol());
+                        symbolInfoBean.setPic(infoBean.getPic());
+                        symbolInfoBean.setName(infoBean.getName());
+                        symbolInfoBean.setWid(infoBean.getWid());
+                        Intent intent3 = new Intent(mContext,StarTimeDealActivity.class);
+                        intent3.putExtra(AppConstant.SYMBOL_INFO_BEAN, symbolInfoBean);
                         mContext.startActivity(intent3);
                         break;
                 }

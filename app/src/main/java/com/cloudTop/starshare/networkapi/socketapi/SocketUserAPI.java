@@ -1,20 +1,22 @@
 package com.cloudTop.starshare.networkapi.socketapi;
 
-import com.cloudTop.starshare.been.LoginReturnInfo;
-import com.cloudTop.starshare.been.RegisterVerifyCodeBeen;
-import com.cloudTop.starshare.listener.OnAPIListener;
-import com.cloudTop.starshare.utils.ToastUtils;
 import com.cloudTop.starshare.app.AppApplication;
+import com.cloudTop.starshare.app.AppConfig;
 import com.cloudTop.starshare.app.SocketAPIConstant;
 import com.cloudTop.starshare.been.CheckUpdateInfoEntity;
+import com.cloudTop.starshare.been.LoginReturnInfo;
+import com.cloudTop.starshare.been.QiNiuAdressBean;
 import com.cloudTop.starshare.been.RegisterReturnBeen;
 import com.cloudTop.starshare.been.RegisterReturnWangYiBeen;
+import com.cloudTop.starshare.been.RegisterVerifyCodeBeen;
 import com.cloudTop.starshare.been.WXinLoginReturnBeen;
+import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.UserAPI;
 import com.cloudTop.starshare.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
 import com.cloudTop.starshare.networkapi.socketapi.SocketReqeust.SocketDataPacket;
 import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.SharePrefUtil;
+import com.cloudTop.starshare.utils.ToastUtils;
 
 import java.util.HashMap;
 
@@ -36,6 +38,10 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
         map.put("phone", phone);
         map.put("pwd", password);
         map.put("deviceId", AppApplication.getAndroidId());
+        map.put("area_id", AppConfig.AREA_ID);
+        map.put("area", AppConfig.AREA);
+        map.put("isp_id", AppConfig.ISP_ID);
+        map.put("isp", AppConfig.ISP);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Login,
                 SocketAPIConstant.ReqeutType.User, map);
         requestEntity(socketDataPacket, LoginReturnInfo.class, listener);
@@ -68,6 +74,7 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
     public void register(String phone, String password, String memberId, String agentId,String channel, String recommend,String sub_agentId, OnAPIListener<RegisterReturnBeen> listener) {
         isNetBreak();
         HashMap<String, Object> map = new HashMap<>();
+        map.put("star_code","");
         map.put("phone", phone);
         map.put("pwd", password);
         map.put("memberId", memberId);
@@ -177,6 +184,13 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.saveDevice,
                 SocketAPIConstant.ReqeutType.User, map);
         requestJsonObject(socketDataPacket, listener);
+    }
+    @Override
+    public void getQiNiuPicDress(OnAPIListener<QiNiuAdressBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.getQiniu,
+                SocketAPIConstant.ReqeutType.Time, map);
+        requestEntity(socketDataPacket,QiNiuAdressBean.class, listener);
     }
 //    @Override
 //    public void login(String phone, String password, String deviceId, OnAPIListener<LoginReturnEntity> listener) {

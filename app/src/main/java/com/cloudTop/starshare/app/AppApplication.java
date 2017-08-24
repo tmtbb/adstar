@@ -15,20 +15,39 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.cloudTop.starshare.BuildConfig;
+import com.cloudTop.starshare.R;
+import com.cloudTop.starshare.base.baseapp.BaseApplication;
+import com.cloudTop.starshare.been.CheckUpdateInfoEntity;
+import com.cloudTop.starshare.been.EventBusMessage;
 import com.cloudTop.starshare.been.LoginReturnInfo;
 import com.cloudTop.starshare.greendao.gen.DaoMaster;
 import com.cloudTop.starshare.greendao.gen.DaoSession;
 import com.cloudTop.starshare.greendao.update.MySQLiteOpenHelper;
 import com.cloudTop.starshare.listener.OnAPIListener;
+import com.cloudTop.starshare.networkapi.Host;
 import com.cloudTop.starshare.networkapi.NetworkAPIConfig;
+import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
+import com.cloudTop.starshare.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
+import com.cloudTop.starshare.ui.im.activity.StarCommunicationBookActivity;
+import com.cloudTop.starshare.ui.wangyi.DemoCache;
+import com.cloudTop.starshare.ui.wangyi.PrivatizationConfig;
 import com.cloudTop.starshare.ui.wangyi.common.util.crash.AppCrashHandler;
+import com.cloudTop.starshare.ui.wangyi.common.util.sys.SystemUtil;
 import com.cloudTop.starshare.ui.wangyi.config.ExtraOptions;
+import com.cloudTop.starshare.ui.wangyi.config.preference.Preferences;
 import com.cloudTop.starshare.ui.wangyi.config.preference.UserPreferences;
 import com.cloudTop.starshare.ui.wangyi.contact.ContactHelper;
+import com.cloudTop.starshare.ui.wangyi.event.DemoOnlineStateContentProvider;
+import com.cloudTop.starshare.ui.wangyi.event.OnlineStateEventManager;
 import com.cloudTop.starshare.ui.wangyi.login.LogoutHelper;
+import com.cloudTop.starshare.ui.wangyi.session.SessionHelper;
+import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.MD5Util;
+import com.cloudTop.starshare.utils.SharePrefUtil;
 import com.cloudTop.starshare.utils.Utils;
-import com.crashlytics.android.Crashlytics;
+import com.cloudTop.starshare.widget.emoji.IImageLoader;
+import com.cloudTop.starshare.widget.emoji.LQREmotionKit;
 import com.netease.nim.uikit.NimUIKit;
 import com.netease.nim.uikit.contact.core.query.PinYin;
 import com.netease.nim.uikit.custom.DefalutUserInfoProvider;
@@ -52,34 +71,12 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
-import com.cloudTop.starshare.BuildConfig;
-import com.cloudTop.starshare.R;
-import com.cloudTop.starshare.base.baseapp.BaseApplication;
-import com.cloudTop.starshare.been.CheckUpdateInfoEntity;
-import com.cloudTop.starshare.been.EventBusMessage;
-import com.cloudTop.starshare.networkapi.Host;
-import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
-import com.cloudTop.starshare.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
-import com.cloudTop.starshare.ui.im.activity.StarCommunicationBookActivity;
-import com.cloudTop.starshare.ui.wangyi.DemoCache;
-import com.cloudTop.starshare.ui.wangyi.PrivatizationConfig;
-import com.cloudTop.starshare.ui.wangyi.common.util.sys.SystemUtil;
-import com.cloudTop.starshare.ui.wangyi.config.preference.Preferences;
-import com.cloudTop.starshare.ui.wangyi.event.DemoOnlineStateContentProvider;
-import com.cloudTop.starshare.ui.wangyi.event.OnlineStateEventManager;
-import com.cloudTop.starshare.ui.wangyi.session.SessionHelper;
-import com.cloudTop.starshare.utils.LogUtils;
-import com.cloudTop.starshare.utils.SharePrefUtil;
-import com.cloudTop.starshare.widget.emoji.IImageLoader;
-import com.cloudTop.starshare.widget.emoji.LQREmotionKit;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.util.List;
 import java.util.Map;
-
-import io.fabric.sdk.android.Fabric;
 
 /**
  * APPLICATION 17682310986
@@ -98,7 +95,7 @@ public class AppApplication extends BaseApplication {
         LogUtils.loge("------------processName:" + processName);
         if (processName != null) {
             if (processName.equals("com.cloudTop.starshare")) {
-                Fabric.with(this, new Crashlytics());
+                //Fabric.with(this, new Crashlytics());
                 //初始化logger
                 LogUtils.logInit(BuildConfig.LOG_DEBUG);
                 checkToken();

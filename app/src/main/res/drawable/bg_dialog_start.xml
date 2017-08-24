@@ -4,5 +4,5 @@
     <corners
         android:bottomLeftRadius="@dimen/dp_5"
         android:bottomRightRadius="@dimen/dp_5" />
-    <solid android:color="@color/color_8C0808" />
+    <solid android:color="@color/color_185CA5" />
 </shape>

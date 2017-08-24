@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.cloudTop.starshare.R;
+import com.cloudTop.starshare.app.AppConfig;
 
 import java.io.File;
 
@@ -18,6 +19,7 @@ import java.io.File;
 public class ImageLoaderUtils {
 
     public static void display(Context context, ImageView imageView, String url, int placeholder, int error) {
+        url = AppConfig.QI_NIU_PIC_ADRESS+url;
         if (imageView == null) {
             throw new IllegalArgumentException("argument error");
         }
@@ -26,6 +28,7 @@ public class ImageLoaderUtils {
     }
 
     public static void display(Context context, ImageView imageView, String url) {
+        url = AppConfig.QI_NIU_PIC_ADRESS+url;
         if (imageView == null) {
             throw new IllegalArgumentException("argument error");
         }
@@ -56,6 +59,7 @@ public class ImageLoaderUtils {
      * .transform(new GlideRoundTransform(context, 10))
      */
     public static void displaySmallPhoto(Context context, ImageView imageView, String url) {
+        url = AppConfig.QI_NIU_PIC_ADRESS+url;
         if (imageView == null) {
             throw new IllegalArgumentException("argument error");
         }
@@ -109,6 +113,7 @@ public class ImageLoaderUtils {
                 .into(imageView);
     }
     public static void displayBigPhoto(Context context, ImageView imageView, String url) {
+        url = AppConfig.QI_NIU_PIC_ADRESS+url;
         if (imageView == null) {
             throw new IllegalArgumentException("argument error");
         }
@@ -131,6 +136,7 @@ public class ImageLoaderUtils {
                 .crossFade().into(imageView);
     }
     public static void displayRound(Context context, ImageView imageView, String url) {
+        url = AppConfig.QI_NIU_PIC_ADRESS+url;
         if (imageView == null) {
             throw new IllegalArgumentException("argument error");
         }
@@ -150,6 +156,7 @@ public class ImageLoaderUtils {
     }
 
     public static void displayWithDefaultImg(Context context, ImageView imageView, String url,int resurce) {
+        url = AppConfig.QI_NIU_PIC_ADRESS+url;
         if (imageView == null) {
             throw new IllegalArgumentException("argument error");
         }
@@ -174,6 +181,7 @@ public class ImageLoaderUtils {
 
     //预览图
     public static void displayWithPreviewImg(Context context, final ImageView imageView, String url,int resurce) {
+        url = AppConfig.QI_NIU_PIC_ADRESS+url;
         if (imageView == null) {
             throw new IllegalArgumentException("argument error");
         }
@@ -187,6 +195,7 @@ public class ImageLoaderUtils {
     }
     //不裁剪的填充
     public static void displayWithNotTailorImg(Context context, ImageView imageView, String url,int resurce) {
+        url = AppConfig.QI_NIU_PIC_ADRESS+url;
         if (imageView == null) {
             throw new IllegalArgumentException("argument error");
         }

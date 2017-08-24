@@ -136,7 +136,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
                                     android:text="0"
-                                    android:textColor="@color/color_8C0808"
+                                    android:textColor="@color/color_FB9938"
                                     android:textSize="@dimen/fontSize_24sp"
 
                                     />
@@ -179,7 +179,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_centerHorizontal="true"
                                     android:text="0"
-                                    android:textColor="@color/color_8C0808"
+                                    android:textColor="@color/color_FB9938"
                                     android:textSize="@dimen/fontSize_24sp" />
 
                                 <TextView

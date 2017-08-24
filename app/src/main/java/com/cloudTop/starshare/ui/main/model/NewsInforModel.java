@@ -52,8 +52,10 @@ public class NewsInforModel implements NewInfoContract.Model, Parcelable {
 
         private int id;
         private String link_url;
+        private String link_url_tail;
         private String remarks;
         private String showpic_url;
+        private String showpic_url_tail;
         private String starcode;
         private String starname;
         private String subject_name;
@@ -68,11 +70,11 @@ public class NewsInforModel implements NewInfoContract.Model, Parcelable {
         }
 
         public String getLink_url() {
-            return link_url;
+            return link_url_tail;
         }
 
         public void setLink_url(String link_url) {
-            this.link_url = link_url;
+            this.link_url_tail = link_url;
         }
 
         public String getRemarks() {
@@ -84,11 +86,11 @@ public class NewsInforModel implements NewInfoContract.Model, Parcelable {
         }
 
         public String getShowpic_url() {
-            return showpic_url;
+            return showpic_url_tail;
         }
 
         public void setShowpic_url(String showpic_url) {
-            this.showpic_url = showpic_url;
+            this.showpic_url_tail = showpic_url;
         }
 
         public String getStarcode() {

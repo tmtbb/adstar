@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
+//apply plugin: 'io.fabric'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 def getGitVersion() {
@@ -16,8 +16,8 @@ android {
         applicationId "com.cloudTop.starshare"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 20170809
-        versionName "0.9.6"
+        versionCode 20170812
+        versionName "0.9.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "GIT_REVISION", "\"${getGitVersion()}\""
         buildConfigField "String", "BUILD_DATE", "\"${new Date().toLocaleString()}\"";
@@ -85,7 +85,7 @@ android {
 }
 repositories {
     mavenCentral()
-    maven { url 'https://maven.fabric.io/public' }
+    //maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
@@ -117,9 +117,9 @@ dependencies {
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile files('libs/alipaySingle-20170510.jar')
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-        transitive = true;
-    }
+//    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+//        transitive = true;
+//    }
     //fabric
     compile project(':qAMasterSDK')
     compile 'com.getui:sdk:2.10.2.0'

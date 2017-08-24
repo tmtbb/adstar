@@ -33,7 +33,7 @@
             android:layout_height="fill_parent"
             android:layout_centerInParent="true"
             android:gravity="center_vertical"
-            android:textColor="@color/color_8C0808"
+            android:textColor="@color/color_185CA5"
             android:textSize="@dimen/fontSize_18sp" />
 
 
@@ -55,7 +55,7 @@
             android:gravity="center"
             android:padding="5dp"
             android:text="右标题"
-            android:textColor="@color/color_666666"
+            android:textColor="@color/color_185CA5"
             android:textSize="@dimen/fontSize_14sp"
             android:visibility="gone" />
     </RelativeLayout>

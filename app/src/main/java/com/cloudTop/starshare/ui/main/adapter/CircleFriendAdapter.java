@@ -72,7 +72,8 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
         if (TextUtils.isEmpty(circleItem.getPic_url())){
             circleViewHolder.img_back.setVisibility(View.GONE);
         }else {
-            ImageLoaderUtils.displaySmallPhoto(context,circleViewHolder.img_back,circleItem.getPic_url());
+            //ImageLoaderUtils.displaySmallPhoto(context,circleViewHolder.img_back,circleItem.getPic_url());
+            ImageLoaderUtils.displayWithDefaultImg(context, circleViewHolder.img_back, circleItem.getPic_url(),R.drawable.rec_bg);
             circleViewHolder.img_back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

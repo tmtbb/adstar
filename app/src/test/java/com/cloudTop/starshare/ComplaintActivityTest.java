@@ -56,7 +56,7 @@ public class ComplaintActivityTest extends BaseRobolectricTestCase {
                     bean.setPushlish_type(-1);
                     bean.setHome_pic(homePageInfoBean.getHome_last_pic());
                     symbol_info.add(bean);
-                    adapter = new HorizontalPagerAdapter(getContext(), symbol_info);
+                    //adapter = new HorizontalPagerAdapter(getContext(), symbol_info);
                         horizontalInfiniteCycleViewPager.notifyDataSetChanged();
 
                 }

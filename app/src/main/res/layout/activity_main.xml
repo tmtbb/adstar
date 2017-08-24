@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_fafafa"
-    tools:context="com.cloudTop.starshare.com.cloudTop.star.ui.main.activity.MainActivity">
+    tools:context="com.cloudTop.starshare.ui.main.activity.MainActivity">
     <com.flyco.tablayout.CommonTabLayout
         android:id="@+id/tab_bottom_layout"
         android:layout_width="match_parent"
@@ -14,7 +14,7 @@
         android:background="@drawable/bg_main_down_table"
         tl:tl_iconHeight="24dp"
         tl:tl_iconWidth="24dp"
-        tl:tl_textSelectColor="@color/color_8D0809"
+        tl:tl_textSelectColor="@color/color_185CA5"
         tl:tl_textUnselectColor="@color/color_C2CFD8"
         tl:tl_textsize="@dimen/fontSize_10sp"
         tl:tl_iconMargin="@dimen/dp_5"
