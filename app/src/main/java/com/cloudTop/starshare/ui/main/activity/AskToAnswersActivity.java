@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cloudTop.starshare.R;
@@ -30,6 +31,8 @@ public class AskToAnswersActivity extends BaseActivity{
     TextView tv_back;
     @Bind(R.id.tv_right)
     TextView tv_right;
+    @Bind(R.id.img_video)
+    ImageView img_video;
     @Override
     public int getLayoutId() {
         return R.layout.activity_ask_answers;
@@ -88,7 +91,7 @@ public class AskToAnswersActivity extends BaseActivity{
         }
     }
 
-    @OnClick({R.id.tv_back})
+    @OnClick({R.id.tv_back,R.id.tv_right,R.id.img_video})
     public void onClickSwtich(View view){
         switch (view.getId()){
             case R.id.tv_back:
@@ -97,7 +100,14 @@ public class AskToAnswersActivity extends BaseActivity{
             case R.id.tv_right:
 
                 break;
-
+            case R.id.img_video:
+                Intent intent = new Intent(this, VideoRecordActivity.class);
+               // intent.putExtra("PreviewSizeLevel", "480P");
+               // intent.putExtra("PreviewSizeRatio", "16:9");
+               // intent.putExtra("EncodingSizeLevel", "640x360");
+               // intent.putExtra("EncodingBitrateLevel", "1000Kbps");
+                startActivity(intent);
+                break;
         }
     }
 }

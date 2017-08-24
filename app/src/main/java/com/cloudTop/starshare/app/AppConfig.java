@@ -25,4 +25,7 @@ public class AppConfig {
     public static long ISP_ID = 0;
     public static String ISP = "";
 
+    public static final String VIDEO_STORAGE_DIR = Environment.getExternalStorageDirectory() + "/ShortVideo";
+    public static final String RECORD_FILE_PATH = VIDEO_STORAGE_DIR + "/record.mp4";
+
 }
