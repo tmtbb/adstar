@@ -52,7 +52,7 @@ public class VoiceCustomActivity extends BaseActivity {
     private String star_name;
 
     private MyAudioPlayer myAudioPlayer;
-    // TODO: 2017/8/25 修改为手机里aac的路径,暂时只能兼容aac音频
+    // TODO: 2017/8/25 修改为手机里aac的路径,暂时只能兼容aac音频和mp4文件
     private static final String DEFAULT_TEST_FILE = "/storage/emulated/0/Music/test.aac";
     private int currentPlayingPosition;
 
