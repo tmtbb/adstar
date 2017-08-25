@@ -149,9 +149,16 @@ dependencies {
     compile 'com.journeyapps:zxing-android-embedded:3.5.0'
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
 
-    compile 'com.qiniu:happy-dns:0.2.+'
-    compile 'com.qiniu:qiniu-android-sdk:7.3.3'
 
     compile(name: 'kw-filter', ext: 'aar')
     compile(name: 'kw-tracker', ext: 'aar')
+
+
+    compile 'com.qiniu:happy-dns:0.2.+'
+    compile 'com.qiniu:qiniu-android-sdk:7.3.3'
+    compile 'com.shuyu:gsyVideoPlayer-java:2.0.4'
+    compile 'com.shuyu:gsyVideoPlayer-x86:2.0.4'
+    compile 'com.shuyu:gsyVideoPlayer-arm64:2.0.4'
+    compile 'com.shuyu:gsyVideoPlayer-armv7a:2.0.4'
+    compile 'com.shuyu:gsyVideoPlayer-armv5:2.0.4'
 }
