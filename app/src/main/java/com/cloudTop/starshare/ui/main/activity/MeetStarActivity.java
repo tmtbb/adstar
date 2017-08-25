@@ -389,7 +389,7 @@ public class MeetStarActivity extends BaseActivity {
                 View childAt = gridView.getChildAt(selectPosition);
                 TextView textView = (TextView) childAt.findViewById(tv_content);
                 ImageView img_select = (ImageView) childAt.findViewById(imagview);
-                ImageLoaderUtils.displaySmallPhotoRound(MeetStarActivity.this,img_select,lists.get(selectPager).get(selectPosition).getUrl2());
+                ImageLoaderUtils.displaySmallPhotoRound(MeetStarActivity.this,img_select,lists.get(selectPager).get(selectPosition).getUrl2_tail());
                 textView.setTextColor(mContext.getResources().getColor(R.color.color_BDC6B8));
             }
             selectPager = view_pager.getCurrentItem();
@@ -397,7 +397,7 @@ public class MeetStarActivity extends BaseActivity {
             LogUtils.loge("当前的position:" + selectPosition);
             TextView textView = (TextView) view.findViewById(tv_content);
             ImageView img_selects = (ImageView) view.findViewById(imagview);
-            ImageLoaderUtils.displaySmallPhotoRound(MeetStarActivity.this,img_selects,lists.get(selectPager).get(selectPosition).getUrl1());
+            ImageLoaderUtils.displaySmallPhotoRound(MeetStarActivity.this,img_selects,lists.get(selectPager).get(selectPosition).getUrl1_tail());
             textView.setTextColor(mContext.getResources().getColor(R.color.color_CB4232));
             price = lists.get(selectPager).get(selectPosition).getPrice();
             orderPrice.setText(String.format(getString(R.string.num_time_text), price));

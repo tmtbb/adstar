@@ -46,6 +46,7 @@ import butterknife.OnClick;
  * #75
  * #76
  * Created by Administrator on 2017/5/9.
+ * 注册
  */
 
 public class RegisterUserActivity extends BaseActivity {

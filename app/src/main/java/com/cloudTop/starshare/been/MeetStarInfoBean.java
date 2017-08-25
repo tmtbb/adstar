@@ -12,6 +12,7 @@ public class MeetStarInfoBean implements Parcelable {
     private String star_code;
     private String star_name;
     private String star_pic;
+    private String star_pic_tail="";
     private int star_type;
     private int meet_id;
     private String meet_name;
@@ -36,13 +37,14 @@ public class MeetStarInfoBean implements Parcelable {
         this.star_name = star_name;
     }
 
-    public String getStar_pic() {
-        return star_pic;
+    public String getStar_pic_tail() {
+        return star_pic_tail;
     }
 
-    public void setStar_pic(String star_pic) {
-        this.star_pic = star_pic;
+    public void setStar_pic_tail(String star_pic_tail) {
+        this.star_pic_tail = star_pic_tail;
     }
+
 
     public int getStar_type() {
         return star_type;
@@ -100,10 +102,6 @@ public class MeetStarInfoBean implements Parcelable {
         this.comment = comment;
     }
 
-    public static Creator<MeetStarInfoBean> getCREATOR() {
-        return CREATOR;
-    }
-
     @Override
     public int describeContents() {
         return 0;
@@ -114,6 +112,7 @@ public class MeetStarInfoBean implements Parcelable {
         dest.writeString(this.star_code);
         dest.writeString(this.star_name);
         dest.writeString(this.star_pic);
+        dest.writeString(this.star_pic_tail);
         dest.writeInt(this.star_type);
         dest.writeInt(this.meet_id);
         dest.writeString(this.meet_name);
@@ -130,6 +129,7 @@ public class MeetStarInfoBean implements Parcelable {
         this.star_code = in.readString();
         this.star_name = in.readString();
         this.star_pic = in.readString();
+        this.star_pic_tail = in.readString();
         this.star_type = in.readInt();
         this.meet_id = in.readInt();
         this.meet_name = in.readString();

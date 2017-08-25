@@ -39,7 +39,6 @@ import com.cloudTop.starshare.ui.main.activity.BookingStarActivity;
 import com.cloudTop.starshare.ui.main.activity.CustomerServiceActivity;
 import com.cloudTop.starshare.ui.main.activity.DifferAnswerActivity;
 import com.cloudTop.starshare.ui.main.activity.GeneralSettingsActivity;
-import com.cloudTop.starshare.ui.main.activity.PLVideoTextureActivity;
 import com.cloudTop.starshare.ui.main.activity.TransactionDetailActivity;
 import com.cloudTop.starshare.ui.main.activity.UserAssetsManageActivity;
 import com.cloudTop.starshare.ui.main.activity.UserSettingActivity;
@@ -59,7 +58,6 @@ import com.netease.nimlib.sdk.RequestCallbackWrapper;
 import com.netease.nimlib.sdk.msg.MsgService;
 import com.netease.nimlib.sdk.uinfo.UserService;
 import com.netease.nimlib.sdk.uinfo.constant.UserInfoFieldEnum;
-import com.pili.pldroid.player.AVOptions;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -109,8 +107,6 @@ public class UserInfoFragment extends BaseFragment {
     LinearLayout commonProblem;
     @Bind(R.id.ll_general_settings)
     LinearLayout generalSettings;
-    @Bind(R.id.ll_test)
-    LinearLayout ll_test;
     @Bind(R.id.btn_my_referee)
     Button myReferee;
     @Bind(R.id.iv_star_talk)
@@ -206,7 +202,7 @@ public class UserInfoFragment extends BaseFragment {
 
     @OnClick({R.id.iv_user_info_bg, R.id.headImage, R.id.ll_user_money_bag, R.id.ll_user_order_star,
             R.id.ll_customer_service, R.id.ll_common_problem, R.id.ll_general_settings, R.id.btn_my_referee, R.id.iv_star_talk,R.id.ll_me_deal
-    ,R.id.ll_test})
+    })
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_user_info_bg:
@@ -252,21 +248,6 @@ public class UserInfoFragment extends BaseFragment {
 //                ViewConcurrencyUtils.preventConcurrency();  //防止并发
 //                showPopupWindow();
 //                break;
-            case R.id.ll_test:
-                Intent intent3 = new Intent(getActivity(), PLVideoTextureActivity.class);
-                intent3.putExtra("videoPath", "rtmp://live.hkstv.hk.lxdns.com/live/hks");
-                //硬解
-                intent3.putExtra("mediaCodec", AVOptions.MEDIA_CODEC_AUTO);
-                //点播
-                intent3.putExtra("liveStreaming", 0);
-                //缓存
-                //intent.putExtra("cache", mVideoCacheCheckBox.isChecked());
-                //视频回调
-                //intent.putExtra("video-data-callback", mVideoDataCallback.isChecked());
-                //音频回调
-               // intent.putExtra("audio-data-callback", mAudioDataCallback.isChecked());
-                startActivity(intent3);
-                break;
         }
     }
 

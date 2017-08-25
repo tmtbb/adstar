@@ -73,6 +73,7 @@ public class StarSellActivity extends BaseActivity {
     private String starwork;
     private MyHandler myHandler;
     private int type;
+    private boolean isPresell;
     private long userId;
     private String token;
     private Integer num;
@@ -95,7 +96,12 @@ public class StarSellActivity extends BaseActivity {
         starCode = getIntent().getStringExtra(AppConstant.STAR_CODE);
         starwork = getIntent().getStringExtra(AppConstant.AUCTION_TYPE);
         type = getIntent().getIntExtra(AppConstant.PUBLISH_TYPE, -1);
-        nl_title.setTitleText(getString(R.string.shells));
+        isPresell = getIntent().getBooleanExtra(AppConstant.IS_PRESELL,false);
+        if (isPresell){
+            nl_title.setTitleText("预售");
+        }else {
+            nl_title.setTitleText(getString(R.string.shells));
+        }
         nl_title.setBackVisibility(true);
         nl_title.setRightImagVisibility(true);
         if (myHandler == null) {
@@ -129,6 +135,10 @@ public class StarSellActivity extends BaseActivity {
         tv_sure_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (isPresell){
+                    ToastUtils.showShort("当前是预售阶段,无法购买,请等待");
+                    return;
+                }
                 float total_money = (float) (num * ask_buy_prices);
                 if (total_money<=0){
                     ToastUtils.showShort("总价不能零");
@@ -184,14 +194,20 @@ public class StarSellActivity extends BaseActivity {
     }
 
     private void showViewData(final ShoppingStarBean shoppingStarBean) {
-        ImageLoaderUtils.displayWithDefaultImg(this, iv_star_bg, shoppingStarBean.getBack_pic_url(), R.drawable.rec_bg);
-        ImageLoaderUtils.displaySmallPhoto(this, imageView_icon, shoppingStarBean.getHead_url());
+        ImageLoaderUtils.displayWithDefaultImg(this, iv_star_bg, shoppingStarBean.getBack_pic_url_tail(), R.drawable.rec_bg);
+        ImageLoaderUtils.displaySmallPhoto(this, imageView_icon, shoppingStarBean.getHead_url_tail());
         tv_name.setText(shoppingStarBean.getStar_name());
         tv_preice.setText(String.format(getString(R.string.times_p),shoppingStarBean.getPublish_price()));
         tv_star_job.setText(starwork);
-        tv_time.setText(String.format(getString(R.string.shell_time), TimeUtil.formatData(TimeUtil.dateFormatYMD, shoppingStarBean.getPublish_begin_time()),
-                TimeUtil.formatData(TimeUtil.dateFormatYMD, shoppingStarBean.getPublish_end_time())));
-        tv_num.setText(String.format(getString(R.string.shell_tolnum), shoppingStarBean.getPublish_time()));
+        if (isPresell){
+            tv_time.setText(String.format(getString(R.string.presell_time), TimeUtil.formatData(TimeUtil.dateFormatYMD, shoppingStarBean.getPublish_begin_time()),
+                    TimeUtil.formatData(TimeUtil.dateFormatYMD, shoppingStarBean.getPublish_end_time())));
+            tv_num.setText(String.format(getString(R.string.presell_tolnum), shoppingStarBean.getPublish_time()));
+        }else {
+            tv_time.setText(String.format(getString(R.string.shell_time), TimeUtil.formatData(TimeUtil.dateFormatYMD, shoppingStarBean.getPublish_begin_time()),
+                    TimeUtil.formatData(TimeUtil.dateFormatYMD, shoppingStarBean.getPublish_end_time())));
+            tv_num.setText(String.format(getString(R.string.shell_tolnum), shoppingStarBean.getPublish_time()));
+        }
         ed_num.setHint(String.format(getString(R.string.shell_tolnum_info), shoppingStarBean.getPublish_time()));
         tv_total.setText(String.format(getString(R.string.total_money_),0f));
         ed_num.addTextChangedListener(new TextWatcher() {

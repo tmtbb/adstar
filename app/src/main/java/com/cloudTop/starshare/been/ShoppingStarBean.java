@@ -21,7 +21,9 @@ public class ShoppingStarBean {
      */
 
     private String back_pic_url;
+    private String back_pic_url_tail="";
     private String head_url;
+    private String head_url_tail="";
     private long publish_begin_time;
     private long publish_end_time;
     private long publish_last_time;
@@ -32,20 +34,20 @@ public class ShoppingStarBean {
     private String star_name;
     private int star_type;
 
-    public String getBack_pic_url() {
-        return back_pic_url;
+    public String getBack_pic_url_tail() {
+        return back_pic_url_tail;
     }
 
-    public void setBack_pic_url(String back_pic_url) {
-        this.back_pic_url = back_pic_url;
+    public void setBack_pic_url_tail(String back_pic_url_tail) {
+        this.back_pic_url_tail = back_pic_url_tail;
     }
 
-    public String getHead_url() {
-        return head_url;
+    public String getHead_url_tail() {
+        return head_url_tail;
     }
 
-    public void setHead_url(String head_url) {
-        this.head_url = head_url;
+    public void setHead_url_tail(String head_url_tail) {
+        this.head_url_tail = head_url_tail;
     }
 
     public long getPublish_begin_time() {

@@ -14,12 +14,14 @@ import android.widget.RelativeLayout;
 import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.app.AppConstant;
 import com.cloudTop.starshare.been.HomePageInfoBean;
+import com.cloudTop.starshare.been.StarListReturnBean;
 import com.cloudTop.starshare.ui.main.activity.CircleFriendsActivity;
-import com.cloudTop.starshare.ui.main.activity.StarInfoActivity;
 import com.cloudTop.starshare.ui.main.activity.StarSellActivity;
+import com.cloudTop.starshare.ui.main.activity.StarTimeDealActivity;
 import com.cloudTop.starshare.utils.CheckLoginUtil;
 import com.cloudTop.starshare.utils.DisplayUtil;
 import com.cloudTop.starshare.utils.ImageLoaderUtils;
+import com.cloudTop.starshare.utils.LogUtils;
 
 import java.util.List;
 
@@ -68,7 +70,8 @@ public class HorizontalPagerAdapter extends PagerAdapter {
             params.setMargins(DisplayUtil.dip2px(23),0,DisplayUtil.dip2px(23),0);
         }
         CardView.setLayoutParams(params);
-        ImageLoaderUtils.displayWithDefaultImg(mContext,img_item,infoBean.getHome_pic(),R.drawable.buying_star);
+        LogUtils.loge("infoBean.getHome_pic_tail():"+infoBean.getHome_pic_tail());
+        ImageLoaderUtils.displayWithDefaultImg(mContext,img_item,infoBean.getHome_pic_tail(),R.drawable.buying_star);
         img_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,6 +88,7 @@ public class HorizontalPagerAdapter extends PagerAdapter {
                         intent1.putExtra(AppConstant.STAR_CODE, infoBean.getSymbol());
                         intent1.putExtra(AppConstant.AUCTION_TYPE, infoBean.getWork());
                         intent1.putExtra(AppConstant.PUBLISH_TYPE, infoBean.getPushlish_type());
+                        intent1.putExtra(AppConstant.IS_PRESELL,true);
                         mContext.startActivity(intent1);
                         break;
                     case 1:
@@ -95,9 +99,13 @@ public class HorizontalPagerAdapter extends PagerAdapter {
                         mContext.startActivity(intent2);
                         break;
                     case 2:
-                        Intent intent3 = new Intent(mContext,StarInfoActivity.class);
-                        intent3.putExtra(AppConstant.STAR_CODE, infoBean.getSymbol());
-                        intent3.putExtra(AppConstant.PUBLISH_TYPE, infoBean.getPushlish_type());
+                        StarListReturnBean.SymbolInfoBean symbolInfoBean = new StarListReturnBean.SymbolInfoBean();
+                        symbolInfoBean.setSymbol(infoBean.getSymbol());
+                        symbolInfoBean.setPic_tail(infoBean.getPic_tail());
+                        symbolInfoBean.setName(infoBean.getName());
+                        symbolInfoBean.setWid(infoBean.getWid());
+                        Intent intent3 = new Intent(mContext,StarTimeDealActivity.class);
+                        intent3.putExtra(AppConstant.SYMBOL_INFO_BEAN, symbolInfoBean);
                         mContext.startActivity(intent3);
                         break;
                 }

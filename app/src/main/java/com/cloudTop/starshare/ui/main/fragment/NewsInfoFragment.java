@@ -267,7 +267,7 @@ public class NewsInfoFragment extends BaseFragment<NewsInfoPresenter, NewsInforM
         if (listData != null && listData.size() != 0) {
             String adList[] = new String[listData.size()];
             for (int i = 0; i < listData.size(); i++) {
-                String pic_url = o.getList().get(i).getPic_url();
+                String pic_url = o.getList().get(i).getPic_url_tail();
                 if (!pic_url.startsWith("http")){
                     pic_url = "http://"+pic_url;
                 }

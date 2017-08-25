@@ -61,7 +61,7 @@ public class SplashActivity extends Activity {
             @Override
             public void run() {
                 final MyAddressBean ipAddress = GetIPAddressUtils.getIpAddress();
-                if (ipAddress.getData()==null){
+                if (ipAddress==null||ipAddress.getData()==null){
                     return;
                 }
                 AppConfig.AREA_ID = Long.valueOf(ipAddress.getData().getArea_id());

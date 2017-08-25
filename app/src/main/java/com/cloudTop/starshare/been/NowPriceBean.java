@@ -25,10 +25,13 @@ public class NowPriceBean {
     private float change;
     private float currentPrice;
     private String home_button_pic;
+    private String home_button_pic_tail="";
     private String home_pic;
+    private String home_pic_tail="";
     private String name;
     private float pchg;
     private String pic;
+    private String pic_tail="";
     private long priceTime;
     private int pushlish_type;
     private int star_type;
@@ -61,20 +64,20 @@ public class NowPriceBean {
         this.currentPrice = currentPrice;
     }
 
-    public String getHome_button_pic() {
-        return home_button_pic;
+    public String getHome_button_pic_tail() {
+        return home_button_pic_tail;
     }
 
-    public void setHome_button_pic(String home_button_pic) {
-        this.home_button_pic = home_button_pic;
+    public void setHome_button_pic_tail(String home_button_pic_tail) {
+        this.home_button_pic_tail = home_button_pic_tail;
     }
 
-    public String getHome_pic() {
-        return home_pic;
+    public String getHome_pic_tail() {
+        return home_pic_tail;
     }
 
-    public void setHome_pic(String home_pic) {
-        this.home_pic = home_pic;
+    public void setHome_pic_tail(String home_pic_tail) {
+        this.home_pic_tail = home_pic_tail;
     }
 
     public String getName() {
@@ -93,12 +96,12 @@ public class NowPriceBean {
         this.pchg = pchg;
     }
 
-    public String getPic() {
-        return pic;
+    public String getPic_tail() {
+        return pic_tail;
     }
 
-    public void setPic(String pic) {
-        this.pic = pic;
+    public void setPic_tail(String pic_tail) {
+        this.pic_tail = pic_tail;
     }
 
     public long getPriceTime() {

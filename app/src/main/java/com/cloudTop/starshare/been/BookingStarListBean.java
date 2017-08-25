@@ -18,6 +18,10 @@ public class BookingStarListBean extends ExpandableRecyclerAdapter.ListItem impl
     private String starname;
     private String faccid;
     private int status;
+    private String work;
+    private String head_url;
+    private String head_url_tail;
+
 
     private String typeTitle;  //下拉标题
 
@@ -85,8 +89,28 @@ public class BookingStarListBean extends ExpandableRecyclerAdapter.ListItem impl
         this.typeTitle = typeTitle;
     }
 
-    public static Creator<BookingStarListBean> getCREATOR() {
-        return CREATOR;
+    public String getWork() {
+        return work;
+    }
+
+    public void setWork(String work) {
+        this.work = work;
+    }
+
+    public String getHead_url() {
+        return head_url;
+    }
+
+    public void setHead_url(String head_url) {
+        this.head_url = head_url;
+    }
+
+    public String getHead_url_tail() {
+        return head_url_tail;
+    }
+
+    public void setHead_url_tail(String head_url_tail) {
+        this.head_url_tail = head_url_tail;
     }
 
     @Override
@@ -103,6 +127,9 @@ public class BookingStarListBean extends ExpandableRecyclerAdapter.ListItem impl
         dest.writeString(this.starname);
         dest.writeString(this.faccid);
         dest.writeInt(this.status);
+        dest.writeString(this.work);
+        dest.writeString(this.head_url);
+        dest.writeString(this.head_url_tail);
         dest.writeString(this.typeTitle);
     }
 
@@ -117,6 +144,9 @@ public class BookingStarListBean extends ExpandableRecyclerAdapter.ListItem impl
         this.starname = in.readString();
         this.faccid = in.readString();
         this.status = in.readInt();
+        this.work = in.readString();
+        this.head_url = in.readString();
+        this.head_url_tail = in.readString();
         this.typeTitle = in.readString();
     }
 

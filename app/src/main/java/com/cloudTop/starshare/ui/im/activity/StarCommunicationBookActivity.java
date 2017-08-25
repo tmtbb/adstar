@@ -265,6 +265,9 @@ public class StarCommunicationBookActivity extends BaseActivity {
                 .setCallback(new RequestCallbackWrapper<List<RecentContact>>() {
                     @Override
                     public void onResult(int code, List<RecentContact> recents, Throwable e) {
+                        if (recents==null||recents.size()==0){
+                            return;
+                        }
                         contacts = recents;
                         for (RecentContact contact : contacts) {
                             LogUtils.loge("contact_id:"+contact.getContactId());

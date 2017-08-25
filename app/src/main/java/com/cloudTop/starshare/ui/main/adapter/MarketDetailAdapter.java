@@ -38,7 +38,7 @@ public class MarketDetailAdapter extends ListBaseAdapter<StarListReturnBean.Symb
         TextView tv_name = holder.getView(R.id.tv_name);
         TextView tv_info = holder.getView(R.id.tv_info);
         TextView tv_price = holder.getView(R.id.tv_preice);
-        ImageLoaderUtils.displaySmallPhoto(mContext,imageView,item.getPic());
+        ImageLoaderUtils.displaySmallPhoto(mContext,imageView,item.getPic_tail());
         tv_name.setText(item.getName());
         tv_info.setText(item.getWork());
         tv_price.setText(String.format("%.2f",item.getCurrentPrice()));
