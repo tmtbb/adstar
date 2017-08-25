@@ -495,6 +495,16 @@
             android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity android:name="com.cloudTop.starshare.ui.main.activity.AuctionRankingListActivity"></activity>
 
+        <!--短视频-->
+        <activity
+            android:name=".ui.main.activity.PLVideoTextureActivity"
+            android:theme="@style/AppThemeFullscreen" />
+        <activity android:name=".ui.main.activity.AnswersActivity"></activity>
+        <activity android:name=".ui.main.activity.AskToAnswersActivity"></activity>
+        <activity android:name=".ui.main.activity.HistoryAnswersActivity"></activity>
+        <activity android:name=".ui.main.activity.VoiceCustomActivity"></activity>
+        <activity android:name=".ui.main.activity.HistoryVoiceActivity"></activity>
+        <activity android:name=".ui.main.activity.AskToVoiceActivity"></activity>
         <!-- 声明云信后台服务 -->
         <service
             android:name="com.netease.nimlib.service.NimService"
@@ -669,9 +679,9 @@
             android:configChanges="keyboardHidden|orientation|screenSize|fontScale"
             android:screenOrientation="portrait" />
 
-        <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="13b0dd85b007ad78249b02fc26fa3972dff8da79" />
+        <!--<meta-data-->
+            <!--android:name="io.fabric.ApiKey"-->
+            <!--android:value="13b0dd85b007ad78249b02fc26fa3972dff8da79" />-->
         <!-- bugout设置AppKey -->
         <meta-data
             android:name="PROJECT_KEY"

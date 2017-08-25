@@ -6,10 +6,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 
 import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.app.AppApplication;
+import com.cloudTop.starshare.app.AppConfig;
+import com.cloudTop.starshare.been.MyAddressBean;
+import com.cloudTop.starshare.been.QiNiuAdressBean;
+import com.cloudTop.starshare.listener.OnAPIListener;
+import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
+import com.cloudTop.starshare.utils.GetIPAddressUtils;
+import com.cloudTop.starshare.utils.LogUtils;
 import com.testin.agent.Bugout;
 import com.testin.agent.BugoutConfig;
 
@@ -49,40 +57,41 @@ public class SplashActivity extends Activity {
       Bugout.init(this, "1664ea921dcbe122834e440f7f584e2e", "yingyongbao");
       initBugOut();
         mHandler.sendEmptyMessageDelayed(1,2000);
-//        PropertyValuesHolder alpha = PropertyValuesHolder.ofFloat("alpha", 0.3f, 1f);
-//        PropertyValuesHolder scaleX = PropertyValuesHolder.ofFloat("scaleX", 0.3f, 1f);
-//        PropertyValuesHolder scaleY = PropertyValuesHolder.ofFloat("scaleY", 0.3f, 1f);
-//        ObjectAnimator objectAnimator1 = ObjectAnimator.ofPropertyValuesHolder(tvName, alpha, scaleX, scaleY);
-//        ObjectAnimator objectAnimator2 = ObjectAnimator.ofPropertyValuesHolder(ivLogo, alpha, scaleX, scaleY);
-//
-//        AnimatorSet animatorSet = new AnimatorSet();
-//        animatorSet.playTogether(objectAnimator1, objectAnimator2);
-//        animatorSet.setInterpolator(new AccelerateInterpolator());
-//        animatorSet.setDuration(2000);
-//        animatorSet.addListener(new Animator.AnimatorListener() {
-//            @Override
-//            public void onAnimationStart(Animator animator) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationEnd(Animator animator) {
-//                startActivity(MainActivity.class);
-//                overridePendingTransition(R.anim.act_in_from_right, R.anim.act_out_from_left);
-//                finish();
-//            }
-//
-//            @Override
-//            public void onAnimationCancel(Animator animator) {
-//
-//            }
-//
-//            @Override
-//            public void onAnimationRepeat(Animator animator) {
-//
-//            }
-//        });
-//        animatorSet.start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final MyAddressBean ipAddress = GetIPAddressUtils.getIpAddress();
+                if (ipAddress.getData()==null){
+                    return;
+                }
+                AppConfig.AREA_ID = Long.valueOf(ipAddress.getData().getArea_id());
+                AppConfig.AREA = ipAddress.getData().getArea();
+                AppConfig.ISP_ID = Long.valueOf(ipAddress.getData().getIsp_id());
+                AppConfig.ISP = ipAddress.getData().getIsp();
+                NetworkAPIFactoryImpl.getUserAPI().getQiNiuPicDress(new OnAPIListener<QiNiuAdressBean>() {
+                    @Override
+                    public void onError(Throwable ex) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(QiNiuAdressBean o) {
+                        LogUtils.loge("ysl_七牛"+o.toString());
+                        String area = ipAddress.getData().getArea();
+                        if ("华东".equals(area)&& !TextUtils.isEmpty(o.getQINIU_URL_HUADONG())){
+                            AppConfig.QI_NIU_PIC_ADRESS = o.getQINIU_URL_HUADONG();
+                            LogUtils.loge("ysl_七牛"+"华东");
+                        }else if ("华北".equals(area)&& !TextUtils.isEmpty(o.getQINIU_URL_HUABEI())){
+                            AppConfig.QI_NIU_PIC_ADRESS = o.getQINIU_URL_HUABEI();
+                            LogUtils.loge("ysl_七牛"+"华北");
+                        }else if ("华南".equals(area)&& !TextUtils.isEmpty(o.getQINIU_URL_HUANAN())){
+                            AppConfig.QI_NIU_PIC_ADRESS = o.getQINIU_URL_HUANAN();
+                            LogUtils.loge("ysl_七牛"+"华南");
+                        }
+                    }
+                });
+            }
+        }).start();
     }
 
     private void initBugOut() {
