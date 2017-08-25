@@ -26,8 +26,12 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.cloudTop.starshare.R;
+import com.cloudTop.starshare.app.AppConfig;
+import com.cloudTop.starshare.been.UptokenBean;
 import com.cloudTop.starshare.listener.CaptureLisenter;
+import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.listener.TypeLisenter;
+import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
 import com.cloudTop.starshare.utils.ToastUtils;
 import com.cloudTop.starshare.widget.CaptureLayout;
 import com.cloudTop.starshare.widget.CustomProgressDialog;
@@ -339,10 +343,10 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         //record录像的设置
         PLRecordSetting recordSetting = new PLRecordSetting();
         recordSetting.setMaxRecordDuration(RecordSettings.DEFAULT_MAX_RECORD_DURATION);
-        recordSetting.setVideoCacheDir(Config.VIDEO_STORAGE_DIR);
+        recordSetting.setVideoCacheDir(AppConfig.VIDEO_STORAGE_DIR);
 
         String fileName = createFileName();
-        recordSetting.setVideoFilepath(Config.RECORD_FILE_PATH+fileName);
+        recordSetting.setVideoFilepath(AppConfig.RECORD_FILE_PATH+fileName);
 
         //美颜的设置
         PLFaceBeautySetting faceBeautySetting = new PLFaceBeautySetting(1.0f, 0.5f, 0.5f);
@@ -423,15 +427,15 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         });
 
 
-        // TODO: 2017/8/25
+
+//        // TODO: 2017/8/25
         PLUploadSetting uploadSetting = new PLUploadSetting();
-//                .setChunkSize(chunkSize)           //分片上传时，每片的大小，默认256K
-//                .setPutThreshhold(putthreshhold)   // 启用分片上传阀值，默认512K
-//                .setConnectTimeout(connectTimeout) // 链接超时，默认10秒
-//                .setResponseTimeout(responseTimeout) // 服务器响应超时，默认60秒
-//                .setZone(plUploadZone);
-
-
+////                .setChunkSize(chunkSize)           //分片上传时，每片的大小，默认256K
+////                .setPutThreshhold(putthreshhold)   // 启用分片上传阀值，默认512K
+////                .setConnectTimeout(connectTimeout) // 链接超时，默认10秒
+////                .setResponseTimeout(responseTimeout) // 服务器响应超时，默认60秒
+////                .setZone(plUploadZone);
+//
         mVideoUploadManager = new PLShortVideoUploader(getApplicationContext(), uploadSetting);
         mVideoUploadManager.setUploadProgressListener(this);
         mVideoUploadManager.setUploadResultListener(this);
@@ -616,7 +620,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
 
                 //调整亮度值
 //                refreshSeekBar();
-                ToastUtils.s(VideoRecordActivity.this, "可以开始拍摄咯");
+                ToastUtils.showShort("可以开始拍摄咯");
             }
         });
     }
@@ -632,7 +636,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ToastUtils.s(VideoRecordActivity.this, mRecordErrorMsg);
+                ToastUtils.showShort(mRecordErrorMsg);
             }
         });
     }
@@ -643,7 +647,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ToastUtils.s(VideoRecordActivity.this, "该视频段太短了");
+                ToastUtils.showShort( "该视频段太短了");
             }
         });
     }
@@ -691,7 +695,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ToastUtils.s(VideoRecordActivity.this, "已达到拍摄总时长");
+                ToastUtils.showShort( "已达到拍摄总时长");
             }
         });
     }
@@ -709,7 +713,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
             @Override
             public void run() {
 //                mProcessingDialog.dismiss();
-                ToastUtils.s(VideoRecordActivity.this, "拼接视频段失败: " + errorCode);
+                ToastUtils.showShort("拼接视频段失败: " + errorCode);
             }
         });
     }
@@ -867,15 +871,43 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
 
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(getString(R.string.if_edit_video));
-        builder.setPositiveButton(getString(R.string.dlg_yes), new DialogInterface.OnClickListener() {
+        builder.setTitle("是否上传视频");
+        builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 //           mIsEditVideo = true;
 
+                upLoadVideo();
+//                mShortVideoRecorder.concatSections(VideoRecordActivity.this);
+            }
+        });
+        builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+//                mIsEditVideo = false;
+                Toast.makeText(VideoRecordActivity.this,"不上传",Toast.LENGTH_SHORT).show();
+//                mShortVideoRecorder.concatSections(VideoRecordActivity.this);
+            }
+        });
+        // TODO: 2017/8/16
+        //把之前录的清空
+        builder.setCancelable(false);
+        builder.create().show();
+    }
+
+    private void upLoadVideo() {
+
+        NetworkAPIFactoryImpl.getUserAPI().getQiNiuToken(new OnAPIListener<UptokenBean>() {
+            @Override
+            public void onError(Throwable ex) {
+                ToastUtils.showShort("获取七牛token异常");
+            }
+
+            @Override
+            public void onSuccess(UptokenBean uptokenBean) {
                 if (!mIsUpload) {
                     Toast.makeText(VideoRecordActivity.this,"开始上传",Toast.LENGTH_SHORT).show();
-                    mVideoUploadManager.startUpload(filePath, Config.TOKEN);
+                    mVideoUploadManager.startUpload(filePath, uptokenBean.getUptoken());
 
 
                     //进行处理的对话框
@@ -888,21 +920,9 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
                 } else {
                     Toast.makeText(VideoRecordActivity.this,"当前正在上传",Toast.LENGTH_SHORT).show();
                 }
-//                mShortVideoRecorder.concatSections(VideoRecordActivity.this);
             }
         });
-        builder.setNegativeButton(getString(R.string.dlg_no), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-//                mIsEditVideo = false;
-                Toast.makeText(VideoRecordActivity.this,"不上传",Toast.LENGTH_SHORT).show();
-//                mShortVideoRecorder.concatSections(VideoRecordActivity.this);
-            }
-        });
-        // TODO: 2017/8/16
-        //把之前录的清空
-        builder.setCancelable(false);
-        builder.create().show();
+
     }
 
     @Override
@@ -954,14 +974,14 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
     @Override
     public void onUploadVideoSuccess(String fileName) {
 //        ToastUtils.s(VideoRecordActivity.this, "上传成功");
-        ToastUtils.l(this, "文件上传成功，" + fileName + "已复制到粘贴板");
+        ToastUtils.showLong("文件上传成功，" + fileName + "已复制到粘贴板");
         mProcessingDialog.dismiss();
         mIsUpload = false;
     }
 
     @Override
     public void onUploadVideoFailed(int i, String s) {
-        ToastUtils.s(VideoRecordActivity.this, "上传失败");
+        ToastUtils.showShort( "上传失败");
         mProcessingDialog.dismiss();
         mIsUpload = false;
     }

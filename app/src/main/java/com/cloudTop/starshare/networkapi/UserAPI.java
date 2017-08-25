@@ -7,6 +7,7 @@ import com.cloudTop.starshare.been.QiNiuAdressBean;
 import com.cloudTop.starshare.been.RegisterReturnBeen;
 import com.cloudTop.starshare.been.RegisterReturnWangYiBeen;
 import com.cloudTop.starshare.been.RegisterVerifyCodeBeen;
+import com.cloudTop.starshare.been.UptokenBean;
 import com.cloudTop.starshare.been.WXinLoginReturnBeen;
 import com.cloudTop.starshare.listener.OnAPIListener;
 
@@ -49,4 +50,5 @@ public interface UserAPI {
     void update(OnAPIListener<CheckUpdateInfoEntity> listener);
     void saveDevice(long uid,String device_id, OnAPIListener<Object> listener);
     void getQiNiuPicDress(OnAPIListener<QiNiuAdressBean> listener);
+    void getQiNiuToken(OnAPIListener<UptokenBean> listener);
 }
