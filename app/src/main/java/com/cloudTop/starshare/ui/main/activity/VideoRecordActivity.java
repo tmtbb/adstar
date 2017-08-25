@@ -23,15 +23,14 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
-import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.cloudTop.starshare.R;
-import com.cloudTop.starshare.app.AppConfig;
 import com.cloudTop.starshare.listener.CaptureLisenter;
 import com.cloudTop.starshare.listener.TypeLisenter;
 import com.cloudTop.starshare.utils.ToastUtils;
 import com.cloudTop.starshare.widget.CaptureLayout;
+import com.cloudTop.starshare.widget.CustomProgressDialog;
 import com.cloudTop.starshare.widget.FocusIndicator;
 import com.cloudTop.starshare.widget.GLRenderer;
 import com.cloudTop.starshare.widget.RecordSettings;
@@ -44,18 +43,23 @@ import com.qiniu.pili.droid.shortvideo.PLMicrophoneSetting;
 import com.qiniu.pili.droid.shortvideo.PLRecordSetting;
 import com.qiniu.pili.droid.shortvideo.PLRecordStateListener;
 import com.qiniu.pili.droid.shortvideo.PLShortVideoRecorder;
+import com.qiniu.pili.droid.shortvideo.PLShortVideoUploader;
+import com.qiniu.pili.droid.shortvideo.PLUploadProgressListener;
+import com.qiniu.pili.droid.shortvideo.PLUploadResultListener;
+import com.qiniu.pili.droid.shortvideo.PLUploadSetting;
 import com.qiniu.pili.droid.shortvideo.PLVideoEncodeSetting;
 import com.qiniu.pili.droid.shortvideo.PLVideoSaveListener;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Random;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 
-public class VideoRecordActivity extends Activity implements PLRecordStateListener, PLVideoSaveListener, PLFocusListener {
+public class VideoRecordActivity extends Activity implements PLRecordStateListener, PLVideoSaveListener, PLFocusListener, PLUploadProgressListener, PLUploadResultListener {
     private static final String PREVIEW="preview";
     private static final String PLAYBACK="play_back";
 
@@ -72,11 +76,11 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
     private View mSwitchCameraBtn;
     private View mSwitchFlashBtn;
     private FocusIndicator mFocusIndicator;
-    private SeekBar mAdjustBrightnessSeekBar;
+//    private SeekBar mAdjustBrightnessSeekBar;
 
     private boolean mFlashEnabled;
     private String mRecordErrorMsg;
-    private boolean mIsEditVideo = false;
+//    private boolean mIsEditVideo = false;
 
     private GestureDetector mGestureDetector;
 
@@ -110,6 +114,10 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
     private String filePath;
     private FrameLayout container;
     private ProgressBar progressBar;
+    private PLShortVideoUploader mVideoUploadManager;
+    private boolean mIsUpload = false;
+    private CustomProgressDialog mProcessingDialog;
+    private CaptureLayout mCaptureLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,7 +125,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        
+
         LayoutInflater inflater = getLayoutInflater();  //调用Activity的getLayoutInflater)
         rootView = (ViewGroup) inflater.inflate(R.layout.activity_record, null);
 
@@ -128,8 +136,11 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         container = (FrameLayout) findViewById(R.id.glsurface_container);
         progressBar = (ProgressBar) findViewById(R.id.progressbar);
 
-        final CaptureLayout mCaptureLayout = (CaptureLayout) findViewById(R.id.layout_capture);
+
+        mCaptureLayout = (CaptureLayout) findViewById(R.id.layout_capture);
         mCaptureLayout.setDuration(10 * 1000);
+
+        mCaptureLayout.setEnabled(false);
 
         mCaptureLayout.setCaptureLisenter(new CaptureLisenter() {
             @Override
@@ -175,6 +186,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
 //                    updateRecordingBtns(true);
                 } else {
                     ToastUtils.showShort("无法开始视频段录制");
+
                     Log.i("CJT", "startRecorder error");
                     mCaptureLayout.isRecord(false);
                     CAMERA_STATE = STATE_WAIT;
@@ -226,7 +238,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
 
                 Log.i(TAG, "cancel: ");
                 if (!mShortVideoRecorder.deleteLastSection()) {
-                    ToastUtils.showShort( "回删视频段失败");
+                    ToastUtils.showShort("回删视频段失败");
                 }
 
                 //录像layout重新初始化一下
@@ -260,7 +272,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
                 }
 
                 if (!mShortVideoRecorder.deleteLastSection()) {
-                    ToastUtils.showShort("回删视频段失败");
+                    ToastUtils.showShort( "回删视频段失败");
                 }
 
                 mCaptureLayout.isRecord(false);
@@ -273,6 +285,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
                 if(filePath!=null&&!TextUtils.isEmpty(filePath)){
                     showChooseDialog();
                 }
+                progressBar.setVisibility(View.GONE);
                 releaseMediaPlayer();
             }
         });
@@ -280,7 +293,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         mSwitchCameraBtn = findViewById(R.id.switch_camera);
         mSwitchFlashBtn = findViewById(R.id.switch_flash);
         mFocusIndicator = (FocusIndicator) findViewById(R.id.focus_indicator);
-        mAdjustBrightnessSeekBar = (SeekBar) findViewById(R.id.adjust_brightness);
+//        mAdjustBrightnessSeekBar = (SeekBar) findViewById(R.id.adjust_brightness);
 
         //进行处理的对话框
 //        mProcessingDialog = new CustomProgressDialog(this);
@@ -326,8 +339,10 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         //record录像的设置
         PLRecordSetting recordSetting = new PLRecordSetting();
         recordSetting.setMaxRecordDuration(RecordSettings.DEFAULT_MAX_RECORD_DURATION);
-        recordSetting.setVideoCacheDir(AppConfig.VIDEO_STORAGE_DIR);
-        recordSetting.setVideoFilepath(AppConfig.RECORD_FILE_PATH);
+        recordSetting.setVideoCacheDir(Config.VIDEO_STORAGE_DIR);
+
+        String fileName = createFileName();
+        recordSetting.setVideoFilepath(Config.RECORD_FILE_PATH+fileName);
 
         //美颜的设置
         PLFaceBeautySetting faceBeautySetting = new PLFaceBeautySetting(1.0f, 0.5f, 0.5f);
@@ -406,6 +421,20 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
                 return true;
             }
         });
+
+
+        // TODO: 2017/8/25
+        PLUploadSetting uploadSetting = new PLUploadSetting();
+//                .setChunkSize(chunkSize)           //分片上传时，每片的大小，默认256K
+//                .setPutThreshhold(putthreshhold)   // 启用分片上传阀值，默认512K
+//                .setConnectTimeout(connectTimeout) // 链接超时，默认10秒
+//                .setResponseTimeout(responseTimeout) // 服务器响应超时，默认60秒
+//                .setZone(plUploadZone);
+
+
+        mVideoUploadManager = new PLShortVideoUploader(getApplicationContext(), uploadSetting);
+        mVideoUploadManager.setUploadProgressListener(this);
+        mVideoUploadManager.setUploadResultListener(this);
     }
 
     private void releaseMediaPlayer() {
@@ -524,6 +553,8 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
 //        if (mKiwiTrackWrapper != null) {
 //            mKiwiTrackWrapper.onResume(this);
 //        }
+        updateRecordingBtns(true);
+        mCaptureLayout.setEnabled(true);
         mShortVideoRecorder.resume();
     }
 
@@ -534,6 +565,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
 //            mKiwiTrackWrapper.onPause(this);
 //        }
         updateRecordingBtns(false);
+        mCaptureLayout.setEnabled(false);
         mShortVideoRecorder.pause();
 
 //        if (mediaPlayer != null) {
@@ -579,12 +611,12 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
                 mSwitchFlashBtn.setVisibility(mShortVideoRecorder.isFlashSupport() ? VISIBLE : GONE);
                 mFlashEnabled = false;
                 mSwitchFlashBtn.setActivated(mFlashEnabled);
-//                mRecordBtn.setEnabled(true);
+                mCaptureLayout.setEnabled(true);
 //                progressButton.setEnabled(true);
 
                 //调整亮度值
 //                refreshSeekBar();
-                ToastUtils.showShort("可以开始拍摄咯");
+                ToastUtils.s(VideoRecordActivity.this, "可以开始拍摄咯");
             }
         });
     }
@@ -600,7 +632,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ToastUtils.showShort( mRecordErrorMsg);
+                ToastUtils.s(VideoRecordActivity.this, mRecordErrorMsg);
             }
         });
     }
@@ -611,7 +643,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ToastUtils.showShort("该视频段太短了");
+                ToastUtils.s(VideoRecordActivity.this, "该视频段太短了");
             }
         });
     }
@@ -630,7 +662,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         Thread thread = Thread.currentThread();
         Log.i(TAG, "thread: " + thread);
 
-        mIsEditVideo = false;
+//        mIsEditVideo = false;
         if(!isTooShort){
             mShortVideoRecorder.concatSections(VideoRecordActivity.this);
         }
@@ -659,7 +691,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ToastUtils.showShort("已达到拍摄总时长");
+                ToastUtils.s(VideoRecordActivity.this, "已达到拍摄总时长");
             }
         });
     }
@@ -677,7 +709,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
             @Override
             public void run() {
 //                mProcessingDialog.dismiss();
-                ToastUtils.showShort( "拼接视频段失败: " + errorCode);
+                ToastUtils.s(VideoRecordActivity.this, "拼接视频段失败: " + errorCode);
             }
         });
     }
@@ -709,6 +741,11 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
 //        mProcessingDialog.dismiss();
     }
 
+    public String createFileName(){
+         Random random = new Random();
+        long number = System.currentTimeMillis() + random.nextInt(999999999);
+        return number+ "record.mp4";
+    }
     //保存成功
     @Override
     public void onSaveVideoSuccess(final String filePath) {
@@ -819,22 +856,46 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
 
     //弹出是否编辑的对话框
     private void showChooseDialog() {
+        mProcessingDialog = new CustomProgressDialog(VideoRecordActivity.this);
+        mProcessingDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                mVideoUploadManager.cancelUpload();
+                mIsUpload = false;
+            }
+        });
+
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("是否编辑");
-        builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
+        builder.setTitle(getString(R.string.if_edit_video));
+        builder.setPositiveButton(getString(R.string.dlg_yes), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-           mIsEditVideo = true;
+//           mIsEditVideo = true;
 
-                Toast.makeText(VideoRecordActivity.this,"跳到编辑页面",Toast.LENGTH_SHORT).show();
+                if (!mIsUpload) {
+                    Toast.makeText(VideoRecordActivity.this,"开始上传",Toast.LENGTH_SHORT).show();
+                    mVideoUploadManager.startUpload(filePath, Config.TOKEN);
+
+
+                    //进行处理的对话框
+                    mProcessingDialog.show();
+                    // TODO: 2017/8/15
+//                    showBitmap();
+//                    mProgressBarDeterminate.setVisibility(View.VISIBLE);
+//                    mUploadBtn.setText(R.string.cancel_upload);
+                    mIsUpload = true;
+                } else {
+                    Toast.makeText(VideoRecordActivity.this,"当前正在上传",Toast.LENGTH_SHORT).show();
+                }
 //                mShortVideoRecorder.concatSections(VideoRecordActivity.this);
             }
         });
-        builder.setNegativeButton("否", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(getString(R.string.dlg_no), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                mIsEditVideo = false;
-                Toast.makeText(VideoRecordActivity.this,"不编辑,开始上传",Toast.LENGTH_SHORT).show();
+//                mIsEditVideo = false;
+                Toast.makeText(VideoRecordActivity.this,"不上传",Toast.LENGTH_SHORT).show();
 //                mShortVideoRecorder.concatSections(VideoRecordActivity.this);
             }
         });
@@ -883,5 +944,25 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
     @Override
     public void onAutoFocusStop() {
         Log.i(TAG, "auto focus stop");
+    }
+
+    @Override
+    public void onUploadProgress(String fileName, double percent) {
+        mProcessingDialog.setProgress((int) (100 * percent));
+    }
+
+    @Override
+    public void onUploadVideoSuccess(String fileName) {
+//        ToastUtils.s(VideoRecordActivity.this, "上传成功");
+        ToastUtils.l(this, "文件上传成功，" + fileName + "已复制到粘贴板");
+        mProcessingDialog.dismiss();
+        mIsUpload = false;
+    }
+
+    @Override
+    public void onUploadVideoFailed(int i, String s) {
+        ToastUtils.s(VideoRecordActivity.this, "上传失败");
+        mProcessingDialog.dismiss();
+        mIsUpload = false;
     }
 }
