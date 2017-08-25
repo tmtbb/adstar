@@ -89,7 +89,11 @@ public class AppApplication extends BaseApplication {
         super.onCreate();
         testProcress();
     }
-
+//    @Override
+//    protected void attachBaseContext(Context base) {
+//        super.attachBaseContext(base);
+//        MultiDex.install(this);
+//    }
     private void testProcress() {
         String processName = getProcessName(this);
         LogUtils.loge("------------processName:" + processName);

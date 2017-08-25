@@ -63,8 +63,6 @@ android {
     }
     dexOptions {
         javaMaxHeapSize "4g"
-
-
     }
     lintOptions {
         checkReleaseBuilds false
@@ -150,6 +148,9 @@ dependencies {
     compile 'com.android.support:percent:25+'
     compile 'com.journeyapps:zxing-android-embedded:3.5.0'
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
+
+    compile 'com.qiniu:happy-dns:0.2.+'
+    compile 'com.qiniu:qiniu-android-sdk:7.3.3'
 
     compile(name: 'kw-filter', ext: 'aar')
     compile(name: 'kw-tracker', ext: 'aar')

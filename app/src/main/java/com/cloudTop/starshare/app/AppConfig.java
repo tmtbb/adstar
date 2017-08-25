@@ -26,6 +26,11 @@ public class AppConfig {
     public static String ISP = "";
 
     public static final String VIDEO_STORAGE_DIR = Environment.getExternalStorageDirectory() + "/ShortVideo";
+    public static final String TRIM_STORAGE_DIR = Environment.getExternalStorageDirectory() + "/ShortVideo";
     public static final String RECORD_FILE_PATH = VIDEO_STORAGE_DIR + "/";
+    //七牛云demotoken
+    public static final String TOKEN = "MqF35-H32j1PH8igh-am7aEkduP511g-5-F7j47Z:0gzBOkhm3KsFGbGk2HdKfA4jZp4=:eyJzY29wZSI6InNob3J0LXZpZGVvIiwiZGVhZGxpbmUiOjE2NTA3MTExMDcsInVwaG9zdHMiOlsiaHR0cDovL3VwLXoyLnFpbml1LmNvbSIsImh0dHA6Ly91cGxvYWQtejIucWluaXUuY29tIiwiLUggdXAtejIucWluaXUuY29tIGh0dHA6Ly8xODMuNjAuMjE0LjE5OCJdfQ==";
+    //项目token
+//    public static final String TOKEN = "4jvwuLa_Xcux7WQ40KMO89DfinEuI3zXizMpwnc7:SHbzUwkFdCr-h9x77cI1v9yY4RE=:eyJzY29wZSI6InN0YXJzaGFyZWltYWdlIiwiZGVhZGxpbmUiOjE1MDM2NTQxMTJ9";
 
 }

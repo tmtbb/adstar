@@ -2,6 +2,8 @@ package com.cloudTop.starshare.ui.main.activity;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.SurfaceTexture;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -27,17 +29,20 @@ import android.widget.Toast;
 
 import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.app.AppConfig;
-import com.cloudTop.starshare.been.UptokenBean;
 import com.cloudTop.starshare.listener.CaptureLisenter;
-import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.listener.TypeLisenter;
-import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
+import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.ToastUtils;
 import com.cloudTop.starshare.widget.CaptureLayout;
 import com.cloudTop.starshare.widget.CustomProgressDialog;
 import com.cloudTop.starshare.widget.FocusIndicator;
 import com.cloudTop.starshare.widget.GLRenderer;
 import com.cloudTop.starshare.widget.RecordSettings;
+import com.qiniu.android.common.Zone;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.Configuration;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UploadManager;
 import com.qiniu.pili.droid.shortvideo.PLAudioEncodeSetting;
 import com.qiniu.pili.droid.shortvideo.PLCameraSetting;
 import com.qiniu.pili.droid.shortvideo.PLErrorCode;
@@ -47,15 +52,21 @@ import com.qiniu.pili.droid.shortvideo.PLMicrophoneSetting;
 import com.qiniu.pili.droid.shortvideo.PLRecordSetting;
 import com.qiniu.pili.droid.shortvideo.PLRecordStateListener;
 import com.qiniu.pili.droid.shortvideo.PLShortVideoRecorder;
+import com.qiniu.pili.droid.shortvideo.PLShortVideoTrimmer;
 import com.qiniu.pili.droid.shortvideo.PLShortVideoUploader;
 import com.qiniu.pili.droid.shortvideo.PLUploadProgressListener;
 import com.qiniu.pili.droid.shortvideo.PLUploadResultListener;
 import com.qiniu.pili.droid.shortvideo.PLUploadSetting;
 import com.qiniu.pili.droid.shortvideo.PLVideoEncodeSetting;
+import com.qiniu.pili.droid.shortvideo.PLVideoFrame;
 import com.qiniu.pili.droid.shortvideo.PLVideoSaveListener;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Random;
 
@@ -66,6 +77,7 @@ import static android.view.View.VISIBLE;
 public class VideoRecordActivity extends Activity implements PLRecordStateListener, PLVideoSaveListener, PLFocusListener, PLUploadProgressListener, PLUploadResultListener {
     private static final String PREVIEW="preview";
     private static final String PLAYBACK="play_back";
+    protected static final String FRAMEPATH="framePath";
 
     private static final String TAG = "VideoRecordActivity";
     /**
@@ -119,9 +131,11 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
     private FrameLayout container;
     private ProgressBar progressBar;
     private PLShortVideoUploader mVideoUploadManager;
+    private UploadManager uploadManager;
     private boolean mIsUpload = false;
     private CustomProgressDialog mProcessingDialog;
     private CaptureLayout mCaptureLayout;
+    private String bitmapPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -288,6 +302,8 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
 
                 if(filePath!=null&&!TextUtils.isEmpty(filePath)){
                     showChooseDialog();
+                    // TODO: 2017/8/25
+
                 }
                 progressBar.setVisibility(View.GONE);
                 releaseMediaPlayer();
@@ -345,7 +361,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         recordSetting.setMaxRecordDuration(RecordSettings.DEFAULT_MAX_RECORD_DURATION);
         recordSetting.setVideoCacheDir(AppConfig.VIDEO_STORAGE_DIR);
 
-        String fileName = createFileName();
+        String fileName = createFileName()+ "record.mp4";
         recordSetting.setVideoFilepath(AppConfig.RECORD_FILE_PATH+fileName);
 
         //美颜的设置
@@ -427,15 +443,19 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         });
 
 
+        // TODO: 2017/8/25
+        PLUploadSetting uploadSetting = new PLUploadSetting().setZone(PLUploadSetting.PLUploadZone.ZONE2);
+//                .setChunkSize(chunkSize)           //分片上传时，每片的大小，默认256K
+//                .setPutThreshhold(putthreshhold)   // 启用分片上传阀值，默认512K
+//                .setConnectTimeout(connectTimeout) // 链接超时，默认10秒
+//                .setResponseTimeout(responseTimeout) // 服务器响应超时，默认60秒
+//                .setZone(plUploadZone);
 
-//        // TODO: 2017/8/25
-        PLUploadSetting uploadSetting = new PLUploadSetting();
-////                .setChunkSize(chunkSize)           //分片上传时，每片的大小，默认256K
-////                .setPutThreshhold(putthreshhold)   // 启用分片上传阀值，默认512K
-////                .setConnectTimeout(connectTimeout) // 链接超时，默认10秒
-////                .setResponseTimeout(responseTimeout) // 服务器响应超时，默认60秒
-////                .setZone(plUploadZone);
-//
+        Configuration config = new Configuration.Builder()
+                .zone(Zone.zone2) // 设置区域，指定不同区域的上传域名、备用域名、备用IP。
+                .build();
+        uploadManager = new UploadManager(config);
+
         mVideoUploadManager = new PLShortVideoUploader(getApplicationContext(), uploadSetting);
         mVideoUploadManager.setUploadProgressListener(this);
         mVideoUploadManager.setUploadResultListener(this);
@@ -745,10 +765,10 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
 //        mProcessingDialog.dismiss();
     }
 
-    public String createFileName(){
+    public long createFileName(){
          Random random = new Random();
         long number = System.currentTimeMillis() + random.nextInt(999999999);
-        return number+ "record.mp4";
+        return number;
     }
     //保存成功
     @Override
@@ -858,6 +878,41 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         }
     }
 
+
+    private String getBitmap(String fileName) {
+        // TODO: 2017/8/15
+        PLShortVideoTrimmer mShortVideoTrimmer = new PLShortVideoTrimmer(VideoRecordActivity.this, filePath, AppConfig.TRIM_STORAGE_DIR);
+
+//        long srcDurationMs = mShortVideoTrimmer.getSrcDurationMs();
+        int videoFrameCount = mShortVideoTrimmer.getVideoFrameCount(true);
+        PLVideoFrame videoFrame= mShortVideoTrimmer.getVideoFrameByIndex(0, true);
+        Bitmap bitmap = videoFrame.toBitmap();
+
+        try {
+
+            //转为bitmap保存起来
+            FileOutputStream fos = new FileOutputStream(AppConfig.TRIM_STORAGE_DIR+"/"+fileName);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+            fos.close();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    ToastUtils.showShort( "截帧已保存到路径：" + AppConfig.TRIM_STORAGE_DIR);
+                }
+            });
+            bitmap.recycle();
+//            bitmap=null;
+            return AppConfig.TRIM_STORAGE_DIR+"/"+fileName;
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+//        Drawable drawable =new BitmapDrawable(bitmap);
+
+    }
+
     //弹出是否编辑的对话框
     private void showChooseDialog() {
         mProcessingDialog = new CustomProgressDialog(VideoRecordActivity.this);
@@ -878,6 +933,9 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
 //           mIsEditVideo = true;
 
                 upLoadVideo();
+
+                upLoadCover();
+
 //                mShortVideoRecorder.concatSections(VideoRecordActivity.this);
             }
         });
@@ -895,33 +953,64 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         builder.create().show();
     }
 
+    private void upLoadCover() {
+        String fileName = createFileName()+ "frame.jpg";
+        bitmapPath = getBitmap(fileName);
+        // TODO: 2017/8/25
+        uploadManager.put(bitmapPath, fileName, AppConfig.TOKEN,
+                new UpCompletionHandler() {
+                    @Override
+                    public void complete(String key, ResponseInfo info, JSONObject response) {
+                        //res包含hash、key等信息，具体字段取决于上传策略的设置
+                        if (info.isOK()) {
+                            Log.i("qiniu", "Upload Success");
+
+                            //拿到上传的图片地址,请求自己的服务器
+//                                                String imageUrl = Constant.QI_NIU_BASE_URL + key;
+                            String imageUrl = key;
+                            LogUtils.loge("获取的图片地址:" + imageUrl);
+//                            doSendContent(imageUrl);
+                        } else {
+                            Log.i("qiniu", "Upload Fail");
+
+                            ToastUtils.showShort("缩略图上传失败"+info.error);
+                            //如果失败，这里可以把info信息上报自己的服务器，便于后面分析上传错误原因
+                        }
+                        Log.i("qiniu", key + ",\r\n " + info + ",\r\n " + response);
+
+                    }
+                }, null);
+    }
+
     private void upLoadVideo() {
+        //进行处理的对话框
+        mProcessingDialog.show();
+//        NetworkAPIFactoryImpl.getUserAPI().getQiNiuToken(new OnAPIListener<UptokenBean>() {
+//            @Override
+//            public void onError(Throwable ex) {
+//                ToastUtils.showShort("获取七牛token异常");
+//            }
+//
+//            @Override
+//            public void onSuccess(UptokenBean uptokenBean) {
+//
+//            }
+//        });
 
-        NetworkAPIFactoryImpl.getUserAPI().getQiNiuToken(new OnAPIListener<UptokenBean>() {
-            @Override
-            public void onError(Throwable ex) {
-                ToastUtils.showShort("获取七牛token异常");
-            }
-
-            @Override
-            public void onSuccess(UptokenBean uptokenBean) {
-                if (!mIsUpload) {
-                    Toast.makeText(VideoRecordActivity.this,"开始上传",Toast.LENGTH_SHORT).show();
-                    mVideoUploadManager.startUpload(filePath, uptokenBean.getUptoken());
+        if (!mIsUpload) {
+            Toast.makeText(VideoRecordActivity.this,"开始上传",Toast.LENGTH_SHORT).show();
+            mVideoUploadManager.startUpload(filePath, AppConfig.TOKEN);
 
 
-                    //进行处理的对话框
-                    mProcessingDialog.show();
-                    // TODO: 2017/8/15
+
+            // TODO: 2017/8/15
 //                    showBitmap();
 //                    mProgressBarDeterminate.setVisibility(View.VISIBLE);
 //                    mUploadBtn.setText(R.string.cancel_upload);
-                    mIsUpload = true;
-                } else {
-                    Toast.makeText(VideoRecordActivity.this,"当前正在上传",Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+            mIsUpload = true;
+        } else {
+            Toast.makeText(VideoRecordActivity.this,"当前正在上传",Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -977,6 +1066,11 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         ToastUtils.showLong("文件上传成功，" + fileName + "已复制到粘贴板");
         mProcessingDialog.dismiss();
         mIsUpload = false;
+
+        Intent intent = new Intent();
+        intent.putExtra(FRAMEPATH,bitmapPath);
+        setResult(RESULT_OK,intent);
+        finish();
     }
 
     @Override
