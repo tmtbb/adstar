@@ -266,4 +266,9 @@ public <methods>;
  -keepclassmembers class * {
     public <init> (org.json.JSONObject);
  }
+ -keep class com.pili.pldroid.player.** { *; }
+ -keep class com.qiniu.qplayer.mediaEngine.MediaPlayer{*;}
+ -keep class com.qiniu.**{*;}
+ -keep class com.qiniu.**{public <init>();}
+ -ignorewarnings
 

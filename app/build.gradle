@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-apply plugin: 'io.fabric'
+//apply plugin: 'io.fabric'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 def getGitVersion() {
@@ -13,11 +13,11 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {
-        applicationId "com.yundian.star"
+        applicationId "com.cloudTop.starshare"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 20170731
-        versionName "0.9.1"
+        versionCode 20170812
+        versionName "0.9.8"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         buildConfigField "String", "GIT_REVISION", "\"${getGitVersion()}\""
         buildConfigField "String", "BUILD_DATE", "\"${new Date().toLocaleString()}\"";
@@ -79,13 +79,16 @@ android {
     /*针对greenDao的一些配置*/
     greendao {
         schemaVersion 1 //数据库版本号
-        daoPackage 'com.yundian.star.greendao.gen' //自动生成的工具类的包名
+        daoPackage 'com.cloudTop.starshare.greendao.gen' //自动生成的工具类的包名
         targetGenDir 'src/main/java' //路径
     }
 }
 repositories {
+    flatDir {
+        dirs 'libs'
+    }
     mavenCentral()
-    maven { url 'https://maven.fabric.io/public' }
+    //maven { url 'https://maven.fabric.io/public' }
 }
 
 dependencies {
@@ -117,9 +120,9 @@ dependencies {
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:1.0.2'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile files('libs/alipaySingle-20170510.jar')
-    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
-        transitive = true;
-    }
+//    compile('com.crashlytics.sdk.android:crashlytics:2.6.8@aar') {
+//        transitive = true;
+//    }
     //fabric
     compile project(':qAMasterSDK')
     compile 'com.getui:sdk:2.10.2.0'
@@ -143,4 +146,9 @@ dependencies {
     compile 'com.github.ctiao:ndkbitmap-armv5:0.8.3'
     compile 'com.github.ctiao:ndkbitmap-x86:0.8.3'
     compile 'com.android.support:percent:25+'
+    compile 'com.journeyapps:zxing-android-embedded:3.5.0'
+    compile 'com.github.chrisbanes.photoview:library:1.2.4'
+
+    compile(name: 'kw-filter', ext: 'aar')
+    compile(name: 'kw-tracker', ext: 'aar')
 }

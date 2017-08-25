@@ -4,11 +4,11 @@
     android:layout_height="match_parent"
     android:background="@color/color_fafafa"
     >
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@id/nt_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        ></com.yundian.star.widget.NormalTitleBar>
+        ></com.cloudTop.starshare.widget.NormalTitleBar>
     <FrameLayout
         android:background="@color/color_fafafa"
         android:layout_width="match_parent"

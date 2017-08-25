@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:id="@+id/nt_title"
-        ></com.yundian.star.widget.NormalTitleBar>
+        ></com.cloudTop.starshare.widget.NormalTitleBar>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="44dp"

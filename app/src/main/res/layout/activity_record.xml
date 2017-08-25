@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/glsurface_container">
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/brightness_panel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:gravity="center_vertical"
+            android:padding="20dp"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="亮度调整"
+                android:textColor="#fff" />
+
+            <SeekBar
+                android:id="@+id/adjust_brightness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clipChildren="false">
+
+            <com.cloudTop.starshare.widget.FocusIndicator
+                android:id="@+id/focus_indicator"
+                android:layout_width="100dp"
+                android:layout_height="100dp" />
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp">
+
+            <ImageView
+                android:visibility="gone"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:clickable="true"
+                android:onClick="onCaptureFrame"
+                android:src="@drawable/btn_capture_frame" />
+
+            <ImageView
+                android:id="@+id/switch_camera"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:onClick="onClickSwitchCamera"
+                android:src="@drawable/btn_switch_camera" />
+
+            <ImageView
+                android:id="@+id/switch_flash"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="10dp"
+                android:onClick="onClickSwitchFlash"
+                android:src="@drawable/btn_flash_selector"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <ProgressBar
+            android:id="@+id/progressbar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:layout_alignParentTop="true"
+            android:layout_margin="10dp"
+            android:max="100"
+            android:visibility="gone"
+            android:progressDrawable="@drawable/video_progress" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_gravity="bottom"
+        android:background="@android:color/transparent"
+        android:orientation="vertical">
+        <com.cloudTop.starshare.widget.CaptureLayout
+            android:id="@+id/layout_capture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="bottom|center_horizontal" />
+
+
+    </LinearLayout>
+</FrameLayout>

@@ -23,7 +23,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/user_bg_icon" />
+                    />
 
                 <RelativeLayout
                     android:layout_width="wrap_content"
@@ -73,7 +73,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:gravity="center"
-                android:text="@string/shell_time"
                 android:textColor="@color/color_666666"
                 android:textSize="@dimen/fontSize_14sp" />
 
@@ -83,7 +82,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:text="@string/shell_tolnum"
                 android:textColor="@color/color_666666"
                 android:textSize="@dimen/fontSize_14sp" />
 
@@ -146,7 +144,6 @@
                     android:background="@null"
                     android:textSize="@dimen/fontSize_16sp"
                     android:gravity="center"
-                    android:hint="@string/shell_tolnum_info"
                     android:textColor="@color/black" />
             </RelativeLayout>
 
@@ -172,7 +169,6 @@
                     android:layout_marginRight="25dp"
                     android:gravity="center"
                     android:textSize="@dimen/fontSize_16sp"
-                    android:text="@string/times_p"
                     android:textColor="@color/color_FB9938" />
             </RelativeLayout>
 
@@ -185,11 +181,11 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@+id/nl_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_gravity="top"></com.yundian.star.widget.NormalTitleBar>
+        android:layout_gravity="top"></com.cloudTop.starshare.widget.NormalTitleBar>
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="50dp"
@@ -242,7 +238,7 @@
         android:layout_gravity="bottom"
         android:layout_marginBottom="50dp"
         ></View>
-    <com.yundian.star.widget.PasswordView
+    <com.cloudTop.starshare.widget.PasswordView
         android:id="@+id/passwordView"
         android:visibility="gone"
         android:layout_width="match_parent"

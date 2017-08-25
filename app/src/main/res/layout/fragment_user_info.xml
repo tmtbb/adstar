@@ -28,27 +28,28 @@
 
                 <ImageView
                     android:id="@+id/iv_star_talk"
-                    android:layout_marginTop="@dimen/dp_20"
                     android:layout_width="@dimen/dp_40"
                     android:layout_height="@dimen/dp_40"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/dp_20"
+                    android:layout_marginTop="@dimen/dp_20"
                     android:src="@drawable/news_remind_no" />
+
                 <View
                     android:id="@+id/red_talk_tip"
                     android:layout_width="@dimen/dp_10"
                     android:layout_height="@dimen/dp_10"
-                    android:background="@color/red"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="@dimen/dp_5"
-                    android:visibility="gone"
-                    android:layout_marginTop="@dimen/dp_5"/>
+                    android:layout_marginTop="@dimen/dp_5"
+                    android:background="@color/red"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/iv_user_info_bg"
-                    android:background="@color/color_fafafa"
+                    android:background="@color/color_white_ffffffff"
                     android:orientation="vertical"
                     android:paddingBottom="@dimen/dp_10">
 
@@ -101,9 +102,114 @@
                             android:textSize="@dimen/text_size_16" />
                     </LinearLayout>
 
+                    <!--<LinearLayout-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:orientation="horizontal">-->
+
+                        <!--<RelativeLayout-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_weight="1">-->
+
+                            <!--<TextView-->
+                                <!--android:id="@+id/tv_accumulated"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_centerHorizontal="true"-->
+                                <!--android:layout_marginTop="14dp"-->
+                                <!--android:text="@string/accumulated_earningss"-->
+                                <!--android:textColor="@color/font_999999"-->
+                                <!--android:textSize="@dimen/fontSize_14sp" />-->
+
+                            <!--<LinearLayout-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_below="@id/tv_accumulated"-->
+                                <!--android:layout_centerInParent="true"-->
+                                <!--android:orientation="horizontal">-->
+
+                                <!--<TextView-->
+                                    <!--android:id="@+id/tv_acc_num"-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:layout_centerHorizontal="true"-->
+                                    <!--android:text="0"-->
+                                    <!--android:textColor="@color/color_8C0808"-->
+                                    <!--android:textSize="@dimen/fontSize_24sp"-->
+
+                                    <!--/>-->
+
+                                <!--<TextView-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:layout_marginLeft="3dp"-->
+                                    <!--android:text="元"-->
+                                    <!--android:textColor="@color/color_aaaaaa_content_text"-->
+                                    <!--android:textSize="@dimen/fontSize_14sp"></TextView>-->
+                            <!--</LinearLayout>-->
+                        <!--</RelativeLayout>-->
+
+                        <!--<RelativeLayout-->
+                            <!--android:layout_width="0dp"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_weight="1">-->
+
+                            <!--<TextView-->
+                                <!--android:id="@+id/tv_success"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_centerHorizontal="true"-->
+                                <!--android:layout_marginTop="14dp"-->
+                                <!--android:text="@string/Successfully_invited"-->
+                                <!--android:textColor="@color/font_999999"-->
+                                <!--android:textSize="@dimen/fontSize_14sp" />-->
+
+                            <!--<LinearLayout-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_below="@id/tv_success"-->
+                                <!--android:layout_centerInParent="true"-->
+                                <!--android:orientation="horizontal">-->
+
+                                <!--<TextView-->
+                                    <!--android:id="@+id/tv_success_num"-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:layout_centerHorizontal="true"-->
+                                    <!--android:text="0"-->
+                                    <!--android:textColor="@color/color_8C0808"-->
+                                    <!--android:textSize="@dimen/fontSize_24sp" />-->
+
+                                <!--<TextView-->
+                                    <!--android:layout_width="wrap_content"-->
+                                    <!--android:layout_height="wrap_content"-->
+                                    <!--android:layout_marginLeft="3dp"-->
+                                    <!--android:text="人"-->
+                                    <!--android:textColor="@color/color_aaaaaa_content_text"-->
+                                    <!--android:textSize="@dimen/fontSize_14sp" />-->
+                            <!--</LinearLayout>-->
+
+                        <!--</RelativeLayout>-->
+
+                    <!--</LinearLayout>-->
+
+                    <!--<TextView-->
+                        <!--android:id="@+id/zxing_butten"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_gravity="center"-->
+                        <!--android:layout_marginTop="10dp"-->
+                        <!--android:background="@drawable/empty_outline"-->
+                        <!--android:drawableLeft="@drawable/link_1"-->
+                        <!--android:drawablePadding="4dp"-->
+                        <!--android:padding="10dp"-->
+                        <!--android:text="@string/create_qr_code"-->
+                        <!--android:visibility="visible" />-->
                 </LinearLayout>
 
-                <com.yundian.star.ui.view.RoundImageView
+                <com.cloudTop.starshare.ui.view.RoundImageView
                     android:id="@+id/headImage"
                     android:layout_width="75dp"
                     android:layout_height="75dp"
@@ -170,6 +276,20 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/ll_me_deal"
+                style="@style/user_info_setting_style">
+
+                <TextView
+                    style="@style/user_setting_text_style"
+                    android:text="@string/me_deal_detail" />
+
+                <include layout="@layout/ll_right_arrow" />
+
+            </LinearLayout>
+
+
+            <include layout="@layout/ll_interval_line" />
 
             <LinearLayout
                 android:id="@+id/ll_general_settings"
@@ -183,18 +303,7 @@
 
             </LinearLayout>
 
-            <include layout="@layout/ll_interval_line" />
-            <LinearLayout
-                android:id="@+id/ll_me_deal"
-                style="@style/user_info_setting_style">
 
-                <TextView
-                    style="@style/user_setting_text_style"
-                    android:text="@string/me_deal_detail" />
-
-                <include layout="@layout/ll_right_arrow" />
-
-            </LinearLayout>
             <include layout="@layout/ll_interval_line" />
 
             <Button

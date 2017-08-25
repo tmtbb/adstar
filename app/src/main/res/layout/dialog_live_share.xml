@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -41,7 +41,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_wx"
+                android:id="@+id/ll_kj"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -87,7 +87,7 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/ll_kj"
+                android:id="@+id/ll_wx"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
@@ -145,14 +145,14 @@
         <TextView
             android:id="@+id/tv_cancel"
             android:layout_width="match_parent"
-            android:gravity="center"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-          android:padding="@dimen/dp_15"
+            android:gravity="center"
+            android:padding="@dimen/dp_15"
             android:text="取消"
             android:textColor="#fb836f"
             android:textSize="17sp" />
 
     </LinearLayout>
 
-</LinearLayout>
+</FrameLayout>

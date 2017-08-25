@@ -3,11 +3,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <!--内容-->
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@+id/nt_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_gravity="top"></com.yundian.star.widget.NormalTitleBar>
+        android:layout_gravity="top"></com.cloudTop.starshare.widget.NormalTitleBar>
 
     <FrameLayout
         android:id="@+id/fl_pr"
@@ -123,7 +123,7 @@
                 android:background="@color/color_fafafa"
                 android:visibility="gone">
                 <!--表情-->
-                <com.yundian.star.widget.emoji.EmotionLayout
+                <com.cloudTop.starshare.widget.emoji.EmotionLayout
                     android:id="@+id/elEmotion"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

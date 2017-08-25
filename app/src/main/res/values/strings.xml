@@ -27,10 +27,13 @@
     <string name="famous_address_book">名人通讯录</string>
     <string name="diff_answer">星聊</string>
     <string name="ming_xing">明星</string>
+    <string name="record_vido_rule">需输入问题后录制视频</string>
     <string name="search_hint">搜索发行人代码或名称</string>
     <string name="search_star_result_1">(</string>
     <string name="search_star_result_2">)</string>
     <string name="option">自选</string>
+    <string name="open_questions">公开提问</string>
+    <string name="open_show">公开展示</string>
     <string name="user_total_assets">资产总额</string>
     <string name="user_buyed_star">已购明星</string>
     <string name="end_times">距离结束还有</string>
@@ -49,7 +52,7 @@
     <string name="user_pet_name">昵称</string>
     <string name="user_real_name">真实姓名</string>
     <string name="user_card_number">身份证号码</string>
-    <string name="star_money">星享时光币</string>
+    <string name="star_money">时光币</string>
     <string name="user_asset_manage">资产管理</string>
     <string name="user_have_market_value">持有市值</string>
     <string name="user_acailable_balance">可用余额</string>
@@ -223,8 +226,12 @@
     <string name="make_sure">确定</string>
     <string name="total_second_enmpy">总计:0秒</string>
     <string name="buy_in">买入：%1$d人</string>
+    <string name="had_view">观看 %1$d</string>
+    <string name="heard_num">听过 %1$d</string>
     <string name="buy">买入</string>
     <string name="shell">卖出</string>
+    <string name="public_">公开</string>
+    <string name="private_">私密</string>
     <string name="shell_out">卖出：%1$d人</string>
     <string name="meet_city">约见城市</string>
     <string name="meet_date">约见日期</string>
@@ -235,7 +242,10 @@
     <string name="meet_starts">约见明星</string>
     <string name="order_details">订单详情</string>
     <string name="meet_content">请输入您对此次约见的其他要求200字以内...</string>
-    <string name="meet_rule">TIPS：请至少提前一个月约见。履约过程中产生的相关费用由用户承担明星出行的安保费通讯费、交通费、住宿费、餐饮费、服化费等必要开支。确定约见即表示您已阅读并同意《约见规则》</string>
+    <string name="ask_answers_content">输入你的问题，可选择公开或者私密，公开的提问能不其他用户可见</string>
+    <string name="meet_rule">Tips：请至少提前一个月约见。履约过程中产生的相关费用由用户承担明星出行的安保费通讯费、交通费、住宿费、餐饮费、服化费等必要开支。确定约见即表示您已阅读并同意《约见规则》</string>
+    <string name="anseres_consume_rule">Tips：当前提问需要花费%1d秒</string>
+    <string name="voice_consume_rule">Tips：定制语音需要花费100秒明星时间</string>
     <string name="order_state">订单状态:</string>
     <string name="order_info">订单信息:</string>
     <string name="order_preice">订单价格:</string>
@@ -288,6 +298,9 @@
     <string name="empty_order_info">暂无订单信息</string>
     <string name="order_type">订单类型</string>
     <string name="num_time_text">%s秒</string>
+    <string name="accumulated_earningss">累积收益</string>
+    <string name="Successfully_invited">成功邀请</string>
+    <string name="create_qr_code">生成邀请二维码</string>
 
     <!-- session -->
     <string name="input_panel_guess">猜 拳</string>
@@ -303,6 +316,8 @@
     <string name="message_info">聊天信息</string>
     <string name="time_deal">时间交易</string>
     <string name="flea_market">跳蚤市场</string>
+    <string name="history_answers">历史问答</string>
+    <string name="history_custom">历史定制</string>
 
     <!-- 通讯录 -->
     <string name="add_friend">加为好友</string>
@@ -633,8 +648,23 @@
     <!-- 平台名称 -->
 
     <string name="star_infos">个人介绍</string>
+    <string name="star_answers">明星问答</string>
+    <string name="star_voice_made">语音定制</string>
+    <string name="star_voice_custom">定制语音</string>
+    <string name="star_state">明星动态</string>
+    <string name="newest_state">最新动态</string>
+    <string name="to_answers">向TA提问</string>
+    <string name="to_custom">找TA定制</string>
+    <string name="to_publish">发布</string>
+    <string name="custom">定制</string>
+    <string name="star_interaction">明星互动</string>
+    <string name="star_charm_mirror">魅力写真</string>
+    <string name="share_describe">分享您的专属二维码给朋友， 便可免费获得明星时间。</string>
+    <string name="long_press">长按保存二维码</string>
     <string name="shell_time">发售时间：%1$s-%2$s</string>
+    <string name="presell_time">预售时间：%1$s-%2$s</string>
     <string name="shell_tolnum">发售总量：%1$d秒</string>
+    <string name="presell_tolnum">预售总量：%1$d秒</string>
     <string name="shell_tolnum_info">当前最多能购买%1$d秒</string>
     <string name="shell_text_info_limt">Tips:该商品不支持退款。每人仅能购买一次，每订单固定数量。倒计时结束后不能购买</string>
 </resources>

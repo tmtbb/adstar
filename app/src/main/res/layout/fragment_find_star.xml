@@ -6,11 +6,11 @@
     android:background="@color/color_white_ffffffff"
     android:orientation="vertical">
 
-    <com.yundian.star.widget.NormalTitleBar
+    <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@id/nt_title"
         android:layout_width="match_parent"
         android:layout_height="48dp">
-    </com.yundian.star.widget.NormalTitleBar>
+    </com.cloudTop.starshare.widget.NormalTitleBar>
     <com.flyco.tablayout.CommonTabLayout
         android:id="@+id/com_tab"
         android:layout_width="match_parent"

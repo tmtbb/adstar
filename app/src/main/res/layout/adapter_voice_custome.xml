@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/empty_outline"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="27dp"
+            android:layout_height="27dp"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_weight="1"
+            android:text="刘德华"
+            android:textColor="@color/color_black_333333"
+            android:textSize="@dimen/fontSize_14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:text="2017/8/16"
+            android:textColor="@color/color_666666"
+            android:textSize="@dimen/fontSize_14sp" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tv_ask_question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="5dp"
+        android:text="你最喜欢什么星座"
+        android:textColor="@color/color_black_333333"
+        android:textSize="@dimen/fontSize_16sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="10dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_marginLeft="50dp"
+            android:background="@drawable/bg_voice_button"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="14dp"
+                android:layout_marginRight="14dp"
+                android:src="@drawable/voice_icon" />
+
+            <TextView
+                android:id="@+id/tv_num_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="花费10"
+                android:textColor="@color/color_666666"
+                android:textSize="@dimen/fontSize_14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="15dp"
+                android:layout_weight="1"
+                android:text="秒偷听"
+                android:textColor="@color/color_666666"
+                android:textSize="@dimen/fontSize_14sp" />
+
+
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="14dp"
+            android:drawableLeft="@drawable/heard_icon"
+            android:drawablePadding="5dp"
+            android:text="@string/heard_num"
+            android:textColor="@color/color_666666"
+            android:textSize="@dimen/fontSize_14sp" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>
