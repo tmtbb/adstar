@@ -21,9 +21,18 @@ public class BookingStarListBean extends ExpandableRecyclerAdapter.ListItem impl
     private String work;
     private String head_url;
     private String head_url_tail;
+    private String back_pic_tail="";
 
 
     private String typeTitle;  //下拉标题
+
+    public String getBack_pic_tail() {
+        return back_pic_tail;
+    }
+
+    public void setBack_pic_tail(String back_pic_tail) {
+        this.back_pic_tail = back_pic_tail;
+    }
 
     public long getUid() {
         return uid;
@@ -130,6 +139,7 @@ public class BookingStarListBean extends ExpandableRecyclerAdapter.ListItem impl
         dest.writeString(this.work);
         dest.writeString(this.head_url);
         dest.writeString(this.head_url_tail);
+        dest.writeString(this.back_pic_tail);
         dest.writeString(this.typeTitle);
     }
 
@@ -147,6 +157,7 @@ public class BookingStarListBean extends ExpandableRecyclerAdapter.ListItem impl
         this.work = in.readString();
         this.head_url = in.readString();
         this.head_url_tail = in.readString();
+        this.back_pic_tail = in.readString();
         this.typeTitle = in.readString();
     }
 

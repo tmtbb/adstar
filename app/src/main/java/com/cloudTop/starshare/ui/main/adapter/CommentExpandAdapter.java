@@ -10,23 +10,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cloudTop.starshare.utils.ToastUtils;
-import com.github.jdsjlzx.recyclerview.LRecyclerView;
-import com.netease.nim.uikit.NimUIKit;
-import com.netease.nim.uikit.session.SessionCustomization;
 import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.app.AppConstant;
 import com.cloudTop.starshare.been.BookingStarListBean;
-import com.cloudTop.starshare.greendao.GreenDaoManager;
-import com.cloudTop.starshare.greendao.StarInfo;
 import com.cloudTop.starshare.ui.main.activity.MeetStarActivity;
 import com.cloudTop.starshare.ui.main.activity.StarInfoActivity;
 import com.cloudTop.starshare.ui.wangyi.session.activity.P2PMessageActivity;
 import com.cloudTop.starshare.utils.ImageLoaderUtils;
 import com.cloudTop.starshare.utils.JudgeIdentityUtils;
 import com.cloudTop.starshare.utils.LogUtils;
-
-import java.util.List;
+import com.cloudTop.starshare.utils.ToastUtils;
+import com.github.jdsjlzx.recyclerview.LRecyclerView;
+import com.netease.nim.uikit.NimUIKit;
+import com.netease.nim.uikit.session.SessionCustomization;
 
 public class CommentExpandAdapter extends ExpandableRecyclerAdapter<BookingStarListBean> {
     public static final int TYPE_PERSON = 1001;
@@ -105,19 +101,14 @@ public class CommentExpandAdapter extends ExpandableRecyclerAdapter<BookingStarL
                             }
                         } else if (bean.getTypeTitle().equals("与TA约见")) {
                             BookingStarListBean bean2 = visibleItems.get(position - 2);
-                            String pic_url = "";
-                            List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(bean2.getStarcode());
-                            if (starInfos != null && starInfos.size() != 0) {
-                                StarInfo starInfo = starInfos.get(0);
-                                pic_url = starInfo.getPic_url();
-                            }
 
                             Intent intent3 = new Intent(mContext, MeetStarActivity.class);
                             intent3.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 1);
                             intent3.putExtra(AppConstant.STAR_WID, bean2.getUid());
                             intent3.putExtra(AppConstant.STAR_NAME, bean2.getStarname());
                             intent3.putExtra(AppConstant.STAR_CODE, bean2.getStarcode());
-                            intent3.putExtra(AppConstant.STAR_HEAD_URL, pic_url);
+                            intent3.putExtra(AppConstant.STAR_HEAD_URL, bean2.getHead_url_tail());
+                            intent3.putExtra(AppConstant.STAR_BACKGROUND_URL, bean2.getBack_pic_tail());
                             mContext.startActivity(intent3);
                         }
                     }
