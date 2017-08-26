@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.cloudTop.starshare.R;
+import com.cloudTop.starshare.app.AppConfig;
 import com.cloudTop.starshare.utils.ImageLoaderUtils;
 import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.QRCodeUtil;
@@ -196,7 +197,7 @@ public class ShareControlerView implements View.OnClickListener {
         this.text = text;
     }
     public void setImageurl(String imageurl) {
-        this.imageurl = imageurl;
+        this.imageurl = AppConfig.QI_NIU_PIC_ADRESS+imageurl;
         ImageLoaderUtils.displaySmallPhoto(context,iv_icon,imageurl);
     }
 
