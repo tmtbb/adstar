@@ -185,7 +185,6 @@ public class VoiceCustomActivity extends BaseActivity {
             @Override
             public void onClickListen(View view, int position) {
                 if(myAudioPlayer!=null&&(currentPlayingPosition!=position||myAudioPlayer.getMediaPlayerStatus())){
-
                     myAudioPlayer.setDataSource(DEFAULT_TEST_FILE);
                     currentPlayingPosition = position;
                 }else if(myAudioPlayer!=null&&(currentPlayingPosition==position&&!myAudioPlayer.getMediaPlayerStatus())){

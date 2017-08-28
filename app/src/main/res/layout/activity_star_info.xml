@@ -156,7 +156,7 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal"
-                android:visibility="visible"
+                android:visibility="gone"
                 >
 
                 <LinearLayout
