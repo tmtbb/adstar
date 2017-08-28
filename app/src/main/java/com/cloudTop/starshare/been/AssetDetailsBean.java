@@ -13,6 +13,7 @@ public class AssetDetailsBean implements Parcelable {
     private double total_amt;   //总资产
     private int is_setpwd = -100;  //是否需要设置支付密码 ：0-否,1-是
     private String head_url;  //头像
+
     private String nick_name;  //昵称
 
     public double getBalance() {
@@ -51,9 +52,12 @@ public class AssetDetailsBean implements Parcelable {
         return head_url;
     }
 
+
+
     public void setHead_url(String head_url) {
         this.head_url = head_url;
     }
+
 
     public String getNick_name() {
         return nick_name;

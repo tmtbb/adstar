@@ -10,8 +10,11 @@ import android.widget.TextView;
 
 import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.base.BaseActivity;
+import com.cloudTop.starshare.utils.ImageLoaderUtils;
 import com.cloudTop.starshare.utils.ToastUtils;
 import com.cloudTop.starshare.widget.EasySwitchButton;
+
+import java.io.File;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -106,8 +109,17 @@ public class AskToAnswersActivity extends BaseActivity{
                // intent.putExtra("PreviewSizeRatio", "16:9");
                // intent.putExtra("EncodingSizeLevel", "640x360");
                // intent.putExtra("EncodingBitrateLevel", "1000Kbps");
-                startActivity(intent);
+                startActivityForResult(intent,120);
                 break;
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+        if (requestCode == 120 && resultCode == RESULT_OK) {
+            String framePath = intent.getStringExtra(VideoRecordActivity.FRAMEPATH);
+            File frameFile = new File(framePath);
+            ImageLoaderUtils.display(this,img_video,frameFile);
         }
     }
 }
