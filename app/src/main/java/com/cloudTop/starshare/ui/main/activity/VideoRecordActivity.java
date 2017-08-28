@@ -71,7 +71,6 @@ import java.io.IOException;
 import java.util.Random;
 
 import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 
 public class VideoRecordActivity extends Activity implements PLRecordStateListener, PLVideoSaveListener, PLFocusListener, PLUploadProgressListener, PLUploadResultListener {
@@ -90,7 +89,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
 //    private CustomProgressDialog mProcessingDialog;
 
     private View mSwitchCameraBtn;
-    private View mSwitchFlashBtn;
+ //   private View mSwitchFlashBtn;
     private FocusIndicator mFocusIndicator;
 //    private SeekBar mAdjustBrightnessSeekBar;
 
@@ -311,7 +310,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         });
 
         mSwitchCameraBtn = findViewById(R.id.switch_camera);
-        mSwitchFlashBtn = findViewById(R.id.switch_flash);
+       // mSwitchFlashBtn = findViewById(R.id.switch_flash);
         mFocusIndicator = (FocusIndicator) findViewById(R.id.focus_indicator);
 //        mAdjustBrightnessSeekBar = (SeekBar) findViewById(R.id.adjust_brightness);
 
@@ -515,7 +514,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
 
     //更新录像按钮
     private void updateRecordingBtns(boolean isRecording) {
-        mSwitchCameraBtn.setEnabled(!isRecording);
+        mSwitchCameraBtn.setEnabled(isRecording);
 //        mRecordBtn.setActivated(isRecording);
 //        progressButton.setActivated(isRecording);
     }
@@ -632,9 +631,9 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mSwitchFlashBtn.setVisibility(mShortVideoRecorder.isFlashSupport() ? VISIBLE : GONE);
-                mFlashEnabled = false;
-                mSwitchFlashBtn.setActivated(mFlashEnabled);
+            //    mSwitchFlashBtn.setVisibility(mShortVideoRecorder.isFlashSupport() ? VISIBLE : GONE);
+            //    mFlashEnabled = false;
+            //    mSwitchFlashBtn.setActivated(mFlashEnabled);
                 mCaptureLayout.setEnabled(true);
 //                progressButton.setEnabled(true);
 
