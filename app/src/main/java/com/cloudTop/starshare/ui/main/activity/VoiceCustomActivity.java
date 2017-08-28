@@ -14,6 +14,7 @@ import com.cloudTop.starshare.ui.main.adapter.VoiceCustomAdapter;
 import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.SharePrefUtil;
 import com.cloudTop.starshare.widget.NormalTitleBar;
+import com.cloudTop.starshare.widget.audioplayer.MyAudioPlayer;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
@@ -50,6 +51,12 @@ public class VoiceCustomActivity extends BaseActivity {
     private String code;
     private String star_name;
 
+    private MyAudioPlayer myAudioPlayer;
+    // TODO: 2017/8/25 修改为手机里aac的路径,暂时只能兼容aac音频和mp4文件
+    private static final String DEFAULT_TEST_FILE = "/storage/emulated/0/Music/test.aac";
+    private int currentPlayingPosition;
+
+    //    private static final String DEFAULT_TEST_FILE = "/storage/emulated/0/ShortVideo/pl-section-1503281446703.mp4";
     @Override
     public int getLayoutId() {
         return R.layout.activity_voice_custom;
@@ -72,6 +79,9 @@ public class VoiceCustomActivity extends BaseActivity {
         initAdpter();
         initListener();
         getData(false, 0, REQUEST_COUNT);
+
+        myAudioPlayer = new MyAudioPlayer();
+
     }
     private void initListener() {
         nt_title.setOnRightTextListener(new View.OnClickListener() {
@@ -164,10 +174,26 @@ public class VoiceCustomActivity extends BaseActivity {
         if (marketDetailAdapter!=null){
             marketDetailAdapter=null;
         }
+        if(myAudioPlayer!=null){
+            myAudioPlayer.release();
+            myAudioPlayer=null;
+        }
         super.onDestroy();
     }
     private void initAdpter() {
-        marketDetailAdapter = new VoiceCustomAdapter(this);
+        marketDetailAdapter = new VoiceCustomAdapter(this, new VoiceCustomAdapter.OnClickListenListener() {
+            @Override
+            public void onClickListen(View view, int position) {
+                if(myAudioPlayer!=null&&(currentPlayingPosition!=position||myAudioPlayer.getMediaPlayerStatus())){
+
+                    myAudioPlayer.setDataSource(DEFAULT_TEST_FILE);
+                    currentPlayingPosition = position;
+                }else if(myAudioPlayer!=null&&(currentPlayingPosition==position&&!myAudioPlayer.getMediaPlayerStatus())){
+                    myAudioPlayer.stop();
+                    currentPlayingPosition=-1;
+                }
+            }
+        });
         lRecyclerViewAdapter = new LRecyclerViewAdapter(marketDetailAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
         lrv.setLayoutManager(new LinearLayoutManager(this));
@@ -179,6 +205,7 @@ public class VoiceCustomActivity extends BaseActivity {
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+
             }
         });
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -206,4 +233,6 @@ public class VoiceCustomActivity extends BaseActivity {
                 break;
         }
     }
+
+
 }

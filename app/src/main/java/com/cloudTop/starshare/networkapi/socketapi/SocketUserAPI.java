@@ -9,6 +9,7 @@ import com.cloudTop.starshare.been.QiNiuAdressBean;
 import com.cloudTop.starshare.been.RegisterReturnBeen;
 import com.cloudTop.starshare.been.RegisterReturnWangYiBeen;
 import com.cloudTop.starshare.been.RegisterVerifyCodeBeen;
+import com.cloudTop.starshare.been.UptokenBean;
 import com.cloudTop.starshare.been.WXinLoginReturnBeen;
 import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.UserAPI;
@@ -193,4 +194,17 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
                 SocketAPIConstant.ReqeutType.Time, map);
         requestEntity(socketDataPacket,QiNiuAdressBean.class, listener);
     }
+
+    @Override
+    public void getQiNiuToken(OnAPIListener<UptokenBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("uid", SharePrefUtil.getInstance().getUserId());
+        map.put("token", SharePrefUtil.getInstance().getToken());
+
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.getQiniuToken,
+                SocketAPIConstant.ReqeutType.CircleInfo, map);
+        requestEntity(socketDataPacket,UptokenBean.class, listener);
+    }
+
+
 }
