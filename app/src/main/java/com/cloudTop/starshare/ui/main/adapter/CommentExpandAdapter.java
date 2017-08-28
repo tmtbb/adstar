@@ -103,12 +103,7 @@ public class CommentExpandAdapter extends ExpandableRecyclerAdapter<BookingStarL
                             BookingStarListBean bean2 = visibleItems.get(position - 2);
 
                             Intent intent3 = new Intent(mContext, MeetStarActivity.class);
-                            intent3.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 1);
-                            intent3.putExtra(AppConstant.STAR_WID, bean2.getUid());
-                            intent3.putExtra(AppConstant.STAR_NAME, bean2.getStarname());
                             intent3.putExtra(AppConstant.STAR_CODE, bean2.getStarcode());
-                            intent3.putExtra(AppConstant.STAR_HEAD_URL, bean2.getHead_url_tail());
-                            intent3.putExtra(AppConstant.STAR_BACKGROUND_URL, bean2.getBack_pic_tail());
                             mContext.startActivity(intent3);
                         }
                     }
