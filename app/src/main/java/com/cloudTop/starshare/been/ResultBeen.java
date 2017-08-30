@@ -10,7 +10,7 @@ public class ResultBeen {
      * result : 1
      */
 
-    private int result;
+    private int result = -111;
 
     public int getResult() {
         return result;

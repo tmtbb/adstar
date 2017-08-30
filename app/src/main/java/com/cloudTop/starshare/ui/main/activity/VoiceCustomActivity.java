@@ -1,20 +1,26 @@
 package com.cloudTop.starshare.ui.main.activity;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 
 import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.base.BaseActivity;
-import com.cloudTop.starshare.been.StarListReturnBean;
+import com.cloudTop.starshare.been.ResultBeen;
+import com.cloudTop.starshare.been.StarQuestionBean;
 import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
 import com.cloudTop.starshare.ui.main.adapter.VoiceCustomAdapter;
 import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.SharePrefUtil;
+import com.cloudTop.starshare.utils.ToastUtils;
+import com.cloudTop.starshare.widget.AudioPlayer;
 import com.cloudTop.starshare.widget.NormalTitleBar;
-import com.cloudTop.starshare.widget.audioplayer.MyAudioPlayer;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
@@ -44,17 +50,19 @@ public class VoiceCustomActivity extends BaseActivity {
 
     private VoiceCustomAdapter marketDetailAdapter;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
-    private static int mCurrentCounter = 0;
+    private static int mCurrentCounter = 1;
     private static final int REQUEST_COUNT = 10;
-    private ArrayList<StarListReturnBean.SymbolInfoBean> list = new ArrayList<>();
-    private ArrayList<StarListReturnBean.SymbolInfoBean> loadList = new ArrayList<>();
+    private ArrayList<StarQuestionBean.CircleListBean> list = new ArrayList<>();
+    private ArrayList<StarQuestionBean.CircleListBean> loadList = new ArrayList<>();
     private String code;
     private String star_name;
-
-    private MyAudioPlayer myAudioPlayer;
+    private boolean mIsPlay = false;
+    private AudioPlayer audioPlayer;
     // TODO: 2017/8/25 修改为手机里aac的路径,暂时只能兼容aac音频和mp4文件
-    private static final String DEFAULT_TEST_FILE = "/storage/emulated/0/Music/test.aac";
-    private int currentPlayingPosition;
+    private static final String DEFAULT_TEST_FILE = "http://ouim6qew1.bkt.clouddn.com/voice1503974801.mp3";
+    private int currentPlayingPosition = -1;
+    private ImageView voicePalyImagview;
+    private AnimationDrawable voiceBackground;
 
     //    private static final String DEFAULT_TEST_FILE = "/storage/emulated/0/ShortVideo/pl-section-1503281446703.mp4";
     @Override
@@ -80,9 +88,8 @@ public class VoiceCustomActivity extends BaseActivity {
         initListener();
         getData(false, 0, REQUEST_COUNT);
 
-        myAudioPlayer = new MyAudioPlayer();
-
     }
+
     private void initListener() {
         nt_title.setOnRightTextListener(new View.OnClickListener() {
             @Override
@@ -91,52 +98,73 @@ public class VoiceCustomActivity extends BaseActivity {
             }
         });
 
+        audioPlayer = new AudioPlayer(this, new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what) {
+                    case AudioPlayer.HANDLER_CUR_TIME://更新的时间
+                        break;
+                    case AudioPlayer.HANDLER_COMPLETE://播放结束
+                        if (voicePalyImagview != null && voiceBackground != null) {
+                            voiceBackground.stop();
+                            voicePalyImagview.setBackground(getResources().getDrawable(R.drawable.voice_icon));
+                        }
+                        mIsPlay = false;
+                        break;
+                    case AudioPlayer.HANDLER_PREPARED://播放开始
+                        break;
+                    case AudioPlayer.HANDLER_ERROR://播放错误
+                        break;
+                }
+
+            }
+        });
+
     }
 
     //获取数据
     private void getData(final boolean isLoadMore, int start, int count) {
-        NetworkAPIFactoryImpl.getInformationAPI().getStarList(SharePrefUtil.getInstance().getUserId(),
-                SharePrefUtil.getInstance().getToken(), 5, 1, start, count, new OnAPIListener<StarListReturnBean>() {
-                    @Override
-                    public void onError(Throwable ex) {
-                        if (lrv != null) {
-                            lrv.setNoMore(true);
-                            if (!isLoadMore) {
-                                list.clear();
-                                marketDetailAdapter.clear();
-                                lrv.refreshComplete(REQUEST_COUNT);
-                                showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
-                            }
-                        }
-                        LogUtils.loge("明星互动返回错误码" + ex.toString());
+        NetworkAPIFactoryImpl.getInformationAPI().getStarQuestionsInfo(SharePrefUtil.getInstance().getUserId(),code, start, count, SharePrefUtil.getInstance().getToken(), 2, 1, new OnAPIListener<StarQuestionBean>() {
+            @Override
+            public void onError(Throwable ex) {
+                if (lrv != null) {
+                    lrv.setNoMore(true);
+                    if (!isLoadMore) {
+                        list.clear();
+                        marketDetailAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                        showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+                    }
+                }
+                LogUtils.loge("明星互动返回错误码" + ex.toString());
+            }
+
+            @Override
+            public void onSuccess(StarQuestionBean bean) {
+                if (bean == null || bean.getCircle_list() == null || bean.getCircle_list().size() == 0) {
+                    if (!isLoadMore) {
+                        list.clear();
+                        marketDetailAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                        showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+                    } else {
+                        lrv.setNoMore(true);
                     }
 
-                    @Override
-                    public void onSuccess(StarListReturnBean starListReturnBean) {
-                        LogUtils.loge("互动列表" + starListReturnBean.toString());
-                        if (starListReturnBean == null || starListReturnBean.getSymbol_info() == null || starListReturnBean.getSymbol_info().size() == 0) {
-                            if (!isLoadMore) {
-                                list.clear();
-                                marketDetailAdapter.clear();
-                                lrv.refreshComplete(REQUEST_COUNT);
-                                showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
-                            }else {
-                                lrv.setNoMore(true);
-                            }
-
-                            return;
-                        }
-                        if (isLoadMore) {
-                            loadList.clear();
-                            loadList = starListReturnBean.getSymbol_info();
-                            loadMoreData();
-                        } else {
-                            list.clear();
-                            list = starListReturnBean.getSymbol_info();
-                            showData();
-                        }
-                    }
-                });
+                    return;
+                }
+                if (isLoadMore) {
+                    loadList.clear();
+                    loadList = bean.getCircle_list();
+                    loadMoreData();
+                } else {
+                    list.clear();
+                    list = bean.getCircle_list();
+                    showData();
+                }
+            }
+        });
     }
 
     public void showData() {
@@ -146,7 +174,7 @@ public class VoiceCustomActivity extends BaseActivity {
         } else {
             closeErrorView();
         }
-        if (marketDetailAdapter!=null){
+        if (marketDetailAdapter != null) {
             marketDetailAdapter.clear();
         }
         mCurrentCounter = list.size();
@@ -168,29 +196,47 @@ public class VoiceCustomActivity extends BaseActivity {
 
     @Override
     public void onDestroy() {
-        if (lrv!=null){
-            lrv = null ;
+        if (lrv != null) {
+            lrv = null;
         }
-        if (marketDetailAdapter!=null){
-            marketDetailAdapter=null;
+        if (marketDetailAdapter != null) {
+            marketDetailAdapter = null;
         }
-        if(myAudioPlayer!=null){
-            myAudioPlayer.release();
-            myAudioPlayer=null;
+        if (audioPlayer != null) {
+            audioPlayer.stop();
         }
         super.onDestroy();
     }
+
     private void initAdpter() {
         marketDetailAdapter = new VoiceCustomAdapter(this, new VoiceCustomAdapter.OnClickListenListener() {
             @Override
-            public void onClickListen(View view, int position) {
-                if(myAudioPlayer!=null&&(currentPlayingPosition!=position||myAudioPlayer.getMediaPlayerStatus())){
-                    myAudioPlayer.setDataSource(DEFAULT_TEST_FILE);
-                    currentPlayingPosition = position;
-                }else if(myAudioPlayer!=null&&(currentPlayingPosition==position&&!myAudioPlayer.getMediaPlayerStatus())){
-                    myAudioPlayer.stop();
-                    currentPlayingPosition=-1;
+            public void onClickListen(View view, final int position, final ImageView imageView) {
+                final StarQuestionBean.CircleListBean listBean = list.get(position);
+                if (listBean.getPurchased() == 1) {
+                    voicePalyDoing(position, imageView, listBean);
+                } else if (listBean.getPurchased() == 0) {
+                    NetworkAPIFactoryImpl.getInformationAPI().toBuyQuestion(SharePrefUtil.getInstance().getUserId(),
+                            listBean.getId(), code, listBean.getC_type(), new OnAPIListener<ResultBeen>() {
+                                @Override
+                                public void onError(Throwable ex) {
+                                    ToastUtils.showShort("您持有的该明星时间不足，请购买");
+                                }
+
+                                @Override
+                                public void onSuccess(ResultBeen been) {
+                                    if (been.getResult() == 1) {
+                                        ToastUtils.showShort("您持有的该明星时间不足，请购买");
+                                    } else if (been.getResult() == 0) {
+                                        voicePalyDoing(position, imageView, listBean);
+                                        listBean.setPurchased(1);
+                                        marketDetailAdapter.notifyDataSetChanged();
+                                    }
+                                }
+                            });
                 }
+
+
             }
         });
         lRecyclerViewAdapter = new LRecyclerViewAdapter(marketDetailAdapter);
@@ -210,28 +256,69 @@ public class VoiceCustomActivity extends BaseActivity {
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getData(true, mCurrentCounter,REQUEST_COUNT);
+                getData(true, mCurrentCounter+1, REQUEST_COUNT);
             }
         });
         lrv.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mCurrentCounter = 0;
+                mCurrentCounter = 1;
                 lrv.setNoMore(false);
-                getData(false, 0, REQUEST_COUNT);
+                getData(false, 1, REQUEST_COUNT);
             }
         });
     }
+
+    private void voicePalyDoing(int position, ImageView imageView, StarQuestionBean.CircleListBean listBean) {
+        if (audioPlayer != null && (currentPlayingPosition != position)) {
+            if (voicePalyImagview != null && voiceBackground != null) {
+                voiceBackground.stop();
+                voicePalyImagview.setBackground(getResources().getDrawable(R.drawable.voice_icon));
+            }
+            voicePalyImagview = imageView;
+            voicePalyImagview.setBackground(getResources().getDrawable(R.drawable.animation_voice_paly));
+            voiceBackground = (AnimationDrawable) voicePalyImagview.getBackground();
+            voiceBackground.start();
+            if (mIsPlay) {
+                audioPlayer.stopPlay();
+            }
+            resolvePlayRecord(DEFAULT_TEST_FILE);
+            currentPlayingPosition = position;
+        } else if (audioPlayer != null && (currentPlayingPosition == position)) {
+            if (voicePalyImagview != null && voiceBackground != null) {
+                voiceBackground.stop();
+                voicePalyImagview.setBackground(getResources().getDrawable(R.drawable.voice_icon));
+            }
+            audioPlayer.stopPlay();
+            currentPlayingPosition = -1;
+        }
+    }
+
     @OnClick({R.id.btn_recharge_sure})
-    public void onClickSwitch(View view){
-        switch (view.getId()){
+    public void onClickSwitch(View view) {
+        switch (view.getId()) {
             case R.id.btn_recharge_sure:
-                Intent intent = new Intent(this,AskToVoiceActivity.class);
-                intent.putExtra("star_code",code);
+                Intent intent = new Intent(this, AskToVoiceActivity.class);
+                intent.putExtra("star_code", code);
                 startActivity(intent);
                 break;
         }
     }
 
+    /**
+     * 播放
+     */
+    private void resolvePlayRecord(String paly_path) {
+        mIsPlay = true;
+        audioPlayer.playUrl(paly_path);
+    }
 
+    @Override
+    protected void onPause() {
+        if (mIsPlay) {
+            audioPlayer.pause();
+            audioPlayer.stopPlay();
+        }
+        super.onPause();
+    }
 }
