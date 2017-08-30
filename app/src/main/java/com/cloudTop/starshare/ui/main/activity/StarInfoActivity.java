@@ -264,10 +264,6 @@ private boolean isAllExp = false ;
                 }
                 if (JudgeIdentityUtils.isIdentityed(StarInfoActivity.this)) {
                     Intent intent3 = new Intent(StarInfoActivity.this, MeetStarActivity.class);
-                    intent3.putExtra(AppConstant.STAR_HEAD_URL, head_url);
-                    intent3.putExtra(AppConstant.STAR_NAME, resultvalue.getStar_name()+"");
-                    intent3.putExtra(AppConstant.STAR_BACKGROUND_URL, back_pic);
-                    intent3.putExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, resultvalue.getStar_tpye());
                     intent3.putExtra(AppConstant.STAR_CODE, code);
                     startActivity(intent3);
                 }

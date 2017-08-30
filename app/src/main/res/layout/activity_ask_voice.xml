@@ -86,6 +86,7 @@
     </LinearLayout>
 
     <RadioGroup
+        android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
@@ -103,6 +104,7 @@
             android:drawableLeft="@drawable/selector_voice_buttun"
             android:drawablePadding="8dp"
             android:text="15秒长度"
+            android:checked="true"
             android:textColor="@color/color_black_333333"
             android:textSize="@dimen/fontSize_14sp" />
 

@@ -114,6 +114,27 @@ public class ImageLoaderUtils {
                 .transform(new GlideRoundTransformUtil(context))
                 .into(imageView);
     }
+
+    /**
+     * 小圆图,非用户专用头像,链接拼接类型
+     * @param context
+     * @param imageView
+     * @param url
+     */
+    public static void displaySmallPhotoRoundSplice(Context context, ImageView imageView, String url) {
+        url = AppConfig.QI_NIU_PIC_ADRESS+url;
+        if (imageView == null) {
+            throw new IllegalArgumentException("argument error");
+        }
+        Glide.with(context).load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(R.drawable.deflut_icon)
+                .centerCrop()
+                .crossFade()
+                .transform(new GlideRoundTransformUtil(context))
+                .into(imageView);
+    }
+
     public static void displayBigPhoto(Context context, ImageView imageView, String url) {
         url = AppConfig.QI_NIU_PIC_ADRESS+url;
         if (imageView == null) {

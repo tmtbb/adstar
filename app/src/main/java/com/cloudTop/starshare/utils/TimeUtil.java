@@ -1104,6 +1104,10 @@ public class TimeUtil {
         SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm");
         return format.format(new Date(time));
     }
+    public static String getYMDTime(long time) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        return format.format(new Date(time));
+    }
 
     public static String getNewFormatTime(long time) {
         SimpleDateFormat format = new SimpleDateFormat("MM月dd日 HH:mm");

@@ -129,5 +129,8 @@ public interface SocketAPIConstant {
         Short getQiniu = 4015;
         Short getExpendLine = 10033;
         Short getQiniuToken = 15029;
+        Short postQuestion = 15019;
+        Short getStarQuestion = 15017;
+        Short BuyQuestion = 15025;
     }
 }
