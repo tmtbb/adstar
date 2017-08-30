@@ -315,10 +315,11 @@ private boolean isAllExp = false ;
                 isAllExp = !isAllExp;
                 break;
             case R.id.ll_answers:
-                Intent intent1 = new Intent(this,AnswersActivity.class);
-                intent1.putExtra("star_code",code);
-                intent1.putExtra("star_name",resultvalue.getStar_name());
-                startActivity(intent1);
+                ToastUtils.showShort("敬请期待");
+//                Intent intent1 = new Intent(this,AnswersActivity.class);
+//                intent1.putExtra("star_code",code);
+//                intent1.putExtra("star_name",resultvalue.getStar_name());
+//                startActivity(intent1);
                 break;
             case R.id.ll_voice_made:
                 Intent intent2 = new Intent(this,VoiceCustomActivity.class);

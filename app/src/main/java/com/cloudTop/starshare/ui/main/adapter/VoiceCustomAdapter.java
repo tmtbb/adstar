@@ -63,7 +63,7 @@ public class VoiceCustomAdapter extends ListBaseAdapter<StarQuestionBean.CircleL
             tv_tv_num_time_2.setText("秒偷听");
         }
         tv_heard_num.setText(String.format(mContext.getString(R.string.heard_num),circleListBean.getS_total()));
-        tv_time.setText(TimeUtil.getYMDTime(circleListBean.getAnswer_t()));
+        tv_time.setText(TimeUtil.getYMDTime(circleListBean.getAnswer_t()*1000));
         tv_name.setText(circleListBean.getNickName());
         tv_ask_question.setText(circleListBean.getUask());
         ImageLoaderUtils.displaySmallPhotoRound(mContext,img_head,circleListBean.getHeadUrl());

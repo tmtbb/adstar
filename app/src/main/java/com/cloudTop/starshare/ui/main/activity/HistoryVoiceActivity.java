@@ -1,18 +1,26 @@
 package com.cloudTop.starshare.ui.main.activity;
 
+import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 
 import com.cloudTop.starshare.R;
+import com.cloudTop.starshare.app.AppConfig;
 import com.cloudTop.starshare.base.BaseActivity;
-import com.cloudTop.starshare.been.StarListReturnBean;
+import com.cloudTop.starshare.been.StarQuestionBean;
 import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
 import com.cloudTop.starshare.ui.main.adapter.HistoryVoiceAdapter;
 import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.SharePrefUtil;
+import com.cloudTop.starshare.widget.AudioPlayer;
 import com.cloudTop.starshare.widget.NormalTitleBar;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
@@ -44,11 +52,19 @@ public class HistoryVoiceActivity extends BaseActivity {
     RadioGroup radio_group;
     private static final int REQUEST_COUNT = 10;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
-    private List<StarListReturnBean.SymbolInfoBean> list = new ArrayList<>();
-    private List<StarListReturnBean.SymbolInfoBean> loadList = new ArrayList<>();
-    private static int mCurrentCounter = 0;
+    private List<StarQuestionBean.CircleListBean> list = new ArrayList<>();
+    private List<StarQuestionBean.CircleListBean> loadList = new ArrayList<>();
+    private static int mCurrentCounter = 1;
     private HistoryVoiceAdapter autionTopAdapter;
     private int hotType = 1;
+    private AudioPlayer audioPlayer;
+    private static final String DEFAULT_TEST_FILE = "http://ouim6qew1.bkt.clouddn.com/voice1503974801.mp3";
+    private int currentPlayingPosition = -1;
+    private ImageView voicePalyImagview;
+    private AnimationDrawable voiceBackground;
+    private boolean mIsPlay = false;
+    private String code ;
+
 
 
     @Override
@@ -63,10 +79,38 @@ public class HistoryVoiceActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        Intent intent = getIntent();
+        code = intent.getStringExtra("star_code");
         nt_title.setBackVisibility(true);
         nt_title.setTitleText(getString(R.string.history_custom));
         initAdapter();
         SwitchTo(0);
+        initListener();
+    }
+
+    private void initListener() {
+        audioPlayer = new AudioPlayer(this, new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what) {
+                    case AudioPlayer.HANDLER_CUR_TIME://更新的时间
+                        break;
+                    case AudioPlayer.HANDLER_COMPLETE://播放结束
+                        if (voicePalyImagview != null && voiceBackground != null) {
+                            voiceBackground.stop();
+                            voicePalyImagview.setBackground(getResources().getDrawable(R.drawable.voice_icon));
+                        }
+                        mIsPlay = false;
+                        break;
+                    case AudioPlayer.HANDLER_PREPARED://播放开始
+                        break;
+                    case AudioPlayer.HANDLER_ERROR://播放错误
+                        break;
+                }
+
+            }
+        });
     }
 
 
@@ -89,12 +133,12 @@ public class HistoryVoiceActivity extends BaseActivity {
         switch (position) {
             case 0:
                 hotType = 1;
-                getLrvData(false, 0, REQUEST_COUNT);
+                getLrvData(false, 1, REQUEST_COUNT);
 
                 break;
             case 1:
-                hotType = -1;
-                getLrvData(false, 0, REQUEST_COUNT);
+                hotType = 0;
+                getLrvData(false, 1, REQUEST_COUNT);
                 break;
             default:
                 break;
@@ -102,52 +146,60 @@ public class HistoryVoiceActivity extends BaseActivity {
     }
 
     private void getLrvData(final boolean isLoadMore, int start, int count) {
-        NetworkAPIFactoryImpl.getInformationAPI().getStarList(SharePrefUtil.getInstance().getUserId(),
-                SharePrefUtil.getInstance().getToken(), 5, 1, start, count, new OnAPIListener<StarListReturnBean>() {
-                    @Override
-                    public void onError(Throwable ex) {
-                        if (lrv != null) {
-                            lrv.setNoMore(true);
-                            if (!isLoadMore) {
-                                list.clear();
-                                autionTopAdapter.clear();
-                                lrv.refreshComplete(REQUEST_COUNT);
-                                showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
-                            }
-                        }
-                        LogUtils.loge("明星互动返回错误码" + ex.toString());
+        NetworkAPIFactoryImpl.getInformationAPI().getUserQuestionsInfo(code,SharePrefUtil.getInstance().getUserId(),start, count, SharePrefUtil.getInstance().getToken(), 2, hotType, new OnAPIListener<StarQuestionBean>() {
+            @Override
+            public void onError(Throwable ex) {
+                if (lrv != null) {
+                    lrv.setNoMore(true);
+                    if (!isLoadMore) {
+                        list.clear();
+                        autionTopAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                        showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+                    }
+                }
+                LogUtils.loge("明星互动返回错误码" + ex.toString());
+            }
+
+            @Override
+            public void onSuccess(StarQuestionBean bean) {
+                if (bean == null || bean.getCircle_list() == null || bean.getCircle_list().size() == 0) {
+                    if (!isLoadMore) {
+                        list.clear();
+                        autionTopAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                        showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+                    } else {
+                        lrv.setNoMore(true);
                     }
 
-                    @Override
-                    public void onSuccess(StarListReturnBean starListReturnBean) {
-                        LogUtils.loge("互动列表" + starListReturnBean.toString());
-                        if (starListReturnBean == null || starListReturnBean.getSymbol_info() == null || starListReturnBean.getSymbol_info().size() == 0) {
-                            if (!isLoadMore) {
-                                list.clear();
-                                autionTopAdapter.clear();
-                                lrv.refreshComplete(REQUEST_COUNT);
-                                showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
-                            }else {
-                                lrv.setNoMore(true);
-                            }
-
-                            return;
-                        }
-                        if (isLoadMore) {
-                            loadList.clear();
-                            loadList = starListReturnBean.getSymbol_info();
-                            loadMoreData();
-                        } else {
-                            list.clear();
-                            list = starListReturnBean.getSymbol_info();
-                            showData();
-                        }
-                    }
-                });
+                    return;
+                }
+                if (isLoadMore) {
+                    loadList.clear();
+                    loadList = bean.getCircle_list();
+                    loadMoreData();
+                } else {
+                    list.clear();
+                    list = bean.getCircle_list();
+                    showData();
+                }
+            }
+        });
     }
 
     private void initAdapter() {
-        autionTopAdapter = new HistoryVoiceAdapter(this);
+        autionTopAdapter = new HistoryVoiceAdapter(this, new HistoryVoiceAdapter.OnClickListenListener() {
+            @Override
+            public void onClickListen(View view, int position, ImageView imageVoiceView) {
+                final StarQuestionBean.CircleListBean listBean = list.get(position);
+                if (listBean.getAnswer_t()==0){
+                    return;
+                }else {
+                    voicePalyDoing(position, imageVoiceView, listBean);
+                }
+            }
+        });
         lRecyclerViewAdapter = new LRecyclerViewAdapter(autionTopAdapter);
         lrv.setAdapter(lRecyclerViewAdapter);
         lrv.addItemDecoration(new SpacingDecoration(ScreenUtil.dip2px(10), ScreenUtil.dip2px(10), true));
@@ -159,15 +211,15 @@ public class HistoryVoiceActivity extends BaseActivity {
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getLrvData(true,mCurrentCounter,REQUEST_COUNT);
+                getLrvData(true,mCurrentCounter+1,REQUEST_COUNT);
             }
         });
         lrv.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mCurrentCounter = 0;
+                mCurrentCounter = 1;
                 lrv.setNoMore(false);
-                getLrvData(false, 0,REQUEST_COUNT);
+                getLrvData(false, 1,REQUEST_COUNT);
             }
         });
     }
@@ -195,5 +247,64 @@ public class HistoryVoiceActivity extends BaseActivity {
             mCurrentCounter += loadList.size();
             lrv.refreshComplete(REQUEST_COUNT);
         }
+    }
+
+    private void voicePalyDoing(int position, ImageView imageView, StarQuestionBean.CircleListBean listBean) {
+        if (audioPlayer != null && (currentPlayingPosition != position)) {
+            if (voicePalyImagview != null && voiceBackground != null) {
+                voiceBackground.stop();
+                voicePalyImagview.setBackground(getResources().getDrawable(R.drawable.voice_icon));
+            }
+            if (!TextUtils.isEmpty(listBean.getSanswer())){
+                voicePalyImagview = imageView;
+                voicePalyImagview.setBackground(getResources().getDrawable(R.drawable.animation_voice_paly));
+                voiceBackground = (AnimationDrawable) voicePalyImagview.getBackground();
+                voiceBackground.start();
+                if (mIsPlay) {
+                    audioPlayer.stopPlay();
+                }
+                resolvePlayRecord(AppConfig.QI_NIU_PIC_ADRESS+listBean.getSanswer());
+            }
+            currentPlayingPosition = position;
+        } else if (audioPlayer != null && (currentPlayingPosition == position)) {
+            if (voicePalyImagview != null && voiceBackground != null) {
+                voiceBackground.stop();
+                voicePalyImagview.setBackground(getResources().getDrawable(R.drawable.voice_icon));
+            }
+            audioPlayer.stopPlay();
+            currentPlayingPosition = -1;
+        }
+    }
+
+
+    /**
+     * 播放
+     */
+    private void resolvePlayRecord(String paly_path) {
+        mIsPlay = true;
+        audioPlayer.playUrl(paly_path);
+    }
+
+    @Override
+    protected void onPause() {
+        if (mIsPlay) {
+            audioPlayer.pause();
+            audioPlayer.stopPlay();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onDestroy() {
+        if (lrv != null) {
+            lrv = null;
+        }
+        if (autionTopAdapter != null) {
+            autionTopAdapter = null;
+        }
+        if (audioPlayer != null) {
+            audioPlayer.stop();
+        }
+        super.onDestroy();
     }
 }

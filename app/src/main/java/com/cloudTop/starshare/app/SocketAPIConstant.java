@@ -131,6 +131,7 @@ public interface SocketAPIConstant {
         Short getQiniuToken = 15029;
         Short postQuestion = 15019;
         Short getStarQuestion = 15017;
+        Short getUserQuestion = 15015;
         Short BuyQuestion = 15025;
     }
 }

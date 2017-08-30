@@ -159,6 +159,8 @@ public interface InformationAPI {
 
     void getStarQuestionsInfo(long uid,String starcode, int pos, int count, String token,int aType,int pType, OnAPIListener<StarQuestionBean> listener);
 
+    void getUserQuestionsInfo(String starcode,long uid,int pos, int count, String token,int aType,int pType, OnAPIListener<StarQuestionBean> listener);
+
     void toBuyQuestion(long uid, long qid,String starcode,int cType,OnAPIListener<ResultBeen> listener);
 
 

@@ -685,6 +685,23 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         requestEntity(socketDataPacket,StarQuestionBean.class,listener);
     }
 
+
+
+    @Override
+    public void getUserQuestionsInfo(String starcode,long uid, int pos, int count, String token, int aType, int pType, OnAPIListener<StarQuestionBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("starcode", starcode);
+        map.put("pos", pos);
+        map.put("count", count);
+        map.put("token", token);
+        map.put("aType", aType);
+        map.put("pType", pType);
+        map.put("uid", uid);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.getUserQuestion,
+                SocketAPIConstant.ReqeutType.CircleInfo, map);
+        requestEntity(socketDataPacket,StarQuestionBean.class,listener);
+    }
+
     @Override
     public void toBuyQuestion(long uid, long qid, String starcode, int cType, OnAPIListener<ResultBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
