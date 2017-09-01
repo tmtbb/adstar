@@ -63,6 +63,8 @@ public class AskToVoiceActivity extends BaseActivity {
         initListener();
     }
 
+
+
     private void initListener() {
         comment.addTextChangedListener(new TextWatcher() {
             @Override
@@ -141,7 +143,7 @@ public class AskToVoiceActivity extends BaseActivity {
             return;
         }
         NetworkAPIFactoryImpl.getInformationAPI().postQuestion(SharePrefUtil.getInstance().getUserId(),
-                star_code, SharePrefUtil.getInstance().getToken(), 2, isPublish, cType, comment.getText().toString().trim(), "",
+                star_code, SharePrefUtil.getInstance().getToken(), 2, isPublish, cType, comment.getText().toString().trim(), "",0,"",
                 new OnAPIListener<ResultBeen>() {
                     @Override
                     public void onError(Throwable ex) {

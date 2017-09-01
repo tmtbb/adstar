@@ -35,6 +35,7 @@ public class StarQuestionBean {
          * uask : 231
          * uid : 146
          * video_url :
+         * "thumbnail":"","thumbnailS":"","videoTime":0,"videoTimeS":0
          */
 
         private int a_type;
@@ -52,6 +53,11 @@ public class StarQuestionBean {
         private String uask;
         private long uid;
         private String video_url;
+        private int videoTime;  //提问视频时间
+        private int videoTimeS;//回答视频时间
+        private String thumbnail;  //提问缩略图
+        private String thumbnailS; //回答缩略图
+
 
         public int getA_type() {
             return a_type;
@@ -171,6 +177,38 @@ public class StarQuestionBean {
 
         public void setVideo_url(String video_url) {
             this.video_url = video_url;
+        }
+
+        public int getVideoTime() {
+            return videoTime;
+        }
+
+        public void setVideoTime(int videoTime) {
+            this.videoTime = videoTime;
+        }
+
+        public int getVideoTimeS() {
+            return videoTimeS;
+        }
+
+        public void setVideoTimeS(int videoTimeS) {
+            this.videoTimeS = videoTimeS;
+        }
+
+        public String getThumbnail() {
+            return thumbnail;
+        }
+
+        public void setThumbnail(String thumbnail) {
+            this.thumbnail = thumbnail;
+        }
+
+        public String getThumbnailS() {
+            return thumbnailS;
+        }
+
+        public void setThumbnailS(String thumbnailS) {
+            this.thumbnailS = thumbnailS;
         }
     }
 }

@@ -1,19 +1,24 @@
 package com.cloudTop.starshare.ui.main.activity;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 
 import com.cloudTop.starshare.R;
+import com.cloudTop.starshare.app.AppConfig;
 import com.cloudTop.starshare.base.BaseActivity;
-import com.cloudTop.starshare.been.StarListReturnBean;
+import com.cloudTop.starshare.been.StarQuestionBean;
 import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
 import com.cloudTop.starshare.ui.main.adapter.HistoryAnswersAdapter;
 import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.SharePrefUtil;
+import com.cloudTop.starshare.utils.ToastUtils;
 import com.cloudTop.starshare.widget.NormalTitleBar;
+import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
@@ -44,11 +49,12 @@ public class HistoryAnswersActivity extends BaseActivity {
     RadioGroup radio_group;
     private static final int REQUEST_COUNT = 10;
     private LRecyclerViewAdapter lRecyclerViewAdapter;
-    private List<StarListReturnBean.SymbolInfoBean> list = new ArrayList<>();
-    private List<StarListReturnBean.SymbolInfoBean> loadList = new ArrayList<>();
-    private static int mCurrentCounter = 0;
+    private List<StarQuestionBean.CircleListBean> list = new ArrayList<>();
+    private List<StarQuestionBean.CircleListBean> loadList = new ArrayList<>();
+    private static int mCurrentCounter = 1;
     private HistoryAnswersAdapter autionTopAdapter;
     private int hotType = 1;
+    private String star_code;
 
 
     @Override
@@ -63,9 +69,11 @@ public class HistoryAnswersActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        star_code = getIntent().getStringExtra("star_code");
         nt_title.setBackVisibility(true);
         nt_title.setTitleText(getString(R.string.history_answers));
         initAdapter();
+        initListener();
         SwitchTo(0);
     }
 
@@ -89,61 +97,86 @@ public class HistoryAnswersActivity extends BaseActivity {
         switch (position) {
             case 0:
                 hotType = 1;
-                getLrvData(false, 0, REQUEST_COUNT);
+                getLrvData(false, 1, REQUEST_COUNT);
 
                 break;
             case 1:
-                hotType = -1;
-                getLrvData(false, 0, REQUEST_COUNT);
+                hotType = 0;
+                getLrvData(false, 1, REQUEST_COUNT);
                 break;
             default:
                 break;
         }
     }
+    private void initListener() {
+
+        lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                StarQuestionBean.CircleListBean circleListBean = list.get(position);
+                if (circleListBean != null&&TextUtils.isEmpty(circleListBean.getSanswer())&&TextUtils.isEmpty(circleListBean.getVideo_url())){
+                    ToastUtils.showShort("明星未回复");
+                }else if (circleListBean != null){
+                    Intent intent = new Intent(HistoryAnswersActivity.this, PlayActivity.class);
+                    intent.putExtra("playUserUrl", AppConfig.QI_NIU_PIC_ADRESS + circleListBean.getVideo_url());
+                    intent.putExtra("playStarUrl", AppConfig.QI_NIU_PIC_ADRESS + circleListBean.getSanswer());
+                    intent.putExtra("StarVideoPic", circleListBean.getThumbnailS());
+                    intent.putExtra("userHeadUrl", circleListBean.getHeadUrl());
+                    intent.putExtra("userName", circleListBean.getNickName());
+                    intent.putExtra("userQuestion", circleListBean.getUask());
+                    if (!TextUtils.isEmpty(circleListBean.getSanswer())){
+                        intent.putExtra("haveStarPlay", true);
+                    }
+                    if (!TextUtils.isEmpty(circleListBean.getVideo_url())){
+                        intent.putExtra("haveUserPlay",true);
+                    }
+                        startActivity(intent);
+                }
+            }
+        });
+    }
 
     private void getLrvData(final boolean isLoadMore, int start, int count) {
-        NetworkAPIFactoryImpl.getInformationAPI().getStarList(SharePrefUtil.getInstance().getUserId(),
-                SharePrefUtil.getInstance().getToken(), 5, 1, start, count, new OnAPIListener<StarListReturnBean>() {
-                    @Override
-                    public void onError(Throwable ex) {
-                        if (lrv != null) {
-                            lrv.setNoMore(true);
-                            if (!isLoadMore) {
-                                list.clear();
-                                autionTopAdapter.clear();
-                                lrv.refreshComplete(REQUEST_COUNT);
-                                showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
-                            }
-                        }
-                        LogUtils.loge("明星互动返回错误码" + ex.toString());
+        NetworkAPIFactoryImpl.getInformationAPI().getUserQuestionsInfo(star_code,SharePrefUtil.getInstance().getUserId(),start, count, SharePrefUtil.getInstance().getToken(), 1, hotType, new OnAPIListener<StarQuestionBean>() {
+            @Override
+            public void onError(Throwable ex) {
+                if (lrv != null) {
+                    lrv.setNoMore(true);
+                    if (!isLoadMore) {
+                        list.clear();
+                        autionTopAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                        showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+                    }
+                }
+                LogUtils.loge("明星互动返回错误码" + ex.toString());
+            }
+
+            @Override
+            public void onSuccess(StarQuestionBean bean) {
+                if (bean == null || bean.getCircle_list() == null || bean.getCircle_list().size() == 0) {
+                    if (!isLoadMore) {
+                        list.clear();
+                        autionTopAdapter.clear();
+                        lrv.refreshComplete(REQUEST_COUNT);
+                        showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
+                    } else {
+                        lrv.setNoMore(true);
                     }
 
-                    @Override
-                    public void onSuccess(StarListReturnBean starListReturnBean) {
-                        LogUtils.loge("互动列表" + starListReturnBean.toString());
-                        if (starListReturnBean == null || starListReturnBean.getSymbol_info() == null || starListReturnBean.getSymbol_info().size() == 0) {
-                            if (!isLoadMore) {
-                                list.clear();
-                                autionTopAdapter.clear();
-                                lrv.refreshComplete(REQUEST_COUNT);
-                                showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
-                            }else {
-                                lrv.setNoMore(true);
-                            }
-
-                            return;
-                        }
-                        if (isLoadMore) {
-                            loadList.clear();
-                            loadList = starListReturnBean.getSymbol_info();
-                            loadMoreData();
-                        } else {
-                            list.clear();
-                            list = starListReturnBean.getSymbol_info();
-                            showData();
-                        }
-                    }
-                });
+                    return;
+                }
+                if (isLoadMore) {
+                    loadList.clear();
+                    loadList = bean.getCircle_list();
+                    loadMoreData();
+                } else {
+                    list.clear();
+                    list = bean.getCircle_list();
+                    showData();
+                }
+            }
+        });
     }
 
     private void initAdapter() {
@@ -159,15 +192,15 @@ public class HistoryAnswersActivity extends BaseActivity {
         lrv.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore() {
-                getLrvData(true,mCurrentCounter,REQUEST_COUNT);
+                getLrvData(true,mCurrentCounter+1,REQUEST_COUNT);
             }
         });
         lrv.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh() {
-                mCurrentCounter = 0;
+                mCurrentCounter = 1;
                 lrv.setNoMore(false);
-                getLrvData(false, 0,REQUEST_COUNT);
+                getLrvData(false, 1,REQUEST_COUNT);
             }
         });
     }

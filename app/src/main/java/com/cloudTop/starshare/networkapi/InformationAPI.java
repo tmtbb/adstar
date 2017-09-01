@@ -16,6 +16,7 @@ import com.cloudTop.starshare.been.FansTopListBeen;
 import com.cloudTop.starshare.been.HaveStarTimeBeen;
 import com.cloudTop.starshare.been.HomePageInfoBean;
 import com.cloudTop.starshare.been.MarketTypeBeen;
+import com.cloudTop.starshare.been.NewStarVideoBean;
 import com.cloudTop.starshare.been.NowPriceBean;
 import com.cloudTop.starshare.been.OptionsStarListBeen;
 import com.cloudTop.starshare.been.OrderCancelReturnBeen;
@@ -155,7 +156,7 @@ public interface InformationAPI {
 
     void getExpendLine(String param_code, OnAPIListener<ExpendLineBean> listener);
 
-    void postQuestion(long uid, String starcode, String token, int aType, int pType, int cType, String uask, String videoUrl, OnAPIListener<ResultBeen> listener);
+    void postQuestion(long uid, String starcode, String token, int aType, int pType, int cType, String uask, String videoUrl,long videoTime,String thumbnail, OnAPIListener<ResultBeen> listener);
 
     void getStarQuestionsInfo(long uid,String starcode, int pos, int count, String token,int aType,int pType, OnAPIListener<StarQuestionBean> listener);
 
@@ -163,5 +164,5 @@ public interface InformationAPI {
 
     void toBuyQuestion(long uid, long qid,String starcode,int cType,OnAPIListener<ResultBeen> listener);
 
-
+    void getNewStarVdieo(String starcode, long uid,int aType,int pType,int pos,int count,OnAPIListener<NewStarVideoBean> listener);
 }

@@ -188,6 +188,10 @@
             android:screenOrientation="portrait"
             >
         </activity>
+        <activity android:name=".ui.main.activity.PlayActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait"
+            ></activity>
         <activity android:name="com.cloudTop.starshare.ui.main.activity.FleaMarketActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"

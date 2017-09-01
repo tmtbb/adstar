@@ -133,5 +133,6 @@ public interface SocketAPIConstant {
         Short getStarQuestion = 15017;
         Short getUserQuestion = 15015;
         Short BuyQuestion = 15025;
+        Short getNewStarVideo = 15027;
     }
 }

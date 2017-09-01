@@ -39,7 +39,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/8/18.
- * 语音定制
+ * 语音定制列表
  */
 
 public class VoiceCustomActivity extends BaseActivity {

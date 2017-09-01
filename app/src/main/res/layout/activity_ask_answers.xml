@@ -107,13 +107,62 @@
             android:textSize="@dimen/fontSize_12sp" />
 
     </LinearLayout>
-
-    <TextView
+    <RadioGroup
+        android:id="@+id/radio_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableLeft="@drawable/selector_voice_buttun"
+            android:drawablePadding="8dp"
+            android:text="15秒长度"
+            android:checked="true"
+            android:textColor="@color/color_black_333333"
+            android:textSize="@dimen/fontSize_14sp" />
+
+        <RadioButton
+            android:id="@+id/rb_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableLeft="@drawable/selector_voice_buttun"
+            android:drawablePadding="8dp"
+            android:text="30秒长度"
+            android:textColor="@color/color_black_333333"
+            android:textSize="@dimen/fontSize_14sp" />
+
+        <RadioButton
+            android:id="@+id/rb_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableLeft="@drawable/selector_voice_buttun"
+            android:drawablePadding="8dp"
+            android:text="60秒长度"
+            android:textColor="@color/color_black_333333"
+            android:textSize="@dimen/fontSize_14sp" />
+
+
+    </RadioGroup>
+    <TextView
+        android:id="@+id/tv_voice_consume_rule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="35dp"
-        android:text="@string/anseres_consume_rule"
+        android:text="Tips：当前提问需要花费15秒"
         android:textColor="@color/color_666666"
         android:textSize="@dimen/fontSize_14sp" />
 
