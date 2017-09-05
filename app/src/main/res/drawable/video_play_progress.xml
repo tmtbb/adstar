@@ -9,6 +9,15 @@
 
         </shape>
     </item>
+    <item android:id="@android:id/secondaryProgress">
+        <clip>
+            <shape>
+                <solid android:color="#00000000"/>
+                <size android:height="10.0dip"/>
+                <corners android:radius="10.0dip"/>
+            </shape>
+        </clip>
+    </item>
     <item android:id="@android:id/progress">
         <clip>
             <shape>

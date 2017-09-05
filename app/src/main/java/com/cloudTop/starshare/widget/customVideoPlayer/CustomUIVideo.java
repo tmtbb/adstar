@@ -203,20 +203,8 @@ public class CustomUIVideo extends StandardGSYVideoPlayer {
 
     @Override
     protected void setProgressAndTime(int progress, int secProgress, int currentTime, int totalTime) {
-
-//        if (mProgressBar == null || mTotalTimeTextView == null || mCurrentTimeTextView == null) {
-//            return;
-//        }
-
         LogUtils.logd("progress:" + progress);
-//        if (progress > 88) progress = 100;
         if (secProgress > 94) secProgress = 100;
-//        if (secProgress != 0 && !mCacheFile) {
-//            mProgressBar.setSecondaryProgress(secProgress);
-//        }
-//        mTotalTimeTextView.setText(CommonUtil.stringForTime(totalTime));
-//        if (currentTime > 0)
-//            mCurrentTimeTextView.setText(CommonUtil.stringForTime(currentTime));
         if (haveUserVdio==true&&isNextVdio==false&&haveStarVdieo==false&&topStarProgress != null){
             if (progress != 0) {
                 topStarProgress.setProgress(progress);
@@ -224,30 +212,31 @@ public class CustomUIVideo extends StandardGSYVideoPlayer {
             if (secProgress != 0 && !mCacheFile){
                 topStarProgress.setSecondaryProgress(secProgress);
             }
-        }
-        if (haveUserVdio==true&&isNextVdio==false&&haveStarVdieo==true&&topProgress != null){
+            LogUtils.loge("progress_1"+".."+progress+".."+secProgress);
+        }else if (haveUserVdio==true&&isNextVdio==false&&haveStarVdieo==true&&topProgress != null){
             if (progress != 0) {
                 topProgress.setProgress(progress);
             }
             if (secProgress != 0 && !mCacheFile){
                 topProgress.setSecondaryProgress(secProgress);
             }
-        }
-        if (haveUserVdio==true&&isNextVdio==true&&haveStarVdieo==true&&topStarProgress != null){
+            LogUtils.loge("progress_2"+".."+progress+".."+secProgress);
+        }else if (haveUserVdio==true&&isNextVdio==true&&haveStarVdieo==true&&topStarProgress != null){
             if (progress != 0) {
                 topStarProgress.setProgress(progress);
             }
             if (secProgress != 0 && !mCacheFile){
                 topStarProgress.setSecondaryProgress(secProgress);
             }
-        }
-        if (haveUserVdio==false&&isNextVdio==false&&haveStarVdieo==true&&topStarProgress != null){
+            LogUtils.loge("progress_3"+".."+progress+".."+secProgress);
+        }else if (haveUserVdio==false&&isNextVdio==false&&haveStarVdieo==true&&topStarProgress != null){
             if (progress != 0) {
                 topStarProgress.setProgress(progress);
             }
             if (secProgress != 0 && !mCacheFile){
                 topStarProgress.setSecondaryProgress(secProgress);
             }
+            LogUtils.loge("progress_4"+".."+progress+".."+secProgress);
         }
     }
 //    @Override

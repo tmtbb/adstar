@@ -272,3 +272,8 @@ public <methods>;
  -keep class com.qiniu.**{public <init>();}
  -ignorewarnings
 
+ -keep class tv.danmaku.ijk.** { *; }
+ -dontwarn tv.danmaku.ijk.**
+ -keep class com.shuyu.gsyvideoplayer.** { *; }
+ -dontwarn com.shuyu.gsyvideoplayer.**
+

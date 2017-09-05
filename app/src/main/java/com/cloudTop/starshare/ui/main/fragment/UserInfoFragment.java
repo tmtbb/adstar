@@ -351,7 +351,7 @@ public class UserInfoFragment extends BaseFragment {
             @Override
             public void onSuccess(AssetDetailsBean bean) {
                 LogUtils.loge("余额请求成功:" + bean.toString());
-                userTotalAssets.setText(String.format("%.2f",bean.getBalance()));
+                userTotalAssets.setText(String.format("%.2f",bean.getBalance())+"");
                 if (bean.getIs_setpwd() != -100) {
                     SharePrefUtil.getInstance().saveAssetInfo(bean);
                 }

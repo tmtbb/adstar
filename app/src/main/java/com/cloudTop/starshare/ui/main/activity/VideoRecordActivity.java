@@ -473,11 +473,8 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
 
         // TODO: 2017/8/25
         PLUploadSetting uploadSetting = new PLUploadSetting().setZone(PLUploadSetting.PLUploadZone.ZONE2);
-//                .setChunkSize(chunkSize)           //分片上传时，每片的大小，默认256K
-//                .setPutThreshhold(putthreshhold)   // 启用分片上传阀值，默认512K
-//                .setConnectTimeout(connectTimeout) // 链接超时，默认10秒
-//                .setResponseTimeout(responseTimeout) // 服务器响应超时，默认60秒
-//                .setZone(plUploadZone);
+        uploadSetting.setChunkSize(524288)           //分片上传时，每片的大小，默认256K,
+                .setPutThreshhold(1048576);   // 启用分片上传阀值，默认512K // 服务器响应超时，默认60秒
 
         Configuration config = new Configuration.Builder()
                 .zone(Zone.zone2) // 设置区域，指定不同区域的上传域名、备用域名、备用IP。
@@ -668,7 +665,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
 
                 //调整亮度值
 //                refreshSeekBar();
-                ToastUtils.showShort("可以开始拍摄咯");
+               // ToastUtils.showShort("可以开始拍摄咯");
             }
         });
     }
