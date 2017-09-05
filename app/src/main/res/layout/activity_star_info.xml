@@ -10,11 +10,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="50dp"
-        android:descendantFocusability="blocksDescendants"
         android:orientation="vertical"
         android:scrollbars="none">
 
         <LinearLayout
+            android:descendantFocusability="blocksDescendants"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
@@ -241,7 +241,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
                 android:gravity="center_vertical"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -263,27 +263,28 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/ll_video_1"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
                     android:orientation="vertical">
 
                     <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
                         <ImageView
                             android:id="@+id/img_video_1"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:src="@drawable/umeng_socialize_wxcircle" />
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -294,6 +295,7 @@
 
 
                     <TextView
+                        android:id="@+id/tv_video_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -303,8 +305,9 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/ll_video_2"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
@@ -312,14 +315,14 @@
                     android:orientation="vertical">
 
                     <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
                         <ImageView
                             android:id="@+id/img_video_2"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:src="@drawable/umeng_socialize_qzone" />
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -330,6 +333,7 @@
 
 
                     <TextView
+                        android:id="@+id/tv_video_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -339,8 +343,9 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
                     android:id="@+id/ll_video_3"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
@@ -348,14 +353,14 @@
                     android:orientation="vertical">
 
                     <FrameLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content">
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
                         <ImageView
                             android:id="@+id/img_video_3"
-                            android:layout_width="80dp"
-                            android:layout_height="80dp"
-                            android:src="@drawable/umeng_socialize_sina" />
+                            android:layout_width="match_parent"
+                            android:layout_height="120dp"
+                            />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -366,6 +371,7 @@
 
 
                     <TextView
+                        android:id="@+id/tv_video_3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -379,14 +385,17 @@
 
 
             <LinearLayout
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="gone"
+                android:visibility="visible"
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/dongtai_1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -394,20 +403,23 @@
                     android:orientation="vertical">
 
                     <ImageView
+                        android:id="@+id/img_dongtai_1"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
-                        android:src="@drawable/umeng_socialize_wxcircle" />
+                         />
 
                     <TextView
+                        android:id="@+id/tv_dongtai_1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="@string/star_answers"
                         android:textColor="#333333"
                         android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:visibility="gone"
+                    android:id="@+id/dongtai_2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
@@ -416,15 +428,16 @@
                     android:orientation="vertical">
 
                     <ImageView
+                        android:id="@+id/img_dongtai_2"
                         android:layout_width="match_parent"
                         android:layout_height="120dp"
-                        android:src="@drawable/umeng_socialize_qzone" />
+                        />
 
                     <TextView
+                        android:id="@+id/tv_dongtai_2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="@string/star_voice_made"
                         android:textColor="#333333"
                         android:textSize="12sp" />
                 </LinearLayout>

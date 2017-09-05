@@ -245,7 +245,8 @@
     <string name="ask_answers_content">输入你的问题，可选择公开或者私密，公开的提问能不其他用户可见</string>
     <string name="meet_rule">Tips：请至少提前一个月约见。履约过程中产生的相关费用由用户承担明星出行的安保费通讯费、交通费、住宿费、餐饮费、服化费等必要开支。确定约见即表示您已阅读并同意《约见规则》</string>
     <string name="anseres_consume_rule">Tips：当前提问需要花费%1d秒</string>
-    <string name="voice_consume_rule">Tips：定制语音需要花费100秒明星时间</string>
+    <string name="voice_consume_rule">Tips：定制语音需要花费%1d秒明星时间</string>
+    <string name="voice_rule">Tips：定制语音需要花费15秒明星时间</string>
     <string name="order_state">订单状态:</string>
     <string name="order_info">订单信息:</string>
     <string name="order_preice">订单价格:</string>

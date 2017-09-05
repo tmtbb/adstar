@@ -155,7 +155,7 @@ public class CaptureButton extends View {
         //如果状态为按钮长按按下的状态，则绘制录制进度条
         if (state == STATE_PRESS_LONG_CLICK) {
             mPaint.setAntiAlias(true);
-            mPaint.setColor(0x9900CC00);
+            mPaint.setColor(0xFFFB6A38);
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setStrokeWidth(strokeWidth);
             canvas.drawArc(rectF, -90, progress, false, mPaint);

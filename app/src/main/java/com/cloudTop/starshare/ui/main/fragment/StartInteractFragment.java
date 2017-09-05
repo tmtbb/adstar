@@ -11,7 +11,7 @@ import com.cloudTop.starshare.base.BaseFragment;
 import com.cloudTop.starshare.been.StarListReturnBean;
 import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
-import com.cloudTop.starshare.ui.main.activity.CircleFriendsActivity;
+import com.cloudTop.starshare.ui.main.activity.StarInfoActivity;
 import com.cloudTop.starshare.ui.main.adapter.StarInteractionAdapter;
 import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.SharePrefUtil;
@@ -94,15 +94,15 @@ public class StartInteractFragment extends BaseFragment {
             public void onItemClick(View view, int position) {
 //                Intent intent0 = new Intent(getActivity(),CircleFriendsActivity.class);
                 StarListReturnBean.SymbolInfoBean symbolInfoBean = list.get(position);
-//                Intent intent3 = new Intent(getActivity(), StarInfoActivity.class);
-//                intent3.putExtra(AppConstant.STAR_CODE, symbolInfoBean.getSymbol());
-//                startActivity(intent3);
-                Intent intent0 = new Intent(getActivity(),CircleFriendsActivity.class);
-                intent0.putExtra(AppConstant.STAR_CODE,symbolInfoBean.getSymbol());
-                intent0.putExtra(AppConstant.STAR_NAME,symbolInfoBean.getName());
-                intent0.putExtra(AppConstant.STAR_HEAD_URL,symbolInfoBean.getPic_tail());
-                intent0.putExtra(AppConstant.IS_ONE,true);
-                startActivity(intent0);
+                Intent intent3 = new Intent(getActivity(), StarInfoActivity.class);
+                intent3.putExtra(AppConstant.STAR_CODE, symbolInfoBean.getSymbol());
+                startActivity(intent3);
+//                Intent intent0 = new Intent(getActivity(),CircleFriendsActivity.class);
+//                intent0.putExtra(AppConstant.STAR_CODE,symbolInfoBean.getSymbol());
+//                intent0.putExtra(AppConstant.STAR_NAME,symbolInfoBean.getName());
+//                intent0.putExtra(AppConstant.STAR_HEAD_URL,symbolInfoBean.getPic_tail());
+//                intent0.putExtra(AppConstant.IS_ONE,true);
+//                startActivity(intent0);
             }
         });
     }

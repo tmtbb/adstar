@@ -5,6 +5,7 @@
         <shape>
             <corners android:radius="3dp"/>
             <stroke android:color="@color/color_cccccc" android:width="@dimen/dp_0.5"/>
+            <solid android:color="@color/color_white_ffffffff"></solid>
         </shape>
     </item>
 </selector>

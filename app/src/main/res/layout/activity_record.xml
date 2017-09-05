@@ -50,8 +50,15 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp">
-
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/switch_camera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="25dp"
+                android:layout_marginLeft="25dp"
+                android:onClick="onClickSwitchCamera"
+                android:src="@drawable/camera_icon" />
             <ImageView
                 android:visibility="gone"
                 android:layout_width="25dp"
@@ -61,13 +68,7 @@
                 android:onClick="onCaptureFrame"
                 android:src="@drawable/btn_capture_frame" />
 
-            <ImageView
-                android:id="@+id/switch_camera"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_marginLeft="10dp"
-                android:onClick="onClickSwitchCamera"
-                android:src="@drawable/btn_switch_camera" />
+
         </LinearLayout>
 
         <ProgressBar
@@ -79,7 +80,7 @@
             android:layout_margin="10dp"
             android:max="100"
             android:visibility="gone"
-            android:progressDrawable="@drawable/video_progress" />
+            android:progressDrawable="@drawable/video_play_progress" />
     </RelativeLayout>
 
     <LinearLayout
@@ -88,6 +89,39 @@
         android:layout_gravity="bottom"
         android:background="@android:color/transparent"
         android:orientation="vertical">
+        <RelativeLayout
+            android:id="@+id/rl_question_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@drawable/ask_content_shape"
+            android:padding="14dp"
+            >
+            <ImageView
+                android:id="@+id/iv_head"
+                android:layout_width="26dp"
+                android:layout_height="26dp" />
+            <TextView
+                android:textColor="@color/color_black_333333"
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/iv_head"
+                android:layout_marginLeft="6dp"
+                android:textSize="14sp"
+                />
+
+            <TextView
+                android:id="@+id/tv_question"
+                android:textColor="@color/color_black_333333"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/iv_head"
+                android:layout_marginTop="12dp"
+                android:textSize="16sp"
+                android:layout_alignLeft="@id/tv_name"/>
+        </RelativeLayout>
         <com.cloudTop.starshare.widget.CaptureLayout
             android:id="@+id/layout_capture"
             android:layout_width="wrap_content"
@@ -96,4 +130,13 @@
 
 
     </LinearLayout>
+    <TextView
+        android:id="@+id/tv_close"
+        android:layout_gravity="right"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/colse_video"
+        />
 </FrameLayout>

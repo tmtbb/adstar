@@ -17,6 +17,7 @@ import com.cloudTop.starshare.been.FansTopListBeen;
 import com.cloudTop.starshare.been.HaveStarTimeBeen;
 import com.cloudTop.starshare.been.HomePageInfoBean;
 import com.cloudTop.starshare.been.MarketTypeBeen;
+import com.cloudTop.starshare.been.NewStarVideoBean;
 import com.cloudTop.starshare.been.NowPriceBean;
 import com.cloudTop.starshare.been.OptionsStarListBeen;
 import com.cloudTop.starshare.been.OrderCancelReturnBeen;
@@ -655,7 +656,7 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
-    public void postQuestion(long uid, String starcode, String token, int aType, int pType, int cType, String uask, String videoUrl, OnAPIListener<ResultBeen> listener) {
+    public void postQuestion(long uid, String starcode, String token, int aType, int pType, int cType, String uask, String videoUrl,long videoTime,String thumbnail, OnAPIListener<ResultBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("uid", uid);
         map.put("starcode", starcode);
@@ -665,6 +666,8 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         map.put("cType", cType);
         map.put("uask", uask);
         map.put("videoUrl", videoUrl);
+        map.put("thumbnail", thumbnail);
+        map.put("videoTime", videoTime);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.postQuestion,
                 SocketAPIConstant.ReqeutType.CircleInfo, map);
         requestEntity(socketDataPacket,ResultBeen.class,listener);
@@ -685,6 +688,23 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         requestEntity(socketDataPacket,StarQuestionBean.class,listener);
     }
 
+
+
+    @Override
+    public void getUserQuestionsInfo(String starcode,long uid, int pos, int count, String token, int aType, int pType, OnAPIListener<StarQuestionBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("starcode", starcode);
+        map.put("pos", pos);
+        map.put("count", count);
+        map.put("token", token);
+        map.put("aType", aType);
+        map.put("pType", pType);
+        map.put("uid", uid);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.getUserQuestion,
+                SocketAPIConstant.ReqeutType.CircleInfo, map);
+        requestEntity(socketDataPacket,StarQuestionBean.class,listener);
+    }
+
     @Override
     public void toBuyQuestion(long uid, long qid, String starcode, int cType, OnAPIListener<ResultBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
@@ -695,6 +715,20 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.BuyQuestion,
                 SocketAPIConstant.ReqeutType.CircleInfo, map);
         requestEntity(socketDataPacket,ResultBeen.class,listener);
+    }
+
+    @Override
+    public void getNewStarVdieo(String starcode, long uid, int aType, int pType, int pos, int count, OnAPIListener<NewStarVideoBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("starcode", starcode);
+        map.put("uid", uid);
+        map.put("aType", aType);
+        map.put("pType", pType);
+        map.put("pos", pos);
+        map.put("count", count);
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.getNewStarVideo,
+                SocketAPIConstant.ReqeutType.CircleInfo, map);
+        requestEntity(socketDataPacket,NewStarVideoBean.class,listener);
     }
 
 }

@@ -136,11 +136,12 @@
     </RadioGroup>
 
     <TextView
+        android:id="@+id/tv_voice_consume_rule"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="35dp"
-        android:text="@string/voice_consume_rule"
+        android:text="@string/voice_rule"
         android:textColor="@color/color_666666"
         android:textSize="@dimen/fontSize_14sp" />
 

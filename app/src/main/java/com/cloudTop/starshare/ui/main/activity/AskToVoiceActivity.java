@@ -37,6 +37,8 @@ public class AskToVoiceActivity extends BaseActivity {
     TextView tv_back;
     @Bind(R.id.tv_right)
     TextView tv_right;
+    @Bind(R.id.tv_voice_consume_rule)
+    TextView tv_voice_consume_rule;
     @Bind(R.id.radio_group)
     RadioGroup radio_group;
     private String star_code;
@@ -60,6 +62,8 @@ public class AskToVoiceActivity extends BaseActivity {
         ((EasySwitchButton) findViewById(R.id.esb_button_2)).setOnCheckChangedListener(new MyEasyOnOpenedListener());
         initListener();
     }
+
+
 
     private void initListener() {
         comment.addTextChangedListener(new TextWatcher() {
@@ -87,12 +91,15 @@ public class AskToVoiceActivity extends BaseActivity {
                 switch (checkedId) {
                     case R.id.rb_1:
                         cType = 0;
+                        tv_voice_consume_rule.setText(String.format(getString(R.string.voice_consume_rule),15));
                         break;
                     case R.id.rb_2:
                         cType = 1;
+                        tv_voice_consume_rule.setText(String.format(getString(R.string.voice_consume_rule),30));
                         break;
                     case R.id.rb_3:
-                        cType = 4;
+                        cType = 3;
+                        tv_voice_consume_rule.setText(String.format(getString(R.string.voice_consume_rule),60));
                         break;
                 }
             }
@@ -136,7 +143,7 @@ public class AskToVoiceActivity extends BaseActivity {
             return;
         }
         NetworkAPIFactoryImpl.getInformationAPI().postQuestion(SharePrefUtil.getInstance().getUserId(),
-                star_code, SharePrefUtil.getInstance().getToken(), 2, isPublish, cType, comment.getText().toString().trim(), "",
+                star_code, SharePrefUtil.getInstance().getToken(), 2, isPublish, cType, comment.getText().toString().trim(), "",0,"",
                 new OnAPIListener<ResultBeen>() {
                     @Override
                     public void onError(Throwable ex) {
@@ -149,6 +156,8 @@ public class AskToVoiceActivity extends BaseActivity {
                             if (been.getResult()==0){
                                 ToastUtils.showShort("定制语音发布成功");
                                 comment.getText().clear();
+                            }else if (been.getResult()==1){
+                                ToastUtils.showShort("您持有该明星的时间不足");
                             }
                         }
                     }

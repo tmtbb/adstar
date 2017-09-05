@@ -5,11 +5,13 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import com.cloudTop.starshare.R;
+import com.cloudTop.starshare.app.AppConfig;
 import com.cloudTop.starshare.base.BaseActivity;
 import com.cloudTop.starshare.been.ResultBeen;
 import com.cloudTop.starshare.been.StarQuestionBean;
@@ -37,7 +39,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/8/18.
- * 语音定制
+ * 语音定制列表
  */
 
 public class VoiceCustomActivity extends BaseActivity {
@@ -94,7 +96,9 @@ public class VoiceCustomActivity extends BaseActivity {
         nt_title.setOnRightTextListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(HistoryVoiceActivity.class);
+                Intent intent = new Intent(VoiceCustomActivity.this, HistoryVoiceActivity.class);
+                intent.putExtra("star_code", code);
+                startActivity(intent);
             }
         });
 
@@ -275,14 +279,16 @@ public class VoiceCustomActivity extends BaseActivity {
                 voiceBackground.stop();
                 voicePalyImagview.setBackground(getResources().getDrawable(R.drawable.voice_icon));
             }
-            voicePalyImagview = imageView;
-            voicePalyImagview.setBackground(getResources().getDrawable(R.drawable.animation_voice_paly));
-            voiceBackground = (AnimationDrawable) voicePalyImagview.getBackground();
-            voiceBackground.start();
-            if (mIsPlay) {
-                audioPlayer.stopPlay();
+            if (!TextUtils.isEmpty(listBean.getSanswer())){
+                voicePalyImagview = imageView;
+                voicePalyImagview.setBackground(getResources().getDrawable(R.drawable.animation_voice_paly));
+                voiceBackground = (AnimationDrawable) voicePalyImagview.getBackground();
+                voiceBackground.start();
+                if (mIsPlay) {
+                    audioPlayer.stopPlay();
+                }
+                resolvePlayRecord(AppConfig.QI_NIU_PIC_ADRESS+listBean.getSanswer());
             }
-            resolvePlayRecord(DEFAULT_TEST_FILE);
             currentPlayingPosition = position;
         } else if (audioPlayer != null && (currentPlayingPosition == position)) {
             if (voicePalyImagview != null && voiceBackground != null) {

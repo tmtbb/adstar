@@ -6,12 +6,12 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginBottom="16dp"
         android:layout_marginTop="16dp"
-        android:text="2017/8/16"
         android:textColor="@color/color_666666"
         android:textSize="@dimen/fontSize_14sp" />
 
@@ -21,7 +21,6 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
-        android:text="你最喜欢什么星座"
         android:textColor="@color/color_black_333333"
         android:textSize="@dimen/fontSize_16sp" />
 
@@ -34,24 +33,19 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp"
-            android:text="观看回答"
-            android:textColor="@color/color_FB9938"
-            android:textSize="@dimen/fontSize_14sp" />
-
-        <TextView
+            android:id="@+id/tv_view"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="40dp"
-            android:text="观看提问"
+            android:layout_marginLeft="20dp"
+            android:text="观看"
             android:textColor="@color/color_FB9938"
             android:textSize="@dimen/fontSize_14sp" />
+
+
         <TextView
+            android:id="@+id/tv_view_mub"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="14dp"
