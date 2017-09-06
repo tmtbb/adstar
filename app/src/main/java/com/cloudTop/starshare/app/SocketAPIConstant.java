@@ -26,6 +26,7 @@ public interface SocketAPIConstant {
     }
 
     interface OperateCode {
+        Short GetKey = 3043;
         Short Products = 5001;
         Short Login = 3003;
         Short WXLogin = 3013;
