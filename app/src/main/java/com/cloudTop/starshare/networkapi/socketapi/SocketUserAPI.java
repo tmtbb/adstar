@@ -143,6 +143,7 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
         map.put("token_time", token_time);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Token,
                 SocketAPIConstant.ReqeutType.User, map);
+        socketDataPacket.setIsZipEncrypt((byte) 0);
         requestEntity(socketDataPacket, LoginReturnInfo.class, listener);
     }
 
@@ -173,6 +174,7 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
         map.put("ttype", 1);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Update,
                 SocketAPIConstant.ReqeutType.User, map);
+        socketDataPacket.setIsZipEncrypt((byte) 0);
         requestEntity(socketDataPacket, CheckUpdateInfoEntity.class, listener);
     }
 
@@ -204,6 +206,17 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.getQiniuToken,
                 SocketAPIConstant.ReqeutType.CircleInfo, map);
         requestEntity(socketDataPacket,UptokenBean.class, listener);
+    }
+
+    @Override
+    public void getKey(OnAPIListener<String> listener) {
+        LogUtils.logd("获取密钥Key---");
+        HashMap<String, Object> map = new HashMap<>();
+        //传入操作码getQiniu,请求类型Time，HashMap三个参数构建一个Socket数据包
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.GetKey,
+                SocketAPIConstant.ReqeutType.User, map);
+        socketDataPacket.setIsZipEncrypt((byte) 0);
+        requestEntity(socketDataPacket,String.class, listener);
     }
 
 
