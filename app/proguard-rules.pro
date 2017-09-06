@@ -24,6 +24,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 #LRecyclerview_library
+-keep class com.sun.jna.**{*;}
 -dontwarn com.github.jdsjlzx.**
 -keep class com.github.jdsjlzx.**{*;}
 -keep class butterknife.** { *; }

@@ -51,4 +51,5 @@ public interface UserAPI {
     void saveDevice(long uid,String device_id, OnAPIListener<Object> listener);
     void getQiNiuPicDress(OnAPIListener<QiNiuAdressBean> listener);
     void getQiNiuToken(OnAPIListener<UptokenBean> listener);
+    void getKey(OnAPIListener<String> listener);
 }
