@@ -221,7 +221,7 @@ public class VoiceCustomActivity extends BaseActivity {
                     voicePalyDoing(position, imageView, listBean);
                 } else if (listBean.getPurchased() == 0) {
                     NetworkAPIFactoryImpl.getInformationAPI().toBuyQuestion(SharePrefUtil.getInstance().getUserId(),
-                            listBean.getId(), code, listBean.getC_type(), new OnAPIListener<ResultBeen>() {
+                            listBean.getId(), code, listBean.getC_type(),listBean.getUid(), new OnAPIListener<ResultBeen>() {
                                 @Override
                                 public void onError(Throwable ex) {
                                     ToastUtils.showShort("您持有的该明星时间不足，请购买");
