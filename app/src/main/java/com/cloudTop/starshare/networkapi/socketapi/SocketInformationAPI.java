@@ -706,12 +706,13 @@ public class SocketInformationAPI extends SocketBaseAPI implements InformationAP
     }
 
     @Override
-    public void toBuyQuestion(long uid, long qid, String starcode, int cType, OnAPIListener<ResultBeen> listener) {
+    public void toBuyQuestion(long uid, long qid, String starcode, int cType,long askUid, OnAPIListener<ResultBeen> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("uid", uid);
         map.put("qid", qid);
         map.put("starcode", starcode);
         map.put("cType", cType);
+        map.put("askUid", askUid);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.BuyQuestion,
                 SocketAPIConstant.ReqeutType.CircleInfo, map);
         requestEntity(socketDataPacket,ResultBeen.class,listener);
