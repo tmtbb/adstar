@@ -162,7 +162,7 @@ public interface InformationAPI {
 
     void getUserQuestionsInfo(String starcode,long uid,int pos, int count, String token,int aType,int pType, OnAPIListener<StarQuestionBean> listener);
 
-    void toBuyQuestion(long uid, long qid,String starcode,int cType,OnAPIListener<ResultBeen> listener);
+    void toBuyQuestion(long uid, long qid,String starcode,int cType,long askUid,OnAPIListener<ResultBeen> listener);
 
     void getNewStarVdieo(String starcode, long uid,int aType,int pType,int pos,int count,OnAPIListener<NewStarVideoBean> listener);
 }

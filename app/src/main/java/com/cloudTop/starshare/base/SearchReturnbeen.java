@@ -50,11 +50,11 @@ public class SearchReturnbeen {
             this.name = name;
         }
 
-        public String getPic() {
+        public String getPic_tail() {
             return pic_tail;
         }
 
-        public void setPic(String pic) {
+        public void setPic_tail(String pic) {
             this.pic_tail = pic;
         }
 

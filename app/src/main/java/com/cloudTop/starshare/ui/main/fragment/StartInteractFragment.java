@@ -13,6 +13,7 @@ import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
 import com.cloudTop.starshare.ui.main.activity.StarInfoActivity;
 import com.cloudTop.starshare.ui.main.adapter.StarInteractionAdapter;
+import com.cloudTop.starshare.utils.CheckLoginUtil;
 import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.SharePrefUtil;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
@@ -92,6 +93,9 @@ public class StartInteractFragment extends BaseFragment {
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                if (CheckLoginUtil.checkLogin(getActivity())==false){
+                    return;
+                }
 //                Intent intent0 = new Intent(getActivity(),CircleFriendsActivity.class);
                 StarListReturnBean.SymbolInfoBean symbolInfoBean = list.get(position);
                 Intent intent3 = new Intent(getActivity(), StarInfoActivity.class);

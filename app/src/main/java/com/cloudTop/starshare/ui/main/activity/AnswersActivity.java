@@ -95,7 +95,7 @@ public class AnswersActivity extends BaseActivity {
                     viedoPalyDoing(position,circleListBean);
                 } else if (circleListBean.getPurchased() == 0) {
                     NetworkAPIFactoryImpl.getInformationAPI().toBuyQuestion(SharePrefUtil.getInstance().getUserId(),
-                            circleListBean.getId(), code, circleListBean.getC_type(), new OnAPIListener<ResultBeen>() {
+                            circleListBean.getId(), code, circleListBean.getC_type(),circleListBean.getUid(), new OnAPIListener<ResultBeen>() {
                                 @Override
                                 public void onError(Throwable ex) {
                                     ToastUtils.showShort("您持有的该明星时间不足，请购买");
