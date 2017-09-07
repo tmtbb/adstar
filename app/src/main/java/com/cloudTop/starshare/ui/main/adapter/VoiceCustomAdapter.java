@@ -55,6 +55,9 @@ public class VoiceCustomAdapter extends ListBaseAdapter<StarQuestionBean.CircleL
                 expends="花费30";
             }else if (circleListBean.getC_type()==3){
                 expends="花费60";
+            }else {
+                //防止传入的数据为未设置的
+                expends="花费15";
             }
             tv_num_time.setVisibility(View.VISIBLE);
             SpannableStringBuilder spannable = new SpannableStringBuilder(expends);
