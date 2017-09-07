@@ -160,6 +160,7 @@ public class MeetStarActivity extends BaseActivity {
                     ImageLoaderUtils.displaySmallPhoto(MeetStarActivity.this, imageView3, infoBean.getResultvalue().getHead_url_tail());
                     ImageLoaderUtils.displayWithDefaultImg(mContext, starBg, infoBean.getResultvalue().getBack_pic_tail(),R.drawable.rec_bg);
                     textView6.setText(String.format(getString(R.string.name_code), infoBean.getResultvalue().getStar_name(), code));
+                    name = infoBean.getResultvalue().getStar_name();
                     tv_work.setText(infoBean.getResultvalue().getWork());
                 }
             }
