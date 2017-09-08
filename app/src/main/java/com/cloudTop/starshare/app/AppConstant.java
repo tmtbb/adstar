@@ -51,6 +51,7 @@ public class AppConstant {
     public static final String PHOTO_DETAIL = "photo_detail";
     public static final String PHOTO_TAB_CLICK = "PHOTO_TAB_CLICK";
     public static final String VIDEO_PIC_PATH = "VIDEO_PIC_PATH";
+    public static final String VIDEO_PIC_FILE_PATH = "VIDEO_PIC_FILE_PATH";
     public static final String VIDEO_PATH = "VIDEO_PATH";
     public static final String VIDEO_TIME = "VIDEO_TIME";
 
