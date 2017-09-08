@@ -6,6 +6,68 @@
     android:background="@color/color_white_ffffffff"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/tv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:drawableLeft="@drawable/back_button"
+        android:paddingLeft="14dp"
+        android:paddingRight="30dp" />
+    <!--<TextView
+        android:id="@+id/tv_right_share"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:background="@android:color/transparent"
+        android:layout_gravity="right"
+        android:layout_marginRight="14dp"
+        android:drawableLeft="@drawable/share"
+        android:paddingLeft="14dp"
+        android:paddingRight="10dp" />-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:elevation="2dp"
+            app:cardCornerRadius="0dp">
+
+            <TextView
+                android:id="@+id/tv_meet_starts"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/color_FB9938"
+                android:gravity="center"
+                android:text="@string/meet_starts"
+                android:textColor="@color/color_f4f4f4"
+                android:textSize="@dimen/fontSize_16sp" />
+        </android.support.v7.widget.CardView>
+
+        <TextView
+            android:id="@+id/tv_buy_time"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/color_FB9938"
+            android:gravity="center"
+            android:text="@string/buy_time"
+            android:textColor="@color/color_f4f4f4"
+            android:textSize="@dimen/fontSize_16sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0.5"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="50dp"
+        android:background="@color/color_cccccc"></View>
+
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,9 +76,9 @@
         android:scrollbars="none">
 
         <LinearLayout
-            android:descendantFocusability="blocksDescendants"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:descendantFocusability="blocksDescendants"
             android:orientation="vertical">
 
             <FrameLayout
@@ -156,8 +218,7 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal"
-                android:visibility="visible"
-                >
+                android:visibility="visible">
 
                 <LinearLayout
                     android:id="@+id/ll_answers"
@@ -241,8 +302,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="22dp"
                 android:gravity="center_vertical"
-                android:visibility="visible"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
 
                 <ImageView
                     android:layout_width="3dp"
@@ -263,18 +324,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="visible"
                 android:layout_marginTop="15dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/ll_video_1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -283,8 +344,7 @@
                         <ImageView
                             android:id="@+id/img_video_1"
                             android:layout_width="match_parent"
-                            android:layout_height="120dp"
-                            />
+                            android:layout_height="120dp" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -301,18 +361,20 @@
                         android:layout_marginTop="5dp"
                         android:text="@string/star_answers"
                         android:textColor="#333333"
+                        android:maxLines="2"
+                        android:ellipsize="end"
                         android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/ll_video_2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -321,8 +383,7 @@
                         <ImageView
                             android:id="@+id/img_video_2"
                             android:layout_width="match_parent"
-                            android:layout_height="120dp"
-                            />
+                            android:layout_height="120dp" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -339,18 +400,20 @@
                         android:layout_marginTop="5dp"
                         android:text="@string/star_voice_made"
                         android:textColor="#333333"
+                        android:maxLines="2"
+                        android:ellipsize="end"
                         android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/ll_video_3"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <FrameLayout
                         android:layout_width="match_parent"
@@ -359,8 +422,7 @@
                         <ImageView
                             android:id="@+id/img_video_3"
                             android:layout_width="match_parent"
-                            android:layout_height="120dp"
-                            />
+                            android:layout_height="120dp" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -377,6 +439,8 @@
                         android:layout_marginTop="5dp"
                         android:text="@string/star_state"
                         android:textColor="#333333"
+                        android:maxLines="2"
+                        android:ellipsize="end"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -389,24 +453,23 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="visible"
                 android:layout_marginTop="15dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="visible">
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/dongtai_1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/img_dongtai_1"
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
-                         />
+                        android:layout_height="120dp" />
 
                     <TextView
                         android:id="@+id/tv_dongtai_1"
@@ -418,20 +481,19 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:visibility="gone"
                     android:id="@+id/dongtai_2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_weight="1"
                     android:gravity="center"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/img_dongtai_2"
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
-                        />
+                        android:layout_height="120dp" />
 
                     <TextView
                         android:id="@+id/tv_dongtai_2"
@@ -475,66 +537,4 @@
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
-
-    <TextView
-        android:id="@+id/tv_back"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:background="@android:color/transparent"
-        android:drawableLeft="@drawable/back_button"
-        android:paddingLeft="14dp"
-        android:paddingRight="30dp" />
-    <!--<TextView
-        android:id="@+id/tv_right_share"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:background="@android:color/transparent"
-        android:layout_gravity="right"
-        android:layout_marginRight="14dp"
-        android:drawableLeft="@drawable/share"
-        android:paddingLeft="14dp"
-        android:paddingRight="10dp" />-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="bottom"
-        android:orientation="horizontal">
-
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:elevation="2dp"
-            app:cardCornerRadius="0dp">
-
-            <TextView
-                android:id="@+id/tv_meet_starts"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/color_FB9938"
-                android:gravity="center"
-                android:text="@string/meet_starts"
-                android:textColor="@color/color_f4f4f4"
-                android:textSize="@dimen/fontSize_16sp" />
-        </android.support.v7.widget.CardView>
-
-        <TextView
-            android:id="@+id/tv_buy_time"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@color/color_FB9938"
-            android:gravity="center"
-            android:text="@string/buy_time"
-            android:textColor="@color/color_f4f4f4"
-            android:textSize="@dimen/fontSize_16sp" />
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_0.5"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="50dp"
-        android:background="@color/color_cccccc"></View>
 </FrameLayout>
