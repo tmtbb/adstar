@@ -95,7 +95,7 @@ public class AuctionMarketFragment extends BaseFragment {
         initAdapter();
 //        initData();
         initListener();
-        List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(code);
+        List<StarInfo> starInfos = GreenDaoManager.getInstance().queryStarList(code);
         if (starInfos.size() != 0) {
             StarInfo starInfo = starInfos.get(0);
             ImageLoaderUtils.displayWithDefaultImg(getActivity(), iv_src, starInfo.getPic1(), R.drawable.rec_bg);
@@ -119,7 +119,7 @@ public class AuctionMarketFragment extends BaseFragment {
     }
 
     private void initName() {
-        List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(code);
+        List<StarInfo> starInfos = GreenDaoManager.getInstance().queryStarList(code);
         if (starInfos.size() != 0) {
             StarInfo starInfo = starInfos.get(0);
             tv_have_name.setText(String.format(getActivity().getString(R.string.auction_have_time), starInfo.getName(), starInfo.getCode()));

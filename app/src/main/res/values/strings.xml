@@ -70,7 +70,7 @@
     <string name="recharge_wxpay">微信支付</string>
     <string name="money_bag_detail">钱包明细</string>
     <string name="bank_info">银行卡</string>
-    <string name="booking_star_list">预约名单</string>
+    <string name="booking_star_title">我关注的明星</string>
     <string name="have_talk">聊一聊</string>
     <string name="service_center">客服中心</string>
     <string name="service_weixin">客服微信</string>
@@ -265,6 +265,8 @@
     <string name="delegation_num">委托量</string>
     <string name="holding_star_time">持有时间</string>
     <string name="booking_star_status">约见情况</string>
+    <string name="booking_star_ask_by_video">视频提问</string>
+    <string name="booking_star_make_voice">定制语音</string>
     <string name="holding_times_count">总持有时间 %1$d 秒</string>
     <string name="times_p">¥ %1$.2f 秒</string>
     <string name="total_money_">¥ %1$.2f </string>

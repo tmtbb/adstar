@@ -336,7 +336,7 @@ public class SystemMessagesActivity extends BaseActivity {
             tv_state.setText(R.string.transfer);
             tv_xiangqing.setText("转让数量");
         }
-         List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(ordersListBean.getSymbol());
+         List<StarInfo> starInfos = GreenDaoManager.getInstance().queryStarList(ordersListBean.getSymbol());
          if (starInfos.size()!=0){
              StarInfo starInfo = starInfos.get(0);
              order_info.setText(String.format(getString(R.string.name_code), starInfo.getName(),ordersListBean.getSymbol()));

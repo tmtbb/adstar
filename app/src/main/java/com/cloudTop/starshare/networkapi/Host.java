@@ -60,9 +60,9 @@ public enum Host {
         //正式环境
         //return "tapi.smartdata-x.com";
 //        return "61.147.114.87";
-        //return "139.224.34.22";
-//        return "122.144.169.214";
-        return "nsb.smartdata-x.com";
+//        return "139.224.34.22";
+        return "122.144.169.214";
+//        return "nsb.smartdata-x.com";
         //return "139.224.18.190";
 //        return "61.147.114.78";
 //        return "192.168.8.131";
@@ -71,7 +71,7 @@ public enum Host {
     public static short getSocketServerPort() {
 
         return (short) 16006 ;
-        //return (short) 16070 ;
+//        return (short) 16070 ;
          //return (short) 16010 ;
 //        return (short) 12300 ;
           //return (short) 16104 ;

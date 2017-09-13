@@ -49,7 +49,7 @@ public class SystemMessageAdapter extends RecyclerView.Adapter {
         OrderReturnBeen.OrdersListBean bean = listData.get(position);
         ViewHolder viewHolder = (ViewHolder)holder;
         viewHolder.tv_time.setText(TimeUtil.formatData(TimeUtil.dateFormatYMDHM, bean.getOpenTime()));
-        List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(listData.get(position).getSymbol());
+        List<StarInfo> starInfos = GreenDaoManager.getInstance().queryStarList(listData.get(position).getSymbol());
         String ss = null ;
         if (bean.getBuyUid()==uid){
             ss = "求购," ;

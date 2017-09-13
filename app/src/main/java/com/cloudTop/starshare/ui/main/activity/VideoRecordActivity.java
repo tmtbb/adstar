@@ -16,6 +16,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.Surface;
@@ -484,6 +485,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         mVideoUploadManager = new PLShortVideoUploader(getApplicationContext(), uploadSetting);
         mVideoUploadManager.setUploadProgressListener(this);
         mVideoUploadManager.setUploadResultListener(this);
+        showTipToast("长安录制视频");
     }
 
     private void releaseMediaPlayer() {
@@ -492,6 +494,16 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
             mediaPlayer.release();
             mediaPlayer = null;
         }
+    }
+
+    private void showTipToast(String msg){
+        LayoutInflater inflater = getLayoutInflater();
+        View view = inflater.inflate(R.layout.videorecord_toast_custom, null);
+        Toast toast = new Toast(getApplicationContext());
+        toast.setGravity(Gravity.CENTER, 12, 40);
+        toast.setDuration(3000);
+        toast.setView(view);
+        toast.show();
     }
 
     private void playMedia() {

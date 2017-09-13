@@ -36,7 +36,7 @@ public class IndentAdapter extends ListBaseAdapter<EntrustReturnBeen.PositionsLi
         TextView tv_current_price = holder.getView(R.id.tv_current_price);
         TextView tv_state1 = holder.getView(R.id.tv_state1);
         TextView tv_state2 = holder.getView(R.id.tv_state2);
-        List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(positionsListBean.getSymbol());
+        List<StarInfo> starInfos = GreenDaoManager.getInstance().queryStarList(positionsListBean.getSymbol());
         if (starInfos.size() != 0) {
             StarInfo starInfo = starInfos.get(0);
             tv_name.setText(starInfo.getName());

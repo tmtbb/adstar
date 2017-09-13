@@ -79,6 +79,8 @@ public class BookingStarStatusFragment extends BaseFragment {
 
                 if (bookingStarList == null || bookingStarList.getResult() != 1) {
                     lrv.setNoMore(false);
+                    list.clear();
+                    lrv.refreshComplete(REQUEST_COUNT);
                     return;
                 }
 
