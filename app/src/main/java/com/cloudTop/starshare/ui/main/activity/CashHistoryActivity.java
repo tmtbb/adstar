@@ -1,6 +1,7 @@
 package com.cloudTop.starshare.ui.main.activity;
 
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.FrameLayout;
 
 import com.cloudTop.starshare.base.BaseActivity;
 import com.cloudTop.starshare.been.WithDrawCashHistoryBean;
@@ -29,6 +30,10 @@ public class CashHistoryActivity extends BaseActivity {
 
     @Bind(R.id.nt_title)
     NormalTitleBar ntTitle;
+
+    @Bind(R.id.parent_view)
+    FrameLayout parent_view;
+
     @Bind(R.id.lrv)
     LRecyclerView lrv;
     private CashHistoryAdapter cashHistoryAdapter;
@@ -73,11 +78,11 @@ public class CashHistoryActivity extends BaseActivity {
                     }
                 }
                 LogUtils.loge("提现记录失败---------------");
-
             }
 
             @Override
             public void onSuccess(List<WithDrawCashHistoryBean> listBean) {
+                closeErrorView();
                 LogUtils.loge("list.size()" + listBean.toString() + "," + listBean.size());
                 if (listBean == null || listBean.size() == 0) {
                     lrv.setNoMore(true);

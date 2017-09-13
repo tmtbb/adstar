@@ -280,7 +280,9 @@
     <string name="cash_all_money">全部提现</string>
     <string name="bank_card_user">持卡人</string>
     <string name="bank_card_number">卡号</string>
+    <string name="bank_card_user_city">开户城市</string>
     <string name="input_card_number">请输入您的卡号</string>
+    <string name="input_card_user_city">请输入开户城市</string>
     <string name="input_card_phone">请输入您的预留手机号</string>
     <string name="input_card_code">请输入验证码</string>
     <string name="phone_number_bank">手机号</string>
