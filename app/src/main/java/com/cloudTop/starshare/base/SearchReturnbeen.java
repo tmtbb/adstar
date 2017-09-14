@@ -30,6 +30,7 @@ public class SearchReturnbeen {
         private int gender;
         private String name;
         private String pic;
+        private String pic_tail="";
         private String symbol;
         private String wid;
 
@@ -49,12 +50,12 @@ public class SearchReturnbeen {
             this.name = name;
         }
 
-        public String getPic() {
-            return pic;
+        public String getPic_tail() {
+            return pic_tail;
         }
 
-        public void setPic(String pic) {
-            this.pic = pic;
+        public void setPic_tail(String pic) {
+            this.pic_tail = pic;
         }
 
         public String getSymbol() {

@@ -32,6 +32,7 @@ import butterknife.OnClick;
 /**
  * 用户资产管理
  * Created by Administrator on 2017/5/23.
+ * Change bY Shi on 2017-09-13 15:19:16
  */
 
 public class UserAssetsManageActivity extends BaseActivity implements View.OnClickListener {
@@ -143,13 +144,13 @@ public class UserAssetsManageActivity extends BaseActivity implements View.OnCli
                 }
                 break;
             case R.id.ll_user_cash:
-                ToastUtils.showShort("敬请期待");
-//                String cardNo = SharePrefUtil.getInstance().getCardNo();
-//                if (TextUtils.isEmpty(cardNo)) {
-//                    showBindBankDialog();
-//                } else {
-//                    startActivity(CashActivity.class);
-//                }
+//                ToastUtils.showShort("敬请期待");
+                String cardNo = SharePrefUtil.getInstance().getCardNo();
+                if (TextUtils.isEmpty(cardNo)) {
+                    showBindBankDialog();
+                } else {
+                    startActivity(CashActivity.class);
+                }
                 break;
         }
     }

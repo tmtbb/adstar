@@ -21,6 +21,7 @@ import com.cloudTop.starshare.ui.main.activity.StarTimeDealActivity;
 import com.cloudTop.starshare.utils.CheckLoginUtil;
 import com.cloudTop.starshare.utils.DisplayUtil;
 import com.cloudTop.starshare.utils.ImageLoaderUtils;
+import com.cloudTop.starshare.utils.LogUtils;
 
 import java.util.List;
 
@@ -69,7 +70,8 @@ public class HorizontalPagerAdapter extends PagerAdapter {
             params.setMargins(DisplayUtil.dip2px(23),0,DisplayUtil.dip2px(23),0);
         }
         CardView.setLayoutParams(params);
-        ImageLoaderUtils.displayWithDefaultImg(mContext,img_item,infoBean.getHome_pic(),R.drawable.buying_star);
+        LogUtils.loge("infoBean.getHome_pic_tail():"+infoBean.getHome_pic_tail());
+        ImageLoaderUtils.displayWithDefaultImg(mContext,img_item,infoBean.getHome_pic_tail(),R.drawable.buying_star);
         img_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +101,7 @@ public class HorizontalPagerAdapter extends PagerAdapter {
                     case 2:
                         StarListReturnBean.SymbolInfoBean symbolInfoBean = new StarListReturnBean.SymbolInfoBean();
                         symbolInfoBean.setSymbol(infoBean.getSymbol());
-                        symbolInfoBean.setPic(infoBean.getPic());
+                        symbolInfoBean.setPic_tail(infoBean.getPic_tail());
                         symbolInfoBean.setName(infoBean.getName());
                         symbolInfoBean.setWid(infoBean.getWid());
                         Intent intent3 = new Intent(mContext,StarTimeDealActivity.class);

@@ -24,6 +24,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 #LRecyclerview_library
+-keep class com.sun.jna.**{*;}
 -dontwarn com.github.jdsjlzx.**
 -keep class com.github.jdsjlzx.**{*;}
 -keep class butterknife.** { *; }
@@ -266,4 +267,14 @@ public <methods>;
  -keepclassmembers class * {
     public <init> (org.json.JSONObject);
  }
+ -keep class com.pili.pldroid.player.** { *; }
+ -keep class com.qiniu.qplayer.mediaEngine.MediaPlayer{*;}
+ -keep class com.qiniu.**{*;}
+ -keep class com.qiniu.**{public <init>();}
+ -ignorewarnings
+
+ -keep class tv.danmaku.ijk.** { *; }
+ -dontwarn tv.danmaku.ijk.**
+ -keep class com.shuyu.gsyvideoplayer.** { *; }
+ -dontwarn com.shuyu.gsyvideoplayer.**
 

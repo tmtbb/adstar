@@ -1104,6 +1104,10 @@ public class TimeUtil {
         SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm");
         return format.format(new Date(time));
     }
+    public static String getYMDTime(long time) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+        return format.format(new Date(time));
+    }
 
     public static String getNewFormatTime(long time) {
         SimpleDateFormat format = new SimpleDateFormat("MM月dd日 HH:mm");
@@ -1151,7 +1155,6 @@ public class TimeUtil {
         long hour = milliSecondTime /(60*60);
         long minute = (milliSecondTime - hour*60*60)/(60);
         long seconds = milliSecondTime - hour*60*60 - minute*60;
-        LogUtils.loge("hour"+hour+"minute"+minute+"seconds"+seconds+"milliSecondTime"+milliSecondTime);
         if(seconds >= 60 )
         {
             seconds = seconds % 60;

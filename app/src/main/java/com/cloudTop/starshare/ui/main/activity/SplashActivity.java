@@ -21,11 +21,50 @@ import com.cloudTop.starshare.utils.LogUtils;
 import com.testin.agent.Bugout;
 import com.testin.agent.BugoutConfig;
 
+import java.lang.ref.WeakReference;
+
 /**
  * Created by Administrator on 2017/5/5.
  */
 
 public class SplashActivity extends Activity {
+
+    private MyHandler myHandler;
+
+    private static class MyHandler extends Handler {
+        final private static int DATA_USER = 1;
+        private final WeakReference<SplashActivity> mActivity;
+
+        public MyHandler(SplashActivity sellActivity) {
+            mActivity = new WeakReference<SplashActivity>(sellActivity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            SplashActivity activity = mActivity.get();
+            if (activity != null && activity.isFinishing() == false) {
+                switch (msg.what) {
+                    case DATA_USER:
+                        activity.startNextAct();
+                        break;
+                }
+            }
+        }
+    }
+//
+//    private Handler mHandler = new Handler(){
+//        @Override
+//        public void handleMessage(Message msg) {
+//            switch (msg.what){
+//                case 1 :
+//                    startNextAct();
+//                    break;
+//            }
+//        }
+//
+//
+//    };
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,37 +72,30 @@ public class SplashActivity extends Activity {
         initView();
     }
 
-    private Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case 1 :
-                    startNextAct();
-                    break;
-            }
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        myHandler.removeCallbacksAndMessages(null);
+    }
 
 
-    };
     private void startNextAct() {
-        startActivity(new Intent(this,MainActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         overridePendingTransition(R.anim.act_in_from_right, R.anim.act_out_from_left);
         finish();
     }
 
 
-
     public void initView() {
-      Bugout.init(this, "1664ea921dcbe122834e440f7f584e2e", "yingyongbao");
-      initBugOut();
-        mHandler.sendEmptyMessageDelayed(1,2000);
-
-
+        Bugout.init(this, "1664ea921dcbe122834e440f7f584e2e", "yingyongbao");
+        initBugOut();
+        myHandler = new MyHandler(this);
+        myHandler.sendEmptyMessageDelayed(myHandler.DATA_USER, 2000);
         new Thread(new Runnable() {
             @Override
             public void run() {
                 final MyAddressBean ipAddress = GetIPAddressUtils.getIpAddress();
-                if (ipAddress.getData()==null){
+                if (ipAddress == null || ipAddress.getData() == null) {
                     return;
                 }
                 AppConfig.AREA_ID = Long.valueOf(ipAddress.getData().getArea_id());
@@ -78,17 +110,17 @@ public class SplashActivity extends Activity {
 
                     @Override
                     public void onSuccess(QiNiuAdressBean o) {
-                        LogUtils.loge("ysl_七牛"+o.toString());
+                        LogUtils.loge("ysl_七牛" + o.toString());
                         String area = ipAddress.getData().getArea();
-                        if ("华东".equals(area)&& !TextUtils.isEmpty(o.getQINIU_URL_HUADONG())){
+                        if ("华东".equals(area) && !TextUtils.isEmpty(o.getQINIU_URL_HUADONG())) {
                             AppConfig.QI_NIU_PIC_ADRESS = o.getQINIU_URL_HUADONG();
-                            LogUtils.loge("ysl_七牛"+"华东");
-                        }else if ("华北".equals(area)&& !TextUtils.isEmpty(o.getQINIU_URL_HUABEI())){
+                            LogUtils.loge("ysl_七牛" + "华东");
+                        } else if ("华北".equals(area) && !TextUtils.isEmpty(o.getQINIU_URL_HUABEI())) {
                             AppConfig.QI_NIU_PIC_ADRESS = o.getQINIU_URL_HUABEI();
-                            LogUtils.loge("ysl_七牛"+"华北");
-                        }else if ("华南".equals(area)&& !TextUtils.isEmpty(o.getQINIU_URL_HUANAN())){
+                            LogUtils.loge("ysl_七牛" + "华北");
+                        } else if ("华南".equals(area) && !TextUtils.isEmpty(o.getQINIU_URL_HUANAN())) {
                             AppConfig.QI_NIU_PIC_ADRESS = o.getQINIU_URL_HUANAN();
-                            LogUtils.loge("ysl_七牛"+"华南");
+                            LogUtils.loge("ysl_七牛" + "华南");
                         }
                     }
                 });
@@ -120,21 +152,21 @@ public class SplashActivity extends Activity {
     protected void onResume() {
         super.onResume();
         //* 注：回调 1
-       Bugout.onResume(this);
+        Bugout.onResume(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         //* 注：回调 2
-      Bugout.onPause(this);
+        Bugout.onPause(this);
 
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         //* 注：回调 3
-      Bugout.onDispatchTouchEvent(this, event);
+        Bugout.onDispatchTouchEvent(this, event);
         return super.dispatchTouchEvent(event);
     }
 

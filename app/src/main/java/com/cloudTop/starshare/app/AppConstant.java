@@ -9,6 +9,7 @@ public class AppConstant {
    //明星code
     public static final String STAR_CODE="STAR_CODE";
     public static final String PUBLISH_TYPE="PUBLISH_TYPE";
+    public static final String IS_PRESELL="IS_PRESELL";
     public static final String STAR_NAME="STAR_NAME";
     public static final String IS_PRESELL="IS_PRESELL";
     public static final String STAR_WID="STAR_WID";
@@ -50,6 +51,9 @@ public class AppConstant {
     public static final String PHOTO_DETAIL_IMGSRC = "photo_detail_imgsrc";
     public static final String PHOTO_DETAIL = "photo_detail";
     public static final String PHOTO_TAB_CLICK = "PHOTO_TAB_CLICK";
+    public static final String VIDEO_PIC_PATH = "VIDEO_PIC_PATH";
+    public static final String VIDEO_PATH = "VIDEO_PATH";
+    public static final String VIDEO_TIME = "VIDEO_TIME";
 
     public static final String NEWS_IMG_RES = "news_img_res";
     public static final String TRANSITION_ANIMATION_NEWS_PHOTOS = "transition_animation_news_photos";

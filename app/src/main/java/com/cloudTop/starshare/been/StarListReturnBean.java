@@ -22,6 +22,41 @@ public class StarListReturnBean implements Parcelable {
     }
 
     public static class SymbolInfoBean implements Parcelable {
+        /**
+
+         * change : 0
+         * currentPrice : 0
+         * home_button_pic :
+         * home_pic : http://wx2.sinaimg.cn/mw690/63885668ly1fgf8f38f61j243n27ib2f.jpg
+         * name : 黄晓明
+         * pchg : 0
+         * pic : http://tva3.sinaimg.cn/crop.0.0.640.640.180/671ee283jw8eap6aqgponj20hs0hs3yq.jpg
+         * priceTime : 1499775086
+         * pushlish_type : 2
+         * star_type : 4
+         * symbol : 1015
+         * sysTime : 1499775086
+         * wid : 1011730077315
+         */
+
+        private float change;
+        private float currentPrice;
+        private String home_button_pic;
+        private String home_button_pic_tail="";
+        private String home_pic;
+        private String home_pic_tail="";
+        private String name;
+        private float pchg;
+        private String pic;
+        private String pic_tail="";
+        private long priceTime;
+        private int pushlish_type;
+        private int star_type;
+        private String symbol;
+        private long sysTime;
+        private String wid;
+        private String work;
+
         public float getChange() {
             return change;
         }
@@ -39,19 +74,19 @@ public class StarListReturnBean implements Parcelable {
         }
 
         public String getHome_button_pic() {
-            return home_button_pic;
+            return home_button_pic_tail;
         }
 
-        public void setHome_button_pic(String home_button_pic) {
-            this.home_button_pic = home_button_pic;
+        public void setHome_button_pic(String home_button_pic_tail) {
+            this.home_button_pic_tail = home_button_pic_tail;
         }
 
         public String getHome_pic() {
-            return home_pic;
+            return home_pic_tail;
         }
 
-        public void setHome_pic(String home_pic) {
-            this.home_pic = home_pic;
+        public void setHome_pic(String home_pic_tail) {
+            this.home_pic_tail = home_pic_tail;
         }
 
         public String getName() {
@@ -70,12 +105,12 @@ public class StarListReturnBean implements Parcelable {
             this.pchg = pchg;
         }
 
-        public String getPic() {
-            return pic;
+        public String getPic_tail() {
+            return pic_tail;
         }
 
-        public void setPic(String pic) {
-            this.pic = pic;
+        public void setPic_tail(String pic_tail) {
+            this.pic_tail = pic_tail;
         }
 
         public long getPriceTime() {
@@ -134,38 +169,6 @@ public class StarListReturnBean implements Parcelable {
             this.work = work;
         }
 
-        /**
-
-         * change : 0
-         * currentPrice : 0
-         * home_button_pic :
-         * home_pic : http://wx2.sinaimg.cn/mw690/63885668ly1fgf8f38f61j243n27ib2f.jpg
-         * name : 黄晓明
-         * pchg : 0
-         * pic : http://tva3.sinaimg.cn/crop.0.0.640.640.180/671ee283jw8eap6aqgponj20hs0hs3yq.jpg
-         * priceTime : 1499775086
-         * pushlish_type : 2
-         * star_type : 4
-         * symbol : 1015
-         * sysTime : 1499775086
-         * wid : 1011730077315
-         */
-
-        private float change;
-        private float currentPrice;
-        private String home_button_pic;
-        private String home_pic;
-        private String name;
-        private float pchg;
-        private String pic;
-        private long priceTime;
-        private int pushlish_type;
-        private int star_type;
-        private String symbol;
-        private long sysTime;
-        private String wid;
-        private String work;
-
 
         @Override
         public int describeContents() {
@@ -177,10 +180,13 @@ public class StarListReturnBean implements Parcelable {
             dest.writeFloat(this.change);
             dest.writeFloat(this.currentPrice);
             dest.writeString(this.home_button_pic);
+            dest.writeString(this.home_button_pic_tail);
             dest.writeString(this.home_pic);
+            dest.writeString(this.home_pic_tail);
             dest.writeString(this.name);
             dest.writeFloat(this.pchg);
             dest.writeString(this.pic);
+            dest.writeString(this.pic_tail);
             dest.writeLong(this.priceTime);
             dest.writeInt(this.pushlish_type);
             dest.writeInt(this.star_type);
@@ -197,10 +203,13 @@ public class StarListReturnBean implements Parcelable {
             this.change = in.readFloat();
             this.currentPrice = in.readFloat();
             this.home_button_pic = in.readString();
+            this.home_button_pic_tail = in.readString();
             this.home_pic = in.readString();
+            this.home_pic_tail = in.readString();
             this.name = in.readString();
             this.pchg = in.readFloat();
             this.pic = in.readString();
+            this.pic_tail = in.readString();
             this.priceTime = in.readLong();
             this.pushlish_type = in.readInt();
             this.star_type = in.readInt();
@@ -210,7 +219,7 @@ public class StarListReturnBean implements Parcelable {
             this.work = in.readString();
         }
 
-        public static final Parcelable.Creator<SymbolInfoBean> CREATOR = new Parcelable.Creator<SymbolInfoBean>() {
+        public static final Creator<SymbolInfoBean> CREATOR = new Creator<SymbolInfoBean>() {
             @Override
             public SymbolInfoBean createFromParcel(Parcel source) {
                 return new SymbolInfoBean(source);
@@ -221,26 +230,6 @@ public class StarListReturnBean implements Parcelable {
                 return new SymbolInfoBean[size];
             }
         };
-
-        @Override
-        public String toString() {
-            return "SymbolInfoBean{" +
-                    "change=" + change +
-                    ", currentPrice=" + currentPrice +
-                    ", home_button_pic='" + home_button_pic + '\'' +
-                    ", home_pic='" + home_pic + '\'' +
-                    ", name='" + name + '\'' +
-                    ", pchg=" + pchg +
-                    ", pic='" + pic + '\'' +
-                    ", priceTime=" + priceTime +
-                    ", pushlish_type=" + pushlish_type +
-                    ", star_type=" + star_type +
-                    ", symbol='" + symbol + '\'' +
-                    ", sysTime=" + sysTime +
-                    ", wid='" + wid + '\'' +
-                    ", work='" + work + '\'' +
-                    '}';
-        }
     }
 
 

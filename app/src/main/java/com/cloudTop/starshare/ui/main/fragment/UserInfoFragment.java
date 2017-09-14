@@ -29,7 +29,6 @@ import com.cloudTop.starshare.been.EventBusMessage;
 import com.cloudTop.starshare.been.ExpendLineBean;
 import com.cloudTop.starshare.been.IdentityInfoBean;
 import com.cloudTop.starshare.been.RegisterReturnBeen;
-import com.cloudTop.starshare.been.ReturnAmountBean;
 import com.cloudTop.starshare.been.StarInfoReturnBean;
 import com.cloudTop.starshare.greendao.GreenDaoManager;
 import com.cloudTop.starshare.listener.OnAPIListener;
@@ -92,8 +91,8 @@ public class UserInfoFragment extends BaseFragment {
     TextView userTotalAssets;
     @Bind(R.id.tv_order_star)
     TextView userOrderStar;
-    @Bind(R.id.zxing_butten)
-    TextView zxing_butten;
+//    @Bind(R.id.zxing_butten)
+//    TextView zxing_butten;
     @Bind(R.id.ll_me_deal)
     LinearLayout ll_me_deal;
     @Bind(R.id.headImage)
@@ -116,10 +115,10 @@ public class UserInfoFragment extends BaseFragment {
     View redTalkTip;
     private boolean flag = true;
     private TextView version;
-    private TextView tv_acc_num;
+    //private TextView tv_acc_num;
     private Bitmap bitmap;
     private String expendLine = "";
-    TextView tv_success_num;
+    //TextView tv_success_num;
 
 
     @Override
@@ -180,8 +179,8 @@ public class UserInfoFragment extends BaseFragment {
 
     private void initFindById() {
         version = (TextView) rootView.findViewById(R.id.tv_version);
-        tv_acc_num = (TextView) rootView.findViewById(R.id.tv_acc_num);
-        tv_success_num = (TextView) rootView.findViewById(R.id.tv_success_num);
+        //tv_acc_num = (TextView) rootView.findViewById(R.id.tv_acc_num);
+        //tv_success_num = (TextView) rootView.findViewById(R.id.tv_success_num);
     }
 
     private void initData() {
@@ -203,7 +202,7 @@ public class UserInfoFragment extends BaseFragment {
 
     @OnClick({R.id.iv_user_info_bg, R.id.headImage, R.id.ll_user_money_bag, R.id.ll_user_order_star,
             R.id.ll_customer_service, R.id.ll_common_problem, R.id.ll_general_settings, R.id.btn_my_referee, R.id.iv_star_talk,R.id.ll_me_deal
-    ,R.id.zxing_butten})
+    })
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_user_info_bg:
@@ -218,6 +217,7 @@ public class UserInfoFragment extends BaseFragment {
                 startActivity(UserAssetsManageActivity.class);
                 break;
             case R.id.ll_user_order_star:
+//                testStar();
                 ViewConcurrencyUtils.preventConcurrency();  //防止并发
                 startActivity(BookingStarActivity.class);
                 break;
@@ -245,10 +245,10 @@ public class UserInfoFragment extends BaseFragment {
                 Intent intent = new Intent(getActivity(),TransactionDetailActivity.class);
                 getActivity().startActivity(intent);
                 break;
-            case R.id.zxing_butten:
-                ViewConcurrencyUtils.preventConcurrency();  //防止并发
-                showPopupWindow();
-                break;
+//            case R.id.zxing_butten:
+//                ViewConcurrencyUtils.preventConcurrency();  //防止并发
+//                showPopupWindow();
+//                break;
         }
     }
 
@@ -303,30 +303,30 @@ public class UserInfoFragment extends BaseFragment {
                 requestBalance();
                 requestIdentity();
                 requestStarCount();
-                requestReturnMount();
+                //requestReturnMount();
                 initGeTui();
                 break;
         }
     }
 
-    private void requestReturnMount() {
-        NetworkAPIFactoryImpl.getDealAPI().getReturnAmount(SharePrefUtil.getInstance().getUserId(),new OnAPIListener<ReturnAmountBean>() {
-            @Override
-            public void onError(Throwable ex) {
-                LogUtils.loge("佣金-----------");
-            }
-
-            @Override
-            public void onSuccess(ReturnAmountBean returnAmountBean) {
-                LogUtils.loge("佣金-----------" + returnAmountBean.toString());
-                if (returnAmountBean.getResult()==1){
-                    //tv_current_price.setText(String.format("%.2f", priceinfoBean.getCurrentPrice()));
-                    tv_acc_num.setText(String.format("%.2f", returnAmountBean.getTotal_amount()));
-                    tv_success_num.setText(String.valueOf(returnAmountBean.getTotal_num()));
-                }
-            }
-        });
-    }
+//    private void requestReturnMount() {
+//        NetworkAPIFactoryImpl.getDealAPI().getReturnAmount(SharePrefUtil.getInstance().getUserId(),new OnAPIListener<ReturnAmountBean>() {
+//            @Override
+//            public void onError(Throwable ex) {
+//                LogUtils.loge("佣金-----------");
+//            }
+//
+//            @Override
+//            public void onSuccess(ReturnAmountBean returnAmountBean) {
+//                LogUtils.loge("佣金-----------" + returnAmountBean.toString());
+//                if (returnAmountBean.getResult()==1){
+//                    //tv_current_price.setText(String.format("%.2f", priceinfoBean.getCurrentPrice()));
+//                    tv_acc_num.setText(String.format("%.2f", returnAmountBean.getTotal_amount()));
+//                    tv_success_num.setText(String.valueOf(returnAmountBean.getTotal_num()));
+//                }
+//            }
+//        });
+//    }
 
     private void requestIdentity() {
         NetworkAPIFactoryImpl.getDealAPI().identity(new OnAPIListener<IdentityInfoBean>() {
@@ -352,7 +352,7 @@ public class UserInfoFragment extends BaseFragment {
             @Override
             public void onSuccess(AssetDetailsBean bean) {
                 LogUtils.loge("余额请求成功:" + bean.toString());
-                userTotalAssets.setText(String.format("%.2f",bean.getBalance()));
+                userTotalAssets.setText(String.format("%.2f",bean.getBalance())+"");
                 if (bean.getIs_setpwd() != -100) {
                     SharePrefUtil.getInstance().saveAssetInfo(bean);
                 }
@@ -429,7 +429,9 @@ public class UserInfoFragment extends BaseFragment {
     }
 
     private void testStar() {
-        NetworkAPIFactoryImpl.getInformationAPI().starInfo("17682310986", "123", 1, new OnAPIListener<StarInfoReturnBean>() {
+        String phoneNum = SharePrefUtil.getInstance().getPhoneNum();
+        String code = SharePrefUtil.getInstance().getUserLoginCode();
+        NetworkAPIFactoryImpl.getInformationAPI().starInfo(phoneNum, code, 1, new OnAPIListener<StarInfoReturnBean>() {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.loge("明星列表失败----.-----------");
@@ -437,7 +439,7 @@ public class UserInfoFragment extends BaseFragment {
 
             @Override
             public void onSuccess(StarInfoReturnBean starInfoReturnBean) {
-                LogUtils.loge("明星列表成功---------");
+                LogUtils.loge("明星列表成功---------"+starInfoReturnBean.getList().get(0).toString());
                 if (starInfoReturnBean.getResult() == 1) {
                     GreenDaoManager.getInstance().saveNoteLists(starInfoReturnBean.getList());
                 }

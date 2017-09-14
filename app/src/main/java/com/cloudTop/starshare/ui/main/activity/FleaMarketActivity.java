@@ -25,10 +25,19 @@ import android.view.WindowManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.cloudTop.starshare.R;
+import com.cloudTop.starshare.app.AppConstant;
 import com.cloudTop.starshare.base.BaseActivity;
 import com.cloudTop.starshare.been.StarDanMuNewInfo;
+import com.cloudTop.starshare.been.StarListReturnBean;
 import com.cloudTop.starshare.listener.OnAPIListener;
+import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
+import com.cloudTop.starshare.ui.main.adapter.FleaMarketAdapter;
 import com.cloudTop.starshare.utils.DisplayUtil;
+import com.cloudTop.starshare.utils.ImageLoaderUtils;
+import com.cloudTop.starshare.utils.LogUtils;
+import com.cloudTop.starshare.utils.SharePrefUtil;
+import com.cloudTop.starshare.widget.BiliDanmukuParser;
 import com.cloudTop.starshare.widget.CenteredImageSpan;
 import com.cloudTop.starshare.widget.CircleDrawable;
 import com.cloudTop.starshare.widget.NormalTitleBar;
@@ -39,15 +48,6 @@ import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
 import com.netease.nimlib.jsbridge.util.LogUtil;
-import com.cloudTop.starshare.R;
-import com.cloudTop.starshare.app.AppConstant;
-import com.cloudTop.starshare.been.StarListReturnBean;
-import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
-import com.cloudTop.starshare.ui.main.adapter.FleaMarketAdapter;
-import com.cloudTop.starshare.utils.ImageLoaderUtils;
-import com.cloudTop.starshare.utils.LogUtils;
-import com.cloudTop.starshare.utils.SharePrefUtil;
-import com.cloudTop.starshare.widget.BiliDanmukuParser;
 
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
@@ -331,6 +331,7 @@ public class FleaMarketActivity extends BaseActivity {
                         danmaku.textShadowColor = 0; // 重要：如果有图文混排，最好不要设置描边(设textShadowColor=0)，否则会进行两次复杂的绘制导致运行效率降低
                         LogUtil.e("mDanmakuView.addDanmaku(danmaku);:");
                         mDanmakuView.addDanmaku(danmaku);
+                        bitmap.recycle();
                     }
                 });
     }

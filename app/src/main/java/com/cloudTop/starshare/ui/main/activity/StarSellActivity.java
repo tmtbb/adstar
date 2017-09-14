@@ -194,8 +194,8 @@ public class StarSellActivity extends BaseActivity {
     }
 
     private void showViewData(final ShoppingStarBean shoppingStarBean) {
-        ImageLoaderUtils.displayWithDefaultImg(this, iv_star_bg, shoppingStarBean.getBack_pic_url(), R.drawable.rec_bg);
-        ImageLoaderUtils.displaySmallPhoto(this, imageView_icon, shoppingStarBean.getHead_url());
+        ImageLoaderUtils.displayWithDefaultImg(this, iv_star_bg, shoppingStarBean.getBack_pic_url_tail(), R.drawable.rec_bg);
+        ImageLoaderUtils.displaySmallPhoto(this, imageView_icon, shoppingStarBean.getHead_url_tail());
         tv_name.setText(shoppingStarBean.getStar_name());
         tv_preice.setText(String.format(getString(R.string.times_p),shoppingStarBean.getPublish_price()));
         tv_star_job.setText(starwork);
@@ -285,7 +285,6 @@ public class StarSellActivity extends BaseActivity {
     private void refreshTime() {
         if (tv_time_count != null && secondTime > 0 && myHandler != null) {
             tv_time_count.setText(TimeUtil.calculatTime(secondTime));
-            LogUtils.loge(secondTime+"");
             secondTime--;
             myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 1000);
         } else if (tv_time_count != null && secondTime <= 0) {

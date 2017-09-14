@@ -22,36 +22,35 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.cloudTop.starshare.base.BaseActivity;
-import com.cloudTop.starshare.been.OrderReturnBeen;
-import com.cloudTop.starshare.listener.OnAPIListener;
-import com.cloudTop.starshare.ui.view.ShareControlerView;
-import com.cloudTop.starshare.utils.ToastUtils;
-import com.cloudTop.starshare.widget.NormalTitleBar;
-import com.cloudTop.starshare.widget.indicator.PageIndicator;
-import com.netease.nimlib.jsbridge.util.LogUtil;
-import com.umeng.socialize.UMShareListener;
-import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.app.AppConstant;
+import com.cloudTop.starshare.base.BaseActivity;
+import com.cloudTop.starshare.been.OrderReturnBeen;
 import com.cloudTop.starshare.been.RequestResultBean;
+import com.cloudTop.starshare.been.StarDetailInfoBean;
 import com.cloudTop.starshare.been.StatServiceListBean;
-import com.cloudTop.starshare.greendao.GreenDaoManager;
-import com.cloudTop.starshare.greendao.StarInfo;
+import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
 import com.cloudTop.starshare.ui.main.adapter.GridViewPageAdapter;
 import com.cloudTop.starshare.ui.main.adapter.MeetTypeAdapter;
+import com.cloudTop.starshare.ui.view.ShareControlerView;
 import com.cloudTop.starshare.utils.DisplayUtil;
 import com.cloudTop.starshare.utils.ImageLoaderUtils;
 import com.cloudTop.starshare.utils.JudgeIsSetPayPwd;
 import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.TimeUtil;
+import com.cloudTop.starshare.utils.ToastUtils;
 import com.cloudTop.starshare.utils.timeselectutils.AddressPickTask;
 import com.cloudTop.starshare.utils.timeselectutils.City;
 import com.cloudTop.starshare.utils.timeselectutils.County;
 import com.cloudTop.starshare.utils.timeselectutils.DatePicker;
 import com.cloudTop.starshare.utils.timeselectutils.Province;
+import com.cloudTop.starshare.widget.NormalTitleBar;
 import com.cloudTop.starshare.widget.PasswordView;
+import com.cloudTop.starshare.widget.indicator.PageIndicator;
+import com.netease.nimlib.jsbridge.util.LogUtil;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +93,8 @@ public class MeetStarActivity extends BaseActivity {
     PasswordView passwordView;
     @Bind(R.id.tv_meet_rule)
     TextView meetRule;
+    @Bind(R.id.tv_work)
+    TextView tv_work;
     private int current_end_year;
     private int current_end_month;
     private int current_end_day;
@@ -137,11 +138,33 @@ public class MeetStarActivity extends BaseActivity {
         nl_title.setRightImagVisibility(true);
         setMeetRule();
         getIntentData();
+        getStarInfo();
         //getDateTime();
 //        getMeetType();
         getMeetInfo();
         initListener();
         initPopWindow();
+    }
+
+    private void getStarInfo() {
+        NetworkAPIFactoryImpl.getInformationAPI().getStarDetailInfo(code, new OnAPIListener<StarDetailInfoBean>() {
+            @Override
+            public void onError(Throwable ex) {
+
+            }
+
+            @Override
+            public void onSuccess(StarDetailInfoBean infoBean) {
+                LogUtils.loge("明星个人详情" + infoBean.toString());
+                if (infoBean.getResultvalue()!=null){
+                    ImageLoaderUtils.displaySmallPhoto(MeetStarActivity.this, imageView3, infoBean.getResultvalue().getHead_url_tail());
+                    ImageLoaderUtils.displayWithDefaultImg(mContext, starBg, infoBean.getResultvalue().getBack_pic_tail(),R.drawable.rec_bg);
+                    textView6.setText(String.format(getString(R.string.name_code), infoBean.getResultvalue().getStar_name(), code));
+                    name = infoBean.getResultvalue().getStar_name();
+                    tv_work.setText(infoBean.getResultvalue().getWork());
+                }
+            }
+        });
     }
 
     private void setMeetRule() {
@@ -219,26 +242,7 @@ public class MeetStarActivity extends BaseActivity {
 
     private void getIntentData() {
         Intent intent = getIntent();
-        type = intent.getIntExtra(AppConstant.BUY_TRANSFER_INTENT_TYPE, 0);
-        wid = intent.getStringExtra(AppConstant.STAR_WID);
         code = intent.getStringExtra(AppConstant.STAR_CODE);
-        head_url = intent.getStringExtra(AppConstant.STAR_HEAD_URL);
-        back_url = intent.getStringExtra(AppConstant.STAR_BACKGROUND_URL);
-        name = intent.getStringExtra(AppConstant.STAR_NAME);
-        textView6.setText(String.format(getString(R.string.name_code), name, code));
-        ImageLoaderUtils.displaySmallPhoto(this, imageView3, head_url);
-        if (TextUtils.isEmpty(back_url)){
-            List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(code);
-            if (starInfos != null && starInfos.size() != 0) {
-                StarInfo starInfo = starInfos.get(0);
-                LogUtils.loge("starInfo.getPic1()"+starInfo.getPic1());
-                ImageLoaderUtils.displayWithDefaultImg(mContext, starBg, starInfo.getPic1(),R.drawable.rec_bg);
-            }
-        }else {
-            LogUtils.loge("starInfo.getPic1()-back_url"+back_url);
-            ImageLoaderUtils.displayWithDefaultImg(mContext, starBg, back_url,R.drawable.rec_bg);
-        }
-
     }
 
     private void getDateTime() {
@@ -389,7 +393,7 @@ public class MeetStarActivity extends BaseActivity {
                 View childAt = gridView.getChildAt(selectPosition);
                 TextView textView = (TextView) childAt.findViewById(tv_content);
                 ImageView img_select = (ImageView) childAt.findViewById(imagview);
-                ImageLoaderUtils.displaySmallPhotoRound(MeetStarActivity.this,img_select,lists.get(selectPager).get(selectPosition).getUrl2());
+                ImageLoaderUtils.displaySmallPhotoRoundSplice(MeetStarActivity.this,img_select,lists.get(selectPager).get(selectPosition).getUrl2_tail());
                 textView.setTextColor(mContext.getResources().getColor(R.color.color_BDC6B8));
             }
             selectPager = view_pager.getCurrentItem();
@@ -397,7 +401,7 @@ public class MeetStarActivity extends BaseActivity {
             LogUtils.loge("当前的position:" + selectPosition);
             TextView textView = (TextView) view.findViewById(tv_content);
             ImageView img_selects = (ImageView) view.findViewById(imagview);
-            ImageLoaderUtils.displaySmallPhotoRound(MeetStarActivity.this,img_selects,lists.get(selectPager).get(selectPosition).getUrl1());
+            ImageLoaderUtils.displaySmallPhotoRoundSplice(MeetStarActivity.this,img_selects,lists.get(selectPager).get(selectPosition).getUrl1_tail());
             textView.setTextColor(mContext.getResources().getColor(R.color.color_CB4232));
             price = lists.get(selectPager).get(selectPosition).getPrice();
             orderPrice.setText(String.format(getString(R.string.num_time_text), price));

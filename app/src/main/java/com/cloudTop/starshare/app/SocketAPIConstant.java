@@ -26,6 +26,7 @@ public interface SocketAPIConstant {
     }
 
     interface OperateCode {
+        Short GetKey = 3043;
         Short Products = 5001;
         Short Login = 3003;
         Short WXLogin = 3013;
@@ -126,7 +127,13 @@ public interface SocketAPIConstant {
         Short getDanMuInfoAll = 6023;
         Short getWeituo = 6025;
         Short getNowPricce = 4011;
-        Short getExpendLine = 10033;
         Short getQiniu = 4015;
+        Short getExpendLine = 10033;
+        Short getQiniuToken = 15029;
+        Short postQuestion = 15019;
+        Short getStarQuestion = 15017;
+        Short getUserQuestion = 15015;
+        Short BuyQuestion = 15025;
+        Short getNewStarVideo = 15027;
     }
 }

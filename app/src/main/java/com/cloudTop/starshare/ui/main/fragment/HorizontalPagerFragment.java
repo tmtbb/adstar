@@ -84,7 +84,7 @@ public class HorizontalPagerFragment extends BaseFragment {
                     closeErrorView();
                     HomePageInfoBean.SymbolInfoBean bean = new HomePageInfoBean.SymbolInfoBean();
                     bean.setPushlish_type(-1);
-                    bean.setHome_pic(homePageInfoBean.getHome_last_pic());
+                    bean.setHome_pic_tail(homePageInfoBean.getHome_last_pic_tail());
                     symbol_info.add(bean);
                     adapter = new HorizontalPagerAdapter(getContext(), symbol_info,haveVirtualKey);
                     if (!haveInitPager){

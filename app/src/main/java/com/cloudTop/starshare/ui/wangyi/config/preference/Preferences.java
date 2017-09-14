@@ -30,9 +30,11 @@ public class Preferences {
     }
 
     private static void saveString(String key, String value) {
-        SharedPreferences.Editor editor = getSharedPreferences().edit();
-        editor.putString(key, value);
-        editor.commit();
+        if (getSharedPreferences().edit()!=null){
+            SharedPreferences.Editor editor = getSharedPreferences().edit();
+            editor.putString(key, value);
+            editor.commit();
+        }
     }
 
     private static String getString(String key) {

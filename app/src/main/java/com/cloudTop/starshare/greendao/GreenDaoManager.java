@@ -47,8 +47,16 @@ public class GreenDaoManager {
      * 根据明星code,取出用户信息
      * @return 用户信息
      */
-    public static List<StarInfo> queryLove(String codes) {
+    public static List<StarInfo> queryStarList(String codes) {
         return starInfoDao.queryBuilder().where(StarInfoDao.Properties.Code.eq(codes)).list();
+    }
+
+    /**
+     * 根据明星code,取出用户信息
+     * @return 用户信息
+     */
+    public static StarInfo queryStar(String codes) {
+        return starInfoDao.queryBuilder().where(StarInfoDao.Properties.Code.eq(codes)).unique();
     }
 
 
@@ -121,7 +129,7 @@ public class GreenDaoManager {
      * @param starInfo
      */
     public void cacheUserInfo(StarInfo starInfo) {
-        List<StarInfo> oldInfos = queryLove(starInfo.getCode());
+        List<StarInfo> oldInfos = queryStarList(starInfo.getCode());
         if (oldInfos != null && oldInfos.size() > 0) {
             starInfo.setId(oldInfos.get(0).getId());
         }
@@ -158,7 +166,7 @@ public class GreenDaoManager {
 //     *
 //     * @return 用户信息
 //     */
-//    public  List<StarInfo> queryLove(String codes) {
+//    public  List<StarInfo> queryStarList(String codes) {
 //        return starInfoDao.queryBuilder().where(StarInfoDao.Properties.Code.eq(codes)).list();
 //    }
 

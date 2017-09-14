@@ -32,16 +32,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.cloudTop.starshare.R;
+import com.cloudTop.starshare.app.AppConstant;
 import com.cloudTop.starshare.base.BaseActivity;
 import com.cloudTop.starshare.been.NowPriceBean;
 import com.cloudTop.starshare.been.StarDanMuNewInfo;
-import com.cloudTop.starshare.listener.OnAPIListener;
-import com.cloudTop.starshare.widget.CenteredImageSpan;
-import com.netease.nimlib.jsbridge.util.LogUtil;
-import com.cloudTop.starshare.R;
-import com.cloudTop.starshare.app.AppConstant;
 import com.cloudTop.starshare.been.StarListReturnBean;
 import com.cloudTop.starshare.been.TradingStatusBeen;
+import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
 import com.cloudTop.starshare.utils.CheckLoginUtil;
 import com.cloudTop.starshare.utils.DisplayUtil;
@@ -50,7 +48,9 @@ import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.SharePrefUtil;
 import com.cloudTop.starshare.utils.TimeUtil;
 import com.cloudTop.starshare.widget.BiliDanmukuParser;
+import com.cloudTop.starshare.widget.CenteredImageSpan;
 import com.cloudTop.starshare.widget.CircleDrawable;
+import com.netease.nimlib.jsbridge.util.LogUtil;
 
 import java.io.InputStream;
 import java.lang.ref.WeakReference;
@@ -178,7 +178,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
         tv_info = (TextView) findViewById(R.id.tv_info);
         tv_price = (TextView) findViewById(tv_preice);
         tv_time = (TextView) findViewById(R.id.tv_time);
-        ImageLoaderUtils.displaySmallPhoto(mContext, img_head, symbolInfoBean.getPic());
+        ImageLoaderUtils.displaySmallPhoto(mContext, img_head, symbolInfoBean.getPic_tail());
         tv_name.setText(symbolInfoBean.getName());
         RelativeLayout rl_bg = (RelativeLayout) findViewById(R.id.rl_bg);
         int i = new Random().nextInt(11);
@@ -335,6 +335,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
                         danmaku.textShadowColor = 0; // 重要：如果有图文混排，最好不要设置描边(设textShadowColor=0)，否则会进行两次复杂的绘制导致运行效率降低
                         LogUtil.e("mDanmakuView.addDanmaku(danmaku);:");
                         mDanmakuView.addDanmaku(danmaku);
+                        bitmap.recycle();
                     }
                 });
 
@@ -396,7 +397,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
                 intent.putExtra(AppConstant.STAR_WID, symbolInfoBean.getWid());
                 intent.putExtra(AppConstant.STAR_NAME, symbolInfoBean.getName());
                 intent.putExtra(AppConstant.STAR_CODE, symbolInfoBean.getSymbol());
-                intent.putExtra(AppConstant.STAR_HEAD_URL, symbolInfoBean.getPic());
+                intent.putExtra(AppConstant.STAR_HEAD_URL, symbolInfoBean.getPic_tail());
                 startActivity(intent);
                 break;
             case R.id.tv_ask_to_buy:
@@ -408,7 +409,7 @@ public class StarTimeDealActivity extends BaseActivity implements View.OnClickLi
                 intent2.putExtra(AppConstant.STAR_WID, symbolInfoBean.getWid());
                 intent2.putExtra(AppConstant.STAR_NAME, symbolInfoBean.getName());
                 intent2.putExtra(AppConstant.STAR_CODE, symbolInfoBean.getSymbol());
-                intent2.putExtra(AppConstant.STAR_HEAD_URL, symbolInfoBean.getPic());
+                intent2.putExtra(AppConstant.STAR_HEAD_URL, symbolInfoBean.getPic_tail());
                 startActivity(intent2);
                 break;
             case R.id.img_head:

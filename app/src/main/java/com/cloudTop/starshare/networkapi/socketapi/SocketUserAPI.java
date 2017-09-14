@@ -9,6 +9,7 @@ import com.cloudTop.starshare.been.QiNiuAdressBean;
 import com.cloudTop.starshare.been.RegisterReturnBeen;
 import com.cloudTop.starshare.been.RegisterReturnWangYiBeen;
 import com.cloudTop.starshare.been.RegisterVerifyCodeBeen;
+import com.cloudTop.starshare.been.UptokenBean;
 import com.cloudTop.starshare.been.WXinLoginReturnBeen;
 import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.UserAPI;
@@ -142,6 +143,7 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
         map.put("token_time", token_time);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Token,
                 SocketAPIConstant.ReqeutType.User, map);
+        socketDataPacket.setIsZipEncrypt((byte) 0);
         requestEntity(socketDataPacket, LoginReturnInfo.class, listener);
     }
 
@@ -172,6 +174,7 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
         map.put("ttype", 1);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Update,
                 SocketAPIConstant.ReqeutType.User, map);
+        socketDataPacket.setIsZipEncrypt((byte) 0);
         requestEntity(socketDataPacket, CheckUpdateInfoEntity.class, listener);
     }
 
@@ -185,6 +188,7 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
                 SocketAPIConstant.ReqeutType.User, map);
         requestJsonObject(socketDataPacket, listener);
     }
+
     @Override
     public void getQiNiuPicDress(OnAPIListener<QiNiuAdressBean> listener) {
         HashMap<String, Object> map = new HashMap<>();
@@ -192,114 +196,28 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
                 SocketAPIConstant.ReqeutType.Time, map);
         requestEntity(socketDataPacket,QiNiuAdressBean.class, listener);
     }
-//    @Override
-//    public void login(String phone, String password, String deviceId, OnAPIListener<LoginReturnEntity> listener) {
-//        LogUtil.d("开始登录");
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("phone", phone);
-//        map.put("pwd", password);
-//        map.put("source", 2);
-//        map.put("deviceId", MyApplication.getApplication().getAndroidId());
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Login,
-//                SocketAPIConstant.ReqeutType.User, map);
-//        requestEntity(socketDataPacket, LoginReturnEntity.class, listener);
-//    }
-//
-//    @Override
-//    public void wxLogin(String openId, OnAPIListener<LoginReturnEntity> listener) {
-//        LogUtil.d("微信登录");
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("openId", openId);
-//        map.put("deviceId", MyApplication.getApplication().getAndroidId());
-//        map.put("source", 2);
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.WXLogin,
-//                SocketAPIConstant.ReqeutType.User, map);
-//        requestEntity(socketDataPacket, LoginReturnEntity.class, listener);
-//    }
-//
-//    @Override
-//    public void register(String phone, String password, String vCode, long memberId, String agentId, String recommend, OnAPIListener<RegisterReturnEntity> listener) {
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("phone", phone);
-//        map.put("pwd", password);
-//        map.put("vCode", vCode);
-//        map.put("timeStamp", RegisterVerifyCodeEntry.timeStamp);
-//        map.put("vToken", RegisterVerifyCodeEntry.vToken);
-//        map.put("memberId", memberId);
-//        map.put("agentId", agentId);
-//        map.put("recommend", recommend);
-//        map.put("deviceId", MyApplication.getApplication().getAndroidId());
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Register,
-//                SocketAPIConstant.ReqeutType.User, map);
-//        requestEntity(socketDataPacket, RegisterReturnEntity.class, listener);
-//    }
+
+    @Override
+    public void getQiNiuToken(OnAPIListener<UptokenBean> listener) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("uid", SharePrefUtil.getInstance().getUserId());
+        map.put("token", SharePrefUtil.getInstance().getToken());
+
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.getQiniuToken,
+                SocketAPIConstant.ReqeutType.CircleInfo, map);
+        requestEntity(socketDataPacket,UptokenBean.class, listener);
+    }
+
+    @Override
+    public void getKey(OnAPIListener<String> listener) {
+        LogUtils.logd("获取密钥Key---");
+        HashMap<String, Object> map = new HashMap<>();
+        //传入操作码getQiniu,请求类型Time，HashMap三个参数构建一个Socket数据包
+        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.GetKey,
+                SocketAPIConstant.ReqeutType.User, map);
+        socketDataPacket.setIsZipEncrypt((byte) 0);
+        requestEntity(socketDataPacket,String.class, listener);
+    }
 
 
-//
-//    @Override
-//    public void verifyCode(String phone, int verifyType, OnAPIListener<VerifyCodeReturnEntry> listener) {
-//        LogUtil.d("负责加入网络请求---获取短信验证码--------");
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-//        map.put("token", NetworkAPIFactoryImpl.getConfig().getUserToken());
-//        map.put("verifyType", verifyType);  //0-注册 1-登录 2-更新服务（暂用 1）
-//        map.put("phone", phone);
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.VerifyCode,
-//                SocketAPIConstant.ReqeutType.User, map);
-//        requestEntity(socketDataPacket, VerifyCodeReturnEntry.class, listener);
-//    }
-//
-
-//
-//    @Override
-//    public void test(int testID, OnAPIListener<Object> listener) {
-//        LogUtil.d("心跳包-----------");
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", testID);
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Test,
-//                SocketAPIConstant.ReqeutType.User, map);
-//        requestEntity(socketDataPacket, VerifyCodeReturnEntry.class, listener);
-//    }
-//
-//    @Override
-//    public void loginWithToken(OnAPIListener<LoginReturnEntity> listener) {
-//        LogUtil.d("用token登录");
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-//        map.put("token", NetworkAPIFactoryImpl.getConfig().getUserToken());
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Token,
-//                SocketAPIConstant.ReqeutType.User, map);
-//        requestEntity(socketDataPacket, LoginReturnEntity.class, listener);
-//    }
-//
-//    @Override
-//    public void balance(OnAPIListener<BalanceInfoEntity> listener) {
-//        LogUtil.d("请求余额信息");
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("id", NetworkAPIFactoryImpl.getConfig().getUserId());
-//        map.put("token", NetworkAPIFactoryImpl.getConfig().getUserToken());
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.Balance,
-//                SocketAPIConstant.ReqeutType.Verify, map);
-//        requestEntity(socketDataPacket, BalanceInfoEntity.class, listener);
-//    }
-//
-//    @Override
-//    public void bindNumber(String phone, String openid, String password, String vCode, long memberId, String agentId, String recommend, String nickname, String headerUrl, OnAPIListener<RegisterReturnEntity> listener) {
-//        HashMap<String, Object> map = new HashMap<>();
-//        map.put("phone", phone);
-//        map.put("openid", openid);
-//        map.put("pwd", password);
-//        map.put("vCode", vCode);
-//        map.put("nickname", nickname);
-//        map.put("headerUrl", nickname);
-//        map.put("timeStamp", RegisterVerifyCodeEntry.timeStamp);
-//        map.put("vToken", RegisterVerifyCodeEntry.vToken);
-//        map.put("memberId", memberId);
-//        map.put("agentId", agentId);
-//        map.put("recommend", recommend);
-//        map.put("deviceId", MyApplication.getApplication().getAndroidId());
-//        SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.WXBind,
-//                SocketAPIConstant.ReqeutType.User, map);
-//        requestEntity(socketDataPacket, RegisterReturnEntity.class, listener);
-//    }
 }

@@ -36,15 +36,22 @@ public class StarDetailInfoBean {
 
         private long acc_id;
         private String back_pic;
+        private String back_pic_tail="";
         private String head_url;
+        private String head_url_tail="";
         private String portray1;
+        private String portray1_tail="";
         private String portray2;
+        private String portray2_tail="";
         private String portray3;
+        private String portray3_tail="";
         private String portray4;
+        private String portray4_tail="";
         private String star_code;
         private String star_name;
         private String work;
         private int star_tpye;
+        private int publish_type;
 
         public String getWork() {
             return work;
@@ -62,52 +69,52 @@ public class StarDetailInfoBean {
             this.acc_id = acc_id;
         }
 
-        public String getBack_pic() {
-            return back_pic;
+        public String getBack_pic_tail() {
+            return back_pic_tail;
         }
 
-        public void setBack_pic(String back_pic) {
-            this.back_pic = back_pic;
+        public void setBack_pic_tail(String back_pic_tail) {
+            this.back_pic_tail = back_pic_tail;
         }
 
-        public String getHead_url() {
-            return head_url;
+        public String getHead_url_tail() {
+            return head_url_tail;
         }
 
-        public void setHead_url(String head_url) {
-            this.head_url = head_url;
+        public void setHead_url_tail(String head_url_tail) {
+            this.head_url_tail = head_url_tail;
         }
 
-        public String getPortray1() {
-            return portray1;
+        public String getPortray1_tail() {
+            return portray1_tail;
         }
 
-        public void setPortray1(String portray1) {
-            this.portray1 = portray1;
+        public void setPortray1_tail(String portray1_tail) {
+            this.portray1_tail = portray1_tail;
         }
 
-        public String getPortray2() {
-            return portray2;
+        public String getPortray2_tail() {
+            return portray2_tail;
         }
 
-        public void setPortray2(String portray2) {
-            this.portray2 = portray2;
+        public void setPortray2_tail(String portray2_tail) {
+            this.portray2_tail = portray2_tail;
         }
 
-        public String getPortray3() {
-            return portray3;
+        public String getPortray3_tail() {
+            return portray3_tail;
         }
 
-        public void setPortray3(String portray3) {
-            this.portray3 = portray3;
+        public void setPortray3_tail(String portray3_tail) {
+            this.portray3_tail = portray3_tail;
         }
 
-        public String getPortray4() {
-            return portray4;
+        public String getPortray4_tail() {
+            return portray4_tail;
         }
 
-        public void setPortray4(String portray4) {
-            this.portray4 = portray4;
+        public void setPortray4_tail(String portray4_tail) {
+            this.portray4_tail = portray4_tail;
         }
 
         public String getStar_code() {
@@ -132,6 +139,14 @@ public class StarDetailInfoBean {
 
         public void setStar_tpye(int star_tpye) {
             this.star_tpye = star_tpye;
+        }
+
+        public int getPublish_type() {
+            return publish_type;
+        }
+
+        public void setPublish_type(int publish_type) {
+            this.publish_type = publish_type;
         }
 
         @Override

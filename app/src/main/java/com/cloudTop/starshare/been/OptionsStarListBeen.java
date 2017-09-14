@@ -44,17 +44,18 @@ public class OptionsStarListBeen {
          */
 
         private String head;
+        private String head_tail="";
         private String name;
         private double price;
         private String starcode;
         private double updown;
 
-        public String getHead() {
-            return head;
+        public String getHead_tail() {
+            return head_tail;
         }
 
-        public void setHead(String head) {
-            this.head = head;
+        public void setHead_tail(String head_tail) {
+            this.head_tail = head_tail;
         }
 
         public String getName() {

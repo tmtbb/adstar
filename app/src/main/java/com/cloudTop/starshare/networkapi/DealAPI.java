@@ -88,7 +88,7 @@ public interface DealAPI {
     void bankCardInfo(String cardNo, OnAPIListener<BankInfoBean> listener);//获取银行账户信息
 
     //
-    void bindCard(String bankUsername, String account, OnAPIListener<BankInfoBean> listener);//获取银行账户信息
+    void bindCard(String bankUsername, String account, String province, String city, OnAPIListener<BankInfoBean> listener);//获取银行账户信息
 
     void unBindCard(OnAPIListener<ResultCodeBeen> listener);//解绑操作
 
