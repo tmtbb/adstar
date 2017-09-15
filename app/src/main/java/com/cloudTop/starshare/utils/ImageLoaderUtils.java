@@ -17,9 +17,9 @@ import java.io.File;
  * Description : 图片加载工具类 使用glide框架封装
  */
 public class ImageLoaderUtils {
-
     public static void display(Context context, ImageView imageView, String url, int placeholder, int error) {
         url = AppConfig.QI_NIU_PIC_ADRESS+url;
+        LogUtils.loge("ysl_url"+url);
         if (imageView == null) {
             throw new IllegalArgumentException("argument error");
         }
@@ -29,6 +29,7 @@ public class ImageLoaderUtils {
 
     public static void display(Context context, ImageView imageView, String url) {
         url = AppConfig.QI_NIU_PIC_ADRESS+url;
+        LogUtils.loge("ysl_url"+url);
         if (imageView == null) {
             throw new IllegalArgumentException("argument error");
         }
@@ -60,6 +61,7 @@ public class ImageLoaderUtils {
      */
     public static void displaySmallPhoto(Context context, ImageView imageView, String url) {
         url = AppConfig.QI_NIU_PIC_ADRESS+url;
+        LogUtils.loge("ysl_url"+url);
         if (imageView == null) {
             throw new IllegalArgumentException("argument error");
         }
@@ -94,7 +96,7 @@ public class ImageLoaderUtils {
 //    }
 
     /**
-     * 小圆图,专用头像
+     * 小圆图,专用头像,用户头像不拼接
      * @param context
      * @param imageView
      * @param url
@@ -105,13 +107,34 @@ public class ImageLoaderUtils {
         }
         Glide.with(context).load(url)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.user_default_head)
-                .error(R.drawable.user_default_head)
+                .placeholder(R.drawable.deflut_icon)
+                .error(R.drawable.deflut_icon)
                 .centerCrop()
                 .crossFade()
                 .transform(new GlideRoundTransformUtil(context))
                 .into(imageView);
     }
+
+    /**
+     * 小圆图,非用户专用头像,链接拼接类型
+     * @param context
+     * @param imageView
+     * @param url
+     */
+    public static void displaySmallPhotoRoundSplice(Context context, ImageView imageView, String url) {
+        url = AppConfig.QI_NIU_PIC_ADRESS+url;
+        if (imageView == null) {
+            throw new IllegalArgumentException("argument error");
+        }
+        Glide.with(context).load(url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .error(R.drawable.deflut_icon)
+                .centerCrop()
+                .crossFade()
+                .transform(new GlideRoundTransformUtil(context))
+                .into(imageView);
+    }
+
     public static void displayBigPhoto(Context context, ImageView imageView, String url) {
         url = AppConfig.QI_NIU_PIC_ADRESS+url;
         if (imageView == null) {
@@ -157,6 +180,7 @@ public class ImageLoaderUtils {
 
     public static void displayWithDefaultImg(Context context, ImageView imageView, String url,int resurce) {
         url = AppConfig.QI_NIU_PIC_ADRESS+url;
+        LogUtils.loge("ysl_url"+url);
         if (imageView == null) {
             throw new IllegalArgumentException("argument error");
         }
@@ -182,6 +206,7 @@ public class ImageLoaderUtils {
     //预览图
     public static void displayWithPreviewImg(Context context, final ImageView imageView, String url,int resurce) {
         url = AppConfig.QI_NIU_PIC_ADRESS+url;
+        LogUtils.loge("ysl_url"+url);
         if (imageView == null) {
             throw new IllegalArgumentException("argument error");
         }

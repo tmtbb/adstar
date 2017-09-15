@@ -60,20 +60,21 @@ public enum Host {
         //正式环境
         //return "tapi.smartdata-x.com";
 //        return "61.147.114.87";
-        //return "139.224.34.22";
+
+//        return "139.224.34.22";//开发环境
+
+        return "122.144.169.214";//测试环境
+//        return "nsb.smartdata-x.com";
         //return "139.224.18.190";
-        //return  "122.144.169.214" ;
 //        return "61.147.114.78";
 //        return "192.168.8.131";
-        //星云
-        return "122.144.169.214";
     }
 
     public static short getSocketServerPort() {
-        //return (short) 16006 ;
+
+        return (short) 16006 ;
+//        return (short) 16070 ;//开发环境端口
          //return (short) 16010 ;
-        //星云
-        return (short) 17001 ;
 //        return (short) 12300 ;
           //return (short) 16104 ;
         //return (short) 16060;

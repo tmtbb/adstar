@@ -21,7 +21,7 @@ import butterknife.Bind;
 
 /**
  * Created by Administrator on 2017/5/15.
- * 行情明星热度废弃
+ * 行情明星热度
  */
 
 public class MarketFragment extends BaseFragment {

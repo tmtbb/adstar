@@ -37,7 +37,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2017/5/24.
- * 转让页面
+ * 转让
  */
 
 public class TransferMarketFragment extends BaseFragment {

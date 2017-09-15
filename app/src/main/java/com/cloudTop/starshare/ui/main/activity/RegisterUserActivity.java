@@ -103,8 +103,8 @@ public class RegisterUserActivity extends BaseActivity {
             wxLogin.setVisibility(View.GONE);
             threeLogin.setVisibility(View.GONE);
         } else {
-            //wxLogin.setVisibility(View.VISIBLE);
-            //threeLogin.setVisibility(View.VISIBLE);
+            wxLogin.setVisibility(View.VISIBLE);
+            threeLogin.setVisibility(View.VISIBLE);
         }
 
         initIdDialog();
@@ -311,7 +311,7 @@ public class RegisterUserActivity extends BaseActivity {
                 public void onError(Throwable ex) {
                     stopProgressDialog();
                     LogUtils.loge("错误--------------");
-                    //ToastUtils.showShort("网络异常,请检查网络连接");
+                    ToastUtils.showShort("网络异常,请检查网络连接");
                 }
 
                 @Override
