@@ -218,7 +218,7 @@
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/ll_answers"
@@ -303,7 +303,7 @@
                 android:layout_marginTop="22dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="3dp"
@@ -326,7 +326,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="15dp"
                 android:orientation="horizontal"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/ll_video_1"
