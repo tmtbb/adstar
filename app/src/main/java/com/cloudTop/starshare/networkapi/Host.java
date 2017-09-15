@@ -63,8 +63,8 @@ public enum Host {
 
 //        return "139.224.34.22";//开发环境
 
-        return "122.144.169.214";//测试环境
-//        return "nsb.smartdata-x.com";
+//        return "122.144.169.214";//测试环境
+        return "nsb.smartdata-x.com";
         //return "139.224.18.190";
 //        return "61.147.114.78";
 //        return "192.168.8.131";
