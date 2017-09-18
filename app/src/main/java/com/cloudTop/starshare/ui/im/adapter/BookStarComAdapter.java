@@ -54,7 +54,7 @@ public class BookStarComAdapter extends ListBaseAdapter<StarMailListBeen.Deposit
             ImageLoaderUtils.displaySmallPhoto(mContext,iv_star_head,listBean.getHead_url_tail());
             tv_star_name.setText(listBean.getStarname());
 
-            LogUtils.loge("contactList"+contactList.size());
+//            LogUtils.loge("contactList"+contactList.size());
             if (contactList!=null&&contactList.size()!=0){
                 for (RecentContact contact : contactList) {
                     LogUtils.loge("contact_adpter_contact.getUnreadCount():"+contact.getUnreadCount()+contact.getContactId());
