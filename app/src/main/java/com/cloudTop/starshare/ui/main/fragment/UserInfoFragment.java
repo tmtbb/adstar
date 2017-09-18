@@ -439,7 +439,7 @@ public class UserInfoFragment extends BaseFragment {
 
             @Override
             public void onSuccess(StarInfoReturnBean starInfoReturnBean) {
-                LogUtils.loge("明星列表成功---------"+starInfoReturnBean.getList().get(0).toString());
+//                LogUtils.loge("明星列表成功---------"+starInfoReturnBean.getList().get(0).toString());
                 if (starInfoReturnBean.getResult() == 1) {
                     GreenDaoManager.getInstance().saveNoteLists(starInfoReturnBean.getList());
                 }
