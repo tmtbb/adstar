@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("com.cloudTop.starshare", appContext.getPackageName());
+        assertEquals("com.cloudTop.starcloud", appContext.getPackageName());
     }
 }

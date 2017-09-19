@@ -1094,6 +1094,7 @@ public class TimeUtil {
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
         return format.format(new Date(time));
     }
+
     //毫秒转化为YD
     public static String getYD(long time) {
         SimpleDateFormat format = new SimpleDateFormat("MM-dd");
@@ -1104,6 +1105,7 @@ public class TimeUtil {
         SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm");
         return format.format(new Date(time));
     }
+
     public static String getYMDTime(long time) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
         return format.format(new Date(time));
@@ -1142,7 +1144,7 @@ public class TimeUtil {
 
     //定义默认时区为0的，将毫秒转为HH:mm:ss
     public static String getHMS(long time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss" , Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         sdf.setTimeZone(TimeZone.getTimeZone("GMT+0"));
         Date date = new Date(time);
         sdf.format(date);
@@ -1150,41 +1152,68 @@ public class TimeUtil {
     }
 
     //将秒转化为 时：分：秒 格式
-    public  static String calculatTime(long milliSecondTime) {
+    public static String calculatTime(long milliSecondTime) {
 
-        long hour = milliSecondTime /(60*60);
-        long minute = (milliSecondTime - hour*60*60)/(60);
-        long seconds = milliSecondTime - hour*60*60 - minute*60;
-        if(seconds >= 60 )
-        {
+        long hour = milliSecondTime / (60 * 60);
+        long minute = (milliSecondTime - hour * 60 * 60) / (60);
+        long seconds = milliSecondTime - hour * 60 * 60 - minute * 60;
+        if (seconds >= 60) {
             seconds = seconds % 60;
-            minute+=seconds/60;
+            minute += seconds / 60;
         }
-        if(minute >= 60)
-        {
+        if (minute >= 60) {
             minute = minute % 60;
-            hour  += minute/60;
+            hour += minute / 60;
         }
 
         String sh = "";
-        String sm ="";
+        String sm = "";
         String ss = "";
-        if(hour <10) {
+        if (hour < 10) {
             sh = "0" + String.valueOf(hour);
-        }else {
+        } else {
             sh = String.valueOf(hour);
         }
-        if(minute <10) {
+        if (minute < 10) {
             sm = "0" + String.valueOf(minute);
-        }else {
+        } else {
             sm = String.valueOf(minute);
         }
-        if(seconds <10) {
+        if (seconds < 10) {
             ss = "0" + String.valueOf(seconds);
-        }else {
+        } else {
             ss = String.valueOf(seconds);
         }
 
-        return sh +":"+sm+":"+ ss;
+        return sh + ":" + sm + ":" + ss;
+    }
+
+    public static String getNetTime() {
+        SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+        return dff.format(new Date());
+    }
+
+    public static long getCurrentTimeInLong() {
+        return System.currentTimeMillis();
+    }
+//    public static long getNetTimeInLong(){
+//        SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+//        Date date = dff.get2DigitYearStart();
+//    }
+
+    /**
+     * 增加或减少当前时间
+     *
+     * @param date         需要修改的时间对象
+     * @param timeNumer    修改的数量
+     * @param CalendarFlag 使用Calendar的一些属相来设置,这个参数取Calendar.SECOND，则timeNumer增加的是秒的数量
+     * @return
+     */
+    public static Date add(Date date, int timeNumer, int CalendarFlag) {
+        Calendar.getInstance().setTime(date);
+        Calendar.getInstance().add(CalendarFlag, timeNumer);
+        return Calendar.getInstance().getTime();
     }
 }

@@ -96,7 +96,7 @@ public class AppApplication extends BaseApplication {
         String processName = getProcessName(this);
         LogUtils.loge("------------processName:" + processName);
         if (processName != null) {
-            if (processName.equals("com.cloudTop.starshare")) {
+            if (processName.equals("com.cloudTop.starcloud")) {
                 //Fabric.with(this, new Crashlytics());
                 //初始化logger
                 LogUtils.logInit(BuildConfig.LOG_DEBUG);
@@ -111,11 +111,11 @@ public class AppApplication extends BaseApplication {
                     return;
                 }
                 LeakCanary.install(this);
-            } else if (processName.equals("com.cloudTop.starshare:core")) {
+            } else if (processName.equals("com.cloudTop.starcloud:core")) {
 
-            } else if (processName.equals("com.cloudTop.starshare:cosine")) {
+            } else if (processName.equals("com.cloudTop.starcloud:cosine")) {
 
-            } else if (processName.equals("com.cloudTop.starshare:pushservice")) {
+            } else if (processName.equals("com.cloudTop.starcloud:pushservice")) {
 
             }
         }

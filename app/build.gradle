@@ -13,7 +13,7 @@ android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
     defaultConfig {
-        applicationId "com.cloudTop.starshare"
+        applicationId "com.cloudTop.starcloud"
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 20170918
@@ -28,9 +28,9 @@ android {
         multiDexEnabled true
 
         manifestPlaceholders = [
-                GETUI_APP_ID : "j6hP8vFv4Q8juUqTmnPPy6",
-                GETUI_APP_KEY : "5Tb2US9CEg8RsqqYlamnP1",
-                GETUI_APP_SECRET : "4DXXxrRirbAhqYJor3THd",
+                GETUI_APP_ID : "HA9wao0Mxy7BPUu18po5zA",
+                GETUI_APP_KEY : "i2RtWjHUYs7sju2VQXcMV7",
+                GETUI_APP_SECRET : "mPM2noSYeMAGhOHbpFj4W8",
                 PACKAGE_NAME : applicationId
         ]
 

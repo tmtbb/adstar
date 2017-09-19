@@ -185,7 +185,7 @@
         android:id="@+id/nl_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_gravity="top"></com.cloudTop.starshare.widget.NormalTitleBar>
+        android:layout_gravity="top"/>
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="50dp"
