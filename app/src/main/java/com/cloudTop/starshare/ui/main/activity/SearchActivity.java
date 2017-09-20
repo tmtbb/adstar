@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.cloudTop.starshare.base.BaseActivity;
+import com.cloudTop.starshare.utils.CheckLoginUtil;
 import com.cloudTop.starshare.widget.NormalTitleBar;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
@@ -83,18 +84,52 @@ public class SearchActivity extends BaseActivity implements View.OnClickListener
         recyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                if(CheckLoginUtil.checkLogin(SearchActivity.this) == false){
+                    startActivity(LoginActivity.class);
+                    return;
+                }
                 SearchReturnbeen.StarsinfoBean starsinfoBean = list.get(position);
                 StarListReturnBean.SymbolInfoBean bean = new StarListReturnBean.SymbolInfoBean();
+                bean.setPushlish_type(starsinfoBean.getPublishType());
+                bean.setWork(starsinfoBean.getWrok());
                 bean.setPic_tail(starsinfoBean.getPic_tail());
                 bean.setSymbol(starsinfoBean.getSymbol());
                 bean.setName(starsinfoBean.getName());
                 bean.setWid(starsinfoBean.getWid());
                 bean.setStar_type(1);
+                toStartDetailView(bean);
+            }
+        });
+    }
+
+
+    private void toStartDetailView(StarListReturnBean.SymbolInfoBean bean){
+        switch (bean.getPushlish_type()){
+            case -1:
+                Intent intent0 = new Intent(mContext,CircleFriendsActivity.class);
+                mContext.startActivity(intent0);
+                break;
+            case 0:
+                Intent intent1 = new Intent(mContext,StarSellActivity.class);
+                intent1.putExtra(AppConstant.STAR_CODE, bean.getSymbol());
+                intent1.putExtra(AppConstant.AUCTION_TYPE, bean.getWork());
+                intent1.putExtra(AppConstant.PUBLISH_TYPE, bean.getPushlish_type());
+                intent1.putExtra(AppConstant.IS_PRESELL,true);
+                mContext.startActivity(intent1);
+                break;
+            case 1:
+                Intent intent2 = new Intent(mContext,StarSellActivity.class);
+                intent2.putExtra(AppConstant.STAR_CODE, bean.getSymbol());
+                intent2.putExtra(AppConstant.AUCTION_TYPE, bean.getWork());
+                intent2.putExtra(AppConstant.PUBLISH_TYPE, bean.getPushlish_type());
+                mContext.startActivity(intent2);
+                break;
+            case 2:
                 Intent intent = new Intent(SearchActivity.this, StarTimeDealActivity.class);
                 intent.putExtra(AppConstant.SYMBOL_INFO_BEAN, bean);
                 startActivity(intent);
-            }
-        });
+                break;
+        }
     }
 
     private void initListener() {
