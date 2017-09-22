@@ -36,6 +36,7 @@
     <string name="open_show">公开展示</string>
     <string name="user_total_assets">资产总额</string>
     <string name="user_buyed_star">已购明星</string>
+    <string name="begin_times">距离发售还有</string>
     <string name="end_times">距离结束还有</string>
     <string name="star_list">明星列表</string>
 
@@ -239,6 +240,7 @@
     <string name="sure_meet">确定约见</string>
     <string name="meet_start">约见名人</string>
     <string name="shells">发售</string>
+    <string name="pre_shells">预售</string>
     <string name="meet_starts">约见明星</string>
     <string name="order_details">订单详情</string>
     <string name="meet_content">请输入您对此次约见的其他要求200字以内...</string>
