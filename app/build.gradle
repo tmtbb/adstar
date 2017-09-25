@@ -53,9 +53,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
+            signingConfig signingConfigs.config
             buildConfigField "boolean", "LOG_DEBUG", "true"
         }
     }
+
+
+
+
     sourceSets {
         main {
             jniLibs.srcDirs = ['libs']

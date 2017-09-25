@@ -32,6 +32,7 @@ import com.cloudTop.starshare.utils.ImageLoaderUtils;
 
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimeZone;
@@ -248,7 +249,12 @@ public class StarSellActivity extends BaseActivity {
     }
 
     private void getRefreshTime() {
-        secondTime = TimeUtil.getCurrentTimeInLong()/1000;
+        try {
+            secondTime = TimeUtil.getNetTimeInLong()/1000;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            secondTime = TimeUtil.getCurrentTimeInLong()/1000;
+        }
         if (myHandler != null) {
             myHandler.removeCallbacksAndMessages(null);
             myHandler.sendEmptyMessage(myHandler.GRT_DATA);

@@ -1188,20 +1188,137 @@ public class TimeUtil {
         return sh + ":" + sm + ":" + ss;
     }
 
-    public static String getNetTime() {
+    public static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final SimpleDateFormat DATE_FORMAT_DATE    = new SimpleDateFormat("yyyy-MM-dd");
+    public static final Calendar CAL = Calendar.getInstance();
+    public static final int YEAR =  Calendar.YEAR;
+    public static final int DATE =  Calendar.DATE;
+    public static final int MONTH =  Calendar.MONTH;
+
+    private TimeUtil() {
+        throw new AssertionError();
+
+    }
+
+    /**
+     * 把timeInMillis转化成"yyyy-MM-dd HH:mm:ss"格式的时间字符串返回
+     * @param timeInMillis  毫秒级时间
+     * @return
+     */
+    public static String getTimeString(long timeInMillis) {
+        return getTimeString(timeInMillis, DEFAULT_DATE_FORMAT);
+    }
+
+    /**
+     * 把date转化成"yyyy-MM-dd HH:mm:ss"格式的时间字符串返回
+     * @param date  Date对象
+     * @return
+     */
+    public static String getTimeString(Date date) {
+        return DEFAULT_DATE_FORMAT.format(date);
+    }
+
+    /**
+     * 把timeInMillis转化成dateFormat格式的时间字符串返回
+     * @param timeInMillis  毫秒级时间
+     * @param dateFormat
+     * @return
+     */
+    public static String getTimeString(long timeInMillis, SimpleDateFormat dateFormat) {
+        return dateFormat.format(new Date(timeInMillis));
+    }
+
+    /**
+     * 把date转化成dateFormat格式的时间字符串返回
+     * @param date  Date对象
+     * @param dateFormat  格式对象
+     * @return
+     */
+    public static String getTimeString(Date date, SimpleDateFormat dateFormat) {
+        return dateFormat.format(date);
+    }
+
+    /**
+     * 把date转化成dateFormat格式的时间字符串返回
+     * @param time  Date对象
+     * @param dateFormat  格式对象
+     * @return
+     */
+    public static Date getTimeString(String time, SimpleDateFormat dateFormat) throws ParseException {
+        return dateFormat.parse(time);
+    }
+
+    /**
+     * 把字符串按照"yyyy-MM-dd HH:mm:ss"格式 转化成时间Date对象返回
+     * @param time  时间字符串
+     * @return
+     */
+    public static Date getTimeDate(String time) throws ParseException {
+        return DEFAULT_DATE_FORMAT.parse(time);
+    }
+
+    /****
+     * 把字符串按照指定格式 转化成时间Date对象返回
+     * @param time  时间字符串
+     * @param dateFormat  时间格式对象
+     * @return
+     */
+    public static Date getTimeDate(String time, SimpleDateFormat dateFormat) throws ParseException {
+        return dateFormat.parse(time);
+    }
+
+    public static String getNetTimeInString() {
         SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
         return dff.format(new Date());
     }
 
+    public static String getNetTimeInString(SimpleDateFormat dateFormat) {
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+        return dateFormat.format(new Date());
+    }
+
+    public static long getNetTimeInLong() throws ParseException {
+        SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+        Date date = DEFAULT_DATE_FORMAT.parse(dff.format(new Date()));
+        return date.getTime();
+    }
+
+    public static long getNetTimeInLong(SimpleDateFormat dateFormat) throws ParseException {
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+        Date date = DEFAULT_DATE_FORMAT.parse(dateFormat.format(new Date()));
+        return date.getTime();
+    }
+
+
+
+    /**
+     * get current time in milliseconds
+     *
+     * @return
+     */
     public static long getCurrentTimeInLong() {
         return System.currentTimeMillis();
     }
-//    public static long getNetTimeInLong(){
-//        SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
-//        Date date = dff.get2DigitYearStart();
-//    }
+
+    /**
+     * get current time in milliseconds, format is {@link #DEFAULT_DATE_FORMAT}
+     *
+     * @return
+     */
+    public static String getCurrentTimeInString() {
+        return getTimeString(getCurrentTimeInLong());
+    }
+
+    /**
+     * get current time in milliseconds
+     *
+     * @return
+     */
+    public static String getCurrentTimeInString(SimpleDateFormat dateFormat) {
+        return getTimeString(getCurrentTimeInLong(), dateFormat);
+    }
 
     /**
      * 增加或减少当前时间
