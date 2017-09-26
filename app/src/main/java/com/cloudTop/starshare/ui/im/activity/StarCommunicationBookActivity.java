@@ -238,7 +238,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
                 showData();
             }
             //checkunReadMsg();
-            LogUtils.loge("contactList1"+recentContacts.size());
+//            LogUtils.loge("contactList1"+recentContacts.size());
         }
     };
 

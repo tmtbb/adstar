@@ -27,7 +27,7 @@ import java.lang.ref.WeakReference;
  * Created by Administrator on 2017/5/5.
  */
 
-public class SplashActivity extends Activity {
+public class  SplashActivity extends Activity {
 
     private MyHandler myHandler;
 
