@@ -11,8 +11,8 @@ import java.util.List;
  * Created by Administrator on 2017/7/11.
  */
 
-public class HomePageInfoBean  {
-    private String home_last_pic_tail="";
+public class HomePageInfoBean {
+    private String home_last_pic_tail = "";
     private List<SymbolInfoBean> symbol_info;
 
     public List<SymbolInfoBean> getSymbol_info() {
@@ -31,7 +31,8 @@ public class HomePageInfoBean  {
         this.home_last_pic_tail = home_last_pic_tail;
     }
 
-    public static class SymbolInfoBean  implements Parcelable {
+    public static class SymbolInfoBean implements Parcelable {
+
         /**
          * change : 0
          * currentPrice : 0
@@ -51,10 +52,11 @@ public class HomePageInfoBean  {
         private int change;
         private int currentPrice;
         private String home_button_pic;
-        private String home_pic_tail="";
+        private String home_button_pic_tail;
+        private String home_pic_tail = "";
         private String name;
         private int pchg;
-        private String pic_tail="";
+        private String pic_tail = "";
         private int priceTime;
         private int pushlish_type;
         private int star_type;
@@ -96,7 +98,7 @@ public class HomePageInfoBean  {
         }
 
         public String getHome_pic_tail() {
-            LogUtils.loge("getHome_pic_tail:"+home_pic_tail);
+            LogUtils.loge("getHome_pic_tail:" + home_pic_tail);
             return home_pic_tail;
         }
 
@@ -176,6 +178,13 @@ public class HomePageInfoBean  {
             this.wid = wid;
         }
 
+        public String getHome_button_pic_tail() {
+            return home_button_pic_tail;
+        }
+
+        public void setHome_button_pic_tail(String home_button_pic_tail) {
+            this.home_button_pic_tail = home_button_pic_tail;
+        }
 
         @Override
         public int describeContents() {
@@ -187,6 +196,7 @@ public class HomePageInfoBean  {
             dest.writeInt(this.change);
             dest.writeInt(this.currentPrice);
             dest.writeString(this.home_button_pic);
+            dest.writeString(this.home_button_pic_tail);
             dest.writeString(this.home_pic_tail);
             dest.writeString(this.name);
             dest.writeInt(this.pchg);
@@ -207,6 +217,7 @@ public class HomePageInfoBean  {
             this.change = in.readInt();
             this.currentPrice = in.readInt();
             this.home_button_pic = in.readString();
+            this.home_button_pic_tail = in.readString();
             this.home_pic_tail = in.readString();
             this.name = in.readString();
             this.pchg = in.readInt();

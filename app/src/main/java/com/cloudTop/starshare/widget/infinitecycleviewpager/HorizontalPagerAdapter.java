@@ -74,7 +74,12 @@ public class HorizontalPagerAdapter extends PagerAdapter {
         CardView.setLayoutParams(params);
         LogUtils.loge("infoBean.getHome_pic_tail():" + infoBean.getHome_pic_tail());
         ImageLoaderUtils.displayWithDefaultImg(mContext, img_item, infoBean.getHome_pic_tail(), R.drawable.buying_star);
-        ImageLoaderUtils.displayWithDefaultImg(mContext, img_desc, infoBean.getHome_pic_tail(), R.drawable.buying_star);
+        if(infoBean.getPushlish_type() == -1){
+            img_desc.setVisibility(View.GONE);
+        }else{
+            img_desc.setVisibility(View.VISIBLE);
+            ImageLoaderUtils.displayWithDefaultImg(mContext, img_desc, infoBean.getHome_button_pic_tail(), R.drawable.buying_star);
+        }
         img_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
