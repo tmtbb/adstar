@@ -60,7 +60,7 @@ public class ResultCodeUtil {
                     msg = "未到交易時間";
                     break;
                 case -502:
-                    msg = "該明星不能交易";
+                    msg = "該网红不能交易";
                     break;
                 case -503:
                     msg = "订单不存在";
@@ -102,7 +102,7 @@ public class ResultCodeUtil {
                     msg = "解除绑定银行卡失败";
                     break;
                 case -907:
-                    msg = "用户明星时间不足";
+                    msg = "用户网红时间不足";
                     break;
 //            default:
 //                msg = "连接超时,请稍后重试";

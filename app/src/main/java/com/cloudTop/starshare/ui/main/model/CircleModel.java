@@ -37,9 +37,9 @@ public class CircleModel {
 				if (resultBeen.getResult()==1){
 					requestServer(listener);
 				}else if (resultBeen.getResult()==-1506){
-					ToastUtils.showShort("您未持有该明星的时间，不能点赞");
+					ToastUtils.showShort("您未持有该网红的时间，不能点赞");
 				}else if (resultBeen.getResult()==-1505){
-					ToastUtils.showShort("您持有该明星的时间不够");
+					ToastUtils.showShort("您持有该网红的时间不够");
 				}
 			}
 		});
@@ -69,9 +69,9 @@ public class CircleModel {
 						if (resultBeen.getResult()==1){
 							requestServer(listener);
 						}else if (resultBeen.getResult()==-1506){
-							ToastUtils.showShort("您未持有该明星的时间，不能评论");
+							ToastUtils.showShort("您未持有该网红的时间，不能评论");
 						}else if (resultBeen.getResult()==-1505){
-							ToastUtils.showShort("您持有该明星的时间不够");
+							ToastUtils.showShort("您持有该网红的时间不够");
 						}
 					}
 				});

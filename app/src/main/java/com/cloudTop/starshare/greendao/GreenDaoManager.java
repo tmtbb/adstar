@@ -44,7 +44,7 @@ public class GreenDaoManager {
         return null;
     }
     /**
-     * 根据明星code,取出用户信息
+     * 根据网红code,取出用户信息
      * @return 用户信息
      */
     public static List<StarInfo> queryStarList(String codes) {
@@ -52,7 +52,7 @@ public class GreenDaoManager {
     }
 
     /**
-     * 根据明星code,取出用户信息
+     * 根据网红code,取出用户信息
      * @return 用户信息
      */
     public static StarInfo queryStar(String codes) {
@@ -162,7 +162,7 @@ public class GreenDaoManager {
     }
 
 //    /**
-//     * 根据明星code,取出用户信息
+//     * 根据网红code,取出用户信息
 //     *
 //     * @return 用户信息
 //     */

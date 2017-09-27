@@ -38,7 +38,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/5/18.
- * 广告点击明星求购页面
+ * 广告点击网红求购页面
  * 资讯购买页
  */
 
@@ -99,7 +99,7 @@ public class NewsStarBuyActivity extends BaseActivity {
         code = intent.getStringExtra(AppConstant.STAR_CODE);
         name = intent.getStringExtra(AppConstant.STAR_NAME);
         nl_title.setTitleText(String.format(getString(R.string.name_code),name,code));
-        LogUtils.loge("明星求购页面code" + code);
+        LogUtils.loge("网红求购页面code" + code);
         gitData();
         getStarExperience();
         getStarAch();
@@ -204,12 +204,12 @@ public class NewsStarBuyActivity extends BaseActivity {
         NetworkAPIFactoryImpl.getInformationAPI().getStarShellTime(code, new OnAPIListener<StartShellTimeBeen>() {
             @Override
             public void onError(Throwable ex) {
-                LogUtils.loge("明星总时间"+ex.toString());
+                LogUtils.loge("网红总时间"+ex.toString());
             }
 
             @Override
             public void onSuccess(StartShellTimeBeen startShellTimeBeen) {
-                LogUtils.loge("明星总时间"+startShellTimeBeen.toString());
+                LogUtils.loge("网红总时间"+startShellTimeBeen.toString());
                 tv_shell_time.setText(String.valueOf(startShellTimeBeen.getStar_time())+"秒");
             }
         });

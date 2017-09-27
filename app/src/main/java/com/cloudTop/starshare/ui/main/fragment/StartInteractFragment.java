@@ -30,7 +30,7 @@ import java.util.ArrayList;
  * #75
  * #76
  * Created by Administrator on 2017/7/11.
- * 明星互动
+ * 网红互动
  */
 
 public class StartInteractFragment extends BaseFragment {
@@ -129,7 +129,7 @@ public class StartInteractFragment extends BaseFragment {
                                 showErrorView(fl_layout, R.drawable.error_view_comment, "当前没有相关数据");
                             }
                         }
-                        LogUtils.loge("明星互动返回错误码" + ex.toString());
+                        LogUtils.loge("网红互动返回错误码" + ex.toString());
                     }
 
                     @Override

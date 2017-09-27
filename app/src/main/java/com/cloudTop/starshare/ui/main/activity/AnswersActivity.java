@@ -34,7 +34,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/8/16.
- * 明星问答列表
+ * 网红问答列表
  */
 
 public class AnswersActivity extends BaseActivity {
@@ -98,13 +98,13 @@ public class AnswersActivity extends BaseActivity {
                             circleListBean.getId(), code, circleListBean.getC_type(),circleListBean.getUid(), new OnAPIListener<ResultBeen>() {
                                 @Override
                                 public void onError(Throwable ex) {
-                                    ToastUtils.showShort("您持有的该明星时间不足，请购买");
+                                    ToastUtils.showShort("您持有的该网红时间不足，请购买");
                                 }
 
                                 @Override
                                 public void onSuccess(ResultBeen been) {
                                     if (been.getResult() == 1) {
-                                        ToastUtils.showShort("您持有的该明星时间不足，请购买");
+                                        ToastUtils.showShort("您持有的该网红时间不足，请购买");
                                     } else if (been.getResult() == 0) {
                                         viedoPalyDoing(position,circleListBean);
                                         circleListBean.setPurchased(1);
@@ -141,7 +141,7 @@ public class AnswersActivity extends BaseActivity {
             }
             startActivity(intent);
         } else {
-            ToastUtils.showShort("明星未回复");
+            ToastUtils.showShort("网红未回复");
         }
     }
 
@@ -159,7 +159,7 @@ public class AnswersActivity extends BaseActivity {
                         showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
                     }
                 }
-                LogUtils.loge("明星互动返回错误码" + ex.toString());
+                LogUtils.loge("网红互动返回错误码" + ex.toString());
             }
 
             @Override

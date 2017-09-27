@@ -100,7 +100,7 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/color_white_ffffffff"
                 android:textSize="@dimen/fontSize_12sp"
-                android:text="明星"
+                android:text="网红"
                 android:layout_below="@+id/tv_name"
                 android:layout_alignLeft="@+id/tv_name"
                 android:layout_alignStart="@+id/tv_name"

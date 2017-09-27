@@ -159,7 +159,7 @@ public class SocketUserAPI extends SocketBaseAPI implements UserAPI {
 
     @Override
     public void starCount( OnAPIListener<RegisterReturnBeen> listener) {
-        LogUtils.loge("持有明星数---");
+        LogUtils.loge("持有网红数---");
         HashMap<String, Object> map = new HashMap<>();
         map.put("uid", SharePrefUtil.getInstance().getUserId());
 //        map.put("token", SharePrefUtil.getInstance().getToken());

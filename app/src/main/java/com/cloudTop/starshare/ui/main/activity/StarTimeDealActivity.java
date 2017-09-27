@@ -80,7 +80,7 @@ import static com.cloudTop.starshare.R.id.tv_preice;
  * #75
  * #76
  * Created by Administrator on 2017/7/18.
- * 明星时间交易
+ * 网红时间交易
  */
 
 public class StarTimeDealActivity extends BaseActivity implements View.OnClickListener {

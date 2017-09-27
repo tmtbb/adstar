@@ -94,7 +94,7 @@ public class CommentExpandAdapter extends ExpandableRecyclerAdapter<BookingStarL
                             BookingStarListBean bean1 = visibleItems.get(position - 1);
                             LogUtils.loge("与TA聊天:" + bean1.getStarname());
                             if (bean1.getOwnseconds()==0){
-                                ToastUtils.showShort("您持有的时间不足，请购买该明星的时间");
+                                ToastUtils.showShort("您持有的时间不足，请购买该网红的时间");
                             }else {
                                 SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
                                 P2PMessageActivity.start(mContext, bean1.getFaccid(), bean1.getStarcode(), bean1.getStarname(), customization, null);

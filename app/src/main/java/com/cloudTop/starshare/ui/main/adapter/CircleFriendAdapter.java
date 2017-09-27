@@ -106,7 +106,7 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
                     @Override
                     public void onItemClick(int commentPosition) {
                         CircleFriendBean.CircleListBean.CommentListBean commentItem = commentsDatas.get(commentPosition);
-                        if(1==commentItem.getDirection()){//回复明星的评论
+                        if(1==commentItem.getDirection()){//回复网红的评论
                             if(presenter != null){
                                 CommentConfig config = new CommentConfig();
                                 config.circlePosition = position;

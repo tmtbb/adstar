@@ -66,7 +66,7 @@ public class ErrorCodeUtil {
 //                msg = "没有历史交易数据";
 //                break;
 //            case -658:
-//                msg = "没有历史明星数据";
+//                msg = "没有历史网红数据";
 //                break;
 //            case -700:
 //                msg = "数据库错误";
@@ -96,31 +96,31 @@ public class ErrorCodeUtil {
 //                msg = "数据库无数据";
 //                break;
 //            case -1102:
-//                msg = "获取明星信息失败";
+//                msg = "获取网红信息失败";
 //                break;
 //            case -1103:
-//                msg = "获取明星求购列表失败";
+//                msg = "获取网红求购列表失败";
 //                break;
 //            case -1104:
-//                msg = "添加明星成交订单信息失败";
+//                msg = "添加网红成交订单信息失败";
 //                break;
 //            case -1105:
-//                msg = "获取明星成交订单列表失败";
+//                msg = "获取网红成交订单列表失败";
 //                break;
             case -1106:
-                msg = "获取明星成就失败";
+                msg = "获取网红成就失败";
                 break;
             case -1107:
-                msg = "获取明星经历失败";
+                msg = "获取网红经历失败";
                 break;
             case -1108:
-                msg = "搜索明星列表失败";
+                msg = "搜索网红列表失败";
 //                break;
 //            case -1110:
-//                msg = "获取特定类型的明星信息失败";
+//                msg = "获取特定类型的网红信息失败";
 //                break;
 //            case -1109:
-//                msg = "获取明星类型失败";
+//                msg = "获取网红类型失败";
 //                break;
 //            case -1201:
 //                msg = "没有联系人数据";

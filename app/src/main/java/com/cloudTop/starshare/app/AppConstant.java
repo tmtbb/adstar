@@ -6,7 +6,7 @@ package com.cloudTop.starshare.app;
  * on 2016.09.10:44
  */
 public class AppConstant {
-   //明星code
+   //网红code
     public static final String STAR_CODE="STAR_CODE";
     public static final String PUBLISH_TYPE="PUBLISH_TYPE";
     public static final String IS_PRESELL="IS_PRESELL";

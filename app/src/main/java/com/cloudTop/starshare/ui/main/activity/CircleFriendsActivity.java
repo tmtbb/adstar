@@ -557,7 +557,7 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
         controlerView.setTitle(title);
         controlerView.setImageurl(starUrl);
         controlerView.setStarName(starName);
-        controlerView.setStarWork("明星");
+        controlerView.setStarWork("网红");
         controlerView.showShareView(rootView);
     }
 

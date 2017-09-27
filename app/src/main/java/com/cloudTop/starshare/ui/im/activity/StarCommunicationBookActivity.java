@@ -94,7 +94,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
             public void onItemClick(View view, int position) {
                 StarMailListBeen.DepositsinfoBean bean = list.get(position);
                 if (bean.getOwnseconds()==0){
-                    ToastUtils.showShort("您持有的时间不足，请购买该明星的时间");
+                    ToastUtils.showShort("您持有的时间不足，请购买该网红的时间");
                 }else {
                     SessionCustomization customization = NimUIKit.getCommonP2PSessionCustomization();
                     P2PMessageActivity.start(StarCommunicationBookActivity.this, bean.getFaccid(), bean.getStarcode(), bean.getStarname(), customization, null);
@@ -129,7 +129,7 @@ public class StarCommunicationBookActivity extends BaseActivity {
 
             /*for (int i =0 ;i<5;i++){
                 BookingStarListBean.ListBean bean = new BookingStarListBean.ListBean();
-                bean.setStarname("明星"+i);
+                bean.setStarname("网红"+i);
                 list.add(bean);
             }
             showData();*/

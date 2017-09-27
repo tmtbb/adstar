@@ -157,7 +157,7 @@ public class AskToVoiceActivity extends BaseActivity {
                                 ToastUtils.showShort("定制语音发布成功");
                                 comment.getText().clear();
                             }else if (been.getResult()==1){
-                                ToastUtils.showShort("您持有该明星的时间不足");
+                                ToastUtils.showShort("您持有该网红的时间不足");
                             }
                         }
                     }

@@ -158,7 +158,7 @@ public class HistoryVoiceActivity extends BaseActivity {
                         showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
                     }
                 }
-                LogUtils.loge("明星互动返回错误码" + ex.toString());
+                LogUtils.loge("网红互动返回错误码" + ex.toString());
             }
 
             @Override

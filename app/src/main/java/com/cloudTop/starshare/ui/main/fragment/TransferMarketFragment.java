@@ -264,7 +264,7 @@ public class TransferMarketFragment extends BaseFragment {
                 //judgeIsLogin();
                 ViewConcurrencyUtils.preventConcurrency();
                 if (buy_num > starTotalTime) {
-                    ToastUtils.showShort("超过明星发行总数量");
+                    ToastUtils.showShort("超过网红发行总数量");
                     return;
                 }
                 LogUtils.loge("获取数值" + total_prices);
@@ -426,12 +426,12 @@ public class TransferMarketFragment extends BaseFragment {
         NetworkAPIFactoryImpl.getInformationAPI().getStarShellTime(code, new OnAPIListener<StartShellTimeBeen>() {
             @Override
             public void onError(Throwable ex) {
-                LogUtils.loge("明星总时间" + ex.toString());
+                LogUtils.loge("网红总时间" + ex.toString());
             }
 
             @Override
             public void onSuccess(StartShellTimeBeen startShellTimeBeen) {
-                LogUtils.loge("明星总时间" + startShellTimeBeen.toString());
+                LogUtils.loge("网红总时间" + startShellTimeBeen.toString());
                 starTotalTime = startShellTimeBeen.getStar_time();
             }
         });

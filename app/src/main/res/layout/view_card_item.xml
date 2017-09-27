@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.CardView
         android:id="@+id/CardView"
@@ -15,12 +14,26 @@
         app:cardElevation="18dp"
         app:cardPreventCornerOverlap="false"
         app:cardUseCompatPadding="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
             <ImageView
                 android:id="@+id/img_item"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                tools:src="@drawable/pic4"/>
+                android:src="@drawable/pic4" />
+
+            <ImageView
+                android:id="@+id/img_desc"
+                android:layout_width="match_parent"
+                android:layout_alignParentBottom="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/pic4"
+                android:layout_height="75dp" />
+        </RelativeLayout>
     </android.support.v7.widget.CardView>
 
 </RelativeLayout>

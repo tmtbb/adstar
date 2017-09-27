@@ -155,7 +155,7 @@ public class MeetStarActivity extends BaseActivity {
 
             @Override
             public void onSuccess(StarDetailInfoBean infoBean) {
-                LogUtils.loge("明星个人详情" + infoBean.toString());
+                LogUtils.loge("网红个人详情" + infoBean.toString());
                 if (infoBean.getResultvalue()!=null){
                     ImageLoaderUtils.displaySmallPhoto(MeetStarActivity.this, imageView3, infoBean.getResultvalue().getHead_url_tail());
                     ImageLoaderUtils.displayWithDefaultImg(mContext, starBg, infoBean.getResultvalue().getBack_pic_tail(),R.drawable.rec_bg);
@@ -190,7 +190,7 @@ public class MeetStarActivity extends BaseActivity {
         NetworkAPIFactoryImpl.getDealAPI().statServiceList(code, new OnAPIListener<StatServiceListBean>() {
             @Override
             public void onError(Throwable ex) {
-                LogUtils.loge("明星列表失败-------------!");
+                LogUtils.loge("网红列表失败-------------!");
             }
 
             @Override

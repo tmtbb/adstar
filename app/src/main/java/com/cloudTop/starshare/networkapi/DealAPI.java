@@ -96,13 +96,13 @@ public interface DealAPI {
 //    void rechargeList(int startPos, int count, OnAPIListener<List<RechargeRecordItemEntity>> listener);//解绑操作
     void moneyList(String time, int status, int count, int startPos, OnAPIListener<List<MoneyDetailListBean>> listener);//资金明细
 
-    void bookingStarList(int startPos, int count, OnAPIListener<List<BookingStarListBean>> listener);//预约明星列表
+    void bookingStarList(int startPos, int count, OnAPIListener<List<BookingStarListBean>> listener);//预约网红列表
 
     void identityAuthentication(String realname, String id_card, OnAPIListener<RequestResultBean> listener);
 
-    void dealPwd(String phone, String vToken, String vCode, long timestamp, int type, String pwd, OnAPIListener<RequestResultBean> listener);//预约明星列表
+    void dealPwd(String phone, String vToken, String vCode, long timestamp, int type, String pwd, OnAPIListener<RequestResultBean> listener);//预约网红列表
 
-    void test(String title, double price, OnAPIListener<Object> listener);//预约明星列表
+    void test(String title, double price, OnAPIListener<Object> listener);//预约网红列表
 
     void balance(OnAPIListener<AssetDetailsBean> listener);//余额
 

@@ -413,7 +413,7 @@ public class UserInfoFragment extends BaseFragment {
         EventBus.getDefault().unregister(this);
     }
 
-    //获取明星数量
+    //获取网红数量
     private void requestStarCount() {
         NetworkAPIFactoryImpl.getUserAPI().starCount(new OnAPIListener<RegisterReturnBeen>() {
             @Override
@@ -422,7 +422,7 @@ public class UserInfoFragment extends BaseFragment {
 
             @Override
             public void onSuccess(RegisterReturnBeen registerReturnBeen) {
-                LogUtils.loge("明星数量:" + registerReturnBeen.toString());
+                LogUtils.loge("网红数量:" + registerReturnBeen.toString());
                 userOrderStar.setText(registerReturnBeen.getAmount() + "");
             }
         });
@@ -434,12 +434,12 @@ public class UserInfoFragment extends BaseFragment {
         NetworkAPIFactoryImpl.getInformationAPI().starInfo(phoneNum, code, 1, new OnAPIListener<StarInfoReturnBean>() {
             @Override
             public void onError(Throwable ex) {
-                LogUtils.loge("明星列表失败----.-----------");
+                LogUtils.loge("网红列表失败----.-----------");
             }
 
             @Override
             public void onSuccess(StarInfoReturnBean starInfoReturnBean) {
-//                LogUtils.loge("明星列表成功---------"+starInfoReturnBean.getList().get(0).toString());
+//                LogUtils.loge("网红列表成功---------"+starInfoReturnBean.getList().get(0).toString());
                 if (starInfoReturnBean.getResult() == 1) {
                     GreenDaoManager.getInstance().saveNoteLists(starInfoReturnBean.getList());
                 }

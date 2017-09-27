@@ -222,7 +222,7 @@ public class MessageFragment extends TFragment implements ModuleProxy {
         LogUtils.loge("发送了消息");
         isAllowSendMessage(message);
         if (isAllow==false){
-            ToastUtils.showShort("您持有的该明星时间不足，请购买该明星时间");
+            ToastUtils.showShort("您持有的该网红时间不足，请购买该网红时间");
             return false;
         }
         appendPushConfig(message);

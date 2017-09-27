@@ -111,7 +111,7 @@ public class BookingStarAskByVideoFragment extends BaseFragment {
             public void onItemClick(View view, int position) {
                 StarQuestionBean.CircleListBean circleListBean = list.get(position);
                 if (circleListBean != null&& TextUtils.isEmpty(circleListBean.getSanswer())&&TextUtils.isEmpty(circleListBean.getVideo_url())){
-                    ToastUtils.showShort("明星未回复");
+                    ToastUtils.showShort("网红未回复");
                 }else if (circleListBean != null){
                     Intent intent = new Intent(getActivity(), PlayActivity.class);
                     intent.putExtra("playUserUrl", AppConfig.QI_NIU_PIC_ADRESS + circleListBean.getVideo_url());
@@ -145,7 +145,7 @@ public class BookingStarAskByVideoFragment extends BaseFragment {
                         showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
                     }
                 }
-                LogUtils.loge("明星互动返回错误码" + ex.toString());
+                LogUtils.loge("网红互动返回错误码" + ex.toString());
             }
 
             @Override

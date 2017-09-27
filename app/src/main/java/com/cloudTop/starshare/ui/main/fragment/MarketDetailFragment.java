@@ -33,7 +33,7 @@ import butterknife.Bind;
  * #75
  * #76
  * Created by Administrator on 2017/5/15.
- * 行情明星热度列表
+ * 行情网红热度列表
  */
 
 public class MarketDetailFragment extends BaseFragment {
@@ -104,7 +104,7 @@ public class MarketDetailFragment extends BaseFragment {
                                 showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
                             }
                         }
-                        LogUtils.loge("明星互动返回错误码" + ex.toString());
+                        LogUtils.loge("网红互动返回错误码" + ex.toString());
                     }
 
                     @Override

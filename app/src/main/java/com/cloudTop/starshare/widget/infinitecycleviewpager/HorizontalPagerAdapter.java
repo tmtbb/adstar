@@ -34,7 +34,8 @@ public class HorizontalPagerAdapter extends PagerAdapter {
     private LayoutInflater mLayoutInflater;
     private List<HomePageInfoBean.SymbolInfoBean> mList;
     private boolean mHaveVirtualKey;
-    public HorizontalPagerAdapter(Context context, List<HomePageInfoBean.SymbolInfoBean> list,boolean haveVirtualKey) {
+
+    public HorizontalPagerAdapter(Context context, List<HomePageInfoBean.SymbolInfoBean> list, boolean haveVirtualKey) {
         mContext = context;
         mLayoutInflater = LayoutInflater.from(context);
         mList = list;
@@ -61,38 +62,40 @@ public class HorizontalPagerAdapter extends PagerAdapter {
     public Object instantiateItem(final ViewGroup container, final int position) {
         View view = mLayoutInflater.inflate(R.layout.view_card_item, container, false);
         final HomePageInfoBean.SymbolInfoBean infoBean = mList.get(position);
-        CardView CardView = (CardView)view.findViewById(R.id.CardView);
-        ImageView img_item = (ImageView)view.findViewById(R.id.img_item);
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)CardView.getLayoutParams();
-        if (mHaveVirtualKey){
-            params.setMargins(DisplayUtil.dip2px(40),0,DisplayUtil.dip2px(40),0);
-        }else {
-            params.setMargins(DisplayUtil.dip2px(23),0,DisplayUtil.dip2px(23),0);
+        CardView CardView = (CardView) view.findViewById(R.id.CardView);
+        ImageView img_item = (ImageView) view.findViewById(R.id.img_item);
+        ImageView img_desc = (ImageView) view.findViewById(R.id.img_desc);
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) CardView.getLayoutParams();
+        if (mHaveVirtualKey) {
+            params.setMargins(DisplayUtil.dip2px(40), 0, DisplayUtil.dip2px(40), 0);
+        } else {
+            params.setMargins(DisplayUtil.dip2px(23), 0, DisplayUtil.dip2px(23), 0);
         }
         CardView.setLayoutParams(params);
-        LogUtils.loge("infoBean.getHome_pic_tail():"+infoBean.getHome_pic_tail());
-        ImageLoaderUtils.displayWithDefaultImg(mContext,img_item,infoBean.getHome_pic_tail(),R.drawable.buying_star);
+        LogUtils.loge("infoBean.getHome_pic_tail():" + infoBean.getHome_pic_tail());
+        ImageLoaderUtils.displayWithDefaultImg(mContext, img_item, infoBean.getHome_pic_tail(), R.drawable.buying_star);
+        ImageLoaderUtils.displayWithDefaultImg(mContext, img_desc, infoBean.getHome_pic_tail(), R.drawable.buying_star);
         img_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (CheckLoginUtil.checkLogin((Activity) mContext)==false){
+                if (CheckLoginUtil.checkLogin((Activity) mContext) == false) {
                     return;
                 }
-                switch (infoBean.getPushlish_type()){
+                switch (infoBean.getPushlish_type()) {
                     case -1:
-                        Intent intent0 = new Intent(mContext,CircleFriendsActivity.class);
+                        Intent intent0 = new Intent(mContext, CircleFriendsActivity.class);
                         mContext.startActivity(intent0);
                         break;
                     case 0:
-                        Intent intent1 = new Intent(mContext,StarSellActivity.class);
+                        Intent intent1 = new Intent(mContext, StarSellActivity.class);
                         intent1.putExtra(AppConstant.STAR_CODE, infoBean.getSymbol());
                         intent1.putExtra(AppConstant.AUCTION_TYPE, infoBean.getWork());
                         intent1.putExtra(AppConstant.PUBLISH_TYPE, infoBean.getPushlish_type());
-                        intent1.putExtra(AppConstant.IS_PRESELL,true);
+                        intent1.putExtra(AppConstant.IS_PRESELL, true);
                         mContext.startActivity(intent1);
                         break;
                     case 1:
-                        Intent intent2 = new Intent(mContext,StarSellActivity.class);
+                        Intent intent2 = new Intent(mContext, StarSellActivity.class);
                         intent2.putExtra(AppConstant.STAR_CODE, infoBean.getSymbol());
                         intent2.putExtra(AppConstant.AUCTION_TYPE, infoBean.getWork());
                         intent2.putExtra(AppConstant.PUBLISH_TYPE, infoBean.getPushlish_type());
@@ -104,7 +107,7 @@ public class HorizontalPagerAdapter extends PagerAdapter {
                         symbolInfoBean.setPic_tail(infoBean.getPic_tail());
                         symbolInfoBean.setName(infoBean.getName());
                         symbolInfoBean.setWid(infoBean.getWid());
-                        Intent intent3 = new Intent(mContext,StarTimeDealActivity.class);
+                        Intent intent3 = new Intent(mContext, StarTimeDealActivity.class);
                         intent3.putExtra(AppConstant.SYMBOL_INFO_BEAN, symbolInfoBean);
                         mContext.startActivity(intent3);
                         break;

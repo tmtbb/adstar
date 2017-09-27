@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 明星约见情况
+ * 网红约见情况
  * Created by sll on 2017/7/4.
  */
 
@@ -61,7 +61,7 @@ public class BookingStarStatusFragment extends BaseFragment {
         NetworkAPIFactoryImpl.getDealAPI().meetStatus(start, REQUEST_COUNT, new OnAPIListener<MeetStarStatusBean>() {
             @Override
             public void onError(Throwable ex) {
-                LogUtils.logd("预约明星列表错误----------");
+                LogUtils.logd("预约网红列表错误----------");
                 if (lrv != null) {
                     lrv.setNoMore(true);
                     if (!isLoadMore) {
@@ -75,7 +75,7 @@ public class BookingStarStatusFragment extends BaseFragment {
 
             @Override
             public void onSuccess(MeetStarStatusBean bookingStarList) {
-                LogUtils.logd("预约明星列表成功----------");
+                LogUtils.logd("预约网红列表成功----------");
 
                 if (bookingStarList == null || bookingStarList.getResult() != 1) {
                     lrv.setNoMore(false);

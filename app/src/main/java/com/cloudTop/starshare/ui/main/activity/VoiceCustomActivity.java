@@ -141,7 +141,7 @@ public class VoiceCustomActivity extends BaseActivity {
                         showErrorView(parentView, R.drawable.error_view_comment, "当前没有相关数据");
                     }
                 }
-                LogUtils.loge("明星互动返回错误码" + ex.toString());
+                LogUtils.loge("网红互动返回错误码" + ex.toString());
             }
 
             @Override
@@ -224,13 +224,13 @@ public class VoiceCustomActivity extends BaseActivity {
                             listBean.getId(), code, listBean.getC_type(),listBean.getUid(), new OnAPIListener<ResultBeen>() {
                                 @Override
                                 public void onError(Throwable ex) {
-                                    ToastUtils.showShort("您持有的该明星时间不足，请购买");
+                                    ToastUtils.showShort("您持有的该网红时间不足，请购买");
                                 }
 
                                 @Override
                                 public void onSuccess(ResultBeen been) {
                                     if (been.getResult() == 1) {
-                                        ToastUtils.showShort("您持有的该明星时间不足，请购买");
+                                        ToastUtils.showShort("您持有的该网红时间不足，请购买");
                                     } else if (been.getResult() == 0) {
                                         voicePalyDoing(position, imageView, listBean);
                                         listBean.setPurchased(1);

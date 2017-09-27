@@ -20,7 +20,7 @@ import java.util.List;
 
 
 /**
- * 持有明星时间
+ * 持有网红时间
  * Created by sll on 2017/7/4.
  */
 
@@ -88,7 +88,7 @@ public class HoldingStarTimeFragment extends BaseFragment {
         NetworkAPIFactoryImpl.getDealAPI().bookingStarList(start, count, new OnAPIListener<List<BookingStarListBean>>() {
             @Override
             public void onError(Throwable ex) {
-                LogUtils.logd("预约明星列表错误----------");
+                LogUtils.logd("预约网红列表错误----------");
                 if (lrv != null) {
                     lrv.setNoMore(true);
                     if (!isLoadMore) {
@@ -101,7 +101,7 @@ public class HoldingStarTimeFragment extends BaseFragment {
 
             @Override
             public void onSuccess(List<BookingStarListBean> bookingStarList) {
-                LogUtils.logd("预约明星列表成功----------");
+                LogUtils.logd("预约网红列表成功----------");
 
                 if (bookingStarList == null || bookingStarList.size() == 0) {
                     if (!isLoadMore) {

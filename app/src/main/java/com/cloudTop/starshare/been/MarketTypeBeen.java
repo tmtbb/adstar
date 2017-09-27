@@ -9,7 +9,7 @@ import java.util.List;
 public class MarketTypeBeen {
 
     /**
-     * list : [{"name":"网红","type":1},{"name":"娱乐明星","type":2},{"name":"体育明星","type":3}]
+     * list : [{"name":"网红","type":1},{"name":"娱乐网红","type":2},{"name":"体育网红","type":3}]
      * result : 1
      */
 

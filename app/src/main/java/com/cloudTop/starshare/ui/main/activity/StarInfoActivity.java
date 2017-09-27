@@ -55,7 +55,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 /**
  * Created by Administrator on 2017/7/8.
  * 互动详情
- * 明星介绍
+ * 网红介绍
  */
 
 public class StarInfoActivity extends BaseActivity implements View.OnClickListener {
@@ -228,7 +228,7 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
             }
             startActivity(intent);
         } else {
-            ToastUtils.showShort("明星未回复");
+            ToastUtils.showShort("网红未回复");
         }
     }
 
@@ -311,7 +311,7 @@ public class StarInfoActivity extends BaseActivity implements View.OnClickListen
 
             @Override
             public void onSuccess(StarDetailInfoBean infoBean) {
-                LogUtils.loge("明星个人详情" + infoBean.toString());
+                LogUtils.loge("网红个人详情" + infoBean.toString());
 
                 resultvalue = infoBean.getResultvalue();
                 if (resultvalue==null){
@@ -380,7 +380,7 @@ private boolean isAllExp = false ;
                     return;
                 }
                 if (resultvalue==null||resultvalue.getPublish_type()==0||resultvalue.getPublish_type()==1){
-                    ToastUtils.showShort("当前该明星非流通阶段，请等待为流通阶段");
+                    ToastUtils.showShort("当前该网红非流通阶段，请等待为流通阶段");
                     return;
                 }
                 if (JudgeIdentityUtils.isIdentityed(StarInfoActivity.this)) {
@@ -394,7 +394,7 @@ private boolean isAllExp = false ;
                     return;
                 }
                 if (resultvalue==null||resultvalue.getPublish_type()==0||resultvalue.getPublish_type()==1){
-                    ToastUtils.showShort("当前该明星非流通阶段，请等待为流通阶段");
+                    ToastUtils.showShort("当前该网红非流通阶段，请等待为流通阶段");
                     return;
                 }
                 Intent intent = new Intent(this, BuyTransferIndentActivity.class);
@@ -409,7 +409,7 @@ private boolean isAllExp = false ;
                     return;
                 }
                 if (resultvalue==null||resultvalue.getPublish_type()==0){
-                    ToastUtils.showShort("当前该明星非流通阶段，请等待为流通阶段");
+                    ToastUtils.showShort("当前该网红非流通阶段，请等待为流通阶段");
                     return;
                 }
                 if (haveStarTime > 0) {
@@ -418,7 +418,7 @@ private boolean isAllExp = false ;
                         P2PMessageActivity.start(StarInfoActivity.this, String.valueOf(resultvalue.getAcc_id()), code, resultvalue.getStar_name(), customization, null);
                     }
                 } else {
-                    ToastUtils.showShort("您未持有该明星时间，请购买");
+                    ToastUtils.showShort("您未持有该网红时间，请购买");
                 }
                 break;
             case R.id.share_button:
@@ -459,7 +459,7 @@ private boolean isAllExp = false ;
                     return;
                 }
                 if (resultvalue==null){
-                    ToastUtils.showShort("未请求到明星数据");
+                    ToastUtils.showShort("未请求到网红数据");
                     return;
                 }
                 Intent intent0 = new Intent(this,CircleFriendsActivity.class);
