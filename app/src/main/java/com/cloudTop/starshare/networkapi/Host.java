@@ -65,8 +65,8 @@ public enum Host {
 
 //        return "122.144.169.214";//测试环境
 //        return "nsb.smartdata-x.com";
-        return "cloud.a.smartdata-x.com";//星云-发布版
-//        return "cloud.p.smartdata-x.com";//星云-正式版
+//        return "cloud.a.smartdata-x.com";//星云-发布版
+        return "cloud.p.smartdata-x.com";//星云-正式版
         //return "139.224.18.190";
 //        return "61.147.114.78";
 //        return "192.168.8.131";

@@ -22,6 +22,7 @@ import com.cloudTop.starshare.utils.CheckLoginUtil;
 import com.cloudTop.starshare.utils.DisplayUtil;
 import com.cloudTop.starshare.utils.ImageLoaderUtils;
 import com.cloudTop.starshare.utils.LogUtils;
+import com.cloudTop.starshare.utils.StringUtil;
 
 import java.util.List;
 
@@ -74,7 +75,7 @@ public class HorizontalPagerAdapter extends PagerAdapter {
         CardView.setLayoutParams(params);
         LogUtils.loge("infoBean.getHome_pic_tail():" + infoBean.getHome_pic_tail());
         ImageLoaderUtils.displayWithDefaultImg(mContext, img_item, infoBean.getHome_pic_tail(), R.drawable.buying_star);
-        if(infoBean.getPushlish_type() == -1){
+        if(infoBean.getPushlish_type() == -1 || StringUtil.isEmpty(infoBean.getHome_button_pic_tail())){
             img_desc.setVisibility(View.GONE);
         }else{
             img_desc.setVisibility(View.VISIBLE);
