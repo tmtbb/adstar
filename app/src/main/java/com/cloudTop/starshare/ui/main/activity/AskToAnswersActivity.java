@@ -54,6 +54,7 @@ public class AskToAnswersActivity extends BaseActivity {
     private int isPublish = 1; //0代表私有，1代表公开
     private int cType = 0;
     private String framePath="";
+    private String frameFilePath="";
     private String videoPath="";
     private long videoTime=0;
 
@@ -177,11 +178,12 @@ public class AskToAnswersActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
         if (requestCode == 120 && resultCode == RESULT_OK) {
+            frameFilePath = intent.getStringExtra(AppConstant.VIDEO_PIC_FILE_PATH);
             framePath = intent.getStringExtra(AppConstant.VIDEO_PIC_PATH);
             videoPath = intent.getStringExtra(AppConstant.VIDEO_PATH);
             videoTime = intent.getLongExtra(AppConstant.VIDEO_TIME, 0);
-            File frameFile = new File(framePath);
-            ImageLoaderUtils.displaySmallPhoto(this, img_video,framePath);
+            File frameFile = new File(frameFilePath);
+            ImageLoaderUtils.display(this, img_video,frameFile);
         }
     }
 

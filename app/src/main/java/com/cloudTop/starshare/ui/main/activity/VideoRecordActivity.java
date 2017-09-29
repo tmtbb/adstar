@@ -1089,6 +1089,7 @@ public class VideoRecordActivity extends Activity implements PLRecordStateListen
         mIsUpload = false;
 
         Intent intent = new Intent();
+        intent.putExtra(AppConstant.VIDEO_PIC_FILE_PATH, bitmapPath);
         intent.putExtra(AppConstant.VIDEO_PIC_PATH, imageUrl);
         intent.putExtra(AppConstant.VIDEO_PATH, fileName);
         intent.putExtra(AppConstant.VIDEO_TIME, videoTime);
