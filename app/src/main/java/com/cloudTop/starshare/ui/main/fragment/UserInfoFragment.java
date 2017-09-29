@@ -217,6 +217,7 @@ public class UserInfoFragment extends BaseFragment {
                 startActivity(UserAssetsManageActivity.class);
                 break;
             case R.id.ll_user_order_star:
+//                testStar();
                 ViewConcurrencyUtils.preventConcurrency();  //防止并发
                 startActivity(BookingStarActivity.class);
                 break;
@@ -428,7 +429,9 @@ public class UserInfoFragment extends BaseFragment {
     }
 
     private void testStar() {
-        NetworkAPIFactoryImpl.getInformationAPI().starInfo("17682310986", "123", 1, new OnAPIListener<StarInfoReturnBean>() {
+        String phoneNum = SharePrefUtil.getInstance().getPhoneNum();
+        String code = SharePrefUtil.getInstance().getUserLoginCode();
+        NetworkAPIFactoryImpl.getInformationAPI().starInfo(phoneNum, code, 1, new OnAPIListener<StarInfoReturnBean>() {
             @Override
             public void onError(Throwable ex) {
                 LogUtils.loge("明星列表失败----.-----------");
@@ -436,7 +439,7 @@ public class UserInfoFragment extends BaseFragment {
 
             @Override
             public void onSuccess(StarInfoReturnBean starInfoReturnBean) {
-                LogUtils.loge("明星列表成功---------");
+                LogUtils.loge("明星列表成功---------"+starInfoReturnBean.getList().get(0).toString());
                 if (starInfoReturnBean.getResult() == 1) {
                     GreenDaoManager.getInstance().saveNoteLists(starInfoReturnBean.getList());
                 }

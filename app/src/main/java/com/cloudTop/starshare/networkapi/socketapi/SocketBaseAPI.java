@@ -8,6 +8,7 @@ import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.socketapi.SocketReqeust.SocketAPIRequestManage;
 import com.cloudTop.starshare.networkapi.socketapi.SocketReqeust.SocketAPIResponse;
 import com.cloudTop.starshare.networkapi.socketapi.SocketReqeust.SocketDataPacket;
+import com.cloudTop.starshare.utils.LogUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +38,7 @@ public class SocketBaseAPI {
             @Override
             public void onSuccess(SocketAPIResponse socketAPIResponse) {
                 //ResultCodeUtil.showEeorMsg(socketAPIResponse);
+                LogUtils.logd("服务器的返回结果："+socketAPIResponse.jsonObject().toString());
                 SocketBaseAPI.this.onSuccess(listener,socketAPIResponse.jsonObject());
             }
         });

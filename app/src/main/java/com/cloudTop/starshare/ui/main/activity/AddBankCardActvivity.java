@@ -4,6 +4,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.cloudTop.starshare.base.BaseActivity;
 import com.cloudTop.starshare.been.BankInfoBean;
@@ -12,6 +14,11 @@ import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.utils.CountUtil;
 import com.cloudTop.starshare.utils.MD5Util;
 import com.cloudTop.starshare.utils.ToastUtils;
+import com.cloudTop.starshare.utils.timeselectutils.AddressPickTask;
+import com.cloudTop.starshare.utils.timeselectutils.City;
+import com.cloudTop.starshare.utils.timeselectutils.County;
+import com.cloudTop.starshare.utils.timeselectutils.Province;
+import com.cloudTop.starshare.utils.timeselectutils.WheelView;
 import com.cloudTop.starshare.widget.NormalTitleBar;
 import com.cloudTop.starshare.R;
 import com.cloudTop.starshare.helper.CheckHelper;
@@ -20,6 +27,8 @@ import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
 import com.cloudTop.starshare.utils.LogUtils;
 import com.cloudTop.starshare.utils.SharePrefUtil;
 import com.cloudTop.starshare.widget.CheckException;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -35,20 +44,33 @@ public class AddBankCardActvivity extends BaseActivity {
 
     @Bind(R.id.nt_title)
     NormalTitleBar ntTitle;
+
     @Bind(R.id.et_user_name)
     EditText etUserName;
+
     @Bind(R.id.et_user_cardno)
     EditText etUserCardno;
+
+    @Bind(R.id.tv_user_city)
+    TextView tv_user_city;
+
     @Bind(R.id.et_user_phone)
     EditText etUserPhone;
+
     @Bind(R.id.et_code_msg)
     EditText etCodeMsg;
+
     @Bind(R.id.btn_get_code)
     Button btnGetCode;
+
     @Bind(R.id.btn_bind_bank)
     Button btnBindBank;
+
     private CheckHelper checkHelper = new CheckHelper();
     private RegisterVerifyCodeBeen verifyCodeBeen;
+
+    private String mProvince;
+    private String mCity;
 
     @Override
     public int getLayoutId() {
@@ -70,9 +92,13 @@ public class AddBankCardActvivity extends BaseActivity {
         checkHelper.checkButtonState1(btnBindBank, etUserName, etUserCardno, etUserPhone, etCodeMsg);
     }
 
-    @OnClick({R.id.btn_get_code, R.id.btn_bind_bank})
+    @OnClick({R.id.tv_user_city, R.id.iv_selectLocation, R.id.btn_get_code, R.id.btn_bind_bank})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.tv_user_city:
+            case R.id.iv_selectLocation:
+                onAddressPicker();
+                break;
             case R.id.btn_get_code:
                 getCodeMsg();
                 break;
@@ -86,6 +112,7 @@ public class AddBankCardActvivity extends BaseActivity {
         //判断输入
         if (etUserName.getText().toString().trim().isEmpty() ||
                 etUserCardno.getText().toString().trim().isEmpty() ||
+                tv_user_city.getText().toString().trim().isEmpty()||
                 etUserPhone.getText().toString().trim().isEmpty() ||
                 etCodeMsg.getText().toString().trim().isEmpty()) {
             ToastUtils.showShort("输入不能为空");
@@ -107,7 +134,7 @@ public class AddBankCardActvivity extends BaseActivity {
             String phone = etUserPhone.getText().toString().trim();
             String codeMsg = etCodeMsg.getText().toString().trim();
 
-            NetworkAPIFactoryImpl.getDealAPI().bindCard(bankUsername, account, new OnAPIListener<BankInfoBean>() {
+            NetworkAPIFactoryImpl.getDealAPI().bindCard(bankUsername, account, mProvince, mCity, new OnAPIListener<BankInfoBean>() {
                 @Override
                 public void onError(Throwable ex) {
                 }
@@ -166,5 +193,33 @@ public class AddBankCardActvivity extends BaseActivity {
         } else {
             ToastUtils.showShort(exception.getErrorMsg());
         }
+    }
+
+    //地理位置选择器
+    public void onAddressPicker() {
+        LogUtils.loge("点击了");
+        AddressPickTask task = new AddressPickTask(this);
+        task.setHideProvince(false);
+        task.setHideCounty(true);
+        task.setCallback(new AddressPickTask.Callback() {
+            @Override
+            public void onAddressInitFailed() {
+                mProvince = null;
+                mCity = null;
+                tv_user_city.setText("");
+            }
+
+            @Override
+            public void onAddressPicked(Province province, City city, County county) {
+                mProvince = province.getAreaName();
+                mCity = city.getAreaName();
+                if (county == null) {
+                    tv_user_city.setText(province.getAreaName() + city.getAreaName());
+                } else {
+                    tv_user_city.setText(province.getAreaName() + city.getAreaName() + county.getAreaName());
+                }
+            }
+        });
+        task.execute("浙江", "杭州");
     }
 }

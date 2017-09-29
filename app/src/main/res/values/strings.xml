@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">星享时光</string>
+    <string name="app_name">星享(内测版)</string>
     <string name="net_error">网络访问错误，请稍后再试</string>
     <string name="empty">还没有数据哦</string>
     <string name="loading">请稍后...</string>
@@ -36,6 +36,7 @@
     <string name="open_show">公开展示</string>
     <string name="user_total_assets">资产总额</string>
     <string name="user_buyed_star">已购明星</string>
+    <string name="begin_times">距离发售还有</string>
     <string name="end_times">距离结束还有</string>
     <string name="star_list">明星列表</string>
 
@@ -70,7 +71,7 @@
     <string name="recharge_wxpay">微信支付</string>
     <string name="money_bag_detail">钱包明细</string>
     <string name="bank_info">银行卡</string>
-    <string name="booking_star_list">预约名单</string>
+    <string name="booking_star_title">我关注的明星</string>
     <string name="have_talk">聊一聊</string>
     <string name="service_center">客服中心</string>
     <string name="service_weixin">客服微信</string>
@@ -239,6 +240,7 @@
     <string name="sure_meet">确定约见</string>
     <string name="meet_start">约见名人</string>
     <string name="shells">发售</string>
+    <string name="pre_shells">预售</string>
     <string name="meet_starts">约见明星</string>
     <string name="order_details">订单详情</string>
     <string name="meet_content">请输入您对此次约见的其他要求200字以内...</string>
@@ -265,6 +267,8 @@
     <string name="delegation_num">委托量</string>
     <string name="holding_star_time">持有时间</string>
     <string name="booking_star_status">约见情况</string>
+    <string name="booking_star_ask_by_video">视频提问</string>
+    <string name="booking_star_make_voice">定制语音</string>
     <string name="holding_times_count">总持有时间 %1$d 秒</string>
     <string name="times_p">¥ %1$.2f 秒</string>
     <string name="total_money_">¥ %1$.2f </string>
@@ -278,7 +282,9 @@
     <string name="cash_all_money">全部提现</string>
     <string name="bank_card_user">持卡人</string>
     <string name="bank_card_number">卡号</string>
+    <string name="bank_card_user_city">开户城市</string>
     <string name="input_card_number">请输入您的卡号</string>
+    <string name="input_card_user_city">请输入开户城市</string>
     <string name="input_card_phone">请输入您的预留手机号</string>
     <string name="input_card_code">请输入验证码</string>
     <string name="phone_number_bank">手机号</string>

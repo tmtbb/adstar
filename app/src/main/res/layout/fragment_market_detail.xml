@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_fafafa"
-    >
+    android:orientation="vertical">
+
     <com.cloudTop.starshare.widget.NormalTitleBar
         android:id="@id/nt_title"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        ></com.cloudTop.starshare.widget.NormalTitleBar>
+        android:layout_height="48dp"></com.cloudTop.starshare.widget.NormalTitleBar>
+
     <FrameLayout
-        android:background="@color/color_fafafa"
+        android:id="@+id/parent_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/parent_view">
+        android:background="@color/color_fafafa">
+
         <com.github.jdsjlzx.recyclerview.LRecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
             android:id="@+id/lrv"
-            >
-        </com.github.jdsjlzx.recyclerview.LRecyclerView>
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></com.github.jdsjlzx.recyclerview.LRecyclerView>
     </FrameLayout>
 
 </LinearLayout>

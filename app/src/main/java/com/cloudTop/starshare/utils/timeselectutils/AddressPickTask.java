@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
 import com.alibaba.fastjson.JSON;
+import com.cloudTop.starshare.R;
 
 import java.util.ArrayList;
 
@@ -16,7 +17,7 @@ import java.util.ArrayList;
  */
 public class AddressPickTask extends AsyncTask<String, Void, ArrayList<Province>> {
     private Activity activity;
-    private ProgressDialog dialog;
+//    private ProgressDialog dialog;
     private Callback callback;
     private String selectedProvince = "", selectedCity = "", selectedCounty = "";
     private boolean hideProvince = false;
@@ -38,10 +39,10 @@ public class AddressPickTask extends AsyncTask<String, Void, ArrayList<Province>
         this.callback = callback;
     }
 
-    @Override
-    protected void onPreExecute() {
-        dialog = ProgressDialog.show(activity, null, "正在初始化数据...", true, true);
-    }
+//    @Override
+//    protected void onPreExecute() {
+//        dialog = ProgressDialog.show(activity, null, "正在初始化数据...", true, true);
+//    }
 
     @Override
     protected ArrayList<Province> doInBackground(String... params) {
@@ -75,10 +76,12 @@ public class AddressPickTask extends AsyncTask<String, Void, ArrayList<Province>
 
     @Override
     protected void onPostExecute(ArrayList<Province> result) {
-        dialog.dismiss();
+//        dialog.dismiss();
         if (result.size() > 0) {
             AddressPicker picker = new AddressPicker(activity, result);
             picker.setHideProvince(hideProvince);
+            picker.setCancelText(R.string.cancel);
+            picker.setSubmitText(R.string.ok);
             picker.setHideCounty(hideCounty);
             if (hideCounty) {
                 picker.setColumnWeight(0.8f, 1.0f);
