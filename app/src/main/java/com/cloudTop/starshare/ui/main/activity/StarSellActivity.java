@@ -32,6 +32,10 @@ import com.cloudTop.starshare.utils.ImageLoaderUtils;
 
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
 
 import butterknife.Bind;
 
@@ -96,10 +100,10 @@ public class StarSellActivity extends BaseActivity {
         starCode = getIntent().getStringExtra(AppConstant.STAR_CODE);
         starwork = getIntent().getStringExtra(AppConstant.AUCTION_TYPE);
         type = getIntent().getIntExtra(AppConstant.PUBLISH_TYPE, -1);
-        isPresell = getIntent().getBooleanExtra(AppConstant.IS_PRESELL,false);
-        if (isPresell){
-            nl_title.setTitleText("预售");
-        }else {
+        isPresell = getIntent().getBooleanExtra(AppConstant.IS_PRESELL, false);
+        if (isPresell) {
+            nl_title.setTitleText(getString(R.string.pre_shells));
+        } else {
             nl_title.setTitleText(getString(R.string.shells));
         }
         nl_title.setBackVisibility(true);
@@ -108,13 +112,12 @@ public class StarSellActivity extends BaseActivity {
             myHandler = new MyHandler(this);
         }
         initData();
-        getRefreshTime();
         initListener();
 
     }
 
     private void byBuyStar() {
-        NetworkAPIFactoryImpl.getInformationAPI().getByBuy(userId, token, starCode,num,ask_buy_prices, new OnAPIListener<ResultBeen>() {
+        NetworkAPIFactoryImpl.getInformationAPI().getByBuy(userId, token, starCode, num, ask_buy_prices, new OnAPIListener<ResultBeen>() {
             @Override
             public void onError(Throwable ex) {
 
@@ -122,9 +125,9 @@ public class StarSellActivity extends BaseActivity {
 
             @Override
             public void onSuccess(ResultBeen resultBeen) {
-                if (resultBeen.getResult()==1||resultBeen.getResult()==2){
+                if (resultBeen.getResult() == 1 || resultBeen.getResult() == 2) {
                     ToastUtils.showShort("购买成功");
-                }else {
+                } else {
                     ToastUtils.showShort("购买失败");
                 }
             }
@@ -135,12 +138,12 @@ public class StarSellActivity extends BaseActivity {
         tv_sure_buy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isPresell){
+                if (isPresell) {
                     ToastUtils.showShort("当前是预售阶段,无法购买,请等待");
                     return;
                 }
                 float total_money = (float) (num * ask_buy_prices);
-                if (total_money<=0){
+                if (total_money <= 0) {
                     ToastUtils.showShort("总价不能零");
                     return;
                 }
@@ -149,7 +152,7 @@ public class StarSellActivity extends BaseActivity {
                     passwordView.setVisibility(View.VISIBLE);
                 }
                 //byBuyStar();
-                LogUtils.loge("ask_buy_prices:"+ask_buy_prices+"num:"+num+"total_money:"+total_money);
+                LogUtils.loge("ask_buy_prices:" + ask_buy_prices + "num:" + num + "total_money:" + total_money);
             }
         });
         passwordView.setOnFinishInput(new PasswordView.CheckPasCallBake() {
@@ -173,7 +176,7 @@ public class StarSellActivity extends BaseActivity {
         imageView_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StarInfoActivity.goToStarInfoActivity(StarSellActivity.this,starCode);
+                StarInfoActivity.goToStarInfoActivity(StarSellActivity.this, starCode);
             }
         });
     }
@@ -188,28 +191,32 @@ public class StarSellActivity extends BaseActivity {
             @Override
             public void onSuccess(ShoppingStarBean shoppingStarBean) {
                 showViewData(shoppingStarBean);
+                getRefreshTime();
             }
         });
 
     }
 
     private void showViewData(final ShoppingStarBean shoppingStarBean) {
-        ImageLoaderUtils.displayWithDefaultImg(this, iv_star_bg, shoppingStarBean.getBack_pic_url(), R.drawable.rec_bg);
-        ImageLoaderUtils.displaySmallPhoto(this, imageView_icon, shoppingStarBean.getHead_url());
+        ImageLoaderUtils.displayWithDefaultImg(this, iv_star_bg, shoppingStarBean.getBack_pic_url_tail(), R.drawable.rec_bg);
+        ImageLoaderUtils.displaySmallPhoto(this, imageView_icon, shoppingStarBean.getHead_url_tail());
         tv_name.setText(shoppingStarBean.getStar_name());
-        tv_preice.setText(String.format(getString(R.string.times_p),shoppingStarBean.getPublish_price()));
+        tv_preice.setText(String.format(getString(R.string.times_p), shoppingStarBean.getPublish_price()));
         tv_star_job.setText(starwork);
-        if (isPresell){
-            tv_time.setText(String.format(getString(R.string.presell_time), TimeUtil.formatData(TimeUtil.dateFormatYMD, shoppingStarBean.getPublish_begin_time()),
-                    TimeUtil.formatData(TimeUtil.dateFormatYMD, shoppingStarBean.getPublish_end_time())));
-            tv_num.setText(String.format(getString(R.string.presell_tolnum), shoppingStarBean.getPublish_time()));
-        }else {
-            tv_time.setText(String.format(getString(R.string.shell_time), TimeUtil.formatData(TimeUtil.dateFormatYMD, shoppingStarBean.getPublish_begin_time()),
-                    TimeUtil.formatData(TimeUtil.dateFormatYMD, shoppingStarBean.getPublish_end_time())));
-            tv_num.setText(String.format(getString(R.string.shell_tolnum), shoppingStarBean.getPublish_time()));
-        }
+//        if (isPresell){
+//            tv_time.setText(String.format(getString(R.string.presell_time), TimeUtil.formatData(TimeUtil.dateFormatYMD, shoppingStarBean.getPublish_begin_time()),
+//                    TimeUtil.formatData(TimeUtil.dateFormatYMD, shoppingStarBean.getPublish_end_time())));
+//            tv_num.setText(String.format(getString(R.string.presell_tolnum), shoppingStarBean.getPublish_time()));
+//        }else {
+        beginTime = shoppingStarBean.getPublish_begin_time();
+        endTime = shoppingStarBean.getPublish_end_time();
+        tv_time.setText(String.format(getString(R.string.shell_time), TimeUtil.formatData(TimeUtil.dateFormatYMD, beginTime),
+                TimeUtil.formatData(TimeUtil.dateFormatYMD, endTime)));
+        tv_num.setText(String.format(getString(R.string.shell_tolnum), shoppingStarBean.getPublish_time()));
+//        }
         ed_num.setHint(String.format(getString(R.string.shell_tolnum_info), shoppingStarBean.getPublish_time()));
-        tv_total.setText(String.format(getString(R.string.total_money_),0f));
+        tv_total.setText(String.format(getString(R.string.total_money_), 0f));
+
         ed_num.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -222,19 +229,19 @@ public class StarSellActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (TextUtils.isEmpty(s.toString().trim())){
-                    num=0;
-                }else {
+                if (TextUtils.isEmpty(s.toString().trim())) {
+                    num = 0;
+                } else {
                     num = Integer.valueOf(s.toString().trim());
                 }
                 BigDecimal bg = new BigDecimal(shoppingStarBean.getPublish_price());
                 ask_buy_prices = bg.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
                 float total_price = (float) (num * ask_buy_prices);
-                tv_total.setText(String.format(getString(R.string.total_money_),total_price));
-                LogUtils.loge(shoppingStarBean.getPublish_price()+"价格保留2位数前："+ ask_buy_prices +"后:"+String.valueOf(total_price));
-                if (total_price<=0){
+                tv_total.setText(String.format(getString(R.string.total_money_), total_price));
+                LogUtils.loge(shoppingStarBean.getPublish_price() + "价格保留2位数前：" + ask_buy_prices + "后:" + String.valueOf(total_price));
+                if (total_price <= 0) {
                     tv_sure_buy.setEnabled(false);
-                }else {
+                } else {
                     tv_sure_buy.setEnabled(true);
                 }
             }
@@ -242,21 +249,16 @@ public class StarSellActivity extends BaseActivity {
     }
 
     private void getRefreshTime() {
-        NetworkAPIFactoryImpl.getInformationAPI().getRefreshStar(userId, token, starCode, new OnAPIListener<RefreshStarTimeBean>() {
-            @Override
-            public void onError(Throwable ex) {
-
-            }
-
-            @Override
-            public void onSuccess(RefreshStarTimeBean refreshStarTimeBean) {
-                secondTime = refreshStarTimeBean.getRemainingTime();
-                if (myHandler != null) {
-                    myHandler.removeCallbacksAndMessages(null);
-                    myHandler.sendEmptyMessage(myHandler.GRT_DATA);
-                }
-            }
-        });
+        try {
+            secondTime = TimeUtil.getNetTimeInLong()/1000;
+        } catch (ParseException e) {
+            e.printStackTrace();
+            secondTime = TimeUtil.getCurrentTimeInLong()/1000;
+        }
+        if (myHandler != null) {
+            myHandler.removeCallbacksAndMessages(null);
+            myHandler.sendEmptyMessage(myHandler.GRT_DATA);
+        }
     }
 
     private static class MyHandler extends Handler {
@@ -280,18 +282,51 @@ public class StarSellActivity extends BaseActivity {
         }
     }
 
-    private int secondTime = 0;
+    private long secondTime = 0;
+    private long beginTime = 0;
+    private long endTime = 0;
 
     private void refreshTime() {
-        if (tv_time_count != null && secondTime > 0 && myHandler != null) {
-            tv_time_count.setText(TimeUtil.calculatTime(secondTime));
-            LogUtils.loge(secondTime+"");
-            secondTime--;
+
+//        if (tv_time_count != null && secondTime > 0 && myHandler != null) {
+//            isPresell = true;
+//            tv_time_count.setText(TimeUtil.calculatTime(secondTime));
+//            secondTime--;
+//            myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 1000);
+//        } else if (tv_time_count != null && secondTime <= 0) {
+//            isPresell = false;
+//            tv_time_start.setVisibility(View.GONE);
+//            tv_time_count.setText("未开始");
+//        }
+//        if (isPresell){
+//            nl_title.setTitleText(getString(R.string.pre_shells));
+//        }else {
+//            nl_title.setTitleText(getString(R.string.shells));
+//        }
+
+        secondTime++;
+        tv_time_start.setVisibility(View.VISIBLE);
+        isPresell = true;
+        String title = getString(R.string.pre_shells);
+        String timeDescsc = getString(R.string.begin_times);
+        String timeRemainder = TimeUtil.calculatTime(beginTime - secondTime);
+        if(secondTime < beginTime){
             myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 1000);
-        } else if (tv_time_count != null && secondTime <= 0) {
-            tv_time_start.setVisibility(View.GONE);
-            tv_time_count.setText("未开始");
         }
+        if (secondTime >= beginTime) {
+            timeDescsc = getString(R.string.end_times);
+            timeRemainder = TimeUtil.calculatTime(endTime - secondTime);
+            isPresell = false;
+            title = getString(R.string.shells);
+            myHandler.sendEmptyMessageDelayed(myHandler.GRT_DATA, 1 * 1000);
+        }
+        if (secondTime >= endTime) {
+            tv_time_start.setVisibility(View.GONE);
+            timeRemainder = "已结束";
+        }
+        tv_time_start.setText(timeDescsc);
+        tv_time_count.setText(timeRemainder);
+        nl_title.setTitleText(title);
     }
 
     @Override
@@ -299,6 +334,7 @@ public class StarSellActivity extends BaseActivity {
         myHandler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         switch (keyCode) {

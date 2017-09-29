@@ -17,12 +17,15 @@ public class StarInfo {
     private int gender;
     private String name;
     private String phone;
-    private String pic_url;
     private String pic1;
+    private String pic_url;
+    private String pic_url_tail;
+
     private double price;
-    @Generated(hash = 1073765957)
+    @Generated(hash = 692503706)
     public StarInfo(Long id, String accid, String brief, String code, int gender,
-            String name, String phone, String pic_url, String pic1, double price) {
+            String name, String phone, String pic1, String pic_url,
+            String pic_url_tail, double price) {
         this.id = id;
         this.accid = accid;
         this.brief = brief;
@@ -30,8 +33,9 @@ public class StarInfo {
         this.gender = gender;
         this.name = name;
         this.phone = phone;
-        this.pic_url = pic_url;
         this.pic1 = pic1;
+        this.pic_url = pic_url;
+        this.pic_url_tail = pic_url_tail;
         this.price = price;
     }
     @Generated(hash = 859816840)
@@ -98,4 +102,27 @@ public class StarInfo {
         this.price = price;
     }
 
+    public String getPic_url_tail() {
+        return this.pic_url_tail;
+    }
+    public void setPic_url_tail(String pic_url_tail) {
+        this.pic_url_tail = pic_url_tail;
+    }
+
+    @Override
+    public String toString() {
+        return "StarInfo{" +
+                "id=" + id +
+                ", accid='" + accid + '\'' +
+                ", brief='" + brief + '\'' +
+                ", code='" + code + '\'' +
+                ", gender=" + gender +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", pic1='" + pic1 + '\'' +
+                ", pic_url='" + pic_url + '\'' +
+                ", pic_url_tail='" + pic_url_tail + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }

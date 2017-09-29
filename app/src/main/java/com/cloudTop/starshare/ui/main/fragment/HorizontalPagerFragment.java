@@ -23,7 +23,7 @@ import java.util.List;
 /**
  *#75
  *#76
- * 抢购明星
+ * 抢购网红
  */
 public class HorizontalPagerFragment extends BaseFragment {
 
@@ -51,8 +51,7 @@ public class HorizontalPagerFragment extends BaseFragment {
     protected void initView() {
         getHasVirtualKey();
         getNoHasVirtualKey();
-        DisplayMetrics dm = new DisplayMetrics();
-        dm = getResources().getDisplayMetrics();
+        DisplayMetrics dm = getResources().getDisplayMetrics();
         screenWidth = dm.widthPixels;
         horizontalInfiniteCycleViewPager = (HorizontalInfiniteCycleViewPager) rootView.findViewById(R.id.hicvp);
         fm_layout = (FrameLayout) rootView.findViewById(R.id.fm_layout);
@@ -61,7 +60,7 @@ public class HorizontalPagerFragment extends BaseFragment {
         initPagerData();
     }
 
-    //获取明星信息
+    //获取网红信息
     private void initPagerData() {
         NetworkAPIFactoryImpl.getInformationAPI().getHomePage(userId, token, 4, new OnAPIListener<HomePageInfoBean>() {
             @Override
@@ -84,7 +83,7 @@ public class HorizontalPagerFragment extends BaseFragment {
                     closeErrorView();
                     HomePageInfoBean.SymbolInfoBean bean = new HomePageInfoBean.SymbolInfoBean();
                     bean.setPushlish_type(-1);
-                    bean.setHome_pic(homePageInfoBean.getHome_last_pic());
+                    bean.setHome_pic_tail(homePageInfoBean.getHome_last_pic_tail());
                     symbol_info.add(bean);
                     adapter = new HorizontalPagerAdapter(getContext(), symbol_info,haveVirtualKey);
                     if (!haveInitPager){

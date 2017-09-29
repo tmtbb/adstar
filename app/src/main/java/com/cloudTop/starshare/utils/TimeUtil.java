@@ -1094,6 +1094,7 @@ public class TimeUtil {
         SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
         return format.format(new Date(time));
     }
+
     //毫秒转化为YD
     public static String getYD(long time) {
         SimpleDateFormat format = new SimpleDateFormat("MM-dd");
@@ -1102,6 +1103,11 @@ public class TimeUtil {
 
     public static String getTime(long time) {
         SimpleDateFormat format = new SimpleDateFormat("yy/MM/dd HH:mm");
+        return format.format(new Date(time));
+    }
+
+    public static String getYMDTime(long time) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy/MM/dd");
         return format.format(new Date(time));
     }
 
@@ -1138,7 +1144,7 @@ public class TimeUtil {
 
     //定义默认时区为0的，将毫秒转为HH:mm:ss
     public static String getHMS(long time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss" , Locale.getDefault());
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
         sdf.setTimeZone(TimeZone.getTimeZone("GMT+0"));
         Date date = new Date(time);
         sdf.format(date);
@@ -1146,42 +1152,185 @@ public class TimeUtil {
     }
 
     //将秒转化为 时：分：秒 格式
-    public  static String calculatTime(long milliSecondTime) {
+    public static String calculatTime(long milliSecondTime) {
 
-        long hour = milliSecondTime /(60*60);
-        long minute = (milliSecondTime - hour*60*60)/(60);
-        long seconds = milliSecondTime - hour*60*60 - minute*60;
-        LogUtils.loge("hour"+hour+"minute"+minute+"seconds"+seconds+"milliSecondTime"+milliSecondTime);
-        if(seconds >= 60 )
-        {
+        long hour = milliSecondTime / (60 * 60);
+        long minute = (milliSecondTime - hour * 60 * 60) / (60);
+        long seconds = milliSecondTime - hour * 60 * 60 - minute * 60;
+        if (seconds >= 60) {
             seconds = seconds % 60;
-            minute+=seconds/60;
+            minute += seconds / 60;
         }
-        if(minute >= 60)
-        {
+        if (minute >= 60) {
             minute = minute % 60;
-            hour  += minute/60;
+            hour += minute / 60;
         }
 
         String sh = "";
-        String sm ="";
+        String sm = "";
         String ss = "";
-        if(hour <10) {
+        if (hour < 10) {
             sh = "0" + String.valueOf(hour);
-        }else {
+        } else {
             sh = String.valueOf(hour);
         }
-        if(minute <10) {
+        if (minute < 10) {
             sm = "0" + String.valueOf(minute);
-        }else {
+        } else {
             sm = String.valueOf(minute);
         }
-        if(seconds <10) {
+        if (seconds < 10) {
             ss = "0" + String.valueOf(seconds);
-        }else {
+        } else {
             ss = String.valueOf(seconds);
         }
 
-        return sh +":"+sm+":"+ ss;
+        return sh + ":" + sm + ":" + ss;
+    }
+
+    public static final SimpleDateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static final SimpleDateFormat DATE_FORMAT_DATE    = new SimpleDateFormat("yyyy-MM-dd");
+    public static final Calendar CAL = Calendar.getInstance();
+    public static final int YEAR =  Calendar.YEAR;
+    public static final int DATE =  Calendar.DATE;
+    public static final int MONTH =  Calendar.MONTH;
+
+    private TimeUtil() {
+        throw new AssertionError();
+
+    }
+
+    /**
+     * 把timeInMillis转化成"yyyy-MM-dd HH:mm:ss"格式的时间字符串返回
+     * @param timeInMillis  毫秒级时间
+     * @return
+     */
+    public static String getTimeString(long timeInMillis) {
+        return getTimeString(timeInMillis, DEFAULT_DATE_FORMAT);
+    }
+
+    /**
+     * 把date转化成"yyyy-MM-dd HH:mm:ss"格式的时间字符串返回
+     * @param date  Date对象
+     * @return
+     */
+    public static String getTimeString(Date date) {
+        return DEFAULT_DATE_FORMAT.format(date);
+    }
+
+    /**
+     * 把timeInMillis转化成dateFormat格式的时间字符串返回
+     * @param timeInMillis  毫秒级时间
+     * @param dateFormat
+     * @return
+     */
+    public static String getTimeString(long timeInMillis, SimpleDateFormat dateFormat) {
+        return dateFormat.format(new Date(timeInMillis));
+    }
+
+    /**
+     * 把date转化成dateFormat格式的时间字符串返回
+     * @param date  Date对象
+     * @param dateFormat  格式对象
+     * @return
+     */
+    public static String getTimeString(Date date, SimpleDateFormat dateFormat) {
+        return dateFormat.format(date);
+    }
+
+    /**
+     * 把date转化成dateFormat格式的时间字符串返回
+     * @param time  Date对象
+     * @param dateFormat  格式对象
+     * @return
+     */
+    public static Date getTimeString(String time, SimpleDateFormat dateFormat) throws ParseException {
+        return dateFormat.parse(time);
+    }
+
+    /**
+     * 把字符串按照"yyyy-MM-dd HH:mm:ss"格式 转化成时间Date对象返回
+     * @param time  时间字符串
+     * @return
+     */
+    public static Date getTimeDate(String time) throws ParseException {
+        return DEFAULT_DATE_FORMAT.parse(time);
+    }
+
+    /****
+     * 把字符串按照指定格式 转化成时间Date对象返回
+     * @param time  时间字符串
+     * @param dateFormat  时间格式对象
+     * @return
+     */
+    public static Date getTimeDate(String time, SimpleDateFormat dateFormat) throws ParseException {
+        return dateFormat.parse(time);
+    }
+
+    public static String getNetTimeInString() {
+        SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+        return dff.format(new Date());
+    }
+
+    public static String getNetTimeInString(SimpleDateFormat dateFormat) {
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+        return dateFormat.format(new Date());
+    }
+
+    public static long getNetTimeInLong() throws ParseException {
+        SimpleDateFormat dff = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dff.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+        Date date = DEFAULT_DATE_FORMAT.parse(dff.format(new Date()));
+        return date.getTime();
+    }
+
+    public static long getNetTimeInLong(SimpleDateFormat dateFormat) throws ParseException {
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+08"));
+        Date date = DEFAULT_DATE_FORMAT.parse(dateFormat.format(new Date()));
+        return date.getTime();
+    }
+
+
+
+    /**
+     * get current time in milliseconds
+     *
+     * @return
+     */
+    public static long getCurrentTimeInLong() {
+        return System.currentTimeMillis();
+    }
+
+    /**
+     * get current time in milliseconds, format is {@link #DEFAULT_DATE_FORMAT}
+     *
+     * @return
+     */
+    public static String getCurrentTimeInString() {
+        return getTimeString(getCurrentTimeInLong());
+    }
+
+    /**
+     * get current time in milliseconds
+     *
+     * @return
+     */
+    public static String getCurrentTimeInString(SimpleDateFormat dateFormat) {
+        return getTimeString(getCurrentTimeInLong(), dateFormat);
+    }
+
+    /**
+     * 增加或减少当前时间
+     *
+     * @param date         需要修改的时间对象
+     * @param timeNumer    修改的数量
+     * @param CalendarFlag 使用Calendar的一些属相来设置,这个参数取Calendar.SECOND，则timeNumer增加的是秒的数量
+     * @return
+     */
+    public static Date add(Date date, int timeNumer, int CalendarFlag) {
+        Calendar.getInstance().setTime(date);
+        Calendar.getInstance().add(CalendarFlag, timeNumer);
+        return Calendar.getInstance().getTime();
     }
 }

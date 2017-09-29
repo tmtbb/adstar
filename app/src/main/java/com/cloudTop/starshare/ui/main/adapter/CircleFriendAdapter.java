@@ -67,17 +67,17 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
         final List<CircleFriendBean.CircleListBean.CommentListBean> commentsDatas = circleItem.getComment_list();
         boolean hasFavort = circleItem.hasFavort();
         boolean hasComment = circleItem.hasComment();
-        ImageLoaderUtils.displaySmallPhoto(context,circleViewHolder.headIv,circleItem.getHead_url());
+        ImageLoaderUtils.displaySmallPhoto(context,circleViewHolder.headIv,circleItem.getHead_url_tail());
         circleViewHolder.nameTv.setText(circleItem.getSymbol_name());
-        if (TextUtils.isEmpty(circleItem.getPic_url())){
+        if (TextUtils.isEmpty(circleItem.getPic_url_tail())){
             circleViewHolder.img_back.setVisibility(View.GONE);
         }else {
-            //ImageLoaderUtils.displaySmallPhoto(context,circleViewHolder.img_back,circleItem.getPic_url());
-            ImageLoaderUtils.displayWithDefaultImg(context, circleViewHolder.img_back, circleItem.getPic_url(),R.drawable.rec_bg);
+            //ImageLoaderUtils.displaySmallPhoto(context,circleViewHolder.img_back,circleItem.getPic_url_tail());
+            ImageLoaderUtils.displayWithDefaultImg(context, circleViewHolder.img_back, circleItem.getPic_url_tail(),R.drawable.rec_bg);
             circleViewHolder.img_back.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    showPopupWindow(circleItem.getPic_url());
+                    showPopupWindow(circleItem.getPic_url_tail());
                 }
             });
         }
@@ -106,7 +106,7 @@ public class CircleFriendAdapter extends BaseRecycleViewAdapter{
                     @Override
                     public void onItemClick(int commentPosition) {
                         CircleFriendBean.CircleListBean.CommentListBean commentItem = commentsDatas.get(commentPosition);
-                        if(1==commentItem.getDirection()){//回复明星的评论
+                        if(1==commentItem.getDirection()){//回复网红的评论
                             if(presenter != null){
                                 CommentConfig config = new CommentConfig();
                                 config.circlePosition = position;

@@ -31,7 +31,7 @@ public class FindStarFragment extends BaseFragment {
 
     private CommonTabLayout tabLayout;
     private NormalTitleBar nt_title;
-    private String[] mTitles = {"抢购明星", "明星互动"};
+    private String[] mTitles = {"抢购网红", "网红互动"};
     private ArrayList<CustomTabEntity> mTabEntities = new ArrayList<>();
     private HorizontalPagerFragment horizontalPagerFragment;
     private StartInteractFragment startInteractFragment;

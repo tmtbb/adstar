@@ -80,7 +80,7 @@ public class KChartFragment extends BaseFragment {
             code = getArguments().getString(AppConstant.STAR_CODE);
             wid = getArguments().getString(AppConstant.STAR_WID);
             head_url = getArguments().getString(AppConstant.STAR_HEAD_URL);
-            LogUtils.loge("明星code"+ code);
+            LogUtils.loge("网红code"+ code);
         }
         initChart();
         mHandler = new MyHandler(this);

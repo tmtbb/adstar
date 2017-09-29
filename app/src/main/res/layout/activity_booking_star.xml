@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <com.cloudTop.starshare.widget.NormalTitleBar
@@ -11,37 +12,60 @@
 
     <RadioGroup
         android:layout_width="match_parent"
-        android:layout_marginLeft="@dimen/dp_40"
-        android:layout_height="@dimen/dp_45"
-        android:layout_marginRight="@dimen/dp_40"
-        android:orientation="horizontal"
-        android:padding="@dimen/dp_5">
+        android:layout_height="@dimen/dp_50"
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingRight="@dimen/dp_15"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <RadioButton
             android:id="@+id/rb_holding_times"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_35"
             android:layout_weight="1"
-            android:background="@drawable/selector_auction"
+            android:background="@drawable/selector_booking_action"
             android:button="@null"
             android:checked="true"
             android:gravity="center"
             android:text="@string/holding_star_time"
             android:textColor="@color/font_333333"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_14" />
 
         <RadioButton
-            android:layout_marginLeft="@dimen/dp_20"
             android:id="@+id/rb_booking_starus"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_35"
             android:layout_weight="1"
-            android:background="@drawable/selector_auction"
+            android:background="@drawable/selector_booking_action"
             android:button="@null"
             android:gravity="center"
             android:text="@string/booking_star_status"
             android:textColor="@color/font_333333"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/text_size_14" />
+
+        <RadioButton
+            android:id="@+id/rb_booking_ask_by_video"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_35"
+            android:layout_weight="1"
+            android:background="@drawable/selector_booking_action"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/booking_star_ask_by_video"
+            android:textColor="@color/font_333333"
+            android:textSize="@dimen/text_size_14" />
+
+        <RadioButton
+            android:id="@+id/rb_booking_make_voice"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_35"
+            android:layout_weight="1"
+            android:background="@drawable/selector_booking_action"
+            android:button="@null"
+            android:gravity="center"
+            android:text="@string/booking_star_make_voice"
+            android:textColor="@color/font_333333"
+            android:textSize="@dimen/text_size_14" />
 
     </RadioGroup>
 

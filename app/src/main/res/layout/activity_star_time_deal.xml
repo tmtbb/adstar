@@ -103,7 +103,7 @@
                     android:layout_below="@+id/tv_name"
                     android:layout_marginTop="6dp"
                     android:maxWidth="120dp"
-                    android:text="明星"
+                    android:text="网红"
                     android:textColor="@color/color_white_ffffffff"
                     android:textSize="@dimen/fontSize_12sp" />
 

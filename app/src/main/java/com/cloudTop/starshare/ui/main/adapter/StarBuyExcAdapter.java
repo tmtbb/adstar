@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.cloudTop.starshare.been.StarExperienceBeen;
 import com.cloudTop.starshare.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,10 +21,14 @@ import java.util.List;
 public class StarBuyExcAdapter extends BaseAdapter {
     private Context context;
     private List<StarExperienceBeen.ListBean> starBuyExcList;
+    private List<StarExperienceBeen.ListBean> starBuyExcOne = new ArrayList<>();
+    private List<StarExperienceBeen.ListBean> starBuyExAll = new ArrayList<>();
 
     public StarBuyExcAdapter(Activity context, List<StarExperienceBeen.ListBean> starBuyExcList) {
         this.context = context;
         this.starBuyExcList = starBuyExcList;
+        this.starBuyExAll = starBuyExcList;
+        starBuyExcOne.add(starBuyExcList.get(0));
     }
 
     @Override
@@ -57,5 +62,13 @@ public class StarBuyExcAdapter extends BaseAdapter {
     }
     public static class ViewHolder {
         TextView tv_content;
+    }
+    public void setShareAll (boolean isAll){
+        if (isAll){
+            starBuyExcList = starBuyExAll;
+        }else {
+            starBuyExcList = starBuyExcOne;
+        }
+        notifyDataSetChanged();
     }
 }

@@ -52,10 +52,10 @@ public class NewsInforModel implements NewInfoContract.Model, Parcelable {
 
         private int id;
         private String link_url;
-        private String link_url_tail;
+        private String link_url_tail="";
         private String remarks;
         private String showpic_url;
-        private String showpic_url_tail;
+        private String showpic_url_tail="";
         private String starcode;
         private String starname;
         private String subject_name;

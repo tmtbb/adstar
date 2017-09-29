@@ -71,7 +71,7 @@ import static com.qiangxi.checkupdatelibrary.dialog.UpdateDialog.UPDATE_DIALOG_P
 public class MainActivity extends BaseActivity {
     @Bind(R.id.tab_bottom_layout)
     CommonTabLayout tabLayout;
-    private String[] mTitles = {"发现明星", "明星热度", "个人中心"};
+    private String[] mTitles = {"发现网红", "网红热度", "个人中心"};
     private int[] mIconUnselectIds = {
             R.drawable.differ_answer_no_ok, R.drawable.market_no_ok, R.drawable.me_no_ok};
     private int[] mIconSelectIds = {

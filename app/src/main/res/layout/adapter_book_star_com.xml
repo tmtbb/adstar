@@ -26,7 +26,7 @@
         android:textSize="@dimen/text_size_14" />
 
     <TextView
-        android:text="明星"
+        android:text="网红"
         android:maxWidth="140dp"
         android:id="@+id/tv_star_job"
         android:layout_width="wrap_content"

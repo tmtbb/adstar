@@ -59,7 +59,7 @@ public class StarIntroFragment extends BaseFragment {
     private void init() {
         if (getArguments()!=null){
             code = getArguments().getString(AppConstant.STAR_CODE);
-            LogUtils.loge("明星code"+code);
+            LogUtils.loge("网红code"+code);
         }
         initFindById();
         gitData();
@@ -106,7 +106,7 @@ public class StarIntroFragment extends BaseFragment {
         tv_4.setText(String.format(getActivity().getString(R.string.intro_constellation),info.getConstellaction()+""));
         tv_5.setText(String.format(getActivity().getString(R.string.intro_birth_day),info.getBirth()+""));
         tv_6.setText(String.format(getActivity().getString(R.string.intro_colleage),info.getColleage()+""));
-        ImageLoaderUtils.displayWithDefaultImg(getActivity(),img_adv,info.getPic_url(),R.drawable.rec_bg);
+        ImageLoaderUtils.displayWithDefaultImg(getActivity(),img_adv,info.getPic_url_tail(),R.drawable.rec_bg);
     }
     private void getStarExperience() {
         NetworkAPIFactoryImpl.getInformationAPI().getStarExperience(code, new OnAPIListener<StarExperienceBeen>() {

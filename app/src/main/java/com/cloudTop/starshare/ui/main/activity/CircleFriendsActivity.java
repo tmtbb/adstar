@@ -94,6 +94,7 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
     private String starUrl;
     private boolean isOne;
     private String describe="";
+    private ShareControlerView controlerView;
 
     @Override
     public int getLayoutId() {
@@ -135,13 +136,13 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
         mElEmotion = (EmotionLayout) findViewById(R.id.elEmotion);
         mElEmotion.attachEditText(mEtContent);
         if (isOne){
-//            nt_title.setRightImagSrc(R.drawable.share);
-//            nt_title.setOnRightImagListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                share();
-//            }
-//        });
+            nt_title.setRightImagSrc(R.drawable.share);
+            nt_title.setOnRightImagListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                share();
+            }
+        });
         }
         initEmotionKeyboard();
     }
@@ -536,20 +537,27 @@ public class CircleFriendsActivity extends BaseActivity implements CircleContrac
                 updateEditTextBodyVisible(View.GONE, null);
                 return true;
             }
+            if (controlerView!=null&&controlerView.isOpen() ==true) {
+                controlerView.closeShareView();
+                return true;
+            }
         }
         return super.onKeyDown(keyCode, event);
     }
 
     private void share() {
-        ShareControlerView controlerView = new ShareControlerView(this, mContext, umShareListener);
-        String webUrl = "http://www.zhongyuliying.com/"+"?uid="+ SharePrefUtil.getInstance().getUserId();
-        String title = starName+" 正在星云出售TA的时间";
+        controlerView = new ShareControlerView(this, mContext, umShareListener);
+        String webUrl = "http://www.zhongyuliying.com/"+"?uid="+ SharePrefUtil.getInstance().getUserId()
+                +"&star_code="+code;
+        String title = starName+" 正在星享时光出售TA的时间";
         String text = "文本";
         controlerView.setText(text);
         controlerView.setWebUrl(webUrl);
         controlerView.setDescribe(describe);
         controlerView.setTitle(title);
         controlerView.setImageurl(starUrl);
+        controlerView.setStarName(starName);
+        controlerView.setStarWork("网红");
         controlerView.showShareView(rootView);
     }
 

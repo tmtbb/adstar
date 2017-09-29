@@ -31,11 +31,25 @@ public class CashHistoryAdapter extends ListBaseAdapter<WithDrawCashHistoryBean>
         TextView time = holder.getView(R.id.tv_cash_time);
         TextView bankName = holder.getView(R.id.tv_bank_name);
         TextView cashMoney = holder.getView(R.id.tv_cash_money);
+        TextView cashState = holder.getView(R.id.tv_cash_state);
 
         time.setText(item.getWithdrawTime());
         bankName.setText(String.format(mContext.getResources().getString(R.string.bank_end_number),
                 item.getBank(), FormatUtil.getCardEnd(item.getCardNo())));
         cashMoney.setText("-" + item.getAmount());
+        int state = item.getStatus();//1或0进行中，2成功，3失败
+        switch (state) {
+            case 1:
+            case 0:
+                cashState.setText("进行中");
+                break;
+            case 2:
+                cashState.setText("提现成功");
+                break;
+            case 3:
+                cashState.setText("提现失败");
+                break;
+        }
 
     }
 }

@@ -12,6 +12,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Binder;
 import android.os.Build;
 import android.text.ClipboardManager;
@@ -432,5 +434,14 @@ public class Utils {
 //		if(imm.isActive(v)){
         imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
 //		}
+    }
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
+    }
+    public static boolean isLiveStreamingAvailable() {
+        // Todo: Please ask your app server, is the live streaming still available
+        return true;
     }
 }

@@ -4,6 +4,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.cloudTop.starshare.base.BaseActivity;
+import com.cloudTop.starshare.ui.main.fragment.BookingStarAskByVideoFragment;
+import com.cloudTop.starshare.ui.main.fragment.BookingStarMakeVoiceFragment;
 import com.cloudTop.starshare.ui.main.fragment.BookingStarStatusFragment;
 import com.cloudTop.starshare.ui.main.fragment.HoldingStarTimeFragment;
 import com.cloudTop.starshare.widget.NormalTitleBar;
@@ -15,14 +17,22 @@ import butterknife.OnClick;
 /**
  * 预约名单
  * Created by sll on 2017/5/24.
+ * Change By Shi on 2017-9-12 16:47:16
  */
 
 public class BookingStarActivity extends BaseActivity {
 
     @Bind(R.id.nt_title)
     NormalTitleBar ntTitle;
+
+    //持有時間
     private HoldingStarTimeFragment holdingStarTimeFragment;
+    //約見情況
     private BookingStarStatusFragment bookingStarStatusFragment;
+    //視頻提問
+    private BookingStarAskByVideoFragment bookingStarAskByVideoFragment;
+    //語音定製
+    private BookingStarMakeVoiceFragment bookingStarMakeVoiceFragment;
 
     @Override
     public int getLayoutId() {
@@ -35,7 +45,7 @@ public class BookingStarActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        ntTitle.setTitleText(getResources().getString(R.string.booking_star_list));
+        ntTitle.setTitleText(getResources().getString(R.string.booking_star_title));
         ntTitle.setBackVisibility(true);
         initFragment();
         switchTo(1);
@@ -44,6 +54,8 @@ public class BookingStarActivity extends BaseActivity {
     private void initFragment() {
         holdingStarTimeFragment = new HoldingStarTimeFragment();
         bookingStarStatusFragment = new BookingStarStatusFragment();
+        bookingStarAskByVideoFragment = new BookingStarAskByVideoFragment();
+        bookingStarMakeVoiceFragment = new BookingStarMakeVoiceFragment();
     }
 
 
@@ -58,11 +70,19 @@ public class BookingStarActivity extends BaseActivity {
                 transaction.replace(R.id.fl_container, bookingStarStatusFragment);
                 transaction.commit();
                 break;
+            case 3:
+                transaction.replace(R.id.fl_container, bookingStarAskByVideoFragment);
+                transaction.commit();
+                break;
+            case 4:
+                transaction.replace(R.id.fl_container, bookingStarMakeVoiceFragment);
+                transaction.commit();
+                break;
         }
     }
 
 
-    @OnClick({R.id.rb_holding_times, R.id.rb_booking_starus})
+    @OnClick({R.id.rb_holding_times, R.id.rb_booking_starus, R.id.rb_booking_ask_by_video, R.id.rb_booking_make_voice})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rb_holding_times:
@@ -70,6 +90,12 @@ public class BookingStarActivity extends BaseActivity {
                 break;
             case R.id.rb_booking_starus:
                 switchTo(2);
+                break;
+            case R.id.rb_booking_ask_by_video:
+                switchTo(3);
+                break;
+            case R.id.rb_booking_make_voice:
+                switchTo(4);
                 break;
         }
     }

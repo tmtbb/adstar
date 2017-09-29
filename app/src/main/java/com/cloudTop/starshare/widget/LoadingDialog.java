@@ -2,12 +2,14 @@ package com.cloudTop.starshare.widget;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.cloudTop.starshare.R;
+import com.cloudTop.starshare.utils.LogUtils;
 
 
 /**
@@ -53,8 +55,12 @@ public class LoadingDialog {
      * 关闭加载对话框
      */
     public static void cancelDialogForLoading() {
-        if(mLoadingDialog != null&&mLoadingDialog.isShowing()) {
+        if(mLoadingDialog != null && mLoadingDialog.isShowing()) {
             mLoadingDialog.cancel();
+            mLoadingDialog = null;
+            Log.e("LoadingDialog","取消加載框被執行");
+        }else{
+            Log.e("LoadingDialog","取消加載框沒有被執行");
         }
     }
 }

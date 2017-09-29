@@ -80,7 +80,7 @@ public class BillingDetailsActivity extends BaseActivity {
             } else {
                 plus_minus = "-";
                 billingBankInfo.setText(getString(R.string.money_issuer_info));
-                List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(bean.getTransaction_id());
+                List<StarInfo> starInfos = GreenDaoManager.getInstance().queryStarList(bean.getTransaction_id());
                 if (starInfos.size() != 0) {
                     StarInfo starInfo = starInfos.get(0);
                     petname.setText(starInfo.getName());

@@ -231,7 +231,7 @@ public class WXEntryActivity extends WXCallbackActivity implements IWXAPIEventHa
                         }
                         LogUtils.logd("登录成功" + info.getUserinfo().getPhone());
                         String name = "星云"+info.getUserinfo().getPhone().substring(8,info.getUserinfo().getPhone().length());
-                        //网易云注册    usertype  : 0普通用户 1,明星
+                        //网易云注册    usertype  : 0普通用户 1,网红
                         NetworkAPIFactoryImpl.getUserAPI().registerWangYi(0,info.getUserinfo().getPhone(), name, info.getUserinfo().getId(), new OnAPIListener<RegisterReturnWangYiBeen>() {
                             @Override
                             public void onError(Throwable ex) {

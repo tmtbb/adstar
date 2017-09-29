@@ -21,7 +21,7 @@ import io.netty.buffer.ByteBufInputStream;
 
 public class SocketDataPacket implements Serializable {
 
-    private Short packetLength = 24;
+    private Short packetLength = 26;
     private byte isZipEncrypt = 0;
     private byte type = 0;
     private Short signature = 0;
@@ -38,6 +38,7 @@ public class SocketDataPacket implements Serializable {
     }
 
     public SocketDataPacket(short operateCode,byte type,byte[] dataBody){
+        this.isZipEncrypt = 0;
         this.operateCode = operateCode;
         this.dataBody = dataBody;
         this.type = type;

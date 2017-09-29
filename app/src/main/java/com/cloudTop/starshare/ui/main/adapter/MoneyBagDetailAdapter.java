@@ -47,7 +47,7 @@ public class MoneyBagDetailAdapter extends ListBaseAdapter<MoneyDetailListBean> 
             status.setText(BuyHandleStatuUtils.getRechargeStatus(item.getStatus()));
         } else {
             plus_minus = "-";
-            List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(item.getTransaction_id());
+            List<StarInfo> starInfos = GreenDaoManager.getInstance().queryStarList(item.getTransaction_id());
             if (starInfos.size() != 0) {
                 StarInfo starInfo = starInfos.get(0);
                 name.setText(String.format(mContext.getString(R.string.name_code), starInfo.getName(), item.getTransaction_id()));

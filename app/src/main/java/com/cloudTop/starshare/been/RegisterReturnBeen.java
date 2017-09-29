@@ -13,7 +13,7 @@ public class RegisterReturnBeen {
 
     private int result;
     private int uid;
-    private long amount;  //持有明星数
+    private long amount;  //持有网红数
 
     public int getResult() {
         return result;

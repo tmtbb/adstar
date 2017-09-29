@@ -64,7 +64,7 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
 
     @Override
     public void bookingStarList(int startPos, int count, OnAPIListener<List<BookingStarListBean>> listener) {
-        LogUtils.logd("请求预约明星列表");
+        LogUtils.logd("请求预约网红列表");
         HashMap<String, Object> map = new HashMap<>();
         map.put("id", SharePrefUtil.getInstance().getUserId());
         map.put("token", SharePrefUtil.getInstance().getToken());
@@ -171,7 +171,7 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
 
     @Override
     public void statServiceList(String starcode, OnAPIListener<StatServiceListBean> listener) {
-        LogUtils.loge("明星类型列表--------");
+        LogUtils.loge("网红类型列表--------");
         HashMap<String, Object> map = new HashMap<>();
         map.put("starcode", starcode);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.StarType,
@@ -375,12 +375,14 @@ public class SocketDealAPI extends SocketBaseAPI implements DealAPI {
     }
 
     @Override
-    public void bindCard(String bankUsername, String account, OnAPIListener<BankInfoBean> listener) {
+    public void bindCard(String bankUsername, String account, String province, String city,  OnAPIListener<BankInfoBean> listener) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("id",SharePrefUtil.getInstance().getUserId());
         map.put("token",SharePrefUtil.getInstance().getToken());
         map.put("bankUsername", bankUsername);
         map.put("account", account);
+        map.put("prov", province);
+        map.put("city", city);
         SocketDataPacket socketDataPacket = socketDataPacket(SocketAPIConstant.OperateCode.BindCard,
                 SocketAPIConstant.ReqeutType.Bank, map);
         requestEntity(socketDataPacket, BankInfoBean.class, listener);

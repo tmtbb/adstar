@@ -38,7 +38,7 @@ import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/5/18.
- * 广告点击明星求购页面
+ * 广告点击网红求购页面
  * 资讯购买页
  */
 
@@ -99,7 +99,7 @@ public class NewsStarBuyActivity extends BaseActivity {
         code = intent.getStringExtra(AppConstant.STAR_CODE);
         name = intent.getStringExtra(AppConstant.STAR_NAME);
         nl_title.setTitleText(String.format(getString(R.string.name_code),name,code));
-        LogUtils.loge("明星求购页面code" + code);
+        LogUtils.loge("网红求购页面code" + code);
         gitData();
         getStarExperience();
         getStarAch();
@@ -204,12 +204,12 @@ public class NewsStarBuyActivity extends BaseActivity {
         NetworkAPIFactoryImpl.getInformationAPI().getStarShellTime(code, new OnAPIListener<StartShellTimeBeen>() {
             @Override
             public void onError(Throwable ex) {
-                LogUtils.loge("明星总时间"+ex.toString());
+                LogUtils.loge("网红总时间"+ex.toString());
             }
 
             @Override
             public void onSuccess(StartShellTimeBeen startShellTimeBeen) {
-                LogUtils.loge("明星总时间"+startShellTimeBeen.toString());
+                LogUtils.loge("网红总时间"+startShellTimeBeen.toString());
                 tv_shell_time.setText(String.valueOf(startShellTimeBeen.getStar_time())+"秒");
             }
         });
@@ -217,14 +217,14 @@ public class NewsStarBuyActivity extends BaseActivity {
 
     private void initData(StarBuyActReferralInfo info) {
         weibo_index_id = info.getWeibo_index_id();
-        head_url = info.getHead_url();
+        head_url = info.getHead_url_tail();
         tv_1.setText(String.format(getString(R.string.intro_nationality),info.getNationality()+""));
         tv_2.setText(String.format(getString(R.string.intro_nation),info.getNation()+""));
         tv_3.setText(String.format(getString(R.string.intro_work),info.getWork()+""));
         tv_4.setText(String.format(getString(R.string.intro_constellation),info.getConstellaction()+""));
         tv_5.setText(String.format(getString(R.string.intro_birth_day),info.getBirth()+""));
         tv_6.setText(String.format(getString(R.string.intro_colleage),info.getColleage()+""));
-        ImageLoaderUtils.display(this,img_adv,info.getPic_url());
+        ImageLoaderUtils.display(this,img_adv,info.getPic_url_tail());
        /* RelativeLayout rl_adroot = (RelativeLayout)findViewById(R.id.adv_root);
         ViewPager viewPager = (ViewPager)rl_adroot.findViewById(R.id.viewpager);
         LinearLayout page_indicator = (LinearLayout)rl_adroot.findViewById(R.id.ly_dots);

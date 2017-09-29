@@ -44,7 +44,7 @@ public class HistoryBuyAdapter extends ListBaseAdapter<TodayDealReturnBean> {
 
         date.setText(TimeUtil.getDate(bean.getOpenTime() * 1000));
         tv_time.setText(TimeUtil.getHourMinuteSecond(bean.getOpenTime() * 1000));
-        List<StarInfo> starInfos = GreenDaoManager.getInstance().queryLove(bean.getSymbol());
+        List<StarInfo> starInfos = GreenDaoManager.getInstance().queryStarList(bean.getSymbol());
         if (starInfos != null && starInfos.size() > 0) {
             name.setText(starInfos.get(0).getName());
         }

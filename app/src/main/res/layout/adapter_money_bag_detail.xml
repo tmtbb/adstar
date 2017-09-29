@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/tv_money_detail_date"
         android:layout_alignLeft="@id/tv_deal_money"
-        android:text="xxxxx明星"
+        android:text="xxxxx网红"
         android:textColor="@color/color_666666"
         android:textSize="@dimen/text_size_12" />
 

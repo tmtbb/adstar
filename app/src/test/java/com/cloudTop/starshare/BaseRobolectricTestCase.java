@@ -38,5 +38,4 @@ public abstract class BaseRobolectricTestCase {
         return RuntimeEnvironment.application;
     }
 
-
 }

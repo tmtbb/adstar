@@ -5,22 +5,24 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.cloudTop.starshare.R;
+import com.cloudTop.starshare.app.AppConstant;
 import com.cloudTop.starshare.base.BaseFragment;
+import com.cloudTop.starshare.been.StarListReturnBean;
 import com.cloudTop.starshare.listener.OnAPIListener;
+import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
+import com.cloudTop.starshare.ui.main.activity.CircleFriendsActivity;
+import com.cloudTop.starshare.ui.main.activity.StarInfoActivity;
 import com.cloudTop.starshare.ui.main.adapter.StarInteractionAdapter;
+import com.cloudTop.starshare.utils.CheckLoginUtil;
+import com.cloudTop.starshare.utils.LogUtils;
+import com.cloudTop.starshare.utils.SharePrefUtil;
 import com.github.jdsjlzx.interfaces.OnItemClickListener;
 import com.github.jdsjlzx.interfaces.OnLoadMoreListener;
 import com.github.jdsjlzx.interfaces.OnRefreshListener;
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.recyclerview.ProgressStyle;
-import com.cloudTop.starshare.R;
-import com.cloudTop.starshare.app.AppConstant;
-import com.cloudTop.starshare.been.StarListReturnBean;
-import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
-import com.cloudTop.starshare.ui.main.activity.CircleFriendsActivity;
-import com.cloudTop.starshare.utils.LogUtils;
-import com.cloudTop.starshare.utils.SharePrefUtil;
 
 import java.util.ArrayList;
 
@@ -28,7 +30,7 @@ import java.util.ArrayList;
  * #75
  * #76
  * Created by Administrator on 2017/7/11.
- * 明星互动
+ * 网红互动
  */
 
 public class StartInteractFragment extends BaseFragment {
@@ -92,13 +94,22 @@ public class StartInteractFragment extends BaseFragment {
         lRecyclerViewAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
+                if (CheckLoginUtil.checkLogin(getActivity())==false){
+                    return;
+                }
+              StarListReturnBean.SymbolInfoBean symbolInfoBean = list.get(position);
+                //星享时光版本
+//              Intent intent3 = new Intent(getActivity(), StarInfoActivity.class);
+//              intent3.putExtra(AppConstant.STAR_CODE, symbolInfoBean.getSymbol());
+//              startActivity(intent3);
+
+                //星云版本
                 Intent intent0 = new Intent(getActivity(),CircleFriendsActivity.class);
-                StarListReturnBean.SymbolInfoBean symbolInfoBean = list.get(position);
                 intent0.putExtra(AppConstant.STAR_CODE,symbolInfoBean.getSymbol());
                 intent0.putExtra(AppConstant.STAR_NAME,symbolInfoBean.getName());
-                intent0.putExtra(AppConstant.STAR_HEAD_URL,symbolInfoBean.getPic());
+                intent0.putExtra(AppConstant.STAR_HEAD_URL,symbolInfoBean.getPic_tail());
                 intent0.putExtra(AppConstant.IS_ONE,true);
-                getActivity().startActivity(intent0);
+                startActivity(intent0);
             }
         });
     }
@@ -118,7 +129,7 @@ public class StartInteractFragment extends BaseFragment {
                                 showErrorView(fl_layout, R.drawable.error_view_comment, "当前没有相关数据");
                             }
                         }
-                        LogUtils.loge("明星互动返回错误码" + ex.toString());
+                        LogUtils.loge("网红互动返回错误码" + ex.toString());
                     }
 
                     @Override

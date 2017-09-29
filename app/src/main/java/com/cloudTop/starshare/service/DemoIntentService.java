@@ -41,6 +41,7 @@ public class DemoIntentService extends GTIntentService {
         Log.e(TAG, "-------------------onReceiveServicePid -> " + "pid = " + pid);
     }
 
+    //onReceiveMessageData 处理透传消息
     @Override
     public void onReceiveMessageData(Context context, GTTransmitMessage msg) {
         notificationTest();
@@ -105,6 +106,7 @@ public class DemoIntentService extends GTIntentService {
         mNotificationManager.notify(new Random().nextInt(Integer.MAX_VALUE), mBuilder.build());
     }
 
+    //onReceiveClientId 接收 cid
     @Override
     public void onReceiveClientId(Context context, String clientid) {
         Log.e(TAG, "-------------------onReceiveClientId -> " + "clientid = " + clientid);
@@ -122,15 +124,18 @@ public class DemoIntentService extends GTIntentService {
         });
     }
 
+    // onReceiveCommandResult 各种事件处理回执
     @Override
     public void onReceiveOnlineState(Context context, boolean online) {
         LogUtils.loge("------------------离线上线通知:" + online);
     }
 
+    //onReceiveCommandResult 各种事件处理回执
     @Override
     public void onReceiveCommandResult(Context context, GTCmdMessage cmdMessage) {
         LogUtils.loge("------------onReceiveCommandResult:" + cmdMessage);
     }
+
     private void notificationTest() {
         mNotificationManager = (NotificationManager) this.getSystemService(NOTIFICATION_SERVICE);
         mBuilder = new NotificationCompat.Builder(this);

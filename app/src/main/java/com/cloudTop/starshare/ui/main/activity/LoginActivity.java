@@ -116,7 +116,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         CheckException exception = new CheckException();
         LogUtils.loge(MD5Util.MD5(passwordEditText.getEditTextString()));
         if (checkHelper.checkMobile(userNameEditText.getEditTextString(), exception)
-                && checkHelper.checkPassword(passwordEditText.getEditTextString(), exception)) {
+            && checkHelper.checkPassword(passwordEditText.getEditTextString(), exception))
+        {
             NetworkAPIFactoryImpl.getUserAPI().login(userNameEditText.getEditTextString(), MD5Util.MD5(passwordEditText.getEditTextString()), new OnAPIListener<LoginReturnInfo>() {
                 @Override
                 public void onError(Throwable ex) {
@@ -151,7 +152,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                         return;
                     } else if (loginReturnInfo != null && loginReturnInfo.getUserinfo() != null) {
                         LogUtils.logd("登录成功" + loginReturnInfo.toString());
-                        //网易云注册   usertype  : 0普通用户 1,明星
+                        //网易云注册   usertype  : 0普通用户 1,网红
                         NetworkAPIFactoryImpl.getUserAPI().registerWangYi(0, userNameEditText.getEditTextString(), userNameEditText.getEditTextString(), loginReturnInfo.getUserinfo().getId(), new OnAPIListener<RegisterReturnWangYiBeen>() {
                             @Override
                             public void onError(Throwable ex) {
@@ -173,6 +174,7 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             });
         } else {
             isOnClicked = false;
+            stopProgressDialog();
             showLongToast(exception.getErrorMsg());
         }
 

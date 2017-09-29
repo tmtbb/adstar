@@ -741,7 +741,7 @@ class InfiniteCycleManager implements InfiniteCyclePagerAdapter.OnNotifyDataSetC
                 mOnInfiniteCyclePageTransformListener.onPostTransform(page, position);
         }
     }
-
+    //滑动偏移量
     // OnPageChangeListener which is retrieve info about scroll direction and scroll state
     protected final OnPageChangeListener mInfinityCyclePageChangeListener = new ViewPager.SimpleOnPageChangeListener() {
         @Override

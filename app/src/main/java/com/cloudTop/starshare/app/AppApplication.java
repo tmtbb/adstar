@@ -28,6 +28,7 @@ import com.cloudTop.starshare.listener.OnAPIListener;
 import com.cloudTop.starshare.networkapi.Host;
 import com.cloudTop.starshare.networkapi.NetworkAPIConfig;
 import com.cloudTop.starshare.networkapi.NetworkAPIFactoryImpl;
+import com.cloudTop.starshare.networkapi.socketapi.SocketReqeust.Clibrary;
 import com.cloudTop.starshare.networkapi.socketapi.SocketReqeust.SocketAPINettyBootstrap;
 import com.cloudTop.starshare.ui.im.activity.StarCommunicationBookActivity;
 import com.cloudTop.starshare.ui.wangyi.DemoCache;
@@ -73,6 +74,8 @@ import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.List;
@@ -89,12 +92,11 @@ public class AppApplication extends BaseApplication {
         super.onCreate();
         testProcress();
     }
-
     private void testProcress() {
         String processName = getProcessName(this);
         LogUtils.loge("------------processName:" + processName);
         if (processName != null) {
-            if (processName.equals("com.cloudTop.starshare")) {
+            if (processName.equals("com.cloudTop.starcloud")) {
                 //Fabric.with(this, new Crashlytics());
                 //初始化logger
                 LogUtils.logInit(BuildConfig.LOG_DEBUG);
@@ -109,11 +111,11 @@ public class AppApplication extends BaseApplication {
                     return;
                 }
                 LeakCanary.install(this);
-            } else if (processName.equals("com.cloudTop.starshare:core")) {
+            } else if (processName.equals("com.cloudTop.starcloud:core")) {
 
-            } else if (processName.equals("com.cloudTop.starshare:cosine")) {
+            } else if (processName.equals("com.cloudTop.starcloud:cosine")) {
 
-            } else if (processName.equals("com.cloudTop.starshare:pushservice")) {
+            } else if (processName.equals("com.cloudTop.starcloud:pushservice")) {
 
             }
         }
@@ -471,6 +473,7 @@ public class AppApplication extends BaseApplication {
             public void onSuccess() {
                 LogUtils.logd("检测到连接成功-------------------");
                 //token交易暂时关闭
+                checkKey();
                 judgeIsLogin();
                 checkUpdate();
             }
@@ -485,6 +488,32 @@ public class AppApplication extends BaseApplication {
                     }
                     // connectionError();
                     //logout();
+                }
+            }
+        });
+    }
+
+    public static void checkKey(){
+        NetworkAPIFactoryImpl.getUserAPI().getKey(new OnAPIListener<String>() {
+
+            @Override
+            public void onError(Throwable ex) {
+                LogUtils.logd("调用失败了：" + ex.getMessage());
+            }
+
+            @Override
+            public void onSuccess(String s) {
+                LogUtils.logd("成功获取到HashMap：" + s);
+                try {
+                    JSONObject jsonObject = new JSONObject(s);
+                    int key = jsonObject.getInt("result");
+                    key = key^26010;
+                    LogUtils.logd("key：" + key);
+                    Clibrary.INSTANTCE.SetKey(key);;
+                    int key_result =  Clibrary.INSTANTCE.GetKey();;
+                    LogUtils.logd("key_result：" + key_result);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });

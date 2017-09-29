@@ -47,7 +47,9 @@ public class StatServiceListBean implements Parcelable{
 
         private String mid;
         private String url1;
+        private String url1_tail="";
         private String url2;
+        private String url2_tail="";
         private String name;
         private String price;
         private String enddate;
@@ -86,20 +88,20 @@ public class StatServiceListBean implements Parcelable{
             this.mid = mid;
         }
 
-        public String getUrl1() {
-            return url1;
+        public String getUrl1_tail() {
+            return url1_tail;
         }
 
-        public void setUrl1(String url1) {
-            this.url1 = url1;
+        public void setUrl1_tail(String url1_tail) {
+            this.url1_tail = url1_tail;
         }
 
-        public String getUrl2() {
-            return url2;
+        public String getUrl2_tail() {
+            return url2_tail;
         }
 
-        public void setUrl2(String url2) {
-            this.url2 = url2;
+        public void setUrl2_tail(String url2_tail) {
+            this.url2_tail = url2_tail;
         }
 
         public String getName() {

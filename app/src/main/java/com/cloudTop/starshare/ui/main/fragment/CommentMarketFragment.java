@@ -62,7 +62,7 @@ public class CommentMarketFragment extends BaseFragment {
         initData();
         if (getArguments() != null) {
             code = getArguments().getString(AppConstant.STAR_CODE);
-            LogUtils.loge("明星code" + code);
+            LogUtils.loge("网红code" + code);
         }
         initAdapter();
         getData(false, 1, REQUEST_COUNT);

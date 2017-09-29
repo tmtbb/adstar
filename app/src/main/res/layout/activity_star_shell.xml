@@ -50,7 +50,7 @@
                         android:layout_toEndOf="@+id/imageView_icon"
                         android:layout_toRightOf="@+id/imageView_icon"
                         android:paddingRight="10dp"
-                        android:text="明星"
+                        android:text="网红"
                         android:textColor="@color/color_010101"
                         android:textSize="@dimen/fontSize_18sp" />
 
@@ -185,7 +185,7 @@
         android:id="@+id/nl_title"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_gravity="top"></com.cloudTop.starshare.widget.NormalTitleBar>
+        android:layout_gravity="top"/>
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="50dp"
